@@ -1,0 +1,519 @@
+﻿@{
+    ViewData["Title"] = "Tablas";
+    ViewData["home"] = Session["home"];
+}
+<div class="container container-option">
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.message))
+        {
+            <div style="width: 100%;" class="@ViewBag.classAlert">@ViewBag.message</div>
+        }
+    }
+    <form action="" method="post">
+        <div class="form-row">
+            <div class="form-group col-sm-2">
+                <label for="option" style="margin: 0;">Seleccionar opción</label>
+            </div>
+            <div class="form-group col-sm-8">
+                <select id="option" name="option" onchange="change(this)">
+                    <option value="#">Seleccione una opción...</option>
+                    <option value="0">Proveedor</option>
+                    <option value="1">Tipo</option>
+                    <option value="2">Zona</option>
+                    <option value="3">Segmento</option>
+                    <option value="4">Condición Pago</option>
+                    <option value="5">Cuenta de I/E</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-2">
+                <button type="submit" id="btn" class="btn btn-primary" disabled>Cargar opción</button>
+            </div>
+        </div>
+    </form>
+    <hr />
+    @{
+        if (ViewBag.results != "")
+        {
+            <div>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalProveedorAdd">
+                    <i class="fas fa-plus"></i> Agregar nuevo
+                </button>
+            </div>
+            <h2 class="text-center">@ViewBag.titleR</h2>
+            <table id="results-table" class="table table-striped table-hover table-bordered table-sm shadow-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        @{
+                            foreach (string header in ViewBag.headers.Split(','))
+                            {
+                                <th style="vertical-align: middle; text-align: center;" scope="col">@header</th>
+                            }
+                            <th scope="col">Opciones</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var result in ViewBag.resultsTable)
+                        {
+                            <tr>
+                                @{
+                                    foreach (string col in ViewBag.cols.Split(','))
+                                    {
+                                        <td> @result[col]</td>
+                                    }
+                                    <td class="cell-icons" scope="col">
+                                        <div>
+                                            <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
+                                            <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <div style="height: 40px;"></div>
+            <!-- Modal Agregar Proveedor -->
+            <div class="modal fade" id="modalProveedorAdd" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
+                    <form action="" method="post" class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Proveedor</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-2">
+                                    <input type="text" id="codigo" name="paramsProvAdd" placeholder="Código" required />
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" id="nombre" name="paramsProvAdd" placeholder="Nombre" required />
+                                </div>
+                                <div class="col-sm-4 input-search">
+                                    <input type="text" id="tipo" name="paramsProvAdd" placeholder="Tipo" style="max-width: 70%;" required readonly />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistType')" data-name="tipo"></i>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-6">
+                                    <input type="text" id="rif" name="paramsProvAdd" placeholder="RIF" required />
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" id="nit" name="paramsProvAdd" placeholder="NIT" />
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-3 input-search">
+                                    <input type="text" id="zona" name="paramsProvAdd" placeholder="Zona" style="max-width: 70%;" required readonly />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistZone')" data-name="zona"></i>
+                                </div>
+                                <div class="col-sm-3 input-search">
+                                    <input type="text" id="cuenta" name="paramsProvAdd" placeholder="Cta Ingr/Egr" style="max-width: 70%;" required readonly />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistAccount')" data-name="cuenta"></i>
+                                </div>
+                                <div class="col-sm-3 input-search">
+                                    <input type="text" id="pais" name="paramsProvAdd" placeholder="País" style="max-width: 70%;" required readonly />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCountry')" data-name="pais"></i>
+                                </div>
+                                <div class="col-sm-3 input-search">
+                                    <input type="text" id="segmento" name="paramsProvAdd" placeholder="Segmento" style="max-width: 70%;" required readonly />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSegment')" data-name="segmento"></i>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-6">
+                                    <input type="email" id="email" name="paramsProvAdd" placeholder="Email" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" id="telefono" name="paramsProvAdd" placeholder="Teléfono" />
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-12">
+                                    @*<input type="text" id="direccion" name="paramsProvAdd" placeholder="Direccion" />*@
+                                    <textarea id="direccion" name="paramsProvAdd" placeholder="Direccion"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Modal Editar Proveedor -->
+            <div class="modal fade" id="modalProveedorEdit" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
+                    <form action="" method="post" class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Proveedor</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <input type="text" id="codigoEdit" name="paramsProvEdit" placeholder="Código" style="background: #d5d5d5;" readonly onfocus="this.blur()" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" id="nombreEdit" name="paramsProvEdit" placeholder="Nombre" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" id="rifEdit" name="paramsProvEdit" placeholder="RIF" required />
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-6">
+                                    <input type="email" id="emailEdit" name="paramsProvEdit" placeholder="Email" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" id="telefonoEdit" name="paramsProvEdit" placeholder="Teléfono" />
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-12">
+                                    @*<input type="text" id="direccionEdit" name="paramsProvEdit" placeholder="Direccion" />*@
+                                    <textarea id="direccionEdit" name="paramsProvEdit" placeholder="Direccion"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Modal Eliminar Proveedor -->
+            <div class="modal fade" id="modalProveedorDelete" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
+                    <form action="" method="post" class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Proveedor</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <i class="text-center fas fa-exclamation-triangle" style="width: 100%; font-size: 40px; margin-bottom: 20px; color: #ffd43b;"></i>
+                            <h4 class="text-center">¿Estás seguro que desesas eliminar este registro?</h4>
+                            <input type="hidden" id="codigoDelete" name="ID" value="" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Modal 1 -->
+            <div class="modal fade" id="modalAssistType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAssistLabel">Buscar Tipo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar tipo..." />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistType')">Buscar</button>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                                @{
+                                    foreach (var elem in ViewBag.assistTypes)
+                                    {
+                                        <tr style="cursor: pointer" onclick="selectRow(this)">
+                                            <td>@elem.ID</td>
+                                            <td>@elem.Name</td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                            <input type="hidden" id="name-input" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistType')">Seleccionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal 2 -->
+            <div class="modal fade" id="modalAssistZone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAssistLabel">Buscar Zona</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar zona..." />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistZone')">Buscar</button>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                                @{
+                                    foreach (var elem in ViewBag.assistZones)
+                                    {
+                                        <tr style="cursor: pointer" onclick="selectRow(this)">
+                                            <td>@elem.ID</td>
+                                            <td>@elem.Name</td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                            <input type="hidden" id="name-input" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistZone')">Seleccionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal 3 -->
+            <div class="modal fade" id="modalAssistAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAssistLabel">Buscar Cuenta de Ingr/Egr</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar cuenta..." />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistAccount')">Buscar</button>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                                @{
+                                    foreach (var elem in ViewBag.assistAccounts)
+                                    {
+                                        <tr style="cursor: pointer" onclick="selectRow(this)">
+                                            <td>@elem.ID</td>
+                                            <td>@elem.Name</td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                            <input type="hidden" id="name-input" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistAccount')">Seleccionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal 4 -->
+            <div class="modal fade" id="modalAssistCountry" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAssistLabel">Buscar País</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar país..." />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistCountry')">Buscar</button>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                                @{
+                                    foreach (var elem in ViewBag.assistCountries)
+                                    {
+                                        <tr style="cursor: pointer" onclick="selectRow(this)">
+                                            <td>@elem.ID</td>
+                                            <td>@elem.Name</td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                            <input type="hidden" id="name-input" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistCountry')">Seleccionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal 5 -->
+            <div class="modal fade" id="modalAssistSegment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAssistLabel">Buscar Segmento</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar segmento..." />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistSegment')">Buscar</button>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                                @{
+                                    foreach (var elem in ViewBag.assistSegments)
+                                    {
+                                        <tr style="cursor: pointer" onclick="selectRow(this)">
+                                            <td>@elem.ID</td>
+                                            <td>@elem.Name</td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                            <input type="hidden" id="name-input" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistSegment')">Seleccionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <h3 class="text-center font-weight-bold" style="position: relative; top: 30%;">Sin Resultados</h3>
+        }
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $("#results-table").DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "processing": "Procesando...",
+                "search": "Buscar:   ",
+                "zeroRecords": "No hay resultados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+            "lengthMenu": [10, 25, 50, 75, 100]
+        });
+    });
+
+    function change(elem) {
+
+        if (elem.value == "#")
+            $("#btn").prop("disabled", "true");
+        else
+            $("#btn").prop("disabled", "");
+    }
+
+    function openModal(elem, modal) {
+
+        var previous = elem.previousElementSibling;
+
+        if (!previous.disabled) {
+
+            $("#" + modal).find("#name-input").val($(elem).data("name"));
+            $("#" + modal).modal("show");
+
+        }
+    }
+
+    function search(modal) {
+        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+            table = $("#" + modal).find("#results")[0];
+
+        for (var i = 0; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    function selectRow(elem) {
+        var previous = document.getElementsByClassName("selected-row")[0];
+
+        if (previous != null) {
+            previous.classList.remove("selected-row");
+        }
+
+        elem.classList.add("selected-row");
+    }
+
+    function saveRow(modal) {
+        var elem = document.getElementsByClassName("selected-row")[0].children[0],
+            value = elem.innerHTML,
+            input = $("#" + modal).find("#name-input").val();
+
+        document.getElementById(input).value = value.trim();
+        document.getElementsByClassName("selected-row")[0].classList.remove("selected-row");
+        $("#" + modal).find("input[type=text]").val("");
+        $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+        $("#" + modal).modal("hide");
+    }
+
+    function editRow(elem) {
+        var cells = $(elem).closest('tr')[0].cells;
+
+        var codigo = cells[0].innerHTML,
+            rif = cells[1].innerHTML,
+            nombre = cells[2].innerHTML,
+            direccion = cells[3].innerHTML,
+            telefono = cells[4].innerHTML,
+            email = cells[5].innerHTML;
+
+        $("#codigoEdit").val(codigo);
+        $("#rifEdit").val(rif);
+        $("#nombreEdit").val(nombre);
+        $("#direccionEdit").val(direccion);
+        $("#telefonoEdit").val(telefono);
+        $("#emailEdit").val(email);
+
+        $("#modalProveedorEdit").modal("show");
+    }
+
+    function deleteRow(elem) {
+        var cells = $(elem).closest('tr')[0].cells;
+
+        var codigo = cells[0].innerHTML;
+
+        $("#codigoDelete").val(codigo.trim());
+
+        $("#modalProveedorDelete").modal("show");
+    }
+</script>

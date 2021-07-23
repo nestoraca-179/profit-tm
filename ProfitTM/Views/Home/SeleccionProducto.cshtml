@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Seleccion de Aplicativo";
+}
+<div class="container-fluid">
+    <h2 class="title-page">Seleccionar Producto</h2>
+    <form action="/Home/SeleccionEmpresa" method="get">
+        <div class="container-cards">
+            <div class="card-prod shadow-lg" id="Admin">
+                <img src="~/images/Logo-adm.png" />
+                <h3>Administrativo</h3>
+            </div>
+            <div class="card-prod shadow-lg" id="Cont">
+                <img src="~/images/Logo-con.png" />
+                <h3>Contabilidad</h3>
+            </div>
+            <div class="card-prod shadow-lg" id="Nomi">
+                <img src="~/images/Logo-nom.png" />
+                <h3>Nomina</h3>
+            </div>
+        </div>
+        <input type="hidden" id="prod" name="prod" value="" />
+        <div class="col-md-12 text-center">
+            <button style="width: 30%;" id="btn" class="btn btn-primary" disabled>Seleccionar aplicativo</button>
+        </div>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".card-prod").hide().fadeIn(1500);
+    });
+
+    $(".card-prod").click(function () {
+
+        $(".card-prod.selected-card").removeClass("selected-card");
+        $(this).addClass("selected-card");
+        $("#prod").val(this.id);
+
+        if ($("#btn").prop('disabled'))
+            $("#btn").prop('disabled', false)
+
+    });
+</script>

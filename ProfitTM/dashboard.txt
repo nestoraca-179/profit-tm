@@ -1,0 +1,19 @@
+inventario
+
+- articulos mas vendidos
+- articulos mas comprados
+
+ventas y cxc
+
+- top 10 clientes y cantidad en bs
+- top 10 clientes mas morosos
+
+compras y cxp
+
+- top 10 proveedores y cantidad en bs
+- top 10 proveedores mas morosos
+
+caja y banco
+
+- disponibilidad en bancos
+- disponibilidad en cajas

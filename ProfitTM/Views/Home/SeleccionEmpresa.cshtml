@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Seleccion de Empresa";
+}
+<div class="container-fluid">
+    <form action="/Home/SelectDashboard" method="post">
+        <div class="container-control">
+            <h2 class="title-page" style="position: static;">Seleccionar Empresa</h2>
+            <select class="shadow" onchange="enable(this)">
+                <option value="#">Seleccionar empresa...</option>
+                @{
+                    foreach (var item in ViewBag.connections)
+                    {
+                        string name = item.Name;
+
+                        if (name.Contains(ViewBag.prod))
+                        {
+                            <option value="@item.Name">@item.Name</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+        <input type="hidden" id="connect" name="connect" value />
+        <div class="col-md-12 text-center">
+            <button style="width: 30%; margin-top: 10%;" id="btn" class="btn btn-primary" disabled>Seleccionar empresa</button>
+        </div>
+    </form>
+</div>
+<script>
+    function enable(elem) {
+        if (elem.value != "#") {
+            $("#btn").prop("disabled", "");
+            $("#connect").val(elem.value);
+        } else {
+            $("#btn").prop("disabled", "true");
+            $("#connect").val("");
+        }
+    }
+</script>

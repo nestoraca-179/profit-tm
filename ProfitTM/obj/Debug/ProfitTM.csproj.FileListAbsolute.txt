@@ -1,0 +1,845 @@
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\ProfitTM.csproj.CoreCompileInputs.cache
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ProfitTM.dll.config
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ProfitTM.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ProfitTM.pdb
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Charts.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.CodeParser.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Data.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.DataAccess.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Office.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Pdf.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.PivotGrid.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Printing.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.RichEdit.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.RichEdit.v18.2.Export.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Sparkline.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxThemes.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.Mvc5.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.Resources.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Xpo.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraCharts.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraGauges.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.WebForms.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Microsoft.AspNetCore.Http.Features.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Microsoft.Web.Infrastructure.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Newtonsoft.Json.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Net.Http.Formatting.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Helpers.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Http.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Http.WebHost.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Mvc.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Razor.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.WebPages.Deployment.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.WebPages.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.WebPages.Razor.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Images.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxHtmlEditor.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraCharts.v18.2.Web.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxSpellChecker.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxPivotGrid.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxRichEdit.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxScheduler.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraScheduler.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.SpellChecker.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxSpreadsheet.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Microsoft.AspNetCore.Http.Features.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Newtonsoft.Json.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Net.Http.Formatting.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Helpers.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Http.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Http.WebHost.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Mvc.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Razor.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.WebPages.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.WebPages.Deployment.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.WebPages.Razor.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Data.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.RichEdit.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Printing.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.Mvc5.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.WebForms.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Pdf.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.DataAccess.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Office.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.PivotGrid.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Sparkline.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Xpo.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraCharts.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraGauges.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxHtmlEditor.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraCharts.v18.2.Web.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxSpellChecker.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxPivotGrid.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxRichEdit.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxScheduler.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.XtraScheduler.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.SpellChecker.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxSpreadsheet.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\System.Web.Helpers.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\System.Web.Mvc.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\System.Web.Razor.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\System.Web.WebPages.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\ProfitTM.csproj.CopyComplete
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\ProfitTM.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\ProfitTM.pdb
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Antlr3.Runtime.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\dotless.AspNet.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\dotless.Core.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Optimization.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\WebGrease.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Antlr3.Runtime.pdb
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\System.Web.Optimization.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\ProfitTM.dll.licenses
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\ProfitTM.csproj.GenerateResource.cache
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\RepAjusteEntradaSalidaCaracteristica.resources
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\RepTrasladoEntreAlmacen.resources
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\RepTrasladoEntreAlmacenxArt.resources
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\RepStockArticulos.resources
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\RepArticuloConPrecio.resources
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\EntityFramework.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\EntityFramework.SqlServer.dll
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\EntityFramework.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\bin\EntityFramework.SqlServer.xml
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\RepArticuloConCostoYPrecio.resources
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\RepArticuloProveedor.resources
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\RepAjusteESXArticulo.resources
+C:\Temp\ac\c#\ProfitTM\ProfitTM\obj\Debug\ProfitTM.csprojAssemblyReference.cache
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ProfitTM.dll.config
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ProfitTM.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ProfitTM.pdb
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Antlr3.Runtime.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Charts.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.CodeParser.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Data.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.DataAccess.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Office.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Pdf.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.PivotGrid.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Printing.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.RichEdit.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.RichEdit.v18.2.Export.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Sparkline.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxThemes.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.Mvc5.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.Resources.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Xpo.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraCharts.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraGauges.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.WebForms.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\dotless.AspNet.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\dotless.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\EntityFramework.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\EntityFramework.SqlServer.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Microsoft.AspNetCore.Http.Features.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Microsoft.Web.Infrastructure.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Newtonsoft.Json.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Net.Http.Formatting.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Helpers.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Http.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Http.WebHost.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Mvc.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Optimization.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Razor.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.WebPages.Deployment.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.WebPages.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.WebPages.Razor.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\WebGrease.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Images.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxHtmlEditor.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraCharts.v18.2.Web.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxSpellChecker.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxPivotGrid.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxRichEdit.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxScheduler.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraScheduler.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.SpellChecker.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxSpreadsheet.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Antlr3.Runtime.pdb
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\EntityFramework.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\EntityFramework.SqlServer.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Microsoft.AspNetCore.Http.Features.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\Newtonsoft.Json.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Net.Http.Formatting.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Helpers.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Http.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Http.WebHost.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Mvc.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Optimization.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.Razor.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.WebPages.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.WebPages.Deployment.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\System.Web.WebPages.Razor.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Data.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.RichEdit.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Printing.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.Mvc5.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.WebForms.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Pdf.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.DataAccess.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Office.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.PivotGrid.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Sparkline.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Xpo.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraCharts.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraGauges.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxHtmlEditor.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraCharts.v18.2.Web.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxSpellChecker.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxPivotGrid.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxRichEdit.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxScheduler.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.XtraScheduler.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.SpellChecker.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxSpreadsheet.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.xml
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\System.Web.Helpers.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\System.Web.Mvc.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\System.Web.Razor.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\System.Web.WebPages.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\de\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\es\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ja\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\bin\ru\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\ProfitTM.csprojAssemblyReference.cache
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\RepArticuloConPrecio.resources
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\RepArticuloProveedor.resources
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\RepStockArticulos.resources
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\ProfitTM.csproj.GenerateResource.cache
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\ProfitTM.dll.licenses
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\ProfitTM.csproj.CoreCompileInputs.cache
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\ProfitTM.csproj.CopyComplete
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\ProfitTM.dll
+C:\Temp\ac\c#\Profit TM's\admin\ProfitTM\ProfitTM\obj\Debug\ProfitTM.pdb
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ProfitTM.dll.config
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ProfitTM.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ProfitTM.pdb
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Antlr3.Runtime.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Charts.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.CodeParser.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Data.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.DataAccess.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Office.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Pdf.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.PivotGrid.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Printing.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.RichEdit.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.RichEdit.v18.2.Export.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Sparkline.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxThemes.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.Mvc5.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.Resources.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Xpo.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraCharts.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraGauges.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.WebForms.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\dotless.AspNet.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\dotless.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\EntityFramework.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\EntityFramework.SqlServer.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Microsoft.AspNetCore.Http.Features.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Web.Infrastructure.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Newtonsoft.Json.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Net.Http.Formatting.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Helpers.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Http.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Http.WebHost.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Mvc.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Optimization.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Razor.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.Deployment.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.Razor.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\WebGrease.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Images.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxHtmlEditor.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraCharts.v18.2.Web.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpellChecker.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxPivotGrid.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxRichEdit.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxScheduler.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraScheduler.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.SpellChecker.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpreadsheet.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Antlr3.Runtime.pdb
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\EntityFramework.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\EntityFramework.SqlServer.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Microsoft.AspNetCore.Http.Features.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\Newtonsoft.Json.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Net.Http.Formatting.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Helpers.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Http.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Http.WebHost.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Mvc.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Optimization.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.Razor.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.Deployment.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.Razor.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Data.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.RichEdit.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Printing.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.Mvc5.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.WebForms.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Pdf.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.DataAccess.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Office.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.PivotGrid.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Sparkline.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Xpo.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraCharts.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraGauges.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxHtmlEditor.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraCharts.v18.2.Web.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpellChecker.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxPivotGrid.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxRichEdit.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxScheduler.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraScheduler.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.SpellChecker.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpreadsheet.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.xml
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Helpers.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Mvc.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Razor.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.WebPages.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloConPrecio.resources
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloProveedor.resources
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\RepStockArticulos.resources
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\RepFacturaVentaxArt.resources
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csproj.GenerateResource.cache
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.dll.licenses
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csproj.CoreCompileInputs.cache
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csproj.CopyComplete
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.dll
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.pdb
+C:\Temp\ac\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csprojAssemblyReference.cache
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ProfitTM.dll.config
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ProfitTM.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ProfitTM.pdb
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Antlr3.Runtime.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Charts.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.CodeParser.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Data.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.DataAccess.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Office.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Pdf.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.PivotGrid.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Printing.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.RichEdit.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.RichEdit.v18.2.Export.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Sparkline.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxThemes.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.Mvc5.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.Resources.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Xpo.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraCharts.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraGauges.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.WebForms.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\dotless.AspNet.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\dotless.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\EntityFramework.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\EntityFramework.SqlServer.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Microsoft.AspNetCore.Http.Features.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Web.Infrastructure.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Newtonsoft.Json.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Net.Http.Formatting.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Helpers.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Http.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Http.WebHost.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Mvc.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Optimization.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Razor.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.Deployment.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.Razor.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\WebGrease.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Images.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxHtmlEditor.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraCharts.v18.2.Web.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpellChecker.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxPivotGrid.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxRichEdit.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxScheduler.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraScheduler.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.SpellChecker.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpreadsheet.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Antlr3.Runtime.pdb
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\EntityFramework.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\EntityFramework.SqlServer.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Microsoft.AspNetCore.Http.Features.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Newtonsoft.Json.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Net.Http.Formatting.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Helpers.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Http.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Http.WebHost.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Mvc.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Optimization.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.Razor.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.Deployment.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Web.WebPages.Razor.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Data.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.RichEdit.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Printing.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.Mvc5.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraReports.v18.2.Web.WebForms.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Pdf.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.DataAccess.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Office.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.PivotGrid.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Sparkline.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Xpo.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraCharts.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraGauges.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxHtmlEditor.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraCharts.v18.2.Web.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpellChecker.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxPivotGrid.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxRichEdit.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxScheduler.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.XtraScheduler.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.SpellChecker.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpreadsheet.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Helpers.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Mvc.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Razor.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.WebPages.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Data.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.RichEdit.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Printing.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraReports.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraReports.v18.2.Web.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Pdf.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.Resources.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.DataAccess.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Office.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.PivotGrid.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Sparkline.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Xpo.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraCharts.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraGauges.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxHtmlEditor.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxSpellChecker.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxRichEdit.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxScheduler.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.XtraScheduler.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxSpreadsheet.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Spreadsheet.v18.2.Core.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csprojAssemblyReference.cache
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloConPrecio.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloProveedor.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepStockArticulos.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepFacturaVentaxArt.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csproj.GenerateResource.cache
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.dll.licenses
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csproj.CoreCompileInputs.cache
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csproj.CopyComplete
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.pdb
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloConCosto.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticulosTodoStock.resources

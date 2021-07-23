@@ -1,0 +1,454 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+input[type=text], input[type=email], input[type=date] {
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: none;
+}
+select {
+    border: none;
+    box-shadow: 0px 2px 5px 0px rgb(0 0 0 / 30%);
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    resize: none;
+}
+.input-search {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+.input-search input {
+    max-width: 80%;
+}
+.input-search i {
+    background: #01579b;
+    color: #FFF;
+    padding: 10px;
+    border: solid 2px #0277bd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(18,122,209,1) 0%, rgba(62,201,221,1) 100%);
+}
+.footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    z-index: 200;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    padding-top: 1%;
+    /*line-height: 60px;*/ /* Vertically center the text there */
+}
+/*  My Styles */
+
+/* Main */
+input#username::placeholder, input#pass::placeholder {
+    color: white;
+}
+.main-title {
+    position: relative;
+    top: 20px;
+    margin-left: 10%;
+}
+.footer-bottom {
+    background: #FAFAFA;
+}
+.title-page {
+    width: 50%;
+    color: #FFF;
+    position: relative;
+    top: 50px;
+    left: 50px;
+}
+/* Select Prod */
+.container-cards{
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.card-prod {
+    width: 400px;
+    height: 200px;
+    background: #2980b9;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+}
+.card-prod.selected-card{
+    outline: solid #FFF 5px;
+}
+.card-prod img{
+    width: 150px;
+    height: 150px;
+}
+.card-prod h3{
+    color: #FFF;
+}
+/* Select Empresa */
+.container-control {
+    width: 80%;
+    margin: 20% auto 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.container-control select {
+    width: 40%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0;
+}
+/* Dashboard */
+.header-left-side {
+    background: #01579B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25em;
+}
+.header-left-side a, .header-left-side a:hover {
+    text-decoration: none;
+    color: #FFF;
+}
+.header-right-side {
+    background: #0277BD;
+}
+.dash-container {
+    display: flex;
+}
+.dash-left-side {
+    background: #333;
+    flex: 1;
+    transition: all 0.5s ease-out;
+}
+.dash-right-side {
+    height: 84.5vh;
+    background: #FFF;
+    flex: 5;
+    overflow-y: auto;
+    position: relative;
+}
+.list-menu {
+    padding: 0;
+}
+.menu-item {
+    background: #333;
+    padding: 15px;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.menu-item:hover, .selected {
+    background: #636363;
+    border-left: solid 5px #01579B;
+}
+.menu-item p {
+    display: block;
+}
+.menu-item i {
+    width: 20px;
+    font-size: 20px;
+}
+.icon-menu {
+    position: absolute;
+    left: 10px;
+    cursor: pointer;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 50px;
+    font-size: 20px;
+}
+.icon-menu:hover {
+    background: #1E88E5;
+}
+.active {
+    flex: 0;
+}
+.active .menu-item p {
+    display: none;
+}
+.user-active {
+    width: 20%;
+    height: 60px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #FFF;
+    font-size: 15px;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+.user-active:hover {
+    background: #01579B;
+}
+.user-active .icon-user {
+    font-size: 35px;
+}
+.direct {
+    height: 150px;
+}
+.direct div{
+    height: 100%;
+    color: #FFF;
+}
+.direct:first-child div {
+    background: #1565C0;
+}
+.direct:first-child div i {
+    color: #0D47A1;
+}
+.direct:nth-child(2) div {
+    background: #2E7D32;
+}
+.direct:nth-child(2) div i {
+    color: #1B5E20;
+}
+.direct:nth-child(3) div {
+    background: #EF6C00;
+}
+.direct:nth-child(3) div i {
+    color: #E65100;
+}
+.direct:last-child div {
+    background: #D84315;
+}
+.direct:last-child div i {
+    color: #BF360C;
+}
+.direct div h4 {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    z-index: 1;
+}
+.direct div > i {
+    position: absolute;
+    top: 30px;
+    right: 25px;
+    font-size: 60px;
+    z-index: 0;
+}
+.direct div a {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    color: #FFF;
+    text-decoration: none;
+    background: rgba(0,0,0,0.4);
+    border-radius: 0 0 5px 5px;
+    text-align: center;
+    padding: 5px;
+}
+.myDropdown {
+    width: 27.4vh;
+    height: 85vh !important;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    z-index: 100;
+    background: #636363;
+    display: none;
+}
+.fa-caret-right {
+    position: absolute;
+    top: 30%;
+    left: 10px;
+}
+.myDropdown a {
+    color: #FFF;
+    padding: 10px 0px;
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.myDropdown a:nth-child(2) {
+    border-top: solid 1px #848484;
+    border-bottom: solid 1px #848484;
+}
+.myDropdown a.disabled {
+    color: #dee2e6;
+}
+.myDropdown a:hover, .myDropdown a:visited {
+    background: #039BE5;
+    color: #FFF;
+}
+.reports-container {
+    height: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+}
+.reports-container h3{
+    text-align: center;
+}
+/* SECCION REPORTES */
+.filters select, .col-sm-4 select{
+    width: 300px;
+}
+.filters {
+    background: #6bacda;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 50px;
+    border-radius: 5px;
+}
+.filters > div {
+    width: 100%;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.filters h5{
+    width: 300px;
+    text-align: center;
+}
+.filters input, .filters select {
+    flex: 1;
+}
+.selected-row, .selected-row:hover {
+    background: #01579b !important;
+    color: #FFF !important;
+}
+.input-group .form-control {
+    border: solid 1px #dbdbdb;
+}
+/* ESTILOS DATATABLE */
+.paginate_button{
+    border-radius: 5px !important;
+}
+.paginate_button:not(.disabled):hover {
+    background: #0277BD !important;
+    border: 0 !important;
+}
+.paginate_button:not(.previous, .next) {
+    border: 0 !important;
+}
+.paginate_button.current {
+    background: #0277BD !important;
+    color: #FFF !important;
+    box-shadow: 0px 2px 5px 0px rgb(0 0 0 / 30%);
+}
+#results td i{
+    cursor: pointer;
+}
+/* ESTILOS SECCION TABLAS */
+.container-option{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 7%;
+    padding: 20px 0;
+}
+.form-group{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-group input {
+    width: 100%;
+    border: solid 1px #dee2e6;
+}
+.form-group select{
+    width: 70%;
+}
+.form-group textarea {
+    width: 100%;
+    border: solid 1px #dee2e6;
+}
+form.modal-content {
+    background: #5f9dbb;
+    color: #FFF;
+}
+.cell-icons {
+    position: relative;
+    padding: 0 !important;
+}
+.cell-icons div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+}
+.cell-icons div i {
+    cursor: pointer;
+}
