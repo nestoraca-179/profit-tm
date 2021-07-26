@@ -95,62 +95,67 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult DashboardAdmin()
         {
-            List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-            SQLController sqlController = new SQLController();
+            ViewBag.user = Session["user"];
 
-            bool error = false;
-            string msg = "";
-
-            ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(5);
-            ProfitTMResponse responseMPP = sqlController.getMostPurchasedProducts(5);
-            ProfitTMResponse responseMAC = sqlController.getMostActiveClients(5);
-            ProfitTMResponse responseMMC = sqlController.getMostMorousClients(5);
-            ProfitTMResponse responseMAS = sqlController.getMostActiveSuppliers(5);
-            ProfitTMResponse responseMMS = sqlController.getMostMorousSuppliers(5);
-
-            responses.Add(responseMSP);
-            responses.Add(responseMPP);
-            responses.Add(responseMAC);
-            responses.Add(responseMMC);
-            responses.Add(responseMAS);
-            responses.Add(responseMMS);
-
-            foreach (ProfitTMResponse res in responses)
+            if (ViewBag.user == null)
             {
-                if (res.Status == "ERROR")
-                {
-                    error = true;
-                    msg = res.Message;
-
-                    break;
-                }
-            }
-
-            if (!error)
-            {
-                ViewBag.mostSelledProds = responseMSP.Result;
-                ViewBag.mostPurchasedProds = responseMPP.Result;
-                ViewBag.mostActiveClients = responseMAC.Result;
-                ViewBag.mostMorousClients = responseMMC.Result;
-                ViewBag.mostActiveSuppliers = responseMAS.Result;
-                ViewBag.mostMorousSuppliers = responseMMS.Result;
-
-                ViewBag.user = Session["user"];
-
-                if (ViewBag.user == null)
-                {
-                    FormsAuthentication.SignOut();
-                    return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
-                }
-                else
-                {
-                    return View();
-                }
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else
             {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", new { message = msg });
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+                SQLController sqlController = new SQLController();
+
+                bool error = false;
+                string msg = "";
+
+                ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Admin");
+                ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(5);
+                ProfitTMResponse responseMPP = sqlController.getMostPurchasedProducts(5);
+                ProfitTMResponse responseMAC = sqlController.getMostActiveClients(5);
+                ProfitTMResponse responseMMC = sqlController.getMostMorousClients(5);
+                ProfitTMResponse responseMAS = sqlController.getMostActiveSuppliers(5);
+                ProfitTMResponse responseMMS = sqlController.getMostMorousSuppliers(5);
+
+                responses.Add(responseOPT);
+                responses.Add(responseMSP);
+                responses.Add(responseMPP);
+                responses.Add(responseMAC);
+                responses.Add(responseMMC);
+                responses.Add(responseMAS);
+                responses.Add(responseMMS);
+
+                foreach (ProfitTMResponse res in responses)
+                {
+                    if (res.Status == "ERROR")
+                    {
+                        error = true;
+                        msg = res.Message;
+
+                        break;
+                    }
+                }
+
+                if (!error)
+                {
+                    Session["options"] = responseOPT.Result;
+
+                    ViewBag.mostSelledProds = responseMSP.Result;
+                    ViewBag.mostPurchasedProds = responseMPP.Result;
+                    ViewBag.mostActiveClients = responseMAC.Result;
+                    ViewBag.mostMorousClients = responseMMC.Result;
+                    ViewBag.mostActiveSuppliers = responseMAS.Result;
+                    ViewBag.mostMorousSuppliers = responseMMS.Result;
+                    ViewBag.options = Session["options"];
+
+                    return View();
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Index", new { message = msg });
+                }
             }
         }
 
@@ -175,150 +180,153 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult Inventario()
         {
-            List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-            SQLController sqlController = new SQLController();
+            ViewBag.user = Session["user"];
 
-            ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(10);
-            ProfitTMResponse responseMPP = sqlController.getMostPurchasedProducts(10);
-
-            bool error = false;
-            string msg = "";
-
-            responses.Add(responseMSP);
-            responses.Add(responseMPP);
-
-            foreach (ProfitTMResponse res in responses)
+            if (ViewBag.user == null)
             {
-                if (res.Status == "ERROR")
-                {
-                    error = true;
-                    msg = res.Message;
-
-                    break;
-                }
-            }
-
-            if (!error)
-            {
-                ViewBag.mostSelledProds = (List<Product>)responseMSP.Result;
-                ViewBag.mostPurchasedProds = (List<Product>)responseMPP.Result;
-
-                ViewBag.user = Session["user"];
-
-                if (ViewBag.user == null)
-                {
-                    FormsAuthentication.SignOut();
-                    return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
-                }
-                else
-                {
-                    return View();
-                }
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else
             {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", new { message = msg });
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+                SQLController sqlController = new SQLController();
+
+                ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(10);
+                ProfitTMResponse responseMPP = sqlController.getMostPurchasedProducts(10);
+
+                bool error = false;
+                string msg = "";
+
+                responses.Add(responseMSP);
+                responses.Add(responseMPP);
+
+                foreach (ProfitTMResponse res in responses)
+                {
+                    if (res.Status == "ERROR")
+                    {
+                        error = true;
+                        msg = res.Message;
+
+                        break;
+                    }
+                }
+
+                if (!error)
+                {
+                    ViewBag.mostSelledProds = responseMSP.Result;
+                    ViewBag.mostPurchasedProds = responseMPP.Result;
+                    ViewBag.options = Session["options"];
+
+                    return View();
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Index", new { message = msg });
+                }
             }
         }
 
         [Authorize]
         public ActionResult Ventas()
         {
-            List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-            SQLController sqlController = new SQLController();
+            ViewBag.user = Session["user"];
 
-            ProfitTMResponse responseMAC = sqlController.getMostActiveClients(10);
-            ProfitTMResponse responseMMC = sqlController.getMostMorousClients(10);
-
-            bool error = false;
-            string msg = "";
-
-            responses.Add(responseMAC);
-            responses.Add(responseMMC);
-
-            foreach (ProfitTMResponse res in responses)
+            if (ViewBag.user == null)
             {
-                if (res.Status == "ERROR")
-                {
-                    error = true;
-                    msg = res.Message;
-
-                    break;
-                }
-            }
-
-            if (!error)
-            {
-                ViewBag.mostActiveClients = (List<Client>)responseMAC.Result;
-                ViewBag.mostMorousClients = (List<Client>)responseMMC.Result;
-
-                ViewBag.user = Session["user"];
-
-                if (ViewBag.user == null)
-                {
-                    FormsAuthentication.SignOut();
-                    return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
-                }
-                else
-                {
-                    return View();
-                }
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else
             {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", new { message = msg });
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+                SQLController sqlController = new SQLController();
+
+                ProfitTMResponse responseMAC = sqlController.getMostActiveClients(10);
+                ProfitTMResponse responseMMC = sqlController.getMostMorousClients(10);
+
+                bool error = false;
+                string msg = "";
+
+                responses.Add(responseMAC);
+                responses.Add(responseMMC);
+
+                foreach (ProfitTMResponse res in responses)
+                {
+                    if (res.Status == "ERROR")
+                    {
+                        error = true;
+                        msg = res.Message;
+
+                        break;
+                    }
+                }
+
+                if (!error)
+                {
+                    ViewBag.mostActiveClients = responseMAC.Result;
+                    ViewBag.mostMorousClients = responseMMC.Result;
+                    ViewBag.options = Session["options"];
+
+                    return View();
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Index", new { message = msg });
+                }
             }
         }
 
         [Authorize]
         public ActionResult Compras()
         {
-            List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-            SQLController sqlController = new SQLController();
+            ViewBag.user = Session["user"];
 
-            ProfitTMResponse responseMAS = sqlController.getMostActiveSuppliers(10);
-            ProfitTMResponse responseMMS = sqlController.getMostMorousSuppliers(10);
-
-            bool error = false;
-            string msg = "";
-
-            responses.Add(responseMAS);
-            responses.Add(responseMMS);
-
-            foreach (ProfitTMResponse res in responses)
+            if (ViewBag.user == null)
             {
-                if (res.Status == "ERROR")
-                {
-                    error = true;
-                    msg = res.Message;
-
-                    break;
-                }
-            }
-
-            if (!error)
-            {
-                ViewBag.mostActiveSuppliers = (List<Supplier>)responseMAS.Result;
-                ViewBag.mostMorousSuppliers = (List<Supplier>)responseMMS.Result;
-
-                ViewBag.user = Session["user"];
-
-                if (ViewBag.user == null)
-                {
-                    FormsAuthentication.SignOut();
-                    return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
-                }
-                else
-                {
-                    return View();
-                }
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else
             {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", new { message = msg });
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+                SQLController sqlController = new SQLController();
+
+                ProfitTMResponse responseMAS = sqlController.getMostActiveSuppliers(10);
+                ProfitTMResponse responseMMS = sqlController.getMostMorousSuppliers(10);
+
+                bool error = false;
+                string msg = "";
+
+                responses.Add(responseMAS);
+                responses.Add(responseMMS);
+
+                foreach (ProfitTMResponse res in responses)
+                {
+                    if (res.Status == "ERROR")
+                    {
+                        error = true;
+                        msg = res.Message;
+
+                        break;
+                    }
+                }
+
+                if (!error)
+                {
+                    ViewBag.mostActiveSuppliers = responseMAS.Result;
+                    ViewBag.mostMorousSuppliers = responseMMS.Result;
+                    ViewBag.options = Session["options"];
+
+                    return View();
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Index", new { message = msg });
+                }
             }
         }
     }

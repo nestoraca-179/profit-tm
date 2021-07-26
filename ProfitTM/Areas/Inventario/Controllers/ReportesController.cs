@@ -17,6 +17,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
         public ActionResult Index(string name = "", string proc = "", string cols = "", string fields = "", string queryParams = "", string[] paramsSent = null, string format = "")
         {
             ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
 
             if (ViewBag.user == null)
             {
@@ -121,6 +122,8 @@ namespace ProfitTM.Areas.Inventario.Controllers
         public ActionResult Reporte(string name)
         {
             ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
+
             ViewBag.report = name;
 
             if (ViewBag.user == null)

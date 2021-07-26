@@ -14,6 +14,7 @@ namespace ProfitTM.Areas.Compras.Controllers
         public ActionResult Index(string option = "", string[] paramsProvAdd = null, string[] paramsProvEdit = null, string ID = "")
         {
             ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
 
             if (ViewBag.user == null)
             {

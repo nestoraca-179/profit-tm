@@ -21,6 +21,57 @@ namespace ProfitTM.Controllers
             this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
         }
 
+        public SQLController(string connect)
+        {
+            this.connect = connect;
+            this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
+        }
+
+        [System.Web.Mvc.NonAction]
+        public ProfitTMResponse getOptions(string prod)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<Option> options = new List<Option>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand(string.Format("select * from Options where Product = '{0}'", prod), conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Option option = new Option();
+
+                                option.ID = reader["ID"].ToString();
+                                option.Name = reader["NameOption"].ToString();
+                                option.Icon = reader["Icon"].ToString();
+                                option.Product = reader["Product"].ToString();
+                                option.UrlTable = reader["UrlTable"].ToString();
+                                option.UrlProcess = reader["UrlProcess"].ToString();
+                                option.UrlReport = reader["UrlReport"].ToString();
+
+                                options.Add(option);
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = options;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
         [System.Web.Mvc.NonAction]
         public ProfitTMResponse getMostSelledProducts(int number)
         {
