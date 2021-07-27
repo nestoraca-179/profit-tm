@@ -172,7 +172,40 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                return View();
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+                SQLController sqlController = new SQLController();
+
+                bool error = false;
+                string msg = "";
+
+                ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Cont");
+
+                responses.Add(responseOPT);
+
+                foreach (ProfitTMResponse res in responses)
+                {
+                    if (res.Status == "ERROR")
+                    {
+                        error = true;
+                        msg = res.Message;
+
+                        break;
+                    }
+                }
+
+                if (!error)
+                {
+                    Session["options"] = responseOPT.Result;
+
+                    ViewBag.options = Session["options"];
+
+                    return View();
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Index", new { message = msg });
+                }
             }
         }
 

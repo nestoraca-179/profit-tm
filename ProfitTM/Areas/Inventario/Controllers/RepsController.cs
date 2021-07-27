@@ -74,6 +74,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
             return DocumentViewerExtension.ExportTo(report3, Request);
         }
 
+        // RepArticulosTodoStock
         RepArticulosTodoStock report4 = new RepArticulosTodoStock();
         public ActionResult RepArticulosTodoStockPartial()
         {
@@ -87,6 +88,22 @@ namespace ProfitTM.Areas.Inventario.Controllers
         public ActionResult RepArticulosTodoStockPartialExport()
         {
             return DocumentViewerExtension.ExportTo(report4, Request);
+        }
+
+        // RepArticuloConCostoYPrecio
+        RepArticuloConCostoYPrecio report5 = new RepArticuloConCostoYPrecio();
+        public ActionResult RepArticuloConCostoYPrecioPartial()
+        {
+            string connect = Session["connect"].ToString();
+
+            SqlDataSource ds = report5.DataSource as SqlDataSource;
+            ds.ConnectionName = connect;
+
+            return PartialView("~/Areas/Inventario/Views/Reportes/_RepArticuloConCostoYPrecioPartial.cshtml", report5);
+        }
+        public ActionResult RepArticuloConCostoYPrecioPartialExport()
+        {
+            return DocumentViewerExtension.ExportTo(report5, Request);
         }
     }
 }

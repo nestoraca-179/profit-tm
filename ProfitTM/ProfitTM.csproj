@@ -190,6 +190,8 @@
     <Content Include="Areas\Compras\Views\Tablas\Index.cshtml" />
     <Content Include="Areas\Inventario\Views\Reportes\_RepArticuloConCostoPartial.cshtml" />
     <Content Include="Areas\Inventario\Views\Reportes\_RepArticulosTodoStockPartial.cshtml" />
+    <Content Include="Areas\Inventario\Views\Reportes\_RepArticuloConCostoYPrecioPartial.cshtml" />
+    <Content Include="Areas\Ventas\Views\Reportes\_RepTotalVentaxArticuloPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -281,6 +283,9 @@
     <Compile Include="Areas\Inventario\Reports\RepArticuloConCosto.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Areas\Inventario\Reports\RepArticuloConCostoYPrecio.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\Inventario\Reports\RepArticuloConPrecio.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -297,6 +302,9 @@
     <Compile Include="Areas\Ventas\Controllers\RepsController.cs" />
     <Compile Include="Areas\Ventas\Controllers\SQLController.cs" />
     <Compile Include="Areas\Ventas\Reports\RepFacturaVentaxArt.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\Ventas\Reports\RepTotalVentaxArticulo.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Areas\Ventas\VentasAreaRegistration.cs" />
@@ -343,6 +351,9 @@
     <EmbeddedResource Include="Areas\Inventario\Reports\RepArticuloConCosto.resx">
       <DependentUpon>RepArticuloConCosto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Areas\Inventario\Reports\RepArticuloConCostoYPrecio.resx">
+      <DependentUpon>RepArticuloConCostoYPrecio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Areas\Inventario\Reports\RepArticuloConPrecio.resx">
       <DependentUpon>RepArticuloConPrecio.cs</DependentUpon>
     </EmbeddedResource>
@@ -357,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Ventas\Reports\RepFacturaVentaxArt.resx">
       <DependentUpon>RepFacturaVentaxArt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\Ventas\Reports\RepTotalVentaxArticulo.resx">
+      <DependentUpon>RepTotalVentaxArticulo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>

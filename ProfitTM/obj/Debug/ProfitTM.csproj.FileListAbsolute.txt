@@ -830,7 +830,6 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxTreeLi
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csprojAssemblyReference.cache
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloConPrecio.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloProveedor.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepStockArticulos.resources
@@ -843,3 +842,5 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.pdb
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloConCosto.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticulosTodoStock.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloConCostoYPrecio.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepTotalVentaxArticulo.resources

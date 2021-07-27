@@ -23,8 +23,8 @@
                     <div class="col-sm-4 d-flex flex-column align-items-center">
                         <h5>Árbol de Reportes</h5>
                         @*<select id="tree-report" name="treeReport" onchange="loadGroup(this.value)">
-                                <option value="#">Seleccione Árbol de Reportes...</option>
-                            </select>*@
+                            <option value="#">Seleccione Árbol de Reportes...</option>
+                        </select>*@
                         <select ng-model="tree" ng-change="loadGroup(tree)" ng-disabled="!treeReports">
                             <option value="#">Seleccione Árbol de Reportes...</option>
                             <option ng-repeat="tree in treeReports" value="{{ tree.ID }}">{{ tree.Name }}</option>
@@ -33,8 +33,8 @@
                     <div class="col-sm-4 d-flex flex-column align-items-center">
                         <h5>Grupo de Reportes</h5>
                         @*<select id="group-report" name="groupReport" onchange="loadReport(this.value)" disabled>
-                                <option value="#">Seleccione Grupo de Reportes...</option>
-                            </select>*@
+                            <option value="#">Seleccione Grupo de Reportes...</option>
+                        </select>*@
                         <select ng-model="group" ng-change="loadReport(group)" ng-disabled="tree == '#'">
                             <option value="#">Seleccione Grupo de Reportes...</option>
                             <option ng-repeat="group in groupReports" value="{{ group.ID }}">{{ group.Name }}</option>
@@ -43,8 +43,8 @@
                     <div class="col-sm-4 d-flex flex-column align-items-center">
                         <h5>Reporte</h5>
                         @*<select id="report" name="report" onchange="loadButton(this.value)" disabled>
-                                <option value="#">Seleccione Reporte...</option>
-                            </select>*@
+                            <option value="#">Seleccione Reporte...</option>
+                        </select>*@
                         <select ng-model="report" ng-change="loadButton(report)" ng-disabled="group == '#' || tree == '#'">
                             <option value="#">Seleccione Reporte...</option>
                             <option ng-repeat="report in reports" value="{{ report.ID }}" ng-show="report.Enabled">{{ report.Name }}</option>

@@ -5,9 +5,9 @@ using System.ComponentModel;
 using System.Drawing;
 
 /// <summary>
-/// Summary description for RepArticuloConCosto
+/// Summary description for RepArticuloConCostoYPrecio
 /// </summary>
-public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
+public class RepArticuloConCostoYPrecio : DevExpress.XtraReports.UI.XtraReport
 {
     private DevExpress.DataAccess.Sql.SqlDataSource DemoAdmin;
     private XRControlStyle Title;
@@ -21,20 +21,6 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
     private XRPageInfo pageInfo2;
     private ReportHeaderBand ReportHeader;
     private XRLabel label1;
-    private DetailBand Detail;
-    private XRTable table2;
-    private XRTableRow tableRow2;
-    private XRTableCell tableCell8;
-    private XRTableCell tableCell9;
-    private XRTableCell tableCell10;
-    private XRTableCell tableCell11;
-    private XRTableCell tableCell12;
-    private XRTableCell tableCell13;
-    private XRTableCell tableCell14;
-    private DevExpress.XtraReports.Parameters.Parameter artDesde;
-    private DevExpress.XtraReports.Parameters.Parameter artHasta;
-    private DevExpress.XtraReports.Parameters.Parameter codAlmacen;
-    private PageHeaderBand PageHeader;
     private XRTable table1;
     private XRTableRow tableRow1;
     private XRTableCell tableCell1;
@@ -42,15 +28,27 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
     private XRTableCell tableCell3;
     private XRTableCell tableCell4;
     private XRTableCell tableCell5;
+    private DetailBand Detail;
+    private XRTable table2;
+    private XRTableRow tableRow2;
     private XRTableCell tableCell6;
     private XRTableCell tableCell7;
+    private XRTableCell tableCell8;
+    private XRTableCell tableCell9;
+    private XRTableCell tableCell10;
+    private DevExpress.XtraReports.Parameters.Parameter artDesde;
+    private DevExpress.XtraReports.Parameters.Parameter artHasta;
+    private DevExpress.XtraReports.Parameters.Parameter codPrecio;
+    private DevExpress.XtraReports.Parameters.Parameter codAlmacen;
+    private DevExpress.XtraReports.Parameters.Parameter codCosto;
+    private PageHeaderBand PageHeader;
 
     /// <summary>
     /// Required designer variable.
     /// </summary>
     private System.ComponentModel.IContainer components = null;
 
-    public RepArticuloConCosto()
+    public RepArticuloConCostoYPrecio()
     {
         InitializeComponent();
         //
@@ -98,12 +96,21 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             DevExpress.DataAccess.Sql.QueryParameter queryParameter15 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter16 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter17 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter18 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter19 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter20 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter21 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter22 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter23 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery1 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
             DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery2 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepArticuloConCosto));
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery3 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepArticuloConCostoYPrecio));
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings1 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings2 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings3 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
+            DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings4 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
+            DevExpress.XtraReports.Parameters.StaticListLookUpSettings staticListLookUpSettings1 = new DevExpress.XtraReports.Parameters.StaticListLookUpSettings();
             this.DemoAdmin = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.Title = new DevExpress.XtraReports.UI.XRControlStyle();
             this.DetailCaption1 = new DevExpress.XtraReports.UI.XRControlStyle();
@@ -119,17 +126,11 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
             this.table2 = new DevExpress.XtraReports.UI.XRTable();
             this.tableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
+            this.tableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.tableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell8 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell9 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell10 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell11 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell12 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell13 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell14 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.artDesde = new DevExpress.XtraReports.Parameters.Parameter();
-            this.artHasta = new DevExpress.XtraReports.Parameters.Parameter();
-            this.codAlmacen = new DevExpress.XtraReports.Parameters.Parameter();
-            this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
             this.table1 = new DevExpress.XtraReports.UI.XRTable();
             this.tableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -137,8 +138,12 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             this.tableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.artDesde = new DevExpress.XtraReports.Parameters.Parameter();
+            this.artHasta = new DevExpress.XtraReports.Parameters.Parameter();
+            this.codPrecio = new DevExpress.XtraReports.Parameters.Parameter();
+            this.codAlmacen = new DevExpress.XtraReports.Parameters.Parameter();
+            this.codCosto = new DevExpress.XtraReports.Parameters.Parameter();
+            this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -147,7 +152,7 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             // 
             this.DemoAdmin.ConnectionName = "DemoAdmin";
             this.DemoAdmin.Name = "DemoAdmin";
-            storedProcQuery1.Name = "RepArticuloConCosto";
+            storedProcQuery1.Name = "RepArticuloConCostoYPrecio";
             queryParameter1.Name = "@sCo_Art_d";
             queryParameter1.Type = typeof(DevExpress.DataAccess.Expression);
             queryParameter1.Value = new DevExpress.DataAccess.Expression("?artDesde", typeof(string));
@@ -175,19 +180,33 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             queryParameter11.Value = new DevExpress.DataAccess.Expression("?codAlmacen", typeof(string));
             queryParameter12.Name = "@dCo_FechaHasta";
             queryParameter12.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter12.Value = new DevExpress.DataAccess.Expression("NOW()", typeof(System.DateTime));
-            queryParameter13.Name = "@sCo_Excluir";
+            queryParameter12.Value = new DevExpress.DataAccess.Expression("Now()", typeof(System.DateTime));
+            queryParameter13.Name = "@sCo_Precio01";
             queryParameter13.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter13.Value = new DevExpress.DataAccess.Expression("\' \'", typeof(char));
-            queryParameter14.Name = "@sCo_Sucursal";
+            queryParameter13.Value = new DevExpress.DataAccess.Expression("?codPrecio", typeof(string));
+            queryParameter14.Name = "@sCo_Precio02";
             queryParameter14.Type = typeof(string);
-            queryParameter15.Name = "@sCampOrderBy";
+            queryParameter15.Name = "@sCo_Precio03";
             queryParameter15.Type = typeof(string);
-            queryParameter16.Name = "@sDir";
+            queryParameter16.Name = "@sCo_Precio04";
             queryParameter16.Type = typeof(string);
-            queryParameter17.Name = "@bHeaderRep";
-            queryParameter17.Type = typeof(bool);
-            queryParameter17.ValueInfo = "False";
+            queryParameter17.Name = "@sCo_Precio05";
+            queryParameter17.Type = typeof(string);
+            queryParameter18.Name = "@sCo_TipoCosto";
+            queryParameter18.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter18.Value = new DevExpress.DataAccess.Expression("?codCosto", typeof(char));
+            queryParameter19.Name = "@sCo_Excluir";
+            queryParameter19.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter19.Value = new DevExpress.DataAccess.Expression("\' \'", typeof(char));
+            queryParameter20.Name = "@sCo_Sucursal";
+            queryParameter20.Type = typeof(string);
+            queryParameter21.Name = "@sCampOrderBy";
+            queryParameter21.Type = typeof(string);
+            queryParameter22.Name = "@sDir";
+            queryParameter22.Type = typeof(string);
+            queryParameter23.Name = "@bHeaderRep";
+            queryParameter23.Type = typeof(bool);
+            queryParameter23.ValueInfo = "False";
             storedProcQuery1.Parameters.Add(queryParameter1);
             storedProcQuery1.Parameters.Add(queryParameter2);
             storedProcQuery1.Parameters.Add(queryParameter3);
@@ -205,15 +224,24 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             storedProcQuery1.Parameters.Add(queryParameter15);
             storedProcQuery1.Parameters.Add(queryParameter16);
             storedProcQuery1.Parameters.Add(queryParameter17);
-            storedProcQuery1.StoredProcName = "RepArticuloConCosto";
+            storedProcQuery1.Parameters.Add(queryParameter18);
+            storedProcQuery1.Parameters.Add(queryParameter19);
+            storedProcQuery1.Parameters.Add(queryParameter20);
+            storedProcQuery1.Parameters.Add(queryParameter21);
+            storedProcQuery1.Parameters.Add(queryParameter22);
+            storedProcQuery1.Parameters.Add(queryParameter23);
+            storedProcQuery1.StoredProcName = "RepArticuloConCostoYPrecio";
             customSqlQuery1.Name = "Articulos";
             customSqlQuery1.Sql = "select * from saArticulo where tipo <> \'S\'";
-            customSqlQuery2.Name = "Almacenes";
-            customSqlQuery2.Sql = "select * from saAlmacen";
+            customSqlQuery2.Name = "Precios";
+            customSqlQuery2.Sql = "select co_precio, des_precio from saTipoPrecio order by co_precio";
+            customSqlQuery3.Name = "Almacenes";
+            customSqlQuery3.Sql = "select * from saAlmacen";
             this.DemoAdmin.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
             storedProcQuery1,
             customSqlQuery1,
-            customSqlQuery2});
+            customSqlQuery2,
+            customSqlQuery3});
             this.DemoAdmin.ResultSchemaSerializable = resources.GetString("DemoAdmin.ResultSchemaSerializable");
             // 
             // Title
@@ -282,17 +310,17 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             // 
             // pageInfo1
             // 
-            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(6.00001F, 6.00001F);
+            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 6.00001F);
             this.pageInfo1.Name = "pageInfo1";
             this.pageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
-            this.pageInfo1.SizeF = new System.Drawing.SizeF(381.75F, 23F);
+            this.pageInfo1.SizeF = new System.Drawing.SizeF(379.333F, 23F);
             this.pageInfo1.StyleName = "PageInfo";
             // 
             // pageInfo2
             // 
-            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(400.5416F, 6.00001F);
+            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(395.7501F, 6.00001F);
             this.pageInfo2.Name = "pageInfo2";
-            this.pageInfo2.SizeF = new System.Drawing.SizeF(349.4584F, 23F);
+            this.pageInfo2.SizeF = new System.Drawing.SizeF(354.2499F, 23F);
             this.pageInfo2.StyleName = "PageInfo";
             this.pageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             this.pageInfo2.TextFormatString = "Página {0} de {1}";
@@ -308,10 +336,10 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             // 
             this.label1.LocationFloat = new DevExpress.Utils.PointFloat(6.00001F, 5.999994F);
             this.label1.Name = "label1";
-            this.label1.SizeF = new System.Drawing.SizeF(733.9999F, 24.19433F);
+            this.label1.SizeF = new System.Drawing.SizeF(744F, 24.19433F);
             this.label1.StyleName = "Title";
             this.label1.StylePriority.UseTextAlignment = false;
-            this.label1.Text = "Artículos con todos sus Costos";
+            this.label1.Text = "Articulos con Costo y Precio";
             this.label1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // Detail
@@ -333,85 +361,127 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             // tableRow2
             // 
             this.tableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
+            this.tableCell6,
+            this.tableCell7,
             this.tableCell8,
             this.tableCell9,
-            this.tableCell10,
-            this.tableCell11,
-            this.tableCell12,
-            this.tableCell13,
-            this.tableCell14});
+            this.tableCell10});
             this.tableRow2.Name = "tableRow2";
             this.tableRow2.Weight = 11.5D;
             // 
+            // tableCell6
+            // 
+            this.tableCell6.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.tableCell6.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_art]")});
+            this.tableCell6.Name = "tableCell6";
+            this.tableCell6.StyleName = "DetailData1";
+            this.tableCell6.StylePriority.UseBorders = false;
+            this.tableCell6.Weight = 0.18256080040564904D;
+            // 
+            // tableCell7
+            // 
+            this.tableCell7.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[art_des]")});
+            this.tableCell7.Name = "tableCell7";
+            this.tableCell7.StyleName = "DetailData1";
+            this.tableCell7.Weight = 0.53998131774586411D;
+            // 
             // tableCell8
             // 
-            this.tableCell8.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.tableCell8.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_art]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_uni]")});
             this.tableCell8.Name = "tableCell8";
             this.tableCell8.StyleName = "DetailData1";
-            this.tableCell8.StylePriority.UseBorders = false;
-            this.tableCell8.Weight = 0.11275230994591347D;
+            this.tableCell8.Weight = 0.12226511945856056D;
             // 
             // tableCell9
             // 
             this.tableCell9.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[art_des]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[precio1]")});
             this.tableCell9.Name = "tableCell9";
             this.tableCell9.StyleName = "DetailData1";
-            this.tableCell9.Weight = 0.32043766902043269D;
+            this.tableCell9.StylePriority.UseTextAlignment = false;
+            this.tableCell9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            this.tableCell9.TextFormatString = "{0:n}";
+            this.tableCell9.Weight = 0.15377638517752257D;
             // 
             // tableCell10
             // 
             this.tableCell10.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_uni]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[ultimo]")});
             this.tableCell10.Name = "tableCell10";
             this.tableCell10.StyleName = "DetailData1";
-            this.tableCell10.Weight = 0.10512818556565501D;
+            this.tableCell10.StylePriority.UseTextAlignment = false;
+            this.tableCell10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            this.tableCell10.TextFormatString = "{0}";
+            this.tableCell10.Weight = 0.15526254460186142D;
             // 
-            // tableCell11
+            // table1
             // 
-            this.tableCell11.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[ultimo]")});
-            this.tableCell11.Name = "tableCell11";
-            this.tableCell11.StyleName = "DetailData1";
-            this.tableCell11.StylePriority.UseTextAlignment = false;
-            this.tableCell11.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.tableCell11.TextFormatString = "{0} Bs";
-            this.tableCell11.Weight = 0.15429063063401449D;
+            this.table1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 1F);
+            this.table1.Name = "table1";
+            this.table1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
+            this.tableRow1});
+            this.table1.SizeF = new System.Drawing.SizeF(750F, 28F);
             // 
-            // tableCell12
+            // tableRow1
             // 
-            this.tableCell12.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[promedio]")});
-            this.tableCell12.Name = "tableCell12";
-            this.tableCell12.StyleName = "DetailData1";
-            this.tableCell12.StylePriority.UseTextAlignment = false;
-            this.tableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.tableCell12.TextFormatString = "{0} Bs";
-            this.tableCell12.Weight = 0.149006101168119D;
+            this.tableRow1.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
+            this.tableCell1,
+            this.tableCell2,
+            this.tableCell3,
+            this.tableCell4,
+            this.tableCell5});
+            this.tableRow1.Name = "tableRow1";
+            this.tableRow1.Weight = 1D;
             // 
-            // tableCell13
+            // tableCell1
             // 
-            this.tableCell13.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[reposicion]")});
-            this.tableCell13.Name = "tableCell13";
-            this.tableCell13.StyleName = "DetailData1";
-            this.tableCell13.StylePriority.UseTextAlignment = false;
-            this.tableCell13.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.tableCell13.TextFormatString = "{0} Bs";
-            this.tableCell13.Weight = 0.15838510366586533D;
+            this.tableCell1.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.tableCell1.Name = "tableCell1";
+            this.tableCell1.StyleName = "DetailCaption1";
+            this.tableCell1.StylePriority.UseBorders = false;
+            this.tableCell1.StylePriority.UseTextAlignment = false;
+            this.tableCell1.Text = "Codigo";
+            this.tableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.tableCell1.Weight = 0.18256080040564904D;
             // 
-            // tableCell14
+            // tableCell2
             // 
-            this.tableCell14.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[proveedor]")});
-            this.tableCell14.Name = "tableCell14";
-            this.tableCell14.StyleName = "DetailData1";
-            this.tableCell14.StylePriority.UseTextAlignment = false;
-            this.tableCell14.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.tableCell14.TextFormatString = "{0} Bs";
-            this.tableCell14.Weight = 0.15384615384615388D;
+            this.tableCell2.Name = "tableCell2";
+            this.tableCell2.StyleName = "DetailCaption1";
+            this.tableCell2.StylePriority.UseTextAlignment = false;
+            this.tableCell2.Text = "Articulo";
+            this.tableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.tableCell2.Weight = 0.53998134511462559D;
+            // 
+            // tableCell3
+            // 
+            this.tableCell3.Name = "tableCell3";
+            this.tableCell3.StyleName = "DetailCaption1";
+            this.tableCell3.StylePriority.UseTextAlignment = false;
+            this.tableCell3.Text = "Unidad";
+            this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.tableCell3.Weight = 0.1222650951558526D;
+            // 
+            // tableCell4
+            // 
+            this.tableCell4.Name = "tableCell4";
+            this.tableCell4.StyleName = "DetailCaption1";
+            this.tableCell4.StylePriority.UseTextAlignment = false;
+            this.tableCell4.Text = "Precio";
+            this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.tableCell4.Weight = 0.15377638438749708D;
+            // 
+            // tableCell5
+            // 
+            this.tableCell5.Name = "tableCell5";
+            this.tableCell5.StyleName = "DetailCaption1";
+            this.tableCell5.StylePriority.UseTextAlignment = false;
+            this.tableCell5.Text = "Costo";
+            this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.tableCell5.Weight = 0.15526255586913748D;
             // 
             // artDesde
             // 
@@ -439,113 +509,52 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             this.artHasta.LookUpSettings = dynamicListLookUpSettings2;
             this.artHasta.Name = "artHasta";
             // 
+            // codPrecio
+            // 
+            this.codPrecio.Description = "Precio";
+            dynamicListLookUpSettings3.DataMember = "Precios";
+            dynamicListLookUpSettings3.DataSource = this.DemoAdmin;
+            dynamicListLookUpSettings3.DisplayMember = "des_precio";
+            dynamicListLookUpSettings3.SortMember = "co_precio";
+            dynamicListLookUpSettings3.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            dynamicListLookUpSettings3.ValueMember = "co_precio";
+            this.codPrecio.LookUpSettings = dynamicListLookUpSettings3;
+            this.codPrecio.Name = "codPrecio";
+            // 
             // codAlmacen
             // 
-            this.codAlmacen.AllowNull = true;
-            this.codAlmacen.Description = "Codigo Almacen";
-            dynamicListLookUpSettings3.DataMember = "Almacenes";
-            dynamicListLookUpSettings3.DataSource = this.DemoAdmin;
-            dynamicListLookUpSettings3.DisplayMember = "des_alma";
-            dynamicListLookUpSettings3.SortMember = "co_alma";
-            dynamicListLookUpSettings3.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
-            dynamicListLookUpSettings3.ValueMember = "co_alma";
-            this.codAlmacen.LookUpSettings = dynamicListLookUpSettings3;
+            this.codAlmacen.Description = "Almacen";
+            dynamicListLookUpSettings4.DataMember = "Almacenes";
+            dynamicListLookUpSettings4.DataSource = this.DemoAdmin;
+            dynamicListLookUpSettings4.DisplayMember = "des_alma";
+            dynamicListLookUpSettings4.SortMember = "co_alma";
+            dynamicListLookUpSettings4.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            dynamicListLookUpSettings4.ValueMember = "co_alma";
+            this.codAlmacen.LookUpSettings = dynamicListLookUpSettings4;
             this.codAlmacen.Name = "codAlmacen";
+            this.codAlmacen.ValueInfo = " ";
+            // 
+            // codCosto
+            // 
+            staticListLookUpSettings1.LookUpValues.Add(new DevExpress.XtraReports.Parameters.LookUpValue('1', "Ultimo Costo"));
+            staticListLookUpSettings1.LookUpValues.Add(new DevExpress.XtraReports.Parameters.LookUpValue('2', "Costo Promedio"));
+            staticListLookUpSettings1.LookUpValues.Add(new DevExpress.XtraReports.Parameters.LookUpValue('3', "Último Costo OM"));
+            staticListLookUpSettings1.LookUpValues.Add(new DevExpress.XtraReports.Parameters.LookUpValue('4', "Costo Promedio OM"));
+            staticListLookUpSettings1.LookUpValues.Add(new DevExpress.XtraReports.Parameters.LookUpValue('5', "Reposición"));
+            staticListLookUpSettings1.LookUpValues.Add(new DevExpress.XtraReports.Parameters.LookUpValue('6', "Proveedor"));
+            this.codCosto.LookUpSettings = staticListLookUpSettings1;
+            this.codCosto.Name = "codCosto";
+            this.codCosto.Type = typeof(char);
+            this.codCosto.ValueInfo = " ";
             // 
             // PageHeader
             // 
             this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.table1});
-            this.PageHeader.HeightF = 28F;
+            this.PageHeader.HeightF = 29.37501F;
             this.PageHeader.Name = "PageHeader";
             // 
-            // table1
-            // 
-            this.table1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-            this.table1.Name = "table1";
-            this.table1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
-            this.tableRow1});
-            this.table1.SizeF = new System.Drawing.SizeF(750F, 28F);
-            // 
-            // tableRow1
-            // 
-            this.tableRow1.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.tableCell1,
-            this.tableCell2,
-            this.tableCell3,
-            this.tableCell4,
-            this.tableCell5,
-            this.tableCell6,
-            this.tableCell7});
-            this.tableRow1.Name = "tableRow1";
-            this.tableRow1.Weight = 1D;
-            // 
-            // tableCell1
-            // 
-            this.tableCell1.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.tableCell1.Name = "tableCell1";
-            this.tableCell1.StyleName = "DetailCaption1";
-            this.tableCell1.StylePriority.UseBorders = false;
-            this.tableCell1.StylePriority.UseTextAlignment = false;
-            this.tableCell1.Text = "Codigo";
-            this.tableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell1.Weight = 0.11275230994591347D;
-            // 
-            // tableCell2
-            // 
-            this.tableCell2.Name = "tableCell2";
-            this.tableCell2.StyleName = "DetailCaption1";
-            this.tableCell2.StylePriority.UseTextAlignment = false;
-            this.tableCell2.Text = "Articulo";
-            this.tableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell2.Weight = 0.32043764554537257D;
-            // 
-            // tableCell3
-            // 
-            this.tableCell3.Name = "tableCell3";
-            this.tableCell3.StyleName = "DetailCaption1";
-            this.tableCell3.StylePriority.UseTextAlignment = false;
-            this.tableCell3.Text = "Unidad";
-            this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell3.Weight = 0.10512818556565504D;
-            // 
-            // tableCell4
-            // 
-            this.tableCell4.Name = "tableCell4";
-            this.tableCell4.StyleName = "DetailCaption1";
-            this.tableCell4.StylePriority.UseTextAlignment = false;
-            this.tableCell4.Text = "Ultimo Costo";
-            this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell4.Weight = 0.15429063063401441D;
-            // 
-            // tableCell5
-            // 
-            this.tableCell5.Name = "tableCell5";
-            this.tableCell5.StyleName = "DetailCaption1";
-            this.tableCell5.StylePriority.UseTextAlignment = false;
-            this.tableCell5.Text = "Promedio";
-            this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell5.Weight = 0.149006101168119D;
-            // 
-            // tableCell6
-            // 
-            this.tableCell6.Name = "tableCell6";
-            this.tableCell6.StyleName = "DetailCaption1";
-            this.tableCell6.StylePriority.UseTextAlignment = false;
-            this.tableCell6.Text = "Reposicion";
-            this.tableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell6.Weight = 0.15838510366586539D;
-            // 
-            // tableCell7
-            // 
-            this.tableCell7.Name = "tableCell7";
-            this.tableCell7.StyleName = "DetailCaption1";
-            this.tableCell7.StylePriority.UseTextAlignment = false;
-            this.tableCell7.Text = "Proveedor";
-            this.tableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell7.Weight = 0.15384617732121397D;
-            // 
-            // RepArticuloConCosto
+            // RepArticuloConCostoYPrecio
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.TopMargin,
@@ -555,14 +564,16 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             this.PageHeader});
             this.ComponentStorage.AddRange(new System.ComponentModel.IComponent[] {
             this.DemoAdmin});
-            this.DataMember = "RepArticuloConCosto";
+            this.DataMember = "RepArticuloConCostoYPrecio";
             this.DataSource = this.DemoAdmin;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
             this.Margins = new System.Drawing.Printing.Margins(50, 50, 70, 100);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.artDesde,
             this.artHasta,
-            this.codAlmacen});
+            this.codPrecio,
+            this.codAlmacen,
+            this.codCosto});
             this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.Title,
             this.DetailCaption1,
@@ -570,7 +581,7 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             this.DetailData3_Odd,
             this.PageInfo});
             this.Version = "18.2";
-            this.DataSourceDemanded += new System.EventHandler<System.EventArgs>(this.RepArticuloConCosto_DataSourceDemanded);
+            this.DataSourceDemanded += new System.EventHandler<System.EventArgs>(this.RepArticuloConCostoYPrecio_DataSourceDemanded);
             ((System.ComponentModel.ISupportInitialize)(this.table2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
@@ -579,7 +590,7 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
 
     #endregion
 
-    private void RepArticuloConCosto_DataSourceDemanded(object sender, EventArgs e)
+    private void RepArticuloConCostoYPrecio_DataSourceDemanded(object sender, EventArgs e)
     {
         XtraReport report = (XtraReport)sender;
 

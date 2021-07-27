@@ -25,5 +25,21 @@ namespace ProfitTM.Areas.Ventas.Controllers
         {
             return DocumentViewerExtension.ExportTo(report, Request);
         }
+
+        // RepTotalVentaxArticulo
+        RepTotalVentaxArticulo report1 = new RepTotalVentaxArticulo();
+        public ActionResult RepTotalVentaxArticuloPartial()
+        {
+            string connect = Session["connect"].ToString();
+
+            SqlDataSource ds = report1.DataSource as SqlDataSource;
+            ds.ConnectionName = connect;
+
+            return PartialView("~/Areas/Ventas/Views/Reportes/_RepTotalVentaxArticuloPartial.cshtml", report1);
+        }
+        public ActionResult RepTotalVentaxArticuloPartialExport()
+        {
+            return DocumentViewerExtension.ExportTo(report1, Request);
+        }
     }
 }

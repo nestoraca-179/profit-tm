@@ -105,13 +105,15 @@
                                 }
                             </tbody>
                         </table>
-                        if (!string.IsNullOrEmpty(ViewBag.format))
-                        {
-                            <div style="margin-top: 10px; display: flex; justify-content: space-between">
-                                <a href="/Ventas/Reportes/Reporte?name=@ViewBag.format" class="btn btn-primary">Ver Reporte</a>
-                                <a href="/Ventas/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
-                            </div>
-                        }
+                        <div style="margin-top: 10px; display: flex; justify-content: space-between">
+                            @{
+                                if (!string.IsNullOrEmpty(ViewBag.format))
+                                {
+                                    <a href="/Ventas/Reportes/Reporte?name=@ViewBag.format" class="btn btn-primary">Ver Reporte</a>
+                                }
+                            }
+                            <a href="/Ventas/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
+                        </div>
                     }
                     else
                     {
@@ -121,7 +123,7 @@
                                     <h5 class="text-white">Codigo</h5>
                                     <input type="text" id="codD" name="paramsSent" placeholder="Desde" disabled />
                                     <input type="text" id="codH" name="paramsSent" placeholder="Hasta" disabled />
-                                </div>*@
+                            </div>*@
                             <div>
                                 <h5 class="text-white">Fecha</h5>
                                 <input type="date" id="fecD" name="paramsSent" style="margin-right: 20px;" placeholder="Desde" disabled />
@@ -140,15 +142,15 @@
                             </div>
                             <hr style="width: 100%; height: 1px; background: #7ad4f7; border-radius: 5px; margin: 0 auto;" />
                             @*<div>
-                                    <h5 class="text-white">Cliente</h5>
-                                    <input type="text" id="cliD" name="paramsSent" placeholder="Desde" disabled />
-                                    <input type="text" id="cliH" name="paramsSent" placeholder="Hasta" disabled />
-                                </div>
-                                <div>
-                                    <h5 class="text-white">Proveedor</h5>
-                                    <input type="text" id="proD" name="paramsSent" placeholder="Desde" disabled />
-                                    <input type="text" id="proH" name="paramsSent" placeholder="Hasta" disabled />
-                                </div>*@
+                                <h5 class="text-white">Cliente</h5>
+                                <input type="text" id="cliD" name="paramsSent" placeholder="Desde" disabled />
+                                <input type="text" id="cliH" name="paramsSent" placeholder="Hasta" disabled />
+                            </div>
+                            <div>
+                                <h5 class="text-white">Proveedor</h5>
+                                <input type="text" id="proD" name="paramsSent" placeholder="Desde" disabled />
+                                <input type="text" id="proH" name="paramsSent" placeholder="Hasta" disabled />
+                            </div>
                             <div>
                                 <h5 class="text-white">Precio</h5>
                                 <div class="input-search">
@@ -174,7 +176,7 @@
                                     <option value="5">Reposición</option>
                                     <option value="6">Proveedor</option>
                                 </select>
-                            </div>
+                            </div>*@
                         </div>
                     }
                 }

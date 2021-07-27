@@ -23,51 +23,24 @@
     <div class="dash-container" id="dash-container">
         <div class="dash-left-side border-right p-0" id="menu-left">
             <ul class="list-menu dropright">
-                <li class="menu-item" onclick="print(this)">
-                    <i class="fas fa-globe"></i>
-                    <p class="mb-0 ml-3">General</p>
-                </li>
-                <div class="myDropdown">
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-table"></i>  Tablas</a>
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-sync-alt"></i>  Procesos</a>
-                    <a class="dropdown-item" href="/General/Reportes/"><i class="fas fa-file"></i>  Reportes</a>
-                </div>
-                <li class="menu-item" onclick="print(this)">
-                    <i class="fas fa-money-check-alt"></i>
-                    <p class="mb-0 ml-3">Financiera</p>
-                </li>
-                <div class="myDropdown">
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-table"></i>  Tablas</a>
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-sync-alt"></i>  Procesos</a>
-                    <a class="dropdown-item" href="/Ventas/Reportes/Index"><i class="fas fa-file"></i>  Reportes</a>
-                </div>
-                <li class="menu-item" onclick="print(this)">
-                    <i class="fas fa-landmark"></i>
-                    <p class="mb-0 ml-3">Fiscal</p>
-                </li>
-                <div class="myDropdown">
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-table"></i>  Tablas</a>
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-sync-alt"></i>  Procesos</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-file"></i>  Reportes</a>
-                </div>
-                <li class="menu-item" onclick="print(this)">
-                    <i class="fas fa-file-contract"></i>
-                    <p class="mb-0 ml-3">Prop., Plata y Equ.</p>
-                </li>
-                <div class="myDropdown">
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-table"></i>  Tablas</a>
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-sync-alt"></i>  Procesos</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-file"></i>  Reportes</a>
-                </div>
-                <li class="menu-item" onclick="print(this)">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                    <p class="mb-0 ml-3">Presupuesto</p>
-                </li>
-                <div class="myDropdown">
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-table"></i>  Tablas</a>
-                    <a class="dropdown-item disabled" href="#"><i class="fas fa-sync-alt"></i>  Procesos</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-file"></i>  Reportes</a>
-                </div>
+                @{
+                    foreach (var item in ViewBag.options)
+                    {
+                        string disTable = item.UrlTable == "#" ? "disabled" : "";
+                        string disProcess = item.UrlProcess == "#" ? "disabled" : "";
+                        string disReport = item.UrlReport == "#" ? "disabled" : "";
+
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="@item.Icon"></i>
+                            <p class="mb-0 ml-3">@item.Name</p>
+                        </li>
+                        <div class="myDropdown">
+                            <a class="dropdown-item @disTable" href="@item.UrlTable"><i class="fas fa-table"></i>  Tablas</a>
+                            <a class="dropdown-item @disProcess" href="@item.UrlProcess"><i class="fas fa-sync-alt"></i>  Procesos</a>
+                            <a class="dropdown-item @disReport" href="@item.UrlReport"><i class="fas fa-file"></i>  Reportes</a>
+                        </div>
+                    }
+                }
                 <li class="menu-item">
                     <i class="fas fa-cog fa-spin"></i>
                     <p class="mb-0 ml-3">Configuración</p>
