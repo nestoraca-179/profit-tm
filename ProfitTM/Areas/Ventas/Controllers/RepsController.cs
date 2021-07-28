@@ -41,5 +41,21 @@ namespace ProfitTM.Areas.Ventas.Controllers
         {
             return DocumentViewerExtension.ExportTo(report1, Request);
         }
+
+        // RepClienteMasVenta
+        RepClienteMasVenta report2 = new RepClienteMasVenta();
+        public ActionResult RepClienteMasVentaPartial()
+        {
+            string connect = Session["connect"].ToString();
+
+            SqlDataSource ds = report2.DataSource as SqlDataSource;
+            ds.ConnectionName = connect;
+
+            return PartialView("~/Areas/Ventas/Views/Reportes/_RepClienteMasVentaPartial.cshtml", report2);
+        }
+        public ActionResult RepClienteMasVentaPartialExport()
+        {
+            return DocumentViewerExtension.ExportTo(report2, Request);
+        }
     }
 }

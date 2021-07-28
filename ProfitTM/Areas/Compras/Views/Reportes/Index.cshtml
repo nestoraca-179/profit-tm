@@ -117,73 +117,73 @@
                     }
                     else
                     {
-            <div class="col-sm-12 filters shadow">
-                <h3 class="text-white">Filtrar por</h3>
-                @*<div>
-            <h5 class="text-white">Codigo</h5>
-            <input type="text" id="codD" name="paramsSent" placeholder="Desde" disabled />
-            <input type="text" id="codH" name="paramsSent" placeholder="Hasta" disabled />
-        </div>*@
-                <div>
-                    <h5 class="text-white">Fecha</h5>
-                    <input type="date" id="fecD" name="paramsSent" style="margin-right: 20px;" placeholder="Desde" disabled />
-                    <input type="date" id="fecH" name="paramsSent" style="margin-left: 20px;" placeholder="Hasta" disabled />
-                </div>
-                <div>
-                    <h5 class="text-white">Articulo</h5>
-                    <div class="input-search" style="margin-right: 20px;">
-                        <input type="text" id="artD" name="paramsSent" placeholder="Desde" disabled />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artD"></i>
-                    </div>
-                    <div class="input-search" style="margin-left: 20px;">
-                        <input type="text" id="artH" name="paramsSent" placeholder="Hasta" disabled />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artH"></i>
-                    </div>
-                </div>
-                <hr style="width: 100%; height: 1px; background: #7ad4f7; border-radius: 5px; margin: 0 auto;" />
-                <div>
-                    <h5 class="text-white">Cliente</h5>
-                    <div class="input-search" style="margin-right: 20px;">
-                        <input type="text" id="cliD" name="paramsSent" placeholder="Desde" disabled />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCli')" data-name="cliD"></i>
-                    </div>
-                    <div class="input-search" style="margin-left: 20px;">
-                        <input type="text" id="cliH" name="paramsSent" placeholder="Hasta" disabled />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCli')" data-name="cliH"></i>
-                    </div>
-                </div>
-                @*<div>
-            <h5 class="text-white">Proveedor</h5>
-            <input type="text" id="proD" name="paramsSent" placeholder="Desde" disabled />
-            <input type="text" id="proH" name="paramsSent" placeholder="Hasta" disabled />
-        </div>
-        <div>
-            <h5 class="text-white">Precio</h5>
-            <div class="input-search">
-                <input type="text" id="prc" name="paramsSent" placeholder="Codigo de Precio" disabled />
-                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistPrice')" data-name="prc"></i>
-            </div>
-        </div>
-        <div>
-            <h5 class="text-white">Almacén</h5>
-            <div class="input-search">
-                <input type="text" id="alm" name="paramsSent" placeholder="Codigo de Almacen" disabled />
-                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistStorage')" data-name="alm"></i>
-            </div>
-        </div>
-        <div>
-            <h5 class="text-white">Costo</h5>
-            <select id="cost" name="paramsSent" disabled>
-                <option value="">Seleccione costo...</option>
-                <option value="1">Último Costo</option>
-                <option value="2">Costo Promedio</option>
-                <option value="3">Último Costo OM</option>
-                <option value="4">Costo Promedio OM</option>
-                <option value="5">Reposición</option>
-                <option value="6">Proveedor</option>
-            </select>
-        </div>*@
-            </div>
+                        <div class="col-sm-12 filters shadow">
+                            <h3 class="text-white">Filtrar por</h3>
+                            @*<div>
+                                    <h5 class="text-white">Codigo</h5>
+                                    <input type="text" id="codD" name="paramsSent" placeholder="Desde" disabled />
+                                    <input type="text" id="codH" name="paramsSent" placeholder="Hasta" disabled />
+                                </div>*@
+                            <div>
+                                <h5 class="text-white">Fecha</h5>
+                                <input type="date" id="fecD" name="paramsSent" style="margin-right: 20px;" placeholder="Desde" disabled />
+                                <input type="date" id="fecH" name="paramsSent" style="margin-left: 20px;" placeholder="Hasta" disabled />
+                            </div>
+                            <div>
+                                <h5 class="text-white">Articulo</h5>
+                                <div class="input-search" style="margin-right: 20px;">
+                                    <input type="text" id="artD" name="paramsSent" placeholder="Desde" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artD"></i>
+                                </div>
+                                <div class="input-search" style="margin-left: 20px;">
+                                    <input type="text" id="artH" name="paramsSent" placeholder="Hasta" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artH"></i>
+                                </div>
+                            </div>
+                            <hr style="width: 100%; height: 1px; background: #7ad4f7; border-radius: 5px; margin: 0 auto;" />
+                            @*<div>
+                                <h5 class="text-white">Cliente</h5>
+                                <div class="input-search" style="margin-right: 20px;">
+                                    <input type="text" id="cliD" name="paramsSent" placeholder="Desde" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCli')" data-name="cliD"></i>
+                                </div>
+                                <div class="input-search" style="margin-left: 20px;">
+                                    <input type="text" id="cliH" name="paramsSent" placeholder="Hasta" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCli')" data-name="cliH"></i>
+                                </div>
+                            </div>*@
+                            @*<div>
+                                    <h5 class="text-white">Proveedor</h5>
+                                    <input type="text" id="proD" name="paramsSent" placeholder="Desde" disabled />
+                                    <input type="text" id="proH" name="paramsSent" placeholder="Hasta" disabled />
+                                </div>
+                                <div>
+                                    <h5 class="text-white">Precio</h5>
+                                    <div class="input-search">
+                                        <input type="text" id="prc" name="paramsSent" placeholder="Codigo de Precio" disabled />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistPrice')" data-name="prc"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="text-white">Almacén</h5>
+                                    <div class="input-search">
+                                        <input type="text" id="alm" name="paramsSent" placeholder="Codigo de Almacen" disabled />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistStorage')" data-name="alm"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="text-white">Costo</h5>
+                                    <select id="cost" name="paramsSent" disabled>
+                                        <option value="">Seleccione costo...</option>
+                                        <option value="1">Último Costo</option>
+                                        <option value="2">Costo Promedio</option>
+                                        <option value="3">Último Costo OM</option>
+                                        <option value="4">Costo Promedio OM</option>
+                                        <option value="5">Reposición</option>
+                                        <option value="6">Proveedor</option>
+                                    </select>
+                                </div>*@
+                        </div>
                     }
                 }
             </div>
@@ -232,43 +232,6 @@
             </div>
         </div>
     </div>
-    <!-- Modal 2 -->
-    <div class="modal fade" id="modalAssistCli" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAssistLabel">Buscar Cliente</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar cliente..." />
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistCli')">Buscar</button>
-                        </div>
-                    </div>
-                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.assistClients)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
-                                </tr>
-                            }
-                        }
-                    </table>
-                    <input type="hidden" id="name-input" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistCli')">Seleccionar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <script src="~/Content/angular-min.js"></script>
 <script>
@@ -292,7 +255,7 @@
         $scope.report = "#";
         $scope.completed = false;
 
-        $http.get("../../api/ProfitTMApi/GetTreeReports/Prod/Admin/Mod/VENT")
+        $http.get("../../api/ProfitTMApi/GetTreeReports/Prod/Admin/Mod/COMP")
             .then(function (response) {
 
                 console.log(response.data);
@@ -361,30 +324,6 @@
             }
         }
     });
-
-    //var treeReports = [
-    //    {
-    //        id: 1,
-    //        name: "Factura",
-    //        groups: [
-    //            {
-    //                name: "Facturas de Venta",
-    //                reports: [
-    //                    {
-    //                        name: "Facturas por Articulo",
-    //                        proc: "RepFacturaVentaxArt",
-    //                        cols: "co_art,art_des,doc_num,co_cli,co_ven,co_alma,total_art,prec_vta,reng_neto",
-    //                        fields: "Codigo,Nombre,N° Documento,Cliente,Vendedor,Almacen,Cantidad,Precio,Total",
-    //                        format: "RepFacturaVentaxArtPartial",
-    //                        params: "artD,artH",
-    //                        queryParams: "cCo_Articulo_d,cCo_Articulo_h",
-    //                        enabled: true
-    //                    }
-    //                ]
-    //            },
-    //        ]
-    //    },
-    //];
 
     function openModal(elem, modal) {
 

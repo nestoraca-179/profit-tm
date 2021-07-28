@@ -844,3 +844,4 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloConCosto.re
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticulosTodoStock.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloConCostoYPrecio.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepTotalVentaxArticulo.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepClienteMasVenta.resources

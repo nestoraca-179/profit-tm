@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace ProfitTM.Areas.Inventario.Controllers
+namespace ProfitTM.Controllers
 {
     public class ProfitTMApiController : ApiController
     {

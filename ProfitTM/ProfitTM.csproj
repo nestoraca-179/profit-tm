@@ -192,6 +192,8 @@
     <Content Include="Areas\Inventario\Views\Reportes\_RepArticulosTodoStockPartial.cshtml" />
     <Content Include="Areas\Inventario\Views\Reportes\_RepArticuloConCostoYPrecioPartial.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\_RepTotalVentaxArticuloPartial.cshtml" />
+    <Content Include="Areas\Ventas\Views\Reportes\_RepClienteMasVentaPartial.cshtml" />
+    <Content Include="Areas\Compras\Views\Reportes\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -273,12 +275,9 @@
     <Compile Include="Areas\Compras\ComprasAreaRegistration.cs" />
     <Compile Include="Areas\Compras\Controllers\ProcesosController.cs" />
     <Compile Include="Areas\Compras\Controllers\ReportesController.cs" />
-    <Compile Include="Areas\Compras\Controllers\SQLController.cs" />
     <Compile Include="Areas\Compras\Controllers\TablasController.cs" />
-    <Compile Include="Areas\Inventario\Controllers\ProfitTMApiController.cs" />
     <Compile Include="Areas\Inventario\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Inventario\Controllers\RepsController.cs" />
-    <Compile Include="Areas\Inventario\Controllers\SQLController.cs" />
     <Compile Include="Areas\Inventario\InventarioAreaRegistration.cs" />
     <Compile Include="Areas\Inventario\Reports\RepArticuloConCosto.cs">
       <SubType>Component</SubType>
@@ -300,7 +299,9 @@
     </Compile>
     <Compile Include="Areas\Ventas\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Ventas\Controllers\RepsController.cs" />
-    <Compile Include="Areas\Ventas\Controllers\SQLController.cs" />
+    <Compile Include="Areas\Ventas\Reports\RepClienteMasVenta.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\Ventas\Reports\RepFacturaVentaxArt.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -310,7 +311,9 @@
     <Compile Include="Areas\Ventas\VentasAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfitTMApiController.cs" />
     <Compile Include="Controllers\SQLController.cs" />
+    <Compile Include="Controllers\SupplierManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -336,7 +339,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Compras\Data\" />
     <Folder Include="Areas\Compras\Views\Procesos\" />
-    <Folder Include="Areas\Compras\Views\Reportes\" />
     <Folder Include="Areas\Compras\Views\SQL\" />
     <Folder Include="Areas\Inventario\Data\" />
     <Folder Include="Areas\Inventario\Views\Reps\" />
@@ -365,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Inventario\Reports\RepArticulosTodoStock.resx">
       <DependentUpon>RepArticulosTodoStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\Ventas\Reports\RepClienteMasVenta.resx">
+      <DependentUpon>RepClienteMasVenta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Ventas\Reports\RepFacturaVentaxArt.resx">
       <DependentUpon>RepFacturaVentaxArt.cs</DependentUpon>

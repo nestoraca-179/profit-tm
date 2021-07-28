@@ -1,5 +1,6 @@
 ﻿using DevExpress.Web.Mvc;
 using DevExpress.XtraReports.Web;
+using ProfitTM.Controllers;
 using ProfitTM.Models;
 using System;
 using System.Collections.Generic;

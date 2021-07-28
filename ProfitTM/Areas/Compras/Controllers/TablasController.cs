@@ -1,4 +1,5 @@
-﻿using ProfitTM.Models;
+﻿using ProfitTM.Controllers;
+using ProfitTM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,9 @@ namespace ProfitTM.Areas.Compras.Controllers
             }
             else
             {
-                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
                 SQLController sqlController = new SQLController();
+                SupplierManager supplierManager = new SupplierManager();
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
 
                 bool error = false;
                 string msg = "";
@@ -76,7 +78,7 @@ namespace ProfitTM.Areas.Compras.Controllers
                             Address = paramsProvAdd[11]
                         };
 
-                        result = sqlController.addSupplier(supplier);
+                        result = supplierManager.addSupplier(supplier);
 
                         if (result.Status == "OK")
                         {
@@ -101,7 +103,7 @@ namespace ProfitTM.Areas.Compras.Controllers
                             Address = paramsProvEdit[5].Trim()
                         };
 
-                        result = sqlController.editSupplier(supplier);
+                        result = supplierManager.editSupplier(supplier);
 
                         if (result.Status == "OK")
                         {
@@ -116,7 +118,7 @@ namespace ProfitTM.Areas.Compras.Controllers
                     }
                     else if (!string.IsNullOrEmpty(ID))
                     {
-                        result = sqlController.deleteSupplier(ID);
+                        result = supplierManager.deleteSupplier(ID);
 
                         if (result.Status == "OK")
                         {

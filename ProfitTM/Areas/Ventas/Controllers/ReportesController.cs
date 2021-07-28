@@ -1,4 +1,5 @@
 ﻿using DevExpress.Web.Mvc;
+using ProfitTM.Controllers;
 using ProfitTM.Models;
 using System;
 using System.Collections.Generic;
@@ -31,8 +32,10 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 string msg = "";
 
                 ProfitTMResponse responseAP = sqlController.getProds();
+                ProfitTMResponse responseAC = sqlController.getClients();
 
                 responses.Add(responseAP);
+                responses.Add(responseAC);
 
                 foreach (ProfitTMResponse res in responses)
                 {
@@ -48,6 +51,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 if (!error)
                 {
                     ViewBag.assistProds = responseAP.Result;
+                    ViewBag.assistClients = responseAC.Result;
 
                     if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(proc) && !string.IsNullOrEmpty(cols) && !string.IsNullOrEmpty(fields))
                     {
@@ -70,7 +74,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
 
                         foreach (string str in cols.Split(','))
                         {
-                            colsToShow.Add(str);
+                            if (!str.Contains("$"))
+                                colsToShow.Add(str);
                         }
                         foreach (string str in fields.Split(','))
                         {
