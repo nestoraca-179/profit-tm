@@ -22,9 +22,6 @@
                 <div class="row" style="margin-top: 15px">
                     <div class="col-sm-4 d-flex flex-column align-items-center">
                         <h5>Árbol de Reportes</h5>
-                        @*<select id="tree-report" name="treeReport" onchange="loadGroup(this.value)">
-                                <option value="#">Seleccione Árbol de Reportes...</option>
-                            </select>*@
                         <select ng-model="tree" ng-change="loadGroup(tree)" ng-disabled="!treeReports">
                             <option value="#">Seleccione Árbol de Reportes...</option>
                             <option ng-repeat="tree in treeReports" value="{{ tree.ID }}">{{ tree.Name }}</option>
@@ -32,9 +29,6 @@
                     </div>
                     <div class="col-sm-4 d-flex flex-column align-items-center">
                         <h5>Grupo de Reportes</h5>
-                        @*<select id="group-report" name="groupReport" onchange="loadReport(this.value)" disabled>
-                                <option value="#">Seleccione Grupo de Reportes...</option>
-                            </select>*@
                         <select ng-model="group" ng-change="loadReport(group)" ng-disabled="tree == '#'">
                             <option value="#">Seleccione Grupo de Reportes...</option>
                             <option ng-repeat="group in groupReports" value="{{ group.ID }}">{{ group.Name }}</option>
@@ -42,9 +36,6 @@
                     </div>
                     <div class="col-sm-4 d-flex flex-column align-items-center">
                         <h5>Reporte</h5>
-                        @*<select id="report" name="report" onchange="loadButton(this.value)" disabled>
-                                <option value="#">Seleccione Reporte...</option>
-                            </select>*@
                         <select ng-model="report" ng-change="loadButton(report)" ng-disabled="group == '#' || tree == '#'">
                             <option value="#">Seleccione Reporte...</option>
                             <option ng-repeat="report in reports" value="{{ report.ID }}" ng-show="report.Enabled">{{ report.Name }}</option>
@@ -117,73 +108,37 @@
                     }
                     else
                     {
-            <div class="col-sm-12 filters shadow">
-                <h3 class="text-white">Filtrar por</h3>
-                @*<div>
-            <h5 class="text-white">Codigo</h5>
-            <input type="text" id="codD" name="paramsSent" placeholder="Desde" disabled />
-            <input type="text" id="codH" name="paramsSent" placeholder="Hasta" disabled />
-        </div>*@
-                <div>
-                    <h5 class="text-white">Fecha</h5>
-                    <input type="date" id="fecD" name="paramsSent" style="margin-right: 20px;" placeholder="Desde" disabled />
-                    <input type="date" id="fecH" name="paramsSent" style="margin-left: 20px;" placeholder="Hasta" disabled />
-                </div>
-                <div>
-                    <h5 class="text-white">Articulo</h5>
-                    <div class="input-search" style="margin-right: 20px;">
-                        <input type="text" id="artD" name="paramsSent" placeholder="Desde" disabled />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artD"></i>
-                    </div>
-                    <div class="input-search" style="margin-left: 20px;">
-                        <input type="text" id="artH" name="paramsSent" placeholder="Hasta" disabled />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artH"></i>
-                    </div>
-                </div>
-                <hr style="width: 100%; height: 1px; background: #7ad4f7; border-radius: 5px; margin: 0 auto;" />
-                <div>
-                    <h5 class="text-white">Cliente</h5>
-                    <div class="input-search" style="margin-right: 20px;">
-                        <input type="text" id="cliD" name="paramsSent" placeholder="Desde" disabled />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCli')" data-name="cliD"></i>
-                    </div>
-                    <div class="input-search" style="margin-left: 20px;">
-                        <input type="text" id="cliH" name="paramsSent" placeholder="Hasta" disabled />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCli')" data-name="cliH"></i>
-                    </div>
-                </div>
-                @*<div>
-            <h5 class="text-white">Proveedor</h5>
-            <input type="text" id="proD" name="paramsSent" placeholder="Desde" disabled />
-            <input type="text" id="proH" name="paramsSent" placeholder="Hasta" disabled />
-        </div>
-        <div>
-            <h5 class="text-white">Precio</h5>
-            <div class="input-search">
-                <input type="text" id="prc" name="paramsSent" placeholder="Codigo de Precio" disabled />
-                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistPrice')" data-name="prc"></i>
-            </div>
-        </div>
-        <div>
-            <h5 class="text-white">Almacén</h5>
-            <div class="input-search">
-                <input type="text" id="alm" name="paramsSent" placeholder="Codigo de Almacen" disabled />
-                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistStorage')" data-name="alm"></i>
-            </div>
-        </div>
-        <div>
-            <h5 class="text-white">Costo</h5>
-            <select id="cost" name="paramsSent" disabled>
-                <option value="">Seleccione costo...</option>
-                <option value="1">Último Costo</option>
-                <option value="2">Costo Promedio</option>
-                <option value="3">Último Costo OM</option>
-                <option value="4">Costo Promedio OM</option>
-                <option value="5">Reposición</option>
-                <option value="6">Proveedor</option>
-            </select>
-        </div>*@
-            </div>
+                        <div class="col-sm-12 filters shadow">
+                            <h3 class="text-white">Filtrar por</h3>
+                            <div>
+                                <h5 class="text-white">Fecha</h5>
+                                <input type="date" id="fecD" name="paramsSent" style="margin-right: 20px;" placeholder="Desde" disabled />
+                                <input type="date" id="fecH" name="paramsSent" style="margin-left: 20px;" placeholder="Hasta" disabled />
+                            </div>
+                            <div>
+                                <h5 class="text-white">Articulo</h5>
+                                <div class="input-search" style="margin-right: 20px;">
+                                    <input type="text" id="artD" name="paramsSent" placeholder="Desde" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artD"></i>
+                                </div>
+                                <div class="input-search" style="margin-left: 20px;">
+                                    <input type="text" id="artH" name="paramsSent" placeholder="Hasta" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artH"></i>
+                                </div>
+                            </div>
+                            <hr style="width: 100%; height: 1px; background: #7ad4f7; border-radius: 5px; margin: 0 auto;" />
+                            <div>
+                                <h5 class="text-white">Cliente</h5>
+                                <div class="input-search" style="margin-right: 20px;">
+                                    <input type="text" id="cliD" name="paramsSent" placeholder="Desde" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCli')" data-name="cliD"></i>
+                                </div>
+                                <div class="input-search" style="margin-left: 20px;">
+                                    <input type="text" id="cliH" name="paramsSent" placeholder="Hasta" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCli')" data-name="cliH"></i>
+                                </div>
+                            </div>
+                        </div>
                     }
                 }
             </div>

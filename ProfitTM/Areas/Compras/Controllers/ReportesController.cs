@@ -32,8 +32,10 @@ namespace ProfitTM.Areas.Compras.Controllers
                 string msg = "";
 
                 ProfitTMResponse responseAP = sqlController.getProds();
+                ProfitTMResponse responseAS = sqlController.getSuppliers();
 
                 responses.Add(responseAP);
+                responses.Add(responseAS);
 
                 foreach (ProfitTMResponse res in responses)
                 {
@@ -50,6 +52,7 @@ namespace ProfitTM.Areas.Compras.Controllers
                 if (!error)
                 {
                     ViewBag.assistProds = responseAP.Result;
+                    ViewBag.assistSups = responseAS.Result;
 
                     if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(proc) && !string.IsNullOrEmpty(cols) && !string.IsNullOrEmpty(fields))
                     {

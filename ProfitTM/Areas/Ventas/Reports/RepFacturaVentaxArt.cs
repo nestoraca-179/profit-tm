@@ -62,13 +62,15 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
     private XRTableCell xrTableCell3;
     private XRTableCell xrTableCell4;
     private XRTableCell xrTableCell5;
-    private XRLabel xrLabel2;
-    private XRLabel xrLabel1;
     private XRTableCell xrTableCell2;
     private DevExpress.XtraReports.Parameters.Parameter artD;
     private DevExpress.XtraReports.Parameters.Parameter artH;
     private DevExpress.XtraReports.Parameters.Parameter fechaD;
     private DevExpress.XtraReports.Parameters.Parameter fechaH;
+    private XRTableCell xrTableCell6;
+    private XRTableCell xrTableCell7;
+    private DevExpress.XtraReports.Parameters.Parameter cliDesde;
+    private DevExpress.XtraReports.Parameters.Parameter cliHasta;
 
     /// <summary>
     /// Required designer variable.
@@ -132,11 +134,14 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             DevExpress.DataAccess.Sql.QueryParameter queryParameter24 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter25 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery1 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery2 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepFacturaVentaxArt));
             DevExpress.XtraReports.UI.XRSummary xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
             DevExpress.XtraReports.UI.XRSummary xrSummary2 = new DevExpress.XtraReports.UI.XRSummary();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings1 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings2 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
+            DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings3 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
+            DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings4 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             this.DemoAdmin = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.Title = new DevExpress.XtraReports.UI.XRControlStyle();
             this.GroupCaption1 = new DevExpress.XtraReports.UI.XRControlStyle();
@@ -174,8 +179,6 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.xrTableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
-            this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
             this.table3 = new DevExpress.XtraReports.UI.XRTable();
             this.tableRow3 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableCell10 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -183,6 +186,8 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.tableCell12 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell13 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.xrTableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.xrTableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
             this.GroupFooter1 = new DevExpress.XtraReports.UI.GroupFooterBand();
             this.label2 = new DevExpress.XtraReports.UI.XRLabel();
             this.GroupFooter2 = new DevExpress.XtraReports.UI.GroupFooterBand();
@@ -197,6 +202,8 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.artH = new DevExpress.XtraReports.Parameters.Parameter();
             this.fechaD = new DevExpress.XtraReports.Parameters.Parameter();
             this.fechaH = new DevExpress.XtraReports.Parameters.Parameter();
+            this.cliDesde = new DevExpress.XtraReports.Parameters.Parameter();
+            this.cliHasta = new DevExpress.XtraReports.Parameters.Parameter();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table3)).BeginInit();
@@ -204,7 +211,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             // 
             // DemoAdmin
             // 
-            this.DemoAdmin.ConnectionName = "ConnectionAdmin";
+            this.DemoAdmin.ConnectionName = "DemoAdmin";
             this.DemoAdmin.Name = "DemoAdmin";
             storedProcQuery1.Name = "RepFacturaVentaxArt";
             queryParameter1.Name = "@cCo_Articulo_d";
@@ -220,9 +227,11 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             queryParameter4.Type = typeof(DevExpress.DataAccess.Expression);
             queryParameter4.Value = new DevExpress.DataAccess.Expression("?fechaH", typeof(System.DateTime));
             queryParameter5.Name = "@cCo_cliente_d";
-            queryParameter5.Type = typeof(string);
+            queryParameter5.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter5.Value = new DevExpress.DataAccess.Expression("?cliDesde", typeof(string));
             queryParameter6.Name = "@cCo_cliente_h";
-            queryParameter6.Type = typeof(string);
+            queryParameter6.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter6.Value = new DevExpress.DataAccess.Expression("?cliHasta", typeof(string));
             queryParameter7.Name = "@cCo_Vendedor_d";
             queryParameter7.Type = typeof(string);
             queryParameter8.Name = "@cCo_Vendedor_h";
@@ -290,9 +299,12 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             storedProcQuery1.StoredProcName = "RepFacturaVentaxArt";
             customSqlQuery1.Name = "Articulos";
             customSqlQuery1.Sql = "select * from saArticulo";
+            customSqlQuery2.Name = "Clientes";
+            customSqlQuery2.Sql = "select co_cli, cli_des from saCliente";
             this.DemoAdmin.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
             storedProcQuery1,
-            customSqlQuery1});
+            customSqlQuery1,
+            customSqlQuery2});
             this.DemoAdmin.ResultSchemaSerializable = resources.GetString("DemoAdmin.ResultSchemaSerializable");
             // 
             // Title
@@ -631,43 +643,9 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             // Detail
             // 
             this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrLabel2,
-            this.xrLabel1,
             this.table3});
             this.Detail.HeightF = 25.41669F;
             this.Detail.Name = "Detail";
-            // 
-            // xrLabel2
-            // 
-            this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[reng_neto]")});
-            this.xrLabel2.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(640.3071F, 0F);
-            this.xrLabel2.Multiline = true;
-            this.xrLabel2.Name = "xrLabel2";
-            this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel2.SizeF = new System.Drawing.SizeF(105.6931F, 25.41669F);
-            this.xrLabel2.StylePriority.UseFont = false;
-            this.xrLabel2.StylePriority.UseTextAlignment = false;
-            this.xrLabel2.Text = "xrLabel2";
-            this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.xrLabel2.TextFormatString = "{0:f}";
-            // 
-            // xrLabel1
-            // 
-            this.xrLabel1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[prec_vta]")});
-            this.xrLabel1.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(530.6141F, 0F);
-            this.xrLabel1.Multiline = true;
-            this.xrLabel1.Name = "xrLabel1";
-            this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel1.SizeF = new System.Drawing.SizeF(109.693F, 25F);
-            this.xrLabel1.StylePriority.UseFont = false;
-            this.xrLabel1.StylePriority.UseTextAlignment = false;
-            this.xrLabel1.Text = "xrLabel1";
-            this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.xrLabel1.TextFormatString = "{0:f}";
             // 
             // table3
             // 
@@ -676,7 +654,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.table3.OddStyleName = "DetailData3_Odd";
             this.table3.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.tableRow3});
-            this.table3.SizeF = new System.Drawing.SizeF(530.6141F, 25F);
+            this.table3.SizeF = new System.Drawing.SizeF(750F, 25F);
             // 
             // tableRow3
             // 
@@ -685,7 +663,9 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.tableCell11,
             this.tableCell12,
             this.tableCell13,
-            this.xrTableCell2});
+            this.xrTableCell2,
+            this.xrTableCell6,
+            this.xrTableCell7});
             this.tableRow3.Name = "tableRow3";
             this.tableRow3.Weight = 11.5D;
             // 
@@ -697,7 +677,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.tableCell10.Name = "tableCell10";
             this.tableCell10.StyleName = "DetailData1";
             this.tableCell10.StylePriority.UseBorders = false;
-            this.tableCell10.Weight = 0.1745503307617011D;
+            this.tableCell10.Weight = 0.12349176256687366D;
             // 
             // tableCell11
             // 
@@ -705,7 +685,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_cli]")});
             this.tableCell11.Name = "tableCell11";
             this.tableCell11.StyleName = "DetailData1";
-            this.tableCell11.Weight = 0.13626454592423981D;
+            this.tableCell11.Weight = 0.096405236448229861D;
             // 
             // tableCell12
             // 
@@ -713,7 +693,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_ven]")});
             this.tableCell12.Name = "tableCell12";
             this.tableCell12.StyleName = "DetailData1";
-            this.tableCell12.Weight = 0.12186884323873885D;
+            this.tableCell12.Weight = 0.08622043825463363D;
             // 
             // tableCell13
             // 
@@ -721,7 +701,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[fec_emis]")});
             this.tableCell13.Name = "tableCell13";
             this.tableCell13.StyleName = "DetailData1";
-            this.tableCell13.Weight = 0.13628271150071075D;
+            this.tableCell13.Weight = 0.096418120106348038D;
             // 
             // xrTableCell2
             // 
@@ -734,7 +714,33 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.xrTableCell2.Text = "xrTableCell2";
             this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.xrTableCell2.TextFormatString = "{0:f}";
-            this.xrTableCell2.Weight = 0.1423126120645723D;
+            this.xrTableCell2.Weight = 0.10068400955822801D;
+            // 
+            // xrTableCell6
+            // 
+            this.xrTableCell6.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[prec_vta]")});
+            this.xrTableCell6.Multiline = true;
+            this.xrTableCell6.Name = "xrTableCell6";
+            this.xrTableCell6.StyleName = "DetailData1";
+            this.xrTableCell6.StylePriority.UseTextAlignment = false;
+            this.xrTableCell6.Text = "xrTableCell6";
+            this.xrTableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            this.xrTableCell6.TextFormatString = "{0:n}";
+            this.xrTableCell6.Weight = 0.10402971657131102D;
+            // 
+            // xrTableCell7
+            // 
+            this.xrTableCell7.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[reng_neto]")});
+            this.xrTableCell7.Multiline = true;
+            this.xrTableCell7.Name = "xrTableCell7";
+            this.xrTableCell7.StyleName = "DetailData1";
+            this.xrTableCell7.StylePriority.UseTextAlignment = false;
+            this.xrTableCell7.Text = "xrTableCell7";
+            this.xrTableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            this.xrTableCell7.TextFormatString = "{0:n}";
+            this.xrTableCell7.Weight = 0.10402975998433857D;
             // 
             // GroupFooter1
             // 
@@ -839,7 +845,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             // artD
             // 
             this.artD.AllowNull = true;
-            this.artD.Description = "Articulo Desde:";
+            this.artD.Description = "Articulo Desde";
             dynamicListLookUpSettings1.DataMember = "Articulos";
             dynamicListLookUpSettings1.DataSource = this.DemoAdmin;
             dynamicListLookUpSettings1.DisplayMember = "art_des";
@@ -852,7 +858,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             // artH
             // 
             this.artH.AllowNull = true;
-            this.artH.Description = "Articulo Hasta:";
+            this.artH.Description = "Articulo Hasta";
             dynamicListLookUpSettings2.DataMember = "Articulos";
             dynamicListLookUpSettings2.DataSource = this.DemoAdmin;
             dynamicListLookUpSettings2.DisplayMember = "art_des";
@@ -871,10 +877,36 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             // 
             // fechaH
             // 
-            this.fechaH.Description = "Fecha Hasta:";
+            this.fechaH.Description = "Fecha Hasta";
             this.fechaH.Name = "fechaH";
             this.fechaH.Type = typeof(System.DateTime);
             this.fechaH.ValueInfo = "2000-01-01";
+            // 
+            // cliDesde
+            // 
+            this.cliDesde.AllowNull = true;
+            this.cliDesde.Description = "Cliente Desde";
+            dynamicListLookUpSettings3.DataMember = "Clientes";
+            dynamicListLookUpSettings3.DataSource = this.DemoAdmin;
+            dynamicListLookUpSettings3.DisplayMember = "cli_des";
+            dynamicListLookUpSettings3.SortMember = "co_cli";
+            dynamicListLookUpSettings3.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            dynamicListLookUpSettings3.ValueMember = "co_cli";
+            this.cliDesde.LookUpSettings = dynamicListLookUpSettings3;
+            this.cliDesde.Name = "cliDesde";
+            // 
+            // cliHasta
+            // 
+            this.cliHasta.AllowNull = true;
+            this.cliHasta.Description = "Cliente Hasta";
+            dynamicListLookUpSettings4.DataMember = "Clientes";
+            dynamicListLookUpSettings4.DataSource = this.DemoAdmin;
+            dynamicListLookUpSettings4.DisplayMember = "cli_des";
+            dynamicListLookUpSettings4.SortMember = "co_cli";
+            dynamicListLookUpSettings4.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            dynamicListLookUpSettings4.ValueMember = "co_cli";
+            this.cliHasta.LookUpSettings = dynamicListLookUpSettings4;
+            this.cliHasta.Name = "cliHasta";
             // 
             // RepFacturaVentaxArt
             // 
@@ -898,7 +930,9 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.artD,
             this.artH,
             this.fechaD,
-            this.fechaH});
+            this.fechaH,
+            this.cliDesde,
+            this.cliHasta});
             this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.Title,
             this.GroupCaption1,

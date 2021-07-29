@@ -314,6 +314,44 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        public ProfitTMResponse getSuppliers()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<Supplier> results = new List<Supplier>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saProveedor", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(new Supplier()
+                                {
+                                    ID = reader["co_prov"].ToString(),
+                                    Name = reader["prov_des"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = results;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+        
         public ProfitTMResponse getTypes()
         {
             ProfitTMResponse response = new ProfitTMResponse();
