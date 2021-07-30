@@ -52,6 +52,8 @@ namespace ProfitTM.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session["user"] = null;
+
             return RedirectToAction("Index", "Home");
         }
     }

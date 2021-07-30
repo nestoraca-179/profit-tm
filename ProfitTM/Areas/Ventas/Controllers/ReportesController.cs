@@ -75,7 +75,12 @@ namespace ProfitTM.Areas.Ventas.Controllers
                         foreach (string str in cols.Split(','))
                         {
                             if (!str.Contains("$"))
-                                colsToShow.Add(str);
+                            {
+                                if (str.Contains("#"))
+                                    colsToShow.Add(str.Replace("#", ""));
+                                else
+                                    colsToShow.Add(str);
+                            }
                         }
                         foreach (string str in fields.Split(','))
                         {

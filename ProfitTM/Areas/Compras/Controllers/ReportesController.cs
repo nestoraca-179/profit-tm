@@ -76,7 +76,12 @@ namespace ProfitTM.Areas.Compras.Controllers
                         foreach (string str in cols.Split(','))
                         {
                             if (!str.Contains("$"))
-                                colsToShow.Add(str);
+                            {
+                                if (str.Contains("#"))
+                                    colsToShow.Add(str.Replace("#", ""));
+                                else
+                                    colsToShow.Add(str);
+                            }
                         }
                         foreach (string str in fields.Split(','))
                         {
@@ -113,6 +118,24 @@ namespace ProfitTM.Areas.Compras.Controllers
                     FormsAuthentication.SignOut();
                     return RedirectToAction("Index", "Home", new { area = "", message = msg });
                 }
+            }
+        }
+
+        public ActionResult Reporte(string name)
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
+
+            ViewBag.report = name;
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else
+            {
+                return View();
             }
         }
     }

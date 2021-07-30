@@ -78,13 +78,19 @@ namespace ProfitTM.Areas.Inventario.Controllers
                             }
                         }
 
+                        foreach (string str in cols.Split(','))
+                        {
+                            if (!str.Contains("$"))
+                            {
+                                if (str.Contains("#"))
+                                    colsToShow.Add(str.Replace("#", ""));
+                                else
+                                    colsToShow.Add(str);
+                            }
+                        }
                         foreach (string str in fields.Split(','))
                         {
                             fieldsToShow.Add(str);
-                        }
-                        foreach (string str in cols.Split(','))
-                        {
-                            colsToShow.Add(str);
                         }
 
                         ProfitTMResponse result = sqlController.getResultsReports(proc, cols, parameters, qParam);

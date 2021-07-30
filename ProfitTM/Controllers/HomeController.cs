@@ -16,8 +16,17 @@ namespace ProfitTM.Controllers
         // Vista principal del login
         public ActionResult Index(string message = "")
         {
+            ViewBag.user = Session["user"];
             ViewBag.Message = message;
-            return View();
+
+            if (ViewBag.user != null)
+            {
+                return RedirectToAction(Session["home"].ToString());
+            }
+            else
+            {
+                return View();
+            }
         }
 
         // Seleccion de aplicativo

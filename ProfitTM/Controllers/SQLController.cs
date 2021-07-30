@@ -645,7 +645,17 @@ namespace ProfitTM.Controllers
                                             deleted.Add(key);
                                         }
 
-                                        item.Add(key, reader[key].ToString().Trim());
+                                        if (key.Contains("#"))
+                                        {
+                                            key = key.Remove(key.Length - 1);
+
+                                            double value_d = double.Parse(reader[key].ToString().Trim());
+                                            item.Add(key, value_d.ToString("N2"));
+                                        }
+                                        else
+                                        {
+                                            item.Add(key, reader[key].ToString().Trim());
+                                        }
                                     }
                                     else
                                     {
@@ -656,7 +666,7 @@ namespace ProfitTM.Controllers
                                         str = str.Remove(str.Length - 1);
 
                                         string[] opers = str.Split(new string[] { "  " }, StringSplitOptions.None);
-
+                                        
                                         List<double> resultsDouble = new List<double>();
                                         List<string> operators = new List<string>();
 
@@ -701,8 +711,7 @@ namespace ProfitTM.Controllers
                                             }
                                         }
 
-                                        result = Math.Truncate(result * 100) / 100;
-                                        item.Add(nameField, result.ToString());
+                                        item.Add(nameField, result.ToString("N2"));
                                     }
                                 }
 

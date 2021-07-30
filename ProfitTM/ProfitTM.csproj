@@ -194,6 +194,8 @@
     <Content Include="Areas\Ventas\Views\Reportes\_RepTotalVentaxArticuloPartial.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\_RepClienteMasVentaPartial.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\Index.cshtml" />
+    <Content Include="Areas\Compras\Views\Reportes\_RepCompraxArtPartial.cshtml" />
+    <Content Include="Areas\Compras\Views\Reportes\Reporte.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -275,7 +277,11 @@
     <Compile Include="Areas\Compras\ComprasAreaRegistration.cs" />
     <Compile Include="Areas\Compras\Controllers\ProcesosController.cs" />
     <Compile Include="Areas\Compras\Controllers\ReportesController.cs" />
+    <Compile Include="Areas\Compras\Controllers\RepsController.cs" />
     <Compile Include="Areas\Compras\Controllers\TablasController.cs" />
+    <Compile Include="Areas\Compras\Reports\RepCompraxArt.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\Inventario\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Inventario\Controllers\RepsController.cs" />
     <Compile Include="Areas\Inventario\InventarioAreaRegistration.cs" />
@@ -339,6 +345,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Compras\Data\" />
     <Folder Include="Areas\Compras\Views\Procesos\" />
+    <Folder Include="Areas\Compras\Views\Reps\" />
     <Folder Include="Areas\Compras\Views\SQL\" />
     <Folder Include="Areas\Inventario\Data\" />
     <Folder Include="Areas\Inventario\Views\Reps\" />
@@ -350,6 +357,9 @@
     <Folder Include="Views\SQL\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Areas\Compras\Reports\RepCompraxArt.resx">
+      <DependentUpon>RepCompraxArt.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Areas\Inventario\Reports\RepArticuloConCosto.resx">
       <DependentUpon>RepArticuloConCosto.cs</DependentUpon>
     </EmbeddedResource>
