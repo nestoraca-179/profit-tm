@@ -196,6 +196,8 @@
     <Content Include="Areas\Compras\Views\Reportes\Index.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\_RepCompraxArtPartial.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\Reporte.cshtml" />
+    <Content Include="Areas\Compras\Views\Reportes\_RepTotalCompraxArticuloPartial.cshtml" />
+    <Content Include="Areas\Compras\Views\Reportes\_RepProveedorMasCompraPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -282,6 +284,12 @@
     <Compile Include="Areas\Compras\Reports\RepCompraxArt.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Areas\Compras\Reports\RepProveedorMasCompra.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\Compras\Reports\RepTotalCompraxArticulo.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\Inventario\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Inventario\Controllers\RepsController.cs" />
     <Compile Include="Areas\Inventario\InventarioAreaRegistration.cs" />
@@ -359,6 +367,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Areas\Compras\Reports\RepCompraxArt.resx">
       <DependentUpon>RepCompraxArt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\Compras\Reports\RepProveedorMasCompra.resx">
+      <DependentUpon>RepProveedorMasCompra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\Compras\Reports\RepTotalCompraxArticulo.resx">
+      <DependentUpon>RepTotalCompraxArticulo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Inventario\Reports\RepArticuloConCosto.resx">
       <DependentUpon>RepArticuloConCosto.cs</DependentUpon>
