@@ -97,13 +97,13 @@
                             </tbody>
                         </table>
                         <div style="margin-top: 10px; display: flex; justify-content: space-between">
+                            <a href="/Compras/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
                             @{
                                 if (!string.IsNullOrEmpty(ViewBag.format))
                                 {
                                     <a href="/Compras/Reportes/Reporte?name=@ViewBag.format" class="btn btn-primary">Ver Reporte</a>
                                 }
                             }
-                            <a href="/Compras/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
                         </div>
                     }
                     else

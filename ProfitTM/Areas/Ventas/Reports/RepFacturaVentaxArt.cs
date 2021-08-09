@@ -52,11 +52,9 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
     private XRLabel label2;
     private GroupFooterBand GroupFooter2;
     private XRPanel panel1;
-    private XRLabel label3;
     private XRLabel label4;
     private ReportFooterBand ReportFooter;
     private XRPanel panel2;
-    private XRLabel label6;
     private XRLabel label7;
     private XRTableCell xrTableCell1;
     private XRTableCell xrTableCell3;
@@ -192,11 +190,9 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.label2 = new DevExpress.XtraReports.UI.XRLabel();
             this.GroupFooter2 = new DevExpress.XtraReports.UI.GroupFooterBand();
             this.panel1 = new DevExpress.XtraReports.UI.XRPanel();
-            this.label3 = new DevExpress.XtraReports.UI.XRLabel();
             this.label4 = new DevExpress.XtraReports.UI.XRLabel();
             this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
             this.panel2 = new DevExpress.XtraReports.UI.XRPanel();
-            this.label6 = new DevExpress.XtraReports.UI.XRLabel();
             this.label7 = new DevExpress.XtraReports.UI.XRLabel();
             this.artD = new DevExpress.XtraReports.Parameters.Parameter();
             this.artH = new DevExpress.XtraReports.Parameters.Parameter();
@@ -461,17 +457,17 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             // 
             // pageInfo1
             // 
-            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(6.00001F, 6.00001F);
+            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 6.00001F);
             this.pageInfo1.Name = "pageInfo1";
             this.pageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
-            this.pageInfo1.SizeF = new System.Drawing.SizeF(400.7404F, 23F);
+            this.pageInfo1.SizeF = new System.Drawing.SizeF(371.3237F, 23F);
             this.pageInfo1.StyleName = "PageInfo";
             // 
             // pageInfo2
             // 
-            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(406.7404F, 6.00001F);
+            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(391.1154F, 6.00001F);
             this.pageInfo2.Name = "pageInfo2";
-            this.pageInfo2.SizeF = new System.Drawing.SizeF(339.2596F, 23F);
+            this.pageInfo2.SizeF = new System.Drawing.SizeF(358.8846F, 23F);
             this.pageInfo2.StyleName = "PageInfo";
             this.pageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             this.pageInfo2.TextFormatString = "Página {0} de {1}";
@@ -530,7 +526,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.xrTableCell1.StyleName = "GroupCaption1";
             this.xrTableCell1.StylePriority.UseForeColor = false;
             this.xrTableCell1.Text = "xrTableCell1";
-            this.xrTableCell1.Weight = 0.17455019580834619D;
+            this.xrTableCell1.Weight = 0.13964185585493771D;
             // 
             // tableCell2
             // 
@@ -538,7 +534,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[art_des]")});
             this.tableCell2.Name = "tableCell2";
             this.tableCell2.StyleName = "GroupData1";
-            this.tableCell2.Weight = 0.8308115657275702D;
+            this.tableCell2.Weight = 0.86571990568097867D;
             // 
             // GroupHeader2
             // 
@@ -581,7 +577,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.tableCell3.StylePriority.UseTextAlignment = false;
             this.tableCell3.Text = "N° Documento";
             this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell3.Weight = 0.17455024890400792D;
+            this.tableCell3.Weight = 0.13964184612066916D;
             // 
             // tableCell4
             // 
@@ -590,7 +586,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.tableCell4.StylePriority.UseTextAlignment = false;
             this.tableCell4.Text = "Cliente";
             this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell4.Weight = 0.13626453342944989D;
+            this.tableCell4.Weight = 0.11392314296654735D;
             // 
             // tableCell5
             // 
@@ -599,7 +595,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.tableCell5.StylePriority.UseTextAlignment = false;
             this.tableCell5.Text = "Vendedor";
             this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell5.Weight = 0.12186882988600517D;
+            this.tableCell5.Weight = 0.13862487017641478D;
             // 
             // tableCell6
             // 
@@ -608,7 +604,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.tableCell6.StylePriority.UseTextAlignment = false;
             this.tableCell6.Text = "Fecha";
             this.tableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell6.Weight = 0.13628277169420533D;
+            this.tableCell6.Weight = 0.2144776025196222D;
             // 
             // xrTableCell3
             // 
@@ -618,7 +614,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.xrTableCell3.StylePriority.UseTextAlignment = false;
             this.xrTableCell3.Text = "Cantidad";
             this.xrTableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell3.Weight = 0.14231245813969431D;
+            this.xrTableCell3.Weight = 0.10461138027010911D;
             // 
             // xrTableCell4
             // 
@@ -677,7 +673,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.tableCell10.Name = "tableCell10";
             this.tableCell10.StyleName = "DetailData1";
             this.tableCell10.StylePriority.UseBorders = false;
-            this.tableCell10.Weight = 0.12349176256687366D;
+            this.tableCell10.Weight = 0.098794612146163335D;
             // 
             // tableCell11
             // 
@@ -685,7 +681,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_cli]")});
             this.tableCell11.Name = "tableCell11";
             this.tableCell11.StyleName = "DetailData1";
-            this.tableCell11.Weight = 0.096405236448229861D;
+            this.tableCell11.Weight = 0.080598994480593558D;
             // 
             // tableCell12
             // 
@@ -693,7 +689,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_ven]")});
             this.tableCell12.Name = "tableCell12";
             this.tableCell12.StyleName = "DetailData1";
-            this.tableCell12.Weight = 0.08622043825463363D;
+            this.tableCell12.Weight = 0.098075088979466346D;
             // 
             // tableCell13
             // 
@@ -701,7 +697,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[fec_emis]")});
             this.tableCell13.Name = "tableCell13";
             this.tableCell13.StyleName = "DetailData1";
-            this.tableCell13.Weight = 0.096418120106348038D;
+            this.tableCell13.Weight = 0.15173982590073556D;
             // 
             // xrTableCell2
             // 
@@ -714,7 +710,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.xrTableCell2.Text = "xrTableCell2";
             this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.xrTableCell2.TextFormatString = "{0:f}";
-            this.xrTableCell2.Weight = 0.10068400955822801D;
+            this.xrTableCell2.Weight = 0.074011045427354413D;
             // 
             // xrTableCell6
             // 
@@ -770,20 +766,11 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             // panel1
             // 
             this.panel1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.label3,
             this.label4});
             this.panel1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.panel1.Name = "panel1";
             this.panel1.SizeF = new System.Drawing.SizeF(750F, 30.12721F);
             this.panel1.StyleName = "TotalBackground1";
-            // 
-            // label3
-            // 
-            this.label3.LocationFloat = new DevExpress.Utils.PointFloat(569.7843F, 6.000007F);
-            this.label3.Name = "label3";
-            this.label3.SizeF = new System.Drawing.SizeF(52.34198F, 14.88444F);
-            this.label3.StyleName = "TotalCaption1";
-            this.label3.Text = "SUM";
             // 
             // label4
             // 
@@ -798,7 +785,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
             this.label4.Summary = xrSummary1;
             this.label4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.label4.TextFormatString = "{0:f}";
+            this.label4.TextFormatString = "{0:n}";
             this.label4.WordWrap = false;
             // 
             // ReportFooter
@@ -811,20 +798,11 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             // panel2
             // 
             this.panel2.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.label6,
             this.label7});
             this.panel2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.panel2.Name = "panel2";
             this.panel2.SizeF = new System.Drawing.SizeF(750F, 49.38444F);
             this.panel2.StyleName = "GrandTotalBackground1";
-            // 
-            // label6
-            // 
-            this.label6.LocationFloat = new DevExpress.Utils.PointFloat(569.7844F, 10.00001F);
-            this.label6.Name = "label6";
-            this.label6.SizeF = new System.Drawing.SizeF(52.34198F, 14.88444F);
-            this.label6.StyleName = "GrandTotalCaption1";
-            this.label6.Text = "SUM";
             // 
             // label7
             // 
@@ -839,7 +817,7 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             xrSummary2.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
             this.label7.Summary = xrSummary2;
             this.label7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.label7.TextFormatString = "{0:f}";
+            this.label7.TextFormatString = "{0:n}";
             this.label7.WordWrap = false;
             // 
             // artD

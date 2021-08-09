@@ -264,17 +264,17 @@ public class RepStockArticulos : DevExpress.XtraReports.UI.XtraReport
             // 
             // pageInfo1
             // 
-            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(6F, 6F);
+            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(6.00001F, 6.00001F);
             this.pageInfo1.Name = "pageInfo1";
             this.pageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
-            this.pageInfo1.SizeF = new System.Drawing.SizeF(313F, 23F);
+            this.pageInfo1.SizeF = new System.Drawing.SizeF(374.4583F, 23F);
             this.pageInfo1.StyleName = "PageInfo";
             // 
             // pageInfo2
             // 
-            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(331F, 6.00001F);
+            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(395.5833F, 6.00001F);
             this.pageInfo2.Name = "pageInfo2";
-            this.pageInfo2.SizeF = new System.Drawing.SizeF(415.0001F, 23F);
+            this.pageInfo2.SizeF = new System.Drawing.SizeF(354.4167F, 23F);
             this.pageInfo2.StyleName = "PageInfo";
             this.pageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             this.pageInfo2.TextFormatString = "Página {0} de {1}";
@@ -302,7 +302,7 @@ public class RepStockArticulos : DevExpress.XtraReports.UI.XtraReport
             this.table1.Name = "table1";
             this.table1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.tableRow1});
-            this.table1.SizeF = new System.Drawing.SizeF(746F, 28F);
+            this.table1.SizeF = new System.Drawing.SizeF(750F, 28F);
             // 
             // tableRow1
             // 
@@ -350,7 +350,7 @@ public class RepStockArticulos : DevExpress.XtraReports.UI.XtraReport
             this.tableCell4.StylePriority.UseTextAlignment = false;
             this.tableCell4.Text = "Stock Actual";
             this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell4.Weight = 0.16865377572866586D;
+            this.tableCell4.Weight = 0.17401570602357203D;
             // 
             // Detail
             // 
@@ -366,7 +366,7 @@ public class RepStockArticulos : DevExpress.XtraReports.UI.XtraReport
             this.table2.OddStyleName = "DetailData3_Odd";
             this.table2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.tableRow2});
-            this.table2.SizeF = new System.Drawing.SizeF(746F, 25F);
+            this.table2.SizeF = new System.Drawing.SizeF(750F, 25F);
             // 
             // tableRow2
             // 
@@ -412,7 +412,8 @@ public class RepStockArticulos : DevExpress.XtraReports.UI.XtraReport
             this.tableCell8.StyleName = "DetailData1";
             this.tableCell8.StylePriority.UseTextAlignment = false;
             this.tableCell8.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.tableCell8.Weight = 0.16865386962890624D;
+            this.tableCell8.TextFormatString = "{0:n}";
+            this.tableCell8.Weight = 0.17401579992381241D;
             // 
             // artDesde
             // 

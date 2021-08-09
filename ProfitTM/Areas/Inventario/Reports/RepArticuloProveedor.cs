@@ -341,7 +341,7 @@ public class RepArticuloProveedor : DevExpress.XtraReports.UI.XtraReport
             this.tableCell3.StylePriority.UseTextAlignment = false;
             this.tableCell3.Text = "Codigo Proveedor\r\n";
             this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell3.Weight = 0.21162081204927877D;
+            this.tableCell3.Weight = 0.15856003855234288D;
             // 
             // tableCell4
             // 
@@ -352,7 +352,7 @@ public class RepArticuloProveedor : DevExpress.XtraReports.UI.XtraReport
             this.tableCell4.StylePriority.UseTextAlignment = false;
             this.tableCell4.Text = "Proveedor";
             this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell4.Weight = 0.34923555814302881D;
+            this.tableCell4.Weight = 0.32410153445255591D;
             // 
             // tableCell2
             // 
@@ -364,7 +364,7 @@ public class RepArticuloProveedor : DevExpress.XtraReports.UI.XtraReport
             this.tableCell2.StylePriority.UseTextAlignment = false;
             this.tableCell2.Text = "Articulo";
             this.tableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell2.Weight = 0.43914362980769223D;
+            this.tableCell2.Weight = 0.517338426995101D;
             // 
             // Detail
             // 
@@ -399,7 +399,7 @@ public class RepArticuloProveedor : DevExpress.XtraReports.UI.XtraReport
             this.tableCell5.Name = "tableCell5";
             this.tableCell5.StyleName = "DetailData1";
             this.tableCell5.StylePriority.UseBorders = false;
-            this.tableCell5.Weight = 0.21162083552433891D;
+            this.tableCell5.Weight = 0.15856005953619334D;
             // 
             // tableCell6
             // 
@@ -407,7 +407,7 @@ public class RepArticuloProveedor : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[prov_des]")});
             this.tableCell6.Name = "tableCell6";
             this.tableCell6.StyleName = "DetailData1";
-            this.tableCell6.Weight = 0.34923556461758565D;
+            this.tableCell6.Weight = 0.32410153974706724D;
             // 
             // tableCell1
             // 
@@ -419,7 +419,7 @@ public class RepArticuloProveedor : DevExpress.XtraReports.UI.XtraReport
             this.tableCell1.StyleName = "DetailData1";
             this.tableCell1.StylePriority.UseBorders = false;
             this.tableCell1.Text = "tableCell1";
-            this.tableCell1.Weight = 0.43914364680819568D;
+            this.tableCell1.Weight = 0.51733844766685966D;
             // 
             // GroupFooter1
             // 

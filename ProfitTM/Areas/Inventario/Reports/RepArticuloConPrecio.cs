@@ -417,12 +417,14 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             // 
             // tableCell1
             // 
+            this.tableCell1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_art]")});
             this.tableCell1.Name = "tableCell1";
             this.tableCell1.StyleName = "GroupCaption1";
             this.tableCell1.StylePriority.UseTextAlignment = false;
             this.tableCell1.Text = "Articulo";
-            this.tableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell1.Weight = 0.12173194147896396D;
+            this.tableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+            this.tableCell1.Weight = 0.24339998589684272D;
             // 
             // tableCell2
             // 
@@ -430,7 +432,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[art_des]")});
             this.tableCell2.Name = "tableCell2";
             this.tableCell2.StyleName = "GroupData1";
-            this.tableCell2.Weight = 0.87826801157091594D;
+            this.tableCell2.Weight = 0.75659996715303723D;
             // 
             // table2
             // 
@@ -457,7 +459,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell3.StyleName = "DetailCaption1";
             this.tableCell3.StylePriority.UseBorders = false;
             this.tableCell3.StylePriority.UseTextAlignment = false;
-            this.tableCell3.Text = "Codigo";
+            this.tableCell3.Text = "Codigo Almacen";
             this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell3.Weight = 0.24339997888699419D;
             // 
@@ -466,9 +468,9 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell5.Name = "tableCell5";
             this.tableCell5.StyleName = "DetailCaption1";
             this.tableCell5.StylePriority.UseTextAlignment = false;
-            this.tableCell5.Text = "Almacen";
+            this.tableCell5.Text = "Descrip. Almacen";
             this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell5.Weight = 0.24339997888699416D;
+            this.tableCell5.Weight = 0.3211777676823161D;
             // 
             // tableCell4
             // 
@@ -477,7 +479,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell4.StylePriority.UseTextAlignment = false;
             this.tableCell4.Text = "Unidad";
             this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell4.Weight = 0.19532298695854769D;
+            this.tableCell4.Weight = 0.11754519816322576D;
             // 
             // tableCell7
             // 
@@ -518,7 +520,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             // 
             this.tableCell8.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.tableCell8.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_art]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_alma]")});
             this.tableCell8.Name = "tableCell8";
             this.tableCell8.StyleName = "DetailData1";
             this.tableCell8.StylePriority.UseBorders = false;
@@ -529,12 +531,12 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             // tableCell10
             // 
             this.tableCell10.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_alma]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[des_alma]")});
             this.tableCell10.Name = "tableCell10";
             this.tableCell10.StyleName = "DetailData1";
             this.tableCell10.StylePriority.UseTextAlignment = false;
             this.tableCell10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-            this.tableCell10.Weight = 0.24340006828950569D;
+            this.tableCell10.Weight = 0.32117777714459145D;
             // 
             // tableCell9
             // 
@@ -544,7 +546,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell9.StyleName = "DetailData1";
             this.tableCell9.StylePriority.UseTextAlignment = false;
             this.tableCell9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-            this.tableCell9.Weight = 0.19532292245273969D;
+            this.tableCell9.Weight = 0.11754521359765392D;
             // 
             // tableCell12
             // 
@@ -554,7 +556,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell12.StyleName = "DetailData1";
             this.tableCell12.StylePriority.UseTextAlignment = false;
             this.tableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.tableCell12.TextFormatString = "{0:C2}";
+            this.tableCell12.TextFormatString = "{0:n}";
             this.tableCell12.Weight = 0.31787702120278838D;
             // 
             // GroupFooter1

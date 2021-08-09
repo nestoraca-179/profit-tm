@@ -496,7 +496,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_art]")});
             this.tableCell2.Name = "tableCell2";
             this.tableCell2.StyleName = "GroupData1";
-            this.tableCell2.Weight = 0.43434234806588368D;
+            this.tableCell2.Weight = 0.26513544817590817D;
             // 
             // tableCell10
             // 
@@ -514,7 +514,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.tableCell10.StylePriority.UseBorders = false;
             this.tableCell10.StylePriority.UseFont = false;
             this.tableCell10.StylePriority.UseForeColor = false;
-            this.tableCell10.Weight = 1.4572822294169563D;
+            this.tableCell10.Weight = 1.6264891293069319D;
             // 
             // Detail
             // 
@@ -552,7 +552,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.tableCell15.Name = "tableCell15";
             this.tableCell15.StyleName = "DetailData1";
             this.tableCell15.TextFormatString = "{0:dd/MM/yyyy}";
-            this.tableCell15.Weight = 0.089377087782611372D;
+            this.tableCell15.Weight = 0.12369762915290586D;
             // 
             // tableCell11
             // 
@@ -560,7 +560,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_uni]")});
             this.tableCell11.Name = "tableCell11";
             this.tableCell11.StyleName = "DetailData1";
-            this.tableCell11.Weight = 0.1132631790308764D;
+            this.tableCell11.Weight = 0.078942637660581919D;
             // 
             // tableCell12
             // 
@@ -869,7 +869,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.tableCell8.StylePriority.UseTextAlignment = false;
             this.tableCell8.Text = "Fecha";
             this.tableCell8.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell8.Weight = 0.11685455638508756D;
+            this.tableCell8.Weight = 0.16172637631190551D;
             // 
             // tableCell4
             // 
@@ -878,7 +878,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.tableCell4.StylePriority.UseTextAlignment = false;
             this.tableCell4.Text = "Unidad";
             this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell4.Weight = 0.14808402644412025D;
+            this.tableCell4.Weight = 0.1032122065173023D;
             // 
             // tableCell5
             // 

@@ -414,7 +414,7 @@ public class RepArticuloConCostoYPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell10.StyleName = "DetailData1";
             this.tableCell10.StylePriority.UseTextAlignment = false;
             this.tableCell10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.tableCell10.TextFormatString = "{0}";
+            this.tableCell10.TextFormatString = "{0:n}";
             this.tableCell10.Weight = 0.15526254460186142D;
             // 
             // table1
@@ -536,6 +536,7 @@ public class RepArticuloConCostoYPrecio : DevExpress.XtraReports.UI.XtraReport
             // 
             // codCosto
             // 
+            this.codCosto.Description = "Costo";
             staticListLookUpSettings1.LookUpValues.Add(new DevExpress.XtraReports.Parameters.LookUpValue('1', "Ultimo Costo"));
             staticListLookUpSettings1.LookUpValues.Add(new DevExpress.XtraReports.Parameters.LookUpValue('2', "Costo Promedio"));
             staticListLookUpSettings1.LookUpValues.Add(new DevExpress.XtraReports.Parameters.LookUpValue('3', "Último Costo OM"));

@@ -22,9 +22,6 @@
                 <div class="row" style="margin-top: 15px">
                     <div class="col-sm-4 d-flex flex-column align-items-center">
                         <h5>Árbol de Reportes</h5>
-                        @*<select id="tree-report" name="treeReport" onchange="loadGroup(this.value)">
-                            <option value="#">Seleccione Árbol de Reportes...</option>
-                        </select>*@
                         <select ng-model="tree" ng-change="loadGroup(tree)" ng-disabled="!treeReports">
                             <option value="#">Seleccione Árbol de Reportes...</option>
                             <option ng-repeat="tree in treeReports" value="{{ tree.ID }}">{{ tree.Name }}</option>
@@ -32,9 +29,6 @@
                     </div>
                     <div class="col-sm-4 d-flex flex-column align-items-center">
                         <h5>Grupo de Reportes</h5>
-                        @*<select id="group-report" name="groupReport" onchange="loadReport(this.value)" disabled>
-                            <option value="#">Seleccione Grupo de Reportes...</option>
-                        </select>*@
                         <select ng-model="group" ng-change="loadReport(group)" ng-disabled="tree == '#'">
                             <option value="#">Seleccione Grupo de Reportes...</option>
                             <option ng-repeat="group in groupReports" value="{{ group.ID }}">{{ group.Name }}</option>
@@ -42,9 +36,6 @@
                     </div>
                     <div class="col-sm-4 d-flex flex-column align-items-center">
                         <h5>Reporte</h5>
-                        @*<select id="report" name="report" onchange="loadButton(this.value)" disabled>
-                            <option value="#">Seleccione Reporte...</option>
-                        </select>*@
                         <select ng-model="report" ng-change="loadButton(report)" ng-disabled="group == '#' || tree == '#'">
                             <option value="#">Seleccione Reporte...</option>
                             <option ng-repeat="report in reports" value="{{ report.ID }}" ng-show="report.Enabled">{{ report.Name }}</option>
@@ -106,13 +97,13 @@
                             </tbody>
                         </table>
                         <div style="margin-top: 10px; display: flex; justify-content: space-between">
+                            <a href="/Inventario/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
                             @{
                                 if (!string.IsNullOrEmpty(ViewBag.format))
                                 {
                                     <a href="/Inventario/Reportes/Reporte?name=@ViewBag.format" class="btn btn-primary">Ver Reporte</a>
                                 }
                             }
-                            <a href="/Inventario/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
                         </div>
                     }
                     else
@@ -377,86 +368,6 @@
             }
         }
     });
-
-    //var treeReports = [
-    //    {
-    //        id: 1,
-    //        name: "Artículos",
-    //        groups: [
-    //            {
-    //                name: "Artículos",
-    //                reports: [
-    //                    {
-    //                        name: "Articulos con su Stock",
-    //                        proc: "RepStockArticulos",
-    //                        cols: "co_art,art_des,StockActual,co_uni",
-    //                        fields: "Codigo,Nombre,Stock Actual,Unidad",
-    //                        format: "RepStockArticulosPartial",
-    //                        params: "artD,artH",
-    //                        queryParams: "sCo_Codigo_d,sCo_Codigo_h",
-    //                        enabled: true
-    //                    },
-    //                    {
-    //                        name: "Articulos con sus Precios",
-    //                        proc: "RepArticuloConPrecio",
-    //                        cols: "co_art,art_des,co_alma,co_uni,Precio01",
-    //                        fields: "Codigo,Nombre,Almacen,Unidad,Precio",
-    //                        format: "RepArticuloConPrecioPartial",
-    //                        params: "artD,artH,prc",
-    //                        queryParams: "sCo_art_d,sCo_art_h,sCo_Precio01",
-    //                        enabled: true
-    //                    },
-    //                    {
-    //                        name: "Artículos con sus Proveedores",
-    //                        proc: "RepArticuloProveedor",
-    //                        cols: "co_prov,prov_des,art_des",
-    //                        fields: "Codigo Proveedor,Proveedor,Articulo",
-    //                        format: "RepArticuloProveedorPartial",
-    //                        params: "artD,artH",
-    //                        queryParams: "sCo_ArtProv_d,sCo_ArtProv_h",
-    //                        enabled: true
-    //                    },
-    //                    {
-    //                        name: "Artículos con todos sus Costos",
-    //                        proc: "RepArticuloConCosto",
-    //                        cols: "co_art,art_des,co_uni,ultimo,promedio,reposicion,proveedor",
-    //                        fields: "Codigo,Nombre,Unidad,Ultimo Costo,Costo Promedio,Reposicion,Proveedor",
-    //                        params: "artD,artH,alm",
-    //                        queryParams: "sCo_Art_d,sCo_Art_h,sCo_Almacen",
-    //                        enabled: false
-    //                    },
-    //                    {
-    //                        name: "Artículos con todos sus Stocks",
-    //                        proc: "RepArticulosTodoStock",
-    //                        cols: "co_art,art_des,co_uni,Stock_ACT,Stock_COM,Stock_DIS(Stock_ACT  -  Stock_COM),Stock_LLE,Stock_DES",
-    //                        fields: "Codigo,Nombre,Unidad,ACT,COM,DIS,LLE,DES",
-    //                        params: "artD,artH,alm",
-    //                        queryParams: "sCo_Codigo_d,sCo_Codigo_h,sCo_Almacen",
-    //                        enabled: false
-    //                    },
-    //                    {
-    //                        name: "Comparativo de Artículos con un Precio y una Moneda",
-    //                        proc: "RepCompArtConPrecioymoneda",
-    //                        cols: "Co_art,art_des,desde,monto",
-    //                        fields: "Codigo,Nombre,Fecha de Cambio,Monto",
-    //                        params: "fecD,fecH,artD,prc,alm",
-    //                        queryParams: "dFecha_d,dFecha_h,sCo_art1,sCo_Precio,sCo_Almacen",
-    //                        enabled: false
-    //                    },
-    //                    {
-    //                        name: "Comparativo de Precios de un Artículo",
-    //                        proc: "RepCompPreciosdeArticulos",
-    //                        cols: "Co_art,art_des,desde,co_precio,des_precio,monto",
-    //                        fields: "Codigo,Nombre,Fecha de Cambio,Codigo de Precio,Tipo de Precio,Monto",
-    //                        params: "fecD,fecH,artD,prc,alm",
-    //                        queryParams: "dFecha_d,dFecha_h,sCo_art,sCo_Precio1,sCo_Almacen",
-    //                        enabled: false
-    //                    }
-    //                ]
-    //            },
-    //        ]
-    //    },
-    //];
 
     function openModal(elem, modal) {
 

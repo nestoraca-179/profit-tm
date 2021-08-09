@@ -97,13 +97,13 @@
                             </tbody>
                         </table>
                         <div style="margin-top: 10px; display: flex; justify-content: space-between">
+                            <a href="/Ventas/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
                             @{
                                 if (!string.IsNullOrEmpty(ViewBag.format))
                                 {
                                     <a href="/Ventas/Reportes/Reporte?name=@ViewBag.format" class="btn btn-primary">Ver Reporte</a>
                                 }
                             }
-                            <a href="/Ventas/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
                         </div>
                     }
                     else
@@ -316,30 +316,6 @@
             }
         }
     });
-
-    //var treeReports = [
-    //    {
-    //        id: 1,
-    //        name: "Factura",
-    //        groups: [
-    //            {
-    //                name: "Facturas de Venta",
-    //                reports: [
-    //                    {
-    //                        name: "Facturas por Articulo",
-    //                        proc: "RepFacturaVentaxArt",
-    //                        cols: "co_art,art_des,doc_num,co_cli,co_ven,co_alma,total_art,prec_vta,reng_neto",
-    //                        fields: "Codigo,Nombre,N° Documento,Cliente,Vendedor,Almacen,Cantidad,Precio,Total",
-    //                        format: "RepFacturaVentaxArtPartial",
-    //                        params: "artD,artH",
-    //                        queryParams: "cCo_Articulo_d,cCo_Articulo_h",
-    //                        enabled: true
-    //                    }
-    //                ]
-    //            },
-    //        ]
-    //    },
-    //];
 
     function openModal(elem, modal) {
 

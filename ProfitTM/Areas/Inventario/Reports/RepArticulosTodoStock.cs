@@ -528,6 +528,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             // 
             // artDesde
             // 
+            this.artDesde.AllowNull = true;
             this.artDesde.Description = "Articulo Desde";
             dynamicListLookUpSettings1.DataMember = "Articulos";
             dynamicListLookUpSettings1.DataSource = this.DemoAdmin;
@@ -540,6 +541,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             // 
             // artHasta
             // 
+            this.artHasta.AllowNull = true;
             this.artHasta.Description = "Articulo Hasta";
             dynamicListLookUpSettings2.DataMember = "Articulos";
             dynamicListLookUpSettings2.DataSource = this.DemoAdmin;
