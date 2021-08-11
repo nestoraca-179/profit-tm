@@ -198,6 +198,11 @@
     <Content Include="Areas\Compras\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\_RepTotalCompraxArticuloPartial.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\_RepProveedorMasCompraPartial.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\web.config" />
+    <Content Include="Areas\CajaBanco\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Reportes\Index.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Reportes\Reporte.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -265,6 +270,7 @@
     <Content Include="Views\Home\SeleccionProducto.cshtml" />
     <Content Include="Views\Home\SeleccionEmpresa.cshtml" />
     <Content Include="Views\Home\DashboardCont.cshtml" />
+    <Content Include="Views\Home\DashboardNomi.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -276,6 +282,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\CajaBanco\CajaBancoAreaRegistration.cs" />
+    <Compile Include="Areas\CajaBanco\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Compras\ComprasAreaRegistration.cs" />
     <Compile Include="Areas\Compras\Controllers\ProcesosController.cs" />
     <Compile Include="Areas\Compras\Controllers\ReportesController.cs" />
@@ -332,6 +340,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Bank.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Option.cs" />
@@ -351,6 +360,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\CajaBanco\Data\" />
     <Folder Include="Areas\Compras\Data\" />
     <Folder Include="Areas\Compras\Views\Procesos\" />
     <Folder Include="Areas\Compras\Views\Reps\" />

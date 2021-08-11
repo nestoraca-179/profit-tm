@@ -97,11 +97,11 @@
                             </tbody>
                         </table>
                         <div style="margin-top: 10px; display: flex; justify-content: space-between">
-                            <a href="/Compras/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
+                            <a href="/CajaBanco/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
                             @{
                                 if (!string.IsNullOrEmpty(ViewBag.format))
                                 {
-                                    <a href="/Compras/Reportes/Reporte?name=@ViewBag.format" class="btn btn-primary">Ver Reporte</a>
+                                    <a href="/CajaBanco/Reportes/Reporte?name=@ViewBag.format" class="btn btn-primary">Ver Reporte</a>
                                 }
                             }
                         </div>
@@ -111,31 +111,31 @@
                         <div class="col-sm-12 filters shadow">
                             <h3 class="text-white">Filtrar por</h3>
                             <div>
+                                <h5 class="text-white">Codigo</h5>
+                                <div class="input-search" style="margin-right: 20px;">
+                                    <input type="text" id="codD" name="paramsSent" placeholder="Desde" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCod')" data-name="codD"></i>
+                                </div>
+                                <div class="input-search" style="margin-left: 20px;">
+                                    <input type="text" id="codH" name="paramsSent" placeholder="Hasta" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCod')" data-name="codH"></i>
+                                </div>
+                            </div>
+                            <div>
                                 <h5 class="text-white">Fecha</h5>
                                 <input type="date" id="fecD" name="paramsSent" style="margin-right: 20px;" placeholder="Desde" disabled />
                                 <input type="date" id="fecH" name="paramsSent" style="margin-left: 20px;" placeholder="Hasta" disabled />
                             </div>
-                            <div>
-                                <h5 class="text-white">Articulo</h5>
-                                <div class="input-search" style="margin-right: 20px;">
-                                    <input type="text" id="artD" name="paramsSent" placeholder="Desde" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artD"></i>
-                                </div>
-                                <div class="input-search" style="margin-left: 20px;">
-                                    <input type="text" id="artH" name="paramsSent" placeholder="Hasta" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artH"></i>
-                                </div>
-                            </div>
                             <hr style="width: 100%; height: 1px; background: #7ad4f7; border-radius: 5px; margin: 0 auto;" />
                             <div>
-                                <h5 class="text-white">Proveedor</h5>
+                                <h5 class="text-white">Cuenta</h5>
                                 <div class="input-search" style="margin-right: 20px;">
-                                    <input type="text" id="proD" name="paramsSent" placeholder="Desde" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSup')" data-name="proD"></i>
+                                    <input type="text" id="cueD" name="paramsSent" placeholder="Desde" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistAcc')" data-name="cueD"></i>
                                 </div>
                                 <div class="input-search" style="margin-left: 20px;">
-                                    <input type="text" id="proH" name="paramsSent" placeholder="Hasta" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSup')" data-name="proH"></i>
+                                    <input type="text" id="cueH" name="paramsSent" placeholder="Hasta" disabled />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistAcc')" data-name="cueH"></i>
                                 </div>
                             </div>
                         </div>
@@ -151,25 +151,25 @@
         }
     </form>
     <!-- Modal 1 -->
-    <div class="modal fade" id="modalAssistProd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAssistCod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAssistLabel">Buscar Articulo</h5>
+                    <h5 class="modal-title" id="modalAssistLabel">Buscar Codigo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar producto..." />
+                        <input type="text" class="form-control" placeholder="Buscar codigo..." />
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistProd')">Buscar</button>
+                            <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistCod')">Buscar</button>
                         </div>
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
-                            foreach (var elem in ViewBag.assistProds)
+                            foreach (var elem in ViewBag.assistCods)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
                                     <td>@elem.ID</td>
@@ -182,35 +182,37 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistProd')">Seleccionar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistCod')">Seleccionar</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal 2 -->
-    <div class="modal fade" id="modalAssistSup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAssistAcc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAssistLabel">Buscar Proveedor</h5>
+                    <h5 class="modal-title" id="modalAssistLabel">Buscar Cuenta</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar proveedor..." />
+                        <input type="text" class="form-control" placeholder="Buscar cuenta..." />
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistSup')">Buscar</button>
+                            <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistAcc')">Buscar</button>
                         </div>
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
-                            foreach (var elem in ViewBag.assistSups)
+                            foreach (var elem in ViewBag.assistAccs)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
                                     <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
+                                    <td>@elem.Bank</td>
+                                    <td>@elem.Number</td>
+                                    <td>@elem.Currency</td>
                                 </tr>
                             }
                         }
@@ -219,7 +221,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistSup')">Seleccionar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistAcc')">Seleccionar</button>
                 </div>
             </div>
         </div>
@@ -247,7 +249,7 @@
         $scope.report = "#";
         $scope.completed = false;
 
-        $http.get("../../api/ProfitTMApi/GetTreeReports/Prod/Admin/Mod/COMP")
+        $http.get("../../api/ProfitTMApi/GetTreeReports/Prod/Admin/Mod/BANC")
             .then(function (response) {
 
                 console.log(response.data);

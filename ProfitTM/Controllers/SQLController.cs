@@ -542,6 +542,84 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        public ProfitTMResponse getBanks()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<Bank> results = new List<Bank>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saBanco", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(new Bank()
+                                {
+                                    ID = reader["co_ban"].ToString(),
+                                    Name = reader["des_ban"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = results;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+        
+        public ProfitTMResponse getBankAccount()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<Account> results = new List<Account>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saCuentaBancaria", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(new Account()
+                                {
+                                    ID = reader["cod_cta"].ToString(),
+                                    Bank = reader["co_ban"].ToString(),
+                                    Number = reader["num_cta"].ToString(),
+                                    Currency = reader["co_mone"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = results;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+        
         // RESULTADOS DE LAS DIFERENTES OPCIONES
 
         public ProfitTMResponse getResultsTable(string cols, string table)

@@ -7,11 +7,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace ProfitTM.Areas.Compras.Controllers
+namespace ProfitTM.Areas.CajaBanco.Controllers
 {
     public class ReportesController : Controller
     {
-        // GET: Compras/Reportes
+        // GET: CajaBanco/Reportes
         public ActionResult Index(string name = "", string proc = "", string cols = "", string fields = "", string queryParams = "", string[] paramsSent = null, string format = "")
         {
             ViewBag.user = Session["user"];
@@ -31,11 +31,11 @@ namespace ProfitTM.Areas.Compras.Controllers
                 bool error = false;
                 string msg = "";
 
-                ProfitTMResponse responseAP = sqlController.getProds();
-                ProfitTMResponse responseAS = sqlController.getSuppliers();
+                ProfitTMResponse responseAB = sqlController.getBanks();
+                ProfitTMResponse responseAA = sqlController.getBankAccount();
 
-                responses.Add(responseAP);
-                responses.Add(responseAS);
+                responses.Add(responseAB);
+                responses.Add(responseAA);
 
                 foreach (ProfitTMResponse res in responses)
                 {
@@ -50,8 +50,8 @@ namespace ProfitTM.Areas.Compras.Controllers
 
                 if (!error)
                 {
-                    ViewBag.assistProds = responseAP.Result;
-                    ViewBag.assistSups = responseAS.Result;
+                    ViewBag.assistCods = responseAB.Result;
+                    ViewBag.assistAccs = responseAA.Result;
 
                     if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(proc) && !string.IsNullOrEmpty(cols) && !string.IsNullOrEmpty(fields))
                     {

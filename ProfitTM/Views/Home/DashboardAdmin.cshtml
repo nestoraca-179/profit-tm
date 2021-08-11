@@ -526,7 +526,6 @@
         var elems = document.getElementsByClassName("myDropdown");
 
         for (var item of elems) {
-            //item.style.display = "none";
             $(item).animate({ width: 'hide' });
         }
 
@@ -541,8 +540,7 @@
             $(elem).next().animate({ width: 'show' });
             $(elem).next().css("display", "flex");
             $(elem).next().css("flex-direction", "column");
-            //elem.nextElementSibling.style.display = "flex";
-            //elem.nextElementSibling.style.flexDirection = "column";
+
             menu.classList.add("active");
             node = elem;
 
@@ -561,7 +559,6 @@
         var elems = document.getElementsByClassName("myDropdown");
 
         for (var item of elems) {
-            //item.style.display = "none";
             $(item).animate({ width: 'hide' });
         }
     }

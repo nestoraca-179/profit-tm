@@ -93,7 +93,8 @@ namespace ProfitTM.Controllers
                         Session["home"] = "DashboardCont";
                         return RedirectToAction("DashboardCont");
                     case "Nomi":
-                        break;
+                        Session["home"] = "DashboardNomi";
+                        return RedirectToAction("DashboardNomi");
                 }
             }
 
@@ -188,6 +189,56 @@ namespace ProfitTM.Controllers
                 string msg = "";
 
                 ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Cont");
+
+                responses.Add(responseOPT);
+
+                foreach (ProfitTMResponse res in responses)
+                {
+                    if (res.Status == "ERROR")
+                    {
+                        error = true;
+                        msg = res.Message;
+
+                        break;
+                    }
+                }
+
+                if (!error)
+                {
+                    Session["options"] = responseOPT.Result;
+
+                    ViewBag.options = Session["options"];
+
+                    return View();
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Index", new { message = msg });
+                }
+            }
+        }
+
+        // Dashboard nomi
+        [Authorize]
+        public ActionResult DashboardNomi()
+        {
+            ViewBag.user = Session["user"];
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
+            }
+            else
+            {
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+                SQLController sqlController = new SQLController();
+
+                bool error = false;
+                string msg = "";
+
+                ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Nomi");
 
                 responses.Add(responseOPT);
 

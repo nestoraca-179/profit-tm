@@ -31,7 +31,6 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
     private XRTableCell tableCell2;
     private XRTable table2;
     private XRTableRow tableRow2;
-    private XRTableCell tableCell3;
     private XRTableCell tableCell4;
     private XRTableCell tableCell5;
     private XRTableCell tableCell7;
@@ -49,6 +48,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
     private DevExpress.XtraReports.Parameters.Parameter codPrecio;
     private PageHeaderBand PageHeader;
     private CalculatedField Total;
+    private XRTableCell tableCell3;
 
     /// <summary>
     /// Required designer variable.
@@ -138,7 +138,6 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
             this.table2 = new DevExpress.XtraReports.UI.XRTable();
             this.tableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
-            this.tableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -156,6 +155,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.codPrecio = new DevExpress.XtraReports.Parameters.Parameter();
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
             this.Total = new DevExpress.XtraReports.UI.CalculatedField();
+            this.tableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table3)).BeginInit();
@@ -452,17 +452,6 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableRow2.Name = "tableRow2";
             this.tableRow2.Weight = 1D;
             // 
-            // tableCell3
-            // 
-            this.tableCell3.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.tableCell3.Name = "tableCell3";
-            this.tableCell3.StyleName = "DetailCaption1";
-            this.tableCell3.StylePriority.UseBorders = false;
-            this.tableCell3.StylePriority.UseTextAlignment = false;
-            this.tableCell3.Text = "Codigo Almacen";
-            this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell3.Weight = 0.24339997888699419D;
-            // 
             // tableCell5
             // 
             this.tableCell5.Name = "tableCell5";
@@ -470,7 +459,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell5.StylePriority.UseTextAlignment = false;
             this.tableCell5.Text = "Descrip. Almacen";
             this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell5.Weight = 0.3211777676823161D;
+            this.tableCell5.Weight = 0.38645555688678823D;
             // 
             // tableCell4
             // 
@@ -526,7 +515,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell8.StylePriority.UseBorders = false;
             this.tableCell8.StylePriority.UseTextAlignment = false;
             this.tableCell8.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-            this.tableCell8.Weight = 0.24339997383686013D;
+            this.tableCell8.Weight = 0.17812218342384084D;
             // 
             // tableCell10
             // 
@@ -536,7 +525,7 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.tableCell10.StyleName = "DetailData1";
             this.tableCell10.StylePriority.UseTextAlignment = false;
             this.tableCell10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-            this.tableCell10.Weight = 0.32117777714459145D;
+            this.tableCell10.Weight = 0.38645556755761074D;
             // 
             // tableCell9
             // 
@@ -629,6 +618,17 @@ public class RepArticuloConPrecio : DevExpress.XtraReports.UI.XtraReport
             this.Total.DataMember = "RepArticuloConPrecio";
             this.Total.Expression = "[Precio01]";
             this.Total.Name = "Total";
+            // 
+            // tableCell3
+            // 
+            this.tableCell3.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.tableCell3.Name = "tableCell3";
+            this.tableCell3.StyleName = "DetailCaption1";
+            this.tableCell3.StylePriority.UseBorders = false;
+            this.tableCell3.StylePriority.UseTextAlignment = false;
+            this.tableCell3.Text = "Codigo Almacen";
+            this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.tableCell3.Weight = 0.17812218968252205D;
             // 
             // RepArticuloConPrecio
             // 

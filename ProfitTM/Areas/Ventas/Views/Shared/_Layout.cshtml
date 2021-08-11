@@ -79,9 +79,9 @@
         var node = null;
 
         $(document).ready(function () {
-            if (document.getElementById("results") != null) {
+            if (document.getElementById("results-table") != null) {
 
-                $('#results').DataTable({
+                $('#results-table').DataTable({
                     "language": {
                         "lengthMenu": "Mostrar _MENU_ registros por página",
                         "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
@@ -103,26 +103,12 @@
             }
         });
 
-        window.onload = function () {
-            if (treeReports != null) {
-
-                for (var item of treeReports) {
-                    var opt = document.createElement("option");
-                    opt.text = item.name;
-                    opt.setAttribute("value", item.name);
-                    select1.appendChild(opt);
-                }
-
-            }
-        }
-
         btn.addEventListener("click", hide);
 
         function print(elem) {
             var elems = document.getElementsByClassName("myDropdown");
 
             for (var item of elems) {
-                //item.style.display = "none";
                 $(item).animate({ width: 'hide' });
             }
 
@@ -137,8 +123,7 @@
                 $(elem).next().animate({ width: 'show' });
                 $(elem).next().css("display", "flex");
                 $(elem).next().css("flex-direction", "column");
-                //elem.nextElementSibling.style.display = "flex";
-                //elem.nextElementSibling.style.flexDirection = "column";
+
                 menu.classList.add("active");
                 node = elem;
 
@@ -157,7 +142,6 @@
             var elems = document.getElementsByClassName("myDropdown");
 
             for (var item of elems) {
-                //item.style.display = "none";
                 $(item).animate({ width: 'hide' });
             }
         }
