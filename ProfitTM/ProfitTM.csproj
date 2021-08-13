@@ -155,9 +155,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\angular-min.js" />
-    <Content Include="Content\charts.js" />
+    <Content Include="Content\drilldown.js" />
+    <Content Include="Content\highcharts.js" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\module-accesibility.js" />
+    <Content Include="Content\module-exportdata.js" />
+    <Content Include="Content\module-exporting.js" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -203,6 +207,7 @@
     <Content Include="Areas\CajaBanco\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\Index.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\Reporte.cshtml" />
+    <Content Include="Areas\Ventas\Views\Tablas\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -321,6 +326,7 @@
     </Compile>
     <Compile Include="Areas\Ventas\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Ventas\Controllers\RepsController.cs" />
+    <Compile Include="Areas\Ventas\Controllers\TablasController.cs" />
     <Compile Include="Areas\Ventas\Reports\RepClienteMasVenta.cs">
       <SubType>Component</SubType>
     </Compile>

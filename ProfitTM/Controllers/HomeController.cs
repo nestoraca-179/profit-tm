@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -88,17 +89,17 @@ namespace ProfitTM.Controllers
                 {
                     case "Admin":
                         Session["home"] = "DashboardAdmin";
-                        return RedirectToAction("DashboardAdmin");
+                        break;
                     case "Cont":
                         Session["home"] = "DashboardCont";
-                        return RedirectToAction("DashboardCont");
+                        break;
                     case "Nomi":
                         Session["home"] = "DashboardNomi";
-                        return RedirectToAction("DashboardNomi");
+                        break;
                 }
-            }
 
-            return null;
+                return RedirectToAction(Session["home"].ToString());
+            }
         }
 
         // Dashboard admin
@@ -158,6 +159,11 @@ namespace ProfitTM.Controllers
                     ViewBag.mostActiveSuppliers = responseMAS.Result;
                     ViewBag.mostMorousSuppliers = responseMMS.Result;
                     ViewBag.options = Session["options"];
+
+                    NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
+                    formato.CurrencyGroupSeparator = ".";
+                    formato.NumberDecimalSeparator = ",";
+                    ViewBag.formato = formato;
 
                     return View();
                 }

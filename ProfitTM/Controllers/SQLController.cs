@@ -841,8 +841,7 @@ namespace ProfitTM.Controllers
                                 {
                                     ID = reader["co_art"].ToString().Trim(),
                                     Name = reader["art_des"].ToString().Trim(),
-                                    Stock = double.Parse(reader["total"].ToString()),
-                                    Price = double.Parse(reader["monto"].ToString())
+                                    Stock = double.Parse(reader["total"].ToString())
                                 });
 
                                 i++;
@@ -891,8 +890,7 @@ namespace ProfitTM.Controllers
                                 {
                                     ID = reader["co_art"].ToString().Trim(),
                                     Name = reader["art_des"].ToString().Trim(),
-                                    Stock = double.Parse(reader["total"].ToString()),
-                                    Price = double.Parse(reader["monto"].ToString())
+                                    Stock = double.Parse(reader["total"].ToString())
                                 });
 
                                 i++;
