@@ -352,7 +352,7 @@ namespace ProfitTM.Controllers
             return response;
         }
         
-        public ProfitTMResponse getTypes()
+        public ProfitTMResponse getTypesSup()
         {
             ProfitTMResponse response = new ProfitTMResponse();
             List<Models.Type> results = new List<Models.Type>();
@@ -619,7 +619,121 @@ namespace ProfitTM.Controllers
 
             return response;
         }
-        
+
+        public ProfitTMResponse getTypesCli()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<Models.Type> results = new List<Models.Type>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saTipoCliente", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(new Models.Type()
+                                {
+                                    ID = reader["tip_cli"].ToString(),
+                                    Name = reader["des_tipo"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = results;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        public ProfitTMResponse getSellers()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<Seller> results = new List<Seller>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saVendedor", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(new Seller()
+                                {
+                                    ID = reader["co_ven"].ToString(),
+                                    Name = reader["ven_des"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = results;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        public ProfitTMResponse getConds()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<Cond> results = new List<Cond>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saCondicionPago", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(new Cond()
+                                {
+                                    ID = reader["co_cond"].ToString(),
+                                    Name = reader["cond_des"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = results;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
         // RESULTADOS DE LAS DIFERENTES OPCIONES
 
         public ProfitTMResponse getResultsTable(string cols, string table)

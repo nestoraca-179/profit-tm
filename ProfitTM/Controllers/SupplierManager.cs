@@ -20,6 +20,12 @@ namespace ProfitTM.Controllers
             this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
         }
 
+        public SupplierManager(string connect)
+        {
+            this.connect = connect;
+            this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
+        }
+
         public ProfitTMResponse addSupplier(Supplier supplier)
         {
             ProfitTMResponse response = new ProfitTMResponse();
@@ -34,7 +40,6 @@ namespace ProfitTM.Controllers
             query.Append("@sdFecha_reg = '" + DateTime.Now.ToString("MM-dd-yyyy") + "', ");
             query.Append("@sTip_Pro = '" + supplier.Type + "', ");
             query.Append("@sRif = '" + supplier.RIF + "', ");
-            query.Append("@sNit = '" + supplier.NIT + "', ");
             query.Append("@sEmail = '" + supplier.Email + "', ");
             query.Append("@sTelefonos = '" + supplier.Phone + "', ");
             query.Append("@sDirec1 = '" + supplier.Address + "', ");

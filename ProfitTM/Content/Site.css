@@ -412,9 +412,9 @@ input#username::placeholder, input#pass::placeholder {
 .container-option{
     width: 100%;
     height: 100%;
-    position: absolute;
-    left: 7%;
-    padding: 20px 0;
+    /*position: absolute;
+    left: 7%;*/
+    padding: 20px;
 }
 .form-group{
     margin: 0;

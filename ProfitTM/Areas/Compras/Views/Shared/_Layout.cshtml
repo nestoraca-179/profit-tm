@@ -79,28 +79,24 @@
         var node = null;
 
         $(document).ready(function () {
-            if (document.getElementById("results-table") != null) {
-
-                $('#results-table').DataTable({
-                    "language": {
-                        "lengthMenu": "Mostrar _MENU_ registros por página",
-                        "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
-                        "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
-                        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                        "processing": "Procesando...",
-                        "search": "Buscar:   ",
-                        "zeroRecords": "No se encontraron resultados",
-                        "paginate": {
-                            "first": "Primero",
-                            "last": "Ultimo",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        },
+            $("#results-table").DataTable({
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
+                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "processing": "Procesando...",
+                    "search": "Buscar:   ",
+                    "zeroRecords": "No hay resultados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
                     },
-                    "lengthMenu": [10, 25, 50, 75, 100]
-                });
-
-            }
+                },
+                "lengthMenu": [10, 25, 50, 75, 100]
+            });
         });
 
         btn.addEventListener("click", hide);

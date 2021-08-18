@@ -2,13 +2,13 @@
     ViewData["Title"] = "Tablas";
     ViewData["home"] = Session["home"];
 }
-<div class="container container-option">
-    @{
-        if (!string.IsNullOrEmpty(ViewBag.message))
-        {
-            <div style="width: 100%;" class="@ViewBag.classAlert">@ViewBag.message</div>
-        }
+<style>
+    .container {
+        max-width: 100%;
     }
+</style>
+<div class="container container-option" ng-app="Tables" ng-controller="controller">
+    <div ng-if="result" style="width: 100%;" class="{{ result.Class }}">{{ result.Message }}</div>
     <form action="" method="post">
         <div class="form-row">
             <div class="form-group col-sm-2">
@@ -78,7 +78,7 @@
             <!-- Modal Agregar Proveedor -->
             <div class="modal fade" id="modalProveedorAdd" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
-                    <form action="" method="post" class="modal-content">
+                    <form action="" method="post" id="formAdd" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
                             <h5 class="modal-title">Agregar Proveedor</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -88,60 +88,54 @@
                         <div class="modal-body">
                             <div class="form-group row">
                                 <div class="col-sm-2">
-                                    <input type="text" id="codigo" name="paramsProvAdd" placeholder="Código" required />
+                                    <input type="text" id="codigo" placeholder="Código" required ng-model="formAdd.id" />
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" id="nombre" name="paramsProvAdd" placeholder="Nombre" required />
+                                    <input type="text" id="nombre" placeholder="Nombre" required ng-model="formAdd.name" />
                                 </div>
                                 <div class="col-sm-4 input-search">
-                                    <input type="text" id="tipo" name="paramsProvAdd" placeholder="Tipo" onfocus="this.blur()" style="max-width: 70%;" required />
+                                    <input type="text" id="tipo" placeholder="Tipo" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.type" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistType')" data-name="tipo"></i>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
-                                <div class="col-sm-6">
-                                    <input type="text" id="rif" name="paramsProvAdd" placeholder="RIF" required />
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" id="nit" name="paramsProvAdd" placeholder="NIT" />
-                                </div>
-                            </div>
-                            <div class="form-group row" style="margin-top: 30px">
                                 <div class="col-sm-3 input-search">
-                                    <input type="text" id="zona" name="paramsProvAdd" placeholder="Zona" onfocus="this.blur()" style="max-width: 70%;" required />
+                                    <input type="text" id="zona" placeholder="Zona" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.zone" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistZone')" data-name="zona"></i>
                                 </div>
                                 <div class="col-sm-3 input-search">
-                                    <input type="text" id="cuenta" name="paramsProvAdd" placeholder="Cta Ingr/Egr" onfocus="this.blur()" style="max-width: 70%;" required />
+                                    <input type="text" id="cuenta" placeholder="Cta Ingr/Egr" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.account" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistAccount')" data-name="cuenta"></i>
                                 </div>
                                 <div class="col-sm-3 input-search">
-                                    <input type="text" id="pais" name="paramsProvAdd" placeholder="País" onfocus="this.blur()" style="max-width: 70%;" required />
+                                    <input type="text" id="pais" placeholder="País" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.country" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCountry')" data-name="pais"></i>
                                 </div>
                                 <div class="col-sm-3 input-search">
-                                    <input type="text" id="segmento" name="paramsProvAdd" placeholder="Segmento" onfocus="this.blur()" style="max-width: 70%;" required />
+                                    <input type="text" id="segmento" placeholder="Segmento" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.segment" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSegment')" data-name="segmento"></i>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
-                                <div class="col-sm-6">
-                                    <input type="email" id="email" name="paramsProvAdd" placeholder="Email" />
+                                <div class="col-sm-4">
+                                    <input type="text" id="rif" placeholder="RIF" required ng-model="formAdd.rif" />
                                 </div>
-                                <div class="col-sm-6">
-                                    <input type="text" id="telefono" name="paramsProvAdd" placeholder="Teléfono" />
+                                <div class="col-sm-4">
+                                    <input type="email" id="email" placeholder="Email" ng-model="formAdd.email" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" id="telefono" placeholder="Teléfono" ng-model="formAdd.phone" />
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
                                 <div class="col-sm-12">
-                                    @*<input type="text" id="direccion" name="paramsProvAdd" placeholder="Direccion" />*@
-                                    <textarea id="direccion" name="paramsProvAdd" placeholder="Direccion"></textarea>
+                                    <textarea id="direccion" placeholder="Direccion" ng-model="formAdd.address"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="addSupplier()">Guardar</button>
                         </div>
                     </form>
                 </div>
@@ -149,7 +143,7 @@
             <!-- Modal Editar Proveedor -->
             <div class="modal fade" id="modalProveedorEdit" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
-                    <form action="" method="post" class="modal-content">
+                    <form action="" method="post" id="formEdit" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
                             <h5 class="modal-title">Editar Proveedor</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -159,33 +153,32 @@
                         <div class="modal-body">
                             <div class="form-group row">
                                 <div class="col-sm-4">
-                                    <input type="text" id="codigoEdit" name="paramsProvEdit" placeholder="Código" style="background: #d5d5d5;" readonly onfocus="this.blur()" />
+                                    <input type="text" id="codigoEdit" placeholder="Código" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.id" />
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" id="nombreEdit" name="paramsProvEdit" placeholder="Nombre" />
+                                    <input type="text" id="nombreEdit" placeholder="Nombre" required ng-model="formEdit.name" />
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" id="rifEdit" name="paramsProvEdit" placeholder="RIF" required />
+                                    <input type="text" id="rifEdit" placeholder="RIF" required ng-model="formEdit.rif" />
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
                                 <div class="col-sm-6">
-                                    <input type="email" id="emailEdit" name="paramsProvEdit" placeholder="Email" />
+                                    <input type="email" id="emailEdit" placeholder="Email" ng-model="formEdit.email" />
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" id="telefonoEdit" name="paramsProvEdit" placeholder="Teléfono" />
+                                    <input type="text" id="telefonoEdit" placeholder="Teléfono" ng-model="formEdit.phone" />
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
                                 <div class="col-sm-12">
-                                    @*<input type="text" id="direccionEdit" name="paramsProvEdit" placeholder="Direccion" />*@
-                                    <textarea id="direccionEdit" name="paramsProvEdit" placeholder="Direccion"></textarea>
+                                    <textarea id="direccionEdit" placeholder="Direccion" ng-model="formEdit.address"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="editSupplier()">Actualizar</button>
                         </div>
                     </form>
                 </div>
@@ -193,7 +186,7 @@
             <!-- Modal Eliminar Proveedor -->
             <div class="modal fade" id="modalProveedorDelete" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
-                    <form action="" method="post" class="modal-content">
+                    <form action="" method="post" id="formDelete" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
                             <h5 class="modal-title">Eliminar Proveedor</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -203,11 +196,11 @@
                         <div class="modal-body">
                             <i class="text-center fas fa-exclamation-triangle" style="width: 100%; font-size: 40px; margin-bottom: 20px; color: #ffd43b;"></i>
                             <h4 class="text-center">¿Estás seguro que desesas eliminar este registro?</h4>
-                            <input type="hidden" id="codigoDelete" name="ID" value="" />
+                            <input type="hidden" id="codigoDelete" value="" ng-model="idDelete"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Eliminar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="deleteSupplier()">Eliminar</button>
                         </div>
                     </form>
                 </div>
@@ -224,10 +217,7 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar tipo..." />
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistType')">Buscar</button>
-                                </div>
+                                <input type="text" class="form-control" placeholder="Buscar tipo..." onkeyup="search('modalAssistType')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
@@ -261,10 +251,7 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar zona..." />
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistZone')">Buscar</button>
-                                </div>
+                                <input type="text" class="form-control" placeholder="Buscar zona..." onkeyup="search('modalAssistZone')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
@@ -298,10 +285,7 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar cuenta..." />
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistAccount')">Buscar</button>
-                                </div>
+                                <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalAssistAccount')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
@@ -335,10 +319,7 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar país..." />
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistCountry')">Buscar</button>
-                                </div>
+                                <input type="text" class="form-control" placeholder="Buscar pais..." onkeyup="search('modalAssistCountry')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
@@ -372,10 +353,7 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar segmento..." />
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistSegment')">Buscar</button>
-                                </div>
+                                <input type="text" class="form-control" placeholder="Buscar segmento..." onkeyup="search('modalAssistSegment')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
@@ -404,26 +382,113 @@
         }
     }
 </div>
+<script src="~/Content/angular-min.js"></script>
 <script>
-    $(document).ready(function () {
-        $("#results-table").DataTable({
-            "language": {
-                "lengthMenu": "Mostrar _MENU_ registros por página",
-                "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
-                "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
-                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "processing": "Procesando...",
-                "search": "Buscar:   ",
-                "zeroRecords": "No hay resultados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                },
-            },
-            "lengthMenu": [10, 25, 50, 75, 100]
-        });
+    var app = angular.module("Tables", []);
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.formAdd = {};
+        $scope.formEdit = {};
+        $scope.idDelete = "0";
+
+        $scope.addSupplier = function () {
+
+            if ($("#formAdd")[0].checkValidity()) {
+
+                $("#formAdd input, #formAdd textarea").change();
+                console.log($scope.formAdd);
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/AddSupplier/',
+                    data: $scope.formAdd,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    console.log(response.data);
+                    $scope.result = response.data;
+
+                    $("#modalProveedorAdd").modal("hide");
+                    if ($scope.result.Status == "OK") {
+
+                        $scope.result.Class = "alert alert-success";
+                        $scope.result.Message = "Proveedor agregado con éxito";
+
+                        setTimeout(() => location.href = "/Compras/Tablas/Index?option=0", 2000);
+
+                    } else
+                        $scope.result.Class = "alert alert-danger";
+
+                });
+            }
+        }
+
+        $scope.editSupplier = function () {
+
+            if ($("#formEdit")[0].checkValidity()) {
+
+                $("#formEdit input, #formEdit textarea").change();
+                console.log($scope.formEdit);
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/EditSupplier/',
+                    data: $scope.formEdit,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    console.log(response.data);
+                    $scope.result = response.data;
+
+                    $("#modalProveedorEdit").modal("hide");
+                    if ($scope.result.Status == "OK") {
+
+                        $scope.result.Class = "alert alert-success";
+                        $scope.result.Message = "Proveedor modificado con éxito";
+
+                        setTimeout(() => location.href = "/Compras/Tablas/Index?option=0", 2000);
+
+                    } else
+                        $scope.result.Class = "alert alert-danger";
+
+                });
+            }
+        }
+
+        $scope.deleteSupplier = function () {
+
+            $scope.idDelete = $("#codigoDelete").val();
+            console.log($scope.idDelete);
+
+            $http.get("/api/ProfitTMApi/DeleteSupplier/" + $scope.idDelete)
+                .then(function (response) {
+
+                    console.log(response.data);
+                    $scope.result = response.data;
+
+                    $("#modalProveedorDelete").modal("hide");
+                    if ($scope.result.Status == "OK") {
+
+                        $scope.result.Class = "alert alert-success";
+                        $scope.result.Message = "Proveedor eliminado con éxito";
+
+                        setTimeout(() => location.href = "/Compras/Tablas/Index?option=0", 2000);
+
+                    } else
+                        $scope.result.Class = "alert alert-danger";
+
+                });
+        }
+
     });
 
     function change(elem) {
@@ -475,16 +540,22 @@
     }
 
     function saveRow(modal) {
-        var elem = document.getElementsByClassName("selected-row")[0].children[0],
-            value = elem.innerHTML,
-            input = $("#" + modal).find("#name-input").val();
+        var item = document.getElementsByClassName("selected-row")[0];
 
-        document.getElementById(input).value = value.trim();
-        document.getElementsByClassName("selected-row")[0].classList.remove("selected-row");
-        $("#" + modal).find("input[type=text]").val("");
-        $("#" + modal).find("button[name=search-btn]").trigger("click");
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val();
 
-        $("#" + modal).modal("hide");
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            $("#" + modal).modal("hide");
+        } else {
+            alert("Debes seleccionar un item");
+        }
     }
 
     function editRow(elem) {
@@ -513,7 +584,6 @@
         var codigo = cells[0].innerHTML;
 
         $("#codigoDelete").val(codigo.trim());
-
         $("#modalProveedorDelete").modal("show");
     }
 </script>

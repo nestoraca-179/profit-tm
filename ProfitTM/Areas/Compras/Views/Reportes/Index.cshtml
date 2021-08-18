@@ -162,10 +162,7 @@
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar producto..." />
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistProd')">Buscar</button>
-                        </div>
+                        <input type="text" class="form-control" placeholder="Buscar tipo..." onkeyup="search('modalAssistProd')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
@@ -199,10 +196,7 @@
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar proveedor..." />
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" name="search-btn" onclick="search('modalAssistSup')">Buscar</button>
-                        </div>
+                        <input type="text" class="form-control" placeholder="Buscar tipo..." onkeyup="search('modalAssistSup')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
@@ -358,16 +352,22 @@
     }
 
     function saveRow(modal) {
-        var elem = document.getElementsByClassName("selected-row")[0].children[0],
-            value = elem.innerHTML,
-            input = $("#" + modal).find("#name-input").val();
+        var item = document.getElementsByClassName("selected-row")[0];
 
-        document.getElementById(input).value = value.trim();
-        document.getElementsByClassName("selected-row")[0].classList.remove("selected-row");
-        $("#" + modal).find("input[type=text]").val("");
-        $("#" + modal).find("button[name=search-btn]").trigger("click");
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val();
 
-        $("#" + modal).modal("hide");
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            $("#" + modal).modal("hide");
+        } else {
+            alert("Debes seleccionar un item");
+        }
     }
 
 </script>

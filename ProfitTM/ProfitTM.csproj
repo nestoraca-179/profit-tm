@@ -338,6 +338,7 @@
     </Compile>
     <Compile Include="Areas\Ventas\VentasAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClientManager.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfitTMApiController.cs" />
     <Compile Include="Controllers\SQLController.cs" />
@@ -348,6 +349,7 @@
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Bank.cs" />
     <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Cond.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Option.cs" />
     <Compile Include="Models\Price.cs" />
@@ -357,6 +359,7 @@
     <Compile Include="Models\ReportGroup.cs" />
     <Compile Include="Models\ReportTree.cs" />
     <Compile Include="Models\Segment.cs" />
+    <Compile Include="Models\Seller.cs" />
     <Compile Include="Models\Storage.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\Type.cs" />

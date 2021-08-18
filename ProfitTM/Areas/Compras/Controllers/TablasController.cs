@@ -12,7 +12,7 @@ namespace ProfitTM.Areas.Compras.Controllers
     [Authorize]
     public class TablasController : Controller
     {
-        public ActionResult Index(string option = "", string[] paramsProvAdd = null, string[] paramsProvEdit = null, string ID = "")
+        public ActionResult Index(string option = "")
         {
             ViewBag.user = Session["user"];
             ViewBag.options = Session["options"];
@@ -25,13 +25,12 @@ namespace ProfitTM.Areas.Compras.Controllers
             else
             {
                 SQLController sqlController = new SQLController();
-                SupplierManager supplierManager = new SupplierManager();
                 List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
 
                 bool error = false;
                 string msg = "";
 
-                ProfitTMResponse responseAT = sqlController.getTypes();
+                ProfitTMResponse responseAT = sqlController.getTypesSup();
                 ProfitTMResponse responseAZ = sqlController.getZones();
                 ProfitTMResponse responseAA = sqlController.getAccounts();
                 ProfitTMResponse responseAC = sqlController.getCountries();
@@ -56,107 +55,33 @@ namespace ProfitTM.Areas.Compras.Controllers
 
                 if (!error)
                 {
-                    ViewBag.results = option;
-
                     ProfitTMResponse result;
 
-                    if (paramsProvAdd != null)
+                    ViewBag.results = option;
+                    ViewBag.assistTypes = responseAT.Result;
+                    ViewBag.assistZones = responseAZ.Result;
+                    ViewBag.assistAccounts = responseAA.Result;
+                    ViewBag.assistCountries = responseAC.Result;
+                    ViewBag.assistSegments = responseAS.Result;
+
+                    switch (option)
                     {
-                        Supplier supplier = new Supplier()
-                        {
-                            ID = paramsProvAdd[0],
-                            Name = paramsProvAdd[1],
-                            Type = paramsProvAdd[2],
-                            RIF = paramsProvAdd[3],
-                            NIT = paramsProvAdd[4],
-                            Zone = paramsProvAdd[5],
-                            Account = paramsProvAdd[6],
-                            Country = paramsProvAdd[7],
-                            Segment = paramsProvAdd[8],
-                            Email = paramsProvAdd[9],
-                            Phone = paramsProvAdd[10],
-                            Address = paramsProvAdd[11]
-                        };
+                        case "0":
 
-                        result = supplierManager.addSupplier(supplier);
+                            result = sqlController.getResultsTable("co_prov,rif,prov_des,direc1,telefonos,email", "saProveedor");
 
-                        if (result.Status == "OK")
-                        {
-                            ViewBag.message = "Proveedor agregado con exito, " + result.Result + " filas afectadas";
-                            ViewBag.classAlert = "alert alert-success";
-                        }
-                        else
-                        {
-                            ViewBag.message = result.Message;
-                            ViewBag.classAlert = "alert alert-danger";
-                        }
-                    }
-                    else if (paramsProvEdit != null)
-                    {
-                        Supplier supplier = new Supplier()
-                        {
-                            ID = paramsProvEdit[0].Trim(),
-                            Name = paramsProvEdit[1].Trim(),
-                            RIF = paramsProvEdit[2].Trim(),
-                            Email = paramsProvEdit[3].Trim(),
-                            Phone = paramsProvEdit[4].Trim(),
-                            Address = paramsProvEdit[5].Trim()
-                        };
+                            if (result.Status == "OK")
+                            {
+                                ViewBag.resultsTable = result.Result;
+                                ViewBag.titleR = "Proveedor";
+                                ViewBag.headers = "Codigo,RIF,Nombre,Direccion,Telefono,Email";
+                                ViewBag.cols = "co_prov,rif,prov_des,direc1,telefonos,email";
+                            }
 
-                        result = supplierManager.editSupplier(supplier);
-
-                        if (result.Status == "OK")
-                        {
-                            ViewBag.message = "Proveedor actualizado con exito, " + result.Result + " filas afectadas";
-                            ViewBag.classAlert = "alert alert-success";
-                        }
-                        else
-                        {
-                            ViewBag.message = result.Message;
-                            ViewBag.classAlert = "alert alert-danger";
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(ID))
-                    {
-                        result = supplierManager.deleteSupplier(ID);
-
-                        if (result.Status == "OK")
-                        {
-                            ViewBag.message = "Proveedor eliminado con exito, " + result.Result + " filas afectadas";
-                            ViewBag.classAlert = "alert alert-success";
-                        }
-                        else
-                        {
-                            ViewBag.message = result.Message;
-                            ViewBag.classAlert = "alert alert-danger";
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.assistTypes = responseAT.Result;
-                        ViewBag.assistZones = responseAZ.Result;
-                        ViewBag.assistAccounts = responseAA.Result;
-                        ViewBag.assistCountries = responseAC.Result;
-                        ViewBag.assistSegments = responseAS.Result;
-
-                        switch (option)
-                        {
-                            case "0":
-                                result = sqlController.getResultsTable("co_prov,rif,prov_des,direc1,telefonos,email", "saProveedor");
-
-                                if (result.Status == "OK")
-                                {
-                                    ViewBag.resultsTable = result.Result;
-                                    ViewBag.titleR = "Proveedor";
-                                    ViewBag.headers = "Codigo,RIF,Nombre,Direccion,Telefono,Email";
-                                    ViewBag.cols = "co_prov,rif,prov_des,direc1,telefonos,email";
-                                }
-
-                                break;
-                            default:
-                                ViewBag.results = "";
-                                break;
-                        }
+                            break;
+                        default:
+                            ViewBag.results = "";
+                            break;
                     }
 
                     return View();
