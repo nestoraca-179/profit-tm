@@ -53,6 +53,7 @@ namespace ProfitTM.Controllers
         {
             FormsAuthentication.SignOut();
             Session["user"] = null;
+            Session["options"] = null;
 
             return RedirectToAction("Index", "Home");
         }

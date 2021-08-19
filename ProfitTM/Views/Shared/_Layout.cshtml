@@ -34,6 +34,28 @@
             $("g text").css("font-weight", "bold");
             $("g text tspan").css("font-weight", "normal");
         });
+
+        $(document).on("mousedown", function (event) {
+
+            var classes = event.target.classList;
+
+            if (!classes.contains("fas") && !classes.contains("menu-item") && !classes.contains("myDropdown") && !classes.contains("dropdown-item")) {
+                
+                if ($(".selected")[0] != null) {
+
+                    if (node != null) {
+                        node.classList.remove("selected");
+                        node = null;
+                    }
+
+                    var elems = document.getElementsByClassName("myDropdown");
+
+                    for (var item of elems) {
+                        $(item).animate({ width: 'hide' });
+                    }
+                }
+            }
+        });
     </script>
 </body>
 </html>

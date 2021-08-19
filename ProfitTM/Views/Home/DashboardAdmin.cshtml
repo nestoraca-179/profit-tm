@@ -327,6 +327,14 @@
 
     btn.addEventListener("click", hide);
 
+    $(".dash-right-side").on("mousedown", function (event) {
+        event.preventDefault();
+    });
+
+    $(".dash-right-side").on("contextmenu", function (event) {
+        event.preventDefault();
+    });
+
     function print(elem) {
         var elems = document.getElementsByClassName("myDropdown");
 
@@ -359,6 +367,12 @@
     }
 
     function hide() {
+
+        if (node != null) {
+            node.classList.remove("selected");
+            node = null;
+        }
+
         menu.classList.toggle("active");
 
         var elems = document.getElementsByClassName("myDropdown");
