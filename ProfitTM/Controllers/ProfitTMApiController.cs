@@ -85,5 +85,35 @@ namespace ProfitTM.Controllers
 
             return response;
         }
+
+        // Modificar cliente
+        [HttpPost]
+        [Route("api/ProfitTMApi/EditClient/")]
+        public ProfitTMResponse EditClient(Client client)
+        {
+            ProfitTMResponse response;
+            string connect = HttpContext.Current.Session["connect"].ToString();
+
+            ClientManager clientManager = new ClientManager(connect);
+
+            response = clientManager.editClient(client);
+
+            return response;
+        }
+
+        // Eliminar cliente
+        [HttpGet]
+        [Route("api/ProfitTMApi/DeleteClient/{id}/")]
+        public ProfitTMResponse DeleteClient(string id)
+        {
+            ProfitTMResponse response;
+            string connect = HttpContext.Current.Session["connect"].ToString();
+
+            ClientManager clientManager = new ClientManager(connect);
+
+            response = clientManager.deleteClient(id);
+
+            return response;
+        }
     }
 }

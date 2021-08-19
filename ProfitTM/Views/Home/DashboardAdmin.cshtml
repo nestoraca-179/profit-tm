@@ -146,8 +146,8 @@
                                     {
                                         <tr>
                                             <td>@item.ID</td>
-                                            <td name="nameSelled">@item.Name</td>
-                                            <td name="stockSelled">@item.Stock</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Stock.ToString("N", ViewBag.formato)</td>
                                         </tr>
                                     }
                                 }
@@ -155,28 +155,16 @@
                         </table>
                     </div>
                     <div class="col-sm-6">
-                        @*<div id="piechart"></div>*@
                         <figure class="highcharts-figure">
                             <div id="container-msp"></div>
-                            @*<p class="highcharts-description">
-                                Pie charts are very popular for showing a compact overview of a
-                                composition or comparison. While they can be harder to read than
-                                column charts, they remain a popular choice for small datasets.
-                            </p>*@
                         </figure>
                     </div>
                 </div>
                 <h2 class="mt-2 text-center m-4">TOP 5 Articulos mas comprados</h2>
                 <div class="row mt-3">
                     <div class="col-sm-6">
-                        @*<div id="columnchart"></div>*@
                         <figure class="highcharts-figure">
                             <div id="container-mpp"></div>
-                            @*<p class="highcharts-description">
-                                Pie charts are very popular for showing a compact overview of a
-                                composition or comparison. While they can be harder to read than
-                                column charts, they remain a popular choice for small datasets.
-                            </p>*@
                         </figure>
                     </div>
                     <div class="col-sm-6">
@@ -194,8 +182,8 @@
                                     {
                                         <tr>
                                             <td>@item.ID</td>
-                                            <td name="namePurchased">@item.Name</td>
-                                            <td name="stockPurchased">@item.Stock</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Stock.ToString("N", ViewBag.formato)</td>
                                         </tr>
                                     }
                                 }
@@ -220,8 +208,8 @@
                                     {
                                         <tr>
                                             <td>@item.ID</td>
-                                            <td name="nameActive">@item.Name</td>
-                                            <td name="amountActive">@item.Amount.ToString("N", ViewBag.formato)</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Amount.ToString("N", ViewBag.formato)</td>
                                         </tr>
                                     }
                                 }
@@ -229,28 +217,16 @@
                         </table>
                     </div>
                     <div class="col-sm-6">
-                        @*<div id="donutchart"></div>*@
                         <figure class="highcharts-figure">
                             <div id="container-mac"></div>
-                            @*<p class="highcharts-description">
-                                Pie charts are very popular for showing a compact overview of a
-                                composition or comparison. While they can be harder to read than
-                                column charts, they remain a popular choice for small datasets.
-                            </p>*@
                         </figure>
                     </div>
                 </div>
                 <h2 class="mt-2 text-center m-4">TOP 5 Clientes mas morosos</h2>
                 <div class="row mt-3">
                     <div class="col-sm-6">
-                        @*<div id="barchart"></div>*@
                         <figure class="highcharts-figure">
                             <div id="container-mmc"></div>
-                            @*<p class="highcharts-description">
-                                Pie charts are very popular for showing a compact overview of a
-                                composition or comparison. While they can be harder to read than
-                                column charts, they remain a popular choice for small datasets.
-                            </p>*@
                         </figure>
                     </div>
                     <div class="col-sm-6">
@@ -268,8 +244,8 @@
                                     {
                                         <tr>
                                             <td>@item.ID</td>
-                                            <td name="nameMorous">@item.Name</td>
-                                            <td name="amountMorous">@item.Amount.ToString("N", ViewBag.formato)</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Amount.ToString("N", ViewBag.formato)</td>
                                         </tr>
                                     }
                                 }
@@ -294,8 +270,8 @@
                                     {
                                         <tr>
                                             <td>@item.ID</td>
-                                            <td name="nameActiveS">@item.Name</td>
-                                            <td name="amountActiveS">@item.Amount.ToString("N", ViewBag.formato)</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Amount.ToString("N", ViewBag.formato)</td>
                                         </tr>
                                     }
                                 }
@@ -303,28 +279,16 @@
                         </table>
                     </div>
                     <div class="col-sm-6">
-                        @*<div id="rowchart"></div>*@
                         <figure class="highcharts-figure">
                             <div id="container-mas"></div>
-                            @*<p class="highcharts-description">
-                                Pie charts are very popular for showing a compact overview of a
-                                composition or comparison. While they can be harder to read than
-                                column charts, they remain a popular choice for small datasets.
-                            </p>*@
                         </figure>
                     </div>
                 </div>
                 <h2 class="mt-2 text-center m-4">TOP 5 Proveedores con mas saldo pendiente</h2>
                 <div class="row mt-3">
                     <div class="col-sm-6">
-                        @*<div id="roundchart"></div>*@
                         <figure class="highcharts-figure">
                             <div id="container-mms"></div>
-                            @*<p class="highcharts-description">
-                                Pie charts are very popular for showing a compact overview of a
-                                composition or comparison. While they can be harder to read than
-                                column charts, they remain a popular choice for small datasets.
-                            </p>*@
                         </figure>
                     </div>
                     <div class="col-sm-6">
@@ -342,8 +306,8 @@
                                     {
                                         <tr>
                                             <td>@item.ID</td>
-                                            <td name="nameMorousS">@item.Name</td>
-                                            <td name="amountMorousS">@item.Amount.ToString("N", ViewBag.formato)</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Amount.ToString("N", ViewBag.formato)</td>
                                         </tr>
                                     }
                                 }

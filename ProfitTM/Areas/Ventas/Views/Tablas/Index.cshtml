@@ -150,8 +150,8 @@
                     </form>
                 </div>
             </div>
-            <!-- Modal Editar Proveedor -->
-            <!--<div class="modal fade" id="modalProveedorEdit" tabindex="-1" role="dialog" aria-hidden="true">
+            <!-- Modal Editar Cliente -->
+            <div class="modal fade" id="modalClienteEdit" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <form action="" method="post" id="formEdit" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
@@ -188,13 +188,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" ng-click="editSupplier()">Actualizar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="editClient()">Actualizar</button>
                         </div>
                     </form>
                 </div>
-            </div>-->
+            </div>
             <!-- Modal Eliminar Proveedor -->
-            <!--<div class="modal fade" id="modalProveedorDelete" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalClienteDelete" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <form action="" method="post" id="formDelete" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
@@ -210,11 +210,11 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" ng-click="deleteSupplier()">Eliminar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="deleteClient()">Eliminar</button>
                         </div>
                     </form>
                 </div>
-            </div>-->
+            </div>
             <!-- Modal 1 -->
             <div class="modal fade" id="modalAssistType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -474,6 +474,7 @@
 
             if ($("#formAdd")[0].checkValidity()) {
 
+                $(".modal .btn.btn-primary").prop('disabled', 'true');
                 $("#formAdd input, #formAdd textarea").change();
                 console.log($scope.formAdd);
 
@@ -502,70 +503,75 @@
                     } else
                         $scope.result.Class = "alert alert-danger";
 
+                    $(".modal .btn.btn-primary").prop('disabled', '');
                 });
             }
         }
 
-        //$scope.editSupplier = function () {
+        $scope.editClient = function () {
 
-        //    if ($("#formEdit")[0].checkValidity()) {
+            if ($("#formEdit")[0].checkValidity()) {
 
-        //        $("#formEdit input, #formEdit textarea").change();
-        //        console.log($scope.formEdit);
+                $(".modal .btn.btn-primary").prop('disabled', 'true');
+                $("#formEdit input, #formEdit textarea").change();
+                console.log($scope.formEdit);
 
-        //        var req = {
-        //            method: 'POST',
-        //            url: '/api/ProfitTMApi/EditSupplier/',
-        //            data: $scope.formEdit,
-        //            headers: {
-        //                'Content-Type': 'application/json'
-        //            },
-        //        }
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/EditClient/',
+                    data: $scope.formEdit,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
 
-        //        $http(req).then(function (response) {
+                $http(req).then(function (response) {
 
-        //            console.log(response.data);
-        //            $scope.result = response.data;
+                    console.log(response.data);
+                    $scope.result = response.data;
 
-        //            $("#modalProveedorEdit").modal("hide");
-        //            if ($scope.result.Status == "OK") {
+                    $("#modalClienteEdit").modal("hide");
+                    if ($scope.result.Status == "OK") {
 
-        //                $scope.result.Class = "alert alert-success";
-        //                $scope.result.Message = "Proveedor modificado con éxito";
+                        $scope.result.Class = "alert alert-success";
+                        $scope.result.Message = "Cliente modificado con éxito";
 
-        //                setTimeout(() => location.href = "/Compras/Tablas/Index?option=0", 2000);
+                        setTimeout(() => location.href = "/Ventas/Tablas/Index?option=0", 2000);
 
-        //            } else
-        //                $scope.result.Class = "alert alert-danger";
+                    } else
+                        $scope.result.Class = "alert alert-danger";
 
-        //        });
-        //    }
-        //}
+                    $(".modal .btn.btn-primary").prop('disabled', '');
+                });
+            }
+        }
 
-        //$scope.deleteSupplier = function () {
+        $scope.deleteClient = function () {
 
-        //    $scope.idDelete = $("#codigoDelete").val();
-        //    console.log($scope.idDelete);
+            $(".modal .btn.btn-primary").prop('disabled', 'true');
+            $scope.idDelete = $("#codigoDelete").val();
+            console.log($scope.idDelete);
 
-        //    $http.get("/api/ProfitTMApi/DeleteSupplier/" + $scope.idDelete)
-        //        .then(function (response) {
+            $http.get("/api/ProfitTMApi/DeleteClient/" + $scope.idDelete)
+                .then(function (response) {
 
-        //            console.log(response.data);
-        //            $scope.result = response.data;
+                    console.log(response.data);
+                    $scope.result = response.data;
 
-        //            $("#modalProveedorDelete").modal("hide");
-        //            if ($scope.result.Status == "OK") {
+                    $("#modalClienteDelete").modal("hide");
+                    if ($scope.result.Status == "OK") {
 
-        //                $scope.result.Class = "alert alert-success";
-        //                $scope.result.Message = "Proveedor eliminado con éxito";
+                        $scope.result.Class = "alert alert-success";
+                        $scope.result.Message = "Cliente eliminado con éxito";
 
-        //                setTimeout(() => location.href = "/Compras/Tablas/Index?option=0", 2000);
+                        setTimeout(() => location.href = "/Ventas/Tablas/Index?option=0", 2000);
 
-        //            } else
-        //                $scope.result.Class = "alert alert-danger";
+                    } else
+                        $scope.result.Class = "alert alert-danger";
 
-        //        });
-        //}
+                    $(".modal .btn.btn-primary").prop('disabled', '');
+                });
+        }
 
     });
 
@@ -653,7 +659,7 @@
         $("#telefonoEdit").val(telefono);
         $("#emailEdit").val(email);
 
-        $("#modalProveedorEdit").modal("show");
+        $("#modalClienteEdit").modal("show");
     }
 
     function deleteRow(elem) {
@@ -662,6 +668,6 @@
         var codigo = cells[0].innerHTML;
 
         $("#codigoDelete").val(codigo.trim());
-        $("#modalProveedorDelete").modal("show");
+        $("#modalClienteDelete").modal("show");
     }
 </script>

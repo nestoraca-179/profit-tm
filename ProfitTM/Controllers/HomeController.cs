@@ -317,6 +317,11 @@ namespace ProfitTM.Controllers
                     ViewBag.mostPurchasedProds = responseMPP.Result;
                     ViewBag.options = Session["options"];
 
+                    NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
+                    formato.CurrencyGroupSeparator = ".";
+                    formato.NumberDecimalSeparator = ",";
+                    ViewBag.formato = formato;
+
                     return View();
                 }
                 else
@@ -368,6 +373,11 @@ namespace ProfitTM.Controllers
                     ViewBag.mostMorousClients = responseMMC.Result;
                     ViewBag.options = Session["options"];
 
+                    NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
+                    formato.CurrencyGroupSeparator = ".";
+                    formato.NumberDecimalSeparator = ",";
+                    ViewBag.formato = formato;
+
                     return View();
                 }
                 else
@@ -418,6 +428,11 @@ namespace ProfitTM.Controllers
                     ViewBag.mostActiveSuppliers = responseMAS.Result;
                     ViewBag.mostMorousSuppliers = responseMMS.Result;
                     ViewBag.options = Session["options"];
+
+                    NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
+                    formato.CurrencyGroupSeparator = ".";
+                    formato.NumberDecimalSeparator = ",";
+                    ViewBag.formato = formato;
 
                     return View();
                 }

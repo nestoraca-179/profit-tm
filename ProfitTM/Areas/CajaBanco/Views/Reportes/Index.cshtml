@@ -97,7 +97,7 @@
                             </tbody>
                         </table>
                         <div style="margin-top: 10px; display: flex; justify-content: space-between">
-                            <a href="/CajaBanco/Reportes/" class="btn btn-primary">Cargar otro reporte</a>
+                            <a href="/CajaBanco/Reportes/" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar</a>
                             @{
                                 if (!string.IsNullOrEmpty(ViewBag.format))
                                 {
@@ -162,7 +162,7 @@
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar tipo..." onkeyup="search('modalAssistCod')" />
+                        <input type="text" class="form-control" placeholder="Buscar codigo..." onkeyup="search('modalAssistCod')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
@@ -196,7 +196,7 @@
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar tipo..." onkeyup="search('modalAssistAcc')" />
+                        <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalAssistAcc')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
