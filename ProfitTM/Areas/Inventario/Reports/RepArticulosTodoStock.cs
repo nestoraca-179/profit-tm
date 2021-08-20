@@ -46,6 +46,12 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
     private CalculatedField stockDis;
     private XRTableCell xrTableCell2;
     private XRTableCell xrTableCell1;
+    public XRPictureBox PB_Logo;
+    private XRLabel xrLabel1;
+    private XRLabel xrLabel2;
+    private XRPageInfo xrPageInfo1;
+    private XRPageInfo xrPageInfo2;
+    private XRLabel xrLabel3;
 
     /// <summary>
     /// Required designer variable.
@@ -100,6 +106,8 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             DevExpress.DataAccess.Sql.QueryParameter queryParameter15 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter16 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery1 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery2 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter17 = new DevExpress.DataAccess.Sql.QueryParameter();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepArticulosTodoStock));
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings1 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings2 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
@@ -137,6 +145,12 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.tableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
+            this.PB_Logo = new DevExpress.XtraReports.UI.XRPictureBox();
+            this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
+            this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
+            this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
             this.artDesde = new DevExpress.XtraReports.Parameters.Parameter();
             this.artHasta = new DevExpress.XtraReports.Parameters.Parameter();
             this.stockDis = new DevExpress.XtraReports.UI.CalculatedField();
@@ -203,9 +217,16 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             storedProcQuery1.StoredProcName = "RepArticulosTodoStock";
             customSqlQuery1.Name = "Articulos";
             customSqlQuery1.Sql = "select * from saArticulo where tipo <> \'S\'";
+            customSqlQuery2.Name = "Master";
+            queryParameter17.Name = "DB";
+            queryParameter17.Type = typeof(string);
+            customSqlQuery2.Parameters.Add(queryParameter17);
+            customSqlQuery2.Sql = "select cod_empresa, desc_empresa, rif from [MasterProfitPro].dbo.MpEmpresa\r\nwhere" +
+    " cod_empresa = @DB";
             this.DemoAdmin.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
             storedProcQuery1,
-            customSqlQuery1});
+            customSqlQuery1,
+            customSqlQuery2});
             this.DemoAdmin.ResultSchemaSerializable = resources.GetString("DemoAdmin.ResultSchemaSerializable");
             // 
             // Title
@@ -274,33 +295,31 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             // 
             // pageInfo1
             // 
-            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(6.00001F, 6.00001F);
+            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(3.178914E-05F, 6.00001F);
             this.pageInfo1.Name = "pageInfo1";
             this.pageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
-            this.pageInfo1.SizeF = new System.Drawing.SizeF(373.4167F, 23F);
+            this.pageInfo1.SizeF = new System.Drawing.SizeF(379.4166F, 23F);
             this.pageInfo1.StyleName = "PageInfo";
             // 
             // pageInfo2
             // 
-            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(398.4583F, 6.00001F);
+            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(379.4167F, 6.00001F);
             this.pageInfo2.Name = "pageInfo2";
-            this.pageInfo2.SizeF = new System.Drawing.SizeF(351.5417F, 23F);
+            this.pageInfo2.SizeF = new System.Drawing.SizeF(370.5833F, 23F);
             this.pageInfo2.StyleName = "PageInfo";
             this.pageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             this.pageInfo2.TextFormatString = "Página {0} de {1}";
             // 
             // ReportHeader
             // 
-            this.ReportHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.label1});
-            this.ReportHeader.HeightF = 60F;
+            this.ReportHeader.HeightF = 0.4166762F;
             this.ReportHeader.Name = "ReportHeader";
             // 
             // label1
             // 
-            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(3.178914E-05F, 5.999994F);
+            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 74.125F);
             this.label1.Name = "label1";
-            this.label1.SizeF = new System.Drawing.SizeF(749.9999F, 24.19433F);
+            this.label1.SizeF = new System.Drawing.SizeF(450.1347F, 24.19433F);
             this.label1.StyleName = "Title";
             this.label1.StylePriority.UseTextAlignment = false;
             this.label1.Text = "Articulos con todos sus Stocks";
@@ -344,7 +363,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.tableCell8.Name = "tableCell8";
             this.tableCell8.StyleName = "DetailData1";
             this.tableCell8.StylePriority.UseBorders = false;
-            this.tableCell8.Weight = 0.1043155024601863D;
+            this.tableCell8.Weight = 0.13034856973540165D;
             // 
             // tableCell14
             // 
@@ -352,7 +371,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[art_des]")});
             this.tableCell14.Name = "tableCell14";
             this.tableCell14.StyleName = "DetailData1";
-            this.tableCell14.Weight = 0.31931516442308339D;
+            this.tableCell14.Weight = 0.293282097147868D;
             // 
             // tableCell13
             // 
@@ -421,11 +440,11 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             // 
             // table1
             // 
-            this.table1.LocationFloat = new DevExpress.Utils.PointFloat(3.178914E-05F, 0F);
+            this.table1.LocationFloat = new DevExpress.Utils.PointFloat(3.178914E-05F, 125.4167F);
             this.table1.Name = "table1";
             this.table1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.tableRow1});
-            this.table1.SizeF = new System.Drawing.SizeF(749.9999F, 28F);
+            this.table1.SizeF = new System.Drawing.SizeF(749.9998F, 28F);
             this.table1.StylePriority.UseTextAlignment = false;
             this.table1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
@@ -453,7 +472,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.tableCell1.StylePriority.UseTextAlignment = false;
             this.tableCell1.Text = "Codigo\r\n";
             this.tableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell1.Weight = 0.1043155024601863D;
+            this.tableCell1.Weight = 0.12600355543939085D;
             // 
             // tableCell7
             // 
@@ -462,7 +481,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.tableCell7.StylePriority.UseTextAlignment = false;
             this.tableCell7.Text = "Articulo";
             this.tableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell7.Weight = 0.31931516442308339D;
+            this.tableCell7.Weight = 0.28350612016431614D;
             // 
             // tableCell6
             // 
@@ -471,7 +490,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.tableCell6.StylePriority.UseTextAlignment = false;
             this.tableCell6.Text = "Unidad";
             this.tableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell6.Weight = 0.087717660493868629D;
+            this.tableCell6.Weight = 0.084793843025731716D;
             // 
             // tableCell2
             // 
@@ -480,7 +499,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.tableCell2.StylePriority.UseTextAlignment = false;
             this.tableCell2.Text = "Stock ACT";
             this.tableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell2.Weight = 0.12903409474465094D;
+            this.tableCell2.Weight = 0.12473290684532838D;
             // 
             // tableCell4
             // 
@@ -489,7 +508,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.tableCell4.StylePriority.UseTextAlignment = false;
             this.tableCell4.Text = "Stock COM";
             this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell4.Weight = 0.11873901303233085D;
+            this.tableCell4.Weight = 0.11478107849783228D;
             // 
             // xrTableCell1
             // 
@@ -499,7 +518,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.xrTableCell1.StylePriority.UseTextAlignment = false;
             this.xrTableCell1.Text = "Stock DIS";
             this.xrTableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell1.Weight = 0.13183752850903D;
+            this.xrTableCell1.Weight = 0.12744283023515335D;
             // 
             // tableCell3
             // 
@@ -508,7 +527,7 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.tableCell3.StylePriority.UseTextAlignment = false;
             this.tableCell3.Text = "Stock LLE";
             this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell3.Weight = 0.13425485432265691D;
+            this.tableCell3.Weight = 0.12977984707212631D;
             // 
             // tableCell5
             // 
@@ -517,14 +536,90 @@ public class RepArticulosTodoStock : DevExpress.XtraReports.UI.XtraReport
             this.tableCell5.StylePriority.UseTextAlignment = false;
             this.tableCell5.Text = "Stock DES";
             this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell5.Weight = 0.1286322555034092D;
+            this.tableCell5.Weight = 0.12434435016634665D;
             // 
             // PageHeader
             // 
             this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.label1,
+            this.PB_Logo,
+            this.xrLabel1,
+            this.xrLabel2,
+            this.xrPageInfo1,
+            this.xrPageInfo2,
+            this.xrLabel3,
             this.table1});
-            this.PageHeader.HeightF = 28F;
+            this.PageHeader.HeightF = 153.4167F;
             this.PageHeader.Name = "PageHeader";
+            // 
+            // PB_Logo
+            // 
+            this.PB_Logo.LocationFloat = new DevExpress.Utils.PointFloat(10F, 10F);
+            this.PB_Logo.Name = "PB_Logo";
+            this.PB_Logo.SizeF = new System.Drawing.SizeF(128.5417F, 76.56934F);
+            this.PB_Logo.Sizing = DevExpress.XtraPrinting.ImageSizeMode.ZoomImage;
+            // 
+            // xrLabel1
+            // 
+            this.xrLabel1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Master].[desc_empresa]")});
+            this.xrLabel1.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 10F);
+            this.xrLabel1.Multiline = true;
+            this.xrLabel1.Name = "xrLabel1";
+            this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel1.SizeF = new System.Drawing.SizeF(251.6039F, 23F);
+            this.xrLabel1.StylePriority.UseFont = false;
+            this.xrLabel1.Text = "xrLabel1";
+            // 
+            // xrLabel2
+            // 
+            this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Master].[rif]")});
+            this.xrLabel2.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 32.99998F);
+            this.xrLabel2.Multiline = true;
+            this.xrLabel2.Name = "xrLabel2";
+            this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel2.SizeF = new System.Drawing.SizeF(120.8333F, 23F);
+            this.xrLabel2.StylePriority.UseFont = false;
+            this.xrLabel2.Text = "xrLabel2";
+            // 
+            // xrPageInfo1
+            // 
+            this.xrPageInfo1.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrPageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(701.4583F, 10F);
+            this.xrPageInfo1.Name = "xrPageInfo1";
+            this.xrPageInfo1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrPageInfo1.SizeF = new System.Drawing.SizeF(38.54163F, 23F);
+            this.xrPageInfo1.StylePriority.UseFont = false;
+            this.xrPageInfo1.StylePriority.UseTextAlignment = false;
+            this.xrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // xrPageInfo2
+            // 
+            this.xrPageInfo2.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrPageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(548.3333F, 32.99998F);
+            this.xrPageInfo2.Name = "xrPageInfo2";
+            this.xrPageInfo2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrPageInfo2.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
+            this.xrPageInfo2.SizeF = new System.Drawing.SizeF(191.6666F, 23F);
+            this.xrPageInfo2.StylePriority.UseFont = false;
+            this.xrPageInfo2.StylePriority.UseTextAlignment = false;
+            this.xrPageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // xrLabel3
+            // 
+            this.xrLabel3.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(548.3333F, 10F);
+            this.xrLabel3.Multiline = true;
+            this.xrLabel3.Name = "xrLabel3";
+            this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel3.SizeF = new System.Drawing.SizeF(153.1251F, 22.99998F);
+            this.xrLabel3.StylePriority.UseFont = false;
+            this.xrLabel3.StylePriority.UseTextAlignment = false;
+            this.xrLabel3.Text = "Página";
+            this.xrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             // 
             // artDesde
             // 

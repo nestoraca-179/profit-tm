@@ -2,6 +2,7 @@
 using DevExpress.XtraReports.Web;
 using ProfitTM.Models;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -77,6 +78,9 @@ namespace ProfitTM.Controllers
 
             Session["connect"] = connect;
             ViewBag.user = Session["user"];
+
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings[connect].ConnectionString);
+            Session["DB"] = connection.Database;
 
             if (ViewBag.user == null)
             {

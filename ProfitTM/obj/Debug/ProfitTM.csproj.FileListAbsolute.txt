@@ -846,6 +846,6 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepArticuloConCostoYPr
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepTotalVentaxArticulo.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepClienteMasVenta.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepCompraxArt.resources
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csproj.AssemblyReference.cache
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepTotalCompraxArticulo.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepProveedorMasCompra.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csproj.AssemblyReference.cache

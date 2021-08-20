@@ -15,9 +15,11 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult RepFacturaVentaxArtPartial()
         {
             string connect = Session["connect"].ToString();
+            report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
             ds.ConnectionName = connect;
+            ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepFacturaVentaxArtPartial.cshtml", report);
         }
@@ -31,9 +33,11 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult RepTotalVentaxArticuloPartial()
         {
             string connect = Session["connect"].ToString();
+            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
             ds.ConnectionName = connect;
+            ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepTotalVentaxArticuloPartial.cshtml", report1);
         }
@@ -47,9 +51,11 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult RepClienteMasVentaPartial()
         {
             string connect = Session["connect"].ToString();
+            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
             ds.ConnectionName = connect;
+            ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepClienteMasVentaPartial.cshtml", report2);
         }
