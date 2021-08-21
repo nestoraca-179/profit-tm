@@ -849,3 +849,7 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepCompraxArt.resource
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepTotalCompraxArticulo.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepProveedorMasCompra.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\ProfitTM.csproj.AssemblyReference.cache
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepBanco.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepDisponibilidadBancaria.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepMoviBancoXNum.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepDisponibilidad.resources

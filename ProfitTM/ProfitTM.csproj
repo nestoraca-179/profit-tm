@@ -208,6 +208,10 @@
     <Content Include="Areas\CajaBanco\Views\Reportes\Index.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Ventas\Views\Tablas\Index.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Reportes\_RepBancoPartial.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Reportes\_RepDisponibilidadBancariaPartial.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Reportes\_RepMoviBancoXNumPartial.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Reportes\_RepDisponibilidadPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -289,6 +293,19 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\CajaBanco\CajaBancoAreaRegistration.cs" />
     <Compile Include="Areas\CajaBanco\Controllers\ReportesController.cs" />
+    <Compile Include="Areas\CajaBanco\Controllers\RepsController.cs" />
+    <Compile Include="Areas\CajaBanco\Reports\RepBanco.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\CajaBanco\Reports\RepDisponibilidad.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\CajaBanco\Reports\RepDisponibilidadBancaria.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\CajaBanco\Reports\RepMoviBancoXNum.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\Compras\ComprasAreaRegistration.cs" />
     <Compile Include="Areas\Compras\Controllers\ProcesosController.cs" />
     <Compile Include="Areas\Compras\Controllers\ReportesController.cs" />
@@ -370,6 +387,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\CajaBanco\Data\" />
+    <Folder Include="Areas\CajaBanco\Views\Reps\" />
     <Folder Include="Areas\Compras\Data\" />
     <Folder Include="Areas\Compras\Views\Procesos\" />
     <Folder Include="Areas\Compras\Views\Reps\" />
@@ -384,6 +402,18 @@
     <Folder Include="Views\SQL\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Areas\CajaBanco\Reports\RepBanco.resx">
+      <DependentUpon>RepBanco.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\CajaBanco\Reports\RepDisponibilidad.resx">
+      <DependentUpon>RepDisponibilidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\CajaBanco\Reports\RepDisponibilidadBancaria.resx">
+      <DependentUpon>RepDisponibilidadBancaria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\CajaBanco\Reports\RepMoviBancoXNum.resx">
+      <DependentUpon>RepMoviBancoXNum.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Areas\Compras\Reports\RepCompraxArt.resx">
       <DependentUpon>RepCompraxArt.cs</DependentUpon>
     </EmbeddedResource>
