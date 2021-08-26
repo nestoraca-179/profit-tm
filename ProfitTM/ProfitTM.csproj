@@ -212,6 +212,12 @@
     <Content Include="Areas\CajaBanco\Views\Reportes\_RepDisponibilidadBancariaPartial.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\_RepMoviBancoXNumPartial.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\_RepDisponibilidadPartial.cshtml" />
+    <Content Include="Areas\Compras\Views\Procesos\Index.cshtml" />
+    <Content Include="Areas\General\Views\web.config" />
+    <Content Include="Areas\General\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\General\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\General\Views\Reportes\Index.cshtml" />
+    <Content Include="Areas\General\Views\Reportes\Reporte.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -320,6 +326,9 @@
     <Compile Include="Areas\Compras\Reports\RepTotalCompraxArticulo.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Areas\General\Controllers\ReportesController.cs" />
+    <Compile Include="Areas\General\Controllers\RepsController.cs" />
+    <Compile Include="Areas\General\GeneralAreaRegistration.cs" />
     <Compile Include="Areas\Inventario\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Inventario\Controllers\RepsController.cs" />
     <Compile Include="Areas\Inventario\InventarioAreaRegistration.cs" />
@@ -363,24 +372,26 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Account.cs" />
-    <Compile Include="Models\Bank.cs" />
-    <Compile Include="Models\Client.cs" />
-    <Compile Include="Models\Cond.cs" />
-    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Admin\Account.cs" />
+    <Compile Include="Models\Admin\Bank.cs" />
+    <Compile Include="Models\Admin\Client.cs" />
+    <Compile Include="Models\Admin\Cond.cs" />
+    <Compile Include="Models\Admin\Country.cs" />
+    <Compile Include="Models\Cont\CostCenter.cs" />
+    <Compile Include="Models\Cont\ExpenseAccount.cs" />
     <Compile Include="Models\Option.cs" />
-    <Compile Include="Models\Price.cs" />
-    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Admin\Price.cs" />
+    <Compile Include="Models\Admin\Product.cs" />
     <Compile Include="Models\ProfitTMResponse.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\ReportGroup.cs" />
     <Compile Include="Models\ReportTree.cs" />
-    <Compile Include="Models\Segment.cs" />
-    <Compile Include="Models\Seller.cs" />
-    <Compile Include="Models\Storage.cs" />
-    <Compile Include="Models\Supplier.cs" />
-    <Compile Include="Models\Type.cs" />
-    <Compile Include="Models\Zone.cs" />
+    <Compile Include="Models\Admin\Segment.cs" />
+    <Compile Include="Models\Admin\Seller.cs" />
+    <Compile Include="Models\Admin\Storage.cs" />
+    <Compile Include="Models\Admin\Supplier.cs" />
+    <Compile Include="Models\Admin\Type.cs" />
+    <Compile Include="Models\Admin\Zone.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -389,9 +400,10 @@
     <Folder Include="Areas\CajaBanco\Data\" />
     <Folder Include="Areas\CajaBanco\Views\Reps\" />
     <Folder Include="Areas\Compras\Data\" />
-    <Folder Include="Areas\Compras\Views\Procesos\" />
     <Folder Include="Areas\Compras\Views\Reps\" />
     <Folder Include="Areas\Compras\Views\SQL\" />
+    <Folder Include="Areas\General\Data\" />
+    <Folder Include="Areas\General\Views\Reps\" />
     <Folder Include="Areas\Inventario\Data\" />
     <Folder Include="Areas\Inventario\Views\Reps\" />
     <Folder Include="Areas\Inventario\Views\SQL\" />

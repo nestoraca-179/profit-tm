@@ -11,7 +11,6 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
 {
     public class ReportesController : Controller
     {
-        // GET: CajaBanco/Reportes
         public ActionResult Index(string name = "", string proc = "", string cols = "", string fields = "", string queryParams = "", string[] paramsSent = null, string format = "")
         {
             ViewBag.user = Session["user"];

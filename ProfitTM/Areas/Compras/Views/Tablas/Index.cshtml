@@ -18,11 +18,11 @@
                 <select id="option" name="option" onchange="change(this)">
                     <option value="#">Seleccione una opción...</option>
                     <option value="0">Proveedor</option>
-                    <option value="1">Tipo</option>
+                    @*<option value="1">Tipo</option>
                     <option value="2">Zona</option>
                     <option value="3">Segmento</option>
                     <option value="4">Condición Pago</option>
-                    <option value="5">Cuenta de I/E</option>
+                    <option value="5">Cuenta de I/E</option>*@
                 </select>
             </div>
             <div class="form-group col-sm-2">
@@ -396,6 +396,7 @@
 
             if ($("#formAdd")[0].checkValidity()) {
 
+                $(".modal .btn.btn-primary").prop('disabled', 'true');
                 $("#formAdd input, #formAdd textarea").change();
                 console.log($scope.formAdd);
 
@@ -432,6 +433,7 @@
 
             if ($("#formEdit")[0].checkValidity()) {
 
+                $(".modal .btn.btn-primary").prop('disabled', 'true');
                 $("#formEdit input, #formEdit textarea").change();
                 console.log($scope.formEdit);
 
@@ -466,6 +468,7 @@
 
         $scope.deleteSupplier = function () {
 
+            $(".modal .btn.btn-primary").prop('disabled', 'true');
             $scope.idDelete = $("#codigoDelete").val();
             console.log($scope.idDelete);
 

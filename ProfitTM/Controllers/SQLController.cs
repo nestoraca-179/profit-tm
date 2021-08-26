@@ -31,6 +31,8 @@ namespace ProfitTM.Controllers
 
         // OPCIONES, REPORTES Y COMPLEMENTOS
 
+            // ADMIN
+
         public ProfitTMResponse getReports(string prod, string mod)
         {
             ProfitTMResponse response = new ProfitTMResponse();
@@ -716,6 +718,84 @@ namespace ProfitTM.Controllers
                                 {
                                     ID = reader["co_cond"].ToString(),
                                     Name = reader["cond_des"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = results;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+            // CONT
+
+        public ProfitTMResponse getCostCenters()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<CostCenter> results = new List<CostCenter>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from scCentro", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(new CostCenter()
+                                {
+                                    ID = reader["co_cen"].ToString(),
+                                    Name = reader["des_cen"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = results;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        public ProfitTMResponse getExpenseAccounts()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<ExpenseAccount> results = new List<ExpenseAccount>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from scGastos", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(new ExpenseAccount()
+                                {
+                                    ID = reader["co_gas"].ToString(),
+                                    Name = reader["des_gas"].ToString()
                                 });
                             }
                         }

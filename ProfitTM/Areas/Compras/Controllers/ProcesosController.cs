@@ -8,7 +8,6 @@ namespace ProfitTM.Areas.Compras.Controllers
 {
     public class ProcesosController : Controller
     {
-        // GET: Compras/Procesos
         public ActionResult Index()
         {
             return View();
