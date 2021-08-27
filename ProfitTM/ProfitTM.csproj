@@ -329,6 +329,9 @@
     <Compile Include="Areas\General\Controllers\ReportesController.cs" />
     <Compile Include="Areas\General\Controllers\RepsController.cs" />
     <Compile Include="Areas\General\GeneralAreaRegistration.cs" />
+    <Compile Include="Areas\General\Reports\RepBalanceGeneral2KDoce.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\Inventario\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Inventario\Controllers\RepsController.cs" />
     <Compile Include="Areas\Inventario\InventarioAreaRegistration.cs" />
@@ -434,6 +437,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Compras\Reports\RepTotalCompraxArticulo.resx">
       <DependentUpon>RepTotalCompraxArticulo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\General\Reports\RepBalanceGeneral2KDoce.resx">
+      <DependentUpon>RepBalanceGeneral2KDoce.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Inventario\Reports\RepArticuloConCosto.resx">
       <DependentUpon>RepArticuloConCosto.cs</DependentUpon>
