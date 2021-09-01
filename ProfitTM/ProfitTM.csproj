@@ -218,6 +218,7 @@
     <Content Include="Areas\General\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\General\Views\Reportes\Index.cshtml" />
     <Content Include="Areas\General\Views\Reportes\Reporte.cshtml" />
+    <Content Include="Areas\General\Views\Reportes\_RepBalanceGeneral2KDocePartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

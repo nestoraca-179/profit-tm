@@ -1,6 +1,26 @@
-﻿
-@{
-    ViewBag.Title = "Reporte";
+﻿@{
+    ViewData["Title"] = "Ver Reporte";
+    ViewData["home"] = Session["home"];
 }
 
-<h2>Reporte</h2>
+@Html.DevExpress().GetStyleSheets(
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Report }
+)
+@Html.DevExpress().GetScripts(
+    //new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.Report }
+)
+
+<div style="padding: 40px;">
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.report))
+        {
+            string report = ViewBag.report;
+
+            @Html.Action(report, "Reps")
+        }
+    }
+</div>
