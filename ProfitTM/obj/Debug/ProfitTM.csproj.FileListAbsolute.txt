@@ -854,3 +854,5 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepDisponibilidadBanca
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepMoviBancoXNum.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepDisponibilidad.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepBalanceGeneral2KDoce.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepBalanceComprobacion.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Debug\RepEstadoResultados2KDoce.resources

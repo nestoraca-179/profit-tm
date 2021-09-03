@@ -27,5 +27,41 @@ namespace ProfitTM.Areas.General.Controllers
         {
             return DocumentViewerExtension.ExportTo(report, Request);
         }
+
+        // RepEstadoResultados2KDoce
+        RepEstadoResultados2KDoce report1 = new RepEstadoResultados2KDoce();
+        public ActionResult RepEstadoResultados2KDocePartial()
+        {
+            string connect = Session["connect"].ToString();
+            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+
+            SqlDataSource ds = report1.DataSource as SqlDataSource;
+            ds.ConnectionName = connect;
+            ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
+
+            return PartialView("~/Areas/General/Views/Reportes/_RepEstadoResultados2KDocePartial.cshtml", report1);
+        }
+        public ActionResult RepEstadoResultados2KDocePartialExport()
+        {
+            return DocumentViewerExtension.ExportTo(report1, Request);
+        }
+
+        // RepBalanceComprobacion
+        RepBalanceComprobacion report2 = new RepBalanceComprobacion();
+        public ActionResult RepBalanceComprobacionPartial()
+        {
+            string connect = Session["connect"].ToString();
+            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+
+            SqlDataSource ds = report2.DataSource as SqlDataSource;
+            ds.ConnectionName = connect;
+            ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
+
+            return PartialView("~/Areas/General/Views/Reportes/_RepBalanceComprobacionPartial.cshtml", report2);
+        }
+        public ActionResult RepBalanceComprobacionPartialExport()
+        {
+            return DocumentViewerExtension.ExportTo(report2, Request);
+        }
     }
 }

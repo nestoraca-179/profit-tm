@@ -365,7 +365,6 @@ public class RepBalanceGeneral2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.pageInfo2});
             this.BottomMargin.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Visible", "[EsIngEgr] = false")});
-            this.BottomMargin.HeightF = 78F;
             this.BottomMargin.Name = "BottomMargin";
             // 
             // pageInfo1
@@ -775,7 +774,7 @@ public class RepBalanceGeneral2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.DataMember = "RepBalanceGeneral2KDoce";
             this.DataSource = this.DemoCont;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.Margins = new System.Drawing.Printing.Margins(50, 50, 70, 78);
+            this.Margins = new System.Drawing.Printing.Margins(50, 50, 70, 100);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.fecha,
             this.cenDesde,

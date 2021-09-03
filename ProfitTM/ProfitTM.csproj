@@ -219,6 +219,8 @@
     <Content Include="Areas\General\Views\Reportes\Index.cshtml" />
     <Content Include="Areas\General\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\General\Views\Reportes\_RepBalanceGeneral2KDocePartial.cshtml" />
+    <Content Include="Areas\General\Views\Reportes\_RepEstadoResultados2KDocePartial.cshtml" />
+    <Content Include="Areas\General\Views\Reportes\_RepBalanceComprobacionPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -330,7 +332,13 @@
     <Compile Include="Areas\General\Controllers\ReportesController.cs" />
     <Compile Include="Areas\General\Controllers\RepsController.cs" />
     <Compile Include="Areas\General\GeneralAreaRegistration.cs" />
+    <Compile Include="Areas\General\Reports\RepBalanceComprobacion.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\General\Reports\RepBalanceGeneral2KDoce.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\General\Reports\RepEstadoResultados2KDoce.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Areas\Inventario\Controllers\ReportesController.cs" />
@@ -439,8 +447,14 @@
     <EmbeddedResource Include="Areas\Compras\Reports\RepTotalCompraxArticulo.resx">
       <DependentUpon>RepTotalCompraxArticulo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Areas\General\Reports\RepBalanceComprobacion.resx">
+      <DependentUpon>RepBalanceComprobacion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Areas\General\Reports\RepBalanceGeneral2KDoce.resx">
       <DependentUpon>RepBalanceGeneral2KDoce.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\General\Reports\RepEstadoResultados2KDoce.resx">
+      <DependentUpon>RepEstadoResultados2KDoce.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Inventario\Reports\RepArticuloConCosto.resx">
       <DependentUpon>RepArticuloConCosto.cs</DependentUpon>
