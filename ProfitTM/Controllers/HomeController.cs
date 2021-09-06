@@ -111,6 +111,7 @@ namespace ProfitTM.Controllers
         public ActionResult DashboardAdmin()
         {
             ViewBag.user = Session["user"];
+            string userID = ((User)ViewBag.user).ID;
 
             if (ViewBag.user == null)
             {
@@ -127,7 +128,7 @@ namespace ProfitTM.Controllers
                     bool error = false;
                     string msg = "";
 
-                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Admin");
+                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Admin", userID);
                     ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(5);
                     ProfitTMResponse responseMPP = sqlController.getMostPurchasedProducts(5);
                     ProfitTMResponse responseMAC = sqlController.getMostActiveClients(5);
@@ -166,8 +167,7 @@ namespace ProfitTM.Controllers
                     }
                     else
                     {
-                        FormsAuthentication.SignOut();
-                        return RedirectToAction("Index", new { message = msg });
+                        return RedirectToAction("Logout", "Account", new { msg = msg });
                     }
                 }
 
@@ -193,6 +193,7 @@ namespace ProfitTM.Controllers
         public ActionResult DashboardCont()
         {
             ViewBag.user = Session["user"];
+            string userID = ((User)ViewBag.user).ID;
 
             if (ViewBag.user == null)
             {
@@ -209,7 +210,7 @@ namespace ProfitTM.Controllers
                     bool error = false;
                     string msg = "";
 
-                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Cont");
+                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Cont", userID);
 
                     responses.Add(responseOPT);
 
@@ -230,8 +231,7 @@ namespace ProfitTM.Controllers
                     }
                     else
                     {
-                        FormsAuthentication.SignOut();
-                        return RedirectToAction("Index", new { message = msg });
+                        return RedirectToAction("Logout", "Account", new { msg = msg });
                     }
                 }
 
@@ -251,6 +251,7 @@ namespace ProfitTM.Controllers
         public ActionResult DashboardNomi()
         {
             ViewBag.user = Session["user"];
+            string userID = ((User)ViewBag.user).ID;
 
             if (ViewBag.user == null)
             {
@@ -267,7 +268,7 @@ namespace ProfitTM.Controllers
                     bool error = false;
                     string msg = "";
 
-                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Nomi");
+                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Nomi", userID);
 
                     responses.Add(responseOPT);
 
@@ -288,8 +289,7 @@ namespace ProfitTM.Controllers
                     }
                     else
                     {
-                        FormsAuthentication.SignOut();
-                        return RedirectToAction("Index", new { message = msg });
+                        return RedirectToAction("Logout", "Account", new { msg = msg });
                     }
                 }
 
@@ -355,8 +355,7 @@ namespace ProfitTM.Controllers
                 }
                 else
                 {
-                    FormsAuthentication.SignOut();
-                    return RedirectToAction("Index", new { message = msg });
+                    return RedirectToAction("Logout", "Account", new { msg = msg });
                 }
             }
         }
@@ -411,8 +410,7 @@ namespace ProfitTM.Controllers
                 }
                 else
                 {
-                    FormsAuthentication.SignOut();
-                    return RedirectToAction("Index", new { message = msg });
+                    return RedirectToAction("Logout", "Account", new { msg = msg });
                 }
             }
         }
@@ -467,8 +465,7 @@ namespace ProfitTM.Controllers
                 }
                 else
                 {
-                    FormsAuthentication.SignOut();
-                    return RedirectToAction("Index", new { message = msg });
+                    return RedirectToAction("Logout", "Account", new { msg = msg });
                 }
             }
         }

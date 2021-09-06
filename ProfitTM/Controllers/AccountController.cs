@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data.SqlClient;
 using System.Web.Security;
 using System.Configuration;
+using ProfitTM.Models;
 
 namespace ProfitTM.Controllers
 {
@@ -18,20 +19,33 @@ namespace ProfitTM.Controllers
         {
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(pass))
             {
+                string encryptedPass = SecurityController.Encrypt(pass);
+                //string decryptedText = SecurityController.Decrypt(encryptedPass);
+
                 using (SqlConnection conn = new SqlConnection(DBProfitTM))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand("SELECT * FROM Users WHERE username = @Username AND pass = @Pass", conn))
+                    using (SqlCommand comm = new SqlCommand("SELECT * FROM Users WHERE Username = @Username AND Password = @Pass", conn))
                     {
                         comm.Parameters.AddWithValue("@Username", username);
-                        comm.Parameters.AddWithValue("@Pass", pass);
+                        comm.Parameters.AddWithValue("@Pass", encryptedPass);
 
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
                             if (reader.Read())
                             {
                                 FormsAuthentication.SetAuthCookie(username, true);
-                                Session["user"] = reader["descrip"].ToString();
+                                
+                                User user = new User() {
+                                    ID = reader["ID"].ToString(),
+                                    Username = reader["Username"].ToString(),
+                                    Descrip = reader["Descrip"].ToString(),
+                                    IsAdm = bool.Parse(reader["IsAdm"].ToString()),
+                                    IsCon = bool.Parse(reader["IsCon"].ToString()),
+                                    IsNom = bool.Parse(reader["IsNom"].ToString())
+                                };
+
+                                Session["user"] = user;
 
                                 return RedirectToAction("SeleccionProducto", "Home");
                             }
@@ -49,11 +63,16 @@ namespace ProfitTM.Controllers
             }
         }
 
-        public ActionResult Logout()
+        public ActionResult Logout(string msg = "")
         {
             FormsAuthentication.SignOut();
             Session["user"] = null;
             Session["options"] = null;
+
+            if (msg != "")
+            {
+                return RedirectToAction("Index", "Home", new { message = msg });
+            }
 
             return RedirectToAction("Index", "Home");
         }

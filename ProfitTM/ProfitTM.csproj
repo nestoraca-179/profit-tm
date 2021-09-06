@@ -379,6 +379,7 @@
     <Compile Include="Controllers\ClientManager.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfitTMApiController.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SQLController.cs" />
     <Compile Include="Controllers\SupplierManager.cs" />
     <Compile Include="Global.asax.cs">
@@ -404,6 +405,7 @@
     <Compile Include="Models\Admin\Supplier.cs" />
     <Compile Include="Models\Admin\Type.cs" />
     <Compile Include="Models\Admin\Zone.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

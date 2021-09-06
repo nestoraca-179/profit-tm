@@ -31,8 +31,6 @@ namespace ProfitTM.Controllers
 
         // OPCIONES, REPORTES Y COMPLEMENTOS
 
-            // ADMIN
-
         public ProfitTMResponse getReports(string prod, string mod)
         {
             ProfitTMResponse response = new ProfitTMResponse();
@@ -52,7 +50,7 @@ namespace ProfitTM.Controllers
                                 ReportTree reportTree = new ReportTree();
 
                                 reportTree.ID = reader["ID"].ToString();
-                                reportTree.Name = reader["NameTree"].ToString();
+                                reportTree.Name = reader["TreeName"].ToString();
                                 reportTree.Prod = reader["Product"].ToString();
                                 reportTree.ReportGroups = new List<ReportGroup>();
 
@@ -63,7 +61,7 @@ namespace ProfitTM.Controllers
 
                     foreach (ReportTree reportTree in reportTrees)
                     {
-                        using (SqlCommand comm = new SqlCommand(string.Format("select * from GroupReports where IDTree = '{0}'", reportTree.ID), conn))
+                        using (SqlCommand comm = new SqlCommand(string.Format("select * from GroupReports where TreeID = '{0}'", reportTree.ID), conn))
                         {
                             using (SqlDataReader reader = comm.ExecuteReader())
                             {
@@ -72,7 +70,7 @@ namespace ProfitTM.Controllers
                                     ReportGroup reportGroup = new ReportGroup();
 
                                     reportGroup.ID = reader["ID"].ToString();
-                                    reportGroup.Name = reader["NameGroup"].ToString();
+                                    reportGroup.Name = reader["GroupName"].ToString();
                                     reportGroup.Reports = new List<Report>();
 
                                     reportTree.ReportGroups.Add(reportGroup);
@@ -82,7 +80,7 @@ namespace ProfitTM.Controllers
 
                         foreach (ReportGroup reportGroup in reportTree.ReportGroups)
                         {
-                            using (SqlCommand comm = new SqlCommand(string.Format("select * from Reports where IDGroup = '{0}'", reportGroup.ID), conn))
+                            using (SqlCommand comm = new SqlCommand(string.Format("select * from Reports where GroupID = '{0}'", reportGroup.ID), conn))
                             {
                                 using (SqlDataReader reader = comm.ExecuteReader())
                                 {
@@ -91,7 +89,7 @@ namespace ProfitTM.Controllers
                                         Report report = new Report();
 
                                         report.ID = reader["ID"].ToString();
-                                        report.Name = reader["NameReport"].ToString();
+                                        report.Name = reader["ReportName"].ToString();
                                         report.Proc = reader["SProc"].ToString();
                                         report.Cols = reader["Cols"].ToString();
                                         report.Fields = reader["Fields"].ToString();
@@ -120,7 +118,7 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        public ProfitTMResponse getOptions(string prod)
+        public ProfitTMResponse getOptions(string prod, string id)
         {
             ProfitTMResponse response = new ProfitTMResponse();
             List<Option> options = new List<Option>();
@@ -130,7 +128,10 @@ namespace ProfitTM.Controllers
                 using (SqlConnection conn = new SqlConnection(DBadmin))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand(string.Format("select * from Options where Product = '{0}'", prod), conn))
+                    using (SqlCommand comm = new SqlCommand(string.Format(@"select O.* from UsersOptions UO
+                        inner join Options O on UO.OptionID = O.ID
+                        inner join Users U on UO.UserID = U.ID
+                        where O.Product = '{0}' and U.ID = '{1}'", prod, id), conn))
                     {
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
@@ -139,12 +140,12 @@ namespace ProfitTM.Controllers
                                 Option option = new Option();
 
                                 option.ID = reader["ID"].ToString();
-                                option.Name = reader["NameOption"].ToString();
+                                option.Name = reader["OptionName"].ToString();
                                 option.Icon = reader["Icon"].ToString();
                                 option.Product = reader["Product"].ToString();
-                                option.UrlTable = reader["UrlTable"].ToString();
-                                option.UrlProcess = reader["UrlProcess"].ToString();
-                                option.UrlReport = reader["UrlReport"].ToString();
+                                option.UrlTable = reader["TableUrl"].ToString();
+                                option.UrlProcess = reader["ProcessUrl"].ToString();
+                                option.UrlReport = reader["ReportUrl"].ToString();
 
                                 options.Add(option);
                             }
@@ -163,6 +164,8 @@ namespace ProfitTM.Controllers
 
             return response;
         }
+
+            // ADMIN
 
         public ProfitTMResponse getProds()
         {

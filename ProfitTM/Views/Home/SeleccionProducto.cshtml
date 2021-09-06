@@ -5,18 +5,29 @@
     <h2 class="title-page">Seleccionar Producto</h2>
     <form action="/Home/SeleccionEmpresa" method="get">
         <div class="container-cards">
-            <div class="card-prod shadow-lg" id="Admin">
-                <img src="~/images/Logo-adm.png" />
-                <h3>Administrativo</h3>
-            </div>
-            <div class="card-prod shadow-lg" id="Cont">
-                <img src="~/images/Logo-con.png" />
-                <h3>Contabilidad</h3>
-            </div>
-            <div class="card-prod shadow-lg" id="Nomi">
-                <img src="~/images/Logo-nom.png" />
-                <h3>Nomina</h3>
-            </div>
+            @{
+                if (ViewBag.user.IsAdm)
+                {
+                    <div class="card-prod shadow-lg" id="Admin">
+                        <img src="~/images/Logo-adm.png" />
+                        <h3>Administrativo</h3>
+                    </div>
+                }
+                if (ViewBag.user.IsCon)
+                {
+                    <div class="card-prod shadow-lg" id="Cont">
+                        <img src="~/images/Logo-con.png" />
+                        <h3>Contabilidad</h3>
+                    </div>
+                }
+                if (ViewBag.user.IsNom)
+                {
+                    <div class="card-prod shadow-lg" id="Nomi">
+                        <img src="~/images/Logo-nom.png" />
+                        <h3>Nomina</h3>
+                    </div>
+                }
+            }
         </div>
         <input type="hidden" id="prod" name="prod" value="" />
         <div class="col-md-12 text-center">

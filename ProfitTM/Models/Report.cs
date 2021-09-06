@@ -16,6 +16,6 @@ namespace ProfitTM.Models
         public string Params { get; set; }
         public string QueryParams { get; set; }
         public bool Enabled { get; set; }
-        public string IDGroup { get; set; }
+        public string GroupID { get; set; }
     }
 }

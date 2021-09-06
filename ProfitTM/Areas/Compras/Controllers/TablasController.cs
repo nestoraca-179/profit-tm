@@ -88,8 +88,7 @@ namespace ProfitTM.Areas.Compras.Controllers
                 }
                 else
                 {
-                    FormsAuthentication.SignOut();
-                    return RedirectToAction("Index", "Home", new { area = "", message = msg });
+                    return RedirectToAction("Logout", "Account", new { area = "", msg = msg });
                 }
             }
         }
