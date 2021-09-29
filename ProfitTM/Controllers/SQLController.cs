@@ -1347,5 +1347,56 @@ namespace ProfitTM.Controllers
 
             return response;
         }
+
+        // ESTADISTICAS DE LOS GRAFICOS DEL DASHBOARD CONT
+
+        public ProfitTMResponse getLiqCapTest(int number)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            double result = 0;
+            string index = "";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand(@"select
+                        (select saldo_ini from sccuenta where co_cue = '1.1.') as activos,
+                        ((select saldo_ini from sccuenta where co_cue = '2.1.') * -1) as pasivos", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            if (reader.Read()) {
+
+                                double activos = double.Parse(reader["activos"].ToString());
+                                double pasivos = double.Parse(reader["pasivos"].ToString());
+
+                                if (number == 1)
+                                {
+                                    result = activos / pasivos;
+                                }
+                                else if (number == 2)
+                                {
+                                    result = activos - pasivos;
+                                }
+
+                                index = result.ToString("N2");
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = index;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
     }
 }

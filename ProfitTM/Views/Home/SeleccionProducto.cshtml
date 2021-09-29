@@ -31,7 +31,7 @@
         </div>
         <input type="hidden" id="prod" name="prod" value="" />
         <div class="col-md-12 text-center">
-            <button style="width: 30%; padding: 20px 0;" id="btn" class="btn btn-primary" onclick="this.setAttribute('disabled', 'true')" disabled>Seleccionar aplicativo</button>
+            <button type="button" style="width: 30%; padding: 20px 0;" id="btn-send" class="btn btn-primary" onclick="send(this)" disabled>Seleccionar aplicativo</button>
         </div>
     </form>
 </div>
@@ -46,8 +46,13 @@
         $(this).addClass("selected-card");
         $("#prod").val(this.id);
 
-        if ($("#btn").prop('disabled'))
-            $("#btn").prop('disabled', false)
+        if ($("#btn-send").prop('disabled'))
+            $("#btn-send").prop('disabled', false)
 
     });
+
+    function send(elem) {
+        elem.setAttribute('disabled', 'true');
+        $("form").trigger("submit");
+    }
 </script>

@@ -211,8 +211,12 @@ namespace ProfitTM.Controllers
                     string msg = "";
 
                     ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Cont", userID);
+                    ProfitTMResponse responseLQT = sqlController.getLiqCapTest(1);
+                    ProfitTMResponse responseCPT = sqlController.getLiqCapTest(2);
 
                     responses.Add(responseOPT);
+                    responses.Add(responseLQT);
+                    responses.Add(responseCPT);
 
                     foreach (ProfitTMResponse res in responses)
                     {
@@ -228,6 +232,8 @@ namespace ProfitTM.Controllers
                     if (!error)
                     {
                         Session["options"] = responseOPT.Result;
+                        Session["LQT"] = responseLQT.Result;
+                        Session["CPT"] = responseCPT.Result;
                     }
                     else
                     {
@@ -236,6 +242,8 @@ namespace ProfitTM.Controllers
                 }
 
                 ViewBag.options = Session["options"];
+                ViewBag.testLiq = Session["LQT"];
+                ViewBag.testCap = Session["CPT"];
 
                 NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
                 formato.CurrencyGroupSeparator = ".";

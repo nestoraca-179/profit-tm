@@ -22,18 +22,23 @@
         </div>
         <input type="hidden" id="connect" name="connect" value />
         <div class="col-md-12 text-center">
-            <button style="width: 30%; margin-top: 10%; padding: 20px 0;" id="btn" class="btn btn-primary" onclick="this.setAttribute('disabled', 'true')" disabled>Seleccionar empresa</button>
+            <button type="button" style="width: 30%; margin-top: 10%; padding: 20px 0;" id="btn-send" class="btn btn-primary" onclick="send(this)" disabled>Seleccionar empresa</button>
         </div>
     </form>
 </div>
 <script>
     function enable(elem) {
         if (elem.value != "#") {
-            $("#btn").prop("disabled", "");
+            $("#btn-send").prop("disabled", "");
             $("#connect").val(elem.value);
         } else {
-            $("#btn").prop("disabled", "true");
+            $("#btn-send").prop("disabled", "true");
             $("#connect").val("");
         }
+    }
+
+    function send(elem) {
+        elem.setAttribute('disabled', 'true');
+        $("form").trigger("submit");
     }
 </script>
