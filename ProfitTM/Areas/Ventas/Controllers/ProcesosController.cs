@@ -26,25 +26,43 @@ namespace ProfitTM.Areas.Ventas.Controllers
             {
                 SQLController sqlController = new SQLController();
                 InvoiceManager invoiceManager = new InvoiceManager();
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
 
                 bool error = false;
                 string msg = "";
+
+                ProfitTMResponse responseAC = sqlController.getClients();
+
+                responses.Add(responseAC);
+
+                foreach (ProfitTMResponse res in responses)
+                {
+                    if (res.Status == "ERROR")
+                    {
+                        error = true;
+                        msg = res.Message;
+
+                        break;
+                    }
+                }
 
                 if (!error)
                 {
                     ProfitTMResponse result;
 
+                    ViewBag.assistClients = responseAC.Result;
+
                     switch (option)
                     {
                         case "0":
 
-                            result = invoiceManager.getAllInvoices();
+                            result = invoiceManager.getAllInvoices('V');
 
                             if (result.Status == "OK")
                             {
                                 ViewBag.resultsTable = result.Result;
                                 ViewBag.titleR = "Factura";
-                                ViewBag.headers = "Codigo,Cliente,Fecha,Total,Estado";
+                                ViewBag.headers = "Codigo,Cliente,Fecha,Total,Estado,Impresa";
                             }
 
                             break;

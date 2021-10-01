@@ -3,12 +3,12 @@
     ViewData["home"] = Session["home"];
 }
 <style>
-    .container{
+    .container {
         max-width: 100%;
     }
 </style>
-<div class="container container-option">
-    @*<div ng-if="result" style="width: 100%;" class="{{ result.Class }}">{{ result.Message }}</div>*@
+<div class="container container-option" ng-app="Process" ng-controller="controller">
+    <div ng-if="result" style="width: 100%;" class="{{ result.Class }}">{{ result.Message }}</div>
     <form action="" method="post">
         <div class="form-row">
             <div class="form-group col-sm-2">
@@ -18,11 +18,6 @@
                 <select id="option" name="option" onchange="change(this)">
                     <option value="#">Seleccione una opción...</option>
                     <option value="0">Factura</option>
-                    @*<option value="1">Tipo</option>
-                    <option value="2">Zona</option>
-                    <option value="3">Segmento</option>
-                    <option value="4">Condición Pago</option>
-                    <option value="5">Cuenta de I/E</option>*@
                 </select>
             </div>
             <div class="form-group col-sm-2">
@@ -58,16 +53,13 @@
                         {
                             <tr>
                                 @{
-                                    @*foreach (string col in ViewBag.cols.Split(','))
-                                    {
-                                        <td> @result[col]</td>
-                                    }*@
                                     <td> @result.ID</td>
                                     <td> @result.Descrip</td>
                                     <td> @result.Date</td>
                                     <td> @result.Amount.ToString("N", ViewBag.formato)</td>
-                                    { 
+                                    {
                                         string status = ((int)result.Status).ToString();
+                                        bool printed = (bool)result.Printed;
 
                                         switch (status)
                                         {
@@ -81,23 +73,177 @@
                                                 <td>PROCESADA</td>
                                                 break;
                                         }
+
+                                        if (printed)
+                                        {
+                                            <td>SI</td>
+                                        }
+                                        else
+                                        {
+                                            <td>NO</td>
+                                        }
                                     }
                                     <td class="cell-icons" scope="col">
-                                        <div>
-                                            <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
-                                            <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
-                                        </div>
+                                        @{
+                                            string estatus = ((int)result.Status).ToString();
+                                            bool print = (bool)result.Printed;
+
+                                            if (!print && estatus == "0")
+                                            {
+                                                <div>
+                                                    <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
+                                                    <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
+                                                </div>
+                                            }
+                                        }
                                     </td>
                                 }
                             </tr>
-                                        }
+                        }
                     }
                 </tbody>
             </table>
             <div style="height: 40px;"></div>
+            <!-- Modal Agregar Factura -->
+            <div class="modal fade" id="modalFacturaAdd" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
+                    <form action="" method="post" id="formAdd" class="modal-content" onsubmit="return false;">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Factura</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-2">
+                                    <input type="text" id="codigo" placeholder="Código" required ng-model="formAdd.id" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" id="nombre" placeholder="Nombre" required ng-model="formAdd.name" />
+                                </div>
+                                <div class="col-sm-4 input-search">
+                                    <input type="text" id="tipo" placeholder="Tipo" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.type" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistType')" data-name="tipo"></i>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-3 input-search">
+                                    <input type="text" id="zona" placeholder="Zona" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.zone" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistZone')" data-name="zona"></i>
+                                </div>
+                                <div class="col-sm-3 input-search">
+                                    <input type="text" id="cuenta" placeholder="Cta Ingr/Egr" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.account" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistAccount')" data-name="cuenta"></i>
+                                </div>
+                                <div class="col-sm-3 input-search">
+                                    <input type="text" id="pais" placeholder="País" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.country" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCountry')" data-name="pais"></i>
+                                </div>
+                                <div class="col-sm-3 input-search">
+                                    <input type="text" id="segmento" placeholder="Segmento" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.segment" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSegment')" data-name="segmento"></i>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-4">
+                                    <input type="text" id="rif" placeholder="RIF" required ng-model="formAdd.rif" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="email" id="email" placeholder="Email" required ng-model="formAdd.email" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" id="telefono" placeholder="Teléfono" required ng-model="formAdd.phone" />
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-6 input-search">
+                                    <input type="text" id="vendedor" placeholder="Vendedor" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.seller" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSeller')" data-name="vendedor"></i>
+                                </div>
+                                <div class="col-sm-6 input-search">
+                                    <input type="text" id="condicion" placeholder="Cond. Pago" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.cond" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCond')" data-name="condicion"></i>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-12">
+                                    <textarea id="direccion" placeholder="Direccion" ng-model="formAdd.address"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="addClient()">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Modal Editar Factura -->
+            <div class="modal fade" id="modalFacturaEdit" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
+                    <form action="" method="post" id="formEdit" class="modal-content" onsubmit="return false;">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Factura</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <input type="text" id="codigoEdit" placeholder="Código" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.id" />
+                                </div>
+                                <div class="col-sm-8 input-search">
+                                    <input type="text" id="descripEdit" placeholder="Cliente" onfocus="this.blur()" style="max-width: 80%;" required ng-model="formEdit.descrip" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistClient')" data-name="descripEdit"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="editInvoice()">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Modal 1 -->
+            <div class="modal fade" id="modalAssistClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAssistLabel">Buscar Cliente</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar cliente..." onkeyup="search('modalAssistClient')" />
+                            </div>
+                            <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                                @{
+                                    foreach (var elem in ViewBag.assistClients)
+                                    {
+                                        <tr style="cursor: pointer" onclick="selectRow(this)">
+                                            <td>@elem.ID</td>
+                                            <td>@elem.Name</td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                            <input type="hidden" id="name-input" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistClient')">Seleccionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
         else
-                                        {
+        {
             <h3 class="text-center font-weight-bold" style="position: relative; top: 30%;">Sin Resultados</h3>
         }
     }
@@ -106,63 +252,107 @@
 <script>
     var app = angular.module("Process", []);
 
-                                        app.controller("controller", function ($scope, $http) { });
+    app.controller("controller", function ($scope, $http) {
 
-                                        function change(elem) {
+        $scope.formEdit = {};
 
-                                            if (elem.value == "#")
+        $scope.editInvoice = function () {
+
+            if ($("#formEdit")[0].checkValidity()) {
+
+                $(".modal .btn.btn-primary").prop('disabled', 'true');
+                $("#formEdit input, #formEdit textarea").change();
+                console.log($scope.formEdit);
+
+                $scope.formEdit.type = 'V';
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/EditInvoice/',
+                    data: $scope.formEdit,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    console.log(response.data);
+                    $scope.result = response.data;
+
+                    $("#modalFacturaEdit").modal("hide");
+                    if ($scope.result.Status == "OK") {
+
+                        $scope.result.Class = "alert alert-success";
+                        $scope.result.Message = "Factura modificada con éxito";
+
+                        setTimeout(() => location.href = "/Ventas/Procesos/Index?option=0", 2000);
+
+                    } else
+                        $scope.result.Class = "alert alert-danger";
+
+                    $(".modal .btn.btn-primary").prop('disabled', '');
+                });
+            }
+        }
+
+    });
+
+    function change(elem) {
+
+        if (elem.value == "#")
             $("#btn").prop("disabled", "true");
         else
             $("#btn").prop("disabled", "");
-                                        }
+    }
 
-                                        function openModal(elem, modal) {
+    function openModal(elem, modal) {
 
-                                            var previous = elem.previousElementSibling;
+        var previous = elem.previousElementSibling;
 
-                                            if (!previous.disabled) {
+        if (!previous.disabled) {
 
             $("#" + modal).find("#name-input").val($(elem).data("name"));
             $("#" + modal).modal("show");
 
-                                            }
-                                        }
+        }
+    }
 
-                                        function search(modal) {
-                                            var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+    function search(modal) {
+        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
             table = $("#" + modal).find("#results")[0];
 
-                                            for (var i = 0; i < table.rows.length; i++) {
+        for (var i = 0; i < table.rows.length; i++) {
 
-                                                var row = table.rows[i];
-                                                var elems = row.getElementsByTagName("td");
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
 
-                                                var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
 
-                                                if (!val1.includes(value) && !val2.includes(value))
-                                                    row.style.display = "none";
-                                                else
-                                                    row.style.display = "";
-                                            }
-                                        }
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
 
-                                        function selectRow(elem) {
-                                            var previous = document.getElementsByClassName("selected-row")[0];
+    function selectRow(elem) {
+        var previous = document.getElementsByClassName("selected-row")[0];
 
-                                            if (previous != null) {
-                                                previous.classList.remove("selected-row");
-                                            }
+        if (previous != null) {
+            previous.classList.remove("selected-row");
+        }
 
-                                            elem.classList.add("selected-row");
-                                        }
+        elem.classList.add("selected-row");
+    }
 
-                                        function saveRow(modal) {
-                                            var item = document.getElementsByClassName("selected-row")[0];
+    function saveRow(modal) {
+        var item = document.getElementsByClassName("selected-row")[0];
 
-                                            if (item != null) {
-                                                var elem = item.children[0],
-                                                    value = elem.innerHTML,
-                                                    input = $("#" + modal).find("#name-input").val();
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val();
 
             $("#" + input).val(value.trim());
             $(".selected-row")[0].classList.remove("selected-row");
@@ -170,37 +360,29 @@
             $("#" + modal).find("button[name=search-btn]").trigger("click");
 
             $("#" + modal).modal("hide");
-                                            } else {
-                                                alert("Debes seleccionar un item");
-                                            }
-                                        }
+        } else {
+            alert("Debes seleccionar un item");
+        }
+    }
 
-                                        function editRow(elem) {
-                                            var cells = $(elem).closest('tr')[0].cells;
+    function editRow(elem) {
+        var cells = $(elem).closest('tr')[0].cells;
 
-                                            var codigo = cells[0].innerHTML,
-                                                rif = cells[1].innerHTML,
-                                                nombre = cells[2].innerHTML,
-                                                direccion = cells[3].innerHTML,
-                                                telefono = cells[4].innerHTML,
-                                                email = cells[5].innerHTML;
+        var codigo = cells[0].innerHTML,
+            client = cells[1].innerHTML;
 
         $("#codigoEdit").val(codigo);
-        $("#rifEdit").val(rif);
-        $("#nombreEdit").val(nombre);
-        $("#direccionEdit").val(direccion);
-        $("#telefonoEdit").val(telefono);
-        $("#emailEdit").val(email);
+        $("#descripEdit").val(client);
 
-        $("#modalClienteEdit").modal("show");
-                                        }
+        $("#modalFacturaEdit").modal("show");
+    }
 
-                                        function deleteRow(elem) {
-                                            var cells = $(elem).closest('tr')[0].cells;
+    function deleteRow(elem) {
+        var cells = $(elem).closest('tr')[0].cells;
 
-                                            var codigo = cells[0].innerHTML;
+        var codigo = cells[0].innerHTML;
 
         $("#codigoDelete").val(codigo.trim());
         $("#modalClienteDelete").modal("show");
-                                        }
+    }
 </script>

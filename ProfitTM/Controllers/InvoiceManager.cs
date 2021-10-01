@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace ProfitTM.Controllers
@@ -26,17 +27,20 @@ namespace ProfitTM.Controllers
             this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
         }
 
-        public ProfitTMResponse getAllInvoices()
+        public ProfitTMResponse getAllInvoices(char type)
         {
             ProfitTMResponse response = new ProfitTMResponse();
             List<Invoice> invoices = new List<Invoice>();
+
+            string name = type == 'V' ? "co_cli" : "co_prov";
+            string table = type == 'V' ? "saFacturaVenta" : "saFacturaCompra";
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(DBadmin))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand("SELECT doc_num, co_cli, fec_emis, total_neto, status, impresa FROM saFacturaVenta", conn))
+                    using (SqlCommand comm = new SqlCommand("SELECT doc_num, " + name + ", fec_emis, total_neto, status, impresa FROM " + table, conn))
                     {
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
@@ -49,16 +53,32 @@ namespace ProfitTM.Controllers
                                     Amount = double.Parse(reader["total_neto"].ToString()),
                                     Status = int.Parse(reader["status"].ToString()),
                                     Printed = bool.Parse(reader["impresa"].ToString()),
-                                    Type = 'V'
+                                    Type = type
                                 };
 
-                                string clientID = reader["co_cli"].ToString();
-                                ProfitTMResponse getName = new ClientManager().searchClient(clientID);
+                                string ID = "";
+                                ProfitTMResponse getName = new ProfitTMResponse();
+
+                                switch (type)
+                                {
+                                    case 'V':
+
+                                        ID = reader["co_cli"].ToString();
+                                        getName = new ClientManager().searchClient(ID);
+
+                                        break;
+                                    case 'C':
+
+                                        ID = reader["co_prov"].ToString();
+                                        getName = new SupplierManager().searchSupplier(ID);
+
+                                        break;
+                                }
 
                                 if (getName.Status == "OK")
-                                    invoice.Descrip = ((Client)getName.Result).Name;
+                                    invoice.Descrip = type == 'V' ? ((Client)getName.Result).Name : ((Supplier)getName.Result).Name;
                                 else
-                                    invoice.Descrip = clientID;
+                                    invoice.Descrip = ID;
 
                                 invoices.Add(invoice);
                             }
@@ -73,6 +93,120 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        private ProfitTMResponse getDetailsInvoice(char type, string id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            Dictionary<string, string> details = new Dictionary<string, string>();
+
+            string query = "";
+
+            if (type == 'V')
+            {
+                query = @"SELECT TOP (1) 
+                [Extent1].[co_cli] AS id,
+                [Extent1].[cli_des] AS descrip, 
+                [Extent1].[cond_pag] AS cond,
+                [Extent1].[co_ven] AS vend
+                FROM (SELECT 
+                      [v_saCliente_saTipoCliente].[co_cli] AS [co_cli],
+                      [v_saCliente_saTipoCliente].[cli_des] AS [cli_des], 
+                      [v_saCliente_saTipoCliente].[cond_pag] AS [cond_pag],
+                      [v_saCliente_saTipoCliente].[co_ven] AS [co_ven]
+                      FROM [dbo].[v_saCliente_saTipoCliente] AS [v_saCliente_saTipoCliente]) AS [Extent1]
+                WHERE [Extent1].[co_cli] = N'" + id + "'";
+            }
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                details.Add("cond", reader["cond"].ToString().Trim());
+                                details.Add("vend", reader["vend"].ToString().Trim());
+
+                                response.Status = "OK";
+                                response.Result = details;
+                            }
+                            else
+                            {
+                                response.Status = "ERROR";
+                                response.Message = "No se encontraron detalles del cliente " + id;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+        
+        public ProfitTMResponse editInvoice(Invoice invoice)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            StringBuilder query = new StringBuilder();
+
+            ProfitTMResponse getDetails = getDetailsInvoice(invoice.Type, invoice.Descrip);
+
+            if (getDetails.Status == "OK")
+            {
+                Dictionary<string, string> result = (Dictionary<string, string>)getDetails.Result;
+                invoice.Cond = result["cond"].ToString();
+                invoice.Seller = result["vend"].ToString();
+
+                query.Append("UPDATE saFacturaVenta ");
+                query.Append("SET co_cli = '" + invoice.Descrip + "', ");
+                query.Append("co_cond = '" + invoice.Cond + "', ");
+                query.Append("co_ven = '" + invoice.Seller + "' ");
+                query.Append("WHERE doc_num = '" + invoice.ID + "'");
+
+                try
+                {
+                    using (SqlConnection conn = new SqlConnection(DBadmin))
+                    {
+                        conn.Open();
+                        using (SqlCommand comm = new SqlCommand(query.ToString(), conn))
+                        {
+                            int rows = comm.ExecuteNonQuery();
+
+                            if (rows > 0)
+                            {
+                                response.Status = "OK";
+                                response.Result = rows;
+                            }
+                            else
+                            {
+                                response.Status = "ERROR";
+                                response.Message = "Se ha producido un error al ejecutar la sentencia SQL";
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    response.Status = "ERROR";
+                    response.Message = ex.Message;
+                }
+            }
+            else
+            {
+                response.Status = "ERROR";
+                response.Message = getDetails.Message;
             }
 
             return response;

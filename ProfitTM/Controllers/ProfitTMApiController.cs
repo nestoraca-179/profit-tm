@@ -1,4 +1,5 @@
 ﻿using ProfitTM.Models;
+using ProfitTM.Models.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,6 +113,23 @@ namespace ProfitTM.Controllers
             ClientManager clientManager = new ClientManager(connect);
 
             response = clientManager.deleteClient(id);
+
+            return response;
+        }
+
+        // Agregar factura
+
+        // Modificar factura
+        [HttpPost]
+        [Route("api/ProfitTMApi/EditInvoice/")]
+        public ProfitTMResponse EditInvoice(Invoice invoice)
+        {
+            ProfitTMResponse response;
+            string connect = HttpContext.Current.Session["connect"].ToString();
+
+            InvoiceManager invoiceManager = new InvoiceManager(connect);
+
+            response = invoiceManager.editInvoice(invoice);
 
             return response;
         }
