@@ -221,6 +221,7 @@
     <Content Include="Areas\General\Views\Reportes\_RepBalanceGeneral2KDocePartial.cshtml" />
     <Content Include="Areas\General\Views\Reportes\_RepEstadoResultados2KDocePartial.cshtml" />
     <Content Include="Areas\General\Views\Reportes\_RepBalanceComprobacionPartial.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -362,6 +363,7 @@
     <Compile Include="Areas\Inventario\Reports\RepArticulosTodoStock.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Areas\Ventas\Controllers\ProcesosController.cs" />
     <Compile Include="Areas\Ventas\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Ventas\Controllers\RepsController.cs" />
     <Compile Include="Areas\Ventas\Controllers\TablasController.cs" />
@@ -378,6 +380,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientManager.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceManager.cs" />
     <Compile Include="Controllers\ProfitTMApiController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SQLController.cs" />
@@ -387,6 +390,7 @@
     </Compile>
     <Compile Include="Models\Admin\Account.cs" />
     <Compile Include="Models\Admin\Bank.cs" />
+    <Compile Include="Models\Admin\Invoice.cs" />
     <Compile Include="Models\Admin\Client.cs" />
     <Compile Include="Models\Admin\Cond.cs" />
     <Compile Include="Models\Admin\Country.cs" />

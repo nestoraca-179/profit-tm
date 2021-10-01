@@ -1,0 +1,206 @@
+﻿@{
+    ViewData["Title"] = "Procesos";
+    ViewData["home"] = Session["home"];
+}
+<style>
+    .container{
+        max-width: 100%;
+    }
+</style>
+<div class="container container-option">
+    @*<div ng-if="result" style="width: 100%;" class="{{ result.Class }}">{{ result.Message }}</div>*@
+    <form action="" method="post">
+        <div class="form-row">
+            <div class="form-group col-sm-2">
+                <label for="option" style="margin: 0;">Seleccionar opción</label>
+            </div>
+            <div class="form-group col-sm-8">
+                <select id="option" name="option" onchange="change(this)">
+                    <option value="#">Seleccione una opción...</option>
+                    <option value="0">Factura</option>
+                    @*<option value="1">Tipo</option>
+                    <option value="2">Zona</option>
+                    <option value="3">Segmento</option>
+                    <option value="4">Condición Pago</option>
+                    <option value="5">Cuenta de I/E</option>*@
+                </select>
+            </div>
+            <div class="form-group col-sm-2">
+                <button type="submit" id="btn" class="btn btn-primary" disabled>Cargar opción</button>
+            </div>
+        </div>
+    </form>
+    <hr />
+    @{
+        if (ViewBag.results != "")
+        {
+            <div>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalClienteAdd">
+                    <i class="fas fa-plus"></i> Agregar nuevo
+                </button>
+            </div>
+            <h2 class="text-center">@ViewBag.titleR</h2>
+            <table id="results-table" class="table table-striped table-hover table-bordered table-sm shadow-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        @{
+                            foreach (string header in ViewBag.headers.Split(','))
+                            {
+                                <th style="vertical-align: middle; text-align: center;" scope="col">@header</th>
+                            }
+                            <th scope="col">Opciones</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var result in ViewBag.resultsTable)
+                        {
+                            <tr>
+                                @{
+                                    @*foreach (string col in ViewBag.cols.Split(','))
+                                    {
+                                        <td> @result[col]</td>
+                                    }*@
+                                    <td> @result.ID</td>
+                                    <td> @result.Descrip</td>
+                                    <td> @result.Date</td>
+                                    <td> @result.Amount.ToString("N", ViewBag.formato)</td>
+                                    { 
+                                        string status = ((int)result.Status).ToString();
+
+                                        switch (status)
+                                        {
+                                            case "0":
+                                                <td>NO PROCESADA</td>
+                                                break;
+                                            case "1":
+                                                <td>PARCIALMENTE PROCESADA</td>
+                                                break;
+                                            case "2":
+                                                <td>PROCESADA</td>
+                                                break;
+                                        }
+                                    }
+                                    <td class="cell-icons" scope="col">
+                                        <div>
+                                            <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
+                                            <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                                        }
+                    }
+                </tbody>
+            </table>
+            <div style="height: 40px;"></div>
+        }
+        else
+                                        {
+            <h3 class="text-center font-weight-bold" style="position: relative; top: 30%;">Sin Resultados</h3>
+        }
+    }
+</div>
+<script src="~/Content/angular-min.js"></script>
+<script>
+    var app = angular.module("Process", []);
+
+                                        app.controller("controller", function ($scope, $http) { });
+
+                                        function change(elem) {
+
+                                            if (elem.value == "#")
+            $("#btn").prop("disabled", "true");
+        else
+            $("#btn").prop("disabled", "");
+                                        }
+
+                                        function openModal(elem, modal) {
+
+                                            var previous = elem.previousElementSibling;
+
+                                            if (!previous.disabled) {
+
+            $("#" + modal).find("#name-input").val($(elem).data("name"));
+            $("#" + modal).modal("show");
+
+                                            }
+                                        }
+
+                                        function search(modal) {
+                                            var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+            table = $("#" + modal).find("#results")[0];
+
+                                            for (var i = 0; i < table.rows.length; i++) {
+
+                                                var row = table.rows[i];
+                                                var elems = row.getElementsByTagName("td");
+
+                                                var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+                                                if (!val1.includes(value) && !val2.includes(value))
+                                                    row.style.display = "none";
+                                                else
+                                                    row.style.display = "";
+                                            }
+                                        }
+
+                                        function selectRow(elem) {
+                                            var previous = document.getElementsByClassName("selected-row")[0];
+
+                                            if (previous != null) {
+                                                previous.classList.remove("selected-row");
+                                            }
+
+                                            elem.classList.add("selected-row");
+                                        }
+
+                                        function saveRow(modal) {
+                                            var item = document.getElementsByClassName("selected-row")[0];
+
+                                            if (item != null) {
+                                                var elem = item.children[0],
+                                                    value = elem.innerHTML,
+                                                    input = $("#" + modal).find("#name-input").val();
+
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            $("#" + modal).modal("hide");
+                                            } else {
+                                                alert("Debes seleccionar un item");
+                                            }
+                                        }
+
+                                        function editRow(elem) {
+                                            var cells = $(elem).closest('tr')[0].cells;
+
+                                            var codigo = cells[0].innerHTML,
+                                                rif = cells[1].innerHTML,
+                                                nombre = cells[2].innerHTML,
+                                                direccion = cells[3].innerHTML,
+                                                telefono = cells[4].innerHTML,
+                                                email = cells[5].innerHTML;
+
+        $("#codigoEdit").val(codigo);
+        $("#rifEdit").val(rif);
+        $("#nombreEdit").val(nombre);
+        $("#direccionEdit").val(direccion);
+        $("#telefonoEdit").val(telefono);
+        $("#emailEdit").val(email);
+
+        $("#modalClienteEdit").modal("show");
+                                        }
+
+                                        function deleteRow(elem) {
+                                            var cells = $(elem).closest('tr')[0].cells;
+
+                                            var codigo = cells[0].innerHTML;
+
+        $("#codigoDelete").val(codigo.trim());
+        $("#modalClienteDelete").modal("show");
+                                        }
+</script>
