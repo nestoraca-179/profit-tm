@@ -116,7 +116,7 @@
                                 <input type="date" id="fecH" name="paramsSent" style="margin-left: 20px;" placeholder="Hasta" disabled />
                             </div>
                             <div>
-                                <h5 class="text-white">Articulo</h5>
+                                <h5 class="text-white">Artículo</h5>
                                 <div class="input-search" style="margin-right: 20px;">
                                     <input type="text" id="artD" name="paramsSent" placeholder="Desde" disabled />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artD"></i>
@@ -166,18 +166,18 @@
         }
     </form>
     <!-- Modal 1 -->
-    <div class="modal fade" id="modalAssistProd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="modalAssistProd" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAssistLabel">Buscar Articulo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title">Buscar Artículo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar articulo..." onkeyup="search('modalAssistProd')" />
+                        <input type="text" class="form-control" placeholder="Buscar artículo..." onkeyup="search('modalAssistProd')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
@@ -201,11 +201,11 @@
     </div>
     <!-- Modal 2 -->
     <div class="modal fade" id="modalAssistPrice" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAssistLabel">Buscar Precio</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title">Buscar Precio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -235,17 +235,17 @@
     </div>
     <!-- Modal 3 -->
     <div class="modal fade" id="modalAssistStorage" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAssistLabel">Buscar Almacen</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title">Buscar Almacén</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar almacen..." onkeyup="search('modalAssistStorage')" />
+                        <input type="text" class="form-control" placeholder="Buscar almacén..." onkeyup="search('modalAssistStorage')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
@@ -274,7 +274,7 @@
 
     function blockFields() {
 
-        var params = "codD, codH, fecD, fecH, artD, artH, cliD, cliH, proD, proH, prc, alm, cost";
+        var params = "fecD, fecH, artD, artH, prc, alm, cost";
 
         for (var par of params.split(", ")) {
             if (document.getElementById(par) != null) {

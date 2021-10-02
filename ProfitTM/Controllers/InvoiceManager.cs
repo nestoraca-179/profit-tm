@@ -1,5 +1,4 @@
 ﻿using ProfitTM.Models;
-using ProfitTM.Models.Admin;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,6 +24,64 @@ namespace ProfitTM.Controllers
         {
             this.connect = connect;
             this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
+        }
+
+        private ProfitTMResponse getInvoiceDetails(string id, char type)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            Dictionary<string, string> details = new Dictionary<string, string>();
+
+            string query = "";
+
+            if (type == 'V')
+            {
+                query = @"SELECT TOP (1) 
+                [Extent1].[co_cli] AS id,
+                [Extent1].[cli_des] AS descrip, 
+                [Extent1].[cond_pag] AS cond,
+                [Extent1].[co_ven] AS vend
+                FROM (SELECT 
+                      [v_saCliente_saTipoCliente].[co_cli] AS [co_cli],
+                      [v_saCliente_saTipoCliente].[cli_des] AS [cli_des], 
+                      [v_saCliente_saTipoCliente].[cond_pag] AS [cond_pag],
+                      [v_saCliente_saTipoCliente].[co_ven] AS [co_ven]
+                      FROM [dbo].[v_saCliente_saTipoCliente] AS [v_saCliente_saTipoCliente]) AS [Extent1]
+                WHERE [Extent1].[co_cli] = N'" + id + "'";
+            }
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                details.Add("cond", reader["cond"].ToString().Trim());
+                                details.Add("vend", reader["vend"].ToString().Trim());
+
+                                response.Status = "OK";
+                                response.Result = details;
+                            }
+                            else
+                            {
+                                response.Status = "ERROR";
+                                response.Message = "No se encontraron detalles del cliente " + id;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
         }
 
         public ProfitTMResponse getAllInvoices(char type)
@@ -98,28 +155,13 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        private ProfitTMResponse getDetailsInvoice(char type, string id)
+        public ProfitTMResponse getInvoiceItems(string id, char type)
         {
             ProfitTMResponse response = new ProfitTMResponse();
-            Dictionary<string, string> details = new Dictionary<string, string>();
+            List<InvoiceItem> items = new List<InvoiceItem>();
 
-            string query = "";
-
-            if (type == 'V')
-            {
-                query = @"SELECT TOP (1) 
-                [Extent1].[co_cli] AS id,
-                [Extent1].[cli_des] AS descrip, 
-                [Extent1].[cond_pag] AS cond,
-                [Extent1].[co_ven] AS vend
-                FROM (SELECT 
-                      [v_saCliente_saTipoCliente].[co_cli] AS [co_cli],
-                      [v_saCliente_saTipoCliente].[cli_des] AS [cli_des], 
-                      [v_saCliente_saTipoCliente].[cond_pag] AS [cond_pag],
-                      [v_saCliente_saTipoCliente].[co_ven] AS [co_ven]
-                      FROM [dbo].[v_saCliente_saTipoCliente] AS [v_saCliente_saTipoCliente]) AS [Extent1]
-                WHERE [Extent1].[co_cli] = N'" + id + "'";
-            }
+            string proc = type == 'V' ? "pSeleccionarRenglonesFacturaVenta" : "pSeleccionarRenglonesFacturaCompra";
+            string query = string.Format("exec {0} @sDoc_Num = '{1}'", proc, id);
 
             try
             {
@@ -130,29 +172,30 @@ namespace ProfitTM.Controllers
                     {
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
-                            if (reader.Read())
+                            while (reader.Read())
                             {
-                                details.Add("cond", reader["cond"].ToString().Trim());
-                                details.Add("vend", reader["vend"].ToString().Trim());
-
-                                response.Status = "OK";
-                                response.Result = details;
-                            }
-                            else
-                            {
-                                response.Status = "ERROR";
-                                response.Message = "No se encontraron detalles del cliente " + id;
+                                items.Add(new InvoiceItem() {
+                                    Reng = reader["reng_num"].ToString(),
+                                    Code = reader["co_art"].ToString().Trim(),
+                                    Name = reader["art_des"].ToString(),
+                                    Quantity = double.Parse(reader["total_art"].ToString()),
+                                    Amount = double.Parse(reader["reng_neto"].ToString()),
+                                    IVA = double.Parse(reader["monto_imp"].ToString())
+                                });
                             }
                         }
                     }
                 }
+
+                response.Status = "OK";
+                response.Result = items;
             }
             catch (Exception ex)
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
             }
-
+            
             return response;
         }
         
@@ -161,7 +204,7 @@ namespace ProfitTM.Controllers
             ProfitTMResponse response = new ProfitTMResponse();
             StringBuilder query = new StringBuilder();
 
-            ProfitTMResponse getDetails = getDetailsInvoice(invoice.Type, invoice.Descrip);
+            ProfitTMResponse getDetails = getInvoiceDetails(invoice.Descrip, invoice.Type);
 
             if (getDetails.Status == "OK")
             {

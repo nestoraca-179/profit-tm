@@ -151,18 +151,18 @@
         }
     </form>
     <!-- Modal 1 -->
-    <div class="modal fade" id="modalAssistCod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="modalAssistCod" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAssistLabel">Buscar Codigo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title">Buscar Código</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar codigo..." onkeyup="search('modalAssistCod')" />
+                        <input type="text" class="form-control" placeholder="Buscar código..." onkeyup="search('modalAssistCod')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
@@ -185,12 +185,12 @@
         </div>
     </div>
     <!-- Modal 2 -->
-    <div class="modal fade" id="modalAssistAcc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="modalAssistAcc" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAssistLabel">Buscar Cuenta</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title">Buscar Cuenta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -227,7 +227,7 @@
 
     function blockFields() {
 
-        var params = "codD, codH, fecD, fecH, artD, artH, cliD, cliH, proD, proH, prc, alm, cost";
+        var params = "codD, codH, fecD, fecH, cueD, cueH";
 
         for (var par of params.split(", ")) {
             if (document.getElementById(par) != null) {

@@ -43,7 +43,7 @@
                             {
                                 <th style="vertical-align: middle; text-align: center;" scope="col">@header</th>
                             }
-                            <th scope="col">Opciones</th>
+                            <th style="vertical-align: middle; text-align: center;" scope="col">Opciones</th>
                         }
                     </tr>
                 </thead>
@@ -76,7 +76,7 @@
                     <form action="" method="post" id="formAdd" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
                             <h5 class="modal-title">Agregar Proveedor</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -141,7 +141,7 @@
                     <form action="" method="post" id="formEdit" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
                             <h5 class="modal-title">Editar Proveedor</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -184,7 +184,7 @@
                     <form action="" method="post" id="formDelete" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
                             <h5 class="modal-title">Eliminar Proveedor</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -201,12 +201,12 @@
                 </div>
             </div>
             <!-- Modal 1 -->
-            <div class="modal fade" id="modalAssistType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+            <div class="modal fade" id="modalAssistType" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalAssistLabel">Buscar Tipo</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title">Buscar Tipo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -235,12 +235,12 @@
                 </div>
             </div>
             <!-- Modal 2 -->
-            <div class="modal fade" id="modalAssistZone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+            <div class="modal fade" id="modalAssistZone" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalAssistLabel">Buscar Zona</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title">Buscar Zona</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -269,12 +269,12 @@
                 </div>
             </div>
             <!-- Modal 3 -->
-            <div class="modal fade" id="modalAssistAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+            <div class="modal fade" id="modalAssistAccount" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalAssistLabel">Buscar Cuenta de Ingr/Egr</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title">Buscar Cuenta de Ingr/Egr</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -303,18 +303,18 @@
                 </div>
             </div>
             <!-- Modal 4 -->
-            <div class="modal fade" id="modalAssistCountry" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+            <div class="modal fade" id="modalAssistCountry" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalAssistLabel">Buscar País</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title">Buscar País</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar pais..." onkeyup="search('modalAssistCountry')" />
+                                <input type="text" class="form-control" placeholder="Buscar país..." onkeyup="search('modalAssistCountry')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
@@ -337,12 +337,12 @@
                 </div>
             </div>
             <!-- Modal 5 -->
-            <div class="modal fade" id="modalAssistSegment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+            <div class="modal fade" id="modalAssistSegment" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalAssistLabel">Buscar Segmento</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title">Buscar Segmento</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>

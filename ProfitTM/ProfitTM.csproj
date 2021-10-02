@@ -394,6 +394,7 @@
     <Compile Include="Models\Admin\Client.cs" />
     <Compile Include="Models\Admin\Cond.cs" />
     <Compile Include="Models\Admin\Country.cs" />
+    <Compile Include="Models\Admin\InvoiceItem.cs" />
     <Compile Include="Models\Cont\CostCenter.cs" />
     <Compile Include="Models\Cont\ExpenseAccount.cs" />
     <Compile Include="Models\Option.cs" />

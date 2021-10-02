@@ -18,6 +18,7 @@
                 <select id="option" name="option" onchange="change(this)">
                     <option value="#">Seleccione una opción...</option>
                     <option value="0">Factura</option>
+                    <option value="1">Plantilla</option>
                 </select>
             </div>
             <div class="form-group col-sm-2">
@@ -43,7 +44,7 @@
                             {
                                 <th style="vertical-align: middle; text-align: center;" scope="col">@header</th>
                             }
-                            <th scope="col">Opciones</th>
+                            <th style="vertical-align: middle; text-align: center;" scope="col">Opciones</th>
                         }
                     </tr>
                 </thead>
@@ -51,54 +52,77 @@
                     @{
                         foreach (var result in ViewBag.resultsTable)
                         {
-                            <tr>
-                                @{
-                                    <td> @result.ID</td>
-                                    <td> @result.Descrip</td>
-                                    <td> @result.Date</td>
-                                    <td> @result.Amount.ToString("N", ViewBag.formato)</td>
-                                    {
-                                        string status = ((int)result.Status).ToString();
-                                        bool printed = (bool)result.Printed;
+                            if (ViewBag.titleR == "Factura")
+                            {
 
-                                        switch (status)
+                                <tr>
+                                    @{
+                                        <td> @result.ID</td>
+                                        <td> @result.Descrip</td>
+                                        <td> @result.Date</td>
+                                        <td> @result.Amount.ToString("N", ViewBag.formato)</td>
                                         {
-                                            case "0":
-                                                <td>NO PROCESADA</td>
-                                                break;
-                                            case "1":
-                                                <td>PARCIALMENTE PROCESADA</td>
-                                                break;
-                                            case "2":
-                                                <td>PROCESADA</td>
-                                                break;
-                                        }
+                                            string status = ((int)result.Status).ToString();
+                                            bool printed = (bool)result.Printed;
 
-                                        if (printed)
-                                        {
-                                            <td>SI</td>
-                                        }
-                                        else
-                                        {
-                                            <td>NO</td>
-                                        }
-                                    }
-                                    <td class="cell-icons" scope="col">
-                                        @{
-                                            string estatus = ((int)result.Status).ToString();
-                                            bool print = (bool)result.Printed;
-
-                                            if (!print && estatus == "0")
+                                            switch (status)
                                             {
-                                                <div>
-                                                    <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
-                                                    <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
-                                                </div>
+                                                case "0":
+                                                    <td>NO PROCESADA</td>
+                                                    break;
+                                                case "1":
+                                                    <td>PARCIALMENTE PROCESADA</td>
+                                                    break;
+                                                case "2":
+                                                    <td>PROCESADA</td>
+                                                    break;
+                                            }
+
+                                            if (printed)
+                                            {
+                                                <td>SI</td>
+                                            }
+                                            else
+                                            {
+                                                <td>NO</td>
                                             }
                                         }
-                                    </td>
-                                }
-                            </tr>
+                                        <td class="cell-icons" scope="col">
+                                            @{
+                                                string estatus = ((int)result.Status).ToString();
+                                                string id = result.ID.ToString();
+                                                bool print = (bool)result.Printed;
+
+                                                if (!print && estatus == "0")
+                                                {
+                                                    <div>
+                                                        <i role="button" ng-click="getInvoiceItems('@id')" class="fas fa-search"></i>
+                                                        <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
+                                                        <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
+                                                    </div>
+                                                }
+                                            }
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    @{
+                                        foreach (string col in ViewBag.cols.Split(','))
+                                        {
+                                            <td> @result[col]</td>
+                                        }
+                                        <td class="cell-icons" scope="col">
+                                            <div>
+                                                <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
+                                                <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
+                                            </div>
+                                        </td>
+                                    }
+                                </tr>
+                            }
                         }
                     }
                 </tbody>
@@ -110,7 +134,7 @@
                     <form action="" method="post" id="formAdd" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
                             <h5 class="modal-title">Agregar Factura</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -185,7 +209,7 @@
                     <form action="" method="post" id="formEdit" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
                             <h5 class="modal-title">Editar Factura</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -207,13 +231,32 @@
                     </form>
                 </div>
             </div>
+            <!-- Modal Items Factura -->
+            <div class="modal fade" id="modalFacturaItems" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
+                    <form action="" method="post" id="formEdit" class="modal-content" onsubmit="return false;">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Factura</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <!-- Modal 1 -->
-            <div class="modal fade" id="modalAssistClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+            <div class="modal fade" id="modalAssistClient" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalAssistLabel">Buscar Cliente</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title">Buscar Cliente</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -255,6 +298,14 @@
     app.controller("controller", function ($scope, $http) {
 
         $scope.formEdit = {};
+
+        $scope.getInvoiceItems = function (id) {
+
+            $http.get("/api/ProfitTMApi/GetInvoiceItems/ID/" + id.trim() + "/Type/V")
+                .then(function (response) {
+                    console.log(response.data);
+                });
+        }
 
         $scope.editInvoice = function () {
 
@@ -385,4 +436,5 @@
         $("#codigoDelete").val(codigo.trim());
         $("#modalClienteDelete").modal("show");
     }
+
 </script>

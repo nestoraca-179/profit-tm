@@ -1,5 +1,4 @@
 ﻿using ProfitTM.Models;
-using ProfitTM.Models.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace ProfitTM.Controllers
     {
         // CONTROLADORES DEL API
 
-        // Buscar reportes
+        // BUSCAR REPORTES
         [HttpGet]
         [Route("api/ProfitTMApi/GetTreeReports/Prod/{prod}/Mod/{mod}")]
         public ProfitTMResponse GetReports(string prod, string mod)
@@ -27,7 +26,8 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // Agregar proveedor
+        // PROVEEDOR
+
         [HttpPost]
         [Route("api/ProfitTMApi/AddSupplier/")]
         public ProfitTMResponse AddSupplier(Supplier supplier)
@@ -42,7 +42,6 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // Modificar proveedor
         [HttpPost]
         [Route("api/ProfitTMApi/EditSupplier/")]
         public ProfitTMResponse EditSupplier(Supplier supplier)
@@ -57,7 +56,6 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // Eliminar proveedor
         [HttpGet]
         [Route("api/ProfitTMApi/DeleteSupplier/{id}/")]
         public ProfitTMResponse DeleteSupplier(string id)
@@ -72,7 +70,8 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // Agregar cliente
+        // CLIENTE
+
         [HttpPost]
         [Route("api/ProfitTMApi/AddClient/")]
         public ProfitTMResponse AddClient(Client client)
@@ -87,7 +86,6 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // Modificar cliente
         [HttpPost]
         [Route("api/ProfitTMApi/EditClient/")]
         public ProfitTMResponse EditClient(Client client)
@@ -102,7 +100,6 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // Eliminar cliente
         [HttpGet]
         [Route("api/ProfitTMApi/DeleteClient/{id}/")]
         public ProfitTMResponse DeleteClient(string id)
@@ -117,9 +114,8 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // Agregar factura
+        // FACTURA
 
-        // Modificar factura
         [HttpPost]
         [Route("api/ProfitTMApi/EditInvoice/")]
         public ProfitTMResponse EditInvoice(Invoice invoice)
@@ -130,6 +126,20 @@ namespace ProfitTM.Controllers
             InvoiceManager invoiceManager = new InvoiceManager(connect);
 
             response = invoiceManager.editInvoice(invoice);
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetInvoiceItems/ID/{id}/Type/{type}")]
+        public ProfitTMResponse GetInvoiceItems(string id, char type)
+        {
+            ProfitTMResponse response;
+            string connect = HttpContext.Current.Session["connect"].ToString();
+
+            InvoiceManager invoiceManager = new InvoiceManager(connect);
+
+            response = invoiceManager.getInvoiceItems(id, type);
 
             return response;
         }
