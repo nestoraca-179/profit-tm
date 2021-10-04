@@ -128,7 +128,7 @@ namespace ProfitTM.Controllers
                     bool error = false;
                     string msg = "";
 
-                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Admin", userID);
+                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getModules("Admin", userID);
                     ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(5);
                     ProfitTMResponse responseMPP = sqlController.getMostPurchasedProducts(5);
                     ProfitTMResponse responseMAC = sqlController.getMostActiveClients(5);
@@ -210,7 +210,7 @@ namespace ProfitTM.Controllers
                     bool error = false;
                     string msg = "";
 
-                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Cont", userID);
+                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getModules("Cont", userID);
                     ProfitTMResponse responseLQT = sqlController.getLiqCapTest(1);
                     ProfitTMResponse responseCPT = sqlController.getLiqCapTest(2);
 
@@ -276,7 +276,7 @@ namespace ProfitTM.Controllers
                     bool error = false;
                     string msg = "";
 
-                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getOptions("Nomi", userID);
+                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getModules("Nomi", userID);
 
                     responses.Add(responseOPT);
 

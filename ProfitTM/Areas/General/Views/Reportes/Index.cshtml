@@ -241,7 +241,7 @@
         $scope.report = "#";
         $scope.completed = false;
 
-        $http.get("../../api/ProfitTMApi/GetTreeReports/Prod/Cont/Mod/GENE")
+        $http.get("../../api/ProfitTMApi/GetReports/Prod/Cont/Mod/GENE")
             .then(function (response) {
 
                 console.log(response.data);

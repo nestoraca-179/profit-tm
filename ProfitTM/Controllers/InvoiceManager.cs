@@ -26,14 +26,14 @@ namespace ProfitTM.Controllers
             this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
         }
 
-        private ProfitTMResponse getInvoiceDetails(string id, char type)
+        private ProfitTMResponse getInvoiceDetails(string id, string type)
         {
             ProfitTMResponse response = new ProfitTMResponse();
             Dictionary<string, string> details = new Dictionary<string, string>();
 
             string query = "";
 
-            if (type == 'V')
+            if (type == "V")
             {
                 query = @"SELECT TOP (1) 
                 [Extent1].[co_cli] AS id,
@@ -84,13 +84,36 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        public ProfitTMResponse getAllInvoices(char type)
+        public ProfitTMResponse getAllInvoices(string type)
         {
             ProfitTMResponse response = new ProfitTMResponse();
             List<Invoice> invoices = new List<Invoice>();
 
-            string name = type == 'V' ? "co_cli" : "co_prov";
-            string table = type == 'V' ? "saFacturaVenta" : "saFacturaCompra";
+            string name = "", table = "";
+
+            switch (type)
+            {
+                case "V":
+                    name = "co_cli";
+                    table = "saFacturaVenta";
+
+                    break;
+                case "C":
+                    name = "co_prov";
+                    table = "saFacturaVenta";
+
+                    break;
+                case "PV":
+                    name = "co_cli";
+                    table = "saPlantillaVenta";
+
+                    break;
+                case "PC":
+                    name = "co_prov";
+                    table = "saPlantillaCompra";
+
+                    break;
+            }
 
             try
             {
@@ -118,13 +141,15 @@ namespace ProfitTM.Controllers
 
                                 switch (type)
                                 {
-                                    case 'V':
+                                    case "V":
+                                    case "PV":
 
                                         ID = reader["co_cli"].ToString();
                                         getName = new ClientManager().searchClient(ID);
 
                                         break;
-                                    case 'C':
+                                    case "C":
+                                    case "PC":
 
                                         ID = reader["co_prov"].ToString();
                                         getName = new SupplierManager().searchSupplier(ID);
@@ -133,7 +158,7 @@ namespace ProfitTM.Controllers
                                 }
 
                                 if (getName.Status == "OK")
-                                    invoice.Descrip = type == 'V' ? ((Client)getName.Result).Name : ((Supplier)getName.Result).Name;
+                                    invoice.Descrip = type == "V" || type == "PV" ? ((Client)getName.Result).Name : ((Supplier)getName.Result).Name;
                                 else
                                     invoice.Descrip = ID;
 
@@ -155,12 +180,33 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        public ProfitTMResponse getInvoiceItems(string id, char type)
+        public ProfitTMResponse getInvoiceItems(string id, string type)
         {
             ProfitTMResponse response = new ProfitTMResponse();
             List<InvoiceItem> items = new List<InvoiceItem>();
 
-            string proc = type == 'V' ? "pSeleccionarRenglonesFacturaVenta" : "pSeleccionarRenglonesFacturaCompra";
+            string proc = "";
+
+            switch (type)
+            {
+                case "V":
+                    proc = "pSeleccionarRenglonesFacturaVenta";
+
+                    break;
+                case "C":
+                    proc = "pSeleccionarRenglonesFacturaCompra";
+
+                    break;
+                case "PV":
+                    proc = "pSeleccionarRenglonesPlantillaVenta";
+
+                    break;
+                case "PC":
+                    proc = "pSeleccionarRenglonesPlantillaCompra";
+
+                    break;
+            }
+
             string query = string.Format("exec {0} @sDoc_Num = '{1}'", proc, id);
 
             try

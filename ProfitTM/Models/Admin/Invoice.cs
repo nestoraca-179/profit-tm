@@ -15,6 +15,6 @@ namespace ProfitTM.Models
         public double Amount { get; set; }
         public int Status { get; set; }
         public bool Printed { get; set; }
-        public char Type { get; set; }
+        public string Type { get; set; }
     }
 }

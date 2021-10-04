@@ -290,7 +290,7 @@
         $scope.report = "#";
         $scope.completed = false;
 
-        $http.get("../../api/ProfitTMApi/GetTreeReports/Prod/Admin/Mod/INVEN")
+        $http.get("../../api/ProfitTMApi/GetReports/Prod/Admin/Mod/INVEN")
             .then(function (response) {
 
                 console.log(response.data);

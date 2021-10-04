@@ -118,7 +118,54 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        public ProfitTMResponse getOptions(string prod, string id)
+        public ProfitTMResponse getModules(string prod, string id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            List<Module> modules = new List<Module>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand(string.Format(@"select M.* from UserModules UM
+                        inner join Modules M on UM.OptionID = M.ID
+                        inner join Users U on UM.UserID = U.ID
+                        where M.Product = '{0}' and U.ID = '{1}'", prod, id), conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Module module = new Module();
+
+                                module.ID = reader["ID"].ToString();
+                                module.Name = reader["ModuleName"].ToString();
+                                module.Icon = reader["Icon"].ToString();
+                                module.Product = reader["Product"].ToString();
+                                module.UrlTable = reader["TableUrl"].ToString();
+                                module.UrlProcess = reader["ProcessUrl"].ToString();
+                                module.UrlReport = reader["ReportUrl"].ToString();
+
+                                modules.Add(module);
+                            }
+                        }
+                    }
+                }
+
+                response.Status = "OK";
+                response.Result = modules;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        public ProfitTMResponse getOptions(string mod, char type)
         {
             ProfitTMResponse response = new ProfitTMResponse();
             List<Option> options = new List<Option>();
@@ -128,10 +175,7 @@ namespace ProfitTM.Controllers
                 using (SqlConnection conn = new SqlConnection(DBadmin))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand(string.Format(@"select O.* from UsersOptions UO
-                        inner join Options O on UO.OptionID = O.ID
-                        inner join Users U on UO.UserID = U.ID
-                        where O.Product = '{0}' and U.ID = '{1}'", prod, id), conn))
+                    using (SqlCommand comm = new SqlCommand(string.Format("select * from Options where Module = '{0}' and OptionType = '{1}'", mod, type), conn))
                     {
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
@@ -141,11 +185,7 @@ namespace ProfitTM.Controllers
 
                                 option.ID = reader["ID"].ToString();
                                 option.Name = reader["OptionName"].ToString();
-                                option.Icon = reader["Icon"].ToString();
-                                option.Product = reader["Product"].ToString();
-                                option.UrlTable = reader["TableUrl"].ToString();
-                                option.UrlProcess = reader["ProcessUrl"].ToString();
-                                option.UrlReport = reader["ReportUrl"].ToString();
+                                option.Function = reader["LoadFunction"].ToString();
 
                                 options.Add(option);
                             }
@@ -165,7 +205,7 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-            // ADMIN
+        // ADMIN
 
         public ProfitTMResponse getProds()
         {

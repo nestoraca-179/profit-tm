@@ -15,13 +15,26 @@ namespace ProfitTM.Controllers
 
         // BUSCAR REPORTES
         [HttpGet]
-        [Route("api/ProfitTMApi/GetTreeReports/Prod/{prod}/Mod/{mod}")]
+        [Route("api/ProfitTMApi/GetReports/Prod/{prod}/Mod/{mod}")]
         public ProfitTMResponse GetReports(string prod, string mod)
         {
             ProfitTMResponse response;
             SQLController sqlController = new SQLController("MainConnection");
 
             response = sqlController.getReports(prod, mod);
+
+            return response;
+        }
+
+        // BUSCAR OPCIONES
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetOptions/Mod/{mod}/Type/{type}")]
+        public ProfitTMResponse GetOptions(string mod, char type)
+        {
+            ProfitTMResponse response;
+            SQLController sqlController = new SQLController("MainConnection");
+
+            response = sqlController.getOptions(mod, type);
 
             return response;
         }
@@ -132,7 +145,7 @@ namespace ProfitTM.Controllers
 
         [HttpGet]
         [Route("api/ProfitTMApi/GetInvoiceItems/ID/{id}/Type/{type}")]
-        public ProfitTMResponse GetInvoiceItems(string id, char type)
+        public ProfitTMResponse GetInvoiceItems(string id, string type)
         {
             ProfitTMResponse response;
             string connect = HttpContext.Current.Session["connect"].ToString();

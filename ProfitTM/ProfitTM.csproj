@@ -385,6 +385,7 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SQLController.cs" />
     <Compile Include="Controllers\SupplierManager.cs" />
+    <Compile Include="Enum\EnumLoadFunction.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -397,9 +398,10 @@
     <Compile Include="Models\Admin\InvoiceItem.cs" />
     <Compile Include="Models\Cont\CostCenter.cs" />
     <Compile Include="Models\Cont\ExpenseAccount.cs" />
-    <Compile Include="Models\Option.cs" />
+    <Compile Include="Models\Module.cs" />
     <Compile Include="Models\Admin\Price.cs" />
     <Compile Include="Models\Admin\Product.cs" />
+    <Compile Include="Models\Option.cs" />
     <Compile Include="Models\ProfitTMResponse.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\ReportGroup.cs" />

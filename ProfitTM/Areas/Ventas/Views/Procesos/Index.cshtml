@@ -15,11 +15,16 @@
                 <label for="option" style="margin: 0;">Seleccionar opción</label>
             </div>
             <div class="form-group col-sm-8">
-                <select id="option" name="option" onchange="change(this)">
+                @*<select id="option" name="option" onchange="change(this)">
                     <option value="#">Seleccione una opción...</option>
                     <option value="0">Factura</option>
                     <option value="1">Plantilla</option>
+                </select>*@
+                <select ng-model="option" ng-change="setFunction(option)" name="option" ng-disabled="!options" onchange="change(this)">
+                    <option value="#">Seleccione una opción...</option>
+                    <option ng-repeat="opt in options" value="{{ opt.ID }}">{{ opt.Name }}</option>
                 </select>
+                <input type="hidden" name="function" value="{{ function }}" />
             </div>
             <div class="form-group col-sm-2">
                 <button type="submit" id="btn" class="btn btn-primary" disabled>Cargar opción</button>
@@ -52,7 +57,37 @@
                     @{
                         foreach (var result in ViewBag.resultsTable)
                         {
-                            if (ViewBag.titleR == "Factura")
+                            <tr>
+                                @{
+                                    foreach (string col in ViewBag.cols.Split(','))
+                                    {
+                                        <td> @result[col]</td>
+                                    }
+                                    <td class="cell-icons" scope="col">
+                                        <div>
+                                            @{ 
+                                                string id = result["ID"].ToString();
+
+                                                if (result["details"] == "True") {
+
+                                                    string type = result["type"].ToString();
+
+                                                    <i role="button" ng-click="getDocItems('@id', '@type')" class="fas fa-search"></i>
+                                                }
+                                                if (result["edit"] == "True") {
+                                                    <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
+                                                }
+                                                if (result["delete"] == "True") {
+                                                    <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
+                                                }
+                                            }
+                                            @*<i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
+                                            <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>*@
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                            @*if (ViewBag.titleR == "Factura")
                             {
 
                                 <tr>
@@ -93,14 +128,16 @@
                                                 string id = result.ID.ToString();
                                                 bool print = (bool)result.Printed;
 
-                                                if (!print && estatus == "0")
-                                                {
-                                                    <div>
-                                                        <i role="button" ng-click="getInvoiceItems('@id')" class="fas fa-search"></i>
-                                                        <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
-                                                        <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
-                                                    </div>
-                                                }
+                                                <div>
+                                                    <i role="button" ng-click="getInvoiceItems('@id')" class="fas fa-search"></i>
+                                                    @{ 
+                                                        if (!print && estatus == "0")
+                                                        {
+                                                            <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
+                                                            <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
+                                                        }
+                                                    }
+                                                </div>
                                             }
                                         </td>
                                     }
@@ -108,21 +145,8 @@
                             }
                             else
                             {
-                                <tr>
-                                    @{
-                                        foreach (string col in ViewBag.cols.Split(','))
-                                        {
-                                            <td> @result[col]</td>
-                                        }
-                                        <td class="cell-icons" scope="col">
-                                            <div>
-                                                <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
-                                                <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
-                                            </div>
-                                        </td>
-                                    }
-                                </tr>
-                            }
+                                
+                            }*@
                         }
                     }
                 </tbody>
@@ -231,23 +255,47 @@
                     </form>
                 </div>
             </div>
-            <!-- Modal Items Factura -->
-            <div class="modal fade" id="modalFacturaItems" tabindex="-1" role="dialog" aria-hidden="true">
+            <!-- Modal Items Documento -->
+            <div class="modal fade" id="modalDocumentoItems" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
-                    <form action="" method="post" id="formEdit" class="modal-content" onsubmit="return false;">
+                    <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Editar Factura</h5>
+                            <h5 class="modal-title">Items de Documento {{ number }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            
+                            <table ng-if="items" class="table table-bordered table-hover table-striped mt-3" id="results">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th style="vertical-align: middle; text-align: center;" scope="col">N° Reng</th>
+                                        <th style="vertical-align: middle; text-align: center;" scope="col">Código</th>
+                                        <th style="vertical-align: middle; text-align: center;" scope="col">Artículo</th>
+                                        <th style="vertical-align: middle; text-align: center;" scope="col">Cantidad</th>
+                                        <th style="vertical-align: middle; text-align: center;" scope="col">Monto Neto</th>
+                                        <th style="vertical-align: middle; text-align: center;" scope="col">IVA</th>
+                                        <th style="vertical-align: middle; text-align: center;" scope="col">Total Art.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in items" style="cursor: pointer">
+                                        <td>{{ item.Reng }}</td>
+                                        <td>{{ item.Code }}</td>
+                                        <td>{{ item.Name }}</td>
+                                        <td>{{ item.Quantity }}</td>
+                                        <td>{{ format(item.Amount.toFixed(2)) }}</td>
+                                        <td>{{ format(item.IVA.toFixed(2)) }}</td>
+                                        <td>{{ format((item.Amount + item.IVA).toFixed(2)) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p ng-if="!items" style=" margin: 15px 0; text-align: center; font-size: 15px; font-weight: bold;">Cargando items de factura...</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             <!-- Modal 1 -->
@@ -297,13 +345,46 @@
 
     app.controller("controller", function ($scope, $http) {
 
+        $scope.option = "#";
         $scope.formEdit = {};
 
-        $scope.getInvoiceItems = function (id) {
+        $http.get("/api/ProfitTMApi/GetOptions/Mod/VENT/Type/P")
+            .then(function (response) {
 
-            $http.get("/api/ProfitTMApi/GetInvoiceItems/ID/" + id.trim() + "/Type/V")
+                console.log(response.data);
+                $scope.options = response.data.Result;
+            });
+
+        $scope.format = (number) => new Intl.NumberFormat().format(number);
+
+        $scope.setFunction = function (id) {
+
+            $scope.function = $scope.options.find(o => o.ID == id).Function;
+        }
+
+        $scope.getDocItems = function (id, type) {
+
+            $scope.items = null;
+            $scope.number = id;
+            $("#modalDocumentoItems").modal("show");
+
+            $http.get("/api/ProfitTMApi/GetInvoiceItems/ID/" + id.trim() + "/Type/" + type)
                 .then(function (response) {
+
                     console.log(response.data);
+                    $scope.result = response.data;
+
+                    if ($scope.result.Status == "OK") {
+
+                        $scope.result = null;
+                        $scope.items = response.data.Result;
+
+                    } else {
+
+                        $("#modalDocumentoItems").modal("hide");
+                        $scope.result.Class = "alert alert-danger";
+
+                    }
                 });
         }
 
