@@ -27,6 +27,8 @@
     <UseGlobalApplicationHostFile />
     <UpgradeBackupLocation />
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,7 +41,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -155,6 +157,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\angular-min.js" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\datatables.css" />
+    <Content Include="Content\datatables.js" />
     <Content Include="Content\drilldown.js" />
     <Content Include="Content\highcharts.js" />
     <Content Include="Content\jquery-ui.css" />
@@ -169,10 +177,13 @@
     <Content Include="images\Logo-adm.png" />
     <Content Include="images\Logo-con.png" />
     <Content Include="images\Logo-nom.png" />
+    <Content Include="images\logo-prod.png" />
     <Content Include="obj\Debug\ProfitTM.csproj.FileListAbsolute.txt" />
     <Content Include="Scripts\ace.js" />
     <Content Include="Scripts\additional-methods.js" />
     <Content Include="Scripts\additional-methods.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cldr.event.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr.supplemental.js" />
@@ -222,6 +233,11 @@
     <Content Include="Areas\General\Views\Reportes\_RepEstadoResultados2KDocePartial.cshtml" />
     <Content Include="Areas\General\Views\Reportes\_RepBalanceComprobacionPartial.cshtml" />
     <Content Include="Areas\Ventas\Views\Procesos\Index.cshtml" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <None Include="Properties\PublishProfiles\ProfitTMRelease.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -250,7 +266,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="obj\Debug\ProfitTM.csproj.CoreCompileInputs.cache" />
-    <Content Include="obj\Debug\ProfitTM.csprojAssemblyReference.cache" />
+    <Content Include="obj\Debug\ProfitTM.csproj.AssemblyReference.cache" />
     <Content Include="Areas\Inventario\Views\Reportes\Index.cshtml" />
     <Content Include="Areas\Inventario\Views\Reportes\Reporte.cshtml" />
     <None Include="packages.config" />
@@ -260,6 +276,8 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\popper.js" />
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />

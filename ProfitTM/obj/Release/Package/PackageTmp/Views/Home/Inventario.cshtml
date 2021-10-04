@@ -1,0 +1,314 @@
+﻿@{
+    ViewData["Title"] = "Inventario";
+    ViewData["home"] = Session["home"];
+}
+<style>
+    .highcharts-figure, .highcharts-data-table table {
+        min-width: 320px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .highcharts-credits {
+        display: none;
+    }
+</style>
+<header class="container-fluid">
+    <div class="row" style="height: 60px;">
+        <div class="col-sm-2 header-left-side text-white">
+            <i class="fas fa-bars icon-menu" id="icon-menu"></i>
+            <a href="/Home/@ViewData["home"]">Profit Plus TM</a>
+        </div>
+        <div class="col-sm-10 header-right-side">
+            <div class="user-active" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user icon-user"></i>
+                <p class="mb-0">@ViewBag.user.Descrip</p>
+            </div>
+            <div style="width: 225px; text-align: center;" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a style="text-align: center; text-decoration: none;" href="/Account/Logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-fluid p-0">
+    <div class="dash-container" id="dash-container">
+        <div class="dash-left-side border-right p-0" id="menu-left">
+            <ul class="list-menu dropright">
+                @{
+                    foreach (var item in ViewBag.options)
+                    {
+                        string disTable = item.UrlTable == "#" ? "disabled" : "";
+                        string disProcess = item.UrlProcess == "#" ? "disabled" : "";
+                        string disReport = item.UrlReport == "#" ? "disabled" : "";
+
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="@item.Icon"></i>
+                            <p class="mb-0 ml-3">@item.Name</p>
+                        </li>
+                        <div class="myDropdown">
+                            <a class="dropdown-item @disTable" href="@item.UrlTable"><i class="fas fa-table"></i>  Tablas</a>
+                            <a class="dropdown-item @disProcess" href="@item.UrlProcess"><i class="fas fa-sync-alt"></i>  Procesos</a>
+                            <a class="dropdown-item @disReport" href="@item.UrlReport"><i class="fas fa-file"></i>  Reportes</a>
+                        </div>
+                    }
+                }
+                <li class="menu-item">
+                    <i class="fas fa-cog fa-spin"></i>
+                    <p class="mb-0 ml-3">Configuración</p>
+                </li>
+            </ul>
+        </div>
+        <div class="dash-right-side">
+            <div class="container-fluid" style="padding: 5px 40px">
+                <br />
+                <a href="/Home/@ViewData["home"]" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar</a>
+                <h2 class="mt-2 text-center m-4">TOP 10 Articulos mas vendidos</h2>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Codigo</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var item in @ViewBag.mostSelledProds)
+                            {
+                                <tr>
+                                    <td>@item.ID</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Stock.ToString("N", ViewBag.formato)</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <figure class="highcharts-figure">
+                    <div id="container-msp"></div>
+                </figure>
+                <hr />
+                <h2 class="mt-2 text-center m-4">TOP 10 Articulos mas comprados</h2>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Codigo</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var item in @ViewBag.mostPurchasedProds)
+                            {
+                                <tr>
+                                    <td>@item.ID</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Stock.ToString("N", ViewBag.formato)</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <figure class="highcharts-figure">
+                    <div id="container-mpp"></div>
+                </figure>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var capitalize = str => str.substring(0, 1).toLocaleUpperCase() + str.substring(1).toLocaleLowerCase();
+    var btn = document.getElementById("icon-menu");
+    var menu = document.getElementById("menu-left");
+    var node = null;
+
+    btn.addEventListener("click", hide);
+
+    function print(elem) {
+        var elems = document.getElementsByClassName("myDropdown");
+
+        for (var item of elems) {
+            $(item).animate({ width: 'hide' });
+        }
+
+        if (node != null) {
+            node.classList.remove("selected");
+        }
+
+        elem.classList.add("selected");
+
+        if (node != elem) {
+
+            $(elem).next().animate({ width: 'show' });
+            $(elem).next().css("display", "flex");
+            $(elem).next().css("flex-direction", "column");
+
+            menu.classList.add("active");
+            node = elem;
+
+        } else {
+
+            node.classList.remove("selected");
+            menu.classList.remove("active");
+            node = null;
+
+        }
+    }
+
+    function hide() {
+        menu.classList.toggle("active");
+
+        var elems = document.getElementsByClassName("myDropdown");
+
+        for (var item of elems) {
+            $(item).animate({ width: 'hide' });
+        }
+    }
+</script>
+
+@* GRAFICA ARTICULOS VENDIDOS *@
+<script>
+
+    var productos = @Html.Raw(Json.Encode(@ViewBag.mostSelledProds));
+
+    var objects = productos.map(function (x) {
+        return {
+            name: capitalize(x.Name),
+            y: x.Stock
+        };
+    });
+
+    Highcharts.setOptions({
+        colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+            return {
+                radialGradient: {
+                    cx: 0.5,
+                    cy: 0.3,
+                    r: 0.7
+                },
+                stops: [
+                    [0, color],
+                    [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        })
+    });
+
+    Highcharts.chart('container-msp', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Articulos vendidos'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.y} unds'
+                },
+            }
+        },
+        series: [{
+            name: 'Porcentaje',
+            colorByPoint: true,
+            data: objects
+        }]
+    });
+
+</script>
+@* GRAFICA ARTICULOS COMPRADOS *@
+<script>
+
+    var productos = @Html.Raw(Json.Encode(@ViewBag.mostPurchasedProds));
+
+    var objects = productos.map(function (x) {
+        return {
+            name: capitalize(x.Name),
+            y: x.Stock
+        };
+    });
+
+    Highcharts.chart('container-mpp', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Articulos comprados'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.y} unds'
+                },
+            }
+        },
+        series: [{
+            name: 'Porcentaje',
+            colorByPoint: true,
+            data: objects
+        }]
+    });
+
+</script>
