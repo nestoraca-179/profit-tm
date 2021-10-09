@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\ProfitTM</_PublishTargetUrl>
-    <History>True|2021-10-04T21:01:31.5863321Z;True|2021-10-04T16:44:06.1247653-04:00;</History>
+    <History>True|2021-10-09T04:43:29.4838469Z;False|2021-10-09T00:42:11.4797681-04:00;True|2021-10-04T17:01:31.5863321-04:00;True|2021-10-04T16:44:06.1247653-04:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/CajaBanco/Views/Reportes/Index.cshtml">
@@ -123,7 +123,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/21/2021 18:08:00</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Procesos/Index.cshtml">
-      <publishTime>10/03/2021 23:30:20</publishTime>
+      <publishTime>10/09/2021 00:40:25</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Reportes/Index.cshtml">
       <publishTime>10/03/2021 21:37:09</publishTime>
@@ -510,10 +510,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/03/2014 20:33:56</publishTime>
     </File>
     <File Include="bin/ProfitTM.dll">
-      <publishTime>10/04/2021 16:53:46</publishTime>
+      <publishTime>10/09/2021 00:31:24</publishTime>
     </File>
     <File Include="bin/ProfitTM.pdb">
-      <publishTime>10/04/2021 16:53:46</publishTime>
+      <publishTime>10/09/2021 00:31:24</publishTime>
     </File>
     <File Include="bin/ru/DevExpress.Data.v18.2.resources.dll">
       <publishTime>01/16/2021 08:10:41</publishTime>
@@ -672,7 +672,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/11/2021 14:23:32</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>08/17/2021 22:35:27</publishTime>
+      <publishTime>10/07/2021 12:03:53</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>01/20/2021 14:30:10</publishTime>

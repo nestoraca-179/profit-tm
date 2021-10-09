@@ -414,8 +414,11 @@
     <Compile Include="Models\Admin\Cond.cs" />
     <Compile Include="Models\Admin\Country.cs" />
     <Compile Include="Models\Admin\InvoiceItem.cs" />
+    <Compile Include="Models\Admin\Person.cs" />
+    <Compile Include="Models\Admin\Transport.cs" />
     <Compile Include="Models\Cont\CostCenter.cs" />
     <Compile Include="Models\Cont\ExpenseAccount.cs" />
+    <Compile Include="Models\Modal.cs" />
     <Compile Include="Models\Module.cs" />
     <Compile Include="Models\Admin\Price.cs" />
     <Compile Include="Models\Admin\Product.cs" />

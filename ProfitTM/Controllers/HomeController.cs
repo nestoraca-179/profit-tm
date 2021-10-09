@@ -1,13 +1,8 @@
-﻿using DevExpress.Web.Mvc;
-using DevExpress.XtraReports.Web;
-using ProfitTM.Models;
-using System;
-using System.IO;
+﻿using ProfitTM.Models;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 

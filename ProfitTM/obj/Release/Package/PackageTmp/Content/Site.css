@@ -56,7 +56,11 @@ textarea {
 .input-search {
     flex: 1;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+}
+.input-search label{
+    width: 100%;
 }
 .input-search input {
     max-width: 80%;

@@ -1,25 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace ProfitTM.Models
 {
-    public class Client
+    public class Client : Person
     {
-        public string ID { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public string Zone { get; set; }
-        public string Account { get; set; }
-        public string Country { get; set; }
-        public string Segment { get; set; }
-        public string RIF { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string Address { get; set; }
-        public double Amount { get; set; }
-        public string Seller { get; set; }
-        public string Cond { get; set; }
+        public static Client GetClient(string connect, string ID)
+        {
+            Client client;
+
+            string query = string.Format("SELECT * FROM saCliente WHERE co_cli = '{0}'", ID);
+            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                client = new Client()
+                                {
+                                    ID = reader["co_cli"].ToString().Trim(),
+                                    Name = reader["cli_des"].ToString(),
+                                    Type = Type.GetTypeAdmin(connect, reader["tip_cli"].ToString(), "C"),
+                                    Zone = Zone.GetZone(connect, reader["co_zon"].ToString()),
+                                    Account = Account.GetAccount(connect, reader["co_cta_ingr_egr"].ToString()),
+                                    Country = Country.GetCountry(connect, reader["co_pais"].ToString()),
+                                    Segment = Segment.GetSegment(connect, reader["co_seg"].ToString()),
+                                    RIF = reader["rif"].ToString(),
+                                    Email = reader["email"].ToString(),
+                                    Phone = reader["telefonos"].ToString(),
+                                    Address = reader["direc1"].ToString(),
+                                    Seller = Seller.GetSeller(connect, reader["co_ven"].ToString()),
+                                    Cond = Cond.GetCond(connect, reader["cond_pag"].ToString())
+                                };
+                            }
+                            else
+                            {
+                                client = null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                client = null;
+            }
+
+            return client;
+        }
     }
 }

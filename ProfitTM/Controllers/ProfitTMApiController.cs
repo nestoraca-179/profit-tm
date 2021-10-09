@@ -1,9 +1,4 @@
 ﻿using ProfitTM.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 
@@ -49,7 +44,6 @@ namespace ProfitTM.Controllers
             string connect = HttpContext.Current.Session["connect"].ToString();
 
             SupplierManager supplierManager = new SupplierManager(connect);
-
             response = supplierManager.addSupplier(supplier);
 
             return response;
@@ -63,7 +57,6 @@ namespace ProfitTM.Controllers
             string connect = HttpContext.Current.Session["connect"].ToString();
 
             SupplierManager supplierManager = new SupplierManager(connect);
-
             response = supplierManager.editSupplier(supplier);
 
             return response;
@@ -77,7 +70,6 @@ namespace ProfitTM.Controllers
             string connect = HttpContext.Current.Session["connect"].ToString();
 
             SupplierManager supplierManager = new SupplierManager(connect);
-
             response = supplierManager.deleteSupplier(id);
 
             return response;
@@ -93,7 +85,6 @@ namespace ProfitTM.Controllers
             string connect = HttpContext.Current.Session["connect"].ToString();
 
             ClientManager clientManager = new ClientManager(connect);
-
             response = clientManager.addClient(client);
 
             return response;
@@ -107,7 +98,6 @@ namespace ProfitTM.Controllers
             string connect = HttpContext.Current.Session["connect"].ToString();
 
             ClientManager clientManager = new ClientManager(connect);
-
             response = clientManager.editClient(client);
 
             return response;
@@ -121,7 +111,6 @@ namespace ProfitTM.Controllers
             string connect = HttpContext.Current.Session["connect"].ToString();
 
             ClientManager clientManager = new ClientManager(connect);
-
             response = clientManager.deleteClient(id);
 
             return response;
@@ -133,26 +122,11 @@ namespace ProfitTM.Controllers
         [Route("api/ProfitTMApi/EditInvoice/")]
         public ProfitTMResponse EditInvoice(Invoice invoice)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
             string connect = HttpContext.Current.Session["connect"].ToString();
 
             InvoiceManager invoiceManager = new InvoiceManager(connect);
-
             response = invoiceManager.editInvoice(invoice);
-
-            return response;
-        }
-
-        [HttpGet]
-        [Route("api/ProfitTMApi/GetInvoiceItems/ID/{id}/Type/{type}")]
-        public ProfitTMResponse GetInvoiceItems(string id, string type)
-        {
-            ProfitTMResponse response;
-            string connect = HttpContext.Current.Session["connect"].ToString();
-
-            InvoiceManager invoiceManager = new InvoiceManager(connect);
-
-            response = invoiceManager.getInvoiceItems(id, type);
 
             return response;
         }

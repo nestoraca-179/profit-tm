@@ -1,9 +1,7 @@
 ﻿using ProfitTM.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
 using System.Web;
 
@@ -147,51 +145,6 @@ namespace ProfitTM.Controllers
                         {
                             response.Status = "ERROR";
                             response.Message = "Se ha producido un error al ejecutar la sentencia SQL";
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = ex.Message;
-            }
-
-            return response;
-        }
-
-        public ProfitTMResponse searchClient(string ID)
-        {
-            ProfitTMResponse response = new ProfitTMResponse();
-            Client client;
-
-            string query = string.Format("SELECT * FROM saCliente WHERE co_cli = '{0}'", ID);
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(DBadmin))
-                {
-                    conn.Open();
-                    using (SqlCommand comm = new SqlCommand(query, conn))
-                    {
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                client = new Client()
-                                {
-                                    ID = reader["co_cli"].ToString(),
-                                    Name = reader["cli_des"].ToString()
-                                };
-
-                                response.Status = "OK";
-                                response.Result = client;
-                            }
-                            else
-                            {
-                                response.Status = "ERROR";
-                                response.Message = "No se ha conseguido ningun cliente con ese ID";
-                            }
                         }
                     }
                 }
