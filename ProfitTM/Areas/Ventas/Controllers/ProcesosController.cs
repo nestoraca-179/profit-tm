@@ -22,211 +22,118 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                SQLController sqlController = new SQLController();
-                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+                string connect = Session["connect"].ToString();
 
-                bool error = false;
-                string msg = "", connect = Session["connect"].ToString();
-
-                ProfitTMResponse responseAC = sqlController.getClients();
-                ProfitTMResponse responseAN = sqlController.getConds();
-                ProfitTMResponse responseAS = sqlController.getSellers();
+                List<Client> clients = Client.GetAllClients(connect);
+                List<Cond> conds = Cond.GetAllConds(connect);
+                List<Seller> sellers = Seller.GetAllSellers(connect);
                 List<Transport> transports = Transport.GetAllTransports(connect);
+                List<Currency> currencies = Currency.GetAllCurrencies(connect);
 
-                responses.Add(responseAC);
-                responses.Add(responseAN);
-                responses.Add(responseAS);
+                List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
 
-                foreach (ProfitTMResponse res in responses)
+                NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
+                formato.CurrencyGroupSeparator = ".";
+                formato.NumberDecimalSeparator = ",";
+
+                if (function == EnumLoadFunction.INVOICEV || function == EnumLoadFunction.INVOICEPV)
                 {
-                    if (res.Status == "ERROR")
+                    string type = function == EnumLoadFunction.INVOICEV ? "V" : "PV";
+
+                    List<Invoice> invoices = Invoice.GetAllInvoices(connect, type), templates = Invoice.GetAllInvoices(connect, "PV");
+                    List<Modal> modals = Option.GetModals(option);
+
+                    if (invoices != null && templates != null)
                     {
-                        error = true;
-                        msg = res.Message;
-
-                        break;
-                    }
-                }
-
-                if (!error)
-                {
-                    List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
-
-                    NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
-                    formato.CurrencyGroupSeparator = ".";
-                    formato.NumberDecimalSeparator = ",";
-
-                    if (function == EnumLoadFunction.INVOICEV)
-                    {
-                        List<Invoice> invoices = Invoice.GetAllInvoices(connect, "V");
-                        List<Invoice> templates = Invoice.GetAllInvoices(connect, "PV");
-                        List<Modal> modals = Option.GetModals(option);
-
-                        if (invoices != null)
+                        foreach (Invoice invoice in invoices)
                         {
-                            foreach (Invoice invoice in invoices)
+                            Dictionary<string, string> item = new Dictionary<string, string>();
+
+                            item.Add("ID", invoice.ID);
+                            item.Add("PersonName", invoice.InvoicePerson.Name);
+                            item.Add("DateEmis", invoice.DateEmis.ToString("dd/MM/yyyy HH:mm tt"));
+                            item.Add("Amount", invoice.Amount.ToString("N", formato));
+
+                            switch (invoice.Status)
                             {
-                                Dictionary<string, string> item = new Dictionary<string, string>();
-
-                                item.Add("ID", invoice.ID);
-                                item.Add("cli_des", invoice.InvoicePerson.Name);
-                                item.Add("fec_emis", invoice.Date.ToString("dd/MM/yyyy HH:mm tt"));
-                                item.Add("total_neto", invoice.Amount.ToString("N", formato));
-
-                                switch (invoice.Status)
-                                {
-                                    case 0:
-                                        item.Add("status", "NO PROCESADA");
-                                        break;
-                                    case 1:
-                                        item.Add("status", "PARCIALMENTE PROCESADA");
-                                        break;
-                                    case 2:
-                                        item.Add("status", "PROCESADA");
-                                        break;
-                                }
-
-                                if (invoice.Printed)
-                                    item.Add("impresa", "SI");
-                                else
-                                    item.Add("impresa", "NO");
-
-                                if (invoice.Status == 0 && !invoice.Printed)
-                                {
-                                    item.Add("edit", "True");
-                                    item.Add("delete", "True");
-                                }
-                                else
-                                {
-                                    item.Add("edit", "False");
-                                    item.Add("delete", "False");
-                                }
-
-                                string fieldsEdit = string.Format(
-                                    "idFacturaEdit={0},personFacturaEdit={1},condFacturaEdit={2},sellerFacturaEdit={3},controlFacturaEdit={4},transFacturaEdit={5},montoFacturaEdit={6},tipoFacturaEdit=V",
-                                    invoice.ID,
-                                    invoice.InvoicePerson.ID,
-                                    invoice.InvoicePerson.Cond.ID,
-                                    invoice.InvoicePerson.Seller.ID,
-                                    invoice.ControlNumber,
-                                    invoice.Transport.ID,
-                                    invoice.Amount.ToString().Replace(",", ".")
-                                );
-
-                                item.Add("details", "True");
-                                item.Add("fieldsEdit", fieldsEdit);
-
-                                results.Add(item);
+                                case 0:
+                                    item.Add("Status", "NO PROCESADA");
+                                    break;
+                                case 1:
+                                    item.Add("Status", "PARCIALMENTE PROCESADA");
+                                    break;
+                                case 2:
+                                    item.Add("Status", "PROCESADA");
+                                    break;
                             }
 
-                            ViewBag.modals = modals;
-                            ViewBag.documents = invoices;
-                            ViewBag.templates = templates;
-                            ViewBag.resultsTable = results;
+                            if (invoice.Printed)
+                                item.Add("Impresa", "SI");
+                            else
+                                item.Add("Impresa", "NO");
 
+                            if (invoice.Status == 0 && !invoice.Printed)
+                            {
+                                item.Add("edit", "True");
+                                item.Add("delete", "True");
+                            }
+                            else
+                            {
+                                item.Add("edit", "False");
+                                item.Add("delete", "False");
+                            }
+
+                            string fieldsEdit = string.Format(
+                                "idFacturaEdit={0},personFacturaEdit={1},condFacturaEdit={2},sellerFacturaEdit={3},controlFacturaEdit={4},transFacturaEdit={5},montoFacturaEdit={6},monedaFacturaEdit={7},dateFacturaEdit={8},tipoFacturaEdit=V",
+                                invoice.ID,
+                                invoice.InvoicePerson.ID,
+                                invoice.InvoicePerson.Cond.ID,
+                                invoice.InvoicePerson.Seller.ID,
+                                invoice.ControlNumber,
+                                invoice.Transport.ID,
+                                invoice.Amount.ToString().Replace(",", "."),
+                                invoice.Currency.ID,
+                                invoice.DateEmis.ToString("yyyy/MM/dd HH:mm")
+                            );
+
+                            item.Add("details", "True");
+                            item.Add("fieldsEdit", fieldsEdit);
+
+                            results.Add(item);
+                        }
+
+                        ViewBag.modals = modals;
+                        ViewBag.documents = invoices;
+                        ViewBag.templates = templates;
+                        ViewBag.resultsTable = results;
+
+                        if (type == "V")
                             ViewBag.titleR = "Factura";
-                            ViewBag.headers = "Codigo,Cliente,Fecha,Total,Estado,Impresa";
-                            ViewBag.cols = "ID,cli_des,fec_emis,total_neto,status,impresa";
-                        }
                         else
-                        {
-                            ViewBag.errorMessage = "Error cargando facturas";
-                            ViewBag.results = "";
-                        }
-                    }
-                    else if (function == EnumLoadFunction.INVOICEPV)
-                    {
-                        List<Invoice> invoices = Invoice.GetAllInvoices(connect, "V");
-                        List<Modal> modals = Option.GetModals(option);
-
-                        if (invoices != null)
-                        {
-                            foreach (Invoice invoice in invoices)
-                            {
-                                Dictionary<string, string> item = new Dictionary<string, string>();
-
-                                item.Add("ID", invoice.ID);
-                                item.Add("cli_des", invoice.InvoicePerson.ID);
-                                item.Add("fec_emis", invoice.Date.ToString());
-                                item.Add("total_neto", invoice.Amount.ToString("N", formato));
-
-                                switch (invoice.Status)
-                                {
-                                    case 0:
-                                        item.Add("status", "NO PROCESADA");
-                                        break;
-                                    case 1:
-                                        item.Add("status", "PARCIALMENTE PROCESADA");
-                                        break;
-                                    case 2:
-                                        item.Add("status", "PROCESADA");
-                                        break;
-                                }
-
-                                if (invoice.Printed)
-                                    item.Add("impresa", "SI");
-                                else
-                                    item.Add("impresa", "NO");
-
-                                if (invoice.Status == 0 && !invoice.Printed)
-                                {
-                                    item.Add("edit", "True");
-                                    item.Add("delete", "True");
-                                }
-                                else
-                                {
-                                    item.Add("edit", "False");
-                                    item.Add("delete", "False");
-                                }
-
-                                string fieldsEdit = string.Format(
-                                    "idFacturaEdit={0},personFacturaEdit={1},condFacturaEdit={2},sellerFacturaEdit={3},controlFacturaEdit={4},transFacturaEdit={5},montoFacturaEdit={6},tipoFacturaEdit=PV",
-                                    invoice.ID,
-                                    invoice.InvoicePerson.ID,
-                                    invoice.InvoicePerson.Cond.ID,
-                                    invoice.InvoicePerson.Seller.ID,
-                                    invoice.ControlNumber,
-                                    invoice.Transport.ID,
-                                    invoice.Amount.ToString().Replace(",", ".")
-                                );
-
-                                item.Add("details", "True");
-                                item.Add("fieldsEdit", fieldsEdit);
-
-                                results.Add(item);
-                            }
-
-                            ViewBag.modals = modals;
-                            ViewBag.documents = invoices;
-                            ViewBag.resultsTable = results;
-
                             ViewBag.titleR = "Plantilla";
-                            ViewBag.headers = "Codigo,Cliente,Fecha,Total,Estado,Impresa";
-                            ViewBag.cols = "ID,cli_des,fec_emis,total_neto,status,impresa";
-                        }
-                        else
-                        {
-                            ViewBag.errorMessage = "Error cargando facturas";
-                            ViewBag.results = "";
-                        }
+
+                        ViewBag.headers = "Codigo,Cliente,Fec. Emis,Total,Estado,Impresa";
+                        ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status,Impresa";
                     }
                     else
                     {
+                        ViewBag.errorMessage = "Error cargando documentos";
                         ViewBag.results = "";
                     }
-
-                    ViewBag.assistClients = responseAC.Result;
-                    ViewBag.assistConds = responseAN.Result;
-                    ViewBag.assistSellers = responseAS.Result;
-                    ViewBag.assistTransports = transports;
-                    ViewBag.formato = formato;
-
-                    return View();
                 }
                 else
                 {
-                    return RedirectToAction("Logout", "Account", new { area = "", msg = msg });
+                    ViewBag.results = "";
                 }
+
+                ViewBag.clients = clients;
+                ViewBag.conds = conds;
+                ViewBag.sellers = sellers;
+                ViewBag.transports = transports;
+                ViewBag.currencies = currencies;
+                ViewBag.formato = formato;
+
+                return View();
             }
         }
     }

@@ -5,17 +5,17 @@ using System.Data.SqlClient;
 
 namespace ProfitTM.Models
 {
-    public class Cond
+    public class Currency
     {
         public string ID { get; set; }
         public string Name { get; set; }
-        public int DaysCred { get; set; }
+        public double Exchange { get; set; }
 
-        public static Cond GetCond(string connect, string ID)
+        public static Currency GetCurrency(string connect, string ID)
         {
-            Cond cond;
+            Currency currency;
 
-            string query = string.Format("SELECT * FROM saCondicionPago WHERE co_cond = '{0}'", ID);
+            string query = string.Format("SELECT * FROM saMoneda WHERE co_mone = '{0}'", ID);
             string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
 
             try
@@ -29,16 +29,16 @@ namespace ProfitTM.Models
                         {
                             if (reader.Read())
                             {
-                                cond = new Cond()
+                                currency = new Currency()
                                 {
-                                    ID = reader["co_cond"].ToString().Trim(),
-                                    Name = reader["cond_des"].ToString(),
-                                    DaysCred = int.Parse(reader["dias_cred"].ToString())
+                                    ID = reader["co_mone"].ToString().Trim(),
+                                    Name = reader["mone_des"].ToString(),
+                                    Exchange = double.Parse(reader["cambio"].ToString())
                                 };
                             }
                             else
                             {
-                                cond = null;
+                                currency = null;
                             }
                         }
                     }
@@ -46,15 +46,15 @@ namespace ProfitTM.Models
             }
             catch (Exception ex)
             {
-                cond = null;
+                currency = null;
             }
 
-            return cond;
+            return currency;
         }
 
-        public static List<Cond> GetAllConds(string connect)
+        public static List<Currency> GetAllCurrencies(string connect)
         {
-            List<Cond> conds = new List<Cond>();
+            List<Currency> currencies = new List<Currency>();
             string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
 
             try
@@ -62,17 +62,17 @@ namespace ProfitTM.Models
                 using (SqlConnection conn = new SqlConnection(DBadmin))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand("select * from saCondicionPago", conn))
+                    using (SqlCommand comm = new SqlCommand("select * from saMoneda", conn))
                     {
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                conds.Add(new Cond()
+                                currencies.Add(new Currency()
                                 {
-                                    ID = reader["co_cond"].ToString(),
-                                    Name = reader["cond_des"].ToString(),
-                                    DaysCred = int.Parse(reader["dias_cred"].ToString())
+                                    ID = reader["co_mone"].ToString().Trim(),
+                                    Name = reader["mone_des"].ToString(),
+                                    Exchange = double.Parse(reader["cambio"].ToString())
                                 });
                             }
                         }
@@ -81,10 +81,10 @@ namespace ProfitTM.Models
             }
             catch (Exception ex)
             {
-                conds = null;
+                currencies = null;
             }
 
-            return conds;
+            return currencies;
         }
     }
 }

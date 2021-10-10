@@ -1,6 +1,5 @@
 ﻿using ProfitTM.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Text;
@@ -28,9 +27,9 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse editInvoice(Invoice invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
-            StringBuilder query = new StringBuilder();
+            StringBuilder queryF = new StringBuilder(), queryD = new StringBuilder();
 
-            string name = "", table = "";
+            string name = "", tableF = "", tableD = "";
             bool invoiceSale = false;
 
             switch (invoice.Type)
@@ -38,53 +37,76 @@ namespace ProfitTM.Controllers
                 case "V":
                     invoiceSale = true;
                     name = "co_cli";
-                    table = "saFacturaVenta";
+                    tableF = "saFacturaVenta";
+                    tableD = "saDocumentoVenta";
 
                     break;
                 case "C":
                     name = "co_prov";
-                    table = "saFacturaCompra";
+                    tableF = "saFacturaCompra";
+                    tableD = "saDocumentoCompra";
 
                     break;
                 case "PV":
                     invoiceSale = true;
                     name = "co_cli";
-                    table = "saPlantillaVenta";
+                    tableF = "saPlantillaVenta";
 
                     break;
                 case "PC":
                     name = "co_prov";
-                    table = "saPlantillaCompra";
+                    tableF = "saPlantillaCompra";
 
                     break;
             }
 
-            query.Append(string.Format("UPDATE {0} ", table));
-            query.Append(string.Format("SET {0} = '{1}', ", name, invoice.InvoicePerson.ID));
+            invoice.InvoicePerson.Cond = Cond.GetCond(connect, invoice.InvoicePerson.Cond.ID);
+            invoice.DateVenc = invoice.DateEmis.AddDays(invoice.InvoicePerson.Cond.DaysCred);
+
+            queryF.Append(string.Format("UPDATE {0} ", tableF));
+            queryF.Append(string.Format("SET {0} = '{1}', ", name, invoice.InvoicePerson.ID));
 
             if (invoiceSale)
             {
-                query.Append(string.Format("co_cond = '{0}', ", invoice.InvoicePerson.Cond.ID));
-                query.Append(string.Format("co_ven = '{0}', ", invoice.InvoicePerson.Seller.ID));
-                query.Append(string.Format("co_tran = '{0}', ", invoice.Transport.ID));
+                queryF.Append(string.Format("co_cond = '{0}', ", invoice.InvoicePerson.Cond.ID));
+                queryF.Append(string.Format("co_ven = '{0}', ", invoice.InvoicePerson.Seller.ID));
+                queryF.Append(string.Format("co_tran = '{0}', ", invoice.Transport.ID));
             }
 
-            query.Append(string.Format("n_control = '{0}' ", invoice.ControlNumber));
-            query.Append(string.Format("WHERE doc_num = '" + invoice.ID + "'"));
+            queryF.Append(string.Format("n_control = '{0}', ", invoice.ControlNumber));
+            queryF.Append(string.Format("fec_venc = '{0}' ", invoice.DateVenc.ToString("yyyy/MM/dd HH:mm")));
+            queryF.Append(string.Format("WHERE doc_num = '" + invoice.ID + "'"));
+
+            if (tableD != "")
+            {
+                queryD.Append(string.Format("UPDATE {0} ", tableD));
+                queryD.Append(string.Format("SET {0} = '{1}', ", name, invoice.InvoicePerson.ID));
+
+                if (invoiceSale)
+                {
+                    queryD.Append(string.Format("co_ven = '{0}', ", invoice.InvoicePerson.Seller.ID));
+                    queryD.Append(string.Format("n_control = '{0}', ", invoice.ControlNumber));
+                }
+
+                queryD.Append(string.Format("fec_venc = '{0}' ", invoice.DateVenc.ToString("yyyy/MM/dd HH:mm")));
+                queryD.Append(string.Format("WHERE co_tipo_doc = 'FACT' AND nro_doc = '" + invoice.ID + "'"));
+            }
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(DBadmin))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand(query.ToString(), conn))
+                    using (SqlCommand comm = new SqlCommand(queryF.ToString(), conn))
                     {
-                        int rows = comm.ExecuteNonQuery();
+                        int rowsF = comm.ExecuteNonQuery();
+                        comm.CommandText = queryD.ToString();
+                        int rowsD = comm.ExecuteNonQuery();
 
-                        if (rows > 0)
+                        if (rowsF > 0 && rowsD > 0)
                         {
                             response.Status = "OK";
-                            response.Result = rows;
+                            response.Result = rowsF + rowsD;
                         }
                         else
                         {

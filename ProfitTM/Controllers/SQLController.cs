@@ -203,45 +203,7 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // ADMIN
-
-        public ProfitTMResponse getProds()
-        {
-            ProfitTMResponse response = new ProfitTMResponse();
-            List<Product> results = new List<Product>();
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(DBadmin))
-                {
-                    conn.Open();
-                    using (SqlCommand comm = new SqlCommand("select * from saArticulo", conn))
-                    {
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                results.Add(new Product()
-                                {
-                                    ID = reader["co_art"].ToString(),
-                                    Name = reader["art_des"].ToString()
-                                });
-                            }
-                        }
-                    }
-                }
-
-                response.Status = "OK";
-                response.Result = results;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = ex.Message;
-            }
-
-            return response;
-        }
+            // ADMIN
 
         public ProfitTMResponse getPrices()
         {
@@ -301,44 +263,6 @@ namespace ProfitTM.Controllers
                                 {
                                     ID = reader["co_alma"].ToString(),
                                     Name = reader["des_alma"].ToString()
-                                });
-                            }
-                        }
-                    }
-                }
-
-                response.Status = "OK";
-                response.Result = results;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = ex.Message;
-            }
-
-            return response;
-        }
-
-        public ProfitTMResponse getClients()
-        {
-            ProfitTMResponse response = new ProfitTMResponse();
-            List<Client> results = new List<Client>();
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(DBadmin))
-                {
-                    conn.Open();
-                    using (SqlCommand comm = new SqlCommand("select * from saCliente", conn))
-                    {
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                results.Add(new Client()
-                                {
-                                    ID = reader["co_cli"].ToString(),
-                                    Name = reader["cli_des"].ToString()
                                 });
                             }
                         }
@@ -701,84 +625,8 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        public ProfitTMResponse getSellers()
-        {
-            ProfitTMResponse response = new ProfitTMResponse();
-            List<Seller> results = new List<Seller>();
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(DBadmin))
-                {
-                    conn.Open();
-                    using (SqlCommand comm = new SqlCommand("select * from saVendedor", conn))
-                    {
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                results.Add(new Seller()
-                                {
-                                    ID = reader["co_ven"].ToString(),
-                                    Name = reader["ven_des"].ToString()
-                                });
-                            }
-                        }
-                    }
-                }
-
-                response.Status = "OK";
-                response.Result = results;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = ex.Message;
-            }
-
-            return response;
-        }
-
-        public ProfitTMResponse getConds()
-        {
-            ProfitTMResponse response = new ProfitTMResponse();
-            List<Cond> results = new List<Cond>();
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(DBadmin))
-                {
-                    conn.Open();
-                    using (SqlCommand comm = new SqlCommand("select * from saCondicionPago", conn))
-                    {
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                results.Add(new Cond()
-                                {
-                                    ID = reader["co_cond"].ToString(),
-                                    Name = reader["cond_des"].ToString()
-                                });
-                            }
-                        }
-                    }
-                }
-
-                response.Status = "OK";
-                response.Result = results;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = ex.Message;
-            }
-
-            return response;
-        }
-
             // CONT
-
+        
         public ProfitTMResponse getCostCenters()
         {
             ProfitTMResponse response = new ProfitTMResponse();

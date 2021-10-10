@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -55,6 +56,40 @@ namespace ProfitTM.Models
             }
 
             return client;
+        }
+
+        public static List<Client> GetAllClients(string connect)
+        {
+            List<Client> clients = new List<Client>();
+            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saCliente", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                clients.Add(new Client()
+                                {
+                                    ID = reader["co_cli"].ToString(),
+                                    Name = reader["cli_des"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clients = null;
+            }
+
+            return clients;
         }
     }
 }

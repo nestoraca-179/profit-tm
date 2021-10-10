@@ -409,6 +409,7 @@
     </Compile>
     <Compile Include="Models\Admin\Account.cs" />
     <Compile Include="Models\Admin\Bank.cs" />
+    <Compile Include="Models\Admin\Currency.cs" />
     <Compile Include="Models\Admin\Invoice.cs" />
     <Compile Include="Models\Admin\Client.cs" />
     <Compile Include="Models\Admin\Cond.cs" />

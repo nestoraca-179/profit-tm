@@ -158,30 +158,36 @@
                                 <div class="col-sm-4 input-search">
                                     <label>Cliente</label>
                                     <input type="text" id="personFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistClient')" data-name="personFacturaEdit"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="personFacturaEdit"></i>
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Vendedor</label>
                                     <input type="text" id="sellerFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.Seller.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSeller')" data-name="sellerFacturaEdit"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaEdit"></i>
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Cond. Pago</label>
                                     <input type="text" id="condFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.Cond.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCond')" data-name="condFacturaEdit"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaEdit"></i>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
-                                <div class="col-sm-5 input-search">
+                                <div class="col-sm-3 input-search">
                                     <label>Transporte</label>
-                                    <input type="text" id="transFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Transport.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistTran')" data-name="transFacturaEdit"></i>
+                                    <input type="text" id="transFacturaEdit" onfocus="this.blur()" style="max-width: 70%;" ng-model="formEdit.Transport.ID" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaEdit"></i>
                                 </div>
-                                <div class="col-sm-7">
+                                <div class="col-sm-3 input-search">
+                                    <label>Moneda</label>
+                                    <input type="text" id="monedaFacturaEdit" onfocus="this.blur()" style="max-width: 70%;" ng-model="formEdit.Currency.ID" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaEdit"></i>
+                                </div>
+                                <div class="col-sm-6">
                                     <label>Monto</label>
                                     <input type="text" id="montoFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.Amount" />
                                 </div>
                                 <input type="hidden" id="tipoFacturaEdit" value="" ng-model="formEdit.Type" />
+                                <input type="hidden" id="dateFacturaEdit" value="" ng-model="formEdit.DateEmis" />
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -235,7 +241,7 @@
                 </div>
             </div>
             <!-- Modal 1 -->
-            <div class="modal fade" id="modalAssistClient" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalClients" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -246,11 +252,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar cliente..." onkeyup="search('modalAssistClient')" />
+                                <input type="text" class="form-control" placeholder="Buscar cliente..." onkeyup="search('modalClients')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistClients)
+                                    foreach (var elem in ViewBag.clients)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -263,13 +269,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistClient')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalClients')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Modal 2 -->
-            <div class="modal fade" id="modalAssistSeller" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalSellers" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -280,11 +286,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar vendedor..." onkeyup="search('modalAssistSeller')" />
+                                <input type="text" class="form-control" placeholder="Buscar vendedor..." onkeyup="search('modalSellers')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistSellers)
+                                    foreach (var elem in ViewBag.sellers)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -297,13 +303,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistSeller')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalSellers')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Modal 3 -->
-            <div class="modal fade" id="modalAssistCond" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalConds" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -314,11 +320,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar cond. pago..." onkeyup="search('modalAssistCond')" />
+                                <input type="text" class="form-control" placeholder="Buscar cond. pago..." onkeyup="search('modalConds')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistConds)
+                                    foreach (var elem in ViewBag.conds)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -331,13 +337,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistCond')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalConds')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Modal 4 -->
-            <div class="modal fade" id="modalAssistTran" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalTransports" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -348,11 +354,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar transporte..." onkeyup="search('modalAssistTran')" />
+                                <input type="text" class="form-control" placeholder="Buscar transporte..." onkeyup="search('modalTransports')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistTransports)
+                                    foreach (var elem in ViewBag.transports)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -365,7 +371,41 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistTran')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalTransports')">Seleccionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal 5 -->
+            <div class="modal fade" id="modalCurrencies" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Buscar Moneda</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar moneda..." onkeyup="search('modalCurrencies')" />
+                            </div>
+                            <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                                @{
+                                    foreach (var elem in ViewBag.currencies)
+                                    {
+                                        <tr style="cursor: pointer" onclick="selectRow(this)">
+                                            <td>@elem.ID</td>
+                                            <td>@elem.Name</td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                            <input type="hidden" id="name-input" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalCurrencies')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
@@ -416,9 +456,14 @@
 
                 var modalEdit = modals.find(m => m.ModalType == "E").Title;
 
+                var value = new Date(Date.parse($("#formFacturaEdit input[id=dateFacturaEdit]").val()));
+                var timeOffset = value.getTimezoneOffset() * 60000;
+
                 $(".modal .btn.btn-primary").prop('disabled', 'true');
                 $("#formFacturaEdit input, #formFacturaEdit textarea").change();
-                $scope.formEdit.Type = $("#formFacturaEdit input[type=hidden]").val();
+
+                $scope.formEdit.DateEmis = new Date(value.getTime() - timeOffset).toUTCString();
+                $scope.formEdit.Type = $("#formFacturaEdit input[id=tipoFacturaEdit]").val();
 
                 console.log($scope.formEdit);
 

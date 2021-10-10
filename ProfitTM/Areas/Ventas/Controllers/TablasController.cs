@@ -21,6 +21,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
+                string connect = Session["connect"].ToString();
+
                 SQLController sqlController = new SQLController();
                 List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
 
@@ -32,16 +34,14 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ProfitTMResponse responseAA = sqlController.getAccounts();
                 ProfitTMResponse responseAC = sqlController.getCountries();
                 ProfitTMResponse responseAS = sqlController.getSegments();
-                ProfitTMResponse responseAL = sqlController.getSellers();
-                ProfitTMResponse responseAN = sqlController.getConds();
+                List<Cond> conds = Cond.GetAllConds(connect);
+                List<Seller> sellers = Seller.GetAllSellers(connect);
 
                 responses.Add(responseAT);
                 responses.Add(responseAZ);
                 responses.Add(responseAA);
                 responses.Add(responseAC);
                 responses.Add(responseAS);
-                responses.Add(responseAL);
-                responses.Add(responseAN);
 
                 foreach (ProfitTMResponse res in responses)
                 {
@@ -64,8 +64,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
                     ViewBag.assistAccounts = responseAA.Result;
                     ViewBag.assistCountries = responseAC.Result;
                     ViewBag.assistSegments = responseAS.Result;
-                    ViewBag.assistSellers = responseAL.Result;
-                    ViewBag.assistConds = responseAN.Result;
+                    ViewBag.assistSellers = sellers;
+                    ViewBag.assistConds = conds;
 
                     switch (option)
                     {

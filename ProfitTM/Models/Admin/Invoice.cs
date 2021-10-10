@@ -9,9 +9,11 @@ namespace ProfitTM.Models
     {
         public string ID { get; set; }
         public Person InvoicePerson { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime DateEmis { get; set; }
+        public DateTime DateVenc { get; set; }
         public string ControlNumber { get; set; }
         public Transport Transport { get; set; }
+        public Currency Currency { get; set; }
         public double Amount { get; set; }
         public int Status { get; set; }
         public bool Printed { get; set; }
@@ -66,13 +68,15 @@ namespace ProfitTM.Models
                                 Invoice invoice = new Invoice()
                                 {
                                     ID = reader["doc_num"].ToString().Trim(),
-                                    Date = Convert.ToDateTime(reader["fec_emis"].ToString()),
+                                    DateEmis = Convert.ToDateTime(reader["fec_emis"].ToString()),
+                                    DateVenc = Convert.ToDateTime(reader["fec_venc"].ToString()),
                                     ControlNumber = reader["n_control"].ToString(),
+                                    Currency = Currency.GetCurrency(connect, reader["co_mone"].ToString()),
                                     Amount = double.Parse(reader["total_neto"].ToString()),
                                     Status = int.Parse(reader["status"].ToString()),
                                     Printed = bool.Parse(reader["impresa"].ToString()),
                                     Type = type,
-                                    Items = Invoice.GetInvoiceItems(connect, reader["doc_num"].ToString(), type)
+                                    Items = GetInvoiceItems(connect, reader["doc_num"].ToString(), type)
                                 };
 
                                 string ID = reader[name].ToString();
