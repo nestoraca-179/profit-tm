@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -53,6 +54,40 @@ namespace ProfitTM.Models
             }
 
             return supplier;
+        }
+
+        public static List<Supplier> GetAllSuppliers(string connect)
+        {
+            List<Supplier> suppliers = new List<Supplier>();
+            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saProveedor", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                suppliers.Add(new Supplier()
+                                {
+                                    ID = reader["co_prov"].ToString(),
+                                    Name = reader["prov_des"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                suppliers = null;
+            }
+
+            return suppliers;
         }
     }
 }

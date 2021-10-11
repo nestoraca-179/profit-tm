@@ -22,71 +22,38 @@ namespace ProfitTM.Areas.Compras.Controllers
             else
             {
                 SQLController sqlController = new SQLController();
-                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+                string connect = Session["connect"].ToString();
 
-                bool error = false;
-                string msg = "";
+                ProfitTMResponse result;
 
-                ProfitTMResponse responseAT = sqlController.getTypesSup();
-                ProfitTMResponse responseAZ = sqlController.getZones();
-                ProfitTMResponse responseAA = sqlController.getAccounts();
-                ProfitTMResponse responseAC = sqlController.getCountries();
-                ProfitTMResponse responseAS = sqlController.getSegments();
+                ViewBag.results = option;
+                ViewBag.assistTypes = Type.GetAllTypesAdmin(connect, "P");
+                ViewBag.assistZones = Zone.GetAllZones(connect);
+                ViewBag.assistAccounts = Account.GetAllAccounts(connect);
+                ViewBag.assistCountries = Country.GetAllCountries(connect);
+                ViewBag.assistSegments = Segment.GetAllSegments(connect);
 
-                responses.Add(responseAT);
-                responses.Add(responseAZ);
-                responses.Add(responseAA);
-                responses.Add(responseAC);
-                responses.Add(responseAS);
-
-                foreach (ProfitTMResponse res in responses)
+                switch (option)
                 {
-                    if (res.Status == "ERROR")
-                    {
-                        error = true;
-                        msg = res.Message;
+                    case "0":
+
+                        result = sqlController.getResultsTable("co_prov,rif,prov_des,direc1,telefonos,email", "saProveedor");
+
+                        if (result.Status == "OK")
+                        {
+                            ViewBag.resultsTable = result.Result;
+                            ViewBag.titleR = "Proveedor";
+                            ViewBag.headers = "Codigo,RIF,Nombre,Direccion,Telefono,Email";
+                            ViewBag.cols = "co_prov,rif,prov_des,direc1,telefonos,email";
+                        }
 
                         break;
-                    }
+                    default:
+                        ViewBag.results = "";
+                        break;
                 }
 
-                if (!error)
-                {
-                    ProfitTMResponse result;
-
-                    ViewBag.results = option;
-                    ViewBag.assistTypes = responseAT.Result;
-                    ViewBag.assistZones = responseAZ.Result;
-                    ViewBag.assistAccounts = responseAA.Result;
-                    ViewBag.assistCountries = responseAC.Result;
-                    ViewBag.assistSegments = responseAS.Result;
-
-                    switch (option)
-                    {
-                        case "0":
-
-                            result = sqlController.getResultsTable("co_prov,rif,prov_des,direc1,telefonos,email", "saProveedor");
-
-                            if (result.Status == "OK")
-                            {
-                                ViewBag.resultsTable = result.Result;
-                                ViewBag.titleR = "Proveedor";
-                                ViewBag.headers = "Codigo,RIF,Nombre,Direccion,Telefono,Email";
-                                ViewBag.cols = "co_prov,rif,prov_des,direc1,telefonos,email";
-                            }
-
-                            break;
-                        default:
-                            ViewBag.results = "";
-                            break;
-                    }
-
-                    return View();
-                }
-                else
-                {
-                    return RedirectToAction("Logout", "Account", new { area = "", msg = msg });
-                }
+                return View();
             }
         }
     }

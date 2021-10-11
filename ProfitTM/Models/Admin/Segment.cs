@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -47,6 +48,40 @@ namespace ProfitTM.Models
             }
 
             return segment;
+        }
+
+        public static List<Segment> GetAllSegments(string connect)
+        {
+            List<Segment> segments = new List<Segment>();
+            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saSegmento", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                segments.Add(new Segment()
+                                {
+                                    ID = reader["co_seg"].ToString(),
+                                    Name = reader["seg_des"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                segments = null;
+            }
+
+            return segments;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -47,6 +48,40 @@ namespace ProfitTM.Models
             }
 
             return country;
+        }
+
+        public static List<Country> GetAllCountries(string connect)
+        {
+            List<Country> countries = new List<Country>();
+            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saPais", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                countries.Add(new Country()
+                                {
+                                    ID = reader["co_pais"].ToString(),
+                                    Name = reader["pais_des"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                countries = null;
+            }
+
+            return countries;
         }
     }
 }

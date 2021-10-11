@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -47,6 +48,40 @@ namespace ProfitTM.Models
             }
 
             return zone;
+        }
+
+        public static List<Zone> GetAllZones(string connect)
+        {
+            List<Zone> zones = new List<Zone>();
+            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand("select * from saZona", conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                zones.Add(new Zone()
+                                {
+                                    ID = reader["co_zon"].ToString(),
+                                    Name = reader["zon_des"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                zones = null;
+            }
+
+            return zones;
         }
     }
 }
