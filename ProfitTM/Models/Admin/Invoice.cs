@@ -14,6 +14,7 @@ namespace ProfitTM.Models
         public string ControlNumber { get; set; }
         public Transport Transport { get; set; }
         public Currency Currency { get; set; }
+        public double Rate { get; set; }
         public double Amount { get; set; }
         public int Status { get; set; }
         public bool Printed { get; set; }
@@ -59,7 +60,7 @@ namespace ProfitTM.Models
                 using (SqlConnection conn = new SqlConnection(DBadmin))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand(string.Format("SELECT * FROM {0}", table), conn))
+                    using (SqlCommand comm = new SqlCommand(string.Format("SELECT * FROM {0} ORDER BY fec_emis DESC", table), conn))
                     {
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
@@ -72,6 +73,7 @@ namespace ProfitTM.Models
                                     DateVenc = Convert.ToDateTime(reader["fec_venc"].ToString()),
                                     ControlNumber = reader["n_control"].ToString(),
                                     Currency = Currency.GetCurrency(connect, reader["co_mone"].ToString()),
+                                    Rate = double.Parse(reader["tasa"].ToString()),
                                     Amount = double.Parse(reader["total_neto"].ToString()),
                                     Status = int.Parse(reader["status"].ToString()),
                                     Printed = bool.Parse(reader["impresa"].ToString()),
@@ -108,9 +110,7 @@ namespace ProfitTM.Models
         public static List<InvoiceItem> GetInvoiceItems(string connect, string id, string type)
         {
             List<InvoiceItem> items = new List<InvoiceItem>();
-            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
-
-            string proc = "";
+            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString, proc = "";
 
             switch (type)
             {
@@ -150,9 +150,11 @@ namespace ProfitTM.Models
                                     Reng = reader["reng_num"].ToString(),
                                     Code = reader["co_art"].ToString().Trim(),
                                     Name = reader["art_des"].ToString(),
+                                    Storage = Storage.GetStorage(connect, reader["co_alma"].ToString()),
                                     Quantity = double.Parse(reader["total_art"].ToString()),
                                     Amount = double.Parse(reader["reng_neto"].ToString()),
-                                    IVA = double.Parse(reader["monto_imp"].ToString())
+                                    IVA = double.Parse(reader["monto_imp"].ToString()),
+                                    TypeArt = InvoiceItem.GetTypeItem(connect, reader["co_art"].ToString())
                                 });
                             }
                         }

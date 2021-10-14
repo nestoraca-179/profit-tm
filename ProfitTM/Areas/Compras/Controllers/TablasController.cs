@@ -27,11 +27,11 @@ namespace ProfitTM.Areas.Compras.Controllers
                 ProfitTMResponse result;
 
                 ViewBag.results = option;
-                ViewBag.assistTypes = Type.GetAllTypesAdmin(connect, "P");
-                ViewBag.assistZones = Zone.GetAllZones(connect);
-                ViewBag.assistAccounts = Account.GetAllAccounts(connect);
-                ViewBag.assistCountries = Country.GetAllCountries(connect);
-                ViewBag.assistSegments = Segment.GetAllSegments(connect);
+                ViewBag.types = Type.GetAllTypesAdmin(connect, "P");
+                ViewBag.zones = Zone.GetAllZones(connect);
+                ViewBag.accounts = Account.GetAllAccounts(connect);
+                ViewBag.countries = Country.GetAllCountries(connect);
+                ViewBag.segments = Segment.GetAllSegments(connect);
 
                 switch (option)
                 {
@@ -42,7 +42,7 @@ namespace ProfitTM.Areas.Compras.Controllers
                         if (result.Status == "OK")
                         {
                             ViewBag.resultsTable = result.Result;
-                            ViewBag.titleR = "Proveedor";
+                            ViewBag.function = "Proveedor";
                             ViewBag.headers = "Codigo,RIF,Nombre,Direccion,Telefono,Email";
                             ViewBag.cols = "co_prov,rif,prov_des,direc1,telefonos,email";
                         }

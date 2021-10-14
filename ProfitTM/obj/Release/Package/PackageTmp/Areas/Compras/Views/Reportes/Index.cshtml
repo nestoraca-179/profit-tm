@@ -119,11 +119,11 @@
                                 <h5 class="text-white">Articulo</h5>
                                 <div class="input-search" style="margin-right: 20px;">
                                     <input type="text" id="artD" name="paramsSent" placeholder="Desde" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artD"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalProducts')" data-name="artD"></i>
                                 </div>
                                 <div class="input-search" style="margin-left: 20px;">
                                     <input type="text" id="artH" name="paramsSent" placeholder="Hasta" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistProd')" data-name="artH"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalProducts')" data-name="artH"></i>
                                 </div>
                             </div>
                             <hr style="width: 100%; height: 1px; background: #7ad4f7; border-radius: 5px; margin: 0 auto;" />
@@ -131,11 +131,11 @@
                                 <h5 class="text-white">Proveedor</h5>
                                 <div class="input-search" style="margin-right: 20px;">
                                     <input type="text" id="proD" name="paramsSent" placeholder="Desde" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSup')" data-name="proD"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSuppliers')" data-name="proD"></i>
                                 </div>
                                 <div class="input-search" style="margin-left: 20px;">
                                     <input type="text" id="proH" name="paramsSent" placeholder="Hasta" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSup')" data-name="proH"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSuppliers')" data-name="proH"></i>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
         }
     </form>
     <!-- Modal 1 -->
-    <div class="modal fade" id="modalAssistProd" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modalProducts" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -162,11 +162,11 @@
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar artículo..." onkeyup="search('modalAssistProd')" />
+                        <input type="text" class="form-control" placeholder="Buscar artículo..." onkeyup="search('modalProducts')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
-                            foreach (var elem in ViewBag.assistProds)
+                            foreach (var elem in ViewBag.prods)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
                                     <td>@elem.ID</td>
@@ -179,13 +179,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistProd')">Seleccionar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalProducts')">Seleccionar</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal 2 -->
-    <div class="modal fade" id="modalAssistSup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modalSuppliers" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -196,11 +196,11 @@
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar proveedor..." onkeyup="search('modalAssistSup')" />
+                        <input type="text" class="form-control" placeholder="Buscar proveedor..." onkeyup="search('modalSuppliers')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
-                            foreach (var elem in ViewBag.assistSups)
+                            foreach (var elem in ViewBag.suppliers)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
                                     <td>@elem.ID</td>
@@ -213,7 +213,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistSup')">Seleccionar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalSuppliers')">Seleccionar</button>
                 </div>
             </div>
         </div>

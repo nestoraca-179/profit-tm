@@ -21,11 +21,12 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
             else
             {
                 string connect = Session["connect"].ToString();
+
                 SQLController sqlController = new SQLController();
                 List<string> parameters = new List<string>(), qParam = new List<string>();
 
-                ViewBag.assistCods = Bank.GetAllBanks(connect);
-                ViewBag.assistAccs = Account.GetAllBankAccounts(connect);
+                ViewBag.cods = Bank.GetAllBanks(connect);
+                ViewBag.bankAccounts = Account.GetAllBankAccounts(connect);
 
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(proc) && !string.IsNullOrEmpty(cols) && !string.IsNullOrEmpty(fields))
                 {

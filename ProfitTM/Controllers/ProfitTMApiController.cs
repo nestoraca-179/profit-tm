@@ -119,10 +119,23 @@ namespace ProfitTM.Controllers
         // FACTURA
 
         [HttpPost]
+        [Route("api/ProfitTMApi/AddInvoice/")]
+        public ProfitTMResponse AddInvoice(Invoice invoice)
+        {
+            ProfitTMResponse response;
+            string connect = HttpContext.Current.Session["connect"].ToString();
+
+            InvoiceManager invoiceManager = new InvoiceManager(connect);
+            response = invoiceManager.addInvoice(invoice);
+
+            return response;
+        }
+
+        [HttpPost]
         [Route("api/ProfitTMApi/EditInvoice/")]
         public ProfitTMResponse EditInvoice(Invoice invoice)
         {
-            ProfitTMResponse response = new ProfitTMResponse();
+            ProfitTMResponse response;
             string connect = HttpContext.Current.Session["connect"].ToString();
 
             InvoiceManager invoiceManager = new InvoiceManager(connect);

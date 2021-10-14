@@ -106,7 +106,6 @@ namespace ProfitTM.Controllers
         public ActionResult DashboardAdmin()
         {
             ViewBag.user = Session["user"];
-            string userID = ((User)ViewBag.user).ID;
 
             if (ViewBag.user == null)
             {
@@ -117,11 +116,11 @@ namespace ProfitTM.Controllers
             {
                 if (Session["options"] == null)
                 {
+                    bool error = false;
+                    string msg = "", userID = ((User)ViewBag.user).ID;
+
                     List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
                     SQLController sqlController = new SQLController();
-
-                    bool error = false;
-                    string msg = "";
 
                     ProfitTMResponse responseOPT = new SQLController("MainConnection").getModules("Admin", userID);
                     ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(5);

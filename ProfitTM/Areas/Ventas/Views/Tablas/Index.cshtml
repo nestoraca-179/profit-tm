@@ -34,7 +34,7 @@
                     <i class="fas fa-plus"></i> Agregar nuevo
                 </button>
             </div>
-            <h2 class="text-center">@ViewBag.titleR</h2>
+            <h2 class="text-center">@ViewBag.function</h2>
             <table id="results-table" class="table table-striped table-hover table-bordered table-sm shadow-sm">
                 <thead class="thead-dark">
                     <tr>
@@ -90,25 +90,25 @@
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <input type="text" id="tipo" placeholder="Tipo" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.type" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistType')" data-name="tipo"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTypes')" data-name="tipo"></i>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
                                 <div class="col-sm-3 input-search">
                                     <input type="text" id="zona" placeholder="Zona" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.zone" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistZone')" data-name="zona"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalZones')" data-name="zona"></i>
                                 </div>
                                 <div class="col-sm-3 input-search">
                                     <input type="text" id="cuenta" placeholder="Cta Ingr/Egr" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.account" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistAccount')" data-name="cuenta"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="cuenta"></i>
                                 </div>
                                 <div class="col-sm-3 input-search">
                                     <input type="text" id="pais" placeholder="País" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.country" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCountry')" data-name="pais"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCountries')" data-name="pais"></i>
                                 </div>
                                 <div class="col-sm-3 input-search">
                                     <input type="text" id="segmento" placeholder="Segmento" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.segment" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSegment')" data-name="segmento"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSegments')" data-name="segmento"></i>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
@@ -125,11 +125,11 @@
                             <div class="form-group row" style="margin-top: 30px">
                                 <div class="col-sm-6 input-search">
                                     <input type="text" id="vendedor" placeholder="Vendedor" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.seller" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistSeller')" data-name="vendedor"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="vendedor"></i>
                                 </div>
                                 <div class="col-sm-6 input-search">
                                     <input type="text" id="condicion" placeholder="Cond. Pago" onfocus="this.blur()" style="max-width: 70%;" required ng-model="formAdd.cond" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCond')" data-name="condicion"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condicion"></i>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
@@ -211,7 +211,7 @@
                 </div>
             </div>
             <!-- Modal 1 -->
-            <div class="modal fade" id="modalAssistType" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalTypes" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -222,11 +222,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar tipo..." onkeyup="search('modalAssistType')" />
+                                <input type="text" class="form-control" placeholder="Buscar tipo..." onkeyup="search('modalTypes')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistTypes)
+                                    foreach (var elem in ViewBag.types)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -239,13 +239,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistType')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalTypes')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Modal 2 -->
-            <div class="modal fade" id="modalAssistZone" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalZones" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -256,11 +256,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar zona..." onkeyup="search('modalAssistZone')" />
+                                <input type="text" class="form-control" placeholder="Buscar zona..." onkeyup="search('modalZones')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistZones)
+                                    foreach (var elem in ViewBag.zones)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -273,13 +273,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistZone')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalZones')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Modal 3 -->
-            <div class="modal fade" id="modalAssistAccount" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalAccounts" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -290,11 +290,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalAssistAccount')" />
+                                <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalAccounts')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistAccounts)
+                                    foreach (var elem in ViewBag.accounts)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -307,13 +307,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistAccount')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAccounts')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Modal 4 -->
-            <div class="modal fade" id="modalAssistCountry" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalCountries" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -324,11 +324,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar pais..." onkeyup="search('modalAssistCountry')" />
+                                <input type="text" class="form-control" placeholder="Buscar pais..." onkeyup="search('modalCountries')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistCountries)
+                                    foreach (var elem in ViewBag.countries)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -341,13 +341,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistCountry')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalCountries')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Modal 5 -->
-            <div class="modal fade" id="modalAssistSegment" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalSegments" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -358,11 +358,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar segmento..." onkeyup="search('modalAssistSegment')" />
+                                <input type="text" class="form-control" placeholder="Buscar segmento..." onkeyup="search('modalSegments')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistSegments)
+                                    foreach (var elem in ViewBag.segments)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -375,13 +375,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistSegment')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalSegments')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Modal 6 -->
-            <div class="modal fade" id="modalAssistSeller" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalSellers" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -392,11 +392,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar vendedor..." onkeyup="search('modalAssistSeller')" />
+                                <input type="text" class="form-control" placeholder="Buscar vendedor..." onkeyup="search('modalSellers')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistSellers)
+                                    foreach (var elem in ViewBag.sellers)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -409,13 +409,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistSeller')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalSellers')">Seleccionar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Modal 7 -->
-            <div class="modal fade" id="modalAssistCond" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalConds" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -426,11 +426,11 @@
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar cond. pago..." onkeyup="search('modalAssistCond')" />
+                                <input type="text" class="form-control" placeholder="Buscar cond. pago..." onkeyup="search('modalConds')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.assistConds)
+                                    foreach (var elem in ViewBag.conds)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -443,7 +443,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistCond')">Seleccionar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRow('modalConds')">Seleccionar</button>
                         </div>
                     </div>
                 </div>

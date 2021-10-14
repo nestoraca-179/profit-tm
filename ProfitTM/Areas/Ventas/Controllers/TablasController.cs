@@ -27,13 +27,13 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ProfitTMResponse result;
 
                 ViewBag.results = option;
-                ViewBag.assistTypes = Type.GetAllTypesAdmin(connect, "C");
-                ViewBag.assistZones = Zone.GetAllZones(connect);
-                ViewBag.assistAccounts = Account.GetAllAccounts(connect);
-                ViewBag.assistCountries = Country.GetAllCountries(connect);
-                ViewBag.assistSegments = Segment.GetAllSegments(connect);
-                ViewBag.assistSellers = Seller.GetAllSellers(connect);
-                ViewBag.assistConds = Cond.GetAllConds(connect); ;
+                ViewBag.types = Type.GetAllTypesAdmin(connect, "C");
+                ViewBag.zones = Zone.GetAllZones(connect);
+                ViewBag.accounts = Account.GetAllAccounts(connect);
+                ViewBag.countries = Country.GetAllCountries(connect);
+                ViewBag.segments = Segment.GetAllSegments(connect);
+                ViewBag.sellers = Seller.GetAllSellers(connect);
+                ViewBag.conds = Cond.GetAllConds(connect); ;
 
                 switch (option)
                 {
@@ -44,7 +44,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                         if (result.Status == "OK")
                         {
                             ViewBag.resultsTable = result.Result;
-                            ViewBag.titleR = "Cliente";
+                            ViewBag.function = "Cliente";
                             ViewBag.headers = "Codigo,RIF,Nombre,Direccion,Telefono,Email";
                             ViewBag.cols = "co_cli,rif,cli_des,direc1,telefonos,email";
                         }

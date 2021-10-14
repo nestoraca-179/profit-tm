@@ -10,6 +10,46 @@ namespace ProfitTM.Models
         public string ID { get; set; }
         public string Name { get; set; }
 
+        public static Storage GetStorage(string connect, string ID)
+        {
+            Storage storage;
+
+            string query = string.Format("SELECT * FROM saAlmacen WHERE co_alma = '{0}'", ID);
+            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                storage = new Storage()
+                                {
+                                    ID = reader["co_alma"].ToString().Trim(),
+                                    Name = reader["des_alma"].ToString()
+                                };
+                            }
+                            else
+                            {
+                                storage = null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                storage = null;
+            }
+
+            return storage;
+        }
+
         public static List<Storage> GetAllStorages(string connect)
         {
             List<Storage> storages = new List<Storage>();

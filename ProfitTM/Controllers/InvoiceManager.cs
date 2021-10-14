@@ -24,6 +24,13 @@ namespace ProfitTM.Controllers
             this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
         }
 
+        public ProfitTMResponse addInvoice(Invoice invoice)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            return response;
+        }
+
         public ProfitTMResponse editInvoice(Invoice invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
@@ -73,6 +80,7 @@ namespace ProfitTM.Controllers
                 queryF.Append(string.Format("co_tran = '{0}', ", invoice.Transport.ID));
             }
 
+            queryF.Append(string.Format("tasa = {0}, ", invoice.Rate.ToString().Replace(",", ".")));
             queryF.Append(string.Format("n_control = '{0}', ", invoice.ControlNumber));
             queryF.Append(string.Format("fec_venc = '{0}' ", invoice.DateVenc.ToString("yyyy/MM/dd HH:mm")));
             queryF.Append(string.Format("WHERE doc_num = '" + invoice.ID + "'"));
@@ -88,6 +96,7 @@ namespace ProfitTM.Controllers
                     queryD.Append(string.Format("n_control = '{0}', ", invoice.ControlNumber));
                 }
 
+                queryD.Append(string.Format("tasa = {0}, ", invoice.Rate.ToString().Replace(",", ".")));
                 queryD.Append(string.Format("fec_venc = '{0}' ", invoice.DateVenc.ToString("yyyy/MM/dd HH:mm")));
                 queryD.Append(string.Format("WHERE co_tipo_doc = 'FACT' AND nro_doc = '" + invoice.ID + "'"));
             }

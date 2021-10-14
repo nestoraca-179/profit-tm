@@ -26,9 +26,9 @@ namespace ProfitTM.Areas.Inventario.Controllers
                 SQLController sqlController = new SQLController();
                 List<string> parameters = new List<string>(), qParam = new List<string>();
 
-                ViewBag.assistProds = Product.GetAllProducts(connect);
-                ViewBag.assistPrices = Price.GetAllPrices(connect);
-                ViewBag.assistStorages = Storage.GetAllStorages(connect);
+                ViewBag.prods = Product.GetAllProducts(connect);
+                ViewBag.prices = Price.GetAllPrices(connect);
+                ViewBag.storages = Storage.GetAllStorages(connect);
 
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(proc) && !string.IsNullOrEmpty(fields) && !string.IsNullOrEmpty(cols))
                 {

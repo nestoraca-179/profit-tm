@@ -24,12 +24,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             {
                 string connect = Session["connect"].ToString();
 
-                List<Client> clients = Client.GetAllClients(connect);
-                List<Cond> conds = Cond.GetAllConds(connect);
-                List<Seller> sellers = Seller.GetAllSellers(connect);
-                List<Transport> transports = Transport.GetAllTransports(connect);
-                List<Currency> currencies = Currency.GetAllCurrencies(connect);
-
+                List<Modal> modals = Option.GetModals(option);
                 List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
 
                 NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
@@ -41,7 +36,6 @@ namespace ProfitTM.Areas.Ventas.Controllers
                     string type = function == EnumLoadFunction.INVOICEV ? "V" : "PV";
 
                     List<Invoice> invoices = Invoice.GetAllInvoices(connect, type), templates = Invoice.GetAllInvoices(connect, "PV");
-                    List<Modal> modals = Option.GetModals(option);
 
                     if (invoices != null && templates != null)
                     {
@@ -75,7 +69,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                             if (invoice.Status == 0 && !invoice.Printed)
                             {
                                 item.Add("edit", "True");
-                                item.Add("delete", "True");
+                                item.Add("delete", "False");
                             }
                             else
                             {
@@ -84,7 +78,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                             }
 
                             string fieldsEdit = string.Format(
-                                "idFacturaEdit={0},personFacturaEdit={1},condFacturaEdit={2},sellerFacturaEdit={3},controlFacturaEdit={4},transFacturaEdit={5},montoFacturaEdit={6},monedaFacturaEdit={7},dateFacturaEdit={8},tipoFacturaEdit=V",
+                                "idFacturaEdit={0},personFacturaEdit={1},condFacturaEdit={2},sellerFacturaEdit={3},controlFacturaEdit={4},transFacturaEdit={5},montoFacturaEdit={6},monedaFacturaEdit={7},dateFacturaEdit={8},tasaFacturaEdit={9},tipoFacturaEdit={10}",
                                 invoice.ID,
                                 invoice.InvoicePerson.ID,
                                 invoice.InvoicePerson.Cond.ID,
@@ -93,7 +87,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
                                 invoice.Transport.ID,
                                 invoice.Amount.ToString().Replace(",", "."),
                                 invoice.Currency.ID,
-                                invoice.DateEmis.ToString("yyyy/MM/dd HH:mm")
+                                invoice.DateEmis.ToString("yyyy/MM/dd HH:mm"),
+                                invoice.Rate.ToString().Replace(",", "."),
+                                type
                             );
 
                             item.Add("details", "True");
@@ -102,15 +98,14 @@ namespace ProfitTM.Areas.Ventas.Controllers
                             results.Add(item);
                         }
 
-                        ViewBag.modals = modals;
                         ViewBag.documents = invoices;
                         ViewBag.templates = templates;
                         ViewBag.resultsTable = results;
 
                         if (type == "V")
-                            ViewBag.titleR = "Factura";
+                            ViewBag.function = "Factura";
                         else
-                            ViewBag.titleR = "Plantilla";
+                            ViewBag.function = "Plantilla";
 
                         ViewBag.headers = "Codigo,Cliente,Fec. Emis,Total,Estado,Impresa";
                         ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status,Impresa";
@@ -126,11 +121,13 @@ namespace ProfitTM.Areas.Ventas.Controllers
                     ViewBag.results = "";
                 }
 
-                ViewBag.clients = clients;
-                ViewBag.conds = conds;
-                ViewBag.sellers = sellers;
-                ViewBag.transports = transports;
-                ViewBag.currencies = currencies;
+                ViewBag.clients = Client.GetAllClients(connect);
+                ViewBag.conds = Cond.GetAllConds(connect);
+                ViewBag.sellers = Seller.GetAllSellers(connect);
+                ViewBag.transports = Transport.GetAllTransports(connect);
+                ViewBag.currencies = Currency.GetAllCurrencies(connect);
+
+                ViewBag.modals = modals;
                 ViewBag.formato = formato;
 
                 return View();

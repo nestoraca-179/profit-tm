@@ -37,19 +37,14 @@
         if (ViewBag.results != "")
         {
             <div>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalClienteAdd">
+                <button ng-if="modalAdd != null" type="button" class="btn btn-success" data-toggle="modal" data-target="#{{ modalAdd.Title }}">
                     <i class="fas fa-plus"></i> Agregar nuevo
                 </button>
-                @{
-                    if (ViewBag.titleR == "Factura")
-                    {
-                        <button type="button" class="btn btn-primary" style="margin-left: 15px;" data-toggle="modal" data-target="#modalImportarPlantilla">
-                            <i class="fas fa-exchange-alt"></i> Importar Plantilla
-                        </button>
-                    }
-                }
+                <button ng-if="name == 'Factura'" type="button" class="btn btn-primary" style="margin-left: 15px;" data-toggle="modal" data-target="#modalImportarPlantilla">
+                    <i class="fas fa-exchange-alt"></i> Importar Plantilla
+                </button>
             </div>
-            <h2 class="text-center">@ViewBag.titleR</h2>
+            <h2 class="text-center">@ViewBag.function</h2>
             <table id="results-table" class="table table-striped table-hover table-bordered table-sm shadow-sm">
                 <thead class="thead-dark">
                     <tr>
@@ -121,6 +116,7 @@
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
                                             <td>@elem.InvoicePerson.Name</td>
+                                            <td>@elem.DateEmis</td>
                                         </tr>
                                     }
                                 }
@@ -128,7 +124,108 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" ng-click="">Importar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="importTemplate()">Importar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Modal Agregar Factura -->
+            <div class="modal fade" id="modalFacturaAdd" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width: 800px;">
+                    <form action="" method="post" id="formFacturaAdd" class="modal-content" onsubmit="return false;">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Documento</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="max-height: 550px; overflow-y: auto;">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label>N° Documento</label>
+                                    <input type="text" id="idFacturaAdd" required ng-model="formAdd.ID" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>N° Control</label>
+                                    <input type="text" id="controlFacturaAdd" required ng-model="formAdd.ControlNumber" />
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 10px">
+                                <div class="col-sm-4 input-search">
+                                    <label>Cliente</label>
+                                    <input type="text" id="personFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.ID" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="personFacturaAdd"></i>
+                                </div>
+                                <div class="col-sm-4 input-search">
+                                    <label>Vendedor</label>
+                                    <input type="text" id="sellerFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.Seller.ID" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaAdd"></i>
+                                </div>
+                                <div class="col-sm-4 input-search">
+                                    <label>Cond. Pago</label>
+                                    <input type="text" id="condFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.Cond.ID" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaAdd"></i>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 10px">
+                                <div class="col-sm-3 input-search">
+                                    <label>Transporte</label>
+                                    <input type="text" id="transFacturaAdd" onfocus="this.blur()" style="max-width: 70%;" ng-model="formAdd.Transport.ID" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaAdd"></i>
+                                </div>
+                                <div class="col-sm-4 input-search">
+                                    <label>Moneda</label>
+                                    <input type="text" id="monedaFacturaAdd" onfocus="this.blur()" style="max-width: 70%;" ng-model="formAdd.Currency.ID" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaAdd"></i>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label>Tasa</label>
+                                    <input type="text" id="tasaFacturaAdd" onkeypress="return event.keyCode != 188" ng-model="formAdd.Rate" />
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 10px">
+                                <div class="col-sm-12">
+                                    <label>Monto</label>
+                                    <input type="text" id="montoFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.Amount" />
+                                </div>
+                                <input type="hidden" id="tipoFacturaAdd" value="V" ng-model="formAdd.Type" />
+                                <input type="hidden" id="dateFacturaAdd" value="" ng-model="formAdd.DateEmis" />
+                            </div>
+                            <div class="form-group row" style="margin-top: 10px">
+                                <div class="col-sm-12">
+                                    <label>Items</label>
+                                    <table class="table table-bordered table-hover table-striped mt-3">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style="vertical-align: middle; text-align: center;" scope="col">N° Reng</th>
+                                                <th style="vertical-align: middle; text-align: center;" scope="col">Código</th>
+                                                <th style="vertical-align: middle; text-align: center;" scope="col">Artículo</th>
+                                                <th style="vertical-align: middle; text-align: center;" scope="col">Almacén</th>
+                                                <th style="vertical-align: middle; text-align: center;" scope="col">Cantidad</th>
+                                                <th style="vertical-align: middle; text-align: center;" scope="col">Monto Neto</th>
+                                                <th style="vertical-align: middle; text-align: center;" scope="col">IVA</th>
+                                                <th style="vertical-align: middle; text-align: center;" scope="col">Total Art.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="background: #FFF;">
+                                            <tr ng-repeat="item in formAdd.Items" style="cursor: pointer">
+                                                <td>{{ item.Reng }}</td>
+                                                <td>{{ item.Code }}</td>
+                                                <td>{{ item.Name }}</td>
+                                                <td>{{ item.Storage.ID }}</td>
+                                                <td>{{ item.Quantity }}</td>
+                                                <td>{{ format(item.Amount.toFixed(2)) }}</td>
+                                                <td>{{ format(item.IVA.toFixed(2)) }}</td>
+                                                <td>{{ format((item.Amount + item.IVA).toFixed(2)) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="addInvoice()">Agregar</button>
                         </div>
                     </form>
                 </div>
@@ -177,12 +274,18 @@
                                     <input type="text" id="transFacturaEdit" onfocus="this.blur()" style="max-width: 70%;" ng-model="formEdit.Transport.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaEdit"></i>
                                 </div>
-                                <div class="col-sm-3 input-search">
+                                <div class="col-sm-4 input-search">
                                     <label>Moneda</label>
                                     <input type="text" id="monedaFacturaEdit" onfocus="this.blur()" style="max-width: 70%;" ng-model="formEdit.Currency.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaEdit"></i>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
+                                    <label>Tasa</label>
+                                    <input type="text" id="tasaFacturaEdit" onkeypress="return event.keyCode != 188" ng-model="formEdit.Rate" />
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top: 30px">
+                                <div class="col-sm-12">
                                     <label>Monto</label>
                                     <input type="text" id="montoFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.Amount" />
                                 </div>
@@ -208,12 +311,13 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <table ng-if="items" class="table table-bordered table-hover table-striped mt-3" id="results">
+                            <table ng-if="items" class="table table-bordered table-hover table-striped mt-3">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th style="vertical-align: middle; text-align: center;" scope="col">N° Reng</th>
                                         <th style="vertical-align: middle; text-align: center;" scope="col">Código</th>
                                         <th style="vertical-align: middle; text-align: center;" scope="col">Artículo</th>
+                                        <th style="vertical-align: middle; text-align: center;" scope="col">Almacén</th>
                                         <th style="vertical-align: middle; text-align: center;" scope="col">Cantidad</th>
                                         <th style="vertical-align: middle; text-align: center;" scope="col">Monto Neto</th>
                                         <th style="vertical-align: middle; text-align: center;" scope="col">IVA</th>
@@ -225,6 +329,7 @@
                                         <td>{{ item.Reng }}</td>
                                         <td>{{ item.Code }}</td>
                                         <td>{{ item.Name }}</td>
+                                        <td>{{ item.Storage.ID }}</td>
                                         <td>{{ item.Quantity }}</td>
                                         <td>{{ format(item.Amount.toFixed(2)) }}</td>
                                         <td>{{ format(item.IVA.toFixed(2)) }}</td>
@@ -423,18 +528,13 @@
     var modals = @Html.Raw(Json.Encode(@ViewBag.modals));
     var documents = @Html.Raw(Json.Encode(@ViewBag.documents));
 
-    function invertDate(date) {
-
-        var parts = date.split("/");
-        parts.reverse();
-
-        return parts[0] + "/" + parts[1] + "/" + parts[2];
-    }
-
     app.controller("controller", function ($scope, $http) {
 
         $scope.option = "#";
+        $scope.formAdd = {};
         $scope.formEdit = {};
+        $scope.name = '@ViewBag.function';
+        $scope.modalAdd = modals.find(m => m.ModalType == "A");
 
         $http.get("/api/ProfitTMApi/GetOptions/Mod/VENT/Type/P")
             .then(function (response) {
@@ -448,6 +548,67 @@
         $scope.setFunction = function (id) {
 
             $scope.function = $scope.options.find(o => o.ID == id).Function;
+        }
+
+        $scope.importTemplate = function () {
+            var item = document.getElementsByClassName("selected-row")[0];
+
+            if (item != null) {
+
+                var elem = item.children[0], value = elem.innerHTML;
+                var templates = @Html.Raw(Json.Encode(@ViewBag.templates));
+                var temp = templates.find(t => t.ID == value);
+
+                temp.ID = "";
+                $scope.formAdd = temp;
+
+
+                $(".selected-row")[0].classList.remove("selected-row");
+                $("#modalImportarPlantilla").modal("hide");
+                $("#modalFacturaAdd").modal("show");
+
+                console.log(temp);
+            } else {
+                alert("Debes seleccionar un item");
+            }
+        }
+
+        $scope.addInvoice = function () {
+
+            if ($("#formFacturaAdd")[0].checkValidity()) {
+
+                $scope.formAdd.Type = "V";
+                console.log($scope.formAdd);
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/AddInvoice/',
+                    data: $scope.formAdd,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    console.log(response.data);
+                    $scope.result = response.data;
+
+                    $("#modalFacturaAdd").modal("hide");
+                    if ($scope.result.Status == "OK") {
+
+                        $scope.result.Class = "alert alert-success";
+                        $scope.result.Message = "Documento agregado con éxito";
+
+                        setTimeout(() => location.href = "/Ventas/Procesos/", 2000);
+
+                    } else
+                        $scope.result.Class = "alert alert-danger";
+
+                    $(".modal .btn.btn-primary").prop('disabled', '');
+                });
+            }
+
         }
 
         $scope.editInvoice = function () {
@@ -575,7 +736,7 @@
     }
 
     function editRow(fieldsEdit) {
-        
+
         var fieldsValue = fieldsEdit.split(",");
 
         for (var item of fieldsValue) {
@@ -583,7 +744,7 @@
             var index = item.indexOf("=");
 
             var idField = item.substring(0, index);
-            var valueField = item.substring(index + 1);
+            var valueField = item.substring(index + 1); console.log(idField);
 
             $("#" + idField).val(valueField);
         }

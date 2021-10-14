@@ -114,11 +114,11 @@
                                 <h5 class="text-white">Codigo</h5>
                                 <div class="input-search" style="margin-right: 20px;">
                                     <input type="text" id="codD" name="paramsSent" placeholder="Desde" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCod')" data-name="codD"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCods')" data-name="codD"></i>
                                 </div>
                                 <div class="input-search" style="margin-left: 20px;">
                                     <input type="text" id="codH" name="paramsSent" placeholder="Hasta" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistCod')" data-name="codH"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCods')" data-name="codH"></i>
                                 </div>
                             </div>
                             <div>
@@ -131,11 +131,11 @@
                                 <h5 class="text-white">Cuenta</h5>
                                 <div class="input-search" style="margin-right: 20px;">
                                     <input type="text" id="cueD" name="paramsSent" placeholder="Desde" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistAcc')" data-name="cueD"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="cueD"></i>
                                 </div>
                                 <div class="input-search" style="margin-left: 20px;">
                                     <input type="text" id="cueH" name="paramsSent" placeholder="Hasta" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAssistAcc')" data-name="cueH"></i>
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="cueH"></i>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
         }
     </form>
     <!-- Modal 1 -->
-    <div class="modal fade" id="modalAssistCod" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modalCods" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -162,11 +162,11 @@
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar código..." onkeyup="search('modalAssistCod')" />
+                        <input type="text" class="form-control" placeholder="Buscar código..." onkeyup="search('modalCods')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
-                            foreach (var elem in ViewBag.assistCods)
+                            foreach (var elem in ViewBag.cods)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
                                     <td>@elem.ID</td>
@@ -179,13 +179,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistCod')">Seleccionar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalCods')">Seleccionar</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal 2 -->
-    <div class="modal fade" id="modalAssistAcc" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modalAccounts" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -196,11 +196,11 @@
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalAssistAcc')" />
+                        <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalAccounts')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
                         @{
-                            foreach (var elem in ViewBag.assistAccs)
+                            foreach (var elem in ViewBag.bankAccounts)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
                                     <td>@elem.ID</td>
@@ -215,7 +215,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAssistAcc')">Seleccionar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAccounts')">Seleccionar</button>
                 </div>
             </div>
         </div>
