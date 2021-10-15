@@ -78,7 +78,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                             }
 
                             string fieldsEdit = string.Format(
-                                "idFacturaEdit={0},personFacturaEdit={1},condFacturaEdit={2},sellerFacturaEdit={3},controlFacturaEdit={4},transFacturaEdit={5},montoFacturaEdit={6},monedaFacturaEdit={7},dateFacturaEdit={8},tasaFacturaEdit={9},tipoFacturaEdit={10}",
+                                "idFacturaEdit={0},personFacturaEdit={1},condFacturaEdit={2},sellerFacturaEdit={3},controlFacturaEdit={4},transFacturaEdit={5},montoFacturaEdit={6},monedaFacturaEdit={7},dateFacturaEdit={8},tasaFacturaEdit={9},tipoFacturaEdit={10},subtotalFacturaEdit={11},ivaFacturaEdit={12}",
                                 invoice.ID,
                                 invoice.InvoicePerson.ID,
                                 invoice.InvoicePerson.Cond.ID,
@@ -89,7 +89,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
                                 invoice.Currency.ID,
                                 invoice.DateEmis.ToString("yyyy/MM/dd HH:mm"),
                                 invoice.Rate.ToString().Replace(",", "."),
-                                type
+                                type,
+                                invoice.SubTotal.ToString().Replace(",", "."),
+                                invoice.IVA.ToString().Replace(",", ".")
                             );
 
                             item.Add("details", "True");

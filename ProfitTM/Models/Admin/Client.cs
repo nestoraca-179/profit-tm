@@ -39,7 +39,8 @@ namespace ProfitTM.Models
                                     Phone = reader["telefonos"].ToString(),
                                     Address = reader["direc1"].ToString(),
                                     Seller = Seller.GetSeller(connect, reader["co_ven"].ToString()),
-                                    Cond = Cond.GetCond(connect, reader["cond_pag"].ToString())
+                                    Cond = Cond.GetCond(connect, reader["cond_pag"].ToString()),
+                                    Contrib = bool.Parse(reader["contrib"].ToString())
                                 };
                             }
                             else

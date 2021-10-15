@@ -16,5 +16,6 @@
         public double Amount { get; set; }
         public Seller Seller { get; set; }
         public Cond Cond { get; set; }
+        public bool Contrib { get; set; }
     }
 }

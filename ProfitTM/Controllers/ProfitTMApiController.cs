@@ -122,11 +122,15 @@ namespace ProfitTM.Controllers
         [Route("api/ProfitTMApi/AddInvoice/")]
         public ProfitTMResponse AddInvoice(Invoice invoice)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
             string connect = HttpContext.Current.Session["connect"].ToString();
 
             InvoiceManager invoiceManager = new InvoiceManager(connect);
-            response = invoiceManager.addInvoice(invoice);
+
+            if (invoice.Type == "V")
+            {
+                response = invoiceManager.addSaleInvoice(invoice);
+            }
 
             return response;
         }

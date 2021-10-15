@@ -15,9 +15,13 @@ namespace ProfitTM.Models
         public Transport Transport { get; set; }
         public Currency Currency { get; set; }
         public double Rate { get; set; }
+        public double SubTotal { get; set; }
+        public double IVA { get; set; }
         public double Amount { get; set; }
         public int Status { get; set; }
         public bool Printed { get; set; }
+        public string UserIn { get; set; }
+        public string BranchIn { get; set; }
         public string Type { get; set; }
         public List<InvoiceItem> Items { get; set; }
 
@@ -74,9 +78,13 @@ namespace ProfitTM.Models
                                     ControlNumber = reader["n_control"].ToString(),
                                     Currency = Currency.GetCurrency(connect, reader["co_mone"].ToString()),
                                     Rate = double.Parse(reader["tasa"].ToString()),
+                                    SubTotal = double.Parse(reader["total_bruto"].ToString()),
+                                    IVA = double.Parse(reader["monto_imp"].ToString()),
                                     Amount = double.Parse(reader["total_neto"].ToString()),
                                     Status = int.Parse(reader["status"].ToString()),
                                     Printed = bool.Parse(reader["impresa"].ToString()),
+                                    UserIn = reader["co_us_in"].ToString(),
+                                    BranchIn = reader["co_sucu_in"].ToString(),
                                     Type = type,
                                     Items = GetInvoiceItems(connect, reader["doc_num"].ToString(), type)
                                 };
@@ -143,19 +151,29 @@ namespace ProfitTM.Models
                     {
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
+                            InvoiceItem item;
+
                             while (reader.Read())
                             {
-                                items.Add(new InvoiceItem()
+                                item = new InvoiceItem()
                                 {
                                     Reng = reader["reng_num"].ToString(),
                                     Code = reader["co_art"].ToString().Trim(),
                                     Name = reader["art_des"].ToString(),
                                     Storage = Storage.GetStorage(connect, reader["co_alma"].ToString()),
+                                    Unit = reader["co_uni"].ToString(),
                                     Quantity = double.Parse(reader["total_art"].ToString()),
+                                    ImpCode = reader["tipo_imp"].ToString(),
+                                    ImpPorc = reader["porc_imp"].ToString(),
                                     Amount = double.Parse(reader["reng_neto"].ToString()),
                                     IVA = double.Parse(reader["monto_imp"].ToString()),
                                     TypeArt = InvoiceItem.GetTypeItem(connect, reader["co_art"].ToString())
-                                });
+                                };
+
+                                if (type == "V" || type == "PV")
+                                    item.PriceCode = reader["co_precio"].ToString();
+
+                                items.Add(item);
                             }
                         }
                     }

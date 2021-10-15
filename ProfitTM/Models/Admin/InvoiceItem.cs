@@ -10,7 +10,11 @@ namespace ProfitTM.Models
         public string Code { get; set; }
         public string Name { get; set; }
         public Storage Storage { get; set; }
+        public string Unit { get; set; }
         public double Quantity { get; set; }
+        public string PriceCode { get; set; }
+        public string ImpCode { get; set; }
+        public string ImpPorc { get; set; }
         public double Amount { get; set; }
         public double IVA { get; set; }
         public string TypeArt { get; set; }

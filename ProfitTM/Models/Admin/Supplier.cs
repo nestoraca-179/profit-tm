@@ -37,7 +37,8 @@ namespace ProfitTM.Models
                                     RIF = reader["rif"].ToString(),
                                     Email = reader["telefonos"].ToString(),
                                     Phone = reader["email"].ToString(),
-                                    Address = reader["direc1"].ToString()
+                                    Address = reader["direc1"].ToString(),
+                                    Contrib = bool.Parse(reader["contribu_e"].ToString())
                                 };
                             }
                             else
