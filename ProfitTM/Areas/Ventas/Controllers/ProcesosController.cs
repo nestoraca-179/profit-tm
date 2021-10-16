@@ -61,10 +61,13 @@ namespace ProfitTM.Areas.Ventas.Controllers
                                     break;
                             }
 
-                            if (invoice.Printed)
-                                item.Add("Impresa", "SI");
-                            else
-                                item.Add("Impresa", "NO");
+                            if (type == "V")
+                            {
+                                if (invoice.Printed)
+                                    item.Add("Impresa", "SI");
+                                else
+                                    item.Add("Impresa", "NO");
+                            }
 
                             if (invoice.Status == 0 && !invoice.Printed)
                             {
@@ -81,8 +84,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
                                 "idFacturaEdit={0},personFacturaEdit={1},condFacturaEdit={2},sellerFacturaEdit={3},controlFacturaEdit={4},transFacturaEdit={5},montoFacturaEdit={6},monedaFacturaEdit={7},dateFacturaEdit={8},tasaFacturaEdit={9},tipoFacturaEdit={10},subtotalFacturaEdit={11},ivaFacturaEdit={12}",
                                 invoice.ID,
                                 invoice.InvoicePerson.ID,
-                                invoice.InvoicePerson.Cond.ID,
-                                invoice.InvoicePerson.Seller.ID,
+                                invoice.Cond.ID,
+                                invoice.Seller.ID,
                                 invoice.ControlNumber,
                                 invoice.Transport.ID,
                                 invoice.Amount.ToString().Replace(",", "."),
@@ -105,12 +108,17 @@ namespace ProfitTM.Areas.Ventas.Controllers
                         ViewBag.resultsTable = results;
 
                         if (type == "V")
+                        {
                             ViewBag.function = "Factura";
+                            ViewBag.headers = "Codigo,Cliente,Fec. Emis,Total,Estado,Impresa";
+                            ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status,Impresa";
+                        }
                         else
+                        {
                             ViewBag.function = "Plantilla";
-
-                        ViewBag.headers = "Codigo,Cliente,Fec. Emis,Total,Estado,Impresa";
-                        ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status,Impresa";
+                            ViewBag.headers = "Codigo,Cliente,Fec. Emis,Total,Estado";
+                            ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status";
+                        }
                     }
                     else
                     {

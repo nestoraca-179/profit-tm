@@ -18,6 +18,8 @@ namespace ProfitTM.Models
         public double SubTotal { get; set; }
         public double IVA { get; set; }
         public double Amount { get; set; }
+        public Seller Seller { get; set; }
+        public Cond Cond { get; set; }
         public int Status { get; set; }
         public bool Printed { get; set; }
         public string UserIn { get; set; }
@@ -81,10 +83,11 @@ namespace ProfitTM.Models
                                     SubTotal = double.Parse(reader["total_bruto"].ToString()),
                                     IVA = double.Parse(reader["monto_imp"].ToString()),
                                     Amount = double.Parse(reader["total_neto"].ToString()),
+                                    Cond = Cond.GetCond(connect, reader["co_cond"].ToString()),
                                     Status = int.Parse(reader["status"].ToString()),
                                     Printed = bool.Parse(reader["impresa"].ToString()),
-                                    UserIn = reader["co_us_in"].ToString(),
-                                    BranchIn = reader["co_sucu_in"].ToString(),
+                                    UserIn = reader["co_us_in"].ToString().Trim(),
+                                    BranchIn = reader["co_sucu_in"].ToString().Trim(),
                                     Type = type,
                                     Items = GetInvoiceItems(connect, reader["doc_num"].ToString(), type)
                                 };
@@ -94,6 +97,7 @@ namespace ProfitTM.Models
                                 if (invoiceSale)
                                 {
                                     invoice.InvoicePerson = Client.GetClient(connect, ID);
+                                    invoice.Seller = Seller.GetSeller(connect, reader["co_ven"].ToString());
                                     invoice.Transport = Transport.GetTransport(connect, reader["co_tran"].ToString());
                                 }
                                 else
@@ -161,7 +165,7 @@ namespace ProfitTM.Models
                                     Code = reader["co_art"].ToString().Trim(),
                                     Name = reader["art_des"].ToString(),
                                     Storage = Storage.GetStorage(connect, reader["co_alma"].ToString()),
-                                    Unit = reader["co_uni"].ToString(),
+                                    Unit = reader["co_uni"].ToString().Trim(),
                                     Quantity = double.Parse(reader["total_art"].ToString()),
                                     ImpCode = reader["tipo_imp"].ToString(),
                                     ImpPorc = reader["porc_imp"].ToString(),
@@ -170,8 +174,8 @@ namespace ProfitTM.Models
                                     TypeArt = InvoiceItem.GetTypeItem(connect, reader["co_art"].ToString())
                                 };
 
-                                if (type == "V" || type == "PV")
-                                    item.PriceCode = reader["co_precio"].ToString();
+                                if (type.Contains("V"))
+                                    item.PriceCode = reader["co_precio"].ToString().Trim();
 
                                 items.Add(item);
                             }

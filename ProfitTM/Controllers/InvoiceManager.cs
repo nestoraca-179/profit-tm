@@ -39,8 +39,8 @@ namespace ProfitTM.Controllers
                     conn.Open();
 
                     queryF.AppendFormat("exec pInsertarFacturaVenta @sN_Control = '{0}', @sDoc_Num = '{1}', @sDescrip = NULL, ", invoice.ControlNumber, invoice.ID);
-                    queryF.AppendFormat("@sCo_Cli = '{0}', @sCo_Cond = '{1}', @sCo_Cta_Ingre_Egr = NULL, ", invoice.InvoicePerson.ID, invoice.InvoicePerson.Cond.ID);
-                    queryF.AppendFormat("@sCo_Tran = '{0}', @sCo_Ven = '{1}', @bContrib = '{2}', ", invoice.Transport.ID, invoice.InvoicePerson.Seller.ID, invoice.InvoicePerson.Contrib);
+                    queryF.AppendFormat("@sCo_Cli = '{0}', @sCo_Cond = '{1}', @sCo_Cta_Ingre_Egr = NULL, ", invoice.InvoicePerson.ID, invoice.Cond.ID);
+                    queryF.AppendFormat("@sCo_Tran = '{0}', @sCo_Ven = '{1}', @bContrib = '{2}', ", invoice.Transport.ID, invoice.Seller.ID, invoice.InvoicePerson.Contrib);
                     queryF.AppendFormat("@sCo_Mone = '{0}', @bAnulado = 0, @sdFec_emis = {1}, ", invoice.Currency.ID, invoice.DateEmis.ToString("MM/dd/yyyy HH:mm tt"));
                     queryF.AppendFormat("@sdFec_Venc = '{0}', @sdFec_Reg = '{1}', ", invoice.DateVenc.ToString("MM/dd/yyyy HH:mm tt"), DateTime.Now.ToString("MM/dd/yyyy HH:mm tt"));
                     queryF.AppendFormat("@sStatus = 0, @deTasa = {0}, @deMonto_Desc_Glob = 0, @deMonto_Reca = 0, @deSaldo = {1}, ", invoice.Rate.ToString().Replace(",", "."), invoice.Amount.ToString().Replace(",", "."));
@@ -55,7 +55,7 @@ namespace ProfitTM.Controllers
                     queryD.AppendFormat("@sdFec_Emis = '{0}', @sdFec_Venc = '{1}', @sdFec_Reg = '{2}', ", invoice.DateEmis.ToString("MM/dd/yyyy HH:mm tt"), invoice.DateVenc.ToString("MM/dd/yyyy HH:mm tt"), DateTime.Now.ToString("MM/dd/yyyy HH:mm tt"));
                     queryD.AppendFormat("@bAnulado = 0, @deAdicional = 0, @sMov_Ban = NULL, @bAut = 1, @bContrib = {0}, ", invoice.InvoicePerson.Contrib);
                     queryD.AppendFormat("@sObserva = 'FACT N° {0} de Cliente {1}', @sNro_Orig = '{2}', @sNro_Che = NULL, ", invoice.ID, invoice.InvoicePerson.ID, invoice.ID);
-                    queryD.AppendFormat("@sCo_Ven = '{0}', @sCo_Cta_Ingr_Egr = NULL, @deTasa = {1}, ", invoice.InvoicePerson.Seller.ID, invoice.Rate.ToString().Replace(",", "."));
+                    queryD.AppendFormat("@sCo_Ven = '{0}', @sCo_Cta_Ingr_Egr = NULL, @deTasa = {1}, ", invoice.Seller.ID, invoice.Rate.ToString().Replace(",", "."));
                     queryD.AppendFormat("@sTipo_Imp = NULL, @deTotal_Bruto = {0}, @deTotal_Neto = {1}, @deMonto_Reca = 0, @deMonto_Imp = {2}, ", invoice.SubTotal.ToString().Replace(",", "."), invoice.Amount.ToString().Replace(",", "."), invoice.IVA.ToString().Replace(",", "."));
                     queryD.AppendFormat("@deMonto_Imp2 = 0, @deMonto_Imp3 = 0, @deSaldo = {0}, @sN_Control = '{1}', ", invoice.Amount.ToString().Replace(",", "."), invoice.ControlNumber);
                     queryD.Append("@deOtros1 = 0, @deOtros2 = 0, @deOtros3 = 0, @sPorc_Desc_Glob=NULL, @deMonto_Desc_Glob = 0, @sPorc_Reca = NULL, @dePorc_Imp = 0, @dePorc_Imp2 = 0, @dePorc_Imp3 = 0, @sSalestax = NULL, @bVen_Ter = 0, ");
@@ -143,29 +143,18 @@ namespace ProfitTM.Controllers
                     tableD = "saDocumentoCompra";
 
                     break;
-                case "PV":
-                    invoiceSale = true;
-                    name = "co_cli";
-                    tableF = "saPlantillaVenta";
-
-                    break;
-                case "PC":
-                    name = "co_prov";
-                    tableF = "saPlantillaCompra";
-
-                    break;
             }
 
-            invoice.InvoicePerson.Cond = Cond.GetCond(connect, invoice.InvoicePerson.Cond.ID);
-            invoice.DateVenc = invoice.DateEmis.AddDays(invoice.InvoicePerson.Cond.DaysCred);
+            invoice.Cond = Cond.GetCond(connect, invoice.Cond.ID);
+            invoice.DateVenc = invoice.DateEmis.AddDays(invoice.Cond.DaysCred);
 
             queryF.Append(string.Format("UPDATE {0} ", tableF));
             queryF.Append(string.Format("SET {0} = '{1}', ", name, invoice.InvoicePerson.ID));
 
             if (invoiceSale)
             {
-                queryF.Append(string.Format("co_cond = '{0}', ", invoice.InvoicePerson.Cond.ID));
-                queryF.Append(string.Format("co_ven = '{0}', ", invoice.InvoicePerson.Seller.ID));
+                queryF.Append(string.Format("co_cond = '{0}', ", invoice.Cond.ID));
+                queryF.Append(string.Format("co_ven = '{0}', ", invoice.Seller.ID));
                 queryF.Append(string.Format("co_tran = '{0}', ", invoice.Transport.ID));
             }
 
@@ -181,7 +170,7 @@ namespace ProfitTM.Controllers
 
                 if (invoiceSale)
                 {
-                    queryD.Append(string.Format("co_ven = '{0}', ", invoice.InvoicePerson.Seller.ID));
+                    queryD.Append(string.Format("co_ven = '{0}', ", invoice.Seller.ID));
                     queryD.Append(string.Format("n_control = '{0}', ", invoice.ControlNumber));
                 }
 

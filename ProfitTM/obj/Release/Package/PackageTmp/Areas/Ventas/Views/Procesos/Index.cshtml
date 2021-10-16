@@ -11,7 +11,7 @@
     @{
         if (!string.IsNullOrEmpty(ViewBag.errorMessage))
         {
-            <div style="width: 100%;" class="alert-danger">@ViewBag.errorMessage</div>
+            <div style="width: 100%;" class="alert alert-danger">@ViewBag.errorMessage</div>
         }
     }
     <div ng-if="result" style="width: 100%;" class="{{ result.Class }}">{{ result.Message }}</div>
@@ -130,7 +130,7 @@
                 </div>
             </div>
             <!-- Modal Agregar Factura -->
-            <div class="modal fade" id="modalFacturaAdd" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="modalFacturaAdd" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <form action="" method="post" id="formFacturaAdd" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
@@ -158,12 +158,12 @@
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Vendedor</label>
-                                    <input type="text" id="sellerFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.Seller.ID" />
+                                    <input type="text" id="sellerFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Seller.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaAdd"></i>
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Cond. Pago</label>
-                                    <input type="text" id="condFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.Cond.ID" />
+                                    <input type="text" id="condFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Cond.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaAdd"></i>
                                 </div>
                             </div>
@@ -184,12 +184,22 @@
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 10px">
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    <label>Sub-Total</label>
+                                    <input type="text" id="subtotalFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.SubTotal" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>I.V.A</label>
+                                    <input type="text" id="ivaFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.IVA" />
+                                </div>
+                                <div class="col-sm-4">
                                     <label>Monto</label>
                                     <input type="text" id="montoFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.Amount" />
                                 </div>
                                 <input type="hidden" id="tipoFacturaAdd" value="V" ng-model="formAdd.Type" />
                                 <input type="hidden" id="dateFacturaAdd" value="" ng-model="formAdd.DateEmis" />
+                                <input type="hidden" id="userInFacturaAdd" value="" ng-model="formAdd.UserIn" />
+                                <input type="hidden" id="branchInFacturaAdd" value="" ng-model="formAdd.BranchIn" />
                             </div>
                             <div class="form-group row" style="margin-top: 10px">
                                 <div class="col-sm-12">
@@ -259,12 +269,12 @@
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Vendedor</label>
-                                    <input type="text" id="sellerFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.Seller.ID" />
+                                    <input type="text" id="sellerFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Seller.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaEdit"></i>
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Cond. Pago</label>
-                                    <input type="text" id="condFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.Cond.ID" />
+                                    <input type="text" id="condFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Cond.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaEdit"></i>
                                 </div>
                             </div>
@@ -285,8 +295,16 @@
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 30px">
-                                <div class="col-sm-12">
-                                    <label>Monto</label>
+                                <div class="col-sm-4">
+                                    <label>Sub-Total</label>
+                                    <input type="text" id="subtotalFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.SubTotal" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>I.V.A</label>
+                                    <input type="text" id="ivaFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.IVA" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Monto Total</label>
                                     <input type="text" id="montoFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.Amount" />
                                 </div>
                                 <input type="hidden" id="tipoFacturaEdit" value="" ng-model="formEdit.Type" />
@@ -589,24 +607,24 @@
                     },
                 }
 
-                $http(req).then(function (response) {
+                //$http(req).then(function (response) {
 
-                    console.log(response.data);
-                    $scope.result = response.data;
+                //    console.log(response.data);
+                //    $scope.result = response.data;
 
-                    $("#modalFacturaAdd").modal("hide");
-                    if ($scope.result.Status == "OK") {
+                //    $("#modalFacturaAdd").modal("hide");
+                //    if ($scope.result.Status == "OK") {
 
-                        $scope.result.Class = "alert alert-success";
-                        $scope.result.Message = "Documento agregado con éxito";
+                //        $scope.result.Class = "alert alert-success";
+                //        $scope.result.Message = "Documento agregado con éxito";
 
-                        setTimeout(() => location.href = "/Ventas/Procesos/", 2000);
+                //        setTimeout(() => location.href = "/Ventas/Procesos/", 2000);
 
-                    } else
-                        $scope.result.Class = "alert alert-danger";
+                //    } else
+                //        $scope.result.Class = "alert alert-danger";
 
-                    $(".modal .btn.btn-primary").prop('disabled', '');
-                });
+                //    $(".modal .btn.btn-primary").prop('disabled', '');
+                //});
             }
 
         }
@@ -744,7 +762,7 @@
             var index = item.indexOf("=");
 
             var idField = item.substring(0, index);
-            var valueField = item.substring(index + 1); console.log(idField);
+            var valueField = item.substring(index + 1);
 
             $("#" + idField).val(valueField);
         }

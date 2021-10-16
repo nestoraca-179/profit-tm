@@ -11,7 +11,7 @@
     @{
         if (!string.IsNullOrEmpty(ViewBag.errorMessage))
         {
-            <div style="width: 100%;" class="alert-danger">@ViewBag.errorMessage</div>
+            <div style="width: 100%;" class="alert alert-danger">@ViewBag.errorMessage</div>
         }
     }
     <div ng-if="result" style="width: 100%;" class="{{ result.Class }}">{{ result.Message }}</div>
@@ -158,12 +158,12 @@
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Vendedor</label>
-                                    <input type="text" id="sellerFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.Seller.ID" />
+                                    <input type="text" id="sellerFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Seller.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaAdd"></i>
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Cond. Pago</label>
-                                    <input type="text" id="condFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.Cond.ID" />
+                                    <input type="text" id="condFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Cond.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaAdd"></i>
                                 </div>
                             </div>
@@ -269,12 +269,12 @@
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Vendedor</label>
-                                    <input type="text" id="sellerFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.Seller.ID" />
+                                    <input type="text" id="sellerFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Seller.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaEdit"></i>
                                 </div>
                                 <div class="col-sm-4 input-search">
                                     <label>Cond. Pago</label>
-                                    <input type="text" id="condFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.Cond.ID" />
+                                    <input type="text" id="condFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Cond.ID" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaEdit"></i>
                                 </div>
                             </div>
@@ -762,7 +762,7 @@
             var index = item.indexOf("=");
 
             var idField = item.substring(0, index);
-            var valueField = item.substring(index + 1); console.log(idField);
+            var valueField = item.substring(index + 1);
 
             $("#" + idField).val(valueField);
         }
