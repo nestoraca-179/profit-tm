@@ -40,8 +40,8 @@
                 <button ng-if="modalAdd != null" type="button" class="btn btn-success" data-toggle="modal" data-target="#{{ modalAdd.Title }}">
                     <i class="fas fa-plus"></i> Agregar nuevo
                 </button>
-                <button ng-if="name == 'Factura'" type="button" class="btn btn-primary" style="margin-left: 15px;" data-toggle="modal" data-target="#modalImportarPlantilla">
-                    <i class="fas fa-exchange-alt"></i> Importar Plantilla
+                <button ng-if="name == 'Factura'" type="button" class="btn btn-primary" style="margin-left: 15px;" data-toggle="modal" data-target="#modalImportarPedido">
+                    <i class="fas fa-exchange-alt"></i> Importar Pedido
                 </button>
             </div>
             <h2 class="text-center">@ViewBag.function</h2>
@@ -95,23 +95,23 @@
                 </tbody>
             </table>
             <div style="height: 40px;"></div>
-            <!-- Modal Importar Plantilla Factura -->
-            <div class="modal fade" id="modalImportarPlantilla" tabindex="-1" role="dialog" aria-hidden="true">
+            <!-- Modal Importar Pedido Factura -->
+            <div class="modal fade" id="modalImportarPedido" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <form action="" method="post" id="formFacturaImport" class="modal-content" style="background: #FFF; border-radius: 5px;" onsubmit="return false;">
                         <div class="modal-header">
-                            <h5 class="modal-title" style="color: #212529;">Importar Plantilla</h5>
+                            <h5 class="modal-title" style="color: #212529;">Importar Pedido</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Buscar plantilla..." onkeyup="search('modalImportarPlantilla')" />
+                                <input type="text" class="form-control" placeholder="Buscar pedido..." onkeyup="search('modalImportarPedido')" />
                             </div>
                             <table class="table table-bordered table-hover table-striped mt-3" id="results">
                                 @{
-                                    foreach (var elem in ViewBag.templates)
+                                    foreach (var elem in ViewBag.orders)
                                     {
                                         <tr style="cursor: pointer" onclick="selectRow(this)">
                                             <td>@elem.ID</td>
@@ -124,7 +124,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" ng-click="importTemplate()">Importar</button>
+                            <button type="submit" class="btn btn-primary" ng-click="importOrder()">Importar</button>
                         </div>
                     </form>
                 </div>
@@ -545,6 +545,7 @@
     var app = angular.module("Process", []);
     var modals = @Html.Raw(Json.Encode(@ViewBag.modals));
     var documents = @Html.Raw(Json.Encode(@ViewBag.documents));
+    var numberOrder = "";
 
     app.controller("controller", function ($scope, $http) {
 
@@ -568,24 +569,24 @@
             $scope.function = $scope.options.find(o => o.ID == id).Function;
         }
 
-        $scope.importTemplate = function () {
+        $scope.importOrder = function () {
             var item = document.getElementsByClassName("selected-row")[0];
 
             if (item != null) {
 
                 var elem = item.children[0], value = elem.innerHTML;
-                var templates = @Html.Raw(Json.Encode(@ViewBag.templates));
-                var temp = templates.find(t => t.ID == value);
+                var orders = @Html.Raw(Json.Encode(@ViewBag.orders));
+                var order = orders.find(t => t.ID == value);
 
-                temp.ID = "";
-                $scope.formAdd = temp;
-
+                numberOrder = order.ID;
+                order.ID = "";
+                $scope.formAdd = order;
 
                 $(".selected-row")[0].classList.remove("selected-row");
-                $("#modalImportarPlantilla").modal("hide");
+                $("#modalImportarPedido").modal("hide");
                 $("#modalFacturaAdd").modal("show");
 
-                console.log(temp);
+                console.log(order);
             } else {
                 alert("Debes seleccionar un item");
             }
@@ -595,36 +596,43 @@
 
             if ($("#formFacturaAdd")[0].checkValidity()) {
 
+                var value = "";
+                var str = $scope.formAdd.DateEmis.toString().replaceAll("/", "");
+
+                eval("value = new " + str);
+                var timeOffset = value.getTimezoneOffset() * 60000;
+
                 $scope.formAdd.Type = "V";
+                $scope.formAdd.DateEmis = new Date(value.getTime() - timeOffset).toUTCString();
                 console.log($scope.formAdd);
 
                 var req = {
                     method: 'POST',
-                    url: '/api/ProfitTMApi/AddInvoice/',
+                    url: '/api/ProfitTMApi/AddInvoice/' + numberOrder,
                     data: $scope.formAdd,
                     headers: {
                         'Content-Type': 'application/json'
                     },
                 }
 
-                //$http(req).then(function (response) {
+                $http(req).then(function (response) {
 
-                //    console.log(response.data);
-                //    $scope.result = response.data;
+                    console.log(response.data);
+                    $scope.result = response.data;
 
-                //    $("#modalFacturaAdd").modal("hide");
-                //    if ($scope.result.Status == "OK") {
+                    $("#modalFacturaAdd").modal("hide");
+                    if ($scope.result.Status == "OK") {
 
-                //        $scope.result.Class = "alert alert-success";
-                //        $scope.result.Message = "Documento agregado con éxito";
+                        $scope.result.Class = "alert alert-success";
+                        $scope.result.Message = "Documento agregado con éxito";
 
-                //        setTimeout(() => location.href = "/Ventas/Procesos/", 2000);
+                        setTimeout(() => location.href = "/Ventas/Procesos/", 2000);
 
-                //    } else
-                //        $scope.result.Class = "alert alert-danger";
+                    } else
+                        $scope.result.Class = "alert alert-danger";
 
-                //    $(".modal .btn.btn-primary").prop('disabled', '');
-                //});
+                    $(".modal .btn.btn-primary").prop('disabled', '');
+                });
             }
 
         }

@@ -51,7 +51,7 @@ namespace ProfitTM.Models
                 case "PV":
                     invoiceSale = true;
                     name = "co_cli";
-                    table = "saPlantillaVenta";
+                    table = "saPedidoVenta";
 
                     break;
                 case "PC":
@@ -66,7 +66,7 @@ namespace ProfitTM.Models
                 using (SqlConnection conn = new SqlConnection(DBadmin))
                 {
                     conn.Open();
-                    using (SqlCommand comm = new SqlCommand(string.Format("SELECT * FROM {0} ORDER BY fec_emis DESC", table), conn))
+                    using (SqlCommand comm = new SqlCommand(string.Format("SELECT * FROM {0} ORDER BY fec_reg DESC", table), conn))
                     {
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
@@ -135,7 +135,7 @@ namespace ProfitTM.Models
 
                     break;
                 case "PV":
-                    proc = "pSeleccionarRenglonesPlantillaVenta";
+                    proc = "pSeleccionarRenglonesPedidoVenta";
 
                     break;
                 case "PC":

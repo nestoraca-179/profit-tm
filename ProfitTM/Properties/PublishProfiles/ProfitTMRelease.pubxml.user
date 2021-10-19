@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\ProfitTM</_PublishTargetUrl>
-    <History>True|2021-10-16T02:34:43.3475968Z;True|2021-10-13T23:05:56.7050272-04:00;True|2021-10-12T22:56:25.5779034-04:00;True|2021-10-11T16:24:02.5152049-04:00;True|2021-10-11T13:49:12.9489491-04:00;False|2021-10-11T13:44:03.4294000-04:00;True|2021-10-09T00:43:29.4838469-04:00;False|2021-10-09T00:42:11.4797681-04:00;True|2021-10-04T17:01:31.5863321-04:00;True|2021-10-04T16:44:06.1247653-04:00;</History>
+    <History>True|2021-10-18T16:53:06.0333592Z;True|2021-10-15T22:34:43.3475968-04:00;True|2021-10-13T23:05:56.7050272-04:00;True|2021-10-12T22:56:25.5779034-04:00;True|2021-10-11T16:24:02.5152049-04:00;True|2021-10-11T13:49:12.9489491-04:00;False|2021-10-11T13:44:03.4294000-04:00;True|2021-10-09T00:43:29.4838469-04:00;False|2021-10-09T00:42:11.4797681-04:00;True|2021-10-04T17:01:31.5863321-04:00;True|2021-10-04T16:44:06.1247653-04:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/CajaBanco/Views/Reportes/Index.cshtml">
@@ -123,7 +123,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/21/2021 18:08:00</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Procesos/Index.cshtml">
-      <publishTime>10/15/2021 21:11:13</publishTime>
+      <publishTime>10/16/2021 23:33:44</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Reportes/Index.cshtml">
       <publishTime>10/12/2021 19:00:04</publishTime>
@@ -510,10 +510,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/03/2014 20:33:56</publishTime>
     </File>
     <File Include="bin/ProfitTM.dll">
-      <publishTime>10/15/2021 21:17:15</publishTime>
+      <publishTime>10/16/2021 22:39:28</publishTime>
     </File>
     <File Include="bin/ProfitTM.pdb">
-      <publishTime>10/15/2021 21:17:15</publishTime>
+      <publishTime>10/16/2021 22:39:28</publishTime>
     </File>
     <File Include="bin/ru/DevExpress.Data.v18.2.resources.dll">
       <publishTime>01/16/2021 08:10:41</publishTime>

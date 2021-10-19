@@ -35,9 +35,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 {
                     string type = function == EnumLoadFunction.INVOICEV ? "V" : "PV";
 
-                    List<Invoice> invoices = Invoice.GetAllInvoices(connect, type), templates = Invoice.GetAllInvoices(connect, "PV");
+                    List<Invoice> invoices = Invoice.GetAllInvoices(connect, type), orders = Invoice.GetAllInvoices(connect, "PV");
 
-                    if (invoices != null && templates != null)
+                    if (invoices != null && orders != null)
                     {
                         foreach (Invoice invoice in invoices)
                         {
@@ -104,7 +104,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                         }
 
                         ViewBag.documents = invoices;
-                        ViewBag.templates = templates;
+                        ViewBag.orders = orders;
                         ViewBag.resultsTable = results;
 
                         if (type == "V")
@@ -115,7 +115,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                         }
                         else
                         {
-                            ViewBag.function = "Plantilla";
+                            ViewBag.function = "Pedido";
                             ViewBag.headers = "Codigo,Cliente,Fec. Emis,Total,Estado";
                             ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status";
                         }
@@ -140,6 +140,22 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.modals = modals;
                 ViewBag.formato = formato;
 
+                return View();
+            }
+        }
+
+        public ActionResult ImportarPlantilla(string id)
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else
+            {
                 return View();
             }
         }

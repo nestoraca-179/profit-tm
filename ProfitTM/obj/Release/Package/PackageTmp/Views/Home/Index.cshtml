@@ -1,25 +1,70 @@
-﻿<h1 class="text-white main-title">Profit TM</h1>
-@{
-    ViewData["Title"] = "Inicio";
-
-    if (!string.IsNullOrEmpty(ViewBag.Message))
-    {
-        <div style="width: 70%; position: absolute; top: 100px; left: 15%;" class="alert alert-warning">@ViewBag.Message</div>
+﻿<style>
+    .box{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
-}
-<div class="container" style="margin-top: 100px; max-width: 600px;" ng-app="App" ng-controller="controller">
-    <form class="form-floating" action="/Account/Login" method="post" style="height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <div class="mb-5">
-            <h2 class="text-white">Iniciar Sesion</h2>
-        </div>
-        <div class="mb-3" style="width: 320px; display: flex; justify-content: space-between; align-items: center;">
-            <i style="color: #FFF; font-size: 20px;" class="fas fa-user"></i>
-            <input type="text" id="username" name="username" class="form-control" style="max-width: 250px; background: none; border: 0; border-bottom: solid 1px #FFF; border-radius: 0; color: #FFF;" placeholder="Usuario" />
-        </div>
-        <div style="width: 320px; display: flex; justify-content: space-between; align-items: center;">
-            <i style="color: #FFF; font-size: 20px;" class="fas fa-lock"></i>
-            <input type="password" id="pass" name="pass" class="form-control" style="max-width: 250px; background: none; border: 0; border-bottom: solid 1px #FFF; border-radius: 0; color: #FFF;" placeholder="Clave" />
-        </div>
-        <button style="width: 30%;" class="btn btn-primary mt-5">Entrar</button>
-    </form>
+    .container-title{
+        flex: 1;
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+    }
+    .container-title h1{
+        margin: 0;
+    }
+    .container-login{
+        width: 100%;
+        flex: 8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    form{
+        width: 50%;
+    }
+    form button{
+        width: 60%;
+    }
+    @@media (max-width: 728px){
+        form{
+            width: 100%;
+        }
+        .container-title{
+            padding: 5%;
+            justify-content: center;
+        }
+        .container-title h1{
+            text-align: center;
+        }
+    }
+</style>
+<div class="box">
+    <div class="container-title">
+        <h1 class="text-white main-title">Profit TM</h1>
+    </div>
+    @{
+        ViewData["Title"] = "Inicio";
+
+        if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div style="width: 80%; position: absolute; top: 15%; left: 10%;" class="alert alert-warning">@ViewBag.Message</div>
+        }
+    }
+    <div class="container-login">
+        <form class="form-floating" action="/Account/Login" method="post" style="height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div class="mb-5">
+                <h2 class="text-white">Iniciar Sesión</h2>
+            </div>
+            <div class="mb-3" style="width: 320px; display: flex; justify-content: space-between; align-items: center;">
+                <i style="color: #FFF; font-size: 20px;" class="fas fa-user"></i>
+                <input type="text" id="username" name="username" class="form-control" style="max-width: 250px; background: none; border: 0; border-bottom: solid 1px #FFF; border-radius: 0; color: #FFF;" placeholder="Usuario" />
+            </div>
+            <div style="width: 320px; display: flex; justify-content: space-between; align-items: center;">
+                <i style="color: #FFF; font-size: 20px;" class="fas fa-lock"></i>
+                <input type="password" id="pass" name="pass" class="form-control" style="max-width: 250px; background: none; border: 0; border-bottom: solid 1px #FFF; border-radius: 0; color: #FFF;" placeholder="Clave" />
+            </div>
+            <button class="btn btn-primary mt-5">Entrar</button>
+        </form>
+    </div>
 </div>

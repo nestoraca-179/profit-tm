@@ -119,8 +119,8 @@ namespace ProfitTM.Controllers
         // FACTURA
 
         [HttpPost]
-        [Route("api/ProfitTMApi/AddInvoice/")]
-        public ProfitTMResponse AddInvoice(Invoice invoice)
+        [Route("api/ProfitTMApi/AddInvoice/{order}")]
+        public ProfitTMResponse AddInvoice(string order, Invoice invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
             string connect = HttpContext.Current.Session["connect"].ToString();
@@ -129,7 +129,7 @@ namespace ProfitTM.Controllers
 
             if (invoice.Type == "V")
             {
-                response = invoiceManager.addSaleInvoice(invoice);
+                response = invoiceManager.addSaleInvoice(invoice, order);
             }
 
             return response;
