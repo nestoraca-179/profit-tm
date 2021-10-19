@@ -107,6 +107,7 @@ body > .container-fluid{
 }
 body > .container-fluid > main{
     height: 100%;
+    overflow-y: auto;
 }
 body > .footer {
     width: 100%;
