@@ -144,7 +144,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
         }
 
-        public ActionResult ImportarPlantilla(string id)
+        public ActionResult ImportarPedido(string id = "")
         {
             ViewBag.user = Session["user"];
             ViewBag.options = Session["options"];
@@ -156,6 +156,14 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
+                string connect = Session["connect"].ToString();
+
+                if (id != "")
+                {
+                    Invoice order = Invoice.GetInvoice(connect, id, "PV");
+                    ViewBag.order = order;
+                }
+
                 return View();
             }
         }

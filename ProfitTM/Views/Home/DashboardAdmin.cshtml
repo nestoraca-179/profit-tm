@@ -51,7 +51,7 @@
     }
 </style>
 <header class="container-fluid">
-    <div class="row" style="height: 60px;">
+    <div class="row">
         <div class="col-sm-2 header-left-side text-white">
             <i class="fas fa-bars icon-menu" id="icon-menu"></i>
             <a href="/Home/@ViewData["home"]">Profit Plus TM</a>
@@ -81,6 +81,7 @@
                         <li class="menu-item" onclick="print(this)">
                             <i class="@item.Icon"></i>
                             <p class="mb-0 ml-3">@item.Name</p>
+                            <i class="fas fa-caret-up"></i>
                         </li>
                         <div class="myDropdown">
                             <a class="dropdown-item @disTable" href="@item.UrlTable"><i class="fas fa-table"></i>  Tablas</a>
@@ -319,6 +320,7 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/bootstrap.min.js"></script>
 <script>
     var capitalize = str => str.substring(0, 1).toLocaleUpperCase() + str.substring(1).toLocaleLowerCase();
     var btn = document.getElementById("icon-menu");
@@ -336,50 +338,42 @@
     });
 
     function print(elem) {
-        var elems = document.getElementsByClassName("myDropdown");
 
-        for (var item of elems) {
-            $(item).animate({ width: 'hide' });
-        }
+        $(".myDropdown").slideUp();
 
         if (node != null) {
-            node.classList.remove("selected");
+            $(node).removeClass("selected");
+            $(node).children("i.fa-caret-up").hide();
         }
 
-        elem.classList.add("selected");
+        $(elem).addClass("selected");
 
         if (node != elem) {
 
-            $(elem).next().animate({ width: 'show' });
+            $(elem).next().slideDown();
             $(elem).next().css("display", "flex");
             $(elem).next().css("flex-direction", "column");
-
-            menu.classList.add("active");
+            $(elem).children("i.fa-caret-up").show();
             node = elem;
 
         } else {
-
-            node.classList.remove("selected");
-            menu.classList.remove("active");
+            $(elem).removeClass("selected");
+            $(elem).children("i.fa-caret-up").hide();
             node = null;
-
         }
     }
 
     function hide() {
 
         if (node != null) {
-            node.classList.remove("selected");
+            $(node).removeClass("selected");
             node = null;
         }
 
         menu.classList.toggle("active");
 
-        var elems = document.getElementsByClassName("myDropdown");
-
-        for (var item of elems) {
-            $(item).animate({ width: 'hide' });
-        }
+        $(".myDropdown").slideUp();
+        $("i.fa-caret-up").hide();
     }
 </script>
 

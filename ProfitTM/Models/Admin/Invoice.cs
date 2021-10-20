@@ -27,6 +27,102 @@ namespace ProfitTM.Models
         public string Type { get; set; }
         public List<InvoiceItem> Items { get; set; }
 
+        public static Invoice GetInvoice(string connect, string ID, string type)
+        {
+            Invoice invoice;
+
+            string name = "", table = "";
+            bool invoiceSale = false;
+
+            switch (type)
+            {
+                case "V":
+                    invoiceSale = true;
+                    name = "co_cli";
+                    table = "saFacturaVenta";
+
+                    break;
+                case "C":
+                    name = "co_prov";
+                    table = "saFacturaCompra";
+
+                    break;
+                case "PV":
+                    invoiceSale = true;
+                    name = "co_cli";
+                    table = "saPedidoVenta";
+
+                    break;
+                case "PC":
+                    name = "co_prov";
+                    table = "saPlantillaCompra";
+
+                    break;
+            }
+
+            string query = string.Format("SELECT * FROM {0} WHERE doc_num = '{1}'", table, ID);
+            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBadmin))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                invoice = new Invoice()
+                                {
+                                    ID = reader["doc_num"].ToString().Trim(),
+                                    DateEmis = Convert.ToDateTime(reader["fec_emis"].ToString()),
+                                    DateVenc = Convert.ToDateTime(reader["fec_venc"].ToString()),
+                                    ControlNumber = reader["n_control"].ToString(),
+                                    Currency = Currency.GetCurrency(connect, reader["co_mone"].ToString()),
+                                    Rate = double.Parse(reader["tasa"].ToString()),
+                                    SubTotal = double.Parse(reader["total_bruto"].ToString()),
+                                    IVA = double.Parse(reader["monto_imp"].ToString()),
+                                    Amount = double.Parse(reader["total_neto"].ToString()),
+                                    Cond = Cond.GetCond(connect, reader["co_cond"].ToString()),
+                                    Status = int.Parse(reader["status"].ToString()),
+                                    Printed = bool.Parse(reader["impresa"].ToString()),
+                                    UserIn = reader["co_us_in"].ToString().Trim(),
+                                    BranchIn = reader["co_sucu_in"].ToString().Trim(),
+                                    Type = type,
+                                    Items = GetInvoiceItems(connect, reader["doc_num"].ToString(), type)
+                                };
+
+                                string PersonID = reader[name].ToString();
+
+                                if (invoiceSale)
+                                {
+                                    invoice.InvoicePerson = Client.GetClient(connect, PersonID);
+                                    invoice.Seller = Seller.GetSeller(connect, reader["co_ven"].ToString());
+                                    invoice.Transport = Transport.GetTransport(connect, reader["co_tran"].ToString());
+                                }
+                                else
+                                {
+                                    invoice.InvoicePerson = Supplier.GetSupplier(connect, PersonID);
+                                }
+                            }
+                            else
+                            {
+                                invoice = null;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                invoice = null;
+            }
+
+            return invoice;
+        }
+
         public static List<Invoice> GetAllInvoices(string connect, string type)
         {
             List<Invoice> invoices = new List<Invoice>();

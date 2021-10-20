@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Importar Pedido";
+}
+<style>
+    .container-doc{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .form-group{
+        padding: 10px;
+    }
+    .form-group label{
+        width: 100%;
+        margin: 0;
+    }
+    .form-group input {
+        background: none;
+        border: 0;
+        border-radius: 0;
+        border-bottom: solid 2px #0277BD;
+    }
+    .form-group input label{
+        width: 100%;
+    }
+    .doc-info{
+        width: 50%;
+        background: red;
+    }
+    .doc-number {
+        width: 50%;
+        background: green;
+    }
+    .doc-items {
+        width: 100%;
+        background: blue;
+    }
+</style>
+<div class="container-fluid container-doc" ng-app="Process" ng-controller="controller">
+    <div class="doc-info">
+        <div class="form-group">
+            <label for="idFacturaAdd">N° Documento</label>
+            <input type="text" id="idFacturaAdd" required ng-model="formAdd.ID" />
+        </div>
+        <div class="form-group">
+            <label for="controlFacturaAdd">N° Control</label>
+            <input type="text" id="controlFacturaAdd" required ng-model="formAdd.ControlNumber" />
+        </div>
+    </div>
+    <div class="doc-number"></div>
+    <div class="doc-items"></div>
+</div>
+<script src="~/Content/angular-min.js"></script>
+<script>
+    var app = angular.module("Process", []);
+    var order = @Html.Raw(Json.Encode(@ViewBag.order));
+    console.log(order);
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.formAdd = order;
+        $scope.formAdd.ID = "";
+
+    });
+
+</script>

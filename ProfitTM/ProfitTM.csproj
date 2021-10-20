@@ -237,7 +237,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Areas\Ventas\Views\Procesos\ImportarPlantilla.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\ImportarPedido.cshtml" />
     <None Include="Properties\PublishProfiles\ProfitTMRelease.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

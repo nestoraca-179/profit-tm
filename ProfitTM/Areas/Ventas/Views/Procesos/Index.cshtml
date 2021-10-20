@@ -579,14 +579,15 @@
                 var order = orders.find(t => t.ID == value);
 
                 numberOrder = order.ID;
-                order.ID = "";
-                $scope.formAdd = order;
+                location.href = "/Ventas/Procesos/ImportarPedido?id=" + numberOrder;
+                //order.ID = "";
+                //$scope.formAdd = order;
 
-                $(".selected-row")[0].classList.remove("selected-row");
-                $("#modalImportarPedido").modal("hide");
-                $("#modalFacturaAdd").modal("show");
+                //$(".selected-row")[0].classList.remove("selected-row");
+                //$("#modalImportarPedido").modal("hide");
+                //$("#modalFacturaAdd").modal("show");
 
-                console.log(order);
+                //console.log(order);
             } else {
                 alert("Debes seleccionar un item");
             }
