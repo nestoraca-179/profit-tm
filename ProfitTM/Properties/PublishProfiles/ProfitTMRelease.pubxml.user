@@ -5,11 +5,11 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\ProfitTM</_PublishTargetUrl>
-    <History>True|2021-10-19T05:17:18.1479556Z;True|2021-10-19T01:09:31.4394087-04:00;True|2021-10-18T12:53:06.0333592-04:00;True|2021-10-15T22:34:43.3475968-04:00;True|2021-10-13T23:05:56.7050272-04:00;True|2021-10-12T22:56:25.5779034-04:00;True|2021-10-11T16:24:02.5152049-04:00;True|2021-10-11T13:49:12.9489491-04:00;False|2021-10-11T13:44:03.4294000-04:00;True|2021-10-09T00:43:29.4838469-04:00;False|2021-10-09T00:42:11.4797681-04:00;True|2021-10-04T17:01:31.5863321-04:00;True|2021-10-04T16:44:06.1247653-04:00;</History>
+    <History>True|2021-10-27T16:10:54.9536520Z;True|2021-10-27T12:08:29.3120485-04:00;True|2021-10-19T01:17:18.1479556-04:00;True|2021-10-19T01:09:31.4394087-04:00;True|2021-10-18T12:53:06.0333592-04:00;True|2021-10-15T22:34:43.3475968-04:00;True|2021-10-13T23:05:56.7050272-04:00;True|2021-10-12T22:56:25.5779034-04:00;True|2021-10-11T16:24:02.5152049-04:00;True|2021-10-11T13:49:12.9489491-04:00;False|2021-10-11T13:44:03.4294000-04:00;True|2021-10-09T00:43:29.4838469-04:00;False|2021-10-09T00:42:11.4797681-04:00;True|2021-10-04T17:01:31.5863321-04:00;True|2021-10-04T16:44:06.1247653-04:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/CajaBanco/Views/Reportes/Index.cshtml">
-      <publishTime>10/12/2021 18:51:34</publishTime>
+      <publishTime>10/22/2021 11:53:43</publishTime>
     </File>
     <File Include="Areas/CajaBanco/Views/Reportes/Reporte.cshtml">
       <publishTime>08/20/2021 19:32:35</publishTime>
@@ -27,7 +27,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/20/2021 20:03:03</publishTime>
     </File>
     <File Include="Areas/CajaBanco/Views/Shared/_Layout.cshtml">
-      <publishTime>09/06/2021 16:10:09</publishTime>
+      <publishTime>10/19/2021 15:17:30</publishTime>
     </File>
     <File Include="Areas/CajaBanco/Views/web.config">
       <publishTime>09/02/2021 23:22:32</publishTime>
@@ -39,7 +39,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/21/2021 11:52:20</publishTime>
     </File>
     <File Include="Areas/Compras/Views/Reportes/Index.cshtml">
-      <publishTime>10/12/2021 18:55:54</publishTime>
+      <publishTime>10/22/2021 11:53:43</publishTime>
     </File>
     <File Include="Areas/Compras/Views/Reportes/Reporte.cshtml">
       <publishTime>08/01/2021 20:28:14</publishTime>
@@ -54,10 +54,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/01/2021 17:53:04</publishTime>
     </File>
     <File Include="Areas/Compras/Views/Shared/_Layout.cshtml">
-      <publishTime>09/06/2021 16:10:09</publishTime>
+      <publishTime>10/19/2021 15:17:59</publishTime>
     </File>
     <File Include="Areas/Compras/Views/Tablas/Index.cshtml">
-      <publishTime>10/12/2021 19:12:51</publishTime>
+      <publishTime>10/22/2021 11:53:43</publishTime>
     </File>
     <File Include="Areas/Compras/Views/web.config">
       <publishTime>09/02/2021 23:22:32</publishTime>
@@ -66,7 +66,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/16/2021 12:07:44</publishTime>
     </File>
     <File Include="Areas/General/Views/Reportes/Index.cshtml">
-      <publishTime>10/03/2021 21:37:19</publishTime>
+      <publishTime>10/22/2021 11:53:43</publishTime>
     </File>
     <File Include="Areas/General/Views/Reportes/Reporte.cshtml">
       <publishTime>09/02/2021 23:22:54</publishTime>
@@ -81,7 +81,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/02/2021 23:20:51</publishTime>
     </File>
     <File Include="Areas/General/Views/Shared/_Layout.cshtml">
-      <publishTime>09/06/2021 16:10:09</publishTime>
+      <publishTime>10/19/2021 15:18:09</publishTime>
     </File>
     <File Include="Areas/General/Views/web.config">
       <publishTime>09/02/2021 23:22:33</publishTime>
@@ -90,7 +90,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/25/2021 14:52:33</publishTime>
     </File>
     <File Include="Areas/Inventario/Views/Reportes/Index.cshtml">
-      <publishTime>10/12/2021 18:58:55</publishTime>
+      <publishTime>10/22/2021 11:53:43</publishTime>
     </File>
     <File Include="Areas/Inventario/Views/Reportes/Reporte.cshtml">
       <publishTime>07/15/2021 12:27:59</publishTime>
@@ -114,7 +114,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/08/2021 00:15:05</publishTime>
     </File>
     <File Include="Areas/Inventario/Views/Shared/_Layout.cshtml">
-      <publishTime>09/06/2021 16:10:09</publishTime>
+      <publishTime>10/19/2021 15:18:17</publishTime>
     </File>
     <File Include="Areas/Inventario/Views/web.config">
       <publishTime>09/02/2021 23:22:33</publishTime>
@@ -122,14 +122,17 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Areas/Inventario/Views/_ViewStart.cshtml">
       <publishTime>01/21/2021 18:08:00</publishTime>
     </File>
+    <File Include="Areas/Ventas/Views/Procesos/ImportarPedido.cshtml">
+      <publishTime>10/22/2021 16:53:29</publishTime>
+    </File>
     <File Include="Areas/Ventas/Views/Procesos/ImportarPlantilla.cshtml">
       <publishTime>10/18/2021 23:48:09</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Procesos/Index.cshtml">
-      <publishTime>10/18/2021 23:24:56</publishTime>
+      <publishTime>10/22/2021 11:53:43</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Reportes/Index.cshtml">
-      <publishTime>10/12/2021 19:00:04</publishTime>
+      <publishTime>10/22/2021 11:53:43</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Reportes/Reporte.cshtml">
       <publishTime>07/05/2021 16:56:07</publishTime>
@@ -144,10 +147,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/27/2021 00:42:47</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Shared/_Layout.cshtml">
-      <publishTime>10/12/2021 21:02:23</publishTime>
+      <publishTime>10/20/2021 00:02:51</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Tablas/Index.cshtml">
-      <publishTime>10/12/2021 19:12:51</publishTime>
+      <publishTime>10/22/2021 11:53:43</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/web.config">
       <publishTime>09/02/2021 23:22:34</publishTime>
@@ -513,10 +516,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/03/2014 20:33:56</publishTime>
     </File>
     <File Include="bin/ProfitTM.dll">
-      <publishTime>10/18/2021 23:48:28</publishTime>
+      <publishTime>10/22/2021 17:12:11</publishTime>
     </File>
     <File Include="bin/ProfitTM.pdb">
-      <publishTime>10/18/2021 23:48:28</publishTime>
+      <publishTime>10/22/2021 17:12:11</publishTime>
     </File>
     <File Include="bin/ru/DevExpress.Data.v18.2.resources.dll">
       <publishTime>01/16/2021 08:10:41</publishTime>
@@ -642,7 +645,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/20/2021 14:30:12</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
-      <publishTime>02/17/2021 10:14:33</publishTime>
+      <publishTime>10/19/2021 22:33:05</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css.map">
       <publishTime>01/20/2021 14:30:12</publishTime>
@@ -675,7 +678,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/11/2021 14:23:32</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>10/19/2021 01:15:46</publishTime>
+      <publishTime>10/27/2021 12:10:39</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>01/20/2021 14:30:10</publishTime>
@@ -723,7 +726,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/20/2021 14:30:12</publishTime>
     </File>
     <File Include="Scripts/bootstrap.min.js">
-      <publishTime>02/17/2021 10:24:32</publishTime>
+      <publishTime>10/22/2021 11:50:56</publishTime>
     </File>
     <File Include="Scripts/cldr.event.js">
       <publishTime>03/21/2021 11:30:24</publishTime>
@@ -819,7 +822,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/20/2021 14:30:14</publishTime>
     </File>
     <File Include="Scripts/popper.js">
-      <publishTime>02/22/2021 08:40:37</publishTime>
+      <publishTime>10/22/2021 11:50:24</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
       <publishTime>01/12/2021 20:30:13</publishTime>
@@ -831,7 +834,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/06/2021 16:24:58</publishTime>
     </File>
     <File Include="Views/Home/DashboardAdmin.cshtml">
-      <publishTime>09/06/2021 16:10:09</publishTime>
+      <publishTime>10/20/2021 00:01:57</publishTime>
     </File>
     <File Include="Views/Home/DashboardCont.cshtml">
       <publishTime>09/06/2021 16:10:09</publishTime>
@@ -840,16 +843,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/06/2021 16:10:09</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>10/19/2021 01:06:53</publishTime>
+      <publishTime>10/23/2021 10:39:17</publishTime>
     </File>
     <File Include="Views/Home/Inventario.cshtml">
       <publishTime>09/06/2021 16:23:54</publishTime>
     </File>
     <File Include="Views/Home/SeleccionEmpresa.cshtml">
-      <publishTime>09/27/2021 18:08:39</publishTime>
+      <publishTime>10/27/2021 12:10:46</publishTime>
     </File>
     <File Include="Views/Home/SeleccionProducto.cshtml">
-      <publishTime>09/27/2021 18:08:28</publishTime>
+      <publishTime>10/23/2021 11:25:23</publishTime>
     </File>
     <File Include="Views/Home/Ventas.cshtml">
       <publishTime>09/06/2021 16:24:49</publishTime>
@@ -882,7 +885,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/05/2021 22:32:00</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>10/19/2021 00:11:12</publishTime>
+      <publishTime>10/19/2021 23:41:40</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>09/02/2021 23:22:31</publishTime>

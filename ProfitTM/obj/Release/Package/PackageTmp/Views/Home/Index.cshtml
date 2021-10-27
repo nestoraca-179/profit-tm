@@ -1,4 +1,7 @@
 ﻿<style>
+    body > .container-fluid > main {
+        overflow-y: auto;
+    }
     .box{
         height: 100%;
         display: flex;
@@ -24,7 +27,7 @@
         width: 50%;
     }
     form button{
-        width: 60%;
+        width: 40%;
     }
     @@media (max-width: 728px){
         form{
@@ -41,7 +44,7 @@
 </style>
 <div class="box">
     <div class="container-title">
-        <h1 class="text-white main-title">Profit TM</h1>
+        <h1 class="text-white">Profit TM</h1>
     </div>
     @{
         ViewData["Title"] = "Inicio";

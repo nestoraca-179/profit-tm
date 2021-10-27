@@ -145,19 +145,7 @@ input#username::placeholder, input#pass::placeholder {
 /* Select Prod */
 
 /* Select Empresa */
-/*.container-control {
-    width: 80%;
-    margin: 20% auto 0 auto;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-.container-control select {
-    width: 40%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 0;
-}*/
+
 /* Dashboard */
 .header-left-side {
     background: #01579B;
