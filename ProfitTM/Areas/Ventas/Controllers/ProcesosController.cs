@@ -104,19 +104,19 @@ namespace ProfitTM.Areas.Ventas.Controllers
                         }
 
                         ViewBag.documents = invoices;
-                        ViewBag.orders = orders;
+                        ViewBag.orders = orders.FindAll(o => o.Status == 0);
                         ViewBag.resultsTable = results;
 
                         if (type == "V")
                         {
                             ViewBag.function = "Factura";
-                            ViewBag.headers = "Codigo,Cliente,Fec. Emis,Total,Estado,Impresa";
+                            ViewBag.headers = "N° Factura,Cliente,Fec. Emis,Total,Estado,Impresa";
                             ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status,Impresa";
                         }
                         else
                         {
                             ViewBag.function = "Pedido";
-                            ViewBag.headers = "Codigo,Cliente,Fec. Emis,Total,Estado";
+                            ViewBag.headers = "N° Pedido,Cliente,Fec. Emis,Total,Estado";
                             ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status";
                         }
                     }
@@ -163,6 +163,12 @@ namespace ProfitTM.Areas.Ventas.Controllers
                     Invoice order = Invoice.GetInvoice(connect, id, "PV");
                     ViewBag.order = order;
                 }
+
+                ViewBag.clients = Client.GetAllClients(connect);
+                ViewBag.conds = Cond.GetAllConds(connect);
+                ViewBag.sellers = Seller.GetAllSellers(connect);
+                ViewBag.transports = Transport.GetAllTransports(connect);
+                ViewBag.currencies = Currency.GetAllCurrencies(connect);
 
                 return View();
             }

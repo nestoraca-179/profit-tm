@@ -22,9 +22,9 @@ namespace ProfitTM.Models
         public Cond Cond { get; set; }
         public int Status { get; set; }
         public bool Printed { get; set; }
-        public string UserIn { get; set; }
-        public string BranchIn { get; set; }
-        public string Type { get; set; }
+        public string UserIn { get; set; } // Codigo usuario que ingreso la factura
+        public string BranchIn { get; set; } // Codigo sucursal que ingreso la factura
+        public string Type { get; set; } // Indica si la factura es de compra o de venta
         public List<InvoiceItem> Items { get; set; }
 
         public static Invoice GetInvoice(string connect, string ID, string type)
@@ -267,7 +267,8 @@ namespace ProfitTM.Models
                                     ImpPorc = reader["porc_imp"].ToString(),
                                     Amount = double.Parse(reader["reng_neto"].ToString()),
                                     IVA = double.Parse(reader["monto_imp"].ToString()),
-                                    TypeArt = InvoiceItem.GetTypeItem(connect, reader["co_art"].ToString())
+                                    TypeArt = InvoiceItem.GetTypeItem(connect, reader["co_art"].ToString()),
+                                    Rowguid = reader["rowguid"].ToString()
                                 };
 
                                 if (type.Contains("V"))

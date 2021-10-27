@@ -63,7 +63,7 @@ namespace ProfitTM.Controllers
                     queryD.Append("@sCampo1 = NULL, @sCampo2 = NULL, @sCampo3 = NULL, @sCampo4 = NULL, @sCampo5 = NULL, @sCampo6 = NULL, @sCampo7 = NULL, @sCampo8 = NULL, ");
                     queryD.AppendFormat("@sco_us_in = '{0}', @sco_sucu_in = '{1}'", invoice.UserIn, invoice.BranchIn);
 
-                    string queryU = string.Format("UPDATE saFacturaVenta SET status = 2 WHERE doc_num = '{0}'", order);
+                    //string queryU = string.Format("UPDATE saPedidoVenta SET status = 2 WHERE doc_num = '{0}'", order);
 
                     using (SqlCommand comm = new SqlCommand(queryF.ToString(), conn))
                     {
@@ -104,11 +104,7 @@ namespace ProfitTM.Controllers
                                 rows += comm.ExecuteNonQuery();
                             }
 
-                            string queryA = string.Format("UPDATE saPedidoVentaReng SET pendiente = pendiente - {0} WHERE doc_num = '{1}' and co_art = '{2}'",
-                                item.Quantity,
-                                order,
-                                item.Code
-                            );
+                            string queryA = string.Format("exec pStockPendienteActualizar @uniRowGuidOri='{0}', @deCantidad={1},@sTipoDocumento='PCLI'", item.Rowguid, item.Quantity);
 
                             comm.CommandText = queryA;
                             rows += comm.ExecuteNonQuery();
@@ -117,8 +113,8 @@ namespace ProfitTM.Controllers
                             queryI.AppendFormat("@sDes_Art = '{0}', @sCo_Uni = '{1}', @sCo_Alma = '{2}', @sCo_Precio = '{3}', ", item.Name, item.Unit, item.Storage.ID, item.PriceCode);
                             queryI.AppendFormat("@sTipo_imp = '{0}', @deTotal_Art = {1}, @deStotal_Art = 0, ", item.ImpCode, item.Quantity.ToString().Replace(",", "."));
                             queryI.AppendFormat("@dePrec_Vta = {0}, @dePorc_Imp = {1}, @dePorc_Imp2 = 0, @dePorc_Imp3 = 0, ", (item.Amount / item.Quantity).ToString().Replace(",", "."), item.ImpPorc.Replace(",", "."));
-                            queryI.AppendFormat("@deReng_Neto = {0}, @dePendiente = {1}, @dePendiente2 = 0, @sTipo_Doc = NULL, @sNum_Doc = NULL, ", item.Amount.ToString().Replace(",", "."), item.Quantity.ToString());
-                            queryI.AppendFormat("@gRowguid_Doc = NULL, @deMonto_Imp = {0}, @deTotal_Dev = 0, @deMonto_Dev = 0, @deOtros = 0, @deMonto_Imp2 = 0, @deMonto_Imp3 = 0, ", item.IVA.ToString().Replace(",", "."));
+                            queryI.AppendFormat("@deReng_Neto = '{0}', @dePendiente = {1}, @dePendiente2 = 0, @sTipo_Doc = 'PCLI', @sNum_Doc = '{2}', ", item.Amount.ToString().Replace(",", "."), item.Quantity.ToString(), order);
+                            queryI.AppendFormat("@gRowguid_Doc = '{0}', @deMonto_Imp = {1}, @deTotal_Dev = 0, @deMonto_Dev = 0, @deOtros = 0, @deMonto_Imp2 = 0, @deMonto_Imp3 = 0, ", item.Rowguid, item.IVA.ToString().Replace(",", "."));
                             queryI.Append("@sComentario = NULL, @deMonto_Desc = 0, @deMonto_Desc_Glob = 0, @deMonto_Reca_Glob = 0, @deOtros1_Glob = 0, @deOtros2_glob = 0, @deOtros3_glob = 0, ");
                             queryI.Append("@deMonto_imp_afec_glob = 0, @deMonto_imp2_afec_glob = 0, @deMonto_imp3_afec_glob = 0, @sREVISADO = NULL, @sTRASNFE = NULL, ");
                             queryI.AppendFormat("@sco_us_in = '{0}', @sco_sucu_in = '{1}', @iRENG_NUM = {2}", invoice.UserIn, invoice.BranchIn, item.Reng);
@@ -131,8 +127,8 @@ namespace ProfitTM.Controllers
                         comm.CommandText = queryD.ToString();
                         rows += comm.ExecuteNonQuery();
 
-                        comm.CommandText = queryU;
-                        rows += comm.ExecuteNonQuery();
+                        //comm.CommandText = queryU;
+                        //rows += comm.ExecuteNonQuery();
                     }
                 }
 

@@ -1,11 +1,60 @@
 ﻿@{
     ViewData["Title"] = "Seleccion de Empresa";
 }
-<div class="container-fluid">
+<style>
+    body > .container-fluid > main {
+        overflow-y: auto;
+    }
+    .box {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    form {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 10px 0;
+    }
+    .container-control{
+        flex: 6;
+        background: red;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .container-control select{
+        width: 50%;
+    }
+    .col-md-12 {
+        flex: 1;
+        background: blue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .col-md-12 button {
+        width: 80%;
+        max-width: 500px;
+        padding: 20px 0;
+    }
+    @@media (max-width: 789px) {
+        .container-control{
+            flex: 3;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        .container-control select {
+            width: 90%;
+        }
+    }
+</style>
+<div class="box">
     <form action="/Home/SelectDashboard" method="post">
         <div class="container-control">
-            <h2 class="title-page" style="position: static;">Seleccionar Empresa</h2>
-            <select class="shadow" onchange="enable(this)">
+            <h2 class="text-white" style="position: static;">Seleccionar Empresa</h2>
+            <select id="selectDb" class="shadow" onchange="enable(this)">
                 <option value="#">Seleccionar empresa...</option>
                 @{
                     foreach (var item in ViewBag.connections)
@@ -20,9 +69,9 @@
                 }
             </select>
         </div>
-        <input type="hidden" id="connect" name="connect" value />
-        <div class="col-md-12 text-center">
-            <button type="button" style="width: 30%; margin-top: 10%; padding: 20px 0;" id="btn-send" class="btn btn-primary" onclick="send(this)" disabled>Seleccionar empresa</button>
+        <input type="hidden" id="connect" name="connect" value="" />
+        <div class="col-md-12">
+            <button type="submit" id="btn-send" class="btn btn-primary" onclick="send(this)" disabled>Seleccionar empresa</button>
         </div>
     </form>
 </div>
@@ -38,7 +87,8 @@
     }
 
     function send(elem) {
-        elem.setAttribute('disabled', 'true');
-        $("form").trigger("submit");
+        $("#selectDb").prop("disabled", "true");
+        $(elem).prop("disabled", "true");
+        //$("form").trigger("submit");
     }
 </script>

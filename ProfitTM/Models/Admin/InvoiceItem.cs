@@ -18,6 +18,7 @@ namespace ProfitTM.Models
         public double Amount { get; set; }
         public double IVA { get; set; }
         public string TypeArt { get; set; }
+        public string Rowguid { get; set; }
 
         public static string GetTypeItem(string connect, string ID)
         {

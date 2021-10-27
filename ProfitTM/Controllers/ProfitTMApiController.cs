@@ -119,7 +119,7 @@ namespace ProfitTM.Controllers
         // FACTURA
 
         [HttpPost]
-        [Route("api/ProfitTMApi/AddInvoice/{order}")]
+        [Route("api/ProfitTMApi/AddInvoice/{order}/")]
         public ProfitTMResponse AddInvoice(string order, Invoice invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();

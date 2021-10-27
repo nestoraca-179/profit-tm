@@ -180,7 +180,7 @@
                                 </div>
                                 <div class="col-sm-5">
                                     <label>Tasa</label>
-                                    <input type="text" id="tasaFacturaAdd" onkeypress="return event.keyCode != 188" ng-model="formAdd.Rate" />
+                                    <input type="text" id="tasaFacturaAdd" onkeypress="return (event.charCode > 47 && event.charCode < 58) || event.charCode == 46" ng-model="formAdd.Rate" />
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-top: 10px">

@@ -142,43 +142,10 @@ input#username::placeholder, input#pass::placeholder {
 .footer-bottom {
     background: #FAFAFA;
 }
-.title-page {
-    width: 50%;
-    color: #FFF;
-    position: relative;
-    top: 50px;
-    left: 50px;
-}
 /* Select Prod */
-.container-cards{
-    width: 100%;
-    height: 70vh;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-.card-prod {
-    width: 400px;
-    height: 200px;
-    background: #2980b9;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    cursor: pointer;
-}
-.card-prod.selected-card{
-    outline: solid #FFF 5px;
-}
-.card-prod img{
-    width: 150px;
-    height: 150px;
-}
-.card-prod h3{
-    color: #FFF;
-}
+
 /* Select Empresa */
-.container-control {
+/*.container-control {
     width: 80%;
     margin: 20% auto 0 auto;
     display: flex;
@@ -190,7 +157,7 @@ input#username::placeholder, input#pass::placeholder {
     padding: 10px;
     border-radius: 5px;
     border: 0;
-}
+}*/
 /* Dashboard */
 .header-left-side {
     background: #01579B;
