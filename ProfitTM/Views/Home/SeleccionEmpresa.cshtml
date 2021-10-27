@@ -69,7 +69,7 @@
         </div>
         <input type="hidden" id="connect" name="connect" value="" />
         <div class="col-md-12">
-            <button type="submit" id="btn-send" class="btn btn-primary" onclick="send(this)" disabled>Seleccionar empresa</button>
+            <button type="button" id="btn-send" class="btn btn-primary" onclick="send(this)" disabled>Seleccionar empresa</button>
         </div>
     </form>
 </div>
@@ -87,6 +87,6 @@
     function send(elem) {
         $("#selectDb").prop("disabled", "true");
         $(elem).prop("disabled", "true");
-        //$("form").trigger("submit");
+        $("form").trigger("submit");
     }
 </script>
