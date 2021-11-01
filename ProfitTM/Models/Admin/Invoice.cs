@@ -22,6 +22,7 @@ namespace ProfitTM.Models
         public Cond Cond { get; set; }
         public int Status { get; set; }
         public bool Printed { get; set; }
+        public List<string> ExtraFields { get; set; }
         public string UserIn { get; set; } // Codigo usuario que ingreso la factura
         public string BranchIn { get; set; } // Codigo sucursal que ingreso la factura
         public string Type { get; set; } // Indica si la factura es de compra o de venta
@@ -93,6 +94,11 @@ namespace ProfitTM.Models
                                     Type = type,
                                     Items = GetInvoiceItems(connect, reader["doc_num"].ToString(), type)
                                 };
+
+                                for (int i = 1; i < 9; i++)
+                                {
+                                    invoice.ExtraFields.Add(reader["campo" + i].ToString());
+                                }
 
                                 string PersonID = reader[name].ToString();
 

@@ -49,6 +49,7 @@ public class RepClienteMasVenta : DevExpress.XtraReports.UI.XtraReport
     private XRLabel xrLabel8;
     private XRLabel xrLabel7;
     private XRLabel xrLabel6;
+    private DevExpress.XtraReports.Parameters.Parameter codSucu;
 
     /// <summary>
     /// Required designer variable.
@@ -104,9 +105,11 @@ public class RepClienteMasVenta : DevExpress.XtraReports.UI.XtraReport
             DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery2 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter15 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery3 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery4 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepClienteMasVenta));
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings1 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings2 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
+            DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings3 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             this.DemoAdmin = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.Title = new DevExpress.XtraReports.UI.XRControlStyle();
             this.DetailCaption1 = new DevExpress.XtraReports.UI.XRControlStyle();
@@ -150,6 +153,7 @@ public class RepClienteMasVenta : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
             this.porcentaje = new DevExpress.XtraReports.UI.CalculatedField();
             this.cantidad = new DevExpress.XtraReports.Parameters.Parameter();
+            this.codSucu = new DevExpress.XtraReports.Parameters.Parameter();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -185,7 +189,8 @@ public class RepClienteMasVenta : DevExpress.XtraReports.UI.XtraReport
             queryParameter10.Type = typeof(DevExpress.DataAccess.Expression);
             queryParameter10.Value = new DevExpress.DataAccess.Expression("?cantidad", typeof(int));
             queryParameter11.Name = "@sCo_Sucursal";
-            queryParameter11.Type = typeof(string);
+            queryParameter11.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter11.Value = new DevExpress.DataAccess.Expression("?codSucu", typeof(string));
             queryParameter12.Name = "@sCampOrderBy";
             queryParameter12.Type = typeof(string);
             queryParameter13.Name = "@sDir";
@@ -219,11 +224,14 @@ public class RepClienteMasVenta : DevExpress.XtraReports.UI.XtraReport
             customSqlQuery3.Name = "Datos";
             customSqlQuery3.Sql = "select\r\n\t(select val_str from saAdiCampo where co_adicampo = \'DIR_FIS\') as Direcc" +
     "ion,\r\n\t(select val_str from saAdiCampo where co_adicampo = \'TELEF\') as Telefono";
+            customSqlQuery4.Name = "Sucursales";
+            customSqlQuery4.Sql = "select co_sucur, sucur_des from saSucursal";
             this.DemoAdmin.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
             storedProcQuery1,
             customSqlQuery1,
             customSqlQuery2,
-            customSqlQuery3});
+            customSqlQuery3,
+            customSqlQuery4});
             this.DemoAdmin.ResultSchemaSerializable = resources.GetString("DemoAdmin.ResultSchemaSerializable");
             // 
             // Title
@@ -651,6 +659,19 @@ public class RepClienteMasVenta : DevExpress.XtraReports.UI.XtraReport
             this.cantidad.Type = typeof(int);
             this.cantidad.ValueInfo = "10";
             // 
+            // codSucu
+            // 
+            this.codSucu.AllowNull = true;
+            this.codSucu.Description = "Sucursal";
+            dynamicListLookUpSettings3.DataMember = "Sucursales";
+            dynamicListLookUpSettings3.DataSource = this.DemoAdmin;
+            dynamicListLookUpSettings3.DisplayMember = "sucur_des";
+            dynamicListLookUpSettings3.SortMember = "co_sucur";
+            dynamicListLookUpSettings3.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            dynamicListLookUpSettings3.ValueMember = "co_sucur";
+            this.codSucu.LookUpSettings = dynamicListLookUpSettings3;
+            this.codSucu.Name = "codSucu";
+            // 
             // RepClienteMasVenta
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -672,7 +693,8 @@ public class RepClienteMasVenta : DevExpress.XtraReports.UI.XtraReport
             this.fecHasta,
             this.cliDesde,
             this.cliHasta,
-            this.cantidad});
+            this.cantidad,
+            this.codSucu});
             this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.Title,
             this.DetailCaption1,

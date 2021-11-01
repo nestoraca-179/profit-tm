@@ -80,25 +80,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                                 item.Add("delete", "False");
                             }
 
-                            string fieldsEdit = string.Format(
-                                "idFacturaEdit={0},personFacturaEdit={1},condFacturaEdit={2},sellerFacturaEdit={3},controlFacturaEdit={4},transFacturaEdit={5},montoFacturaEdit={6},monedaFacturaEdit={7},dateFacturaEdit={8},tasaFacturaEdit={9},tipoFacturaEdit={10},subtotalFacturaEdit={11},ivaFacturaEdit={12}",
-                                invoice.ID,
-                                invoice.InvoicePerson.ID,
-                                invoice.Cond.ID,
-                                invoice.Seller.ID,
-                                invoice.ControlNumber,
-                                invoice.Transport.ID,
-                                invoice.Amount.ToString().Replace(",", "."),
-                                invoice.Currency.ID,
-                                invoice.DateEmis.ToString("yyyy/MM/dd HH:mm"),
-                                invoice.Rate.ToString().Replace(",", "."),
-                                type,
-                                invoice.SubTotal.ToString().Replace(",", "."),
-                                invoice.IVA.ToString().Replace(",", ".")
-                            );
-
                             item.Add("details", "True");
-                            item.Add("fieldsEdit", fieldsEdit);
 
                             results.Add(item);
                         }
@@ -170,6 +152,84 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.transports = Transport.GetAllTransports(connect);
                 ViewBag.currencies = Currency.GetAllCurrencies(connect);
 
+                return View();
+            }
+        }
+
+        public ActionResult EditarFactura(string id = "")
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else
+            {
+                string connect = Session["connect"].ToString();
+
+                if (id != "")
+                {
+                    Invoice order = Invoice.GetInvoice(connect, id, "V");
+                    ViewBag.order = order;
+                }
+
+                ViewBag.clients = Client.GetAllClients(connect);
+                ViewBag.conds = Cond.GetAllConds(connect);
+                ViewBag.sellers = Seller.GetAllSellers(connect);
+                ViewBag.transports = Transport.GetAllTransports(connect);
+                ViewBag.currencies = Currency.GetAllCurrencies(connect);
+
+                return View();
+            }
+        }
+
+        public ActionResult EditarPedido(string id = "")
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else
+            {
+                string connect = Session["connect"].ToString();
+
+                if (id != "")
+                {
+                    Invoice order = Invoice.GetInvoice(connect, id, "PV");
+                    ViewBag.order = order;
+                }
+
+                ViewBag.clients = Client.GetAllClients(connect);
+                ViewBag.conds = Cond.GetAllConds(connect);
+                ViewBag.sellers = Seller.GetAllSellers(connect);
+                ViewBag.transports = Transport.GetAllTransports(connect);
+                ViewBag.currencies = Currency.GetAllCurrencies(connect);
+
+                return View();
+            }
+        }
+
+        public ActionResult ImprimirFactura(string id)
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
+
+            ViewBag.report = id;
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else
+            {
                 return View();
             }
         }

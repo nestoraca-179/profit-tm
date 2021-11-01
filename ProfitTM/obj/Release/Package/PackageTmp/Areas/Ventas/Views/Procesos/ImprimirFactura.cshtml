@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Ver Reporte";
+    ViewData["Title"] = "Imprimir Factura";
     ViewData["home"] = Session["home"];
 }
 
@@ -14,15 +14,13 @@
     new Script { ExtensionSuite = ExtensionSuite.Report }
 )
 
-@Html.Action("RepFormatoFacturaVentaPartial", "Reps")
-
 <div style="padding: 40px;">
     @{
         if (!string.IsNullOrEmpty(ViewBag.report))
         {
             string report = ViewBag.report;
 
-            @Html.Action(report, "Reps")
+            @Html.Action("RepFormatoFacturaVentaPartial", "Reps", new { id = report})
         }
     }
 </div>

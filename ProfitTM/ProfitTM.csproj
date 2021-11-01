@@ -238,6 +238,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Areas\Ventas\Views\Procesos\ImportarPedido.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\EditarFactura.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\EditarPedido.cshtml" />
+    <Content Include="Areas\Ventas\Views\Reportes\_RepFormatoFacturaVentaPartial.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\ImprimirFactura.cshtml" />
     <None Include="Properties\PublishProfiles\ProfitTMRelease.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -392,6 +396,9 @@
     <Compile Include="Areas\Ventas\Reports\RepFacturaVentaxArt.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Areas\Ventas\Reports\RepFormatoFacturaVenta.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\Ventas\Reports\RepTotalVentaxArticulo.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -511,6 +518,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Ventas\Reports\RepFacturaVentaxArt.resx">
       <DependentUpon>RepFacturaVentaxArt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\Ventas\Reports\RepFormatoFacturaVenta.resx">
+      <DependentUpon>RepFormatoFacturaVenta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Ventas\Reports\RepTotalVentaxArticulo.resx">
       <DependentUpon>RepTotalVentaxArticulo.cs</DependentUpon>

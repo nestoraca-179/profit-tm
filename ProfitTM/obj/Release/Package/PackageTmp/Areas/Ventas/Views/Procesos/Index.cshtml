@@ -71,7 +71,6 @@
                                         <div>
                                             @{
                                                 string id = result["ID"].ToString();
-                                                string fieldsEdit = result["fieldsEdit"].ToString();
 
                                                 if (result["details"] == "True")
                                                 {
@@ -79,11 +78,11 @@
                                                 }
                                                 if (result["edit"] == "True")
                                                 {
-                                                    <i role="button" onclick="editRow('@fieldsEdit')" class="fas fa-file-edit"></i>
+                                                    <i role="button" ng-click="setLocation('@id')" class="fas fa-file-edit"></i>
                                                 }
                                                 if (result["delete"] == "True")
                                                 {
-                                                    <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
+                                                    <i role="button" @*onclick="deleteRow(this)"*@ class="fas fa-times"></i>
                                                 }
                                             }
                                         </div>
@@ -130,7 +129,7 @@
                 </div>
             </div>
             <!-- Modal Agregar Factura -->
-            <div class="modal fade" id="modalFacturaAdd" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+            @*<div class="modal fade" id="modalFacturaAdd" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <form action="" method="post" id="formFacturaAdd" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
@@ -239,9 +238,9 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>*@
             <!-- Modal Editar Factura -->
-            <div class="modal fade" id="modalFacturaEdit" tabindex="-1" role="dialog" aria-hidden="true">
+            @*<div class="modal fade" id="modalFacturaEdit" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
                     <form action="" method="post" id="formFacturaEdit" class="modal-content" onsubmit="return false;">
                         <div class="modal-header">
@@ -317,7 +316,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>*@
             <!-- Modal Items Documento -->
             <div class="modal fade" id="modalDocumentoItems" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
@@ -550,8 +549,6 @@
     app.controller("controller", function ($scope, $http) {
 
         $scope.option = "#";
-        $scope.formAdd = {};
-        $scope.formEdit = {};
         $scope.name = '@ViewBag.function';
         $scope.modalAdd = modals.find(m => m.ModalType == "A");
 
@@ -593,6 +590,20 @@
             }
         }
 
+        $scope.getDocItems = function (id) {
+
+            $scope.items = null;
+            $scope.items = documents.find(i => i.ID == id).Items;
+            $scope.number = documents.find(i => i.ID == id).ID;
+
+            $("#modalDocumentoItems").modal("show");
+        }
+
+        $scope.setLocation = function (id) {
+            location.href = "/Ventas/Procesos/Editar" + $scope.name + "?id=" + id;
+        }
+
+        /*
         $scope.addInvoice = function () {
 
             if ($("#formFacturaAdd")[0].checkValidity()) {
@@ -684,15 +695,8 @@
                 });
             }
         }
+        */
 
-        $scope.getDocItems = function (id) {
-
-            $scope.items = null;
-            $scope.items = documents.find(i => i.ID == id).Items;
-            $scope.number = documents.find(i => i.ID == id).ID;
-
-            $("#modalDocumentoItems").modal("show");
-        }
     });
 
     function change(elem) {
@@ -760,33 +764,6 @@
         } else {
             alert("Debes seleccionar un item");
         }
-    }
-
-    function editRow(fieldsEdit) {
-
-        var fieldsValue = fieldsEdit.split(",");
-
-        for (var item of fieldsValue) {
-
-            var index = item.indexOf("=");
-
-            var idField = item.substring(0, index);
-            var valueField = item.substring(index + 1);
-
-            $("#" + idField).val(valueField);
-        }
-
-        var modalEdit = modals.find(m => m.ModalType == "E").Title;
-        $("#" + modalEdit).modal("show");
-    }
-
-    function deleteRow(elem) {
-        var cells = $(elem).closest('tr')[0].cells;
-
-        var codigo = cells[0].innerHTML;
-
-        $("#codigoDelete").val(codigo.trim());
-        $("#modalClienteDelete").modal("show");
     }
 
 </script>

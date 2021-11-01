@@ -59,5 +59,24 @@ namespace ProfitTM.Areas.Ventas.Controllers
         {
             return DocumentViewerExtension.ExportTo(report2, Request);
         }
+
+        // RepFormatoFacturaVenta
+        RepFormatoFacturaVenta report3 = new RepFormatoFacturaVenta();
+        public ActionResult RepFormatoFacturaVentaPartial(string id)
+        {
+            string connect = Session["connect"].ToString();
+            report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+
+            SqlDataSource ds = report3.DataSource as SqlDataSource;
+            ds.ConnectionName = connect;
+            ds.Queries["RepFormatoFacturaVenta"].Parameters[0].Value = id;
+            ds.Queries["RepFormatoFacturaVenta"].Parameters[1].Value = id;
+
+            return PartialView("~/Areas/Ventas/Views/Reportes/_RepFormatoFacturaVentaPartial.cshtml", report3);
+        }
+        public ActionResult RepFormatoFacturaVentaPartialExport()
+        {
+            return DocumentViewerExtension.ExportTo(report3, Request);
+        }
     }
 }

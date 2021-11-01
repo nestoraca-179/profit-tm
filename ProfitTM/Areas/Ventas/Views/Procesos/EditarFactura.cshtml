@@ -1,40 +1,40 @@
 ﻿@{
-    ViewBag.Title = "Importar Pedido";
+    ViewBag.Title = "Editar Factura";
 }
 <style>
-    h1{
+    h1 {
         text-align: center;
         margin: 0;
         padding: 20px;
     }
-    .container-doc{
+    .container-doc {
         display: flex;
         flex-wrap: wrap;
     }
-    .form-group{
+    .form-group {
         width: 90%;
         height: 60px;
         padding: 10px;
     }
-    .form-group label{
+    .form-group label {
         width: 50%;
         margin: 0;
     }
-    .form-group input {
+    .form-group input[type=text] {
         padding: 5px 0;
         background: none;
         border: 0;
         border-radius: 0;
         border-bottom: solid 1px #D2D2D2;
-        outline: 0; 
+        outline: 0;
     }
     .form-group > input {
         width: 50%;
     }
-    .form-group input label{
+    .form-group input label {
         width: 100%;
     }
-    .doc-info{
+    .doc-info {
         width: 50%;
         /*background: #f0f0f0;*/
         padding: 20px;
@@ -48,11 +48,11 @@
         width: 100%;
         /*background: blue;*/
     }
-    .container-btn{
+    .container-btn {
         width: 100%;
         padding: 20px 0;
     }
-    .btn-send{
+    .btn-send {
         display: block;
         margin: 0 auto;
         padding: 10px 30px;
@@ -63,70 +63,72 @@
     }
 </style>
 <div class="container-fluid" ng-app="Process" ng-controller="controller">
-    <h1>Importar Pedido</h1>
+    <h1>Editar Factura</h1>
     <form id="formFactura" class="container-doc">
         <div class="doc-info">
             <div class="form-group">
-                <label for="idFacturaAdd">N° Documento</label>
-                <input type="text" id="idFacturaAdd" ng-model="formAdd.ID" required />
+                <label for="idFacturaEdit">N° Documento</label>
+                <input type="text" id="idFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.ID" />
             </div>
             <div class="form-group">
-                <label for="controlFacturaAdd">N° Control</label>
-                <input type="text" id="controlFacturaAdd" ng-model="formAdd.ControlNumber" required />
+                <label for="controlFacturaEdit">N° Control</label>
+                <input type="text" id="controlFacturaEdit" ng-model="formEdit.ControlNumber" required />
             </div>
             <div class="form-group">
-                <label for="personFacturaAdd">Cliente</label>
+                <label for="personFacturaEdit">Cliente</label>
                 <div class="input-search">
-                    <input type="text" id="personFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.ID" />
-                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="personFacturaAdd"></i>
+                    <input type="text" id="personFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="personFacturaEdit"></i>
                 </div>
             </div>
             <div class="form-group">
-                <label for="condFacturaAdd">Cond. Pago</label>
+                <label for="condFacturaEdit">Cond. Pago</label>
                 <div class="input-search">
-                    <input type="text" id="condFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Cond.ID" />
-                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaAdd"></i>
+                    <input type="text" id="condFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Cond.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaEdit"></i>
                 </div>
             </div>
             <div class="form-group">
-                <label for="sellerFacturaAdd">Vendedor</label>
+                <label for="sellerFacturaEdit">Vendedor</label>
                 <div class="input-search">
-                    <input type="text" id="sellerFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Seller.ID" />
-                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaAdd"></i>
+                    <input type="text" id="sellerFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Seller.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaEdit"></i>
                 </div>
             </div>
             <div class="form-group">
-                <label for="transFacturaAdd">Transporte</label>
+                <label for="transFacturaEdit">Transporte</label>
                 <div class="input-search">
-                    <input type="text" id="transFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Transport.ID" />
-                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaAdd"></i>
+                    <input type="text" id="transFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Transport.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaEdit"></i>
                 </div>
             </div>
         </div>
         <div class="doc-number">
             <div class="form-group">
-                <label for="monedaFacturaAdd">Moneda</label>
+                <label for="monedaFacturaEdit">Moneda</label>
                 <div class="input-search">
-                    <input type="text" id="monedaFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Currency.ID" />
-                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaAdd"></i>
+                    <input type="text" id="monedaFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Currency.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaEdit"></i>
                 </div>
             </div>
             <div class="form-group">
-                <label for="tasaFacturaAdd">Tasa</label>
-                <input type="text" id="tasaFacturaAdd" onkeypress="return (event.charCode > 47 && event.charCode < 58) || event.charCode == 46" ng-model="formAdd.Rate" />
-            </div>
-            <div style="height: 60px;"></div>
-            <div class="form-group">
-                <label for="subtotalFacturaAdd">Sub-Total <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
-                <input type="text" id="subtotalFacturaAdd" readonly onfocus="this.blur()" ng-model="formAdd.SubTotal" />
+                <label for="tasaFacturaEdit">Tasa</label>
+                <input type="text" id="tasaFacturaEdit" onkeypress="return (event.charCode > 47 && event.charCode < 58) || event.charCode == 46" ng-model="formEdit.Rate" />
             </div>
             <div class="form-group">
-                <label for="ivaFacturaAdd">I.V.A <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
-                <input type="text" id="ivaFacturaAdd" readonly onfocus="this.blur()" ng-model="formAdd.IVA" />
+                <input ng-if="formEdit.Rate != 1" type="button" class="btn btn-primary" value="Conversión" ng-click="convert()" />
             </div>
             <div class="form-group">
-                <label for="montoFacturaAdd">Total <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
-                <input type="text" id="montoFacturaAdd" style="background: #85ffa1;" readonly onfocus="this.blur()" ng-model="formAdd.Amount" />
+                <label for="subtotalFacturaEdit">Sub-Total <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
+                <input type="text" id="subtotalFacturaEdit" class="input-number" readonly onfocus="this.blur()" ng-model="formEdit.SubTotal" />
+            </div>
+            <div class="form-group">
+                <label for="ivaFacturaEdit">I.V.A <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
+                <input type="text" id="ivaFacturaEdit" class="input-number" readonly onfocus="this.blur()" ng-model="formEdit.IVA" />
+            </div>
+            <div class="form-group">
+                <label for="montoFacturaEdit">Total <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
+                <input type="text" id="montoFacturaEdit" class="input-number" readonly onfocus="this.blur()" style="background: #85ffa1;" ng-model="formEdit.Amount" />
             </div>
         </div>
         <div class="doc-items">
@@ -144,7 +146,7 @@
                     </tr>
                 </thead>
                 <tbody style="background: #FFF;">
-                    <tr ng-repeat="item in formAdd.Items" style="cursor: pointer">
+                    <tr ng-repeat="item in formEdit.Items" style="cursor: pointer">
                         <td>{{ item.Reng }}</td>
                         <td>{{ item.Code }}</td>
                         <td>{{ item.Name }}</td>
@@ -158,7 +160,7 @@
             </table>
         </div>
         <div class="container-btn">
-            <button type="submit" class="btn btn-primary btn-send" ng-click="addInvoice()">Guardar</button>
+            <button type="submit" class="btn btn-primary btn-send" ng-click="editInvoice()">Guardar</button>
         </div>
     </form>
     <!-- Modal Waiting -->
@@ -386,18 +388,16 @@
 <script>
     var app = angular.module("Process", []);
     var order = @Html.Raw(Json.Encode(@ViewBag.order));
-    var numberOrder = order.ID;
     console.log(order);
 
     app.controller("controller", function ($scope, $http) {
 
-        $scope.formAdd = order;
-        $scope.formAdd.ID = "";
+        $scope.formEdit = order;
         $scope.converted = false;
 
         $scope.format = (number) => !$scope.converted ? new Intl.NumberFormat().format(number) : new Intl.NumberFormat().format((number / $scope.formEdit.Rate).toFixed(2));
 
-        $scope.addInvoice = function () {
+        $scope.editInvoice = function () {
 
             if ($("#formFactura")[0].checkValidity()) {
 
@@ -405,20 +405,33 @@
                 $("#formFactura input").change();
 
                 var value = "";
-                var str = $scope.formAdd.DateEmis.toString().replaceAll("/", "");
+                var str = $scope.formEdit.DateEmis.toString().replaceAll("/", "");
 
                 eval("value = new " + str);
                 var timeOffset = value.getTimezoneOffset() * 60000;
 
-                $scope.formAdd.Type = "V";
-                $scope.formAdd.DateEmis = new Date(value.getTime() - timeOffset).toUTCString();
-                $scope.formAdd.Status = 0;
-                console.log($scope.formAdd);
+                $scope.formEdit.DateEmis = new Date(value.getTime() - timeOffset).toUTCString();
+                $scope.formEdit.Status = 0;
+
+                if ($scope.converted) {
+                    var rate = $scope.formEdit.Rate;
+
+                    $(".doc-number .input-number").css("background", "#FFF");
+                    $(".doc-number #montoFacturaEdit").css("background", "#85ffa1");
+
+                    $scope.formEdit.SubTotal = ($scope.formEdit.SubTotal * rate).toFixed(2);
+                    $scope.formEdit.IVA = ($scope.formEdit.IVA * rate).toFixed(2);
+                    $scope.formEdit.Amount = ($scope.formEdit.Amount * rate).toFixed(2);
+
+                    $scope.converted = false;
+                }
+
+                console.log($scope.formEdit);
 
                 var req = {
                     method: 'POST',
-                    url: '/api/ProfitTMApi/AddInvoice/' + numberOrder + '/',
-                    data: $scope.formAdd,
+                    url: '/api/ProfitTMApi/EditInvoice/',
+                    data: $scope.formEdit,
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -429,10 +442,11 @@
                     console.log(response.data);
                     var res = response.data;
 
-                    $("#modalWaiting").modal("hide");
                     if (res.Status == "OK") {
+                        $("#modalWaiting").modal("hide");
                         $("#modalSuccess").modal("show");
                     } else {
+                        $("#modalWaiting").modal("hide");
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;
                     }
@@ -440,9 +454,6 @@
                 }, function (response) {
                     console.log(response);
                 });
-
-            } else {
-                $(".dash-right-side")[0].scrollTo(0, 0);
             }
         }
 
@@ -469,6 +480,7 @@
                 $scope.converted = false;
             }
         }
+
     });
 
     function openModal(elem, modal) {

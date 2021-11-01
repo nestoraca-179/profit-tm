@@ -117,16 +117,16 @@
             </div>
             <div style="height: 60px;"></div>
             <div class="form-group">
-                <label for="subtotalFacturaAdd">Sub-Total</label>
+                <label for="subtotalFacturaAdd">Sub-Total <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
                 <input type="text" id="subtotalFacturaAdd" readonly onfocus="this.blur()" ng-model="formAdd.SubTotal" />
             </div>
             <div class="form-group">
-                <label for="ivaFacturaAdd">I.V.A</label>
+                <label for="ivaFacturaAdd">I.V.A <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
                 <input type="text" id="ivaFacturaAdd" readonly onfocus="this.blur()" ng-model="formAdd.IVA" />
             </div>
             <div class="form-group">
-                <label for="montoFacturaAdd">Total</label>
-                <input type="text" id="montoFacturaAdd" readonly onfocus="this.blur()" ng-model="formAdd.Amount" />
+                <label for="montoFacturaAdd">Total <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
+                <input type="text" id="montoFacturaAdd" style="background: #85ffa1;" readonly onfocus="this.blur()" ng-model="formAdd.Amount" />
             </div>
         </div>
         <div class="doc-items">
@@ -150,9 +150,9 @@
                         <td>{{ item.Name }}</td>
                         <td>{{ item.Storage.ID }}</td>
                         <td>{{ item.Quantity }}</td>
-                        <td>{{ format(item.Amount.toFixed(2)) }}</td>
-                        <td>{{ format(item.IVA.toFixed(2)) }}</td>
-                        <td>{{ format((item.Amount + item.IVA).toFixed(2)) }}</td>
+                        <td>{{ format(item.Amount.toFixed(2)) }} <span ng-if="converted">({{ formEdit.Currency.ID }})</span></td>
+                        <td>{{ format(item.IVA.toFixed(2)) }} <span ng-if="converted">({{ formEdit.Currency.ID }})</span></td>
+                        <td>{{ format((item.Amount + item.IVA).toFixed(2)) }} <span ng-if="converted">({{ formEdit.Currency.ID }})</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -393,14 +393,16 @@
 
         $scope.formAdd = order;
         $scope.formAdd.ID = "";
+        $scope.converted = false;
 
-        $scope.format = (number) => new Intl.NumberFormat().format(number);
+        $scope.format = (number) => !$scope.converted ? new Intl.NumberFormat().format(number) : new Intl.NumberFormat().format((number / $scope.formEdit.Rate).toFixed(2));
 
         $scope.addInvoice = function () {
 
             if ($("#formFactura")[0].checkValidity()) {
 
                 $("#modalWaiting").modal("show");
+                $("#formFactura input").change();
 
                 var value = "";
                 var str = $scope.formAdd.DateEmis.toString().replaceAll("/", "");
@@ -441,6 +443,30 @@
 
             } else {
                 $(".dash-right-side")[0].scrollTo(0, 0);
+            }
+        }
+
+        $scope.convert = function () {
+
+            var rate = $scope.formEdit.Rate;
+
+            if (!$scope.converted) {
+                $(".doc-number .input-number").css("background", "#1fffff");
+
+                $scope.formEdit.SubTotal = ($scope.formEdit.SubTotal / rate).toFixed(2);
+                $scope.formEdit.IVA = ($scope.formEdit.IVA / rate).toFixed(2);
+                $scope.formEdit.Amount = ($scope.formEdit.Amount / rate).toFixed(2);
+
+                $scope.converted = true;
+            } else {
+                $(".doc-number .input-number").css("background", "#FFF");
+                $(".doc-number #montoFacturaEdit").css("background", "#85ffa1");
+
+                $scope.formEdit.SubTotal = ($scope.formEdit.SubTotal * rate).toFixed(2);
+                $scope.formEdit.IVA = ($scope.formEdit.IVA * rate).toFixed(2);
+                $scope.formEdit.Amount = ($scope.formEdit.Amount * rate).toFixed(2);
+
+                $scope.converted = false;
             }
         }
     });
