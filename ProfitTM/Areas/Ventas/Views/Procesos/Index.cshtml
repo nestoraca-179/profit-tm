@@ -27,7 +27,7 @@
                 <input type="hidden" name="function" value="{{ function }}" />
             </div>
             <div class="form-group col-sm-2">
-                <button type="submit" id="btn" class="btn btn-primary" onclick="blockFields()" disabled>Cargar opción</button>
+                <button type="button" id="btn" class="btn btn-primary" onclick="blockFields()" disabled>Cargar opción</button>
             </div>
         </div>
     </form>
@@ -621,6 +621,7 @@
     function blockFields () {
         $("#btn").prop("disabled", "true");
         $("#select").prop("disabled", "true");
+        $("form").trigger("submit");
     }
 
     function change(elem) {
