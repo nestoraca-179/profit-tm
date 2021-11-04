@@ -77,8 +77,20 @@ namespace ProfitTM.Models
                             {
                                 clients.Add(new Client()
                                 {
-                                    ID = reader["co_cli"].ToString(),
-                                    Name = reader["cli_des"].ToString()
+                                    ID = reader["co_cli"].ToString().Trim(),
+                                    Name = reader["cli_des"].ToString(),
+                                    Type = Type.GetTypeAdmin(connect, reader["tip_cli"].ToString(), "C"),
+                                    Zone = Zone.GetZone(connect, reader["co_zon"].ToString()),
+                                    Account = Account.GetAccount(connect, reader["co_cta_ingr_egr"].ToString()),
+                                    Country = Country.GetCountry(connect, reader["co_pais"].ToString()),
+                                    Segment = Segment.GetSegment(connect, reader["co_seg"].ToString()),
+                                    RIF = reader["rif"].ToString(),
+                                    Email = reader["email"].ToString(),
+                                    Phone = reader["telefonos"].ToString(),
+                                    Address = reader["direc1"].ToString(),
+                                    Seller = Seller.GetSeller(connect, reader["co_ven"].ToString()),
+                                    Cond = Cond.GetCond(connect, reader["cond_pag"].ToString()),
+                                    Contrib = bool.Parse(reader["contrib"].ToString())
                                 });
                             }
                         }

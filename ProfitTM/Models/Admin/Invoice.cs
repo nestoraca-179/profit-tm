@@ -95,13 +95,13 @@ namespace ProfitTM.Models
                                     Items = GetInvoiceItems(connect, reader["doc_num"].ToString(), type)
                                 };
 
+                                invoice.ExtraFields = new List<string>();
                                 for (int i = 1; i < 9; i++)
                                 {
                                     invoice.ExtraFields.Add(reader["campo" + i].ToString());
                                 }
 
                                 string PersonID = reader[name].ToString();
-
                                 if (invoiceSale)
                                 {
                                     invoice.InvoicePerson = Client.GetClient(connect, PersonID);

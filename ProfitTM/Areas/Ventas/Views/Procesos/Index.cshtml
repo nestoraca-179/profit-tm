@@ -14,21 +14,20 @@
             <div style="width: 100%;" class="alert alert-danger">@ViewBag.errorMessage</div>
         }
     }
-    <div ng-if="result" style="width: 100%;" class="{{ result.Class }}">{{ result.Message }}</div>
     <form action="" method="post">
         <div class="form-row">
             <div class="form-group col-sm-2">
                 <label for="option" style="margin: 0;">Seleccionar opción</label>
             </div>
             <div class="form-group col-sm-8">
-                <select ng-model="option" ng-change="setFunction(option)" name="option" ng-disabled="!options" onchange="change(this)">
+                <select id="select" ng-model="option" ng-change="setFunction(option)" ng-disabled="!options" onchange="change(this)">
                     <option value="#">Seleccione una opción...</option>
                     <option ng-repeat="opt in options" value="{{ opt.ID }}">{{ opt.Name }}</option>
                 </select>
                 <input type="hidden" name="function" value="{{ function }}" />
             </div>
             <div class="form-group col-sm-2">
-                <button type="submit" id="btn" class="btn btn-primary" disabled>Cargar opción</button>
+                <button type="submit" id="btn" class="btn btn-primary" onclick="blockFields()" disabled>Cargar opción</button>
             </div>
         </div>
     </form>
@@ -37,9 +36,9 @@
         if (ViewBag.results != "")
         {
             <div>
-                <button ng-if="modalAdd != null" type="button" class="btn btn-success" data-toggle="modal" data-target="#{{ modalAdd.Title }}">
+                @*<button ng-if="modalAdd != null" type="button" class="btn btn-success" data-toggle="modal" data-target="#{{ modalAdd.Title }}">
                     <i class="fas fa-plus"></i> Agregar nuevo
-                </button>
+                </button>*@
                 <button ng-if="name == 'Factura'" type="button" class="btn btn-primary" style="margin-left: 15px;" data-toggle="modal" data-target="#modalImportarPedido">
                     <i class="fas fa-exchange-alt"></i> Importar Pedido
                 </button>
@@ -71,19 +70,32 @@
                                         <div>
                                             @{
                                                 string id = result["ID"].ToString();
+                                                List<string> fields = new List<string>() { "items", "edit", "print" };
 
-                                                if (result["details"] == "True")
-                                                {
-                                                    <i role="button" ng-click="getDocItems('@id')" class="fas fa-search"></i>
-                                                }
-                                                if (result["edit"] == "True")
-                                                {
-                                                    <i role="button" ng-click="setLocation('@id')" class="fas fa-file-edit"></i>
-                                                }
-                                                if (result["delete"] == "True")
-                                                {
-                                                    <i role="button" @*onclick="deleteRow(this)"*@ class="fas fa-times"></i>
-                                                }
+                                                <div style="width: 33%;">
+                                                    @{
+                                                        if (result["items"] == "True")
+                                                        {
+                                                            <i role="button" ng-click="getDocItems('@id')" class="fas fa-search"></i>
+                                                        }
+                                                    }
+                                                </div>
+                                                <div style="width: 33%;">
+                                                    @{
+                                                        if (result["edit"] == "True")
+                                                        {
+                                                            <i role="button" ng-click="setLocation('@id')" class="fas fa-file-edit"></i>
+                                                        }
+                                                    }
+                                                </div>
+                                                <div style="width: 33%;">
+                                                    @{
+                                                        if (result["print"] == "True")
+                                                        {
+                                                            <i role="button" ng-click="printDoc('@id')" class="fas fa-print"></i>
+                                                        }
+                                                    }
+                                                </div>
                                             }
                                         </div>
                                     </td>
@@ -130,193 +142,193 @@
             </div>
             <!-- Modal Agregar Factura -->
             @*<div class="modal fade" id="modalFacturaAdd" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
-                <div class="modal-dialog" role="document" style="max-width: 800px;">
-                    <form action="" method="post" id="formFacturaAdd" class="modal-content" onsubmit="return false;">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Agregar Documento</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" style="max-height: 550px; overflow-y: auto;">
-                            <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <label>N° Documento</label>
-                                    <input type="text" id="idFacturaAdd" required ng-model="formAdd.ID" />
+                    <div class="modal-dialog" role="document" style="max-width: 800px;">
+                        <form action="" method="post" id="formFacturaAdd" class="modal-content" onsubmit="return false;">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Agregar Documento</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="max-height: 550px; overflow-y: auto;">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label>N° Documento</label>
+                                        <input type="text" id="idFacturaAdd" required ng-model="formAdd.ID" />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>N° Control</label>
+                                        <input type="text" id="controlFacturaAdd" required ng-model="formAdd.ControlNumber" />
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <label>N° Control</label>
-                                    <input type="text" id="controlFacturaAdd" required ng-model="formAdd.ControlNumber" />
+                                <div class="form-group row" style="margin-top: 10px">
+                                    <div class="col-sm-4 input-search">
+                                        <label>Cliente</label>
+                                        <input type="text" id="personFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="personFacturaAdd"></i>
+                                    </div>
+                                    <div class="col-sm-4 input-search">
+                                        <label>Vendedor</label>
+                                        <input type="text" id="sellerFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Seller.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaAdd"></i>
+                                    </div>
+                                    <div class="col-sm-4 input-search">
+                                        <label>Cond. Pago</label>
+                                        <input type="text" id="condFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Cond.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaAdd"></i>
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-top: 10px">
+                                    <div class="col-sm-3 input-search">
+                                        <label>Transporte</label>
+                                        <input type="text" id="transFacturaAdd" onfocus="this.blur()" style="max-width: 70%;" ng-model="formAdd.Transport.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaAdd"></i>
+                                    </div>
+                                    <div class="col-sm-4 input-search">
+                                        <label>Moneda</label>
+                                        <input type="text" id="monedaFacturaAdd" onfocus="this.blur()" style="max-width: 70%;" ng-model="formAdd.Currency.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaAdd"></i>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <label>Tasa</label>
+                                        <input type="text" id="tasaFacturaAdd" onkeypress="return (event.charCode > 47 && event.charCode < 58) || event.charCode == 46" ng-model="formAdd.Rate" />
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-top: 10px">
+                                    <div class="col-sm-4">
+                                        <label>Sub-Total</label>
+                                        <input type="text" id="subtotalFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.SubTotal" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>I.V.A</label>
+                                        <input type="text" id="ivaFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.IVA" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>Monto</label>
+                                        <input type="text" id="montoFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.Amount" />
+                                    </div>
+                                    <input type="hidden" id="tipoFacturaAdd" value="V" ng-model="formAdd.Type" />
+                                    <input type="hidden" id="dateFacturaAdd" value="" ng-model="formAdd.DateEmis" />
+                                    <input type="hidden" id="userInFacturaAdd" value="" ng-model="formAdd.UserIn" />
+                                    <input type="hidden" id="branchInFacturaAdd" value="" ng-model="formAdd.BranchIn" />
+                                </div>
+                                <div class="form-group row" style="margin-top: 10px">
+                                    <div class="col-sm-12">
+                                        <label>Items</label>
+                                        <table class="table table-bordered table-hover table-striped mt-3">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th style="vertical-align: middle; text-align: center;" scope="col">N° Reng</th>
+                                                    <th style="vertical-align: middle; text-align: center;" scope="col">Código</th>
+                                                    <th style="vertical-align: middle; text-align: center;" scope="col">Artículo</th>
+                                                    <th style="vertical-align: middle; text-align: center;" scope="col">Almacén</th>
+                                                    <th style="vertical-align: middle; text-align: center;" scope="col">Cantidad</th>
+                                                    <th style="vertical-align: middle; text-align: center;" scope="col">Monto Neto</th>
+                                                    <th style="vertical-align: middle; text-align: center;" scope="col">IVA</th>
+                                                    <th style="vertical-align: middle; text-align: center;" scope="col">Total Art.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="background: #FFF;">
+                                                <tr ng-repeat="item in formAdd.Items" style="cursor: pointer">
+                                                    <td>{{ item.Reng }}</td>
+                                                    <td>{{ item.Code }}</td>
+                                                    <td>{{ item.Name }}</td>
+                                                    <td>{{ item.Storage.ID }}</td>
+                                                    <td>{{ item.Quantity }}</td>
+                                                    <td>{{ format(item.Amount.toFixed(2)) }}</td>
+                                                    <td>{{ format(item.IVA.toFixed(2)) }}</td>
+                                                    <td>{{ format((item.Amount + item.IVA).toFixed(2)) }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row" style="margin-top: 10px">
-                                <div class="col-sm-4 input-search">
-                                    <label>Cliente</label>
-                                    <input type="text" id="personFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.InvoicePerson.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="personFacturaAdd"></i>
-                                </div>
-                                <div class="col-sm-4 input-search">
-                                    <label>Vendedor</label>
-                                    <input type="text" id="sellerFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Seller.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaAdd"></i>
-                                </div>
-                                <div class="col-sm-4 input-search">
-                                    <label>Cond. Pago</label>
-                                    <input type="text" id="condFacturaAdd" onfocus="this.blur()" style="max-width: 80%;" ng-model="formAdd.Cond.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaAdd"></i>
-                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary" ng-click="addInvoice()">Agregar</button>
                             </div>
-                            <div class="form-group row" style="margin-top: 10px">
-                                <div class="col-sm-3 input-search">
-                                    <label>Transporte</label>
-                                    <input type="text" id="transFacturaAdd" onfocus="this.blur()" style="max-width: 70%;" ng-model="formAdd.Transport.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaAdd"></i>
-                                </div>
-                                <div class="col-sm-4 input-search">
-                                    <label>Moneda</label>
-                                    <input type="text" id="monedaFacturaAdd" onfocus="this.blur()" style="max-width: 70%;" ng-model="formAdd.Currency.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaAdd"></i>
-                                </div>
-                                <div class="col-sm-5">
-                                    <label>Tasa</label>
-                                    <input type="text" id="tasaFacturaAdd" onkeypress="return (event.charCode > 47 && event.charCode < 58) || event.charCode == 46" ng-model="formAdd.Rate" />
-                                </div>
-                            </div>
-                            <div class="form-group row" style="margin-top: 10px">
-                                <div class="col-sm-4">
-                                    <label>Sub-Total</label>
-                                    <input type="text" id="subtotalFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.SubTotal" />
-                                </div>
-                                <div class="col-sm-4">
-                                    <label>I.V.A</label>
-                                    <input type="text" id="ivaFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.IVA" />
-                                </div>
-                                <div class="col-sm-4">
-                                    <label>Monto</label>
-                                    <input type="text" id="montoFacturaAdd" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formAdd.Amount" />
-                                </div>
-                                <input type="hidden" id="tipoFacturaAdd" value="V" ng-model="formAdd.Type" />
-                                <input type="hidden" id="dateFacturaAdd" value="" ng-model="formAdd.DateEmis" />
-                                <input type="hidden" id="userInFacturaAdd" value="" ng-model="formAdd.UserIn" />
-                                <input type="hidden" id="branchInFacturaAdd" value="" ng-model="formAdd.BranchIn" />
-                            </div>
-                            <div class="form-group row" style="margin-top: 10px">
-                                <div class="col-sm-12">
-                                    <label>Items</label>
-                                    <table class="table table-bordered table-hover table-striped mt-3">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th style="vertical-align: middle; text-align: center;" scope="col">N° Reng</th>
-                                                <th style="vertical-align: middle; text-align: center;" scope="col">Código</th>
-                                                <th style="vertical-align: middle; text-align: center;" scope="col">Artículo</th>
-                                                <th style="vertical-align: middle; text-align: center;" scope="col">Almacén</th>
-                                                <th style="vertical-align: middle; text-align: center;" scope="col">Cantidad</th>
-                                                <th style="vertical-align: middle; text-align: center;" scope="col">Monto Neto</th>
-                                                <th style="vertical-align: middle; text-align: center;" scope="col">IVA</th>
-                                                <th style="vertical-align: middle; text-align: center;" scope="col">Total Art.</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="background: #FFF;">
-                                            <tr ng-repeat="item in formAdd.Items" style="cursor: pointer">
-                                                <td>{{ item.Reng }}</td>
-                                                <td>{{ item.Code }}</td>
-                                                <td>{{ item.Name }}</td>
-                                                <td>{{ item.Storage.ID }}</td>
-                                                <td>{{ item.Quantity }}</td>
-                                                <td>{{ format(item.Amount.toFixed(2)) }}</td>
-                                                <td>{{ format(item.IVA.toFixed(2)) }}</td>
-                                                <td>{{ format((item.Amount + item.IVA).toFixed(2)) }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" ng-click="addInvoice()">Agregar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>*@
+                        </form>
+                    </div>
+                </div>*@
             <!-- Modal Editar Factura -->
             @*<div class="modal fade" id="modalFacturaEdit" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document" style="max-width: 800px;">
-                    <form action="" method="post" id="formFacturaEdit" class="modal-content" onsubmit="return false;">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Editar Documento</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <label>N° Documento</label>
-                                    <input type="text" id="idFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.ID" />
+                    <div class="modal-dialog" role="document" style="max-width: 800px;">
+                        <form action="" method="post" id="formFacturaEdit" class="modal-content" onsubmit="return false;">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Documento</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label>N° Documento</label>
+                                        <input type="text" id="idFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.ID" />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>N° Control</label>
+                                        <input type="text" id="controlFacturaEdit" ng-model="formEdit.ControlNumber" />
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <label>N° Control</label>
-                                    <input type="text" id="controlFacturaEdit" ng-model="formEdit.ControlNumber" />
+                                <div class="form-group row" style="margin-top: 30px">
+                                    <div class="col-sm-4 input-search">
+                                        <label>Cliente</label>
+                                        <input type="text" id="personFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="personFacturaEdit"></i>
+                                    </div>
+                                    <div class="col-sm-4 input-search">
+                                        <label>Vendedor</label>
+                                        <input type="text" id="sellerFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Seller.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaEdit"></i>
+                                    </div>
+                                    <div class="col-sm-4 input-search">
+                                        <label>Cond. Pago</label>
+                                        <input type="text" id="condFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Cond.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaEdit"></i>
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-top: 30px">
+                                    <div class="col-sm-3 input-search">
+                                        <label>Transporte</label>
+                                        <input type="text" id="transFacturaEdit" onfocus="this.blur()" style="max-width: 70%;" ng-model="formEdit.Transport.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaEdit"></i>
+                                    </div>
+                                    <div class="col-sm-4 input-search">
+                                        <label>Moneda</label>
+                                        <input type="text" id="monedaFacturaEdit" onfocus="this.blur()" style="max-width: 70%;" ng-model="formEdit.Currency.ID" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaEdit"></i>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <label>Tasa</label>
+                                        <input type="text" id="tasaFacturaEdit" onkeypress="return event.keyCode != 188" ng-model="formEdit.Rate" />
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="margin-top: 30px">
+                                    <div class="col-sm-4">
+                                        <label>Sub-Total</label>
+                                        <input type="text" id="subtotalFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.SubTotal" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>I.V.A</label>
+                                        <input type="text" id="ivaFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.IVA" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>Monto Total</label>
+                                        <input type="text" id="montoFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.Amount" />
+                                    </div>
+                                    <input type="hidden" id="tipoFacturaEdit" value="" ng-model="formEdit.Type" />
+                                    <input type="hidden" id="dateFacturaEdit" value="" ng-model="formEdit.DateEmis" />
                                 </div>
                             </div>
-                            <div class="form-group row" style="margin-top: 30px">
-                                <div class="col-sm-4 input-search">
-                                    <label>Cliente</label>
-                                    <input type="text" id="personFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="personFacturaEdit"></i>
-                                </div>
-                                <div class="col-sm-4 input-search">
-                                    <label>Vendedor</label>
-                                    <input type="text" id="sellerFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Seller.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaEdit"></i>
-                                </div>
-                                <div class="col-sm-4 input-search">
-                                    <label>Cond. Pago</label>
-                                    <input type="text" id="condFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Cond.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaEdit"></i>
-                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary" ng-click="editInvoice()">Actualizar</button>
                             </div>
-                            <div class="form-group row" style="margin-top: 30px">
-                                <div class="col-sm-3 input-search">
-                                    <label>Transporte</label>
-                                    <input type="text" id="transFacturaEdit" onfocus="this.blur()" style="max-width: 70%;" ng-model="formEdit.Transport.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaEdit"></i>
-                                </div>
-                                <div class="col-sm-4 input-search">
-                                    <label>Moneda</label>
-                                    <input type="text" id="monedaFacturaEdit" onfocus="this.blur()" style="max-width: 70%;" ng-model="formEdit.Currency.ID" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaEdit"></i>
-                                </div>
-                                <div class="col-sm-5">
-                                    <label>Tasa</label>
-                                    <input type="text" id="tasaFacturaEdit" onkeypress="return event.keyCode != 188" ng-model="formEdit.Rate" />
-                                </div>
-                            </div>
-                            <div class="form-group row" style="margin-top: 30px">
-                                <div class="col-sm-4">
-                                    <label>Sub-Total</label>
-                                    <input type="text" id="subtotalFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.SubTotal" />
-                                </div>
-                                <div class="col-sm-4">
-                                    <label>I.V.A</label>
-                                    <input type="text" id="ivaFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.IVA" />
-                                </div>
-                                <div class="col-sm-4">
-                                    <label>Monto Total</label>
-                                    <input type="text" id="montoFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.Amount" />
-                                </div>
-                                <input type="hidden" id="tipoFacturaEdit" value="" ng-model="formEdit.Type" />
-                                <input type="hidden" id="dateFacturaEdit" value="" ng-model="formEdit.DateEmis" />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" ng-click="editInvoice()">Actualizar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>*@
+                        </form>
+                    </div>
+                </div>*@
             <!-- Modal Items Documento -->
             <div class="modal fade" id="modalDocumentoItems" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document" style="max-width: 800px;">
@@ -542,7 +554,6 @@
 <script src="~/Content/angular-min.js"></script>
 <script>
     var app = angular.module("Process", []);
-    var modals = @Html.Raw(Json.Encode(@ViewBag.modals));
     var documents = @Html.Raw(Json.Encode(@ViewBag.documents));
     var numberOrder = "";
 
@@ -550,7 +561,6 @@
 
         $scope.option = "#";
         $scope.name = '@ViewBag.function';
-        $scope.modalAdd = modals.find(m => m.ModalType == "A");
 
         $http.get("/api/ProfitTMApi/GetOptions/Mod/VENT/Type/P")
             .then(function (response) {
@@ -562,7 +572,6 @@
         $scope.format = (number) => new Intl.NumberFormat().format(number);
 
         $scope.setFunction = function (id) {
-
             $scope.function = $scope.options.find(o => o.ID == id).Function;
         }
 
@@ -603,101 +612,16 @@
             location.href = "/Ventas/Procesos/Editar" + $scope.name + "?id=" + id;
         }
 
-        /*
-        $scope.addInvoice = function () {
-
-            if ($("#formFacturaAdd")[0].checkValidity()) {
-
-                var value = "";
-                var str = $scope.formAdd.DateEmis.toString().replaceAll("/", "");
-
-                eval("value = new " + str);
-                var timeOffset = value.getTimezoneOffset() * 60000;
-
-                $scope.formAdd.Type = "V";
-                $scope.formAdd.DateEmis = new Date(value.getTime() - timeOffset).toUTCString();
-                console.log($scope.formAdd);
-
-                var req = {
-                    method: 'POST',
-                    url: '/api/ProfitTMApi/AddInvoice/' + numberOrder,
-                    data: $scope.formAdd,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }
-
-                $http(req).then(function (response) {
-
-                    console.log(response.data);
-                    $scope.result = response.data;
-
-                    $("#modalFacturaAdd").modal("hide");
-                    if ($scope.result.Status == "OK") {
-
-                        $scope.result.Class = "alert alert-success";
-                        $scope.result.Message = "Documento agregado con éxito";
-
-                        setTimeout(() => location.href = "/Ventas/Procesos/", 2000);
-
-                    } else
-                        $scope.result.Class = "alert alert-danger";
-
-                    $(".modal .btn.btn-primary").prop('disabled', '');
-                });
-            }
-
+        $scope.printDoc = function (id) {
+            location.href = "/Ventas/Procesos/Imprimir" + $scope.name + "?id=" + id;
         }
-
-        $scope.editInvoice = function () {
-
-            if ($("#formFacturaEdit")[0].checkValidity()) {
-
-                var modalEdit = modals.find(m => m.ModalType == "E").Title;
-
-                var value = new Date(Date.parse($("#formFacturaEdit input[id=dateFacturaEdit]").val()));
-                var timeOffset = value.getTimezoneOffset() * 60000;
-
-                $(".modal .btn.btn-primary").prop('disabled', 'true');
-                $("#formFacturaEdit input, #formFacturaEdit textarea").change();
-
-                $scope.formEdit.DateEmis = new Date(value.getTime() - timeOffset).toUTCString();
-                $scope.formEdit.Type = $("#formFacturaEdit input[id=tipoFacturaEdit]").val();
-
-                console.log($scope.formEdit);
-
-                var req = {
-                    method: 'POST',
-                    url: '/api/ProfitTMApi/EditInvoice/',
-                    data: $scope.formEdit,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }
-
-                $http(req).then(function (response) {
-
-                    console.log(response.data);
-                    $scope.result = response.data;
-
-                    $("#" + modalEdit).modal("hide");
-                    if ($scope.result.Status == "OK") {
-
-                        $scope.result.Class = "alert alert-success";
-                        $scope.result.Message = "Documento modificado con éxito";
-
-                        setTimeout(() => location.href = "/Ventas/Procesos/", 2000);
-
-                    } else
-                        $scope.result.Class = "alert alert-danger";
-
-                    $(".modal .btn.btn-primary").prop('disabled', '');
-                });
-            }
-        }
-        */
 
     });
+
+    function blockFields () {
+        $("#btn").prop("disabled", "true");
+        $("#select").prop("disabled", "true");
+    }
 
     function change(elem) {
 

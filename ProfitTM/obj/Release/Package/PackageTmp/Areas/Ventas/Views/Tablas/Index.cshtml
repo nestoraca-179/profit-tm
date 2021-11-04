@@ -3,25 +3,31 @@
     ViewData["home"] = Session["home"];
 }
 <style>
-    .container{
+    .dash-right-side .container {
         max-width: 100%;
     }
 </style>
 <div class="container container-option" ng-app="Tables" ng-controller="controller">
-    <div ng-if="result" style="width: 100%;" class="{{ result.Class }}">{{ result.Message }}</div>
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.errorMessage))
+        {
+            <div style="width: 100%;" class="alert alert-danger">@ViewBag.errorMessage</div>
+        }
+    }
     <form action="" method="post">
         <div class="form-row">
             <div class="form-group col-sm-2">
                 <label for="option" style="margin: 0;">Seleccionar opción</label>
             </div>
             <div class="form-group col-sm-8">
-                <select id="option" name="option" onchange="change(this)">
+                <select id="select" ng-model="option" ng-change="setFunction(option)" ng-disabled="!options" onchange="change(this)">
                     <option value="#">Seleccione una opción...</option>
-                    <option value="0">Cliente</option>
+                    <option ng-repeat="opt in options" value="{{ opt.ID }}">{{ opt.Name }}</option>
                 </select>
+                <input type="hidden" name="function" value="{{ function }}" />
             </div>
             <div class="form-group col-sm-2">
-                <button type="submit" id="btn" class="btn btn-primary" disabled>Cargar opción</button>
+                <button type="submit" id="btn" class="btn btn-primary" onclick="blockFields()" disabled>Cargar opción</button>
             </div>
         </div>
     </form>
@@ -30,7 +36,7 @@
         if (ViewBag.results != "")
         {
             <div>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalClienteAdd">
+                <button type="button" class="btn btn-success" @*data-toggle="modal" data-target="#modalClienteAdd"*@>
                     <i class="fas fa-plus"></i> Agregar nuevo
                 </button>
             </div>
@@ -59,8 +65,11 @@
                                     }
                                     <td class="cell-icons" scope="col">
                                         <div>
-                                            <i role="button" onclick="editRow(this)" class="fas fa-file-edit"></i>
-                                            <i role="button" onclick="deleteRow(this)" class="fas fa-times"></i>
+                                            @{
+                                                string id = result["ID"].ToString();
+
+                                                <i role="button" ng-click="setLocation('@id')" class="fas fa-file-edit"></i>
+                                            }
                                         </div>
                                     </td>
                                 }
@@ -461,6 +470,30 @@
 
     app.controller("controller", function ($scope, $http) {
 
+        $scope.option = "#";
+        $scope.name = '@ViewBag.function';
+
+        $http.get("/api/ProfitTMApi/GetOptions/Mod/VENT/Type/T")
+            .then(function (response) {
+
+                console.log(response.data);
+                $scope.options = response.data.Result;
+            });
+
+        $scope.format = (number) => new Intl.NumberFormat().format(number);
+
+        $scope.setFunction = function (id) {
+            $scope.function = $scope.options.find(o => o.ID == id).Function;
+        }
+
+        $scope.setLocation = function (id) {
+            location.href = "/Ventas/Tablas/Editar" + $scope.name + "?id=" + id;
+        }
+
+    });
+
+    /*app.controller("controller", function ($scope, $http) {
+
         $scope.formAdd = {};
         $scope.formEdit = {};
         $scope.idDelete = "0";
@@ -568,7 +601,12 @@
                 });
         }
 
-    });
+    });*/
+
+    function blockFields() {
+        $("#btn").prop("disabled", "true");
+        $("#select").prop("disabled", "true");
+    }
 
     function change(elem) {
 
@@ -635,35 +673,6 @@
         } else {
             alert("Debes seleccionar un item");
         }
-    }
-
-    function editRow(elem) {
-        var cells = $(elem).closest('tr')[0].cells;
-
-        var codigo = cells[0].innerHTML,
-            rif = cells[1].innerHTML,
-            nombre = cells[2].innerHTML,
-            direccion = cells[3].innerHTML,
-            telefono = cells[4].innerHTML,
-            email = cells[5].innerHTML;
-
-        $("#codigoEdit").val(codigo);
-        $("#rifEdit").val(rif);
-        $("#nombreEdit").val(nombre);
-        $("#direccionEdit").val(direccion);
-        $("#telefonoEdit").val(telefono);
-        $("#emailEdit").val(email);
-
-        $("#modalClienteEdit").modal("show");
-    }
-
-    function deleteRow(elem) {
-        var cells = $(elem).closest('tr')[0].cells;
-
-        var codigo = cells[0].innerHTML;
-
-        $("#codigoDelete").val(codigo.trim());
-        $("#modalClienteDelete").modal("show");
     }
 
 </script>

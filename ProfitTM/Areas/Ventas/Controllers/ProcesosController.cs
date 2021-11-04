@@ -1,5 +1,4 @@
-﻿using ProfitTM.Controllers;
-using ProfitTM.Models;
+﻿using ProfitTM.Models;
 using ProfitTM.Enum;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,7 +9,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
 {
     public class ProcesosController : Controller
     {
-        public ActionResult Index(string option = "", string function = "")
+        public ActionResult Index(string function = "")
         {
             ViewBag.user = Session["user"];
             ViewBag.options = Session["options"];
@@ -24,7 +23,6 @@ namespace ProfitTM.Areas.Ventas.Controllers
             {
                 string connect = Session["connect"].ToString();
 
-                List<Modal> modals = Option.GetModals(option);
                 List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
 
                 NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
@@ -34,7 +32,6 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 if (function == EnumLoadFunction.INVOICEV || function == EnumLoadFunction.INVOICEPV)
                 {
                     string type = function == EnumLoadFunction.INVOICEV ? "V" : "PV";
-
                     List<Invoice> invoices = Invoice.GetAllInvoices(connect, type), orders = Invoice.GetAllInvoices(connect, "PV");
 
                     if (invoices != null && orders != null)
@@ -64,24 +61,33 @@ namespace ProfitTM.Areas.Ventas.Controllers
                             if (type == "V")
                             {
                                 if (invoice.Printed)
+                                {
                                     item.Add("Impresa", "SI");
+                                    item.Add("edit", "False");
+                                }
                                 else
+                                {
                                     item.Add("Impresa", "NO");
-                            }
 
-                            if (invoice.Status == 0 && !invoice.Printed)
+                                    if (invoice.Status == 0)
+                                        item.Add("edit", "True");
+                                    else
+                                        item.Add("edit", "False");
+                                }
+
+                                item.Add("print", "True");
+                            }
+                            else if (type == "PV")
                             {
-                                item.Add("edit", "True");
-                                item.Add("delete", "False");
-                            }
-                            else
-                            {
-                                item.Add("edit", "False");
-                                item.Add("delete", "False");
+                                if (invoice.Status == 0)
+                                    item.Add("edit", "True");
+                                else
+                                    item.Add("edit", "False");
+
+                                item.Add("print", "False");
                             }
 
-                            item.Add("details", "True");
-
+                            item.Add("items", "True");
                             results.Add(item);
                         }
 
@@ -111,39 +117,6 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 else
                 {
                     ViewBag.results = "";
-                }
-
-                ViewBag.clients = Client.GetAllClients(connect);
-                ViewBag.conds = Cond.GetAllConds(connect);
-                ViewBag.sellers = Seller.GetAllSellers(connect);
-                ViewBag.transports = Transport.GetAllTransports(connect);
-                ViewBag.currencies = Currency.GetAllCurrencies(connect);
-
-                ViewBag.modals = modals;
-                ViewBag.formato = formato;
-
-                return View();
-            }
-        }
-
-        public ActionResult ImportarPedido(string id = "")
-        {
-            ViewBag.user = Session["user"];
-            ViewBag.options = Session["options"];
-
-            if (ViewBag.user == null)
-            {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
-            }
-            else
-            {
-                string connect = Session["connect"].ToString();
-
-                if (id != "")
-                {
-                    Invoice order = Invoice.GetInvoice(connect, id, "PV");
-                    ViewBag.order = order;
                 }
 
                 ViewBag.clients = Client.GetAllClients(connect);
@@ -186,6 +159,24 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
         }
 
+        public ActionResult ImprimirFactura(string id)
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
+
+            ViewBag.report = id;
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         public ActionResult EditarPedido(string id = "")
         {
             ViewBag.user = Session["user"];
@@ -216,12 +207,10 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
         }
 
-        public ActionResult ImprimirFactura(string id)
+        public ActionResult ImportarPedido(string id = "")
         {
             ViewBag.user = Session["user"];
             ViewBag.options = Session["options"];
-
-            ViewBag.report = id;
 
             if (ViewBag.user == null)
             {
@@ -230,6 +219,20 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
+                string connect = Session["connect"].ToString();
+
+                if (id != "")
+                {
+                    Invoice order = Invoice.GetInvoice(connect, id, "PV");
+                    ViewBag.order = order;
+                }
+
+                ViewBag.clients = Client.GetAllClients(connect);
+                ViewBag.conds = Cond.GetAllConds(connect);
+                ViewBag.sellers = Seller.GetAllSellers(connect);
+                ViewBag.transports = Transport.GetAllTransports(connect);
+                ViewBag.currencies = Currency.GetAllCurrencies(connect);
+
                 return View();
             }
         }

@@ -58,6 +58,10 @@ select {
     padding: 10px;
     font-size: 14px;
     border-radius: 5px;
+    background: #FFF;
+}
+select[disabled] {
+    background: #DDD;
 }
 textarea {
     padding: 10px;
@@ -418,7 +422,7 @@ form.modal-content {
     position: relative;
     padding: 0 !important;
 }
-.cell-icons div {
+.cell-icons > div {
     width: 100%;
     height: 100%;
     display: flex;
@@ -426,8 +430,8 @@ form.modal-content {
     align-items: center;
     position: absolute;
 }
-.cell-icons div i {
-    width: 33%;
+.cell-icons > div i {
+    width: 100%;
     text-align: center;
     cursor: pointer;
 }
