@@ -40,7 +40,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                             item.Add("ID", client.ID);
                             item.Add("RIF", client.RIF);
                             item.Add("Client", client.Name);
-                            item.Add("Address", client.Address);
+                            item.Add("Address", client.Address1);
                             item.Add("Phone", client.Phone);
                             item.Add("Email", client.Email);
 
@@ -49,21 +49,21 @@ namespace ProfitTM.Areas.Ventas.Controllers
 
                         ViewBag.function = "Cliente";
                         ViewBag.headers = "Codigo,RIF,Nombre,Direccion,Telefono,Email";
-                        ViewBag.cols = "ID,RIF,Client,Address,Phone,Email";
-                        ViewBag.resultsTable = results;
+                        ViewBag.columns = "ID,RIF,Client,Address,Phone,Email";
+                        ViewBag.results = results;
                     }
                     else
                     {
-                        ViewBag.errorMessage = "Error cargando documentos";
-                        ViewBag.results = "";
+                        ViewBag.error = "Error cargando documentos";
+                        ViewBag.results = null;
                     }
                 }
                 else
                 {
-                    ViewBag.results = "";
+                    ViewBag.function = "";
                 }
 
-                ViewBag.types = Type.GetAllTypesAdmin(connect, "C");
+                ViewBag.types = TypePerson.GetAllTypesAdmin(connect, "C");
                 ViewBag.zones = Zone.GetAllZones(connect);
                 ViewBag.accounts = Account.GetAllAccounts(connect);
                 ViewBag.countries = Country.GetAllCountries(connect);
@@ -75,6 +75,35 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
         }
     
+        public ActionResult Cliente()
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.options = Session["options"];
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else
+            {
+                string connect = Session["connect"].ToString();
+                List<Client> clients = Client.GetAllClients(connect);
+
+                ViewBag.clients = clients;
+
+                ViewBag.conds = Cond.GetAllConds(connect);
+                ViewBag.sellers = Seller.GetAllSellers(connect);
+                ViewBag.zones = Zone.GetAllZones(connect);
+                ViewBag.accounts = Account.GetAllAccounts(connect);
+                ViewBag.countries = Country.GetAllCountries(connect);
+                ViewBag.segments = Segment.GetAllSegments(connect);
+                ViewBag.types = TypePerson.GetAllTypesAdmin(connect, "C");
+
+                return View();
+            }
+        }
+        
         public ActionResult EditarCliente(string id = "")
         {
             ViewBag.user = Session["user"];

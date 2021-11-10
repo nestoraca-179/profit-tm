@@ -27,7 +27,7 @@ namespace ProfitTM.Areas.Compras.Controllers
                 ProfitTMResponse result;
 
                 ViewBag.results = option;
-                ViewBag.types = Type.GetAllTypesAdmin(connect, "P");
+                ViewBag.types = TypePerson.GetAllTypesAdmin(connect, "P");
                 ViewBag.zones = Zone.GetAllZones(connect);
                 ViewBag.accounts = Account.GetAllAccounts(connect);
                 ViewBag.countries = Country.GetAllCountries(connect);

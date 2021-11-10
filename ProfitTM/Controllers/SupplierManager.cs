@@ -40,7 +40,7 @@ namespace ProfitTM.Controllers
             query.Append("@sRif = '" + supplier.RIF + "', ");
             query.Append("@sEmail = '" + supplier.Email + "', ");
             query.Append("@sTelefonos = '" + supplier.Phone + "', ");
-            query.Append("@sDirec1 = '" + supplier.Address + "', ");
+            query.Append("@sDirec1 = '" + supplier.Address1 + "', ");
             query.Append("@sCo_Cta_Ingr_Egr = '" + supplier.Account + "', ");
             query.Append("@sCo_Tab = null, @bRete_Regis_Doc = 0, @sCo_Us_In = '', @sCo_Sucu_In = '', @sRevisado = null, @sTrasnfe = null, @iTipo_Adi = 1");
 
@@ -85,7 +85,7 @@ namespace ProfitTM.Controllers
             query.Append("rif = '" + supplier.RIF + "', ");
             query.Append("email = '" + supplier.Email + "', ");
             query.Append("telefonos = '" + supplier.Phone + "', ");
-            query.Append("direc1 = '" + supplier.Address + "' ");
+            query.Append("direc1 = '" + supplier.Address1 + "' ");
             query.Append("WHERE co_prov = '" + supplier.ID + "'");
 
             try

@@ -29,7 +29,7 @@ namespace ProfitTM.Models
                                 {
                                     ID = reader["co_prov"].ToString().Trim(),
                                     Name = reader["prov_des"].ToString(),
-                                    Type = Type.GetTypeAdmin(connect, reader["tip_pro"].ToString(), "P"),
+                                    Type = TypePerson.GetTypeAdmin(connect, reader["tip_pro"].ToString(), "P"),
                                     Zone = Zone.GetZone(connect, reader["co_zon"].ToString()),
                                     Account = Account.GetAccount(connect, reader["co_cta_ingr_egr"].ToString()),
                                     Country = Country.GetCountry(connect, reader["co_pais"].ToString()),
@@ -37,7 +37,7 @@ namespace ProfitTM.Models
                                     RIF = reader["rif"].ToString(),
                                     Email = reader["telefonos"].ToString(),
                                     Phone = reader["email"].ToString(),
-                                    Address = reader["direc1"].ToString(),
+                                    Address1 = reader["direc1"].ToString(),
                                     Contrib = bool.Parse(reader["contribu_e"].ToString())
                                 };
                             }

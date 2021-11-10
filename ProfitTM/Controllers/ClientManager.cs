@@ -40,7 +40,7 @@ namespace ProfitTM.Controllers
             query.Append("@sRif = '" + client.RIF + "', ");
             query.Append("@sEmail = '" + client.Email + "', ");
             query.Append("@sTelefonos = '" + client.Phone + "', ");
-            query.Append("@sDirec1 = '" + client.Address + "', ");
+            query.Append("@sDirec1 = '" + client.Address1 + "', ");
             query.Append("@sCo_Cta_Ingr_Egr = '" + client.Account + "', ");
             query.Append("@sCo_Ven = '" + client.Seller + "', ");
             query.Append("@sCond_Pag = '" + client.Cond + "', ");
@@ -88,7 +88,7 @@ namespace ProfitTM.Controllers
             query.Append("rif = '" + client.RIF + "', ");
             query.Append("email = '" + client.Email + "', ");
             query.Append("telefonos = '" + client.Phone + "', ");
-            query.Append("direc1 = '" + client.Address + "' ");
+            query.Append("direc1 = '" + client.Address1 + "' ");
             query.Append("WHERE co_cli = '" + client.ID + "'");
 
             try

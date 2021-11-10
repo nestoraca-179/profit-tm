@@ -5,14 +5,14 @@ using System.Data.SqlClient;
 
 namespace ProfitTM.Models
 {
-    public class Type
+    public class TypePerson
     {
         public string ID { get; set; }
         public string Name { get; set; }
 
-        public static Type GetTypeAdmin(string connect, string ID, string typePerson)
+        public static TypePerson GetTypeAdmin(string connect, string ID, string typePerson)
         {
-            Type type;
+            TypePerson type;
             string table = "", field = "";
            
             switch (typePerson)
@@ -43,7 +43,7 @@ namespace ProfitTM.Models
                         {
                             if (reader.Read())
                             {
-                                type = new Type()
+                                type = new TypePerson()
                                 {
                                     ID = reader[field].ToString().Trim(),
                                     Name = reader["des_tipo"].ToString()
@@ -65,9 +65,9 @@ namespace ProfitTM.Models
             return type;
         }
 
-        public static List<Type> GetAllTypesAdmin(string connect, string typePerson)
+        public static List<TypePerson> GetAllTypesAdmin(string connect, string typePerson)
         {
-            List<Type> types = new List<Type>();
+            List<TypePerson> types = new List<TypePerson>();
             string table = "", field = "";
 
             switch (typePerson)
@@ -98,7 +98,7 @@ namespace ProfitTM.Models
                         {
                             while (reader.Read())
                             {
-                                types.Add(new Type()
+                                types.Add(new TypePerson()
                                 {
                                     ID = reader[field].ToString(),
                                     Name = reader["des_tipo"].ToString()

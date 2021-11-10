@@ -82,9 +82,13 @@ textarea {
     max-width: 80%;
 }
 .input-search i {
+    width: 35px;
+    height: 35px;
     background: #01579b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #FFF;
-    padding: 10px;
     border: solid 2px #0277bd;
     border-radius: 5px;
     cursor: pointer;
@@ -115,7 +119,7 @@ body {
     background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(18,122,209,1) 0%, rgba(62,201,221,1) 100%);
 }
 body > .container-fluid{
-    height: 90%;
+    height: 95%;
     position: absolute;
 }
 body > .container-fluid > main{
@@ -123,7 +127,7 @@ body > .container-fluid > main{
 }
 body > .footer {
     width: 100%;
-    height: 10%;
+    height: 5%;
     position: absolute;
     bottom: 0;
     z-index: 200;
@@ -337,7 +341,9 @@ input#username::placeholder, input#pass::placeholder {
 .reports-container h3{
     text-align: center;
 }
+
 /* SECCION REPORTES */
+
 .filters select, .col-sm-4 select{
     width: 300px;
 }
@@ -393,8 +399,6 @@ input#username::placeholder, input#pass::placeholder {
 .container-option{
     width: 100%;
     height: 100%;
-    /*position: absolute;
-    left: 7%;*/
     padding: 20px;
 }
 .form-group{

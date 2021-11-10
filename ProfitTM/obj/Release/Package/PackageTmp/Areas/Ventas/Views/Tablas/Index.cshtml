@@ -9,9 +9,9 @@
 </style>
 <div class="container container-option" ng-app="Tables" ng-controller="controller">
     @{
-        if (!string.IsNullOrEmpty(ViewBag.errorMessage))
+        if (!string.IsNullOrEmpty(ViewBag.error))
         {
-            <div style="width: 100%;" class="alert alert-danger">@ViewBag.errorMessage</div>
+            <div style="width: 100%;" class="alert alert-danger">@ViewBag.error</div>
         }
     }
     <form action="" method="post">
@@ -33,7 +33,7 @@
     </form>
     <hr />
     @{
-        if (ViewBag.results != "")
+        if (ViewBag.function != "")
         {
             <div>
                 <button type="button" class="btn btn-success" @*data-toggle="modal" data-target="#modalClienteAdd"*@>
@@ -467,11 +467,14 @@
 <script src="~/Content/angular-min.js"></script>
 <script>
     var app = angular.module("Tables", []);
+    var results = @Html.Raw(Json.Encode(@ViewBag.results));
+    console.log(results);
 
     app.controller("controller", function ($scope, $http) {
 
         $scope.option = "#";
         $scope.name = '@ViewBag.function';
+        console.log($scope.name);
 
         $http.get("/api/ProfitTMApi/GetOptions/Mod/VENT/Type/T")
             .then(function (response) {
