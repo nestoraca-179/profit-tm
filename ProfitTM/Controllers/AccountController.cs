@@ -63,7 +63,8 @@ namespace ProfitTM.Controllers
         {
             FormsAuthentication.SignOut();
             Session["user"] = null;
-            Session["options"] = null;
+            Session["connect"] = null;
+            Session["modules"] = null;
 
             if (msg != "")
             {

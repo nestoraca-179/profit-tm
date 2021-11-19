@@ -216,6 +216,7 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepStockArticulos.re
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepArticulosTodoStock.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepClienteMasVenta.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepFacturaVentaxArt.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepFormatoFacturaVenta.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepTotalVentaxArticulo.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.GenerateResource.cache
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll.licenses
@@ -223,4 +224,3 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.Core
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.CopyComplete
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.pdb
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepFormatoFacturaVenta.resources

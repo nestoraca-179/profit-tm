@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="container-fluid p-0">
-        <main role="main" @*class="pb-3"*@>
+        <main role="main">
             <header class="container-fluid">
                 <div class="row">
                     <div class="col-sm-2 header-left-side text-white">
@@ -38,11 +38,9 @@
                     <div class="dash-left-side border-right p-0" id="menu-left">
                         <ul class="list-menu dropright">
                             @{
-                                foreach (var item in ViewBag.options)
+                                foreach (var item in ViewBag.modules)
                                 {
-                                    string disTable = item.UrlTable == "#" ? "disabled" : "";
-                                    string disProcess = item.UrlProcess == "#" ? "disabled" : "";
-                                    string disReport = item.UrlReport == "#" ? "disabled" : "";
+                                    string disReport = item.ReportURL == "#" ? "disabled" : "";
 
                                     <li class="menu-item" onclick="print(this)">
                                         <i class="@item.Icon"></i>
@@ -50,16 +48,26 @@
                                         <i class="fas fa-caret-up"></i>
                                     </li>
                                     <div class="myDropdown">
-                                        <a class="dropdown-item @disTable" href="@item.UrlTable"><i class="fas fa-table"></i>  Tablas</a>
-                                        <a class="dropdown-item @disProcess" href="@item.UrlProcess"><i class="fas fa-sync-alt"></i>  Procesos</a>
-                                        <a class="dropdown-item @disReport" href="@item.UrlReport"><i class="fas fa-file"></i>  Reportes</a>
+                                        @{
+                                            foreach (var elem in item.Options)
+                                            {
+                                                string disabled = elem.Enabled ? "" : "disabled";
+
+                                                <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.Name</a>
+                                            }
+                                        }
+                                        <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
                                     </div>
                                 }
                             }
-                            <li class="menu-item">
+                            <li class="menu-item" onclick="print(this)">
                                 <i class="fas fa-cog fa-spin"></i>
                                 <p class="mb-0 ml-3">Configuración</p>
+                                <i class="fas fa-caret-up"></i>
                             </li>
+                            <div class="myDropdown">
+                                <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
+                            </div>
                         </ul>
                     </div>
                     <div class="dash-right-side">
@@ -104,28 +112,6 @@
 
             }
         });
-
-        //$(document).on("mousedown", function (event) {
-
-        //    var classes = event.target.classList;
-
-        //    if (!classes.contains("fas") && !classes.contains("menu-item") && !classes.contains("myDropdown") && !classes.contains("dropdown-item")) {
-
-        //        if ($(".selected")[0] != null) {
-
-        //            if (node != null) {
-        //                node.classList.remove("selected");
-        //                node = null;
-        //            }
-
-        //            var elems = document.getElementsByClassName("myDropdown");
-
-        //            for (var item of elems) {
-        //                $(item).animate({ width: 'hide' });
-        //            }
-        //        }
-        //    }
-        //});
 
         btn.addEventListener("click", hide);
 

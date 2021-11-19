@@ -21,19 +21,6 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // BUSCAR OPCIONES
-        [HttpGet]
-        [Route("api/ProfitTMApi/GetOptions/Mod/{mod}/Type/{type}")]
-        public ProfitTMResponse GetOptions(string mod, char type)
-        {
-            ProfitTMResponse response;
-            SQLController sqlController = new SQLController("MainConnection");
-
-            response = sqlController.getOptions(mod, type);
-
-            return response;
-        }
-
         // PROVEEDOR
 
         [HttpPost]

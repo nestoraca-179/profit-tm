@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.UI.WebControls;
 
 namespace ProfitTM.Models
 {
@@ -23,6 +22,7 @@ namespace ProfitTM.Models
         public string DelAddress { get; set; }
         public double Amount { get; set; }
         public Cond Cond { get; set; }
+        public int PlazPag { get; set; }
         public string City { get; set; }
         public Currency Currency { get; set; }
         public string CoUsIn { get; set; }
@@ -36,21 +36,20 @@ namespace ProfitTM.Models
         public bool ContribuE { get; set; }
         public double DescGlob { get; set; }
         public double DescPPago { get; set; }
-        public string DisCen { get; set; }
         public string Fax { get; set; }
+        public string DisCen { get; set; }
         public string NumCom { get; set; }
         public DateTime FecCom { get; set; }
         public DateTime DateReg { get; set; }
         public bool Disabled { get; set; }
         public string Matriz { get; set; }
         public double MontCre { get; set; }
-        public int PlazPag { get; set; }
         public double PorcEsp { get; set; }
         public string Respons { get; set; }
         public bool ReteRegisDoc { get; set; }
         public string Reviewed { get; set; }
         public string Rowguid { get; set; }
-        public int TipAdi { get; set; }
+        public string TipAdi { get; set; }
         public string TipPer { get; set; }
         public string Trasnfe { get; set; }
         public string Validator { get; set; }

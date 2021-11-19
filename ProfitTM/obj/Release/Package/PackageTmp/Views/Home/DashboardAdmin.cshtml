@@ -72,11 +72,9 @@
         <div class="dash-left-side border-right p-0" id="menu-left">
             <ul class="list-menu dropright">
                 @{
-                    foreach (var item in ViewBag.options)
+                    foreach (var item in ViewBag.modules)
                     {
-                        string disTable = item.UrlTable == "#" ? "disabled" : "";
-                        string disProcess = item.UrlProcess == "#" ? "disabled" : "";
-                        string disReport = item.UrlReport == "#" ? "disabled" : "";
+                        string disReport = item.ReportURL == "#" ? "disabled" : "";
 
                         <li class="menu-item" onclick="print(this)">
                             <i class="@item.Icon"></i>
@@ -84,16 +82,26 @@
                             <i class="fas fa-caret-up"></i>
                         </li>
                         <div class="myDropdown">
-                            <a class="dropdown-item @disTable" href="@item.UrlTable"><i class="fas fa-table"></i>  Tablas</a>
-                            <a class="dropdown-item @disProcess" href="@item.UrlProcess"><i class="fas fa-sync-alt"></i>  Procesos</a>
-                            <a class="dropdown-item @disReport" href="@item.UrlReport"><i class="fas fa-file"></i>  Reportes</a>
+                            @{
+                                foreach (var elem in item.Options)
+                                {
+                                    string disabled = elem.Enabled ? "" : "disabled";
+
+                                    <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.Name</a>
+                                }
+                            }
+                            <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
                         </div>
                     }
                 }
-                <li class="menu-item">
+                <li class="menu-item" onclick="print(this)">
                     <i class="fas fa-cog fa-spin"></i>
                     <p class="mb-0 ml-3">Configuración</p>
+                    <i class="fas fa-caret-up"></i>
                 </li>
+                <div class="myDropdown">
+                    <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
+                </div>
             </ul>
         </div>
         <div class="dash-right-side">
@@ -130,190 +138,40 @@
                     </div>
                 </div>
                 <hr />
-                <h2 class="mt-2 text-center m-4">TOP 5 Articulos mas vendidos</h2>
                 <div class="row mt-3">
-                    <div class="col-sm-6">
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Cantidad</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (var item in @ViewBag.mostSelledProds)
-                                    {
-                                        <tr>
-                                            <td>@item.ID</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Stock.ToString("N", ViewBag.formato)</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
                     <div class="col-sm-6">
                         <figure class="highcharts-figure">
                             <div id="container-msp"></div>
                         </figure>
                     </div>
-                </div>
-                <h2 class="mt-2 text-center m-4">TOP 5 Articulos mas comprados</h2>
-                <div class="row mt-3">
                     <div class="col-sm-6">
                         <figure class="highcharts-figure">
                             <div id="container-mpp"></div>
                         </figure>
                     </div>
-                    <div class="col-sm-6">
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Cantidad</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (var item in @ViewBag.mostPurchasedProds)
-                                    {
-                                        <tr>
-                                            <td>@item.ID</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Stock.ToString("N", ViewBag.formato)</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
-                <h2 class="mt-2 text-center m-4">TOP 5 Clientes con mas ventas</h2>
                 <div class="row mt-3">
-                    <div class="col-sm-6">
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (var item in @ViewBag.mostActiveClients)
-                                    {
-                                        <tr>
-                                            <td>@item.ID</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Amount.ToString("N", ViewBag.formato)</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
                     <div class="col-sm-6">
                         <figure class="highcharts-figure">
                             <div id="container-mac"></div>
                         </figure>
                     </div>
-                </div>
-                <h2 class="mt-2 text-center m-4">TOP 5 Clientes mas morosos</h2>
-                <div class="row mt-3">
                     <div class="col-sm-6">
                         <figure class="highcharts-figure">
                             <div id="container-mmc"></div>
                         </figure>
                     </div>
-                    <div class="col-sm-6">
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Saldo Pendiente</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (var item in @ViewBag.mostMorousClients)
-                                    {
-                                        <tr>
-                                            <td>@item.ID</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Amount.ToString("N", ViewBag.formato)</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
-                <h2 class="mt-2 text-center m-4">TOP 5 Proveedores con mas compras</h2>
                 <div class="row mt-3">
-                    <div class="col-sm-6">
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (var item in @ViewBag.mostActiveSuppliers)
-                                    {
-                                        <tr>
-                                            <td>@item.ID</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Amount.ToString("N", ViewBag.formato)</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
                     <div class="col-sm-6">
                         <figure class="highcharts-figure">
                             <div id="container-mas"></div>
                         </figure>
                     </div>
-                </div>
-                <h2 class="mt-2 text-center m-4">TOP 5 Proveedores con mas saldo pendiente</h2>
-                <div class="row mt-3">
                     <div class="col-sm-6">
                         <figure class="highcharts-figure">
                             <div id="container-mms"></div>
                         </figure>
-                    </div>
-                    <div class="col-sm-6">
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Saldo Pendiente</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (var item in @ViewBag.mostMorousSuppliers)
-                                    {
-                                        <tr>
-                                            <td>@item.ID</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Amount.ToString("N", ViewBag.formato)</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -322,11 +180,13 @@
 </div>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script>
+    var session = @Html.Raw(Json.Encode(ViewBag.session));
     var capitalize = str => str.substring(0, 1).toLocaleUpperCase() + str.substring(1).toLocaleLowerCase();
     var btn = document.getElementById("icon-menu");
     var menu = document.getElementById("menu-left");
     var node = null;
 
+    console.log(session);
     btn.addEventListener("click", hide);
 
     $(".dash-right-side").on("mousedown", function (event) {
@@ -375,6 +235,7 @@
         $(".myDropdown").slideUp();
         $("i.fa-caret-up").hide();
     }
+
 </script>
 
 @* GRAFICA ARTICULOS VENDIDOS *@
@@ -388,9 +249,14 @@
             y: x.Stock
         };
     });
+    objects.reverse();
 
     Highcharts.setOptions({
-        colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
+        /*colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
             return {
                 radialGradient: {
                     cx: 0.5,
@@ -402,39 +268,49 @@
                     [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
                 ]
             };
-        })
+        })*/
     });
 
     Highcharts.chart('container-msp', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Articulos vendidos'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            text: 'Artículos más vendidos'
         },
         accessibility: {
-            point: {
-                valueSuffix: '%'
+            announceNewData: {
+                enabled: true
             }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Cantidad</b>'
+            },
+        },
+        legend: {
+            enabled: false
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+            series: {
+                borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y} unds'
-                },
+                    format: '{point.y:,.2f} Unds'
+                }
             }
         },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds vendidas<br/>'
+        },
         series: [{
-            name: 'Porcentaje',
+            name: 'Cantidad',
             colorByPoint: true,
             data: objects
         }]
@@ -455,34 +331,44 @@
 
     Highcharts.chart('container-mpp', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Articulos comprados'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            text: 'Artículos más comprados'
         },
         accessibility: {
-            point: {
-                valueSuffix: '%'
+            announceNewData: {
+                enabled: true
             }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Cantidad</b>'
+            }
+        },
+        legend: {
+            enabled: false
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+            series: {
+                borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y} unds'
-                },
+                    format: '{point.y:,.2f} Unds'
+                }
             }
         },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds compradas<br/>'
+        },
         series: [{
-            name: 'Porcentaje',
+            name: 'Cantidad',
             colorByPoint: true,
             data: objects
         }]
@@ -500,44 +386,55 @@
             y: x.Amount
         };
     });
+    objects.reverse();
 
     Highcharts.chart('container-mac', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Clientes con mas ventas'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            text: 'Clientes con más ventas'
         },
         accessibility: {
-            point: {
-                valueSuffix: '%'
+            announceNewData: {
+                enabled: true
             }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Monto en ventas</b>'
+            }
+        },
+        legend: {
+            enabled: false
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+            series: {
+                borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y}'
-                },
+                    format: '{point.y:,.2f} Bs'
+                }
             }
         },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Monto en ventas</span>: <b>{point.y:,.2f}</b><br/>'
+        },
         series: [{
-            name: 'Porcentaje',
+            name: 'Monto en ventas',
             colorByPoint: true,
             data: objects
         }]
     });
 
 </script>
-@* GRAFICA CLIENTES MOROSOS *@
+@* GRAFICA CLIENTES SALDO PENDIENTE *@
 <script>
 
     var clientes = @Html.Raw(Json.Encode(@ViewBag.mostMorousClients));
@@ -551,34 +448,44 @@
 
     Highcharts.chart('container-mmc', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Clientes mas morosos'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            text: 'Clientes más saldo pendiente'
         },
         accessibility: {
-            point: {
-                valueSuffix: '%'
+            announceNewData: {
+                enabled: true
             }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Saldo pendiente</b>'
+            }
+        },
+        legend: {
+            enabled: false
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+            series: {
+                borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y}'
-                },
+                    format: '{point.y:,.2f} Bs'
+                }
             }
         },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
+        },
         series: [{
-            name: 'Porcentaje',
+            name: 'Saldo pendiente',
             colorByPoint: true,
             data: objects
         }]
@@ -596,37 +503,48 @@
             y: x.Amount
         };
     });
+    objects.reverse();
 
     Highcharts.chart('container-mas', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Proveedores con mas compras'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            text: 'Proveedores con más compras'
         },
         accessibility: {
-            point: {
-                valueSuffix: '%'
+            announceNewData: {
+                enabled: true
             }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Monto en compras</b>'
+            }
+        },
+        legend: {
+            enabled: false
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+            series: {
+                borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y}'
-                },
+                    format: '{point.y:,.2f} Bs'
+                }
             }
         },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Monto en compras</span>: <b>{point.y:,.2f}</b><br/>'
+        },
         series: [{
-            name: 'Porcentaje',
+            name: 'Monto en compras',
             colorByPoint: true,
             data: objects
         }]
@@ -647,34 +565,44 @@
 
     Highcharts.chart('container-mms', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Proveedores con mas saldo pendiente'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            text: 'Proveedores con más saldo pendiente'
         },
         accessibility: {
-            point: {
-                valueSuffix: '%'
+            announceNewData: {
+                enabled: true
             }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Saldo pendiente</b>'
+            }
+        },
+        legend: {
+            enabled: false
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+            series: {
+                borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y}'
-                },
+                    format: '{point.y:,.2f} Bs'
+                }
             }
         },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
+        },
         series: [{
-            name: 'Porcentaje',
+            name: 'Saldo pendiente',
             colorByPoint: true,
             data: objects
         }]

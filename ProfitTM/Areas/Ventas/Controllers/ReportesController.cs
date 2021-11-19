@@ -11,12 +11,17 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult Index(string name = "", string proc = "", string cols = "", string fields = "", string queryParams = "", string[] paramsSent = null, string format = "")
         {
             ViewBag.user = Session["user"];
-            ViewBag.options = Session["options"];
+            ViewBag.connect = Session["connect"];
+            ViewBag.modules = Session["modules"];
 
             if (ViewBag.user == null)
             {
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
             }
             else
             {
@@ -95,7 +100,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult Reporte(string name)
         {
             ViewBag.user = Session["user"];
-            ViewBag.options = Session["options"];
+            ViewBag.connect = Session["connect"];
+            ViewBag.modules = Session["modules"];
 
             ViewBag.report = name;
 
@@ -103,6 +109,10 @@ namespace ProfitTM.Areas.Ventas.Controllers
             {
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
             }
             else
             {

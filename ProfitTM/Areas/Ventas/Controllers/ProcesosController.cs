@@ -1,7 +1,5 @@
 ﻿using ProfitTM.Models;
-using ProfitTM.Enum;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -12,16 +10,21 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult Index(string function = "")
         {
             ViewBag.user = Session["user"];
-            ViewBag.options = Session["options"];
+            ViewBag.connect = Session["connect"];
+            ViewBag.modules = Session["modules"];
 
             if (ViewBag.user == null)
             {
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
             }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
+            }
             else
             {
-                string connect = Session["connect"].ToString();
+                /*string connect = Session["connect"].ToString();
 
                 List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
 
@@ -43,7 +46,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                             item.Add("ID", invoice.ID);
                             item.Add("PersonName", invoice.InvoicePerson.Name);
                             item.Add("DateEmis", invoice.DateEmis.ToString("dd/MM/yyyy HH:mm tt"));
-                            item.Add("Amount", invoice.Amount.ToString("N", formato));
+                            item.Add("Amount", invoice.Total.ToString("N", formato));
 
                             switch (invoice.Status)
                             {
@@ -123,16 +126,48 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.conds = Cond.GetAllConds(connect);
                 ViewBag.sellers = Seller.GetAllSellers(connect);
                 ViewBag.transports = Transport.GetAllTransports(connect);
-                ViewBag.currencies = Currency.GetAllCurrencies(connect);
+                ViewBag.currencies = Currency.GetAllCurrencies(connect);*/
 
                 return View();
             }
         }
 
+        public ActionResult Factura()
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.connect = Session["connect"];
+            ViewBag.modules = Session["modules"];
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
+            }
+            else
+            {
+                string connect = Session["connect"].ToString();
+                List<Invoice> invoices = Invoice.GetAllInvoices(connect, "V");
+
+                ViewBag.invoices = invoices;
+
+                ViewBag.clients = Client.GetAllClients(connect);
+                ViewBag.conds = Cond.GetAllConds(connect);
+                ViewBag.sellers = Seller.GetAllSellers(connect);
+                ViewBag.transports = Transport.GetAllTransports(connect);
+                ViewBag.currencies = Currency.GetAllCurrencies(connect);
+
+                return View();
+            }
+        }
+        
         public ActionResult EditarFactura(string id = "")
         {
             ViewBag.user = Session["user"];
-            ViewBag.options = Session["options"];
+            ViewBag.modules = Session["modules"];
 
             if (ViewBag.user == null)
             {
@@ -162,7 +197,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult ImprimirFactura(string id)
         {
             ViewBag.user = Session["user"];
-            ViewBag.options = Session["options"];
+            ViewBag.modules = Session["modules"];
 
             ViewBag.report = id;
 
@@ -180,7 +215,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult EditarPedido(string id = "")
         {
             ViewBag.user = Session["user"];
-            ViewBag.options = Session["options"];
+            ViewBag.modules = Session["modules"];
 
             if (ViewBag.user == null)
             {
@@ -210,7 +245,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult ImportarPedido(string id = "")
         {
             ViewBag.user = Session["user"];
-            ViewBag.options = Session["options"];
+            ViewBag.modules = Session["modules"];
 
             if (ViewBag.user == null)
             {

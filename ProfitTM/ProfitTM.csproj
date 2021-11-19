@@ -46,6 +46,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <LegacyPublishPropertiesPageEnabled>true</LegacyPublishPropertiesPageEnabled>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -242,8 +244,8 @@
     <Content Include="Areas\Ventas\Views\Procesos\EditarPedido.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\_RepFormatoFacturaVentaPartial.cshtml" />
     <Content Include="Areas\Ventas\Views\Procesos\ImprimirFactura.cshtml" />
-    <Content Include="Areas\Ventas\Views\Tablas\EditarCliente.cshtml" />
     <Content Include="Areas\Ventas\Views\Tablas\Cliente.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\Factura.cshtml" />
     <None Include="Properties\PublishProfiles\ProfitTMRelease.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -315,6 +317,9 @@
     <Content Include="Views\Home\SeleccionEmpresa.cshtml" />
     <Content Include="Views\Home\DashboardCont.cshtml" />
     <Content Include="Views\Home\DashboardNomi.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Usuarios\Agregar.cshtml" />
+    <Content Include="Views\Usuarios\Editar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -413,7 +418,7 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SQLController.cs" />
     <Compile Include="Controllers\SupplierManager.cs" />
-    <Compile Include="Enum\EnumLoadFunction.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

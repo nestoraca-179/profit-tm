@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "Factura";
+}
+<div class="container-fluid">
+    <h2>Factura</h2>
+</div>
+<script>
+    var invoices = @Html.Raw(Json.Encode(@ViewBag.invoices));
+    console.log(invoices);
+</script>

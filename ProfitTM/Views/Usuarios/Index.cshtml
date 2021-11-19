@@ -1,0 +1,188 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["home"] = Session["home"];
+}
+<style>
+    .dash-right-side .container-fluid {
+        height: 100%;
+        padding: 10px;
+    }
+    table thead {
+        background: #0277bd;
+        color: #FFF;
+    }
+    table td{
+        vertical-align: middle !important;
+    }
+    table .btn.btn-primary{
+        width: 50%;
+        font-size: 14px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .btn.btn-success{
+        color: #FFF;
+    }
+    input[type=checkbox], .btn.btn-primary {
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+<header class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 header-left-side text-white">
+            <i class="fas fa-bars icon-menu" id="icon-menu"></i>
+            <a href="/Home/@ViewData["home"]">Profit Plus TM</a>
+        </div>
+        <div class="col-sm-10 header-right-side">
+            <div class="user-active" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user icon-user"></i>
+                <p class="mb-0">@ViewBag.user.Descrip</p>
+            </div>
+            <div style="width: 225px; text-align: center;" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a style="text-align: center; text-decoration: none;" href="/Account/Logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-fluid p-0" ng-app="Users" ng-controller="controller">
+    <div class="dash-container" id="dash-container">
+        <div class="dash-left-side border-right p-0" id="menu-left">
+            <ul class="list-menu dropright">
+                @{
+                    foreach (var item in ViewBag.modules)
+                    {
+                        string disReport = item.ReportURL == "#" ? "disabled" : "";
+
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="@item.Icon"></i>
+                            <p class="mb-0 ml-3">@item.Name</p>
+                            <i class="fas fa-caret-up"></i>
+                        </li>
+                        <div class="myDropdown">
+                            @{
+                                foreach (var elem in item.Options)
+                                {
+                                    <a class="dropdown-item" href="@elem.URL"><i class="@elem.Icon"></i> @elem.Name</a>
+                                }
+                            }
+                            <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
+                        </div>
+                    }
+                }
+                <li class="menu-item">
+                    <i class="fas fa-cog fa-spin"></i>
+                    <p class="mb-0 ml-3">Configuración</p>
+                </li>
+            </ul>
+        </div>
+        <div class="dash-right-side">
+            <div class="container-fluid">
+                <h2 class="text-center mt-3">Usuarios</h2>
+                <a href="/Usuarios/Agregar" class="btn btn-success mt-5">
+                    <i class="fas fa-plus"></i> Agregar nuevo
+                </a>
+                <table class="table mt-3">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Nombre</th>
+                            <th>Fecha Registro</th>
+                            <th class="text-center">Activo</th>
+                            <th class="text-center">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in users">
+                            <td>{{ user.ID }}</td>
+                            <td>{{ user.Username }}</td>
+                            <td>{{ user.Descrip }}</td>
+                            <td>{{ formatDate(user.DateReg) }}</td>
+                            <td><input type="checkbox" onclick="return false" ng-model="user.Enabled" /></td>
+                            <td>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fas fa-file-edit"></i> Editar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/angular-min.js"></script>
+<script>
+    var app = angular.module("Users", []);
+    var users = @Html.Raw(Json.Encode(ViewBag.users));
+    var btn = document.getElementById("icon-menu");
+    var menu = document.getElementById("menu-left");
+    var node = null;
+
+    for (var item of users) {
+        item.DateReg = new Date(parseInt(item.DateReg.substr(6)));
+    }
+
+    btn.addEventListener("click", hide);
+    console.log(users);
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.users = users;
+
+        $scope.formatDate = function (date) {
+
+            var day = date.getDate(), month = date.getMonth() + 1, year = date.getFullYear();
+
+            if (day < 10)
+                day = "0" + day;
+
+            if (month < 10)
+                month = "0" + month;
+
+            return day + "/" + month + "/" + year;
+        }
+    });
+
+    function print(elem) {
+
+        $(".myDropdown").slideUp();
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            $(node).children("i.fa-caret-up").hide();
+        }
+
+        $(elem).addClass("selected");
+
+        if (node != elem) {
+
+            $(elem).next().slideDown();
+            $(elem).next().css("display", "flex");
+            $(elem).next().css("flex-direction", "column");
+            $(elem).children("i.fa-caret-up").show();
+            node = elem;
+
+        } else {
+            $(elem).removeClass("selected");
+            $(elem).children("i.fa-caret-up").hide();
+            node = null;
+        }
+    }
+
+    function hide() {
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            node = null;
+        }
+
+        menu.classList.toggle("active");
+
+        $(".myDropdown").slideUp();
+        $("i.fa-caret-up").hide();
+    }
+
+</script>

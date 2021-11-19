@@ -58,6 +58,10 @@ namespace ProfitTM.Controllers
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
+            else if (prod == null)
+            {
+                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
+            }
             else
             {
                 return View();
@@ -106,23 +110,29 @@ namespace ProfitTM.Controllers
         public ActionResult DashboardAdmin()
         {
             ViewBag.user = Session["user"];
+            ViewBag.connect = Session["connect"];
+            ViewBag.session = Session;
 
             if (ViewBag.user == null)
             {
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
+            }
             else
             {
-                if (Session["options"] == null)
+                if (Session["modules"] == null)
                 {
                     bool error = false;
                     string msg = "", userID = ((User)ViewBag.user).ID;
 
+                    List<Module> modules = Module.GetModules("ADM", userID);
                     List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
                     SQLController sqlController = new SQLController();
 
-                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getModules("Admin", userID);
                     ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(5);
                     ProfitTMResponse responseMPP = sqlController.getMostPurchasedProducts(5);
                     ProfitTMResponse responseMAC = sqlController.getMostActiveClients(5);
@@ -130,7 +140,6 @@ namespace ProfitTM.Controllers
                     ProfitTMResponse responseMAS = sqlController.getMostActiveSuppliers(5);
                     ProfitTMResponse responseMMS = sqlController.getMostMorousSuppliers(5);
 
-                    responses.Add(responseOPT);
                     responses.Add(responseMSP);
                     responses.Add(responseMPP);
                     responses.Add(responseMAC);
@@ -157,7 +166,7 @@ namespace ProfitTM.Controllers
                         Session["MMC"] = responseMMC.Result;
                         Session["MAS"] = responseMAS.Result;
                         Session["MMS"] = responseMMS.Result;
-                        Session["options"] = responseOPT.Result;
+                        Session["modules"] = modules;
                     }
                     else
                     {
@@ -171,7 +180,7 @@ namespace ProfitTM.Controllers
                 ViewBag.mostMorousClients = Session["MMC"];
                 ViewBag.mostActiveSuppliers = Session["MAS"];
                 ViewBag.mostMorousSuppliers = Session["MMS"];
-                ViewBag.options = Session["options"];
+                ViewBag.modules = Session["modules"];
 
                 NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
                 formato.CurrencyGroupSeparator = ".";
@@ -187,6 +196,7 @@ namespace ProfitTM.Controllers
         public ActionResult DashboardCont()
         {
             ViewBag.user = Session["user"];
+            ViewBag.connect = Session["connect"];
             string userID = ((User)ViewBag.user).ID;
 
             if (ViewBag.user == null)
@@ -194,9 +204,13 @@ namespace ProfitTM.Controllers
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
+            }
             else
             {
-                if (Session["options"] == null)
+                if (Session["modules"] == null)
                 {
                     List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
                     SQLController sqlController = new SQLController();
@@ -204,11 +218,10 @@ namespace ProfitTM.Controllers
                     bool error = false;
                     string msg = "";
 
-                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getModules("Cont", userID);
+                    List<Module> modules = Module.GetModules("CON", userID);
                     ProfitTMResponse responseLQT = sqlController.getLiqCapTest(1);
                     ProfitTMResponse responseCPT = sqlController.getLiqCapTest(2);
 
-                    responses.Add(responseOPT);
                     responses.Add(responseLQT);
                     responses.Add(responseCPT);
 
@@ -225,9 +238,9 @@ namespace ProfitTM.Controllers
 
                     if (!error)
                     {
-                        Session["options"] = responseOPT.Result;
                         Session["LQT"] = responseLQT.Result;
                         Session["CPT"] = responseCPT.Result;
+                        Session["modules"] = modules;
                     }
                     else
                     {
@@ -235,9 +248,9 @@ namespace ProfitTM.Controllers
                     }
                 }
 
-                ViewBag.options = Session["options"];
                 ViewBag.testLiq = Session["LQT"];
                 ViewBag.testCap = Session["CPT"];
+                ViewBag.modules = Session["modules"];
 
                 NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
                 formato.CurrencyGroupSeparator = ".";
@@ -253,6 +266,7 @@ namespace ProfitTM.Controllers
         public ActionResult DashboardNomi()
         {
             ViewBag.user = Session["user"];
+            ViewBag.connect = Session["connect"];
             string userID = ((User)ViewBag.user).ID;
 
             if (ViewBag.user == null)
@@ -260,9 +274,13 @@ namespace ProfitTM.Controllers
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
+            }
             else
             {
-                if (Session["options"] == null)
+                if (Session["modules"] == null)
                 {
                     List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
                     SQLController sqlController = new SQLController();
@@ -270,9 +288,7 @@ namespace ProfitTM.Controllers
                     bool error = false;
                     string msg = "";
 
-                    ProfitTMResponse responseOPT = new SQLController("MainConnection").getModules("Nomi", userID);
-
-                    responses.Add(responseOPT);
+                    List<Module> modules = Module.GetModules("NOM", userID);
 
                     foreach (ProfitTMResponse res in responses)
                     {
@@ -287,7 +303,7 @@ namespace ProfitTM.Controllers
 
                     if (!error)
                     {
-                        Session["options"] = responseOPT.Result;
+                        Session["modules"] = modules;
                     }
                     else
                     {
@@ -295,7 +311,7 @@ namespace ProfitTM.Controllers
                     }
                 }
 
-                ViewBag.options = Session["options"];
+                ViewBag.modules = Session["modules"];
 
                 NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
                 formato.CurrencyGroupSeparator = ".";
@@ -311,11 +327,16 @@ namespace ProfitTM.Controllers
         public ActionResult Inventario()
         {
             ViewBag.user = Session["user"];
+            ViewBag.connect = Session["connect"];
 
             if (ViewBag.user == null)
             {
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
             }
             else
             {
@@ -346,7 +367,7 @@ namespace ProfitTM.Controllers
                 {
                     ViewBag.mostSelledProds = responseMSP.Result;
                     ViewBag.mostPurchasedProds = responseMPP.Result;
-                    ViewBag.options = Session["options"];
+                    ViewBag.modules = Session["modules"];
 
                     NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
                     formato.CurrencyGroupSeparator = ".";
@@ -366,11 +387,16 @@ namespace ProfitTM.Controllers
         public ActionResult Ventas()
         {
             ViewBag.user = Session["user"];
+            ViewBag.connect = Session["connect"];
 
             if (ViewBag.user == null)
             {
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
             }
             else
             {
@@ -401,7 +427,7 @@ namespace ProfitTM.Controllers
                 {
                     ViewBag.mostActiveClients = responseMAC.Result;
                     ViewBag.mostMorousClients = responseMMC.Result;
-                    ViewBag.options = Session["options"];
+                    ViewBag.modules = Session["modules"];
 
                     NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
                     formato.CurrencyGroupSeparator = ".";
@@ -421,11 +447,16 @@ namespace ProfitTM.Controllers
         public ActionResult Compras()
         {
             ViewBag.user = Session["user"];
+            ViewBag.connect = Session["connect"];
 
             if (ViewBag.user == null)
             {
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
             }
             else
             {
@@ -456,7 +487,7 @@ namespace ProfitTM.Controllers
                 {
                     ViewBag.mostActiveSuppliers = responseMAS.Result;
                     ViewBag.mostMorousSuppliers = responseMMS.Result;
-                    ViewBag.options = Session["options"];
+                    ViewBag.modules = Session["modules"];
 
                     NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
                     formato.CurrencyGroupSeparator = ".";

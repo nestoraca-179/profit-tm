@@ -11,21 +11,54 @@ namespace ProfitTM.Models
         public Person InvoicePerson { get; set; }
         public DateTime DateEmis { get; set; }
         public DateTime DateVenc { get; set; }
+        public DateTime DateReg { get; set; }
         public string ControlNumber { get; set; }
         public Transport Transport { get; set; }
         public Currency Currency { get; set; }
         public double Rate { get; set; }
-        public double SubTotal { get; set; }
-        public double IVA { get; set; }
-        public double Amount { get; set; }
         public Seller Seller { get; set; }
         public Cond Cond { get; set; }
+        public Account Account { get; set; }
         public int Status { get; set; }
+        public bool Canceled { get; set; }
+        public bool VenTer { get; set; }
+        public double PorcDescGlob { get; set; }
+        public double MontDescGlob { get; set; }
+        public double PorcReca { get; set; }
+        public double MontReca { get; set; }
+        public double SubTotal { get; set; }
+        public double IVA { get; set; }
+        public double IVA2 { get; set; }
+        public double IVA3 { get; set; }
+        public double Others { get; set; }
+        public double Others2 { get; set; }
+        public double Others3 { get; set; }
+        public double Total { get; set; }
+        public double Sald { get; set; }
+        public string DelAddress { get; set; }
+        public string Comment { get; set; }
+        public string DisCen { get; set; }
+        public string NumCom { get; set; }
+        public DateTime FecCom { get; set; }
+        public bool Contrib { get; set; }
+        public int Serials { get; set; }
+        public string Salestax { get; set; }
+        public string ImpFis { get; set; }
+        public string ImpFisFac { get; set; }
+        public string ImpNroZ { get; set; }
         public bool Printed { get; set; }
-        public List<string> ExtraFields { get; set; }
-        public string UserIn { get; set; } // Codigo usuario que ingreso la factura
-        public string BranchIn { get; set; } // Codigo sucursal que ingreso la factura
+        public string CoUsIn { get; set; }
+        public string CoUsMo { get; set; }
+        public string CoSucuIn { get; set; }
+        public string CoSucuMo { get; set; }
+        public DateTime DateIn { get; set; }
+        public DateTime DateMo { get; set; }
+        public string Reviewed { get; set; }
+        public string Trasnfe { get; set; }
+        public string Rowguid { get; set; }
+        public string Validator { get; set; }
         public string Type { get; set; } // Indica si la factura es de compra o de venta
+        public List<string> ExtraFields { get; set; }
         public List<InvoiceItem> Items { get; set; }
 
         public static Invoice GetInvoice(string connect, string ID, string type)
@@ -78,19 +111,48 @@ namespace ProfitTM.Models
                                 invoice = new Invoice()
                                 {
                                     ID = reader["doc_num"].ToString().Trim(),
-                                    DateEmis = Convert.ToDateTime(reader["fec_emis"].ToString()),
-                                    DateVenc = Convert.ToDateTime(reader["fec_venc"].ToString()),
+                                    DateEmis = DateTime.Parse(reader["fec_emis"].ToString()),
+                                    DateVenc = DateTime.Parse(reader["fec_venc"].ToString()),
+                                    DateReg = DateTime.Parse(reader["fec_reg"].ToString()),
                                     ControlNumber = reader["n_control"].ToString(),
                                     Currency = Currency.GetCurrency(connect, reader["co_mone"].ToString()),
+                                    Account = Account.GetAccount(connect, reader["co_cta_ingr_egr"].ToString()),
                                     Rate = double.Parse(reader["tasa"].ToString()),
                                     SubTotal = double.Parse(reader["total_bruto"].ToString()),
                                     IVA = double.Parse(reader["monto_imp"].ToString()),
-                                    Amount = double.Parse(reader["total_neto"].ToString()),
+                                    IVA2 = double.Parse(reader["monto_imp2"].ToString()),
+                                    IVA3 = double.Parse(reader["monto_imp3"].ToString()),
+                                    Others = double.Parse(reader["otros1"].ToString()),
+                                    Others2 = double.Parse(reader["otros2"].ToString()),
+                                    Others3 = double.Parse(reader["otros3"].ToString()),
+                                    Total = double.Parse(reader["total_neto"].ToString()),
+                                    Sald = double.Parse(reader["saldo"].ToString()),
+                                    DelAddress = reader["dir_ent"].ToString(),
+                                    Comment = reader["comentario"].ToString(),
                                     Cond = Cond.GetCond(connect, reader["co_cond"].ToString()),
                                     Status = int.Parse(reader["status"].ToString()),
+                                    Canceled = bool.Parse(reader["anulado"].ToString()),
+                                    VenTer = bool.Parse(reader["ven_ter"].ToString()),
+                                    PorcDescGlob = double.Parse(reader["porc_desc_glob"].ToString()),
+                                    MontDescGlob = double.Parse(reader["monto_desc_glob"].ToString()),
+                                    PorcReca = double.Parse(reader["porc_reca"].ToString()),
+                                    MontReca = double.Parse(reader["monto_reca"].ToString()),
+                                    Contrib = bool.Parse(reader["contrib"].ToString()),
+                                    DisCen = reader["dis_cen"].ToString(),
+                                    FecCom = DateTime.Parse(reader["feccom"].ToString()),
+                                    NumCom = reader["numcom"].ToString(),
+                                    Serials = int.Parse(reader["seriales_s"].ToString()),
+                                    Salestax = reader["salestax"].ToString(),
+                                    ImpFis = reader["impfis"].ToString(),
+                                    ImpFisFac = reader["impfisfac"].ToString(),
+                                    ImpNroZ = reader["imp_nro_z"].ToString(),
                                     Printed = bool.Parse(reader["impresa"].ToString()),
-                                    UserIn = reader["co_us_in"].ToString().Trim(),
-                                    BranchIn = reader["co_sucu_in"].ToString().Trim(),
+                                    CoUsIn = reader["co_us_in"].ToString(),
+                                    CoUsMo = reader["co_us_mo"].ToString(),
+                                    CoSucuIn = reader["co_sucu_in"].ToString(),
+                                    CoSucuMo = reader["co_sucu_mo"].ToString(),
+                                    DateIn = DateTime.Parse(reader["fe_us_in"].ToString()),
+                                    DateMo = DateTime.Parse(reader["fe_us_mo"].ToString()),
                                     Type = type,
                                     Items = GetInvoiceItems(connect, reader["doc_num"].ToString(), type)
                                 };
@@ -174,37 +236,72 @@ namespace ProfitTM.Models
                         {
                             while (reader.Read())
                             {
+                                string PorcDesc = reader["porc_desc_glob"].ToString();
+                                string PorcReca = reader["porc_reca"].ToString();
+                                string SerialsS = reader["seriales_s"].ToString();
+
                                 Invoice invoice = new Invoice()
                                 {
                                     ID = reader["doc_num"].ToString().Trim(),
-                                    DateEmis = Convert.ToDateTime(reader["fec_emis"].ToString()),
-                                    DateVenc = Convert.ToDateTime(reader["fec_venc"].ToString()),
+                                    DateEmis = DateTime.Parse(reader["fec_emis"].ToString()),
+                                    DateVenc = DateTime.Parse(reader["fec_venc"].ToString()),
+                                    DateReg = DateTime.Parse(reader["fec_reg"].ToString()),
                                     ControlNumber = reader["n_control"].ToString(),
                                     Currency = Currency.GetCurrency(connect, reader["co_mone"].ToString()),
+                                    Account = Account.GetAccount(connect, reader["co_cta_ingr_egr"].ToString()),
                                     Rate = double.Parse(reader["tasa"].ToString()),
                                     SubTotal = double.Parse(reader["total_bruto"].ToString()),
                                     IVA = double.Parse(reader["monto_imp"].ToString()),
-                                    Amount = double.Parse(reader["total_neto"].ToString()),
+                                    IVA2 = double.Parse(reader["monto_imp2"].ToString()),
+                                    IVA3 = double.Parse(reader["monto_imp3"].ToString()),
+                                    Others = double.Parse(reader["otros1"].ToString()),
+                                    Others2 = double.Parse(reader["otros2"].ToString()),
+                                    Others3 = double.Parse(reader["otros3"].ToString()),
+                                    Total = double.Parse(reader["total_neto"].ToString()),
+                                    Sald = double.Parse(reader["saldo"].ToString()),
+                                    DelAddress = reader["dir_ent"].ToString(),
+                                    Comment = reader["comentario"].ToString(),
                                     Cond = Cond.GetCond(connect, reader["co_cond"].ToString()),
                                     Status = int.Parse(reader["status"].ToString()),
+                                    Canceled = bool.Parse(reader["anulado"].ToString()),
+                                    VenTer = bool.Parse(reader["ven_ter"].ToString()),
+                                    PorcDescGlob = double.Parse(PorcDesc == "" ? "0" : PorcDesc),
+                                    MontDescGlob = double.Parse(reader["monto_desc_glob"].ToString()),
+                                    PorcReca = double.Parse(PorcReca == "" ? "0" : PorcReca),
+                                    MontReca = double.Parse(reader["monto_reca"].ToString()),
+                                    Contrib = bool.Parse(reader["contrib"].ToString()),
+                                    Serials = int.Parse(SerialsS == "" ? "0" : SerialsS),
+                                    Salestax = reader["salestax"].ToString(),
+                                    ImpFis = reader["impfis"].ToString(),
+                                    ImpFisFac = reader["impfisfac"].ToString(),
+                                    ImpNroZ = reader["imp_nro_z"].ToString(),
                                     Printed = bool.Parse(reader["impresa"].ToString()),
-                                    UserIn = reader["co_us_in"].ToString().Trim(),
-                                    BranchIn = reader["co_sucu_in"].ToString().Trim(),
+                                    CoUsIn = reader["co_us_in"].ToString(),
+                                    CoUsMo = reader["co_us_mo"].ToString(),
+                                    CoSucuIn = reader["co_sucu_in"].ToString(),
+                                    CoSucuMo = reader["co_sucu_mo"].ToString(),
+                                    DateIn = DateTime.Parse(reader["fe_us_in"].ToString()),
+                                    DateMo = DateTime.Parse(reader["fe_us_mo"].ToString()),
                                     Type = type,
                                     Items = GetInvoiceItems(connect, reader["doc_num"].ToString(), type)
                                 };
 
-                                string ID = reader[name].ToString();
+                                invoice.ExtraFields = new List<string>();
+                                for (int i = 1; i < 9; i++)
+                                {
+                                    invoice.ExtraFields.Add(reader["campo" + i].ToString());
+                                }
 
+                                string PersonID = reader[name].ToString();
                                 if (invoiceSale)
                                 {
-                                    invoice.InvoicePerson = Client.GetClient(connect, ID);
+                                    invoice.InvoicePerson = Client.GetClient(connect, PersonID);
                                     invoice.Seller = Seller.GetSeller(connect, reader["co_ven"].ToString());
                                     invoice.Transport = Transport.GetTransport(connect, reader["co_tran"].ToString());
                                 }
                                 else
                                 {
-                                    invoice.InvoicePerson = Supplier.GetSupplier(connect, ID);
+                                    invoice.InvoicePerson = Supplier.GetSupplier(connect, PersonID);
                                 }
 
                                 invoices.Add(invoice);
@@ -240,10 +337,6 @@ namespace ProfitTM.Models
                     proc = "pSeleccionarRenglonesPedidoVenta";
 
                     break;
-                case "PC":
-                    proc = "pSeleccionarRenglonesPlantillaCompra";
-
-                    break;
             }
 
             string query = string.Format("exec {0} @sDoc_Num = '{1}'", proc, id);
@@ -266,15 +359,43 @@ namespace ProfitTM.Models
                                     Reng = reader["reng_num"].ToString(),
                                     Code = reader["co_art"].ToString().Trim(),
                                     Name = reader["art_des"].ToString(),
+                                    Model = reader["modelo"].ToString(),
                                     Storage = Storage.GetStorage(connect, reader["co_alma"].ToString()),
                                     Unit = reader["co_uni"].ToString().Trim(),
                                     Quantity = double.Parse(reader["total_art"].ToString()),
-                                    ImpCode = reader["tipo_imp"].ToString(),
-                                    ImpPorc = reader["porc_imp"].ToString(),
+                                    TipoImp = reader["tipo_imp"].ToString(),
+                                    TipoImp2 = reader["tipo_imp2"].ToString(),
+                                    TipoImp3 = reader["tipo_imp3"].ToString(),
+                                    PorcImp = double.Parse(reader["porc_imp"].ToString()),
+                                    PorcImp2 = double.Parse(reader["porc_imp2"].ToString()),
+                                    PorcImp3 = double.Parse(reader["porc_imp3"].ToString()),
+                                    MontImp = double.Parse(reader["monto_imp"].ToString()),
+                                    MontImp2 = double.Parse(reader["monto_imp2"].ToString()),
+                                    MontImp3 = double.Parse(reader["monto_imp3"].ToString()),
                                     Amount = double.Parse(reader["reng_neto"].ToString()),
-                                    IVA = double.Parse(reader["monto_imp"].ToString()),
+                                    PorcDesc = reader["porc_desc"].ToString(),
+                                    MontDesc = double.Parse(reader["monto_desc"].ToString()),
                                     TypeArt = InvoiceItem.GetTypeItem(connect, reader["co_art"].ToString()),
-                                    Rowguid = reader["rowguid"].ToString()
+                                    Rowguid = reader["rowguid"].ToString(),
+                                    Pend = double.Parse(reader["pendiente"].ToString()),
+                                    Pend2 = double.Parse(reader["pendiente2"].ToString()),
+                                    TipDoc = reader["tipo_doc"].ToString(),
+                                    NumDoc = reader["num_doc"].ToString(),
+                                    RowguidDoc = reader["rowguid_doc"].ToString(),
+                                    TotDev = double.Parse(reader["total_dev"].ToString()),
+                                    MontDev = double.Parse(reader["monto_dev"].ToString()),
+                                    Others = double.Parse(reader["otros"].ToString()),
+                                    Comment = reader["comentario"].ToString(),
+                                    LotAsign = bool.Parse(reader["lote_asignado"].ToString()),
+                                    MontDescGlob = double.Parse(reader["monto_desc_glob"].ToString()),
+                                    MontRecaGlob = double.Parse(reader["monto_reca_glob"].ToString()),
+                                    Others1Glob = double.Parse(reader["otros1_glob"].ToString()),
+                                    Others2Glob = double.Parse(reader["otros2_glob"].ToString()),
+                                    Others3Glob = double.Parse(reader["otros3_glob"].ToString()),
+                                    MontImpAfecGlob = double.Parse(reader["monto_imp_afec_glob"].ToString()),
+                                    MontImp2AfecGlob = double.Parse(reader["monto_imp2_afec_glob"].ToString()),
+                                    MontImp3AfecGlob = double.Parse(reader["monto_imp3_afec_glob"].ToString()),
+                                    DisCen = reader["dis_cen"].ToString(),
                                 };
 
                                 if (type.Contains("V"))

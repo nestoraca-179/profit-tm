@@ -83,13 +83,45 @@ namespace ProfitTM.Controllers
             ProfitTMResponse response = new ProfitTMResponse();
             StringBuilder query = new StringBuilder();
 
+            Cond cond = Cond.GetCond(connect, client.Cond.ID);
+
             query.Append("UPDATE saCliente ");
-            query.Append("SET cli_des = '" + client.Name + "', ");
-            query.Append("rif = '" + client.RIF + "', ");
-            query.Append("email = '" + client.Email + "', ");
-            query.Append("telefonos = '" + client.Phone + "', ");
-            query.Append("direc1 = '" + client.Address1 + "' ");
-            query.Append("WHERE co_cli = '" + client.ID + "'");
+            query.AppendFormat("SET cli_des = '{0}', ", client.Name);
+            query.AppendFormat("rif = '{0}', ", client.RIF);
+            query.AppendFormat("email = '{0}', ", client.Email);
+            query.AppendFormat("telefonos = '{0}', ", client.Phone);
+            query.AppendFormat("direc1 = '{0}', ", client.Address1);
+            query.AppendFormat("co_seg = '{0}', ", client.Segment.ID);
+            query.AppendFormat("co_zon = '{0}', ", client.Zone.ID);
+            query.AppendFormat("tip_cli = '{0}', ", client.Type.ID);
+            query.AppendFormat("contrib = '{0}', ", client.Contrib);
+            query.AppendFormat("inactivo = '{0}', ", client.Disabled);
+            query.AppendFormat("co_ven = '{0}', ", client.Seller.ID);
+            query.AppendFormat("co_cta_ingr_egr = '{0}', ", client.Account.ID);
+            query.AppendFormat("fax = {0}, ", !string.IsNullOrEmpty(client.Fax) ? ("'" + client.Fax + "'") : "NULL");
+            query.AppendFormat("respons = {0}, ", !string.IsNullOrEmpty(client.Respons) ? ("'" + client.Respons + "'") : "NULL");
+            query.AppendFormat("email_alterno = {0}, ", !string.IsNullOrEmpty(client.AltEmail) ? ("'" + client.AltEmail + "'") : "NULL");
+            query.AppendFormat("co_pais = '{0}', ", client.Country.ID);
+            query.AppendFormat("ciudad = {0}, ", !string.IsNullOrEmpty(client.City) ? ("'" + client.City + "'") : "NULL");
+            query.AppendFormat("dir_ent2 = {0}, ", !string.IsNullOrEmpty(client.DelAddress) ? ("'" + client.DelAddress + "'") : "NULL");
+            query.AppendFormat("cond_pag = '{0}', ", cond.ID);
+            query.AppendFormat("plaz_pag = {0}, ", cond.DaysCred);
+            query.AppendFormat("desc_ppago = {0}, ", client.DescPPago);
+            query.AppendFormat("desc_glob = {0}, ", client.DescGlob);
+            query.AppendFormat("comentario = {0}, ", !string.IsNullOrEmpty(client.Comment) ? ("'" + client.Comment + "'") : "NULL");
+            query.AppendFormat("tipo_per = '{0}', ", client.TipPer);
+            query.AppendFormat("co_tab = '{0}', ", client.CoTab);
+            query.AppendFormat("contribu_e = '{0}', ", client.ContribuE);
+            query.AppendFormat("porc_esp = {0}, ", client.PorcEsp);
+            query.AppendFormat("rete_regis_doc = '{0}', ", client.ReteRegisDoc);
+
+            for (int i = 0; i < 7; i++)
+            {
+                query.AppendFormat("campo{0} = {1}, ", i + 1, !string.IsNullOrEmpty(client.ExtraFields[i]) ? ("'" + client.ExtraFields[i] + "'") : "NULL");
+            }
+
+            query.AppendFormat("campo8 = {0} ", !string.IsNullOrEmpty(client.ExtraFields[7]) ? ("'" + client.ExtraFields[7] + "'") : "NULL");
+            query.AppendFormat("WHERE co_cli = '{0}'", client.ID);
 
             try
             {
