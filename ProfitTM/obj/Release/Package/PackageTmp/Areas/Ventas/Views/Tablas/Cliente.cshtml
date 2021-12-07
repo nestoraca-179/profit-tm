@@ -147,6 +147,9 @@
         font-size: 6em;
         padding: 5%;
     }
+    .container-list .table-striped tbody tr:nth-of-type(2n+1) {
+        background-color: rgb(227, 227, 227);
+    }
 </style>
 <div class="container-fluid" ng-app="Clients" ng-controller="controller">
     <div class="container-list">
@@ -158,7 +161,7 @@
                     <th class="text-white">Nombre</th>
                 </tr>
             </thead>
-            <tr ng-repeat="client in clients" ng-dblclick="selectClient(client.ID)" style="cursor: pointer;">
+            <tr ng-repeat="client in clients" ng-click="selectClient(client.ID)" style="cursor: pointer;">
                 <td>{{ client.RIF }}</td>
                 <td>{{ client.Name }}</td>
             </tr>
@@ -383,7 +386,7 @@
         <div id="credito" class="form-body">
             <div class="left">
                 <div class="controls">
-                    <label class="label-check"><input type="checkbox" ng-model="client.SinCred" ng-click="client.MontCre = 0" ng-disabled="!adding && !editing" /> Sin Crédito</label>
+                    <label class="label-check"><input type="checkbox" ng-model="client.SinCred" ng-click="client.MontCre = 0; client.Cond.ID = null" ng-disabled="!adding && !editing" /> Sin Crédito</label>
                 </div>
                 <div class="controls">
                     <label>Cond. Pago</label>
@@ -901,11 +904,13 @@
         }
 
         $scope.selectClient = function (id) {
-            if (!$scope.editing) {
+            if ($scope.adding) {
+                alert("Debes terminar de agregar el cliente");
+            } else if ($scope.editing) {
+                alert("Debes terminar de modificar el cliente " + $scope.client.ID);
+            } else {
                 $scope.client = clients.find(c => c.ID == id);
                 $scope.index = clients.indexOf($scope.client);
-            } else {
-                alert("Debes terminar de modificar el cliente " + $scope.client.ID);
             }
         }
 
@@ -935,6 +940,7 @@
                 SinCred: false,
                 ContribuE: false,
                 ReteRegisDoc: false,
+                ExtraFields: []
             };
         }
 
@@ -943,10 +949,12 @@
             if ($("#form")[0].checkValidity()) {
 
                 $("#form input, #form textarea").change();
+                $("#modalWaiting").modal("show");
 
                 if ($scope.client.TipPer == undefined)
                     $scope.client.TipPer = null;
 
+                $scope.client.DateReg = origDate($scope.client.DateReg);
                 for (var ind in $scope.client) {
                     if (ind == "Cond") {
                         if ($scope.client.SinCred && $scope.client.Cond.ID == "") {
@@ -967,38 +975,35 @@
 
                 console.log($scope.client);
 
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/AddClient/',
+                    data: $scope.client,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    console.log(response.data);
+                    var res = response.data;
+
+                    $("#modalWaiting").modal("hide");
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = "El cliente se ha agregado con éxito";
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+
+                });
+
             } else {
                 var id = $($("#form :invalid")[0]).closest(".form-body")[0].id;
                 $("#btn-" + id).trigger("click", event);
             }
-
-            /*$("#form input, #form textarea").change();
-            $("#modalWaiting").modal("show");
-
-            var req = {
-                method: 'POST',
-                url: '/api/ProfitTMApi/AddClient/',
-                data: $scope.client,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            }
-
-            $http(req).then(function (response) {
-
-                console.log(response.data);
-                var res = response.data;
-
-                $("#modalWaiting").modal("hide");
-                if (res.Status == "OK") {
-                    $("#modalSuccess").modal("show");
-                    $scope.successMessage = "El cliente se ha agregado con éxito";
-                } else {
-                    $("#modalError").modal("show");
-                    $scope.errorMessage = res.Message;
-                }
-
-            });*/
         }
 
         $scope.editClient = function () {
@@ -1061,6 +1066,14 @@
         }
         */
     });
+
+    function origDate(value) {
+
+        var timeOffset = value.getTimezoneOffset() * 60000;
+        var date = new Date(value.getTime() - timeOffset).toUTCString();
+
+        return new Date(date);
+    }
 
     function openModal(elem, modal) {
 

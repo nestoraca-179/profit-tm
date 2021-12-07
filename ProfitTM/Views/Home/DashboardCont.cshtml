@@ -33,7 +33,7 @@
                             <p class="mb-0 ml-3">@item.Name</p>
                             <i class="fas fa-caret-up"></i>
                         </li>
-                        <div class="myDropdown">
+                        <div class="my-dropdown">
                             @{
                                 foreach (var elem in item.Options)
                                 {
@@ -51,7 +51,7 @@
                     <p class="mb-0 ml-3">Configuración</p>
                     <i class="fas fa-caret-up"></i>
                 </li>
-                <div class="myDropdown">
+                <div class="my-dropdown">
                     <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
                 </div>
             </ul>
@@ -111,7 +111,7 @@
     });
 
     function print(elem) {
-        var elems = document.getElementsByClassName("myDropdown");
+        var elems = document.getElementsByClassName("my-dropdown");
 
         for (var item of elems) {
             $(item).animate({ width: 'hide' });
@@ -150,7 +150,7 @@
 
         menu.classList.toggle("active");
 
-        var elems = document.getElementsByClassName("myDropdown");
+        var elems = document.getElementsByClassName("my-dropdown");
 
         for (var item of elems) {
             $(item).animate({ width: 'hide' });

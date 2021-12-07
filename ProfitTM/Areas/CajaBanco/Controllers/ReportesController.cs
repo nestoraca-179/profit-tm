@@ -6,6 +6,7 @@ using System.Web.Security;
 
 namespace ProfitTM.Areas.CajaBanco.Controllers
 {
+    [Authorize]
     public class ReportesController : Controller
     {
         public ActionResult Index(string name = "", string proc = "", string cols = "", string fields = "", string queryParams = "", string[] paramsSent = null, string format = "")

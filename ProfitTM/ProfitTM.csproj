@@ -200,7 +200,6 @@
     <Content Include="Areas\Inventario\Views\Reportes\_RepArticuloProveedorPartial.cshtml" />
     <Content Include="Areas\Inventario\Views\Reportes\_RepStockArticulosPartial.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\_RepFacturaVentaxArtPartial.cshtml" />
-    <Content Include="Areas\Ventas\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Compras\Views\web.config" />
     <Content Include="Areas\Compras\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Compras\Views\Shared\_Layout.cshtml" />
@@ -277,7 +276,6 @@
     <Content Include="obj\Debug\ProfitTM.csproj.CoreCompileInputs.cache" />
     <Content Include="obj\Debug\ProfitTM.csproj.AssemblyReference.cache" />
     <Content Include="Areas\Inventario\Views\Reportes\Index.cshtml" />
-    <Content Include="Areas\Inventario\Views\Reportes\Reporte.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
@@ -417,6 +415,7 @@
     <Compile Include="Controllers\ProfitTMApiController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SQLController.cs" />
+    <Compile Include="Controllers\StringController.cs" />
     <Compile Include="Controllers\SupplierManager.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">

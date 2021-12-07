@@ -1,62 +1,45 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
 *, select option {
     font-family: 'Open Sans', sans-serif;
     font-display: swap;
 }
-a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-/* Provide sufficient contrast against white background */
-a {
-    color: #0366d6;
-}
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}
-/* Sticky footer styles
--------------------------------------------------- */
 html {
     font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-body{
+body {
     display: flex;
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(18,122,209,1) 0%, rgba(62,201,221,1) 100%);
 }
-main > header {
-    height: 10%;
+body > .container-fluid{
+    height: 92.5%;
+    position: absolute;
 }
-main > header .row {
+body > .container-fluid > main{
     height: 100%;
 }
-main > div.container-fluid {
+body > .container-fluid > main > header {
+    height: 10%;
+}
+body > .container-fluid > main > header .row {
+    height: 100%;
+}
+body > .container-fluid > main > div.container-fluid {
     height: 90%;
 }
-hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+body > .footer {
+    width: 100%;
+    height: 7.5%;
+    position: absolute;
+    bottom: 0;
+    z-index: 200;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
 }
-/*input[type=text], input[type=email], input[type=date] {
-    border-radius: 5px;
-    padding: 5px 10px;
-    border: none;
-}*/
 select {
     border: none;
     box-shadow: 0px 2px 5px 0px rgb(0 0 0 / 30%);
@@ -73,6 +56,12 @@ textarea {
     border-radius: 5px;
     border: none;
     resize: none;
+}
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 .input-search {
     flex: 1;
@@ -98,52 +87,8 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
 }
-.border-top {
-    border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-    border-bottom: 1px solid #e5e5e5;
-}
-.box-shadow {
-    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-button.accept-policy {
-    font-size: 1rem;
-    line-height: inherit;
-}
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
-body {
-    /* Margin bottom by footer height */
-    /* margin-bottom: 60px; */
-    background: rgb(2,0,36);
-    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(18,122,209,1) 0%, rgba(62,201,221,1) 100%);
-}
-body > .container-fluid{
-    height: 92.5%;
-    position: absolute;
-}
-body > .container-fluid > main{
-    height: 100%;
-}
-body > .footer {
-    width: 100%;
-    height: 7.5%;
-    position: absolute;
-    bottom: 0;
-    z-index: 200;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    /*line-height: 60px;*/ /* Vertically center the text there */
-}
-/*  My Styles */
 
-/* Main */
+/* MAIN */
 input#username::placeholder, input#pass::placeholder {
     color: white;
 }
@@ -151,7 +96,7 @@ input#username::placeholder, input#pass::placeholder {
     background: #FAFAFA;
 }
 
-/* Dashboard */
+/* DASHBOARD */
 .header-left-side {
     background: #01579B;
     display: flex;
@@ -255,30 +200,6 @@ input#username::placeholder, input#pass::placeholder {
     height: 100%;
     color: #FFF;
 }
-.direct:first-child div {
-    background: #1565C0;
-}
-.direct:first-child div i {
-    color: #0D47A1;
-}
-.direct:nth-child(2) div {
-    background: #2E7D32;
-}
-.direct:nth-child(2) div i {
-    color: #1B5E20;
-}
-.direct:nth-child(3) div {
-    background: #EF6C00;
-}
-.direct:nth-child(3) div i {
-    color: #E65100;
-}
-.direct:last-child div {
-    background: #D84315;
-}
-.direct:last-child div i {
-    color: #BF360C;
-}
 .direct div h4 {
     position: absolute;
     top: 30px;
@@ -304,12 +225,12 @@ input#username::placeholder, input#pass::placeholder {
     text-align: center;
     padding: 5px;
 }
-.myDropdown {
+.my-dropdown {
     width: 100%;
     background: #212121;
     display: none;
 }
-.myDropdown a {
+.my-dropdown a {
     color: #FFF;
     padding: 20px 40px;
     position: relative;
@@ -317,19 +238,18 @@ input#username::placeholder, input#pass::placeholder {
     display: flex;
     align-items: center;
 }
-.myDropdown a.disabled {
+.my-dropdown a.disabled {
     color: #dee2e6;
 }
-.myDropdown a:hover, .myDropdown a:visited {
+.my-dropdown a:hover, .my-dropdown a:visited {
     background: #039BE5;
     color: #FFF;
 }
-.myDropdown a i.fas{
+.my-dropdown a i.fas{
     margin-right: 20px;
 }
 
 /* ESTILOS SECCION REPORTES */
-
 .reports-container {
     height: 100%;
     padding: 15px;
@@ -338,9 +258,32 @@ input#username::placeholder, input#pass::placeholder {
 .reports-container h3{
     text-align: center;
 }
+.reports-container select{
+    width: 100%;
+}
+.reports-container form, .reports-container .row{
+    height: inherit;
+}
+.reports-container .row .col-sm-3{
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+}
+.reports-container .row .col-sm-9{
+    height: inherit;
+    overflow-y: auto;
+}
+.reports-container .background{
+    height: 100%;
+    background: #eee;
+    color: #828282;
+    border: solid 1px #cccbcb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 /* SECCION REPORTES */
-
 .filters select, .col-sm-4 select{
     width: 300px;
 }
@@ -403,27 +346,6 @@ input#username::placeholder, input#pass::placeholder {
 .container-option .row{
     width: 100%;
 }
-/*.form-group{
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.form-group input {
-    width: 100%;
-    border: solid 1px #dee2e6;
-}
-.form-group select{
-    width: 70%;
-}
-.form-group textarea {
-    width: 100%;
-    border: solid 1px #dee2e6;
-}*/
-form.modal-content {
-    background: #5f9dbb;
-    color: #FFF;
-}
 .cell-icons {
     position: relative;
     padding: 0 !important;
@@ -440,4 +362,9 @@ form.modal-content {
     width: 100%;
     text-align: center;
     cursor: pointer;
+}
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
 }

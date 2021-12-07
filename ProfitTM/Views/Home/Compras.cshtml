@@ -77,7 +77,7 @@
                             <p class="mb-0 ml-3">@item.Name</p>
                             <i class="fas fa-caret-up"></i>
                         </li>
-                        <div class="myDropdown">
+                        <div class="my-dropdown">
                             @{
                                 foreach (var elem in item.Options)
                                 {
@@ -95,7 +95,7 @@
                     <p class="mb-0 ml-3">Configuración</p>
                     <i class="fas fa-caret-up"></i>
                 </li>
-                <div class="myDropdown">
+                <div class="my-dropdown">
                     <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
                 </div>
             </ul>
@@ -169,7 +169,7 @@
 
     function print(elem) {
 
-        $(".myDropdown").slideUp();
+        $(".my-dropdown").slideUp();
 
         if (node != null) {
             $(node).removeClass("selected");
@@ -202,7 +202,7 @@
 
         menu.classList.toggle("active");
 
-        $(".myDropdown").slideUp();
+        $(".my-dropdown").slideUp();
         $("i.fa-caret-up").hide();
     }
 

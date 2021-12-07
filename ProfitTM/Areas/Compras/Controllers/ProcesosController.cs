@@ -2,6 +2,7 @@
 
 namespace ProfitTM.Areas.Compras.Controllers
 {
+    [Authorize]
     public class ProcesosController : Controller
     {
         public ActionResult Index()
