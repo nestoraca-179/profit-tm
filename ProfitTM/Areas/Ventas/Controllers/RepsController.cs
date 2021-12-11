@@ -13,7 +13,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         {
             string connect = Session["connect"].ToString();
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
-            report.Parameters["fechaH"].Value = DateTime.Now;
+            report.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
             ds.ConnectionName = connect;

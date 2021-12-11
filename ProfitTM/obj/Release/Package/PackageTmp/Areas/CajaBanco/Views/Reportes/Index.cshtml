@@ -1,4 +1,5 @@
 ﻿@{
+    // REPORTES CAJA Y BANCO
     if (!string.IsNullOrEmpty(ViewBag.name))
     {
         ViewBag.Title = ViewBag.name;
@@ -10,231 +11,79 @@
 
     ViewData["home"] = Session["home"];
 }
+@Html.DevExpress().GetStyleSheets(
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Report }
+)
+@Html.DevExpress().GetScripts(
+    //new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.Report }
+)
 <div class="reports-container" ng-app="Reports" ng-controller="controller">
     <form action="" method="post">
-        @{
-            if (string.IsNullOrEmpty(ViewBag.name))
-            {
-                if (!string.IsNullOrEmpty(ViewBag.message))
-                {
-                    <div style="width: 100%;" class="alert alert-danger">@ViewBag.message</div>
-                }
-                <div class="row" style="margin-top: 15px">
-                    <div class="col-sm-4 d-flex flex-column align-items-center">
-                        <h5>Árbol de Reportes</h5>
-                        <select ng-model="tree" ng-change="loadGroup(tree)" ng-disabled="!treeReports">
-                            <option value="#">Seleccione Árbol de Reportes...</option>
-                            <option ng-repeat="tree in treeReports" value="{{ tree.ID }}">{{ tree.Name }}</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4 d-flex flex-column align-items-center">
-                        <h5>Grupo de Reportes</h5>
-                        <select ng-model="group" ng-change="loadReport(group)" ng-disabled="tree == '#'">
-                            <option value="#">Seleccione Grupo de Reportes...</option>
-                            <option ng-repeat="group in groupReports" value="{{ group.ID }}">{{ group.Name }}</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4 d-flex flex-column align-items-center">
-                        <h5>Reporte</h5>
-                        <select ng-model="report" ng-change="loadButton(report)" ng-disabled="group == '#' || tree == '#'">
-                            <option value="#">Seleccione Reporte...</option>
-                            <option ng-repeat="report in reports" value="{{ report.ID }}" ng-show="report.Enabled">{{ report.Name }}</option>
-                        </select>
-                        <input type="hidden" id="name" name="name" value="" />
-                        <input type="hidden" id="proc" name="proc" value="" />
-                        <input type="hidden" id="cols" name="cols" value="" />
-                        <input type="hidden" id="fields" name="fields" value="" />
-                        <input type="hidden" id="queryParams" name="queryParams" value="" />
-                        <input type="hidden" id="format" name="format" value="" />
-                    </div>
+        <div class="row mt-2 p-3">
+            <div class="col-sm-3">
+                <div class="d-flex flex-column align-items-center mb-5">
+                    <h5>Árbol de Reportes</h5>
+                    <select ng-model="tree" ng-change="loadGroup(tree)" ng-disabled="!treeReports">
+                        <option value="#">Seleccione Árbol de Reportes...</option>
+                        <option ng-repeat="tree in treeReports" value="{{ tree.ID }}">{{ tree.Name }}</option>
+                    </select>
                 </div>
-            }
-        }
-        <div class="row mt-3 p-3">
-            <div class="col-sm-12">
+                <div class="d-flex flex-column align-items-center mt-5 mb-5">
+                    <h5>Grupo de Reportes</h5>
+                    <select ng-model="group" ng-change="loadReport(group)" ng-disabled="tree == '#'">
+                        <option value="#">Seleccione Grupo de Reportes...</option>
+                        <option ng-repeat="group in groupReports" value="{{ group.ID }}">{{ group.Name }}</option>
+                    </select>
+                </div>
+                <div class="d-flex flex-column align-items-center mt-5 mb-5">
+                    <h5>Reporte</h5>
+                    <select ng-model="report" ng-change="loadButton(report)" ng-disabled="group == '#' || tree == '#'">
+                        <option value="#">Seleccione Reporte...</option>
+                        <option ng-repeat="report in reports" value="{{ report.ID }}" ng-show="report.Enabled">{{ report.Name }}</option>
+                    </select>
+                    <input type="hidden" id="name" name="name" value="" />
+                    <input type="hidden" id="format" name="format" value="" />
+                </div>
+                <div class="d-flex flex-column align-items-center mt-5">
+                    <button type="submit" id="btnSubmit" class="btn btn-primary" style="margin: 15px 0" ng-disabled="!completed">Cargar Reporte</button>
+                </div>
+            </div>
+            <div class="col-sm-9">
                 @{
-                    if (ViewBag.results != null)
+                    if (!string.IsNullOrEmpty(ViewBag.report))
                     {
-                        <h4 style="text-align: center;">@ViewBag.name</h4><br />
-                        <table id="results-table" class="table table-striped table-hover table-bordered table-sm shadow-sm">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th style="vertical-align: middle; text-align: center;" scope="col">N°</th>
-                                    @{
-                                        foreach (var field in ViewBag.fields)
-                                        {
-                                            <th style="vertical-align: middle; text-align: center;" scope="col">@field</th>
-                                        }
-                                    }
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    var index = 1;
-                                    foreach (var item in ViewBag.results)
-                                    {
-                                        <tr>
-                                            <td>@index</td>
-                                            @{
-                                                foreach (var cell in ViewBag.cols)
-                                                {
-                                                    if (cell.Contains("(") && cell.Contains(")"))
-                                                    {
-                                                        string name = cell.Substring(0, cell.IndexOf("("));
+                        string report = ViewBag.report;
 
-                                                        <td>@item[name]</td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td>@item[cell]</td>
-                                                    }
-                                                }
-                                            }
-                                        </tr>
-                                        index++;
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                        <div style="margin-top: 10px; display: flex; justify-content: space-between">
-                            <a href="/CajaBanco/Reportes/" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar</a>
-                            @{
-                                if (!string.IsNullOrEmpty(ViewBag.format))
-                                {
-                                    <a href="/CajaBanco/Reportes/Reporte?name=@ViewBag.format" class="btn btn-primary">Ver Reporte</a>
-                                }
-                            }
-                        </div>
+                        @Html.Action(report, "Reps")
                     }
                     else
                     {
-                        <div class="col-sm-12 filters shadow">
-                            <h3 class="text-white">Filtrar por</h3>
-                            <div>
-                                <h5 class="text-white">Codigo</h5>
-                                <div class="input-search" style="margin-right: 20px;">
-                                    <input type="text" id="codD" name="paramsSent" placeholder="Desde" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCods')" data-name="codD"></i>
-                                </div>
-                                <div class="input-search" style="margin-left: 20px;">
-                                    <input type="text" id="codH" name="paramsSent" placeholder="Hasta" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCods')" data-name="codH"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <h5 class="text-white">Fecha</h5>
-                                <input type="date" id="fecD" name="paramsSent" style="margin-right: 20px;" placeholder="Desde" disabled />
-                                <input type="date" id="fecH" name="paramsSent" style="margin-left: 20px;" placeholder="Hasta" disabled />
-                            </div>
-                            <hr style="width: 100%; height: 1px; background: #7ad4f7; border-radius: 5px; margin: 0 auto;" />
-                            <div>
-                                <h5 class="text-white">Cuenta</h5>
-                                <div class="input-search" style="margin-right: 20px;">
-                                    <input type="text" id="cueD" name="paramsSent" placeholder="Desde" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="cueD"></i>
-                                </div>
-                                <div class="input-search" style="margin-left: 20px;">
-                                    <input type="text" id="cueH" name="paramsSent" placeholder="Hasta" disabled />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="cueH"></i>
-                                </div>
-                            </div>
+                        <div class="background">
+                            <h2><i class="fas fa-file m-3"></i> Aquí se mostrará el reporte</h2>
                         </div>
                     }
                 }
             </div>
         </div>
-        @{
-            if (string.IsNullOrEmpty(ViewBag.name))
-            {
-                <button type="submit" id="btnSubmit" class="btn btn-primary" style="margin: 15px 0" ng-disabled="!completed">Cargar Reporte</button>
-            }
-        }
     </form>
-    <!-- Modal 1 -->
-    <div class="modal fade" id="modalCods" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Buscar Código</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar código..." onkeyup="search('modalCods')" />
-                    </div>
-                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.cods)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
-                                </tr>
-                            }
-                        }
-                    </table>
-                    <input type="hidden" id="name-input" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveRow('modalCods')">Seleccionar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal 2 -->
-    <div class="modal fade" id="modalAccounts" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Buscar Cuenta</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" style="max-height: 450px; overflow-y: scroll">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalAccounts')" />
-                    </div>
-                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.bankAccounts)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Bank</td>
-                                    <td>@elem.Number</td>
-                                    <td>@elem.Currency</td>
-                                </tr>
-                            }
-                        }
-                    </table>
-                    <input type="hidden" id="name-input" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAccounts')">Seleccionar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <script src="~/Content/angular-min.js"></script>
 <script>
     var app = angular.module("Reports", []);
 
-    function blockFields() {
+    $(document).ready(function () {
 
-        var params = "codD, codH, fecD, fecH, cueD, cueH";
+        setTimeout(function () {
+            $(".dxrd-preview-parameter-action.dxrdp-parameters-submit").on("click", function () {
+                $(".dxrd-right-panel-collapse").trigger("click");
+            });
+        }, 1000);
 
-        for (var par of params.split(", ")) {
-            if (document.getElementById(par) != null) {
-                document.getElementById(par).setAttribute("disabled", "true");
-            }
-        }
-    }
+    });
 
     app.controller("controller", function ($scope, $http) {
 
@@ -259,8 +108,6 @@
 
             $scope.group = "#";
             $scope.report = "#";
-
-            blockFields();
         }
 
         $scope.loadReport = function (group) {
@@ -270,40 +117,19 @@
             }
 
             $scope.report = "#";
-
-            blockFields();
         }
 
         $scope.loadButton = function (report) {
 
             var name = document.getElementById("name");
-            var proc = document.getElementById("proc");
-            var cols = document.getElementById("cols");
-            var fields = document.getElementById("fields");
-            var queryParams = document.getElementById("queryParams");
             var format = document.getElementById("format");
-
-            blockFields();
 
             if (report != "#") {
 
                 $scope.selected = $scope.reports.find(e => e.ID == report);
-                console.log($scope.selected);
 
                 name.value = $scope.selected.Name;
-                proc.value = $scope.selected.Proc;
-                cols.value = $scope.selected.Cols;
-                fields.value = $scope.selected.Fields;
-                queryParams.value = $scope.selected.QueryParams;
                 format.value = $scope.selected.Format;
-
-                if ($scope.selected.Params != null) {
-                    for (var par of $scope.selected.Params.split(",")) {
-                        if (document.getElementById(par) != null) {
-                            document.getElementById(par).removeAttribute("disabled");
-                        }
-                    }
-                }
 
                 $scope.completed = true;
 
@@ -312,64 +138,5 @@
             }
         }
     });
-
-    function openModal(elem, modal) {
-
-        var previous = elem.previousElementSibling;
-
-        if (!previous.disabled) {
-
-            $("#" + modal).find("#name-input").val($(elem).data("name"));
-            $("#" + modal).modal("show");
-
-        }
-    }
-
-    function search(modal) {
-        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
-            table = $("#" + modal).find("#results")[0];
-
-        for (var i = 0; i < table.rows.length; i++) {
-
-            var row = table.rows[i];
-            var elems = row.getElementsByTagName("td");
-
-            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
-
-            if (!val1.includes(value) && !val2.includes(value))
-                row.style.display = "none";
-            else
-                row.style.display = "";
-        }
-    }
-
-    function selectRow(elem) {
-        var previous = document.getElementsByClassName("selected-row")[0];
-
-        if (previous != null) {
-            previous.classList.remove("selected-row");
-        }
-
-        elem.classList.add("selected-row");
-    }
-
-    function saveRow(modal) {
-        var item = document.getElementsByClassName("selected-row")[0];
-
-        if (item != null) {
-            var elem = item.children[0],
-                value = elem.innerHTML,
-                input = $("#" + modal).find("#name-input").val();
-
-            $("#" + input).val(value.trim());
-            $(".selected-row")[0].classList.remove("selected-row");
-            $("#" + modal).find("input[type=text]").val("");
-            $("#" + modal).find("button[name=search-btn]").trigger("click");
-
-            $("#" + modal).modal("hide");
-        } else {
-            alert("Debes seleccionar un item");
-        }
-    }
 
 </script>

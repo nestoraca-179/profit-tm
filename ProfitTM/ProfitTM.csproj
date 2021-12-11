@@ -211,14 +211,12 @@
     <Content Include="Areas\Ventas\Views\Reportes\_RepClienteMasVentaPartial.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\Index.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\_RepCompraxArtPartial.cshtml" />
-    <Content Include="Areas\Compras\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\_RepTotalCompraxArticuloPartial.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\_RepProveedorMasCompraPartial.cshtml" />
     <Content Include="Areas\CajaBanco\Views\web.config" />
     <Content Include="Areas\CajaBanco\Views\_ViewStart.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\Index.cshtml" />
-    <Content Include="Areas\CajaBanco\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Ventas\Views\Tablas\Index.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\_RepBancoPartial.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\_RepDisponibilidadBancariaPartial.cshtml" />
@@ -229,7 +227,6 @@
     <Content Include="Areas\General\Views\_ViewStart.cshtml" />
     <Content Include="Areas\General\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\General\Views\Reportes\Index.cshtml" />
-    <Content Include="Areas\General\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\General\Views\Reportes\_RepBalanceGeneral2KDocePartial.cshtml" />
     <Content Include="Areas\General\Views\Reportes\_RepEstadoResultados2KDocePartial.cshtml" />
     <Content Include="Areas\General\Views\Reportes\_RepBalanceComprobacionPartial.cshtml" />

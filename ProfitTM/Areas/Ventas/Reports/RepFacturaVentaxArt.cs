@@ -60,8 +60,8 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
     private XRTableCell xrTableCell2;
     private DevExpress.XtraReports.Parameters.Parameter artD;
     private DevExpress.XtraReports.Parameters.Parameter artH;
-    private DevExpress.XtraReports.Parameters.Parameter fechaD;
-    private DevExpress.XtraReports.Parameters.Parameter fechaH;
+    private DevExpress.XtraReports.Parameters.Parameter fecDesde;
+    private DevExpress.XtraReports.Parameters.Parameter fecHasta;
     private XRTableCell xrTableCell6;
     private XRTableCell xrTableCell7;
     private DevExpress.XtraReports.Parameters.Parameter cliDesde;
@@ -221,8 +221,8 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.label7 = new DevExpress.XtraReports.UI.XRLabel();
             this.artD = new DevExpress.XtraReports.Parameters.Parameter();
             this.artH = new DevExpress.XtraReports.Parameters.Parameter();
-            this.fechaD = new DevExpress.XtraReports.Parameters.Parameter();
-            this.fechaH = new DevExpress.XtraReports.Parameters.Parameter();
+            this.fecDesde = new DevExpress.XtraReports.Parameters.Parameter();
+            this.fecHasta = new DevExpress.XtraReports.Parameters.Parameter();
             this.cliDesde = new DevExpress.XtraReports.Parameters.Parameter();
             this.cliHasta = new DevExpress.XtraReports.Parameters.Parameter();
             this.codSucu = new DevExpress.XtraReports.Parameters.Parameter();
@@ -244,10 +244,10 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             queryParameter2.Value = new DevExpress.DataAccess.Expression("?artH", typeof(string));
             queryParameter3.Name = "@sCo_fecha_d";
             queryParameter3.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter3.Value = new DevExpress.DataAccess.Expression("?fechaD", typeof(System.DateTime));
+            queryParameter3.Value = new DevExpress.DataAccess.Expression("?fecDesde", typeof(System.DateTime));
             queryParameter4.Name = "@sCo_fecha_h";
             queryParameter4.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter4.Value = new DevExpress.DataAccess.Expression("?fechaH", typeof(System.DateTime));
+            queryParameter4.Value = new DevExpress.DataAccess.Expression("?fecHasta", typeof(System.DateTime));
             queryParameter5.Name = "@cCo_cliente_d";
             queryParameter5.Type = typeof(DevExpress.DataAccess.Expression);
             queryParameter5.Value = new DevExpress.DataAccess.Expression("?cliDesde", typeof(string));
@@ -1028,19 +1028,19 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.artH.LookUpSettings = dynamicListLookUpSettings2;
             this.artH.Name = "artH";
             // 
-            // fechaD
+            // fecDesde
             // 
-            this.fechaD.Description = "Fecha Desde";
-            this.fechaD.Name = "fechaD";
-            this.fechaD.Type = typeof(System.DateTime);
-            this.fechaD.ValueInfo = "2000-01-01";
+            this.fecDesde.Description = "Fecha Desde";
+            this.fecDesde.Name = "fecDesde";
+            this.fecDesde.Type = typeof(System.DateTime);
+            this.fecDesde.ValueInfo = "2000-01-01";
             // 
-            // fechaH
+            // fecHasta
             // 
-            this.fechaH.Description = "Fecha Hasta";
-            this.fechaH.Name = "fechaH";
-            this.fechaH.Type = typeof(System.DateTime);
-            this.fechaH.ValueInfo = "2000-01-01";
+            this.fecHasta.Description = "Fecha Hasta";
+            this.fecHasta.Name = "fecHasta";
+            this.fecHasta.Type = typeof(System.DateTime);
+            this.fecHasta.ValueInfo = "2000-01-01";
             // 
             // cliDesde
             // 
@@ -1102,8 +1102,8 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.artD,
             this.artH,
-            this.fechaD,
-            this.fechaH,
+            this.fecDesde,
+            this.fecHasta,
             this.cliDesde,
             this.cliHasta,
             this.codSucu});

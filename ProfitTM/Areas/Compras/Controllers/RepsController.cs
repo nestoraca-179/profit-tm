@@ -1,5 +1,6 @@
 ﻿using DevExpress.DataAccess.Sql;
 using DevExpress.Web.Mvc;
+using System;
 using System.Web.Mvc;
 
 namespace ProfitTM.Areas.Compras.Controllers
@@ -12,6 +13,7 @@ namespace ProfitTM.Areas.Compras.Controllers
         {
             string connect = Session["connect"].ToString();
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            report.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
             ds.ConnectionName = connect;

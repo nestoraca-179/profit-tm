@@ -1,4 +1,5 @@
 ﻿@{
+    // REPORTES VENTAS
     if (!string.IsNullOrEmpty(ViewBag.name))
     {
         ViewBag.Title = ViewBag.name;
@@ -107,8 +108,6 @@
 
             $scope.group = "#";
             $scope.report = "#";
-
-            blockFields();
         }
 
         $scope.loadReport = function (group) {
@@ -118,8 +117,6 @@
             }
 
             $scope.report = "#";
-
-            blockFields();
         }
 
         $scope.loadButton = function (report) {

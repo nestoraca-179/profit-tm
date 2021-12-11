@@ -4,12 +4,7 @@
     {
         public string ID { get; set; }
         public string Name { get; set; }
-        public string Proc { get; set; }
-        public string Cols { get; set; }
-        public string Fields { get; set; }
         public string Format { get; set; }
-        public string Params { get; set; }
-        public string QueryParams { get; set; }
         public bool Enabled { get; set; }
         public string GroupID { get; set; }
     }

@@ -3,7 +3,7 @@
     ViewData["home"] = Session["home"];
 }
 <header class="container-fluid">
-    <div class="row" style="height: 60px;">
+    <div class="row">
         <div class="col-sm-2 header-left-side text-white">
             <i class="fas fa-bars icon-menu" id="icon-menu"></i>
             <a href="/Home/@ViewData["home"]">Profit Plus TM</a>
@@ -58,38 +58,39 @@
         </div>
         <div class="dash-right-side">
             <div class="container-fluid" style="padding: 5px 40px">
-                <h2 class="mt-2">Estadísticas</h2>
+                <h3 class="mt-2">Accesos Directos</h3>
                 <div class="row mt-3">
                     <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded">
+                        <div class="col-md-12 shadow rounded" style="background: #1565C0;">
                             <h4>Inventario</h4>
-                            <i class="fas fa-box"></i>
+                            <i class="fas fa-box" style="color: #0D47A1;"></i>
                             <a href="Inventario">Ir a Inventario <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded">
+                        <div class="col-md-12 shadow rounded" style="background: #2E7D32;">
                             <h4>Ventas</h4>
-                            <i class="fas fa-dollar-sign"></i>
+                            <i class="fas fa-dollar-sign" style="color: #1B5E20;"></i>
                             <a href="Ventas">Ir a Ventas <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded">
+                        <div class="col-md-12 shadow rounded" style="background: #EF6C00;">
                             <h4>Compras</h4>
-                            <i class="fas fa-tags"></i>
+                            <i class="fas fa-tags" style="color: #E65100;"></i>
                             <a href="Compras">Ir a Compras <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded">
+                        <div class="col-md-12 shadow rounded" style="background: #D84315;">
                             <h4>Configuración</h4>
-                            <i class="fas fa-cog fa-spin"></i>
+                            <i class="fas fa-cog fa-spin" style="color: #BF360C;"></i>
                             <a href="#">Ir a Configuración <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
                 <hr />
+                <h3 class="mt-2">Estadísticas</h3>
             </div>
         </div>
     </div>
@@ -111,49 +112,42 @@
     });
 
     function print(elem) {
-        var elems = document.getElementsByClassName("my-dropdown");
 
-        for (var item of elems) {
-            $(item).animate({ width: 'hide' });
-        }
+        $(".my-dropdown").slideUp();
 
         if (node != null) {
-            node.classList.remove("selected");
+            $(node).removeClass("selected");
+            $(node).children("i.fa-caret-up").hide();
         }
 
-        elem.classList.add("selected");
+        $(elem).addClass("selected");
 
         if (node != elem) {
 
-            $(elem).next().animate({ width: 'show' });
+            $(elem).next().slideDown();
             $(elem).next().css("display", "flex");
             $(elem).next().css("flex-direction", "column");
-
-            menu.classList.add("active");
+            $(elem).children("i.fa-caret-up").show();
             node = elem;
 
         } else {
-
-            node.classList.remove("selected");
-            menu.classList.remove("active");
+            $(elem).removeClass("selected");
+            $(elem).children("i.fa-caret-up").hide();
             node = null;
-
         }
     }
 
     function hide() {
 
         if (node != null) {
-            node.classList.remove("selected");
+            $(node).removeClass("selected");
             node = null;
         }
 
         menu.classList.toggle("active");
 
-        var elems = document.getElementsByClassName("my-dropdown");
-
-        for (var item of elems) {
-            $(item).animate({ width: 'hide' });
-        }
+        $(".my-dropdown").slideUp();
+        $("i.fa-caret-up").hide();
     }
+
 </script>
