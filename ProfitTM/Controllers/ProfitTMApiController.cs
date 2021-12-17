@@ -6,6 +6,9 @@ namespace ProfitTM.Controllers
 {
     public class ProfitTMApiController : ApiController
     {
+        // CADENA DE CONEXION
+        private readonly string connect = HttpContext.Current.Session["connect"].ToString();
+
         // CONTROLADORES DEL API
 
         // BUSCAR REPORTES
@@ -21,43 +24,28 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // PROVEEDOR
-
+        // USUARIO
+        
         [HttpPost]
-        [Route("api/ProfitTMApi/AddSupplier/")]
-        public ProfitTMResponse AddSupplier(Supplier supplier)
+        [Route("api/ProfitTMApi/AddUser/")]
+        public ProfitTMResponse AddUser(User user)
         {
             ProfitTMResponse response;
-            string connect = HttpContext.Current.Session["connect"].ToString();
 
-            SupplierManager supplierManager = new SupplierManager(connect);
-            response = supplierManager.addSupplier(supplier);
+            UserManager userManager = new UserManager();
+            response = userManager.addUser(user);
 
             return response;
         }
 
         [HttpPost]
-        [Route("api/ProfitTMApi/EditSupplier/")]
-        public ProfitTMResponse EditSupplier(Supplier supplier)
+        [Route("api/ProfitTMApi/EditUser/")]
+        public ProfitTMResponse EditUser(User user)
         {
             ProfitTMResponse response;
-            string connect = HttpContext.Current.Session["connect"].ToString();
 
-            SupplierManager supplierManager = new SupplierManager(connect);
-            response = supplierManager.editSupplier(supplier);
-
-            return response;
-        }
-
-        [HttpGet]
-        [Route("api/ProfitTMApi/DeleteSupplier/{id}/")]
-        public ProfitTMResponse DeleteSupplier(string id)
-        {
-            ProfitTMResponse response;
-            string connect = HttpContext.Current.Session["connect"].ToString();
-
-            SupplierManager supplierManager = new SupplierManager(connect);
-            response = supplierManager.deleteSupplier(id);
+            UserManager userManager = new UserManager();
+            response = userManager.editUser(user);
 
             return response;
         }
@@ -69,7 +57,6 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse AddClient(Client client)
         {
             ProfitTMResponse response;
-            string connect = HttpContext.Current.Session["connect"].ToString();
 
             ClientManager clientManager = new ClientManager(connect);
             response = clientManager.addClient(client);
@@ -82,7 +69,6 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse EditClient(Client client)
         {
             ProfitTMResponse response;
-            string connect = HttpContext.Current.Session["connect"].ToString();
 
             ClientManager clientManager = new ClientManager(connect);
             response = clientManager.editClient(client);
@@ -95,10 +81,47 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse DeleteClient(string id)
         {
             ProfitTMResponse response;
-            string connect = HttpContext.Current.Session["connect"].ToString();
 
             ClientManager clientManager = new ClientManager(connect);
             response = clientManager.deleteClient(id);
+
+            return response;
+        }
+
+        // PROVEEDOR
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddSupplier/")]
+        public ProfitTMResponse AddSupplier(Supplier supplier)
+        {
+            ProfitTMResponse response;
+
+            SupplierManager supplierManager = new SupplierManager(connect);
+            response = supplierManager.addSupplier(supplier);
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/EditSupplier/")]
+        public ProfitTMResponse EditSupplier(Supplier supplier)
+        {
+            ProfitTMResponse response;
+
+            SupplierManager supplierManager = new SupplierManager(connect);
+            response = supplierManager.editSupplier(supplier);
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/DeleteSupplier/{id}/")]
+        public ProfitTMResponse DeleteSupplier(string id)
+        {
+            ProfitTMResponse response;
+
+            SupplierManager supplierManager = new SupplierManager(connect);
+            response = supplierManager.deleteSupplier(id);
 
             return response;
         }
@@ -110,7 +133,6 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse AddInvoice(string order, Invoice invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
-            string connect = HttpContext.Current.Session["connect"].ToString();
 
             InvoiceManager invoiceManager = new InvoiceManager(connect);
 
@@ -127,7 +149,6 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse EditInvoice(Invoice invoice)
         {
             ProfitTMResponse response;
-            string connect = HttpContext.Current.Session["connect"].ToString();
 
             InvoiceManager invoiceManager = new InvoiceManager(connect);
             response = invoiceManager.editInvoice(invoice);

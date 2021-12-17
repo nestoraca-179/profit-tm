@@ -76,6 +76,7 @@ namespace ProfitTM.Models
 
                                 option.ID = reader["ID"].ToString();
                                 option.Name = reader["OptionName"].ToString();
+                                option.ModuleID = reader["ModuleID"].ToString();
 
                                 options.Add(option);
                             }

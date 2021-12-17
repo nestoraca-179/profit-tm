@@ -70,6 +70,9 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                ViewBag.userEdit = MyUser.GetUser(id);
+                ViewBag.allModules = Module.GetAllModules();
+
                 return View();
             }
         }

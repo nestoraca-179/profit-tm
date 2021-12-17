@@ -414,6 +414,7 @@
     <Compile Include="Controllers\SQLController.cs" />
     <Compile Include="Controllers\StringController.cs" />
     <Compile Include="Controllers\SupplierManager.cs" />
+    <Compile Include="Controllers\UserManager.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
