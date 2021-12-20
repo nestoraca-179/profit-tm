@@ -30,20 +30,28 @@ namespace ProfitTM.Controllers
                         {
                             if (reader.Read())
                             {
-                                FormsAuthentication.SetAuthCookie(username, true);
-                                
-                                User user = new User() {
-                                    ID = reader["ID"].ToString(),
-                                    Username = reader["Username"].ToString(),
-                                    Descrip = reader["Descrip"].ToString(),
-                                    IsAdm = bool.Parse(reader["IsAdm"].ToString()),
-                                    IsCon = bool.Parse(reader["IsCon"].ToString()),
-                                    IsNom = bool.Parse(reader["IsNom"].ToString())
-                                };
+                                if (bool.Parse(reader["Enabled"].ToString()))
+                                {
+                                    FormsAuthentication.SetAuthCookie(username, true);
 
-                                Session["user"] = user;
+                                    User user = new User()
+                                    {
+                                        ID = reader["ID"].ToString(),
+                                        Username = reader["Username"].ToString(),
+                                        Descrip = reader["Descrip"].ToString(),
+                                        IsAdm = bool.Parse(reader["IsAdm"].ToString()),
+                                        IsCon = bool.Parse(reader["IsCon"].ToString()),
+                                        IsNom = bool.Parse(reader["IsNom"].ToString())
+                                    };
 
-                                return RedirectToAction("SeleccionProducto", "Home");
+                                    Session["user"] = user;
+
+                                    return RedirectToAction("SeleccionProducto", "Home");
+                                }
+                                else
+                                {
+                                    return RedirectToAction("Index", "Home", new { message = "Usuario inactivo" });
+                                }
                             }
                             else
                             {

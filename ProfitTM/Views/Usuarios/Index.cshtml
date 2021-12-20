@@ -11,22 +11,34 @@
         background: #0277bd;
         color: #FFF;
     }
-    table td{
+    table td {
         vertical-align: middle !important;
     }
-    table .btn.btn-primary{
+    /*table .btn.btn-primary{
         width: 50%;
         font-size: 14px;
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-    }
-    .btn.btn-success{
+    }*/
+    .btn.btn-success {
         color: #FFF;
     }
-    input[type=checkbox], .btn.btn-primary {
+    input[type=checkbox] {
         display: block;
         margin: 0 auto;
+    }
+    .cell-buttons {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .cell-buttons .btn {
+        padding: 5px 15px;
+    }
+    .modal-delete .fas {
+        font-size: 6em;
+        padding: 5%;
     }
 </style>
 <header class="container-fluid">
@@ -79,6 +91,7 @@
         </div>
         <div class="dash-right-side">
             <div class="container-fluid">
+                <div ng-if="show" class="{{ class }}">{{ message }}</div>
                 <h2 class="text-center mt-3">Usuarios</h2>
                 <a href="/Usuarios/Agregar" class="btn btn-success mt-5">
                     <i class="fas fa-plus"></i> Agregar nuevo
@@ -107,14 +120,37 @@
                             <td>{{ user.Email }}</td>
                             <td>{{ user.Phone }}</td>
                             <td><input type="checkbox" onclick="return false" ng-model="user.Enabled" /></td>
-                            <td>
+                            <td class="cell-buttons">
                                 <button type="button" class="btn btn-primary" ng-click="setLocation(user.ID)">
                                     <i class="fas fa-file-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" ng-click="setDelete(user)">
+                                    <i class="fas fa-times"></i>
                                 </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Eliminar -->
+    <div class="modal fade modal-delete" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Eliminar Usuario</h3>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--yellow)"></i>
+                    </div>
+                    <h2 class="text-center">¿Desea eliminar el usuario {{ userDelete.Username }}?</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="deleteUser(userDelete.ID)">Sí</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
             </div>
         </div>
     </div>
@@ -137,6 +173,8 @@
     app.controller("controller", function ($scope, $http) {
 
         $scope.users = users;
+        $scope.userDelete = {};
+        $scope.show = false;
 
         $scope.formatDate = function (date) {
 
@@ -153,6 +191,34 @@
 
         $scope.setLocation = function (id) {
             location.href = "/Usuarios/Editar?id=" + id;
+        }
+
+        $scope.setDelete = function (user) {
+            $scope.userDelete = user;
+            $("#modalDelete").modal("show");
+        }
+
+        $scope.deleteUser = function (id) {
+
+            $http.get("/api/ProfitTMApi/DeleteUser/" + id)
+                .then(function (response) {
+
+                    console.log(response.data);
+                    var res = response.data;
+
+                    $scope.show = true;
+                    $("#modalDelete").modal("hide");
+
+                    if (res.Status == "OK") {
+                        $scope.users = $scope.users.filter(u => u.ID != id);
+                        $scope.message = "El usuario se ha eliminado con éxito";
+                        $scope.class = "alert alert-success";
+                    } else {
+                        $scope.message = "Ha ocurrido un error => " + res.Message;
+                        $scope.class = "alert alert-danger";
+                    }
+
+                });
         }
     });
 

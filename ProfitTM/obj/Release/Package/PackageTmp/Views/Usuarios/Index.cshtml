@@ -90,6 +90,9 @@
                             <th>Usuario</th>
                             <th>Nombre</th>
                             <th>Fecha Registro</th>
+                            <th>C.I.</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
                             <th class="text-center">Activo</th>
                             <th class="text-center">Opciones</th>
                         </tr>
@@ -100,10 +103,13 @@
                             <td>{{ user.Username }}</td>
                             <td>{{ user.Descrip }}</td>
                             <td>{{ formatDate(user.DateReg) }}</td>
+                            <td>{{ user.CI }}</td>
+                            <td>{{ user.Email }}</td>
+                            <td>{{ user.Phone }}</td>
                             <td><input type="checkbox" onclick="return false" ng-model="user.Enabled" /></td>
                             <td>
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fas fa-file-edit"></i> Editar
+                                <button type="button" class="btn btn-primary" ng-click="setLocation(user.ID)">
+                                    <i class="fas fa-file-edit"></i>
                                 </button>
                             </td>
                         </tr>
@@ -143,6 +149,10 @@
                 month = "0" + month;
 
             return day + "/" + month + "/" + year;
+        }
+
+        $scope.setLocation = function (id) {
+            location.href = "/Usuarios/Editar?id=" + id;
         }
     });
 

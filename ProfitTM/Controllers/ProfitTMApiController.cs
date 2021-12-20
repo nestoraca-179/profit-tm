@@ -50,6 +50,18 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("api/ProfitTMApi/DeleteUser/{id}/")]
+        public ProfitTMResponse DeleteUser(int id)
+        {
+            ProfitTMResponse response;
+
+            UserManager userManager = new UserManager();
+            response = userManager.deleteUser(id);
+
+            return response;
+        }
+
         // CLIENTE
 
         [HttpPost]

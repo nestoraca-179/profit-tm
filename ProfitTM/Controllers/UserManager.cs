@@ -225,7 +225,51 @@ namespace ProfitTM.Controllers
                         else
                         {
                             response.Status = "ERROR";
-                            response.Message = "Se ha producido un error al agregar el usuario";
+                            response.Message = "Se ha producido un error al modificar el usuario";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+            finally
+            {
+                query.Clear();
+            }
+
+            return response;
+        }
+
+        public ProfitTMResponse deleteUser(int id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            StringBuilder query = new StringBuilder();
+
+            query.AppendFormat("delete from UserOptions where UserID = {0} \n", id);
+            query.AppendFormat("delete from UserModules where UserID = {0} \n", id);
+            query.AppendFormat("delete from Users where ID = {0} \n", id);
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(DBMain))
+                {
+                    conn.Open();
+                    using (SqlCommand comm = new SqlCommand(query.ToString(), conn))
+                    {
+                        int rows = comm.ExecuteNonQuery();
+
+                        if (rows > 0)
+                        {
+                            response.Status = "OK";
+                            response.Result = rows;
+                        }
+                        else
+                        {
+                            response.Status = "ERROR";
+                            response.Message = "Se ha producido un error al eliminar el usuario";
                         }
                     }
                 }
