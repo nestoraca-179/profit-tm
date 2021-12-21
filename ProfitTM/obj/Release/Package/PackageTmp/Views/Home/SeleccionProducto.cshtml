@@ -139,7 +139,7 @@
     });
 
     function send(elem) {
-        elem.setAttribute('disabled', 'true');
+        $(elem).prop("disabled", "true");
         $("form").trigger("submit");
     }
 </script>

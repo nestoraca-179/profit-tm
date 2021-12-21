@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\ProfitTM</_PublishTargetUrl>
-    <History>True|2021-12-17T17:18:25.6680611Z;True|2021-12-11T15:32:44.3104225-04:00;True|2021-12-07T00:22:50.7040072-04:00;True|2021-11-19T11:24:00.0579278-04:00;True|2021-11-13T14:40:01.3424488-04:00;False|2021-11-12T14:28:07.3046098-04:00;True|2021-11-11T17:28:21.4738914-04:00;True|2021-11-10T17:29:01.1536342-04:00;True|2021-11-10T15:16:08.6429076-04:00;True|2021-11-09T22:40:30.9675651-04:00;True|2021-11-03T22:10:52.1173600-04:00;True|2021-11-03T21:47:01.3627119-04:00;True|2021-11-02T23:00:39.2094699-04:00;True|2021-11-01T17:22:37.3812562-04:00;True|2021-10-27T12:12:52.9248084-04:00;True|2021-10-27T12:10:54.9536520-04:00;True|2021-10-27T12:08:29.3120485-04:00;True|2021-10-19T01:17:18.1479556-04:00;True|2021-10-19T01:09:31.4394087-04:00;True|2021-10-18T12:53:06.0333592-04:00;True|2021-10-15T22:34:43.3475968-04:00;True|2021-10-13T23:05:56.7050272-04:00;True|2021-10-12T22:56:25.5779034-04:00;True|2021-10-11T16:24:02.5152049-04:00;True|2021-10-11T13:49:12.9489491-04:00;False|2021-10-11T13:44:03.4294000-04:00;True|2021-10-09T00:43:29.4838469-04:00;False|2021-10-09T00:42:11.4797681-04:00;True|2021-10-04T17:01:31.5863321-04:00;True|2021-10-04T16:44:06.1247653-04:00;</History>
+    <History>True|2021-12-21T02:55:22.9869092Z;True|2021-12-20T08:45:45.2547505-04:00;True|2021-12-17T13:18:25.6680611-04:00;True|2021-12-11T15:32:44.3104225-04:00;True|2021-12-07T00:22:50.7040072-04:00;True|2021-11-19T11:24:00.0579278-04:00;True|2021-11-13T14:40:01.3424488-04:00;False|2021-11-12T14:28:07.3046098-04:00;True|2021-11-11T17:28:21.4738914-04:00;True|2021-11-10T17:29:01.1536342-04:00;True|2021-11-10T15:16:08.6429076-04:00;True|2021-11-09T22:40:30.9675651-04:00;True|2021-11-03T22:10:52.1173600-04:00;True|2021-11-03T21:47:01.3627119-04:00;True|2021-11-02T23:00:39.2094699-04:00;True|2021-11-01T17:22:37.3812562-04:00;True|2021-10-27T12:12:52.9248084-04:00;True|2021-10-27T12:10:54.9536520-04:00;True|2021-10-27T12:08:29.3120485-04:00;True|2021-10-19T01:17:18.1479556-04:00;True|2021-10-19T01:09:31.4394087-04:00;True|2021-10-18T12:53:06.0333592-04:00;True|2021-10-15T22:34:43.3475968-04:00;True|2021-10-13T23:05:56.7050272-04:00;True|2021-10-12T22:56:25.5779034-04:00;True|2021-10-11T16:24:02.5152049-04:00;True|2021-10-11T13:49:12.9489491-04:00;False|2021-10-11T13:44:03.4294000-04:00;True|2021-10-09T00:43:29.4838469-04:00;False|2021-10-09T00:42:11.4797681-04:00;True|2021-10-04T17:01:31.5863321-04:00;True|2021-10-04T16:44:06.1247653-04:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/CajaBanco/Views/Reportes/Index.cshtml">
@@ -129,7 +129,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/01/2021 14:40:39</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Procesos/Factura.cshtml">
-      <publishTime>11/19/2021 11:16:59</publishTime>
+      <publishTime>12/20/2021 13:01:50</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Procesos/ImportarPedido.cshtml">
       <publishTime>11/01/2021 14:09:17</publishTime>
@@ -165,7 +165,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/06/2021 21:13:22</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Tablas/Cliente.cshtml">
-      <publishTime>11/20/2021 19:16:27</publishTime>
+      <publishTime>12/20/2021 12:54:46</publishTime>
     </File>
     <File Include="Areas/Ventas/Views/Tablas/EditarCliente.cshtml">
       <publishTime>11/02/2021 22:44:44</publishTime>
@@ -537,7 +537,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/03/2014 20:33:56</publishTime>
     </File>
     <File Include="bin/ProfitTM.dll">
-      <publishTime>12/17/2021 12:43:11</publishTime>
+      <publishTime>12/20/2021 10:43:45</publishTime>
     </File>
     <File Include="bin/ProfitTM.pdb">
       <publishTime>11/13/2021 14:34:06</publishTime>
@@ -852,10 +852,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/05/2021 11:08:08</publishTime>
     </File>
     <File Include="Views/Home/Compras.cshtml">
-      <publishTime>12/06/2021 21:13:22</publishTime>
+      <publishTime>12/20/2021 22:52:10</publishTime>
     </File>
     <File Include="Views/Home/DashboardAdmin.cshtml">
-      <publishTime>12/11/2021 13:37:42</publishTime>
+      <publishTime>12/20/2021 22:46:44</publishTime>
     </File>
     <File Include="Views/Home/DashboardCont.cshtml">
       <publishTime>12/11/2021 15:14:18</publishTime>
@@ -867,16 +867,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/23/2021 10:39:17</publishTime>
     </File>
     <File Include="Views/Home/Inventario.cshtml">
-      <publishTime>12/06/2021 21:13:22</publishTime>
+      <publishTime>12/20/2021 22:47:32</publishTime>
     </File>
     <File Include="Views/Home/SeleccionEmpresa.cshtml">
-      <publishTime>11/17/2021 14:42:17</publishTime>
+      <publishTime>12/19/2021 18:14:43</publishTime>
     </File>
     <File Include="Views/Home/SeleccionProducto.cshtml">
-      <publishTime>10/23/2021 11:25:23</publishTime>
+      <publishTime>12/19/2021 18:09:43</publishTime>
     </File>
     <File Include="Views/Home/Ventas.cshtml">
-      <publishTime>12/06/2021 21:13:22</publishTime>
+      <publishTime>12/20/2021 22:51:11</publishTime>
     </File>
     <File Include="Views/Shared/DisplayTemplates/Boolean.cshtml">
       <publishTime>03/21/2021 11:30:26</publishTime>
@@ -909,13 +909,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/06/2021 21:13:22</publishTime>
     </File>
     <File Include="Views/Usuarios/Agregar.cshtml">
-      <publishTime>12/17/2021 11:45:22</publishTime>
+      <publishTime>12/20/2021 08:55:56</publishTime>
     </File>
     <File Include="Views/Usuarios/Editar.cshtml">
-      <publishTime>12/17/2021 12:38:52</publishTime>
+      <publishTime>12/20/2021 08:54:56</publishTime>
     </File>
     <File Include="Views/Usuarios/Index.cshtml">
-      <publishTime>12/17/2021 01:07:33</publishTime>
+      <publishTime>12/19/2021 21:05:00</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>11/01/2021 15:31:07</publishTime>

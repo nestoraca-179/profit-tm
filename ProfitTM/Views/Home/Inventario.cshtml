@@ -104,54 +104,10 @@
             <div class="container-fluid" style="padding: 5px 40px">
                 <br />
                 <a href="/Home/@ViewData["home"]" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar</a>
-                <h2 class="mt-2 text-center m-4">TOP 10 Articulos mas vendidos</h2>
-                <table class="table table-striped table-hover table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Codigo</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            foreach (var item in @ViewBag.mostSelledProds)
-                            {
-                                <tr>
-                                    <td>@item.ID</td>
-                                    <td>@item.Name</td>
-                                    <td>@item.Stock.ToString("N", ViewBag.formato)</td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
                 <figure class="highcharts-figure">
                     <div id="container-msp"></div>
                 </figure>
                 <hr />
-                <h2 class="mt-2 text-center m-4">TOP 10 Articulos mas comprados</h2>
-                <table class="table table-striped table-hover table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Codigo</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            foreach (var item in @ViewBag.mostPurchasedProds)
-                            {
-                                <tr>
-                                    <td>@item.ID</td>
-                                    <td>@item.Name</td>
-                                    <td>@item.Stock.ToString("N", ViewBag.formato)</td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
                 <figure class="highcharts-figure">
                     <div id="container-mpp"></div>
                 </figure>
@@ -214,7 +170,6 @@
 <script>
 
     var productos = @Html.Raw(Json.Encode(@ViewBag.mostSelledProds));
-
     var objects = productos.map(function (x) {
         return {
             name: capitalize(x.Name),
@@ -223,51 +178,52 @@
     });
 
     Highcharts.setOptions({
-        colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
-            return {
-                radialGradient: {
-                    cx: 0.5,
-                    cy: 0.3,
-                    r: 0.7
-                },
-                stops: [
-                    [0, color],
-                    [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
-                ]
-            };
-        })
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
     });
 
     Highcharts.chart('container-msp', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Articulos vendidos'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            text: '10 Artículos más vendidos'
         },
         accessibility: {
-            point: {
-                valueSuffix: '%'
+            announceNewData: {
+                enabled: true
             }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Cantidad</b>'
+            },
+        },
+        legend: {
+            enabled: false
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+            series: {
+                borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y} unds'
-                },
+                    format: '{point.y:,.2f} Unds'
+                }
             }
         },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds vendidas<br/>'
+        },
         series: [{
-            name: 'Porcentaje',
+            name: 'Cantidad',
             colorByPoint: true,
             data: objects
         }]
@@ -278,7 +234,6 @@
 <script>
 
     var productos = @Html.Raw(Json.Encode(@ViewBag.mostPurchasedProds));
-
     var objects = productos.map(function (x) {
         return {
             name: capitalize(x.Name),
@@ -286,36 +241,53 @@
         };
     });
 
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
+    });
+
     Highcharts.chart('container-mpp', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Articulos comprados'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            text: '10 Artículos más vendidos'
         },
         accessibility: {
-            point: {
-                valueSuffix: '%'
+            announceNewData: {
+                enabled: true
             }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Cantidad</b>'
+            },
+        },
+        legend: {
+            enabled: false
         },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
+            series: {
+                borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.y} unds'
-                },
+                    format: '{point.y:,.2f} Unds'
+                }
             }
         },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds vendidas<br/>'
+        },
         series: [{
-            name: 'Porcentaje',
+            name: 'Cantidad',
             colorByPoint: true,
             data: objects
         }]

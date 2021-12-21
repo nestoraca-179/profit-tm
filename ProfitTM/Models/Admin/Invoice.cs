@@ -9,6 +9,7 @@ namespace ProfitTM.Models
     {
         public string ID { get; set; }
         public Person InvoicePerson { get; set; }
+        public string Descrip { get; set; }
         public DateTime DateEmis { get; set; }
         public DateTime DateVenc { get; set; }
         public DateTime DateReg { get; set; }
@@ -111,6 +112,7 @@ namespace ProfitTM.Models
                                 invoice = new Invoice()
                                 {
                                     ID = reader["doc_num"].ToString().Trim(),
+                                    Descrip = reader["descrip"].ToString(),
                                     DateEmis = DateTime.Parse(reader["fec_emis"].ToString()),
                                     DateVenc = DateTime.Parse(reader["fec_venc"].ToString()),
                                     DateReg = DateTime.Parse(reader["fec_reg"].ToString()),
@@ -243,6 +245,7 @@ namespace ProfitTM.Models
                                 Invoice invoice = new Invoice()
                                 {
                                     ID = reader["doc_num"].ToString().Trim(),
+                                    Descrip = reader["descrip"].ToString(),
                                     DateEmis = DateTime.Parse(reader["fec_emis"].ToString()),
                                     DateVenc = DateTime.Parse(reader["fec_venc"].ToString()),
                                     DateReg = DateTime.Parse(reader["fec_reg"].ToString()),

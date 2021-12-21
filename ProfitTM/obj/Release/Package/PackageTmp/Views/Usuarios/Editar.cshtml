@@ -199,7 +199,7 @@
                     <h2 class="text-center">{{ successMessage }}</h2>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href = '/Usuarios/'">Aceptar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="closeModal()" onclick="location.href = '/Usuarios/'">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -217,7 +217,7 @@
                     <p class="text-center">{{ errorMessage }}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="closeModal()">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -337,11 +337,9 @@
                             if (res.Status == "OK") {
                                 $("#modalSuccess").modal("show");
                                 $scope.successMessage = "El usuario se ha modificado con éxito";
-                                $("#modalWaiting").modal("hide");
                             } else {
                                 $("#modalError").modal("show");
                                 $scope.errorMessage = res.Message;
-                                $("#modalWaiting").modal("hide");
                             }
 
                         });
@@ -350,6 +348,9 @@
             }
         }
 
+        $scope.closeModal = function () {
+            $("#modalWaiting").modal("hide");
+        }
     });
 
     btn.addEventListener("click", hide);

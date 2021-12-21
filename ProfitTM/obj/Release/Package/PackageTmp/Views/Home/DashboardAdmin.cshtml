@@ -235,7 +235,6 @@
 <script>
 
     var productos = @Html.Raw(Json.Encode(@ViewBag.mostSelledProds));
-
     var objects = productos.map(function (x) {
         return {
             name: capitalize(x.Name),
@@ -249,19 +248,6 @@
             decimalPoint: ",",
             thousandsSep: "."
         }
-        /*colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
-            return {
-                radialGradient: {
-                    cx: 0.5,
-                    cy: 0.3,
-                    r: 0.7
-                },
-                stops: [
-                    [0, color],
-                    [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
-                ]
-            };
-        })*/
     });
 
     Highcharts.chart('container-msp', {
@@ -314,12 +300,18 @@
 <script>
 
     var productos = @Html.Raw(Json.Encode(@ViewBag.mostPurchasedProds));
-
     var objects = productos.map(function (x) {
         return {
             name: capitalize(x.Name),
             y: x.Stock
         };
+    });
+
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
     });
 
     Highcharts.chart('container-mpp', {
@@ -372,7 +364,6 @@
 <script>
 
     var clientes = @Html.Raw(Json.Encode(@ViewBag.mostActiveClients));
-
     var objects = clientes.map(function (x) {
         return {
             name: capitalize(x.Name),
@@ -380,6 +371,13 @@
         };
     });
     objects.reverse();
+
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
+    });
 
     Highcharts.chart('container-mac', {
         chart: {
@@ -431,12 +429,18 @@
 <script>
 
     var clientes = @Html.Raw(Json.Encode(@ViewBag.mostMorousClients));
-
     var objects = clientes.map(function (x) {
         return {
             name: capitalize(x.Name),
             y: x.Amount
         };
+    });
+
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
     });
 
     Highcharts.chart('container-mmc', {
@@ -489,7 +493,6 @@
 <script>
 
     var proveedores = @Html.Raw(Json.Encode(@ViewBag.mostActiveSuppliers));
-
     var objects = proveedores.map(function (x) {
         return {
             name: capitalize(x.Name),
@@ -497,6 +500,13 @@
         };
     });
     objects.reverse();
+
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
+    });
 
     Highcharts.chart('container-mas', {
         chart: {
@@ -548,12 +558,18 @@
 <script>
 
     var proveedores = @Html.Raw(Json.Encode(@ViewBag.mostMorousSuppliers));
-
     var objects = proveedores.map(function (x) {
         return {
             name: capitalize(x.Name),
             y: x.Amount
         };
+    });
+
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
     });
 
     Highcharts.chart('container-mms', {
