@@ -48,6 +48,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
         {
             string connect = Session["connect"].ToString();
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            //report2.PB_Logo.ImageUrl = "/images/Logo-prod.png";
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
             ds.ConnectionName = connect;

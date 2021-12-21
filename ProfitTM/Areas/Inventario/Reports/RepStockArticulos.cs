@@ -1,5 +1,8 @@
 ﻿using DevExpress.XtraReports.UI;
 using System;
+using System.Drawing;
+using System.IO;
+using System.Net;
 
 /// <summary>
 /// Summary description for RepStockArticulos
@@ -671,4 +674,29 @@ public class RepStockArticulos : DevExpress.XtraReports.UI.XtraReport
             }
         }
     }
+
+    //private void PB_Logo_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+    //{
+    //    XRPictureBox image = (XRPictureBox)sender;
+
+    //    if (!string.IsNullOrEmpty(image.ImageUrl))
+    //    {
+    //        Uri uri = new Uri(image.ImageUrl);
+    //        using (WebClient webClient = new WebClient())
+    //        {
+    //            webClient.Credentials = CredentialCache.DefaultCredentials;
+    //            using (Stream stream = webClient.OpenRead(uri.AbsoluteUri))
+    //            {
+    //                if (stream != null)
+    //                {
+    //                    using (Image img = Image.FromStream(stream))
+    //                    {
+    //                        if (img != null)
+    //                            image.Image = DevExpress.Utils.BitmapCreator.CreateBitmap(img, Color.Transparent);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 }

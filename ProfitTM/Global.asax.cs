@@ -14,8 +14,9 @@ namespace ProfitTM
     {
         protected void Application_Start()
         {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             DevExpress.XtraReports.Web.WebDocumentViewer.Native.WebDocumentViewerBootstrapper.SessionState = System.Web.SessionState.SessionStateBehavior.Disabled;
-            
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
