@@ -43,6 +43,74 @@ namespace ProfitTM.Controllers
             }
         }
 
+        // Agregar Conexion
+        [Authorize]
+        public ActionResult AgregarConexion(string product, string message = "")
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.prod = product;
+            ViewBag.message = message;
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        // Guardar Conexion
+        [Authorize]
+        [HttpPost]
+        public ActionResult GuardarConexion(string name, string server, string db, string username, string password, string prod)
+        {
+            ViewBag.user = Session["user"];
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
+            }
+            else
+            {
+                bool connected;
+                string msg = "";
+                string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", server, db, username, password);
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        using (SqlCommand comm = new SqlCommand("select * from par_emp", conn))
+                        {
+                            comm.ExecuteNonQuery();
+                        }
+
+                        connected = true;
+                        msg = "Conexión exitosa";
+                    }
+                    catch (SqlException ex)
+                    {
+                        connected = false;
+                        msg = ex.Message;
+                    }
+                }
+
+                if (connected)
+                {
+                    return RedirectToAction("AgregarConexion", new { message = msg });
+                }
+                else
+                {
+                    return RedirectToAction("AgregarConexion", new { message = "Conexión fallida => " + msg });
+                }
+            }
+        }
+
         // Seleccion de empresa
         [Authorize]
         public ActionResult SeleccionEmpresa(string prod)
@@ -64,7 +132,21 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                return View();
+                List<Connection> connections = Connection.GetConnections();
+
+                if (connections == null)
+                {
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Index", new { message = "Ha ocurrido un error recuperando las conexiones" });
+                }
+                else if (connections.Count == 0)
+                {
+                    return RedirectToAction("AgregarConexion", new { product = prod });
+                }
+                else
+                {
+                    return View();
+                }
             }
         }
 

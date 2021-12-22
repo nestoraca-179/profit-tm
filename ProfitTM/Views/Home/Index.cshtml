@@ -26,6 +26,24 @@
     form{
         width: 50%;
     }
+    form .input-main {
+        width: 320px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    form .input-main i {
+        color: #FFF;
+        font-size: 20px;
+    }
+    form .input-main .form-control {
+        max-width: 250px;
+        background: none;
+        border: 0;
+        border-bottom: solid 1px #FFF;
+        border-radius: 0;
+        color: #FFF;
+    }
     form button{
         width: 40%;
     }
@@ -59,13 +77,13 @@
             <div class="mb-5">
                 <h2 class="text-white">Iniciar Sesión</h2>
             </div>
-            <div class="mb-3" style="width: 320px; display: flex; justify-content: space-between; align-items: center;">
-                <i style="color: #FFF; font-size: 20px;" class="fas fa-user"></i>
-                <input type="text" id="username" name="username" class="form-control" style="max-width: 250px; background: none; border: 0; border-bottom: solid 1px #FFF; border-radius: 0; color: #FFF;" placeholder="Usuario" />
+            <div class="input-main">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Usuario" />
             </div>
-            <div style="width: 320px; display: flex; justify-content: space-between; align-items: center;">
-                <i style="color: #FFF; font-size: 20px;" class="fas fa-lock"></i>
-                <input type="password" id="pass" name="pass" class="form-control" style="max-width: 250px; background: none; border: 0; border-bottom: solid 1px #FFF; border-radius: 0; color: #FFF;" placeholder="Clave" />
+            <div class="input-main mt-3">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="pass" name="pass" class="form-control" placeholder="Clave" />
             </div>
             <button class="btn btn-primary mt-5">Entrar</button>
         </form>

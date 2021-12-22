@@ -315,6 +315,7 @@
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Usuarios\Agregar.cshtml" />
     <Content Include="Views\Usuarios\Editar.cshtml" />
+    <Content Include="Views\Home\AgregarConexion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -401,6 +402,9 @@
     <Compile Include="Areas\Ventas\Reports\RepFormatoFacturaVenta.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Areas\Ventas\Reports\RepFormatoFactVenta.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\Ventas\Reports\RepTotalVentaxArticulo.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -429,6 +433,7 @@
     <Compile Include="Models\Admin\InvoiceItem.cs" />
     <Compile Include="Models\Admin\Person.cs" />
     <Compile Include="Models\Admin\Transport.cs" />
+    <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\Cont\CostCenter.cs" />
     <Compile Include="Models\Cont\ExpenseAccount.cs" />
     <Compile Include="Models\Module.cs" />
@@ -524,6 +529,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Ventas\Reports\RepFormatoFacturaVenta.resx">
       <DependentUpon>RepFormatoFacturaVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\Ventas\Reports\RepFormatoFactVenta.resx">
+      <DependentUpon>RepFormatoFactVenta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Ventas\Reports\RepTotalVentaxArticulo.resx">
       <DependentUpon>RepTotalVentaxArticulo.cs</DependentUpon>

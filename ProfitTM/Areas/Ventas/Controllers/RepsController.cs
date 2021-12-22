@@ -13,6 +13,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         {
             string connect = Session["connect"].ToString();
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            report.Parameters["fecDesde"].Value = new DateTime(2000, 01, 01);
             report.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
@@ -32,6 +33,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
         {
             string connect = Session["connect"].ToString();
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            report1.Parameters["fecDesde"].Value = new DateTime(2000, 01, 01);
+            report1.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
             ds.ConnectionName = connect;
@@ -50,6 +53,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
         {
             string connect = Session["connect"].ToString();
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            report2.Parameters["fecDesde"].Value = new DateTime(2000, 01, 01);
+            report2.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
             ds.ConnectionName = connect;

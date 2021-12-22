@@ -134,10 +134,6 @@ public class RepProveedorMasCompra : DevExpress.XtraReports.UI.XtraReport
             this.provHasta = new DevExpress.XtraReports.Parameters.Parameter();
             this.porcentaje = new DevExpress.XtraReports.UI.CalculatedField();
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
-            this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
-            this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
-            this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
-            this.cantidad = new DevExpress.XtraReports.Parameters.Parameter();
             this.PB_Logo = new DevExpress.XtraReports.UI.XRPictureBox();
             this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
@@ -146,6 +142,10 @@ public class RepProveedorMasCompra : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel6 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel7 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel8 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
+            this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
+            this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
+            this.cantidad = new DevExpress.XtraReports.Parameters.Parameter();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -494,49 +494,6 @@ public class RepProveedorMasCompra : DevExpress.XtraReports.UI.XtraReport
             this.PageHeader.HeightF = 175.8334F;
             this.PageHeader.Name = "PageHeader";
             // 
-            // xrPageInfo1
-            // 
-            this.xrPageInfo1.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.xrPageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(701.4583F, 10F);
-            this.xrPageInfo1.Name = "xrPageInfo1";
-            this.xrPageInfo1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrPageInfo1.SizeF = new System.Drawing.SizeF(38.54163F, 23F);
-            this.xrPageInfo1.StylePriority.UseFont = false;
-            this.xrPageInfo1.StylePriority.UseTextAlignment = false;
-            this.xrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-            // 
-            // xrPageInfo2
-            // 
-            this.xrPageInfo2.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.xrPageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(548.3333F, 32.99998F);
-            this.xrPageInfo2.Name = "xrPageInfo2";
-            this.xrPageInfo2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrPageInfo2.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
-            this.xrPageInfo2.SizeF = new System.Drawing.SizeF(191.6666F, 23F);
-            this.xrPageInfo2.StylePriority.UseFont = false;
-            this.xrPageInfo2.StylePriority.UseTextAlignment = false;
-            this.xrPageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-            // 
-            // xrLabel3
-            // 
-            this.xrLabel3.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(548.3333F, 10F);
-            this.xrLabel3.Multiline = true;
-            this.xrLabel3.Name = "xrLabel3";
-            this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel3.SizeF = new System.Drawing.SizeF(153.1251F, 22.99998F);
-            this.xrLabel3.StylePriority.UseFont = false;
-            this.xrLabel3.StylePriority.UseTextAlignment = false;
-            this.xrLabel3.Text = "Página";
-            this.xrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-            // 
-            // cantidad
-            // 
-            this.cantidad.Description = "Cantidad de proveedores a mostrar";
-            this.cantidad.Name = "cantidad";
-            this.cantidad.Type = typeof(int);
-            this.cantidad.ValueInfo = "10";
-            // 
             // PB_Logo
             // 
             this.PB_Logo.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 10.00001F);
@@ -630,6 +587,50 @@ public class RepProveedorMasCompra : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel8.SizeF = new System.Drawing.SizeF(63.54167F, 17.99997F);
             this.xrLabel8.StylePriority.UseFont = false;
             this.xrLabel8.Text = "RIF:";
+            // 
+            // xrPageInfo1
+            // 
+            this.xrPageInfo1.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrPageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(701.4583F, 10F);
+            this.xrPageInfo1.Name = "xrPageInfo1";
+            this.xrPageInfo1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrPageInfo1.SizeF = new System.Drawing.SizeF(38.54163F, 23F);
+            this.xrPageInfo1.StylePriority.UseFont = false;
+            this.xrPageInfo1.StylePriority.UseTextAlignment = false;
+            this.xrPageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // xrPageInfo2
+            // 
+            this.xrPageInfo2.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrPageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(548.3333F, 32.99998F);
+            this.xrPageInfo2.Name = "xrPageInfo2";
+            this.xrPageInfo2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrPageInfo2.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
+            this.xrPageInfo2.SizeF = new System.Drawing.SizeF(191.6666F, 23F);
+            this.xrPageInfo2.StylePriority.UseFont = false;
+            this.xrPageInfo2.StylePriority.UseTextAlignment = false;
+            this.xrPageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // xrLabel3
+            // 
+            this.xrLabel3.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(548.3333F, 10F);
+            this.xrLabel3.Multiline = true;
+            this.xrLabel3.Name = "xrLabel3";
+            this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel3.SizeF = new System.Drawing.SizeF(153.1251F, 22.99998F);
+            this.xrLabel3.StylePriority.UseFont = false;
+            this.xrLabel3.StylePriority.UseTextAlignment = false;
+            this.xrLabel3.Text = "Página";
+            this.xrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // cantidad
+            // 
+            this.cantidad.AllowNull = true;
+            this.cantidad.Description = "Proveedores";
+            this.cantidad.Name = "cantidad";
+            this.cantidad.Type = typeof(int);
+            this.cantidad.ValueInfo = "10";
             // 
             // RepProveedorMasCompra
             // 

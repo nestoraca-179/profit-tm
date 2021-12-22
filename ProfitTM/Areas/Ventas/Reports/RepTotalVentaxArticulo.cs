@@ -473,18 +473,22 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             // pageInfo1
             // 
+            this.pageInfo1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
             this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 6.00001F);
             this.pageInfo1.Name = "pageInfo1";
             this.pageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
             this.pageInfo1.SizeF = new System.Drawing.SizeF(377.563F, 23F);
             this.pageInfo1.StyleName = "PageInfo";
+            this.pageInfo1.StylePriority.UseFont = false;
             // 
             // pageInfo2
             // 
+            this.pageInfo2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
             this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(377.563F, 6.00001F);
             this.pageInfo2.Name = "pageInfo2";
             this.pageInfo2.SizeF = new System.Drawing.SizeF(372.437F, 23F);
             this.pageInfo2.StyleName = "PageInfo";
+            this.pageInfo2.StylePriority.UseFont = false;
             this.pageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             this.pageInfo2.TextFormatString = "Página {0} de {1}";
             // 
@@ -495,12 +499,14 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             // label1
             // 
-            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 116.3333F);
+            this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 14.25F, System.Drawing.FontStyle.Bold);
+            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 137.2915F);
             this.label1.Name = "label1";
             this.label1.SizeF = new System.Drawing.SizeF(452.0834F, 24.19433F);
             this.label1.StyleName = "Title";
+            this.label1.StylePriority.UseFont = false;
             this.label1.StylePriority.UseTextAlignment = false;
-            this.label1.Text = "Total de Ventas por Articulo";
+            this.label1.Text = "Total de Ventas por Artículo";
             this.label1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // GroupHeader1
@@ -511,6 +517,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             new DevExpress.XtraReports.UI.GroupField("co_art", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
             this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
             this.GroupHeader1.HeightF = 27F;
+            this.GroupHeader1.KeepTogether = true;
             this.GroupHeader1.Level = 1;
             this.GroupHeader1.Name = "GroupHeader1";
             // 
@@ -534,18 +541,20 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             this.tableCell2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_art]")});
+            this.tableCell2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell2.Name = "tableCell2";
             this.tableCell2.StyleName = "GroupData1";
-            this.tableCell2.Weight = 0.26513544817590817D;
+            this.tableCell2.StylePriority.UseFont = false;
+            this.tableCell2.Weight = 0.29040290659766838D;
             // 
             // tableCell10
             // 
             this.tableCell10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(104)))), ((int)(((byte)(196)))));
             this.tableCell10.BorderColor = System.Drawing.Color.White;
-            this.tableCell10.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
+            this.tableCell10.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.tableCell10.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[art_des]")});
-            this.tableCell10.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold);
+            this.tableCell10.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell10.ForeColor = System.Drawing.Color.White;
             this.tableCell10.Name = "tableCell10";
             this.tableCell10.StyleName = "DetailData1";
@@ -554,13 +563,14 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.tableCell10.StylePriority.UseBorders = false;
             this.tableCell10.StylePriority.UseFont = false;
             this.tableCell10.StylePriority.UseForeColor = false;
-            this.tableCell10.Weight = 1.6264891293069319D;
+            this.tableCell10.Weight = 1.6012216708851716D;
             // 
             // Detail
             // 
             this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.table3});
             this.Detail.HeightF = 25F;
+            this.Detail.KeepTogether = true;
             this.Detail.Name = "Detail";
             // 
             // table3
@@ -589,72 +599,86 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             this.tableCell15.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[fec_emis]")});
+            this.tableCell15.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell15.Name = "tableCell15";
             this.tableCell15.StyleName = "DetailData1";
+            this.tableCell15.StylePriority.UseFont = false;
             this.tableCell15.TextFormatString = "{0:dd/MM/yyyy}";
-            this.tableCell15.Weight = 0.12369762915290586D;
+            this.tableCell15.Weight = 0.13548603640067256D;
             // 
             // tableCell11
             // 
             this.tableCell11.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_uni]")});
+            this.tableCell11.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell11.Name = "tableCell11";
             this.tableCell11.StyleName = "DetailData1";
-            this.tableCell11.Weight = 0.078942637660581919D;
+            this.tableCell11.StylePriority.UseFont = false;
+            this.tableCell11.Weight = 0.0717570508755058D;
             // 
             // tableCell12
             // 
             this.tableCell12.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[total_art]")});
+            this.tableCell12.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell12.Name = "tableCell12";
             this.tableCell12.StyleName = "DetailData1";
+            this.tableCell12.StylePriority.UseFont = false;
             this.tableCell12.StylePriority.UseTextAlignment = false;
             this.tableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.tableCell12.TextFormatString = "{0:n}";
-            this.tableCell12.Weight = 0.12190959437089023D;
+            this.tableCell12.Weight = 0.13107610220115823D;
             // 
             // tableCell16
             // 
             this.tableCell16.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[monto_base]")});
+            this.tableCell16.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell16.Name = "tableCell16";
             this.tableCell16.StyleName = "DetailData1";
+            this.tableCell16.StylePriority.UseFont = false;
             this.tableCell16.StylePriority.UseTextAlignment = false;
             this.tableCell16.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.tableCell16.TextFormatString = "{0:n}";
-            this.tableCell16.Weight = 0.15174258455983561D;
+            this.tableCell16.Weight = 0.15268205714627764D;
             // 
             // tableCell14
             // 
             this.tableCell14.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[iva]")});
+            this.tableCell14.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell14.Name = "tableCell14";
             this.tableCell14.StyleName = "DetailData1";
+            this.tableCell14.StylePriority.UseFont = false;
             this.tableCell14.StylePriority.UseTextAlignment = false;
             this.tableCell14.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.tableCell14.TextFormatString = "{0:n}";
-            this.tableCell14.Weight = 0.10733297708399996D;
+            this.tableCell14.Weight = 0.10978446484482579D;
             // 
             // tableCell13
             // 
             this.tableCell13.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[otros]")});
+            this.tableCell13.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell13.Name = "tableCell13";
             this.tableCell13.StyleName = "DetailData1";
+            this.tableCell13.StylePriority.UseFont = false;
             this.tableCell13.StylePriority.UseTextAlignment = false;
             this.tableCell13.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.tableCell13.TextFormatString = "{0:n}";
-            this.tableCell13.Weight = 0.12362275947580437D;
+            this.tableCell13.Weight = 0.10646247083557792D;
             // 
             // xrTableCell2
             // 
             this.xrTableCell2.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.xrTableCell2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[monto_total]")});
+            this.xrTableCell2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell2.Multiline = true;
             this.xrTableCell2.Name = "xrTableCell2";
             this.xrTableCell2.StyleName = "DetailData1";
             this.xrTableCell2.StylePriority.UseBorders = false;
+            this.xrTableCell2.StylePriority.UseFont = false;
             this.xrTableCell2.StylePriority.UseTextAlignment = false;
             this.xrTableCell2.Text = "xrTableCell2";
             this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
@@ -666,7 +690,8 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.GroupFooter1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.label2});
             this.GroupFooter1.GroupUnion = DevExpress.XtraReports.UI.GroupFooterUnion.WithLastDetail;
-            this.GroupFooter1.HeightF = 6F;
+            this.GroupFooter1.HeightF = 2.889093F;
+            this.GroupFooter1.KeepTogether = true;
             this.GroupFooter1.Name = "GroupFooter1";
             // 
             // label2
@@ -683,6 +708,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.GroupFooter2.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.panel1});
             this.GroupFooter2.HeightF = 24.54389F;
+            this.GroupFooter2.KeepTogether = true;
             this.GroupFooter2.Level = 1;
             this.GroupFooter2.Name = "GroupFooter2";
             // 
@@ -704,10 +730,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel1.CanGrow = false;
             this.xrLabel1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([monto_base])")});
-            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(309.275F, 3.400008F);
+            this.xrLabel1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(321.775F, 3.400008F);
             this.xrLabel1.Name = "xrLabel1";
             this.xrLabel1.SizeF = new System.Drawing.SizeF(95.49326F, 14.88444F);
             this.xrLabel1.StyleName = "TotalData1";
+            this.xrLabel1.StylePriority.UseFont = false;
             this.xrLabel1.StylePriority.UseTextAlignment = false;
             xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
             this.xrLabel1.Summary = xrSummary1;
@@ -720,10 +748,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.label4.CanGrow = false;
             this.label4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([total_art])")});
-            this.label4.LocationFloat = new DevExpress.Utils.PointFloat(209.8191F, 3.400008F);
+            this.label4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.label4.LocationFloat = new DevExpress.Utils.PointFloat(221.5207F, 3.400008F);
             this.label4.Name = "label4";
             this.label4.SizeF = new System.Drawing.SizeF(65.99353F, 14.88444F);
             this.label4.StyleName = "TotalData1";
+            this.label4.StylePriority.UseFont = false;
             this.label4.StylePriority.UseTextAlignment = false;
             xrSummary2.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
             this.label4.Summary = xrSummary2;
@@ -736,10 +766,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.label6.CanGrow = false;
             this.label6.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([otros])")});
-            this.label6.LocationFloat = new DevExpress.Utils.PointFloat(523.337F, 3.400008F);
+            this.label6.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.label6.LocationFloat = new DevExpress.Utils.PointFloat(523.3369F, 3.400008F);
             this.label6.Name = "label6";
             this.label6.SizeF = new System.Drawing.SizeF(77.70471F, 14.88444F);
             this.label6.StyleName = "TotalData1";
+            this.label6.StylePriority.UseFont = false;
             this.label6.StylePriority.UseTextAlignment = false;
             xrSummary3.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
             this.label6.Summary = xrSummary3;
@@ -752,10 +784,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.label8.CanGrow = false;
             this.label8.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([iva])")});
-            this.label8.LocationFloat = new DevExpress.Utils.PointFloat(422.6465F, 3.400008F);
+            this.label8.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.label8.LocationFloat = new DevExpress.Utils.PointFloat(437.2297F, 3.400008F);
             this.label8.Name = "label8";
             this.label8.SizeF = new System.Drawing.SizeF(73.33679F, 14.88444F);
             this.label8.StyleName = "TotalData1";
+            this.label8.StylePriority.UseFont = false;
             this.label8.StylePriority.UseTextAlignment = false;
             xrSummary4.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
             this.label8.Summary = xrSummary4;
@@ -768,10 +802,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.label10.CanGrow = false;
             this.label10.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([monto_total])")});
+            this.label10.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
             this.label10.LocationFloat = new DevExpress.Utils.PointFloat(634.5006F, 3.400008F);
             this.label10.Name = "label10";
             this.label10.SizeF = new System.Drawing.SizeF(115.4994F, 14.88444F);
             this.label10.StyleName = "TotalData1";
+            this.label10.StylePriority.UseFont = false;
             this.label10.StylePriority.UseTextAlignment = false;
             xrSummary5.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
             this.label10.Summary = xrSummary5;
@@ -804,10 +840,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel2.CanGrow = false;
             this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([monto_base])")});
-            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(309.275F, 3.400008F);
+            this.xrLabel2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(321.775F, 9.400018F);
             this.xrLabel2.Name = "xrLabel2";
             this.xrLabel2.SizeF = new System.Drawing.SizeF(95.49326F, 14.88444F);
             this.xrLabel2.StyleName = "TotalData1";
+            this.xrLabel2.StylePriority.UseFont = false;
             this.xrLabel2.StylePriority.UseTextAlignment = false;
             xrSummary6.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
             this.xrLabel2.Summary = xrSummary6;
@@ -820,10 +858,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel3.CanGrow = false;
             this.xrLabel3.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([total_art])")});
-            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(209.8191F, 3.400008F);
+            this.xrLabel3.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(221.5207F, 9.400018F);
             this.xrLabel3.Name = "xrLabel3";
             this.xrLabel3.SizeF = new System.Drawing.SizeF(65.99353F, 14.88444F);
             this.xrLabel3.StyleName = "TotalData1";
+            this.xrLabel3.StylePriority.UseFont = false;
             this.xrLabel3.StylePriority.UseTextAlignment = false;
             xrSummary7.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
             this.xrLabel3.Summary = xrSummary7;
@@ -836,10 +876,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel4.CanGrow = false;
             this.xrLabel4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([otros])")});
-            this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(523.337F, 3.400008F);
+            this.xrLabel4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(523.337F, 9.400018F);
             this.xrLabel4.Name = "xrLabel4";
             this.xrLabel4.SizeF = new System.Drawing.SizeF(77.70471F, 14.88444F);
             this.xrLabel4.StyleName = "TotalData1";
+            this.xrLabel4.StylePriority.UseFont = false;
             this.xrLabel4.StylePriority.UseTextAlignment = false;
             xrSummary8.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
             this.xrLabel4.Summary = xrSummary8;
@@ -852,10 +894,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel5.CanGrow = false;
             this.xrLabel5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([iva])")});
-            this.xrLabel5.LocationFloat = new DevExpress.Utils.PointFloat(422.6465F, 3.400008F);
+            this.xrLabel5.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.xrLabel5.LocationFloat = new DevExpress.Utils.PointFloat(437.2297F, 9.400018F);
             this.xrLabel5.Name = "xrLabel5";
             this.xrLabel5.SizeF = new System.Drawing.SizeF(73.33679F, 14.88444F);
             this.xrLabel5.StyleName = "TotalData1";
+            this.xrLabel5.StylePriority.UseFont = false;
             this.xrLabel5.StylePriority.UseTextAlignment = false;
             xrSummary9.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
             this.xrLabel5.Summary = xrSummary9;
@@ -868,10 +912,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel6.CanGrow = false;
             this.xrLabel6.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([monto_total])")});
-            this.xrLabel6.LocationFloat = new DevExpress.Utils.PointFloat(634.5006F, 3.400008F);
+            this.xrLabel6.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.xrLabel6.LocationFloat = new DevExpress.Utils.PointFloat(634.5006F, 9.400008F);
             this.xrLabel6.Name = "xrLabel6";
             this.xrLabel6.SizeF = new System.Drawing.SizeF(115.4994F, 14.88444F);
             this.xrLabel6.StyleName = "TotalData1";
+            this.xrLabel6.StylePriority.UseFont = false;
             this.xrLabel6.StylePriority.UseTextAlignment = false;
             xrSummary10.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
             this.xrLabel6.Summary = xrSummary10;
@@ -881,7 +927,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             // table2
             // 
-            this.table2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 153.5276F);
+            this.table2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 172.4859F);
             this.table2.Name = "table2";
             this.table2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.tableRow2});
@@ -903,9 +949,11 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // tableCell8
             // 
             this.tableCell8.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.tableCell8.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell8.Name = "tableCell8";
             this.tableCell8.StyleName = "DetailCaption1";
             this.tableCell8.StylePriority.UseBorders = false;
+            this.tableCell8.StylePriority.UseFont = false;
             this.tableCell8.StylePriority.UseTextAlignment = false;
             this.tableCell8.Text = "Fecha";
             this.tableCell8.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
@@ -913,58 +961,70 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             // tableCell4
             // 
+            this.tableCell4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell4.Name = "tableCell4";
             this.tableCell4.StyleName = "DetailCaption1";
+            this.tableCell4.StylePriority.UseFont = false;
             this.tableCell4.StylePriority.UseTextAlignment = false;
             this.tableCell4.Text = "Unidad";
             this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell4.Weight = 0.1032122065173023D;
+            this.tableCell4.Weight = 0.085654646926216438D;
             // 
             // tableCell5
             // 
+            this.tableCell5.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell5.Name = "tableCell5";
             this.tableCell5.StyleName = "DetailCaption1";
+            this.tableCell5.StylePriority.UseFont = false;
             this.tableCell5.StylePriority.UseTextAlignment = false;
             this.tableCell5.Text = "Cant. vendida";
             this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell5.Weight = 0.15938863979080276D;
+            this.tableCell5.Weight = 0.15646237985895511D;
             // 
             // tableCell9
             // 
+            this.tableCell9.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell9.Name = "tableCell9";
             this.tableCell9.StyleName = "DetailCaption1";
+            this.tableCell9.StylePriority.UseFont = false;
             this.tableCell9.StylePriority.UseTextAlignment = false;
             this.tableCell9.Text = "Monto Base";
             this.tableCell9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell9.Weight = 0.1983932477740743D;
+            this.tableCell9.Weight = 0.18225286142137753D;
             // 
             // tableCell7
             // 
+            this.tableCell7.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell7.Name = "tableCell7";
             this.tableCell7.StyleName = "DetailCaption1";
+            this.tableCell7.StylePriority.UseFont = false;
             this.tableCell7.StylePriority.UseTextAlignment = false;
             this.tableCell7.Text = "IVA";
             this.tableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell7.Weight = 0.14033068272299859D;
+            this.tableCell7.Weight = 0.13104704869150158D;
             // 
             // tableCell6
             // 
+            this.tableCell6.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableCell6.Name = "tableCell6";
             this.tableCell6.StyleName = "DetailCaption1";
+            this.tableCell6.StylePriority.UseFont = false;
             this.tableCell6.StylePriority.UseTextAlignment = false;
             this.tableCell6.Text = "Otros";
             this.tableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell6.Weight = 0.16162849391304862D;
+            this.tableCell6.Weight = 0.12708159427635948D;
             // 
             // xrTableCell1
             // 
+            this.xrTableCell1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xrTableCell1.Multiline = true;
             this.xrTableCell1.Name = "xrTableCell1";
             this.xrTableCell1.StyleName = "DetailCaption1";
+            this.xrTableCell1.StylePriority.UseFont = false;
             this.xrTableCell1.StylePriority.UseTextAlignment = false;
             this.xrTableCell1.Text = "Total";
             this.xrTableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell1.Weight = 0.16666664040075319D;
+            this.xrTableCell1.Weight = 0.20922738202633451D;
             // 
             // fecDesde
             // 
@@ -983,7 +1043,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // artDesde
             // 
             this.artDesde.AllowNull = true;
-            this.artDesde.Description = "Articulo Desde";
+            this.artDesde.Description = "Artículo Desde";
             dynamicListLookUpSettings1.DataMember = "Articulos";
             dynamicListLookUpSettings1.DataSource = this.DemoAdmin;
             dynamicListLookUpSettings1.DisplayMember = "art_des";
@@ -996,7 +1056,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // artHasta
             // 
             this.artHasta.AllowNull = true;
-            this.artHasta.Description = "Articulo Hasta";
+            this.artHasta.Description = "Artículo Hasta";
             dynamicListLookUpSettings2.DataMember = "Articulos";
             dynamicListLookUpSettings2.DataSource = this.DemoAdmin;
             dynamicListLookUpSettings2.DisplayMember = "art_des";
@@ -1028,12 +1088,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             this.xrPageInfo1,
             this.xrLabel9,
             this.table2});
-            this.PageHeader.HeightF = 181.5276F;
+            this.PageHeader.HeightF = 200.4859F;
             this.PageHeader.Name = "PageHeader";
             // 
             // xrLabel8
             // 
-            this.xrLabel8.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel8.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.xrLabel8.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 32.99999F);
             this.xrLabel8.Multiline = true;
             this.xrLabel8.Name = "xrLabel8";
@@ -1044,7 +1104,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             // xrLabel7
             // 
-            this.xrLabel7.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel7.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.xrLabel7.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 50.99993F);
             this.xrLabel7.Multiline = true;
             this.xrLabel7.Name = "xrLabel7";
@@ -1055,12 +1115,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             // xrLabel10
             // 
-            this.xrLabel10.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel10.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.xrLabel10.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 68.99995F);
             this.xrLabel10.Multiline = true;
             this.xrLabel10.Name = "xrLabel10";
             this.xrLabel10.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel10.SizeF = new System.Drawing.SizeF(63.54F, 31F);
+            this.xrLabel10.SizeF = new System.Drawing.SizeF(63.53999F, 43.61105F);
             this.xrLabel10.StylePriority.UseFont = false;
             this.xrLabel10.Text = "Dirección:";
             // 
@@ -1068,7 +1128,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel11.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Datos].[Telefono]")});
-            this.xrLabel11.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel11.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.xrLabel11.LocationFloat = new DevExpress.Utils.PointFloat(212.5F, 50.99993F);
             this.xrLabel11.Multiline = true;
             this.xrLabel11.Name = "xrLabel11";
@@ -1081,12 +1141,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel12.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Datos].[Direccion]")});
-            this.xrLabel12.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel12.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.xrLabel12.LocationFloat = new DevExpress.Utils.PointFloat(212.5F, 68.99995F);
             this.xrLabel12.Multiline = true;
             this.xrLabel12.Name = "xrLabel12";
             this.xrLabel12.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel12.SizeF = new System.Drawing.SizeF(327.96F, 31F);
+            this.xrLabel12.SizeF = new System.Drawing.SizeF(327.96F, 43.61105F);
             this.xrLabel12.StylePriority.UseFont = false;
             this.xrLabel12.Text = "xrLabel4";
             // 
@@ -1094,7 +1154,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel13.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Master].[desc_empresa]")});
-            this.xrLabel13.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.xrLabel13.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold);
             this.xrLabel13.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 10.00001F);
             this.xrLabel13.Multiline = true;
             this.xrLabel13.Name = "xrLabel13";
@@ -1114,12 +1174,12 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel14.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Master].[rif]")});
-            this.xrLabel14.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel14.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.xrLabel14.LocationFloat = new DevExpress.Utils.PointFloat(212.5F, 32.99999F);
             this.xrLabel14.Multiline = true;
             this.xrLabel14.Name = "xrLabel14";
             this.xrLabel14.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel14.SizeF = new System.Drawing.SizeF(188.5417F, 17.99996F);
+            this.xrLabel14.SizeF = new System.Drawing.SizeF(327.96F, 17.99996F);
             this.xrLabel14.StylePriority.UseFont = false;
             this.xrLabel14.StylePriority.UseTextAlignment = false;
             this.xrLabel14.Text = "xrLabel2";
@@ -1127,7 +1187,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             // xrPageInfo2
             // 
-            this.xrPageInfo2.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrPageInfo2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
             this.xrPageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(548.3334F, 32.99998F);
             this.xrPageInfo2.Name = "xrPageInfo2";
             this.xrPageInfo2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -1139,7 +1199,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             // xrPageInfo1
             // 
-            this.xrPageInfo1.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrPageInfo1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
             this.xrPageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(701.4584F, 10F);
             this.xrPageInfo1.Name = "xrPageInfo1";
             this.xrPageInfo1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -1150,7 +1210,7 @@ public class RepTotalVentaxArticulo : DevExpress.XtraReports.UI.XtraReport
             // 
             // xrLabel9
             // 
-            this.xrLabel9.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.xrLabel9.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
             this.xrLabel9.LocationFloat = new DevExpress.Utils.PointFloat(548.3334F, 10F);
             this.xrLabel9.Multiline = true;
             this.xrLabel9.Name = "xrLabel9";
