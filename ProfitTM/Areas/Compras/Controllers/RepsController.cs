@@ -16,7 +16,7 @@ namespace ProfitTM.Areas.Compras.Controllers
             report.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Compras/Views/Reportes/_RepCompraxArtPartial.cshtml", report);
@@ -34,7 +34,7 @@ namespace ProfitTM.Areas.Compras.Controllers
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Compras/Views/Reportes/_RepTotalCompraxArticuloPartial.cshtml", report1);
@@ -52,7 +52,7 @@ namespace ProfitTM.Areas.Compras.Controllers
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Compras/Views/Reportes/_RepProveedorMasCompraPartial.cshtml", report2);

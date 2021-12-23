@@ -14,7 +14,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Inventario/Views/Reportes/_RepArticuloConPrecioPartial.cshtml", report);
@@ -32,7 +32,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Inventario/Views/Reportes/_RepArticuloProveedorPartial.cshtml", report1);
@@ -48,10 +48,9 @@ namespace ProfitTM.Areas.Inventario.Controllers
         {
             string connect = Session["connect"].ToString();
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
-            //report2.PB_Logo.ImageUrl = "/images/Logo-prod.png";
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Inventario/Views/Reportes/_RepStockArticulosPartial.cshtml", report2);
@@ -69,7 +68,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
             report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report3.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Inventario/Views/Reportes/_RepArticuloConCostoPartial.cshtml", report3);
@@ -87,7 +86,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
             report4.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report4.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Inventario/Views/Reportes/_RepArticulosTodoStockPartial.cshtml", report4);
@@ -105,7 +104,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
             report5.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report5.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Inventario/Views/Reportes/_RepArticuloConCostoYPrecioPartial.cshtml", report5);

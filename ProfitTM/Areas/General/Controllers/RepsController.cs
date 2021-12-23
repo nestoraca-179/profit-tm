@@ -14,7 +14,7 @@ namespace ProfitTM.Areas.General.Controllers
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/General/Views/Reportes/_RepBalanceGeneral2KDocePartial.cshtml", report);
@@ -32,7 +32,7 @@ namespace ProfitTM.Areas.General.Controllers
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/General/Views/Reportes/_RepEstadoResultados2KDocePartial.cshtml", report1);
@@ -50,7 +50,7 @@ namespace ProfitTM.Areas.General.Controllers
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/General/Views/Reportes/_RepBalanceComprobacionPartial.cshtml", report2);

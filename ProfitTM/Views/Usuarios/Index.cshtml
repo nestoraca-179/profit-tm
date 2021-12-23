@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Usuarios";
     ViewData["home"] = Session["home"];
 }
 <style>
@@ -83,10 +83,14 @@
                         </div>
                     }
                 }
-                <li class="menu-item">
+                <li class="menu-item" onclick="print(this)">
                     <i class="fas fa-cog fa-spin"></i>
                     <p class="mb-0 ml-3">Configuración</p>
                 </li>
+                <div class="my-dropdown">
+                    <a class="dropdown-item" href="#"><i class="fas fa-user"></i> Usuarios</a>
+                    <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
+                </div>
             </ul>
         </div>
         <div class="dash-right-side">

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Linq;
 
 namespace ProfitTM.Controllers
 {
@@ -102,7 +103,18 @@ namespace ProfitTM.Controllers
 
                 if (connected)
                 {
-                    return RedirectToAction("AgregarConexion", new { message = msg });
+                    ProfitTMResponse result = Connection.SaveConn(name, server, db, username, password, prod);
+
+                    if (result.Status == "OK")
+                    {
+                        string type = prod;
+                        return RedirectToAction("SeleccionEmpresa", new { prod = type });
+                    }
+                    else
+                    {
+                        msg = "Ha ocurrido un error al guardar la conexión => " + result.Message;
+                        return RedirectToAction("AgregarConexion", new { message = msg });
+                    }
                 }
                 else
                 {
@@ -117,7 +129,8 @@ namespace ProfitTM.Controllers
         {
             ViewBag.prod = prod;
             ViewBag.user = Session["user"];
-            ViewBag.connections = ConfigurationManager.ConnectionStrings;
+            ViewBag.modules = Session["modules"];
+            //ViewBag.connections = ConfigurationManager.ConnectionStrings;
 
             Session["Prod"] = prod;
 
@@ -126,13 +139,17 @@ namespace ProfitTM.Controllers
                 FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
+            else if (ViewBag.modules != null)
+            {
+                return RedirectToAction("Logout", "Account", new { msg = "Debes iniciar sesión nuevamente" });
+            }
             else if (prod == null)
             {
                 return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
             }
             else
             {
-                List<Connection> connections = Connection.GetConnections();
+                List<Connection> connections = Connection.GetConnections(prod);
 
                 if (connections == null)
                 {
@@ -145,6 +162,7 @@ namespace ProfitTM.Controllers
                 }
                 else
                 {
+                    ViewBag.connections = connections;
                     return View();
                 }
             }
@@ -155,12 +173,16 @@ namespace ProfitTM.Controllers
         [HttpPost]
         public ActionResult SelectDashboard(string connect = "")
         {
+            ViewBag.user = Session["user"];
             string prod = Session["Prod"].ToString();
 
-            Session["connect"] = connect;
-            ViewBag.user = Session["user"];
+            Connection conn = Connection.GetConnections(prod).Find(c => c.ID == connect);
+            string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
 
-            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings[connect].ConnectionString);
+            Session["connect"] = connectionString;
+
+            //SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings[connect].ConnectionString);
+            SqlConnection connection = new SqlConnection(connectionString);
             Session["DB"] = connection.Database;
 
             if (ViewBag.user == null)

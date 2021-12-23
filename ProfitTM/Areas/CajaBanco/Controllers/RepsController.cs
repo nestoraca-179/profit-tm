@@ -14,7 +14,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/CajaBanco/Views/Reportes/_RepBancoPartial.cshtml", report);
@@ -32,7 +32,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/CajaBanco/Views/Reportes/_RepDisponibilidadBancariaPartial.cshtml", report1);
@@ -50,7 +50,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/CajaBanco/Views/Reportes/_RepMoviBancoXNumPartial.cshtml", report2);
@@ -68,7 +68,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
             report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report3.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/CajaBanco/Views/Reportes/_RepDisponibilidadPartial.cshtml", report3);

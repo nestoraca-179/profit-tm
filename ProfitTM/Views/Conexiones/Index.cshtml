@@ -1,7 +1,32 @@
 ﻿@{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Conexiones";
     ViewData["home"] = Session["home"];
 }
+<style>
+    .dash-right-side .container-fluid {
+        height: 100%;
+        padding: 10px;
+    }
+
+    table thead {
+        background: #0277bd;
+        color: #FFF;
+    }
+
+    table td {
+        vertical-align: middle !important;
+    }
+    /*table .btn.btn-primary{
+        width: 50%;
+        font-size: 14px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }*/
+    .btn.btn-success {
+        color: #FFF;
+    }
+</style>
 <header class="container-fluid">
     <div class="row">
         <div class="col-sm-2 header-left-side text-white">
@@ -19,7 +44,7 @@
         </div>
     </div>
 </header>
-<div class="container-fluid p-0">
+<div class="container-fluid p-0" ng-app="Connections" ng-controller="controller">
     <div class="dash-container" id="dash-container">
         <div class="dash-left-side border-right p-0" id="menu-left">
             <ul class="list-menu dropright">
@@ -37,9 +62,7 @@
                             @{
                                 foreach (var elem in item.Options)
                                 {
-                                    string disabled = elem.Enabled ? "" : "disabled";
-
-                                    <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.Name</a>
+                                    <a class="dropdown-item" href="@elem.URL"><i class="@elem.Icon"></i> @elem.Name</a>
                                 }
                             }
                             <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
@@ -49,67 +72,72 @@
                 <li class="menu-item" onclick="print(this)">
                     <i class="fas fa-cog fa-spin"></i>
                     <p class="mb-0 ml-3">Configuración</p>
-                    <i class="fas fa-caret-up"></i>
                 </li>
                 <div class="my-dropdown">
                     <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
-                    <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-network-wired"></i> Conexiones</a>
                 </div>
             </ul>
         </div>
         <div class="dash-right-side">
-            <div class="container-fluid" style="padding: 5px 40px">
-                <h3 class="mt-2">Accesos Directos</h3>
-                <div class="row mt-3">
-                    <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded" style="background: #1565C0;">
-                            <h4>Inventario</h4>
-                            <i class="fas fa-box" style="color: #0D47A1;"></i>
-                            <a href="Inventario">Ir a Inventario <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded" style="background: #2E7D32;">
-                            <h4>Ventas</h4>
-                            <i class="fas fa-dollar-sign" style="color: #1B5E20;"></i>
-                            <a href="Ventas">Ir a Ventas <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded" style="background: #EF6C00;">
-                            <h4>Compras</h4>
-                            <i class="fas fa-tags" style="color: #E65100;"></i>
-                            <a href="Compras">Ir a Compras <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded" style="background: #D84315;">
-                            <h4>Configuración</h4>
-                            <i class="fas fa-cog fa-spin" style="color: #BF360C;"></i>
-                            <a href="#">Ir a Configuración <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <hr />
-                <h3 class="mt-2">Estadísticas</h3>
+            <div class="container-fluid">
+                @*<div ng-if="show" class="{{ class }}">{{ message }}</div>*@
+                <h2 class="text-center mt-3">Conexiones</h2>
+                <a href="/Home/AgregarConexion?product=@ViewBag.prod" class="btn btn-success mt-5">
+                    <i class="fas fa-plus"></i> Agregar nueva
+                </a>
+                <table class="table mt-3">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Servidor</th>
+                            <th>Base de Datos</th>
+                            <th>Producto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="conn in connections">
+                            <td>{{ conn.ID }}</td>
+                            <td>{{ conn.Name }}</td>
+                            <td>{{ conn.Server }}</td>
+                            <td>{{ conn.DB }}</td>
+                            <td>{{ conn.Type }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+<script src="~/Content/angular-min.js"></script>
 <script>
-    var capitalize = str => str.substring(0, 1).toLocaleUpperCase() + str.substring(1).toLocaleLowerCase();
+    var app = angular.module("Connections", []);
+    var connections = @Html.Raw(Json.Encode(ViewBag.connections));
     var btn = document.getElementById("icon-menu");
     var menu = document.getElementById("menu-left");
     var node = null;
 
     btn.addEventListener("click", hide);
+    console.log(connections);
 
-    $(".dash-right-side").on("mousedown", function (event) {
-        event.preventDefault();
-    });
+    app.controller("controller", function ($scope, $http) {
 
-    $(".dash-right-side").on("contextmenu", function (event) {
-        event.preventDefault();
+        $scope.connections = connections;
+
+        $scope.formatDate = function (date) {
+
+            var day = date.getDate(), month = date.getMonth() + 1, year = date.getFullYear();
+
+            if (day < 10)
+                day = "0" + day;
+
+            if (month < 10)
+                month = "0" + month;
+
+            return day + "/" + month + "/" + year;
+        }
+
     });
 
     function print(elem) {

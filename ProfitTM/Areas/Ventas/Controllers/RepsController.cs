@@ -17,7 +17,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             report.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepFacturaVentaxArtPartial.cshtml", report);
@@ -37,7 +37,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             report1.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepTotalVentaxArticuloPartial.cshtml", report1);
@@ -57,7 +57,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             report2.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepClienteMasVentaPartial.cshtml", report2);
@@ -75,7 +75,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report3.DataSource as SqlDataSource;
-            ds.ConnectionName = connect;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             ds.Queries["RepFormatoFacturaVenta"].Parameters[0].Value = id;
             ds.Queries["RepFormatoFacturaVenta"].Parameters[1].Value = id;
 

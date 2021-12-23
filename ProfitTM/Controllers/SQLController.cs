@@ -17,8 +17,9 @@ namespace ProfitTM.Controllers
 
         public SQLController()
         {
-            this.connect = HttpContext.Current.Session["connect"].ToString();
-            this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
+            //this.connect = HttpContext.Current.Session["connect"].ToString();
+            //this.DBadmin = ConfigurationManager.ConnectionStrings[this.connect].ConnectionString;
+            this.DBadmin = HttpContext.Current.Session["connect"].ToString();
         }
 
         public SQLController(string connect)
