@@ -130,7 +130,6 @@ namespace ProfitTM.Controllers
             ViewBag.prod = prod;
             ViewBag.user = Session["user"];
             ViewBag.modules = Session["modules"];
-            //ViewBag.connections = ConfigurationManager.ConnectionStrings;
 
             Session["Prod"] = prod;
 
@@ -194,13 +193,13 @@ namespace ProfitTM.Controllers
             {
                 switch (prod)
                 {
-                    case "Admin":
+                    case "ADM":
                         Session["home"] = "DashboardAdmin";
                         break;
-                    case "Cont":
+                    case "CON":
                         Session["home"] = "DashboardCont";
                         break;
-                    case "Nomi":
+                    case "NOM":
                         Session["home"] = "DashboardNomi";
                         break;
                 }

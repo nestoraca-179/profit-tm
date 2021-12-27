@@ -76,23 +76,23 @@
     <form action="/Home/GuardarConexion" method="post">
         <div class="input-main">
             <i class="fas fa-file"></i>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Nombre de la conexión" required />
+            <input type="text" id="name" name="name" class="form-control" placeholder="Nombre de la conexión" required autocomplete="off" />
         </div>
         <div class="input-main">
             <i class="fas fa-server"></i>
-            <input type="text" id="server" name="server" class="form-control" placeholder="Servidor" required />
+            <input type="text" id="server" name="server" class="form-control" placeholder="Servidor" required autocomplete="off" />
         </div>
         <div class="input-main">
             <i class="fas fa-database"></i>
-            <input type="text" id="db" name="db" class="form-control" placeholder="Base de Datos" required />
+            <input type="text" id="db" name="db" class="form-control" placeholder="Base de Datos" required autocomplete="off" />
         </div>
         <div class="input-main">
             <i class="fas fa-user"></i>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Usuario" required />
+            <input type="text" id="username" name="username" class="form-control" placeholder="Usuario" required autocomplete="off" />
         </div>
         <div class="input-main">
             <i class="fas fa-lock"></i>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Clave" required />
+            <input type="password" id="password" name="password" class="form-control" placeholder="Clave" required autocomplete="off" />
         </div>
         <input type="hidden" name="prod" value="@ViewBag.prod" />
         <button class="btn btn-primary mt-5">Guardar Conexión</button>

@@ -23,19 +23,6 @@ namespace ProfitTM.Models
             List<Connection> connections = new List<Connection>();
             string DBMain = ConfigurationManager.ConnectionStrings["MainConnection"].ConnectionString, query = "";
 
-            switch (prod)
-            {
-                case "Admin":
-                    prod = "ADM";
-                    break;
-                case "Cont":
-                    prod = "CON";
-                    break;
-                case "Nomi":
-                    prod = "NOM";
-                    break;
-            }
-
             if (!string.IsNullOrEmpty(prod))
             {
                 query = string.Format("select * from Connections where Type = '{0}'", prod);
