@@ -1,6 +1,6 @@
 ﻿using ProfitTM.Models;
-using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 
 namespace ProfitTM.Areas.Ventas.Controllers
@@ -8,7 +8,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
     [Authorize]
     public class TablasController : Controller
     {
-        public ActionResult Index(string function = "")
+        public ActionResult Index()
         {
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
@@ -46,18 +46,18 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                string connect = Session["connect"].ToString();
-                List<Client> clients = Client.GetAllClients(connect);
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                serializer.MaxJsonLength = 50000000;
 
-                ViewBag.clients = clients;
+                ViewBag.clients = serializer.Serialize(new Client().GetAllClients());
 
-                ViewBag.conds = Cond.GetAllConds(connect);
-                ViewBag.sellers = Seller.GetAllSellers(connect);
-                ViewBag.zones = Zone.GetAllZones(connect);
-                ViewBag.accounts = Account.GetAllAccounts(connect);
-                ViewBag.countries = Country.GetAllCountries(connect);
-                ViewBag.segments = Segment.GetAllSegments(connect);
-                ViewBag.types = TypePerson.GetAllTypesAdmin(connect, "C");
+                ViewBag.conds = new Cond().GetAllConds();
+                ViewBag.sellers = new Seller().GetAllSellers();
+                ViewBag.zones = new Zone().GetAllZones();
+                ViewBag.accounts = new Account().GetAllAccounts();
+                ViewBag.countries = new Country().GetAllCountries();
+                ViewBag.segments = new Segment().GetAllSegments();
+                ViewBag.types = new TypePerson().GetAllTypeClients();
 
                 return View();
             }

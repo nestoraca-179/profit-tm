@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
+using System.Linq;
 
 namespace ProfitTM.Models
 {
-    public class Invoice
+    public class Invoice : ProfitAdmManager
     {
+        #region CODIGO ANTERIOR
+
+        /*
         public string ID { get; set; }
         public Person InvoicePerson { get; set; }
         public string Descrip { get; set; }
@@ -96,7 +98,7 @@ namespace ProfitTM.Models
             }
 
             string query = string.Format("SELECT * FROM {0} WHERE doc_num = '{1}'", table, ID);
-            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+            string DBadmin = connect;
 
             try
             {
@@ -196,7 +198,7 @@ namespace ProfitTM.Models
         public static List<Invoice> GetAllInvoices(string connect, string type)
         {
             List<Invoice> invoices = new List<Invoice>();
-            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+            string DBadmin = connect;
 
             string name = "", table = "";
             bool invoiceSale = false;
@@ -324,7 +326,7 @@ namespace ProfitTM.Models
         public static List<InvoiceItem> GetInvoiceItems(string connect, string id, string type)
         {
             List<InvoiceItem> items = new List<InvoiceItem>();
-            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString, proc = "";
+            string DBadmin = connect, proc = "";
 
             switch (type)
             {
@@ -416,6 +418,79 @@ namespace ProfitTM.Models
             }
 
             return items;
+        } 
+        */
+
+        #endregion
+
+        public static saFacturaVenta GetSaleInvoice(string id)
+        {
+            saFacturaVenta invoice = new saFacturaVenta();
+
+            try
+            {
+                using (db)
+                {
+                    invoice = db.saFacturaVenta.SingleOrDefault(i => i.doc_num == id);
+                }
+            }
+            catch (Exception ex)
+            {
+                invoice = null;
+            }
+
+            return invoice;
+        }
+
+        public List<saFacturaVenta> GetAllSaleInvoices()
+        {
+            List<saFacturaVenta> invoices = new List<saFacturaVenta>();
+
+            try
+            {
+                invoices = db.saFacturaVenta.ToList();
+            }
+            catch (Exception ex)
+            {
+                invoices = null;
+            }
+
+            return invoices;
+        }
+
+        public static saFacturaCompra GetBuyInvoice(string id)
+        {
+            saFacturaCompra invoice = new saFacturaCompra();
+
+            try
+            {
+                using (db)
+                {
+                    invoice = db.saFacturaCompra.SingleOrDefault(i => i.doc_num == id);
+                }
+            }
+            catch (Exception ex)
+            {
+                invoice = null;
+            }
+
+            return invoice;
+        }
+
+        public List<saFacturaCompra> GetAllBuyInvoices()
+        {
+            List<saFacturaCompra> invoices = new List<saFacturaCompra>();
+
+            try
+            {
+                invoices = db.saFacturaCompra.ToList();
+            }
+            catch (Exception ex)
+            {
+                invoices = null;
+            }
+
+            return invoices;
         }
     }
 }

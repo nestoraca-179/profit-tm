@@ -1,8 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
 using System;
-using System.Drawing;
-using System.IO;
-using System.Net;
 
 /// <summary>
 /// Summary description for RepStockArticulos

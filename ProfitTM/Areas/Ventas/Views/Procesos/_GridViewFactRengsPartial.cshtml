@@ -1,0 +1,78 @@
+@Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }
+    )
+@Html.DevExpress().GetScripts(
+    new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.GridView }
+)
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new { Controller = "Reps", Action = "GridViewFactRengsPartial" };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Reps", Action = "GridViewFactRengsPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Reps", Action = "GridViewFactRengsPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Reps", Action = "GridViewFactRengsPartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "reng_num";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add("reng_num");
+        settings.Columns.Add("doc_num");
+        settings.Columns.Add("co_art");
+        settings.Columns.Add("co_alma");
+        settings.Columns.Add("total_art");
+        settings.Columns.Add("co_uni");
+        settings.Columns.Add("co_precio");
+        settings.Columns.Add("prec_vta");
+        settings.Columns.Add("porc_desc");
+        settings.Columns.Add("monto_desc");
+        settings.Columns.Add("tipo_imp");
+        settings.Columns.Add("porc_imp");
+        settings.Columns.Add("monto_imp");
+        settings.Columns.Add("reng_neto");
+        settings.Columns.Add("pendiente");
+        settings.Columns.Add("tipo_doc");
+        settings.Columns.Add("num_doc");
+        settings.Columns.Add("rowguid_doc");
+        settings.Columns.Add("total_dev");
+        settings.Columns.Add("monto_dev");
+        settings.Columns.Add("otros");
+        settings.Columns.Add("comentario");
+        settings.Columns.Add("lote_asignado");
+        settings.Columns.Add("monto_desc_glob");
+        settings.Columns.Add("monto_reca_glob");
+        settings.Columns.Add("otros1_glob");
+        settings.Columns.Add("otros2_glob");
+        settings.Columns.Add("otros3_glob");
+        settings.Columns.Add("monto_imp_afec_glob");
+        settings.Columns.Add("monto_imp2_afec_glob");
+        settings.Columns.Add("monto_imp3_afec_glob");
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

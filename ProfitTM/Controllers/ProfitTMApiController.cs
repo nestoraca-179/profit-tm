@@ -1,4 +1,6 @@
 ﻿using ProfitTM.Models;
+using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
 
@@ -16,10 +18,20 @@ namespace ProfitTM.Controllers
         [Route("api/ProfitTMApi/GetReports/Prod/{prod}/Mod/{mod}")]
         public ProfitTMResponse GetReports(string prod, string mod)
         {
-            ProfitTMResponse response;
-            SQLController sqlController = new SQLController("MainConnection");
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            response = sqlController.getReports(prod, mod);
+            try
+            {
+                List<TreeReports> reports = Report.GetTreeReportsByProdMod(prod, mod);
+
+                response.Status = "OK";
+                response.Result = reports;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
@@ -28,24 +40,44 @@ namespace ProfitTM.Controllers
         
         [HttpPost]
         [Route("api/ProfitTMApi/AddUser/")]
-        public ProfitTMResponse AddUser(User user)
+        public ProfitTMResponse AddUser(Users user)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            UserManager userManager = new UserManager();
-            response = userManager.addUser(user);
+            try
+            {
+                Users newUser = Models.User.Add(user);
+
+                response.Status = "OK";
+                response.Result = newUser.ID;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
 
         [HttpPost]
         [Route("api/ProfitTMApi/EditUser/")]
-        public ProfitTMResponse EditUser(User user)
+        public ProfitTMResponse EditUser(Users user)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            UserManager userManager = new UserManager();
-            response = userManager.editUser(user);
+            try
+            {
+                Users editUser = Models.User.Edit(user);
+
+                response.Status = "OK";
+                response.Result = editUser.ID;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
@@ -54,10 +86,20 @@ namespace ProfitTM.Controllers
         [Route("api/ProfitTMApi/DeleteUser/{id}/")]
         public ProfitTMResponse DeleteUser(int id)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            UserManager userManager = new UserManager();
-            response = userManager.deleteUser(id);
+            try
+            {
+                Users delUser = Models.User.Delete(id);
+
+                response.Status = "OK";
+                response.Result = delUser.ID;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
@@ -66,24 +108,44 @@ namespace ProfitTM.Controllers
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddClient/")]
-        public ProfitTMResponse AddClient(Client client)
+        public ProfitTMResponse AddClient(saCliente client)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            ClientManager clientManager = new ClientManager(connect);
-            response = clientManager.addClient(client);
+            try
+            {
+                saCliente newClient = new Client().Add(client);
+
+                response.Status = "OK";
+                response.Result = newClient.co_cli;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
 
         [HttpPost]
         [Route("api/ProfitTMApi/EditClient/")]
-        public ProfitTMResponse EditClient(Client client)
+        public ProfitTMResponse EditClient(saCliente client)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            ClientManager clientManager = new ClientManager(connect);
-            response = clientManager.editClient(client);
+            try
+            {
+                saCliente editClient = new Client().Edit(client);
+
+                response.Status = "OK";
+                response.Result = editClient.co_cli;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
@@ -92,10 +154,20 @@ namespace ProfitTM.Controllers
         [Route("api/ProfitTMApi/DeleteClient/{id}/")]
         public ProfitTMResponse DeleteClient(string id)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            ClientManager clientManager = new ClientManager(connect);
-            response = clientManager.deleteClient(id);
+            try
+            {
+                saCliente delClient = new Client().Delete(id);
+
+                response.Status = "OK";
+                response.Result = delClient.co_cli;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
@@ -104,24 +176,44 @@ namespace ProfitTM.Controllers
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddSupplier/")]
-        public ProfitTMResponse AddSupplier(Supplier supplier)
+        public ProfitTMResponse AddSupplier(saProveedor supplier)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            SupplierManager supplierManager = new SupplierManager(connect);
-            response = supplierManager.addSupplier(supplier);
+            try
+            {
+                saProveedor newSupplier = new Supplier().Add(supplier);
+
+                response.Status = "OK";
+                response.Result = newSupplier.co_prov;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
 
         [HttpPost]
         [Route("api/ProfitTMApi/EditSupplier/")]
-        public ProfitTMResponse EditSupplier(Supplier supplier)
+        public ProfitTMResponse EditSupplier(saProveedor supplier)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            SupplierManager supplierManager = new SupplierManager(connect);
-            response = supplierManager.editSupplier(supplier);
+            try
+            {
+                saProveedor editSupplier = new Supplier().Edit(supplier);
+
+                response.Status = "OK";
+                response.Result = editSupplier.co_prov;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
@@ -130,17 +222,27 @@ namespace ProfitTM.Controllers
         [Route("api/ProfitTMApi/DeleteSupplier/{id}/")]
         public ProfitTMResponse DeleteSupplier(string id)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            SupplierManager supplierManager = new SupplierManager(connect);
-            response = supplierManager.deleteSupplier(id);
+            try
+            {
+                saProveedor delSupplier = new Supplier().Delete(id);
+
+                response.Status = "OK";
+                response.Result = delSupplier.co_prov;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
         }
 
         // FACTURA
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("api/ProfitTMApi/AddInvoice/{order}/")]
         public ProfitTMResponse AddInvoice(string order, Invoice invoice)
         {
@@ -166,6 +268,6 @@ namespace ProfitTM.Controllers
             response = invoiceManager.editInvoice(invoice);
 
             return response;
-        }
+        }*/
     }
 }

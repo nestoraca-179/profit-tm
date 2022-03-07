@@ -19,10 +19,10 @@
     .container-list .table td, .table th {
         padding: 5px;
         font-size: 14px;
-        user-select: none; /* standard syntax */
-        -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-        -moz-user-select: none; /* mozilla browsers */
-        -ms-user-select: none; /* IE10+ */
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
     }
     .container-list .table thead {
         background: #13568a;
@@ -161,9 +161,9 @@
                     <th class="text-white">Cliente</th>
                 </tr>
             </thead>
-            <tr ng-repeat="invoice in invoices" ng-click="selectInvoice(invoice.ID)" style="cursor: pointer;">
-                <td>{{ invoice.ID }}</td>
-                <td>{{ invoice.InvoicePerson.Name }}</td>
+            <tr ng-repeat="invoice in invoices" ng-click="selectInvoice(invoice.doc_num)" style="cursor: pointer;">
+                <td>{{ invoice.doc_num }}</td>
+                <td>{{ invoice.co_cli }}</td>
             </tr>
         </table>
     </div>
@@ -241,23 +241,23 @@
             <div class="left">
                 <div class="controls">
                     <label>Número</label>
-                    <input type="text" class="form-control" id="id" name="id" ng-model="invoice.ID" ng-disabled="!adding" ng-required="true" />
+                    <input type="text" class="form-control" id="id" name="id" ng-model="invoice.doc_num" ng-disabled="!adding" ng-required="true" />
                 </div>
                 <div class="controls">
                     <label>Cliente</label>
-                    <input type="text" class="form-control" id="client" ng-model="invoice.InvoicePerson.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                    <input type="text" class="form-control" id="client" ng-model="invoice.co_cli" ng-disabled="!adding && !editing" ng-required="true" />
                 </div>
                 <div class="controls">
                     <label>Cond. Pago</label>
                     <div class="input-search">
-                        <input type="text" class="form-control" id="cond" onfocus="this.blur()" ng-model="invoice.Cond.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                        <input type="text" class="form-control" id="cond" onfocus="this.blur()" ng-model="invoice.co_cond" ng-disabled="!adding && !editing" ng-required="true" />
                         <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
                     </div>
                 </div>
                 <div class="controls">
                     <label>Vendedor</label>
                     <div class="input-search">
-                        <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="invoice.Seller.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                        <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="invoice.co_ven" ng-disabled="!adding && !editing" ng-required="true" />
                         <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
                     </div>
                 </div>
@@ -269,18 +269,18 @@
                 </div>
                 <div class="controls">
                     <label>N° Control</label>
-                    <input type="text" class="form-control" id="name" ng-model="invoice.ControlNumber" ng-disabled="!adding && !editing" ng-required="true" />
+                    <input type="text" class="form-control" id="name" ng-model="invoice.n_control" ng-disabled="!adding && !editing" ng-required="true" />
                 </div>
                 <div class="controls">
                     <label>Moneda</label>
                     <div class="input-search">
-                        <input type="text" class="form-control" id="currency" onfocus="this.blur()" ng-model="invoice.Currency.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                        <input type="text" class="form-control" id="currency" onfocus="this.blur()" ng-model="invoice.co_mone" ng-disabled="!adding && !editing" ng-required="true" />
                         <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="currency"></i>
                     </div>
                 </div>
                 <div class="controls">
                     <label>Tasa</label>
-                    <input type="text" class="form-control" id="rate" ng-model="invoice.Rate" ng-disabled="!adding && !editing" ng-required="true" />
+                    <input type="text" class="form-control" id="rate" ng-model="invoice.tasa" ng-disabled="!adding && !editing" ng-required="true" />
                 </div>
             </div>
             <div class="bottom">
@@ -288,14 +288,14 @@
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Descripción</label>
-                            <input type="text" class="form-control" id="descrip" ng-model="invoice.Descrip" ng-disabled="!adding && !editing" />
+                            <input type="text" class="form-control" id="descrip" ng-model="invoice.descrip" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Transporte</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="transport" onfocus="this.blur()" ng-model="invoice.Transport.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                                <input type="text" class="form-control" id="transport" onfocus="this.blur()" ng-model="invoice.co_tran" ng-disabled="!adding && !editing" ng-required="true" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transport"></i>
                             </div>
                         </div>
@@ -305,13 +305,13 @@
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Fec. de Emis.</label>
-                            <input type="date" class="form-control" id="fechaEmis" ng-model="invoice.DateEmis" ng-disabled="!adding && !editing" />
+                            <input type="date" class="form-control" id="fechaEmis" ng-model="invoice.fec_emis" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Fec. de Venc.</label>
-                            <input type="date" class="form-control" id="fechaVenc" ng-model="invoice.DateVenc" ng-disabled="!adding && !editing" />
+                            <input type="date" class="form-control" id="fechaVenc" ng-model="invoice.fec_venc" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                 </div>
@@ -319,47 +319,85 @@
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Fec. de Reg.</label>
-                            <input type="date" class="form-control" id="fechaReg" ng-model="invoice.DateReg" ng-disabled="!adding && !editing" />
+                            <input type="date" class="form-control" id="fechaReg" ng-model="invoice.fec_reg" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="controls">
-                            <label class="label-check"><input type="checkbox" ng-model="client.VenTer" ng-disabled="!adding && !editing" /> Venta por cuenta de terceros</label>
+                            <label class="label-check"><input type="checkbox" ng-model="client.ven_ter" ng-disabled="!adding && !editing" /> Venta por cuenta de terceros</label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="detalle" class="form-body" style="display: flex;">
-            <table class="table table-striped table-bordered">
+        <div id="detalle" class="form-body">
+            @*<table class="table table-sm table-striped table-bordered">
                 <tr>
-                    <td></td>
+                    <td>Hola</td>
                 </tr>
-            </table>
+            </table>*@
+            @*@Html.Action("GridViewFactRengsPartial", "Reps", new { doc_num = "0000000070" })*@
         </div>
-        <div id="adicionales" class="form-body" style="display: flex;"></div>
+        <div id="adicionales" class="form-body">
+            <div class="left">
+                <div class="controls">
+                    <label>Campo 1</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo1" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 3</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo3" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 5</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo5" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 7</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo7" ng-disabled="!adding && !editing" />
+                </div>
+            </div>
+            <div class="right">
+                <div class="controls">
+                    <label>Campo 2</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo2" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 4</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo4" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 6</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo6" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 8</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo8" ng-disabled="!adding && !editing" />
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 <script src="~/Content/angular-min.js"></script>
 <script>
     var app = angular.module("Invoices", []);
-    var invoices = @Html.Raw(Json.Encode(@ViewBag.invoices));
+    var invoices = @Html.Raw(ViewBag.invoices);
 
     for (var item of invoices) {
-        item.DateEmis = new Date(parseInt(item.DateEmis.substr(6)));
-        item.DateVenc = new Date(parseInt(item.DateVenc.substr(6)));
-        item.DateReg = new Date(parseInt(item.DateReg.substr(6)));
-        item.DateIn = new Date(parseInt(item.DateIn.substr(6)));
-        item.DateMo = new Date(parseInt(item.DateMo.substr(6)));
+        item.fec_emis = new Date(parseInt(item.fec_emis.substr(6)));
+        item.fec_venc = new Date(parseInt(item.fec_venc.substr(6)));
+        item.fec_reg = new Date(parseInt(item.fec_reg.substr(6)));
+        item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
+        item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
 
-        switch (item.Status) {
-            case 0:
+        switch (item.status) {
+            case "0":
                 item.EstatusF = "NO PROCESADA";
                 break;
-            case 1:
+            case "1":
                 item.EstatusF = "PARCIALMENTE PROCESADA";
                 break;
-            case 2:
+            case "2":
                 item.EstatusF = "PROCESADA";
                 break;
         }
@@ -398,11 +436,11 @@
 
         $scope.selectInvoice = function (id) {
             if ($scope.adding) {
-                alert("Debes terminar de agregar el cliente");
+                alert("Debes terminar de agregar la factura");
             } else if ($scope.editing) {
-                alert("Debes terminar de modificar el cliente " + $scope.client.ID);
+                alert("Debes terminar de modificar la factura " + $scope.invoice.doc_num);
             } else {
-                $scope.invoice = invoices.find(c => c.ID == id);
+                $scope.invoice = invoices.find(c => c.doc_num == id);
                 $scope.index = invoices.indexOf($scope.invoice);
             }
         }

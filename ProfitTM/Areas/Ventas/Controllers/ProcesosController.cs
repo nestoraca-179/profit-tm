@@ -1,13 +1,13 @@
 ﻿using ProfitTM.Models;
-using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 
 namespace ProfitTM.Areas.Ventas.Controllers
 {
     public class ProcesosController : Controller
     {
-        public ActionResult Index(string function = "")
+        public ActionResult Index()
         {
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
@@ -24,110 +24,6 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                /*string connect = Session["connect"].ToString();
-
-                List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
-
-                NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
-                formato.CurrencyGroupSeparator = ".";
-                formato.NumberDecimalSeparator = ",";
-
-                if (function == EnumLoadFunction.INVOICEV || function == EnumLoadFunction.INVOICEPV)
-                {
-                    string type = function == EnumLoadFunction.INVOICEV ? "V" : "PV";
-                    List<Invoice> invoices = Invoice.GetAllInvoices(connect, type), orders = Invoice.GetAllInvoices(connect, "PV");
-
-                    if (invoices != null && orders != null)
-                    {
-                        foreach (Invoice invoice in invoices)
-                        {
-                            Dictionary<string, string> item = new Dictionary<string, string>();
-
-                            item.Add("ID", invoice.ID);
-                            item.Add("PersonName", invoice.InvoicePerson.Name);
-                            item.Add("DateEmis", invoice.DateEmis.ToString("dd/MM/yyyy HH:mm tt"));
-                            item.Add("Amount", invoice.Total.ToString("N", formato));
-
-                            switch (invoice.Status)
-                            {
-                                case 0:
-                                    item.Add("Status", "NO PROCESADA");
-                                    break;
-                                case 1:
-                                    item.Add("Status", "PARCIALMENTE PROCESADA");
-                                    break;
-                                case 2:
-                                    item.Add("Status", "PROCESADA");
-                                    break;
-                            }
-
-                            if (type == "V")
-                            {
-                                if (invoice.Printed)
-                                {
-                                    item.Add("Impresa", "SI");
-                                    item.Add("edit", "False");
-                                }
-                                else
-                                {
-                                    item.Add("Impresa", "NO");
-
-                                    if (invoice.Status == 0)
-                                        item.Add("edit", "True");
-                                    else
-                                        item.Add("edit", "False");
-                                }
-
-                                item.Add("print", "True");
-                            }
-                            else if (type == "PV")
-                            {
-                                if (invoice.Status == 0)
-                                    item.Add("edit", "True");
-                                else
-                                    item.Add("edit", "False");
-
-                                item.Add("print", "False");
-                            }
-
-                            item.Add("items", "True");
-                            results.Add(item);
-                        }
-
-                        ViewBag.documents = invoices;
-                        ViewBag.orders = orders.FindAll(o => o.Status == 0);
-                        ViewBag.resultsTable = results;
-
-                        if (type == "V")
-                        {
-                            ViewBag.function = "Factura";
-                            ViewBag.headers = "N° Factura,Cliente,Fec. Emis,Total,Estado,Impresa";
-                            ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status,Impresa";
-                        }
-                        else
-                        {
-                            ViewBag.function = "Pedido";
-                            ViewBag.headers = "N° Pedido,Cliente,Fec. Emis,Total,Estado";
-                            ViewBag.cols = "ID,PersonName,DateEmis,Amount,Status";
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.errorMessage = "Error cargando documentos";
-                        ViewBag.results = "";
-                    }
-                }
-                else
-                {
-                    ViewBag.results = "";
-                }
-
-                ViewBag.clients = Client.GetAllClients(connect);
-                ViewBag.conds = Cond.GetAllConds(connect);
-                ViewBag.sellers = Seller.GetAllSellers(connect);
-                ViewBag.transports = Transport.GetAllTransports(connect);
-                ViewBag.currencies = Currency.GetAllCurrencies(connect);*/
-
                 return View();
             }
         }
@@ -149,127 +45,129 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                string connect = Session["connect"].ToString();
-                List<Invoice> invoices = Invoice.GetAllInvoices(connect, "V");
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                serializer.MaxJsonLength = 50000000;
 
-                ViewBag.invoices = invoices;
+                ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices());
 
-                ViewBag.clients = Client.GetAllClients(connect);
-                ViewBag.conds = Cond.GetAllConds(connect);
-                ViewBag.sellers = Seller.GetAllSellers(connect);
-                ViewBag.transports = Transport.GetAllTransports(connect);
-                ViewBag.currencies = Currency.GetAllCurrencies(connect);
-
-                return View();
-            }
-        }
-        
-        public ActionResult EditarFactura(string id = "")
-        {
-            ViewBag.user = Session["user"];
-            ViewBag.modules = Session["modules"];
-
-            if (ViewBag.user == null)
-            {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
-            }
-            else
-            {
-                string connect = Session["connect"].ToString();
-
-                if (id != "")
-                {
-                    Invoice order = Invoice.GetInvoice(connect, id, "V");
-                    ViewBag.order = order;
-                }
-
-                ViewBag.clients = Client.GetAllClients(connect);
-                ViewBag.conds = Cond.GetAllConds(connect);
-                ViewBag.sellers = Seller.GetAllSellers(connect);
-                ViewBag.transports = Transport.GetAllTransports(connect);
-                ViewBag.currencies = Currency.GetAllCurrencies(connect);
+                ViewBag.clients = new Client().GetAllClients();
+                ViewBag.conds = new Cond().GetAllConds();
+                ViewBag.sellers = new Seller().GetAllSellers();
+                ViewBag.transports = new Transport().GetAllTransports();
+                ViewBag.currencies = new Currency().GetAllCurrencies();
 
                 return View();
             }
         }
 
-        public ActionResult ImprimirFactura(string id)
-        {
-            ViewBag.user = Session["user"];
-            ViewBag.modules = Session["modules"];
+        #region CODIGO ANTERIOR
+        //public ActionResult EditarFactura(string id = "")
+        //{
+        //    ViewBag.user = Session["user"];
+        //    ViewBag.modules = Session["modules"];
 
-            ViewBag.report = id;
+        //    if (ViewBag.user == null)
+        //    {
+        //        FormsAuthentication.SignOut();
+        //        return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+        //    }
+        //    else
+        //    {
+        //        string connect = Session["connect"].ToString();
 
-            if (ViewBag.user == null)
-            {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
-            }
-            else
-            {
-                return View();
-            }
-        }
+        //        if (id != "")
+        //        {
+        //            /*Invoice order = Invoice.GetInvoice(connect, id, "V");
+        //            ViewBag.order = order;*/
+        //        }
 
-        public ActionResult EditarPedido(string id = "")
-        {
-            ViewBag.user = Session["user"];
-            ViewBag.modules = Session["modules"];
+        //        //ViewBag.clients = Client.GetAllClients(connect);
+        //        ViewBag.conds = new Cond().GetAllConds();
+        //        ViewBag.sellers = new Seller().GetAllSellers();
+        //        ViewBag.transports = Transport.GetAllTransports(connect);
+        //        ViewBag.currencies = Currency.GetAllCurrencies(connect);
 
-            if (ViewBag.user == null)
-            {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
-            }
-            else
-            {
-                string connect = Session["connect"].ToString();
+        //        return View();
+        //    }
+        //}
 
-                if (id != "")
-                {
-                    Invoice order = Invoice.GetInvoice(connect, id, "PV");
-                    ViewBag.order = order;
-                }
+        //public ActionResult ImprimirFactura(string id)
+        //{
+        //    ViewBag.user = Session["user"];
+        //    ViewBag.modules = Session["modules"];
 
-                ViewBag.clients = Client.GetAllClients(connect);
-                ViewBag.conds = Cond.GetAllConds(connect);
-                ViewBag.sellers = Seller.GetAllSellers(connect);
-                ViewBag.transports = Transport.GetAllTransports(connect);
-                ViewBag.currencies = Currency.GetAllCurrencies(connect);
+        //    ViewBag.report = id;
 
-                return View();
-            }
-        }
+        //    if (ViewBag.user == null)
+        //    {
+        //        FormsAuthentication.SignOut();
+        //        return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+        //    }
+        //    else
+        //    {
+        //        return View();
+        //    }
+        //}
 
-        public ActionResult ImportarPedido(string id = "")
-        {
-            ViewBag.user = Session["user"];
-            ViewBag.modules = Session["modules"];
+        //public ActionResult EditarPedido(string id = "")
+        //{
+        //    ViewBag.user = Session["user"];
+        //    ViewBag.modules = Session["modules"];
 
-            if (ViewBag.user == null)
-            {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
-            }
-            else
-            {
-                string connect = Session["connect"].ToString();
+        //    if (ViewBag.user == null)
+        //    {
+        //        FormsAuthentication.SignOut();
+        //        return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+        //    }
+        //    else
+        //    {
+        //        string connect = Session["connect"].ToString();
 
-                if (id != "")
-                {
-                    Invoice order = Invoice.GetInvoice(connect, id, "PV");
-                    ViewBag.order = order;
-                }
+        //        if (id != "")
+        //        {
+        //            /*Invoice order = Invoice.GetInvoice(connect, id, "PV");
+        //            ViewBag.order = order;*/
+        //        }
 
-                ViewBag.clients = Client.GetAllClients(connect);
-                ViewBag.conds = Cond.GetAllConds(connect);
-                ViewBag.sellers = Seller.GetAllSellers(connect);
-                ViewBag.transports = Transport.GetAllTransports(connect);
-                ViewBag.currencies = Currency.GetAllCurrencies(connect);
+        //        //ViewBag.clients = Client.GetAllClients(connect);
+        //        ViewBag.conds = new Cond().GetAllConds();
+        //        ViewBag.sellers = new Seller().GetAllSellers();
+        //        ViewBag.transports = Transport.GetAllTransports(connect);
+        //        ViewBag.currencies = Currency.GetAllCurrencies(connect);
 
-                return View();
-            }
-        }
+        //        return View();
+        //    }
+        //}
+
+        //public ActionResult ImportarPedido(string id = "")
+        //{
+        //    ViewBag.user = Session["user"];
+        //    ViewBag.modules = Session["modules"];
+
+        //    if (ViewBag.user == null)
+        //    {
+        //        FormsAuthentication.SignOut();
+        //        return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+        //    }
+        //    else
+        //    {
+        //        string connect = Session["connect"].ToString();
+
+        //        if (id != "")
+        //        {
+        //            /*Invoice order = Invoice.GetInvoice(connect, id, "PV");
+        //            ViewBag.order = order;*/
+        //        }
+
+        //        //ViewBag.clients = Client.GetAllClients(connect);
+        //        ViewBag.conds = new Cond().GetAllConds();
+        //        ViewBag.sellers = new Seller().GetAllSellers();
+        //        ViewBag.transports = Transport.GetAllTransports(connect);
+        //        ViewBag.currencies = Currency.GetAllCurrencies(connect);
+
+        //        return View();
+        //    }
+        //}
+        #endregion
     }
 }

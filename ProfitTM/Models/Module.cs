@@ -1,27 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
+using System.Linq;
 
 namespace ProfitTM.Models
 {
     public class Module
     {
-        public string ID { get; set; }
-        public string Name { get; set; }
-        public string Icon { get; set; }
-        public string Product { get; set; }
-        public string ReportURL { get; set; }
-        public List<Option> Options { get; set; }
-
-        public static List<Module> GetModules(string prod, string userID)
+        public static List<Modules> GetModulesByUser(string prod, string userID)
         {
-            List<Module> modules = new List<Module>();
-            string DBMain = ConfigurationManager.ConnectionStrings["MainConnection"].ConnectionString;
+            ProfitTMEntities db = new ProfitTMEntities();
+            List<Modules> modules = new List<Modules>();
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(DBMain))
+                List<Modules> mods = db.Modules.Where(m => m.Product == prod).ToList();
+                List<UserModules> userModules = db.UserModules.Where(um => um.UserID.ToString() == userID).OrderBy(um => um.ModuleID).ToList();
+
+                modules = (from u in userModules
+                           join m in mods on u.ModuleID equals m.ID
+                           select new Modules
+                           {
+                               ID = u.ModuleID,
+                               ModuleName = m.ModuleName,
+                               Icon = m.Icon,
+                               ReportURL = m.ReportURL,
+                               Options = Option.GetOptionsByUser(u.ModuleID.ToString(), userID),
+
+                           }).ToList();
+
+                #region CODIGO ANTERIOR
+                /*using (SqlConnection conn = new SqlConnection(DBMain))
                 {
                     conn.Open();
                     using (SqlCommand comm = new SqlCommand(string.Format(@"select M.* from UserModules UM
@@ -45,7 +53,8 @@ namespace ProfitTM.Models
                             }
                         }
                     }
-                }
+                }*/
+                #endregion
             }
             catch (Exception ex)
             {
@@ -54,34 +63,18 @@ namespace ProfitTM.Models
 
             return modules;
         }
-    
-        public static List<Module> GetAllModules()
+
+        public static List<Modules> GetAllModules()
         {
-            List<Module> modules = new List<Module>();
-            string DBMain = ConfigurationManager.ConnectionStrings["MainConnection"].ConnectionString;
+            ProfitTMEntities db = new ProfitTMEntities();
+            List<Modules> modules = new List<Modules>();
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(DBMain))
+                modules = db.Modules.ToList();
+                foreach (Modules mod in modules)
                 {
-                    conn.Open();
-                    using (SqlCommand comm = new SqlCommand("select * from Modules", conn))
-                    {
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Module module = new Module();
-
-                                module.ID = reader["ID"].ToString();
-                                module.Name = reader["ModuleName"].ToString();
-                                module.Product = reader["Product"].ToString();
-                                module.Options = Option.GetAllOptions(module.ID);
-
-                                modules.Add(module);
-                            }
-                        }
-                    }
+                    mod.Options = Option.GetOptionsByModule(mod.ID.ToString());
                 }
             }
             catch (Exception ex)

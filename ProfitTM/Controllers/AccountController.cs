@@ -1,24 +1,46 @@
 ﻿using System.Web.Mvc;
-using System.Data.SqlClient;
 using System.Web.Security;
-using System.Configuration;
+using System.Linq;
 using ProfitTM.Models;
 
 namespace ProfitTM.Controllers
 {
     public class AccountController : Controller
     {
-        string DBProfitTM = ConfigurationManager.ConnectionStrings["MainConnection"].ConnectionString;
-
         [HttpPost]
         public ActionResult Login(string username, string pass)
         {
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(pass))
             {
                 string encryptedPass = SecurityController.Encrypt(pass);
-                //string decryptedText = SecurityController.Decrypt(encryptedPass);
+                //string decryptedText = SecurityController.Decrypt("YLXp9G9P1Gt0MM7BbVo4BA==");
 
-                using (SqlConnection conn = new SqlConnection(DBProfitTM))
+                using (ProfitTMEntities db = new ProfitTMEntities())
+                {
+                    Users user = db.Users.SingleOrDefault(u => u.Username == username && u.Password == encryptedPass);
+                    
+                    if (user != null)
+                    {
+                        if (user.Enabled)
+                        {
+                            FormsAuthentication.SetAuthCookie(username, true);
+                            Session["user"] = user;
+
+                            return RedirectToAction("SeleccionProducto", "Home");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home", new { message = "Usuario inactivo" });
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home", new { message = "Usuario o clave incorrectos" });
+                    }
+                }
+
+                #region CODIGO ANTERIOR
+                /*using (SqlConnection conn = new SqlConnection(DBProfitTM))
                 {
                     conn.Open();
                     using (SqlCommand comm = new SqlCommand("SELECT * FROM Users WHERE Username = @Username AND Password = @Pass", conn))
@@ -59,7 +81,8 @@ namespace ProfitTM.Controllers
                             }
                         }
                     }
-                }
+                }*/
+                #endregion
             }
             else
             {
@@ -70,10 +93,7 @@ namespace ProfitTM.Controllers
         public ActionResult Logout(string msg = "")
         {
             FormsAuthentication.SignOut();
-            Session["user"] = null;
-            Session["connect"] = null;
-            Session["home"] = null;
-            Session["modules"] = null;
+            Session.Clear();
 
             if (msg != "")
             {

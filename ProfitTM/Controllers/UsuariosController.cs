@@ -24,7 +24,7 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                ViewBag.users = MyUser.GetUsers();
+                ViewBag.users = MyUser.GetAllUsers();
 
                 return View();
             }
@@ -70,7 +70,7 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                ViewBag.userEdit = MyUser.GetUser(id);
+                ViewBag.userEdit = MyUser.GetUserByID(id);
                 ViewBag.allModules = Module.GetAllModules();
 
                 return View();

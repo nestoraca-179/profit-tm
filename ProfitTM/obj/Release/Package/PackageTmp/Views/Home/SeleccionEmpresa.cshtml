@@ -142,7 +142,7 @@
 
                         if (name.Contains(ViewBag.prod))
                         {
-                            <option value="@item.Name">@item.Name</option>
+                            <option value="@item.ModuleName">@item.ModuleName</option>
                         }
                     }
                 }
@@ -170,7 +170,7 @@
             @{
                 foreach (var item in ViewBag.connections)
                 {
-                    string id = item.ID, name = item.Name;
+                    string id = item.ID.ToString(), name = item.Name;
 
                     <div class="card-prod shadow-lg" id="@id">
                         <i class="fas fa-building"></i>

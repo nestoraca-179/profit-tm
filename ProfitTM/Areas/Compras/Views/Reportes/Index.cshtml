@@ -29,21 +29,21 @@
                     <h5>Árbol de Reportes</h5>
                     <select ng-model="tree" ng-change="loadGroup(tree)" ng-disabled="!treeReports">
                         <option value="#">Seleccione Árbol de Reportes...</option>
-                        <option ng-repeat="tree in treeReports" value="{{ tree.ID }}">{{ tree.Name }}</option>
+                        <option ng-repeat="tree in treeReports" value="{{ tree.ID }}">{{ tree.TreeName }}</option>
                     </select>
                 </div>
                 <div class="d-flex flex-column align-items-center mt-5 mb-5">
                     <h5>Grupo de Reportes</h5>
                     <select ng-model="group" ng-change="loadReport(group)" ng-disabled="tree == '#'">
                         <option value="#">Seleccione Grupo de Reportes...</option>
-                        <option ng-repeat="group in groupReports" value="{{ group.ID }}">{{ group.Name }}</option>
+                        <option ng-repeat="group in groupReports" value="{{ group.ID }}">{{ group.GroupName }}</option>
                     </select>
                 </div>
                 <div class="d-flex flex-column align-items-center mt-5 mb-5">
                     <h5>Reporte</h5>
                     <select ng-model="report" ng-change="loadButton(report)" ng-disabled="group == '#' || tree == '#'">
                         <option value="#">Seleccione Reporte...</option>
-                        <option ng-repeat="report in reports" value="{{ report.ID }}" ng-show="report.Enabled">{{ report.Name }}</option>
+                        <option ng-repeat="report in reports" value="{{ report.ID }}" ng-show="report.IsEnabled">{{ report.ReportName }}</option>
                     </select>
                     <input type="hidden" id="name" name="name" value="" />
                     <input type="hidden" id="format" name="format" value="" />
@@ -103,7 +103,7 @@
         $scope.loadGroup = function (tree) {
 
             if (tree != "#") {
-                $scope.groupReports = $scope.treeReports.find(e => e.ID == tree).ReportGroups;
+                $scope.groupReports = $scope.treeReports.find(e => e.ID == tree).GroupReports;
             }
 
             $scope.group = "#";
@@ -128,8 +128,8 @@
 
                 $scope.selected = $scope.reports.find(e => e.ID == report);
 
-                name.value = $scope.selected.Name;
-                format.value = $scope.selected.Format;
+                name.value = $scope.selected.ReportName;
+                format.value = $scope.selected.FormatReport;
 
                 $scope.completed = true;
 

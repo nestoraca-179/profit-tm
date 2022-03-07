@@ -1,8 +1,4 @@
 ﻿using ProfitTM.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -27,7 +23,7 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                ViewBag.connections = Connection.GetConnections();
+                ViewBag.connections = Connection.GetConnectionsByType();
                 ViewBag.prod = Session["Prod"].ToString();
 
                 return View();

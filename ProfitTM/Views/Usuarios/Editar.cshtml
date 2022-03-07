@@ -36,14 +36,14 @@
 
                         <li class="menu-item" onclick="print(this)">
                             <i class="@item.Icon"></i>
-                            <p class="mb-0 ml-3">@item.Name</p>
+                            <p class="mb-0 ml-3">@item.ModuleName</p>
                             <i class="fas fa-caret-up"></i>
                         </li>
                         <div class="my-dropdown">
                             @{
                                 foreach (var elem in item.Options)
                                 {
-                                    <a class="dropdown-item" href="@elem.URL"><i class="@elem.Icon"></i> @elem.Name</a>
+                                    <a class="dropdown-item" href="@elem.URL"><i class="@elem.Icon"></i> @elem.OptionName</a>
                                 }
                             }
                             <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
@@ -134,8 +134,8 @@
                                         <p ng-if="!user.IsAdm && !user.IsCon && !user.IsNom">No has seleccionado ningún aplicativo</p>
                                         <div class="form-check" ng-repeat="mod in modules" ng-show="showMod(mod)">
                                             <h5 ng-if="modules[$index - 1].Product != modules[$index].Product" class="text-center font-weight-bold">{{ prods[mod.Product] }}</h5>
-                                            <input class="form-check-input" type="checkbox" ng-click="checked($event.target.checked, mod, 'M')" ng-checked="user.Modules.indexOf(mod.ID) != -1" ng-disabled="mod.Options.length == 0">
-                                            <label class="form-check-label">{{ mod.Name }}</label>
+                                            <input class="form-check-input" type="checkbox" ng-click="checked($event.target.checked, mod, 'M')" ng-checked="verifyChecked(true, mod.ID)" ng-disabled="mod.Options.length == 0">
+                                            <label class="form-check-label">{{ mod.ModuleName }}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -148,10 +148,10 @@
                                     <div class="col-sm-8">
                                         <p ng-if="(!user.IsAdm && !user.IsCon && !user.IsNom) || modsChecked.length == 0">No has seleccionado ningún módulo</p>
                                         <div ng-repeat="mod in modsChecked" ng-show="user.IsAdm || user.IsCon || user.IsNom">
-                                            <h5 class="text-center font-weight-bold">{{ mod.Name }}</h5>
+                                            <h5 class="text-center font-weight-bold">{{ mod.ModuleName }}</h5>
                                             <div class="form-check" ng-repeat="opt in mod.Options">
-                                                <input class="form-check-input" type="checkbox" ng-click="checked($event.target.checked, opt, 'O')" ng-checked="optsChecked.indexOf(opt) != -1">
-                                                <label class="form-check-label">{{ opt.Name }}</label>
+                                                <input class="form-check-input" type="checkbox" ng-click="checked($event.target.checked, opt, 'O')" ng-checked="verifyChecked(false, opt.ID)">
+                                                <label class="form-check-label">{{ opt.OptionName }}</label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" checked disabled />
@@ -238,7 +238,7 @@
     app.controller("controller", function ($scope, $http) {
 
         $scope.user = user;
-        $scope.user.Password = "NOVERASLACLAVE"
+        //$scope.user.Password = "NOVERASLACLAVE"
         $scope.modules = modules;
         $scope.modsChecked = [];
         $scope.optsChecked = [];
@@ -249,18 +249,21 @@
             "NOM": "Nómina"
         };
 
-        for (var mod of user.Modules) {
-            var item = modules.find(m => m.ID == mod);
+        for (var mod of user.UserModules) {
+            var item = modules.find(m => m.ID == mod.ModuleID);
             $scope.modsChecked.push(item);
-
+            
             for (var opt of item.Options) {
-                var elem = user.Options.find(o => o == opt.ID);
+                var elem = user.UserOptions.find(o => o.OptionID == opt.ID);
 
                 if (elem != null) {
                     $scope.optsChecked.push(opt);
                 }
             }
         }
+
+        console.log($scope.modsChecked);
+        console.log($scope.optsChecked);
 
         $scope.showMod = function (mod) {
 
@@ -272,6 +275,21 @@
                 case "NOM":
                     return $scope.user.IsNom;
             }
+        }
+
+        $scope.verifyChecked = function (flag, id) {
+
+            var obj;
+
+            if (flag)
+                obj = $scope.user.UserModules.find(um => um.ModuleID == id);
+            else
+                obj = $scope.user.UserOptions.find(uo => uo.OptionID == id);
+
+            if (obj != null)
+                return true;
+            else
+                return false;
         }
 
         $scope.checked = function (value, item, type) {
@@ -315,8 +333,22 @@
                         if ($scope.user.Phone == "")
                             $scope.user.Phone = null;
 
-                        $scope.user.Modules = $scope.modsChecked.map(m => m.ID);
-                        $scope.user.Options = $scope.optsChecked.map(o => o.ID);
+                        $scope.user.UserModules = $scope.modsChecked.map(function (m) {
+                            var obj = {
+                                UserID: $scope.user.ID,
+                                ModuleID: m.ID
+                            };
+
+                            return obj;
+                        });
+                        $scope.user.UserOptions = $scope.optsChecked.map(function (o) {
+                            var obj = {
+                                UserID: $scope.user.ID,
+                                OptionID: o.ID
+                            };
+
+                            return obj;
+                        });
 
                         console.log($scope.user);
 

@@ -553,7 +553,6 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             this.fecDesde.Description = "Fecha Desde";
             this.fecDesde.Name = "fecDesde";
             this.fecDesde.Type = typeof(System.DateTime);
-            this.fecDesde.ValueInfo = "2021-01-01";
             // 
             // fecHasta
             // 
@@ -561,7 +560,6 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             this.fecHasta.Description = "Fecha Hasta";
             this.fecHasta.Name = "fecHasta";
             this.fecHasta.Type = typeof(System.DateTime);
-            this.fecHasta.ValueInfo = "2021-01-01";
             // 
             // cenDesde
             // 

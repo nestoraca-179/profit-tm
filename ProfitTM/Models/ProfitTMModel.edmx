@@ -1,0 +1,600 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ProfitTMContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Connections">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Server" Type="varchar" MaxLength="100" />
+          <Property Name="DB" Type="varchar" MaxLength="80" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Type" Type="varchar" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="GroupReports">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="varchar" MaxLength="50" />
+          <Property Name="TreeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Modules">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModuleName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Icon" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Product" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="ReportURL" Type="varchar" MaxLength="80" />
+        </EntityType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OptionName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Icon" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ModuleID" Type="int" />
+          <Property Name="OptionType" Type="char" MaxLength="3" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="URL" Type="varchar(max)" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportName" Type="varchar(max)" />
+          <Property Name="FormatReport" Type="varchar" MaxLength="50" />
+          <Property Name="IsEnabled" Type="bit" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TreeReports">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TreeName" Type="varchar" MaxLength="50" />
+          <Property Name="Product" Type="varchar" MaxLength="10" />
+          <Property Name="Module" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="UserModules">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ModuleID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserOptions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="OptionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Descrip" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateReg" Type="datetime" Nullable="false" />
+          <Property Name="CI" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="varchar" MaxLength="70" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="IsAdm" Type="bit" Nullable="false" />
+          <Property Name="IsCon" Type="bit" Nullable="false" />
+          <Property Name="IsNom" Type="bit" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Options__ModuleI__123EB7A3">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />
+          <End Role="Options" Type="Self.Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Options">
+              <PropertyRef Name="ModuleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserModules_Modules">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="1" />
+          <End Role="UserModules" Type="Self.UserModules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserModules">
+              <PropertyRef Name="ModuleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserModules_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserModules" Type="Self.UserModules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserModules">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserOptions_Options">
+          <End Role="Options" Type="Self.Options" Multiplicity="1" />
+          <End Role="UserOptions" Type="Self.UserOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserOptions">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserOptions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserOptions" Type="Self.UserOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserOptions">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupR_Reps">
+          <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupReports">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Reports">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TreeR_GroupR">
+          <End Role="TreeReports" Type="Self.TreeReports" Multiplicity="1" />
+          <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TreeReports">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GroupReports">
+              <PropertyRef Name="TreeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProfitTMContextStoreContainer">
+          <EntitySet Name="Connections" EntityType="Self.Connections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupReports" EntityType="Self.GroupReports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TreeReports" EntityType="Self.TreeReports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserModules" EntityType="Self.UserModules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserOptions" EntityType="Self.UserOptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Options__ModuleI__123EB7A3" Association="Self.FK__Options__ModuleI__123EB7A3">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="Options" EntitySet="Options" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserModules_Modules" Association="Self.FK__UserModules_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="UserModules" EntitySet="UserModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserModules_Users" Association="Self.FK__UserModules_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserModules" EntitySet="UserModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserOptions_Options" Association="Self.FK__UserOptions_Options">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="UserOptions" EntitySet="UserOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserOptions_Users" Association="Self.FK__UserOptions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserOptions" EntitySet="UserOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupR_Reps" Association="Self.FK_GroupR_Reps">
+            <End Role="GroupReports" EntitySet="GroupReports" />
+            <End Role="Reports" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TreeR_GroupR" Association="Self.FK_TreeR_GroupR">
+            <End Role="TreeReports" EntitySet="TreeReports" />
+            <End Role="GroupReports" EntitySet="GroupReports" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProfitTMContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Connections">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Server" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DB" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GroupReports">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TreeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_GroupR_Reps" FromRole="GroupReports" ToRole="Reports" />
+          <NavigationProperty Name="TreeReports" Relationship="Self.FK_TreeR_GroupR" FromRole="GroupReports" ToRole="TreeReports" />
+        </EntityType>
+        <EntityType Name="Modules">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Icon" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Product" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReportURL" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Options" Relationship="Self.FK__Options__ModuleI__123EB7A3" FromRole="Modules" ToRole="Options" />
+          <NavigationProperty Name="UserModules" Relationship="Self.FK__UserModules_Modules" FromRole="Modules" ToRole="UserModules" />
+        </EntityType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OptionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Icon" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ModuleID" Type="Int32" />
+          <Property Name="OptionType" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Modules" Relationship="Self.FK__Options__ModuleI__123EB7A3" FromRole="Options" ToRole="Modules" />
+          <NavigationProperty Name="UserOptions" Relationship="Self.FK__UserOptions_Options" FromRole="Options" ToRole="UserOptions" />
+        </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FormatReport" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GroupReports" Relationship="Self.FK_GroupR_Reps" FromRole="Reports" ToRole="GroupReports" />
+        </EntityType>
+        <EntityType Name="TreeReports">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Product" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Module" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GroupReports" Relationship="Self.FK_TreeR_GroupR" FromRole="TreeReports" ToRole="GroupReports" />
+        </EntityType>
+        <EntityType Name="UserModules">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ModuleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Modules" Relationship="Self.FK__UserModules_Modules" FromRole="UserModules" ToRole="Modules" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__UserModules_Users" FromRole="UserModules" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserOptions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="OptionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Options" Relationship="Self.FK__UserOptions_Options" FromRole="UserOptions" ToRole="Options" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__UserOptions_Users" FromRole="UserOptions" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descrip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateReg" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IsAdm" Type="Boolean" Nullable="false" />
+          <Property Name="IsCon" Type="Boolean" Nullable="false" />
+          <Property Name="IsNom" Type="Boolean" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UserModules" Relationship="Self.FK__UserModules_Users" FromRole="Users" ToRole="UserModules" />
+          <NavigationProperty Name="UserOptions" Relationship="Self.FK__UserOptions_Users" FromRole="Users" ToRole="UserOptions" />
+        </EntityType>
+        <Association Name="FK_GroupR_Reps">
+          <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupReports">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Reports">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TreeR_GroupR">
+          <End Role="TreeReports" Type="Self.TreeReports" Multiplicity="1" />
+          <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TreeReports">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GroupReports">
+              <PropertyRef Name="TreeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Options__ModuleI__123EB7A3">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />
+          <End Role="Options" Type="Self.Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Options">
+              <PropertyRef Name="ModuleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserModules_Modules">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="1" />
+          <End Role="UserModules" Type="Self.UserModules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserModules">
+              <PropertyRef Name="ModuleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserOptions_Options">
+          <End Role="Options" Type="Self.Options" Multiplicity="1" />
+          <End Role="UserOptions" Type="Self.UserOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserOptions">
+              <PropertyRef Name="OptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserModules_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserModules" Type="Self.UserModules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserModules">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserOptions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserOptions" Type="Self.UserOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserOptions">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProfitTMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Connections" EntityType="Self.Connections" />
+          <EntitySet Name="GroupReports" EntityType="Self.GroupReports" />
+          <EntitySet Name="Modules" EntityType="Self.Modules" />
+          <EntitySet Name="Options" EntityType="Self.Options" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" />
+          <EntitySet Name="TreeReports" EntityType="Self.TreeReports" />
+          <EntitySet Name="UserModules" EntityType="Self.UserModules" />
+          <EntitySet Name="UserOptions" EntityType="Self.UserOptions" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_GroupR_Reps" Association="Self.FK_GroupR_Reps">
+            <End Role="GroupReports" EntitySet="GroupReports" />
+            <End Role="Reports" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TreeR_GroupR" Association="Self.FK_TreeR_GroupR">
+            <End Role="TreeReports" EntitySet="TreeReports" />
+            <End Role="GroupReports" EntitySet="GroupReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Options__ModuleI__123EB7A3" Association="Self.FK__Options__ModuleI__123EB7A3">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="Options" EntitySet="Options" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserModules_Modules" Association="Self.FK__UserModules_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="UserModules" EntitySet="UserModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserOptions_Options" Association="Self.FK__UserOptions_Options">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="UserOptions" EntitySet="UserOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserModules_Users" Association="Self.FK__UserModules_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserModules" EntitySet="UserModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserOptions_Users" Association="Self.FK__UserOptions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserOptions" EntitySet="UserOptions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProfitTMContextStoreContainer" CdmEntityContainer="ProfitTMEntities">
+          <EntitySetMapping Name="Connections">
+            <EntityTypeMapping TypeName="ProfitTMContext.Connections">
+              <MappingFragment StoreEntitySet="Connections">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Server" ColumnName="Server" />
+                <ScalarProperty Name="DB" ColumnName="DB" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupReports">
+            <EntityTypeMapping TypeName="ProfitTMContext.GroupReports">
+              <MappingFragment StoreEntitySet="GroupReports">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="TreeID" ColumnName="TreeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modules">
+            <EntityTypeMapping TypeName="ProfitTMContext.Modules">
+              <MappingFragment StoreEntitySet="Modules">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="ReportURL" ColumnName="ReportURL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="ProfitTMContext.Options">
+              <MappingFragment StoreEntitySet="Options">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+                <ScalarProperty Name="OptionType" ColumnName="OptionType" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="ProfitTMContext.Reports">
+              <MappingFragment StoreEntitySet="Reports">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ReportName" ColumnName="ReportName" />
+                <ScalarProperty Name="FormatReport" ColumnName="FormatReport" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TreeReports">
+            <EntityTypeMapping TypeName="ProfitTMContext.TreeReports">
+              <MappingFragment StoreEntitySet="TreeReports">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TreeName" ColumnName="TreeName" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Module" ColumnName="Module" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserModules">
+            <EntityTypeMapping TypeName="ProfitTMContext.UserModules">
+              <MappingFragment StoreEntitySet="UserModules">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserOptions">
+            <EntityTypeMapping TypeName="ProfitTMContext.UserOptions">
+              <MappingFragment StoreEntitySet="UserOptions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OptionID" ColumnName="OptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ProfitTMContext.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Descrip" ColumnName="Descrip" />
+                <ScalarProperty Name="DateReg" ColumnName="DateReg" />
+                <ScalarProperty Name="CI" ColumnName="CI" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IsAdm" ColumnName="IsAdm" />
+                <ScalarProperty Name="IsCon" ColumnName="IsCon" />
+                <ScalarProperty Name="IsNom" ColumnName="IsNom" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

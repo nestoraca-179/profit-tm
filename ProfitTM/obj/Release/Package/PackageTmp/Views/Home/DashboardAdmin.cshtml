@@ -70,7 +70,7 @@
 
                         <li class="menu-item" onclick="print(this)">
                             <i class="@item.Icon"></i>
-                            <p class="mb-0 ml-3">@item.Name</p>
+                            <p class="mb-0 ml-3">@item.ModuleName</p>
                             <i class="fas fa-caret-up"></i>
                         </li>
                         <div class="my-dropdown">
@@ -79,7 +79,7 @@
                                 {
                                     string disabled = elem.Enabled ? "" : "disabled";
 
-                                    <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.Name</a>
+                                    <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.OptionName</a>
                                 }
                             }
                             <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
@@ -174,13 +174,11 @@
 </div>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script>
-    var session = @Html.Raw(Json.Encode(ViewBag.session));
     var capitalize = str => str.substring(0, 1).toLocaleUpperCase() + str.substring(1).toLocaleLowerCase();
     var btn = document.getElementById("icon-menu");
     var menu = document.getElementById("menu-left");
     var node = null;
 
-    console.log(session);
     btn.addEventListener("click", hide);
 
     $(".dash-right-side").on("mousedown", function (event) {
@@ -238,8 +236,8 @@
     var productos = @Html.Raw(Json.Encode(@ViewBag.mostSelledProds));
     var objects = productos.map(function (x) {
         return {
-            name: capitalize(x.Name),
-            y: x.Stock
+            name: capitalize(x.art_des),
+            y: parseFloat(x.campo1)
         };
     });
     objects.reverse();
@@ -303,8 +301,8 @@
     var productos = @Html.Raw(Json.Encode(@ViewBag.mostPurchasedProds));
     var objects = productos.map(function (x) {
         return {
-            name: capitalize(x.Name),
-            y: x.Stock
+            name: capitalize(x.art_des),
+            y: parseFloat(x.campo1)
         };
     });
 
@@ -367,8 +365,8 @@
     var clientes = @Html.Raw(Json.Encode(@ViewBag.mostActiveClients));
     var objects = clientes.map(function (x) {
         return {
-            name: capitalize(x.Name),
-            y: x.Amount
+            name: capitalize(x.cli_des),
+            y: parseFloat(x.campo1)
         };
     });
     objects.reverse();
@@ -432,8 +430,8 @@
     var clientes = @Html.Raw(Json.Encode(@ViewBag.mostMorousClients));
     var objects = clientes.map(function (x) {
         return {
-            name: capitalize(x.Name),
-            y: x.Amount
+            name: capitalize(x.cli_des),
+            y: parseFloat(x.campo1)
         };
     });
 
@@ -496,8 +494,8 @@
     var proveedores = @Html.Raw(Json.Encode(@ViewBag.mostActiveSuppliers));
     var objects = proveedores.map(function (x) {
         return {
-            name: capitalize(x.Name),
-            y: x.Amount
+            name: capitalize(x.prov_des),
+            y: parseFloat(x.campo1)
         };
     });
     objects.reverse();
@@ -561,8 +559,8 @@
     var proveedores = @Html.Raw(Json.Encode(@ViewBag.mostMorousSuppliers));
     var objects = proveedores.map(function (x) {
         return {
-            name: capitalize(x.Name),
-            y: x.Amount
+            name: capitalize(x.prov_des),
+            y: parseFloat(x.campo1)
         };
     });
 

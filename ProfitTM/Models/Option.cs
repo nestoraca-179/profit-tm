@@ -1,27 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
+using System.Linq;
 
 namespace ProfitTM.Models
 {
     public class Option
     {
-        public string ID { get; set; }
-        public string Name { get; set; }
-        public string ModuleID { get; set; }
-        public string Icon { get; set; }
-        public string URL { get; set; }
-        public bool Enabled { get; set; }
-
-        public static List<Option> GetOptions(string moduleID, string userID)
+        public static List<Options> GetOptionsByUser(string moduleID, string userID)
         {
-            List<Option> options = new List<Option>();
-            string DBMain = ConfigurationManager.ConnectionStrings["MainConnection"].ConnectionString;
+            ProfitTMEntities db = new ProfitTMEntities();
+            List<Options> options = new List<Options>();
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(DBMain))
+                List<Options> opts = db.Options.Where(o => o.ModuleID.ToString() == moduleID).ToList();
+                List<UserOptions> userOptions = db.UserOptions.Where(uo => uo.UserID.ToString() == userID).OrderBy(uo => uo.OptionID).ToList();
+
+                options = (from u in userOptions
+                           join o in opts on u.OptionID equals o.ID
+                           select new Options
+                           {
+                               ID = u.OptionID,
+                               OptionName = o.OptionName,
+                               Icon = o.Icon,
+                               URL = o.URL,
+                               Enabled = o.Enabled,
+
+                           }).ToList();
+
+                #region CODIGO ANTERIOR
+                /*using (SqlConnection conn = new SqlConnection(DBMain))
                 {
                     conn.Open();
                     using (SqlCommand comm = new SqlCommand(string.Format(@"select O.* from UserOptions UO
@@ -46,7 +54,8 @@ namespace ProfitTM.Models
                             }
                         }
                     }
-                }
+                }*/
+                #endregion
             }
             catch (Exception ex)
             {
@@ -56,33 +65,37 @@ namespace ProfitTM.Models
             return options;
         }
 
-        public static List<Option> GetAllOptions(string moduleID)
+        public static List<Options> GetOptionsByModule(string moduleID)
         {
-            List<Option> options = new List<Option>();
-            string DBMain = ConfigurationManager.ConnectionStrings["MainConnection"].ConnectionString;
+            ProfitTMEntities db = new ProfitTMEntities();
+            List<Options> options = new List<Options>();
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(DBMain))
-                {
-                    conn.Open();
-                    using (SqlCommand comm = new SqlCommand(string.Format("select * from Options where ModuleID = {0}", moduleID), conn))
-                    {
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Option option = new Option();
+                options = db.Options.Where(o => o.ModuleID.ToString() == moduleID).ToList();
 
-                                option.ID = reader["ID"].ToString();
-                                option.Name = reader["OptionName"].ToString();
-                                option.ModuleID = reader["ModuleID"].ToString();
+                #region CODIGO ANTERIOR
+                //using (SqlConnection conn = new SqlConnection(DBMain))
+                //{
+                //    conn.Open();
+                //    using (SqlCommand comm = new SqlCommand(string.Format("select * from Options where ModuleID = {0}", moduleID), conn))
+                //    {
+                //        using (SqlDataReader reader = comm.ExecuteReader())
+                //        {
+                //            while (reader.Read())
+                //            {
+                //                Option option = new Option();
 
-                                options.Add(option);
-                            }
-                        }
-                    }
-                }
+                //                option.ID = reader["ID"].ToString();
+                //                option.Name = reader["OptionName"].ToString();
+                //                option.ModuleID = reader["ModuleID"].ToString();
+
+                //                options.Add(option);
+                //            }
+                //        }
+                //    }
+                //}
+                #endregion
             }
             catch (Exception ex)
             {

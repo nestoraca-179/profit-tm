@@ -1,8 +1,6 @@
 ﻿using ProfitTM.Models;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Linq;
@@ -15,9 +13,10 @@ namespace ProfitTM.Controllers
         public ActionResult Index(string message = "")
         {
             ViewBag.user = Session["user"];
+            ViewBag.home = Session["home"];
             ViewBag.Message = message;
 
-            if (ViewBag.user != null)
+            if (ViewBag.user != null && ViewBag.home != null)
             {
                 return RedirectToAction(Session["home"].ToString());
             }
@@ -78,8 +77,7 @@ namespace ProfitTM.Controllers
             else
             {
                 bool connected;
-                string msg = "";
-                string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", server, db, username, password);
+                string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", server, db, username, password), msg = "";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -103,7 +101,16 @@ namespace ProfitTM.Controllers
 
                 if (connected)
                 {
-                    ProfitTMResponse result = Connection.SaveConn(name, server, db, username, password, prod);
+                    Connections conn = new Connections() {
+                        Name = name,
+                        Server = server,
+                        DB = db,
+                        Username = username,
+                        Password = password,
+                        Type = prod
+                    };
+
+                    ProfitTMResponse result = Connection.Add(conn);
 
                     if (result.Status == "OK")
                     {
@@ -148,7 +155,7 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                List<Connection> connections = Connection.GetConnections(prod);
+                List<Connections> connections = Connection.GetConnectionsByType(prod);
 
                 if (connections == null)
                 {
@@ -175,10 +182,17 @@ namespace ProfitTM.Controllers
             ViewBag.user = Session["user"];
             string prod = Session["Prod"].ToString();
 
-            Connection conn = Connection.GetConnections(prod).Find(c => c.ID == connect);
+            //Connection conn = Connection.GetConnections(prod).Find(c => c.ID == connect);
+            Connections conn = new Connections();
+            using (ProfitTMEntities db = new ProfitTMEntities())
+            {
+                conn = db.Connections.First(c => c.ID.ToString() == connect);
+            }
+
             string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
 
             Session["connect"] = connectionString;
+            //Session["connect"] = EntityController.GetEntity(connectionString);
 
             //SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings[connect].ConnectionString);
             SqlConnection connection = new SqlConnection(connectionString);
@@ -229,19 +243,21 @@ namespace ProfitTM.Controllers
             {
                 if (Session["modules"] == null)
                 {
-                    bool error = false;
-                    string msg = "", userID = ((User)ViewBag.user).ID;
+                    string msg = "", userID = ((Users)ViewBag.user).ID.ToString();
 
-                    List<Module> modules = Module.GetModules("ADM", userID);
+                    List<Modules> modules = Module.GetModulesByUser("ADM", userID);
                     List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-                    SQLController sqlController = new SQLController();
 
-                    ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(5);
-                    ProfitTMResponse responseMPP = sqlController.getMostPurchasedProducts(5);
-                    ProfitTMResponse responseMAC = sqlController.getMostActiveClients(5);
-                    ProfitTMResponse responseMMC = sqlController.getMostMorousClients(5);
-                    ProfitTMResponse responseMAS = sqlController.getMostActiveSuppliers(5);
-                    ProfitTMResponse responseMMS = sqlController.getMostMorousSuppliers(5);
+                    Product proManager = new Product();
+                    Client cliManager = new Client();
+                    Supplier supManager = new Supplier();
+
+                    ProfitTMResponse responseMSP = proManager.GetMostProducts(5, true);// sqlController.getMostSelledProducts(5);
+                    ProfitTMResponse responseMPP = proManager.GetMostProducts(5, false);// sqlController.getMostPurchasedProducts(5);
+                    ProfitTMResponse responseMAC = cliManager.GetMostActiveClients(5);// sqlController.getMostActiveClients(5);
+                    ProfitTMResponse responseMMC = cliManager.GetMostMorousClients(5);// sqlController.getMostMorousClients(5);
+                    ProfitTMResponse responseMAS = supManager.GetMostActiveSuppliers(5);// sqlController.getMostActiveSuppliers(5);
+                    ProfitTMResponse responseMMS = supManager.GetMostMorousSuppliers(5);// sqlController.getMostMorousSuppliers(5);
 
                     responses.Add(responseMSP);
                     responses.Add(responseMPP);
@@ -250,18 +266,9 @@ namespace ProfitTM.Controllers
                     responses.Add(responseMAS);
                     responses.Add(responseMMS);
 
-                    foreach (ProfitTMResponse res in responses)
-                    {
-                        if (res.Status == "ERROR")
-                        {
-                            error = true;
-                            msg = res.Message;
+                    ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
 
-                            break;
-                        }
-                    }
-
-                    if (!error)
+                    if (obj == null)
                     {
                         Session["MSP"] = responseMSP.Result;
                         Session["MPP"] = responseMPP.Result;
@@ -273,6 +280,7 @@ namespace ProfitTM.Controllers
                     }
                     else
                     {
+                        msg = obj.Message;
                         return RedirectToAction("Logout", "Account", new { msg = msg });
                     }
                 }
@@ -285,11 +293,6 @@ namespace ProfitTM.Controllers
                 ViewBag.mostMorousSuppliers = Session["MMS"];
                 ViewBag.modules = Session["modules"];
 
-                NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
-                formato.CurrencyGroupSeparator = ".";
-                formato.NumberDecimalSeparator = ",";
-                ViewBag.formato = formato;
-
                 return View();
             }
         }
@@ -300,7 +303,6 @@ namespace ProfitTM.Controllers
         {
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
-            string userID = ((User)ViewBag.user).ID;
 
             if (ViewBag.user == null)
             {
@@ -315,50 +317,25 @@ namespace ProfitTM.Controllers
             {
                 if (Session["modules"] == null)
                 {
+                    string msg = "", userID = ((Users)ViewBag.user).ID.ToString();
+
+                    List<Modules> modules = Module.GetModulesByUser("CON", userID);
                     List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-                    SQLController sqlController = new SQLController();
 
-                    bool error = false;
-                    string msg = "";
+                    ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
 
-                    List<Module> modules = Module.GetModules("CON", userID);
-                    ProfitTMResponse responseLQT = sqlController.getLiqCapTest(1);
-                    ProfitTMResponse responseCPT = sqlController.getLiqCapTest(2);
-
-                    responses.Add(responseLQT);
-                    responses.Add(responseCPT);
-
-                    foreach (ProfitTMResponse res in responses)
+                    if (obj == null)
                     {
-                        if (res.Status == "ERROR")
-                        {
-                            error = true;
-                            msg = res.Message;
-
-                            break;
-                        }
-                    }
-
-                    if (!error)
-                    {
-                        Session["LQT"] = responseLQT.Result;
-                        Session["CPT"] = responseCPT.Result;
                         Session["modules"] = modules;
                     }
                     else
                     {
+                        msg = obj.Message;
                         return RedirectToAction("Logout", "Account", new { msg = msg });
                     }
                 }
 
-                ViewBag.testLiq = Session["LQT"];
-                ViewBag.testCap = Session["CPT"];
                 ViewBag.modules = Session["modules"];
-
-                NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
-                formato.CurrencyGroupSeparator = ".";
-                formato.NumberDecimalSeparator = ",";
-                ViewBag.formato = formato;
 
                 return View();
             }
@@ -370,7 +347,6 @@ namespace ProfitTM.Controllers
         {
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
-            string userID = ((User)ViewBag.user).ID;
 
             if (ViewBag.user == null)
             {
@@ -385,41 +361,25 @@ namespace ProfitTM.Controllers
             {
                 if (Session["modules"] == null)
                 {
+                    string msg = "", userID = ((Users)ViewBag.user).ID.ToString();
+
+                    List<Modules> modules = Module.GetModulesByUser("NOM", userID);
                     List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-                    SQLController sqlController = new SQLController();
 
-                    bool error = false;
-                    string msg = "";
+                    ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
 
-                    List<Module> modules = Module.GetModules("NOM", userID);
-
-                    foreach (ProfitTMResponse res in responses)
-                    {
-                        if (res.Status == "ERROR")
-                        {
-                            error = true;
-                            msg = res.Message;
-
-                            break;
-                        }
-                    }
-
-                    if (!error)
+                    if (obj == null)
                     {
                         Session["modules"] = modules;
                     }
                     else
                     {
+                        msg = obj.Message;
                         return RedirectToAction("Logout", "Account", new { msg = msg });
                     }
                 }
 
                 ViewBag.modules = Session["modules"];
-
-                NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
-                formato.CurrencyGroupSeparator = ".";
-                formato.NumberDecimalSeparator = ",";
-                ViewBag.formato = formato;
 
                 return View();
             }
@@ -443,44 +403,30 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-                SQLController sqlController = new SQLController();
-
-                ProfitTMResponse responseMSP = sqlController.getMostSelledProducts(10);
-                ProfitTMResponse responseMPP = sqlController.getMostPurchasedProducts(10);
-
-                bool error = false;
                 string msg = "";
+
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+
+                Product manager = new Product();
+                ProfitTMResponse responseMSP = manager.GetMostProducts(10, true);// sqlController.getMostSelledProducts(5);
+                ProfitTMResponse responseMPP = manager.GetMostProducts(10, false);// sqlController.getMostPurchasedProducts(5);
 
                 responses.Add(responseMSP);
                 responses.Add(responseMPP);
 
-                foreach (ProfitTMResponse res in responses)
-                {
-                    if (res.Status == "ERROR")
-                    {
-                        error = true;
-                        msg = res.Message;
+                ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
 
-                        break;
-                    }
-                }
-
-                if (!error)
+                if (obj == null)
                 {
                     ViewBag.mostSelledProds = responseMSP.Result;
                     ViewBag.mostPurchasedProds = responseMPP.Result;
                     ViewBag.modules = Session["modules"];
 
-                    NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
-                    formato.CurrencyGroupSeparator = ".";
-                    formato.NumberDecimalSeparator = ",";
-                    ViewBag.formato = formato;
-
                     return View();
                 }
                 else
                 {
+                    msg = obj.Message;
                     return RedirectToAction("Logout", "Account", new { msg = msg });
                 }
             }
@@ -503,44 +449,30 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-                SQLController sqlController = new SQLController();
-
-                ProfitTMResponse responseMAC = sqlController.getMostActiveClients(10);
-                ProfitTMResponse responseMMC = sqlController.getMostMorousClients(10);
-
-                bool error = false;
                 string msg = "";
+
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+
+                Client manager = new Client();
+                ProfitTMResponse responseMAC = manager.GetMostActiveClients(10);// sqlController.getMostActiveClients(5);
+                ProfitTMResponse responseMMC = manager.GetMostMorousClients(10);// sqlController.getMostMorousClients(5);
 
                 responses.Add(responseMAC);
                 responses.Add(responseMMC);
 
-                foreach (ProfitTMResponse res in responses)
-                {
-                    if (res.Status == "ERROR")
-                    {
-                        error = true;
-                        msg = res.Message;
+                ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
 
-                        break;
-                    }
-                }
-
-                if (!error)
+                if (obj == null)
                 {
                     ViewBag.mostActiveClients = responseMAC.Result;
                     ViewBag.mostMorousClients = responseMMC.Result;
                     ViewBag.modules = Session["modules"];
 
-                    NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
-                    formato.CurrencyGroupSeparator = ".";
-                    formato.NumberDecimalSeparator = ",";
-                    ViewBag.formato = formato;
-
                     return View();
                 }
                 else
                 {
+                    msg = obj.Message;
                     return RedirectToAction("Logout", "Account", new { msg = msg });
                 }
             }
@@ -563,44 +495,30 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-                SQLController sqlController = new SQLController();
-
-                ProfitTMResponse responseMAS = sqlController.getMostActiveSuppliers(10);
-                ProfitTMResponse responseMMS = sqlController.getMostMorousSuppliers(10);
-
-                bool error = false;
                 string msg = "";
+
+                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
+
+                Supplier manager = new Supplier();
+                ProfitTMResponse responseMAS = manager.GetMostActiveSuppliers(10);// sqlController.getMostActiveSuppliers(5);
+                ProfitTMResponse responseMMS = manager.GetMostMorousSuppliers(10);// sqlController.getMostMorousSuppliers(5);
 
                 responses.Add(responseMAS);
                 responses.Add(responseMMS);
 
-                foreach (ProfitTMResponse res in responses)
-                {
-                    if (res.Status == "ERROR")
-                    {
-                        error = true;
-                        msg = res.Message;
+                ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
 
-                        break;
-                    }
-                }
-
-                if (!error)
+                if (obj == null)
                 {
                     ViewBag.mostActiveSuppliers = responseMAS.Result;
                     ViewBag.mostMorousSuppliers = responseMMS.Result;
                     ViewBag.modules = Session["modules"];
 
-                    NumberFormatInfo formato = new CultureInfo("es-ES").NumberFormat;
-                    formato.CurrencyGroupSeparator = ".";
-                    formato.NumberDecimalSeparator = ",";
-                    ViewBag.formato = formato;
-
                     return View();
                 }
                 else
                 {
+                    msg = obj.Message;
                     return RedirectToAction("Logout", "Account", new { msg = msg });
                 }
             }

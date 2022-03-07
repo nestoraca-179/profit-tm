@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 
 namespace ProfitTM.Models
@@ -13,11 +12,11 @@ namespace ProfitTM.Models
         public static List<ExpenseAccount> GetAllExpenseAccounts(string connect)
         {
             List<ExpenseAccount> accounts = new List<ExpenseAccount>();
-            string DBadmin = ConfigurationManager.ConnectionStrings[connect].ConnectionString;
+            string DBcont = connect;
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(DBadmin))
+                using (SqlConnection conn = new SqlConnection(DBcont))
                 {
                     conn.Open();
                     using (SqlCommand comm = new SqlCommand("select * from scGastos", conn))

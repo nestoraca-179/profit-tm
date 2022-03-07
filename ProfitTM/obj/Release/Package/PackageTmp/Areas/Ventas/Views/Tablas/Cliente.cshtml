@@ -19,10 +19,10 @@
     .container-list .table td, .table th {
         padding: 5px;
         font-size: 14px;
-        user-select: none; /* standard syntax */
-        -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-        -moz-user-select: none; /* mozilla browsers */
-        -ms-user-select: none; /* IE10+ */
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
     }
     .container-list .table thead {
         background: #13568a;
@@ -161,9 +161,9 @@
                     <th class="text-white">Nombre</th>
                 </tr>
             </thead>
-            <tr ng-repeat="client in clients" ng-click="selectClient(client.ID)" style="cursor: pointer;">
-                <td>{{ client.RIF }}</td>
-                <td>{{ client.Name }}</td>
+            <tr ng-repeat="client in clients" ng-click="selectClient(client.co_cli)" style="cursor: pointer;">
+                <td>{{ client.rif }}</td>
+                <td>{{ client.cli_des }}</td>
             </tr>
         </table>
     </div>
@@ -183,7 +183,7 @@
                     Modificar
                 </button>
                 <div style="width: 10px;"></div>
-                <button type="button" class="btn btn-danger">
+                <button type="button" class="btn btn-danger" onclick="$('#modalDelete').modal('show')">
                     <i class="fas fa-times"></i>
                     Eliminar
                 </button>
@@ -243,34 +243,34 @@
             <div class="left">
                 <div class="controls">
                     <label>Código</label>
-                    <input type="text" class="form-control" id="id" name="id" ng-model="client.ID" ng-disabled="!adding" ng-required="true" />
+                    <input type="text" class="form-control" id="id" name="id" ng-model="client.co_cli" ng-disabled="!adding" ng-required="true" />
                 </div>
                 <div class="controls">
                     <label>Nombre</label>
-                    <input type="text" class="form-control" id="name" ng-model="client.Name" ng-disabled="!adding && !editing" ng-required="true" />
+                    <input type="text" class="form-control" id="name" ng-model="client.cli_des" ng-disabled="!adding && !editing" ng-required="true" />
                 </div>
                 <div class="controls">
                     <label>Tipo</label>
                     <div class="input-search">
-                        <input type="text" class="form-control" id="type" onfocus="this.blur()" ng-model="client.Type.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                        <input type="text" class="form-control" id="type" onfocus="this.blur()" ng-model="client.tip_cli" ng-disabled="!adding && !editing" ng-required="true" />
                         <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTypes')" data-name="type"></i>
                     </div>
                 </div>
                 <div class="controls">
                     <label>RIF</label>
-                    <input type="text" class="form-control" id="rif" ng-model="client.RIF" ng-disabled="!adding && !editing" ng-required="true" />
+                    <input type="text" class="form-control" id="rif" ng-model="client.rif" ng-disabled="!adding && !editing" ng-required="true" />
                 </div>
             </div>
             <div class="right">
                 <div class="controls">
                     <label>Fecha de Registro</label>
-                    <input type="date" class="form-control" id="fechaReg" ng-model="client.DateReg" ng-disabled="!adding && !editing" />
+                    <input type="date" class="form-control" id="fechaReg" ng-model="client.fecha_reg" ng-disabled="!adding && !editing" />
                 </div>
                 <div class="controls">
-                    <label class="label-check"><input type="checkbox" ng-model="client.Contrib" ng-disabled="!adding && !editing" /> Contribuyente</label>
+                    <label class="label-check"><input type="checkbox" ng-model="client.contrib" ng-disabled="!adding && !editing" /> Contribuyente</label>
                 </div>
                 <div class="controls">
-                    <label class="label-check"><input type="checkbox" ng-model="client.Disabled" ng-disabled="!adding && !editing" /> Inactivo</label>
+                    <label class="label-check"><input type="checkbox" ng-model="client.inactivo" ng-disabled="!adding && !editing" /> Inactivo</label>
                 </div>
             </div>
             <div class="bottom">
@@ -279,7 +279,7 @@
                         <div class="controls">
                             <label>Segmento</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="segment" onfocus="this.blur()" ng-model="client.Segment.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                                <input type="text" class="form-control" id="segment" onfocus="this.blur()" ng-model="client.co_seg" ng-disabled="!adding && !editing" ng-required="true" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSegments')" data-name="segment"></i>
                             </div>
                         </div>
@@ -288,7 +288,7 @@
                         <div class="controls">
                             <label>Vendedor</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="client.Seller.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                                <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="client.co_ven" ng-disabled="!adding && !editing" ng-required="true" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
                             </div>
                         </div>
@@ -299,7 +299,7 @@
                         <div class="controls">
                             <label>Cuenta Ingr/Egr</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="account" onfocus="this.blur()" ng-model="client.Account.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                                <input type="text" class="form-control" id="account" onfocus="this.blur()" ng-model="client.co_cta_ingr_egr" ng-disabled="!adding && !editing" ng-required="true" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="account"></i>
                             </div>
                         </div>
@@ -307,7 +307,7 @@
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Contacto</label>
-                            <input type="text" class="form-control" id="respons" ng-model="client.Respons" ng-disabled="!adding && !editing" />
+                            <input type="text" class="form-control" id="respons" ng-model="client.respons" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                 </div>
@@ -315,13 +315,13 @@
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Teléfono</label>
-                            <input type="text" class="form-control" id="phone" ng-model="client.Phone" ng-disabled="!adding && !editing" />
+                            <input type="text" class="form-control" id="phone" ng-model="client.telefonos" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Fax</label>
-                            <input type="text" class="form-control" id="fax" ng-model="client.Fax" ng-disabled="!adding && !editing" />
+                            <input type="text" class="form-control" id="fax" ng-model="client.fax" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                 </div>
@@ -329,13 +329,13 @@
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Email</label>
-                            <input type="text" class="form-control" id="email" ng-model="client.Email" ng-disabled="!adding && !editing" />
+                            <input type="text" class="form-control" id="email" ng-model="client.email" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Email Alterno</label>
-                            <input type="text" class="form-control" id="altEmail" ng-model="client.AltEmail" ng-disabled="!adding && !editing" />
+                            <input type="text" class="form-control" id="altEmail" ng-model="client.email_alterno" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                 </div>
@@ -346,14 +346,14 @@
                 <div class="controls">
                     <label>País</label>
                     <div class="input-search">
-                        <input type="text" class="form-control" id="country" onfocus="this.blur()" ng-model="client.Country.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                        <input type="text" class="form-control" id="country" onfocus="this.blur()" ng-model="client.co_pais" ng-disabled="!adding && !editing" ng-required="true" />
                         <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCountries')" data-name="country"></i>
                     </div>
                 </div>
                 <div class="controls">
                     <label>Zona</label>
                     <div class="input-search">
-                        <input type="text" class="form-control" id="zone" onfocus="this.blur()" ng-model="client.Zone.ID" ng-disabled="!adding && !editing" ng-required="true" />
+                        <input type="text" class="form-control" id="zone" onfocus="this.blur()" ng-model="client.co_zon" ng-disabled="!adding && !editing" ng-required="true" />
                         <i class="fas fa-search" role="button" onclick="openModal(this, 'modalZones')" data-name="zone"></i>
                     </div>
                 </div>
@@ -361,7 +361,7 @@
             <div class="right">
                 <div class="controls">
                     <label>Ciudad</label>
-                    <input type="text" class="form-control" id="city" ng-model="client.City" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="city" ng-model="client.ciudad" ng-disabled="!adding && !editing" />
                 </div>
             </div>
             <div class="bottom">
@@ -369,7 +369,7 @@
                     <div class="col-sm-12">
                         <div class="controls">
                             <label>Dirección</label>
-                            <textarea class="form-control" id="address1" ng-model="client.Address1" ng-disabled="!adding && !editing"></textarea>
+                            <textarea class="form-control" id="address1" ng-model="client.direc1" ng-disabled="!adding && !editing"></textarea>
                         </div>
                     </div>
                 </div>
@@ -377,7 +377,7 @@
                     <div class="col-sm-12">
                         <div class="controls">
                             <label>Dirección Entrega</label>
-                            <textarea class="form-control" id="delAddress" ng-model="client.DelAddress" ng-disabled="!adding && !editing"></textarea>
+                            <textarea class="form-control" id="delAddress" ng-model="client.dir_ent2" ng-disabled="!adding && !editing"></textarea>
                         </div>
                     </div>
                 </div>
@@ -386,12 +386,12 @@
         <div id="credito" class="form-body">
             <div class="left">
                 <div class="controls">
-                    <label class="label-check"><input type="checkbox" ng-model="client.SinCred" ng-click="client.MontCre = 0; client.Cond.ID = null" ng-disabled="!adding && !editing" /> Sin Crédito</label>
+                    <label class="label-check"><input type="checkbox" ng-model="client.sincredito" ng-click="client.mont_cre = 0; client.cond_pag = null" ng-disabled="!adding && !editing" /> Sin Crédito</label>
                 </div>
                 <div class="controls">
                     <label>Cond. Pago</label>
                     <div class="input-search">
-                        <input type="text" class="form-control" id="cond" onfocus="this.blur()" ng-model="client.Cond.ID" ng-disabled="(!adding && !editing) || client.SinCred" ng-required="!client.SinCred" />
+                        <input type="text" class="form-control" id="cond" onfocus="this.blur()" ng-model="client.cond_pag" ng-disabled="(!adding && !editing) || client.sincredito" ng-required="!client.SinCred" />
                         <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
                     </div>
                 </div>
@@ -399,7 +399,7 @@
             <div class="right">
                 <div class="controls">
                     <label>Límite</label>
-                    <input type="text" class="form-control" id="montcre" ng-model="client.MontCre" ng-disabled="(!adding && !editing) || client.SinCred" />
+                    <input type="text" class="form-control" id="montcre" ng-model="client.mont_cre" ng-disabled="(!adding && !editing) || client.SinCred" />
                 </div>
                 <div class="controls">
                     <button type="button" class="btn btn-primary" disabled>Saldo Actual</button>
@@ -410,13 +410,13 @@
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Desc. P. Pago</label>
-                            <input type="text" class="form-control" id="descppago" ng-model="client.DescPPago" ng-disabled="!adding && !editing" />
+                            <input type="text" class="form-control" id="descppago" ng-model="client.desc_ppago" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Desc. Glob.</label>
-                            <input type="text" class="form-control" id="descglob" ng-model="client.DescGlob" ng-disabled="!adding && !editing" />
+                            <input type="text" class="form-control" id="descglob" ng-model="client.desc_glob" ng-disabled="!adding && !editing" />
                         </div>
                     </div>
                 </div>
@@ -428,13 +428,13 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="controls">
-                            <label class="label-check"><input type="checkbox" ng-model="client.Monday" ng-disabled="true" /> Lunes</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.Tuesday" ng-disabled="true" /> Martes</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.Wednesday" ng-disabled="true" /> Miércoles</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.Thursday" ng-disabled="true" /> Jueves</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.Friday" ng-disabled="true" /> Viernes</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.Saturday" ng-disabled="true" /> Sábado</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.Sunday" ng-disabled="true" /> Domingo</label>
+                            <label class="label-check"><input type="checkbox" ng-model="client.lunes" ng-disabled="true" /> Lunes</label>
+                            <label class="label-check"><input type="checkbox" ng-model="client.martes" ng-disabled="true" /> Martes</label>
+                            <label class="label-check"><input type="checkbox" ng-model="client.miercoles" ng-disabled="true" /> Miércoles</label>
+                            <label class="label-check"><input type="checkbox" ng-model="client.jueves" ng-disabled="true" /> Jueves</label>
+                            <label class="label-check"><input type="checkbox" ng-model="client.viernes" ng-disabled="true" /> Viernes</label>
+                            <label class="label-check"><input type="checkbox" ng-model="client.sabado" ng-disabled="true" /> Sábado</label>
+                            <label class="label-check"><input type="checkbox" ng-model="client.domingo" ng-disabled="true" /> Domingo</label>
                         </div>
                     </div>
                 </div>
@@ -442,13 +442,13 @@
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Horario Caja</label>
-                            <input type="text" class="form-control" id="horarcaja" ng-model="client.HorarCaja" ng-disabled="true" />
+                            <input type="text" class="form-control" id="horarcaja" ng-model="client.horar_caja" ng-disabled="true" />
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Frecuencia</label>
-                            <input type="text" class="form-control" id="frecuvist" ng-model="client.FrecuVist" ng-disabled="true" />
+                            <input type="text" class="form-control" id="frecuvist" ng-model="client.frecu_vist" ng-disabled="true" />
                         </div>
                     </div>
                 </div>
@@ -456,7 +456,7 @@
                     <div class="col-sm-12">
                         <div class="controls">
                             <label>Comentario</label>
-                            <textarea class="form-control" id="comment" ng-model="client.Comment" ng-disabled="!adding && !editing"></textarea>
+                            <textarea class="form-control" id="comment" ng-model="client.comentario" ng-disabled="!adding && !editing"></textarea>
                         </div>
                     </div>
                 </div>
@@ -466,7 +466,7 @@
             <div class="left">
                 <div class="controls">
                     <label>Tipo de persona</label>
-                    <select ng-model="client.TipPer" ng-disabled="!adding && !editing">
+                    <select ng-model="client.tipo_per" ng-disabled="!adding && !editing">
                         <option value="1">(PNR) Persona Natural Residente</option>
                         <option value="2">(PNNR) Persona Natural No Residente</option>
                         <option value="3">(PJD) Persona Jurídica Domiciliada</option>
@@ -479,7 +479,7 @@
                 </div>
                 <div class="controls">
                     <label>Tabulador de I.S.L.R</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.CoTab" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.co_tab" ng-disabled="!adding && !editing" />
                 </div>
                 <div class="controls">
                     <button type="button" class="btn btn-primary" disabled>Consulta de R.I.F</button>
@@ -487,12 +487,12 @@
             </div>
             <div class="right">
                 <div class="controls">
-                    <label class="label-check"><input type="checkbox" ng-model="client.ContribuE" ng-change="client.PorcEsp = 0" ng-disabled="!adding && !editing" /> Contribuyente Especial</label>
-                    <label class="label-check"><input type="checkbox" ng-model="client.ReteRegisDoc" ng-disabled="(!adding && !editing) || !client.ContribuE" /> Retener al registrar documento</label>
+                    <label class="label-check"><input type="checkbox" ng-model="client.contribu_e" ng-change="client.porc_esp = 0" ng-disabled="!adding && !editing" /> Contribuyente Especial</label>
+                    <label class="label-check"><input type="checkbox" ng-model="client.rete_regis_doc" ng-disabled="(!adding && !editing) || !client.contribu_e" /> Retener al registrar documento</label>
                 </div>
                 <div class="controls">
                     <label>Retención (%)</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.PorcEsp" ng-disabled="(!adding && !editing) || !client.ContribuE" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.porc_esp" ng-disabled="(!adding && !editing) || !client.contribu_e" />
                 </div>
             </div>
             <div class="bottom">
@@ -504,15 +504,15 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="controls">
-                            <label class="label-radio"><input type="radio" value="1" ng-model="client.TipAdi" ng-disabled="true" /> Normal</label>
-                            <label class="label-radio"><input type="radio" value="2" ng-model="client.TipAdi" ng-disabled="true" /> Casa Matriz</label>
-                            <label class="label-radio"><input type="radio" value="3" ng-model="client.TipAdi" ng-disabled="true" /> Sucursal</label>
+                            <label class="label-radio"><input type="radio" value="1" ng-model="client.tipo_adi" ng-disabled="true" /> Normal</label>
+                            <label class="label-radio"><input type="radio" value="2" ng-model="client.tipo_adi" ng-disabled="true" /> Casa Matriz</label>
+                            <label class="label-radio"><input type="radio" value="3" ng-model="client.tipo_adi" ng-disabled="true" /> Sucursal</label>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="controls">
                             <label>Casa Matriz</label>
-                            <input type="text" class="form-control" id="matriz" ng-model="client.Matriz" ng-disabled="true" />
+                            <input type="text" class="form-control" id="matriz" ng-model="client.matriz" ng-disabled="true" />
                         </div>
                     </div>
                 </div>
@@ -522,37 +522,37 @@
             <div class="left">
                 <div class="controls">
                     <label>Campo 1</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.ExtraFields[0]" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.campo1" ng-disabled="!adding && !editing" />
                 </div>
                 <div class="controls">
                     <label>Campo 3</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.ExtraFields[2]" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.campo3" ng-disabled="!adding && !editing" />
                 </div>
                 <div class="controls">
                     <label>Campo 5</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.ExtraFields[4]" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.campo5" ng-disabled="!adding && !editing" />
                 </div>
                 <div class="controls">
                     <label>Campo 7</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.ExtraFields[6]" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.campo7" ng-disabled="!adding && !editing" />
                 </div>
             </div>
             <div class="right">
                 <div class="controls">
                     <label>Campo 2</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.ExtraFields[1]" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.campo2" ng-disabled="!adding && !editing" />
                 </div>
                 <div class="controls">
                     <label>Campo 4</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.ExtraFields[3]" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.campo4" ng-disabled="!adding && !editing" />
                 </div>
                 <div class="controls">
                     <label>Campo 6</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.ExtraFields[5]" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.campo6" ng-disabled="!adding && !editing" />
                 </div>
                 <div class="controls">
                     <label>Campo 8</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.ExtraFields[7]" ng-disabled="!adding && !editing" />
+                    <input type="text" class="form-control" id="tab" ng-model="client.campo8" ng-disabled="!adding && !editing" />
                 </div>
             </div>
         </div>
@@ -571,6 +571,26 @@
             </div>
         </div>
     </form>
+    <!-- Modal Eliminar Cliente -->
+    <div class="modal fade modal-info" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Eliminar Usuario</h3>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--yellow)"></i>
+                    </div>
+                    <h2 class="text-center">¿Desea eliminar el cliente {{ client.co_cli }}?</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="deleteClient(client.co_cli)">Sí</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal Waiting -->
     <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
@@ -640,8 +660,8 @@
                             foreach (var elem in ViewBag.types)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
+                                    <td>@elem.tip_cli</td>
+                                    <td>@elem.des_tipo</td>
                                 </tr>
                             }
                         }
@@ -674,8 +694,8 @@
                             foreach (var elem in ViewBag.zones)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
+                                    <td>@elem.co_zon</td>
+                                    <td>@elem.zon_des</td>
                                 </tr>
                             }
                         }
@@ -708,8 +728,8 @@
                             foreach (var elem in ViewBag.accounts)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
+                                    <td>@elem.co_cta_ingr_egr</td>
+                                    <td>@elem.descrip</td>
                                 </tr>
                             }
                         }
@@ -742,8 +762,8 @@
                             foreach (var elem in ViewBag.countries)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
+                                    <td>@elem.co_pais</td>
+                                    <td>@elem.pais_des</td>
                                 </tr>
                             }
                         }
@@ -776,8 +796,8 @@
                             foreach (var elem in ViewBag.segments)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
+                                    <td>@elem.co_seg</td>
+                                    <td>@elem.seg_des</td>
                                 </tr>
                             }
                         }
@@ -810,8 +830,8 @@
                             foreach (var elem in ViewBag.sellers)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
+                                    <td>@elem.co_ven</td>
+                                    <td>@elem.ven_des</td>
                                 </tr>
                             }
                         }
@@ -844,8 +864,8 @@
                             foreach (var elem in ViewBag.conds)
                             {
                                 <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.ID</td>
-                                    <td>@elem.Name</td>
+                                    <td>@elem.co_cond</td>
+                                    <td>@elem.cond_des</td>
                                 </tr>
                             }
                         }
@@ -866,10 +886,10 @@
     var clients = @Html.Raw(Json.Encode(ViewBag.clients));
 
     for (var item of clients) {
-        item.DateReg = new Date(parseInt(item.DateReg.substr(6)));
-        item.DateIn = new Date(parseInt(item.DateIn.substr(6)));
-        item.DateMo = new Date(parseInt(item.DateMo.substr(6)));
-        item.FecCom = new Date(parseInt(item.FecCom.substr(6)));
+        item.fecha_reg = new Date(parseInt(item.fecha_reg.substr(6)));
+        item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
+        item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
+        item.tipo_adi = item.tipo_adi.toString();
     }
 
     console.log(clients);
@@ -907,9 +927,9 @@
             if ($scope.adding) {
                 alert("Debes terminar de agregar el cliente");
             } else if ($scope.editing) {
-                alert("Debes terminar de modificar el cliente " + $scope.client.ID);
+                alert("Debes terminar de modificar el cliente " + $scope.client.co_cli);
             } else {
-                $scope.client = clients.find(c => c.ID == id);
+                $scope.client = clients.find(c => c.co_cli == id);
                 $scope.index = clients.indexOf($scope.client);
             }
         }
@@ -929,18 +949,17 @@
             $scope.adding = true;
 
             $scope.client = {
-                DateReg: new Date(Date.now()),
-                MontCre: 0,
-                TipAdi: "1",
-                PorcEsp: 0,
-                DescPPago: 0.00,
-                DescGlob: 0.00,
-                Contrib: false,
-                Disabled: false,
-                SinCred: false,
-                ContribuE: false,
-                ReteRegisDoc: false,
-                ExtraFields: []
+                fecha_reg: new Date(Date.now()),
+                mont_cre: 0,
+                tipo_adi: "1",
+                porc_esp: 0,
+                desc_ppago: 0.00,
+                desc_glob: 0.00,
+                contrib: false,
+                inactivo: false,
+                sincredito: false,
+                contribu_e: false,
+                rete_regis_doc: false
             };
         }
 
@@ -951,26 +970,17 @@
                 $("#form input, #form textarea").change();
                 $("#modalWaiting").modal("show");
 
-                if ($scope.client.TipPer == undefined)
-                    $scope.client.TipPer = null;
+                if ($scope.client.tipo_per == undefined)
+                    $scope.client.tipo_per = null;
 
-                $scope.client.DateReg = origDate($scope.client.DateReg);
+                $scope.client.fecha_reg = origDate($scope.client.fecha_reg);
+
+                if ($scope.client.sincredito)
+                    $scope.client.cond_pag = null;
+
                 for (var ind in $scope.client) {
-                    if (ind == "Cond") {
-                        if ($scope.client.SinCred && $scope.client.Cond.ID == "") {
-                            $scope.client.Cond.ID = null;
-                        }
-                    } else if (ind == "ExtraFields") {
-                        for (var i in $scope.client.ExtraFields) {
-                            if ($scope.client.ExtraFields[i] == "") {
-                                $scope.client.ExtraFields[i] = null;
-                            }
-                        }
-                    } else {
-                        if ($scope.client[ind] === "") {
-                            $scope.client[ind] = null;
-                        }
-                    }
+                    if ($scope.client[ind] === "")
+                        $scope.client[ind] = null;
                 }
 
                 console.log($scope.client);
@@ -1011,6 +1021,16 @@
             $("#form input, #form textarea").change();
             $("#modalWaiting").modal("show");
 
+            if ($scope.client.sincredito)
+                $scope.client.cond_pag = null;
+
+            for (var ind in $scope.client) {
+                if ($scope.client[ind] === "")
+                    $scope.client[ind] = null;
+            }
+
+            console.log($scope.client);
+
             var req = {
                 method: 'POST',
                 url: '/api/ProfitTMApi/EditClient/',
@@ -1037,34 +1057,27 @@
             });
         }
 
-        /*
-        $scope.deleteClient = function () {
+        $scope.deleteClient = function (id) {
 
-            $(".modal .btn.btn-primary").prop('disabled', 'true');
-            $scope.idDelete = $("#codigoDelete").val();
-            console.log($scope.idDelete);
+            $("#modalDelete").modal("hide");
+            $("#modalWaiting").modal("show");
 
-            $http.get("/api/ProfitTMApi/DeleteClient/" + $scope.idDelete)
+            $http.get("/api/ProfitTMApi/DeleteClient/" + id)
                 .then(function (response) {
 
                     console.log(response.data);
-                    $scope.result = response.data;
+                    var res = response.data;
 
-                    $("#modalClienteDelete").modal("hide");
-                    if ($scope.result.Status == "OK") {
-
-                        $scope.result.Class = "alert alert-success";
-                        $scope.result.Message = "Cliente eliminado con éxito";
-
-                        setTimeout(() => location.href = "/Ventas/Tablas/Index?option=0", 2000);
-
-                    } else
-                        $scope.result.Class = "alert alert-danger";
-
-                    $(".modal .btn.btn-primary").prop('disabled', '');
+                    $("#modalWaiting").modal("hide");
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = "El cliente se ha eliminado con éxito";
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
                 });
         }
-        */
     });
 
     function origDate(value) {
