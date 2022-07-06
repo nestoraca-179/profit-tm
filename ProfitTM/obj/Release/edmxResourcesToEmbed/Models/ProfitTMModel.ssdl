@@ -29,6 +29,7 @@
     <Property Name="Icon" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="Product" Type="varchar" MaxLength="5" Nullable="false" />
     <Property Name="ReportURL" Type="varchar" MaxLength="80" />
+    <Property Name="Order" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Options">
     <Key>
@@ -108,7 +109,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__UserModules_Modules">
-    <End Role="Modules" Type="Self.Modules" Multiplicity="1" />
+    <End Role="Modules" Type="Self.Modules" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="UserModules" Type="Self.UserModules" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Modules">
@@ -144,7 +147,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__UserOptions_Users">
-    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="UserOptions" Type="Self.UserOptions" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Users">

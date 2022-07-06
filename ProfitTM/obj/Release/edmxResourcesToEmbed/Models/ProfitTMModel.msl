@@ -26,6 +26,7 @@
     <EntitySetMapping Name="Modules">
       <EntityTypeMapping TypeName="ProfitTMContext.Modules">
         <MappingFragment StoreEntitySet="Modules">
+          <ScalarProperty Name="Order" ColumnName="Order" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
           <ScalarProperty Name="Icon" ColumnName="Icon" />

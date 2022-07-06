@@ -131,41 +131,107 @@
                     </div>
                 </div>
                 <hr />
-                <h3 class="mt-2">Estadísticas</h3>
+                <h3 class="mt-2">Estadísticas del mes en curso @ViewBag.current_month / @ViewBag.current_year</h3>
                 <div class="row mt-3">
                     <div class="col-sm-6">
-                        <figure class="highcharts-figure">
-                            <div id="container-msp"></div>
-                        </figure>
+                        @{
+                            if (ViewBag.mostSelledProds.Count > 0)
+                            {
+                                <figure class="highcharts-figure">
+                                    <div id="container-msp"></div>
+                                </figure>
+                            }
+                            else
+                            {
+                                <hr />
+                                <h5 class="text-center mt-5 mb-5">Artículos más vendidos (Sin datos)</h5>
+                                <hr />
+                            }
+                        }
                     </div>
                     <div class="col-sm-6">
-                        <figure class="highcharts-figure">
-                            <div id="container-mpp"></div>
-                        </figure>
+                        @{
+                            if (ViewBag.mostPurchasedProds.Count > 0)
+                            {
+                                <figure class="highcharts-figure">
+                                    <div id="container-mpp"></div>
+                                </figure>
+                            }
+                            else
+                            {
+                                <hr />
+                                <h5 class="text-center mt-5 mb-5">Artículos más comprados (Sin datos)</h5>
+                                <hr />
+                            }
+                        }
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-6">
-                        <figure class="highcharts-figure">
-                            <div id="container-mac"></div>
-                        </figure>
+                        @{
+                            if (ViewBag.mostActiveClients.Count > 0)
+                            {
+                                <figure class="highcharts-figure">
+                                    <div id="container-mac"></div>
+                                </figure>
+                            }
+                            else
+                            {
+                                <hr />
+                                <h5 class="text-center mt-5 mb-5">Clientes con más ventas (Sin datos)</h5>
+                                <hr />
+                            }
+                        }
                     </div>
                     <div class="col-sm-6">
-                        <figure class="highcharts-figure">
-                            <div id="container-mmc"></div>
-                        </figure>
+                        @{
+                            if (ViewBag.mostMorousClients.Count > 0)
+                            {
+                                <figure class="highcharts-figure">
+                                    <div id="container-mmc"></div>
+                                </figure>
+                            }
+                            else
+                            {
+                                <hr />
+                                <h5 class="text-center mt-5 mb-5">Clientes más saldo pendiente (Sin datos)</h5>
+                                <hr />
+                            }
+                        }
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-6">
-                        <figure class="highcharts-figure">
-                            <div id="container-mas"></div>
-                        </figure>
+                        @{
+                            if (ViewBag.mostActiveSuppliers.Count > 0)
+                            {
+                                <figure class="highcharts-figure">
+                                    <div id="container-mas"></div>
+                                </figure>
+                            }
+                            else
+                            {
+                                <hr />
+                                <h5 class="text-center mt-5 mb-5">Proveedores con más compras (Sin datos)</h5>
+                                <hr />
+                            }
+                        }
                     </div>
                     <div class="col-sm-6">
-                        <figure class="highcharts-figure">
-                            <div id="container-mms"></div>
-                        </figure>
+                        @{
+                            if (ViewBag.mostMorousSuppliers.Count > 0)
+                            {
+                                <figure class="highcharts-figure">
+                                    <div id="container-mms"></div>
+                                </figure>
+                            }
+                            else
+                            {
+                                <hr />
+                                <h5 class="text-center mt-5 mb-5">Proveedores con más saldo pendiente (Sin datos)</h5>
+                                <hr />
+                            }
+                        }
                     </div>
                 </div>
             </div>
@@ -434,6 +500,8 @@
             y: parseFloat(x.campo1)
         };
     });
+
+    console.log(objects);
 
     Highcharts.setOptions({
         lang: {

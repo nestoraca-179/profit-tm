@@ -131,7 +131,10 @@ namespace ProfitTM.Models
 
             try
             {
-                var sp = db.RepProveedorMasCompra(null, null, null, null, number, null, null, null, null, null);
+                DateTime fec_h = DateTime.Now;
+                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+
+                var sp = db.RepProveedorMasCompra(fec_d, fec_h, null, null, number, null, null, null, null, null);
                 var enumerator = sp.GetEnumerator();
 
                 while (enumerator.MoveNext())
@@ -139,7 +142,7 @@ namespace ProfitTM.Models
                     saProveedor proveedor = new saProveedor();
 
                     proveedor.co_prov = enumerator.Current.co_prov;
-                    proveedor.prov_des = enumerator.Current.prov_des;
+                    proveedor.prov_des = enumerator.Current.co_prov + " - " + enumerator.Current.prov_des;
                     proveedor.campo1 = enumerator.Current.Compra.ToString();
 
                     proveedores.Add(proveedor);
@@ -164,7 +167,10 @@ namespace ProfitTM.Models
 
             try
             {
-                var sp = db.RepEstadoCuentaProv(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                DateTime fec_h = DateTime.Now;
+                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+
+                var sp = db.RepEstadoCuentaProv(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
                 var enumerator = sp.GetEnumerator();
 
                 while (enumerator.MoveNext())
@@ -184,7 +190,7 @@ namespace ProfitTM.Models
                                {
 
                                    co_prov = g.Key.co_prov,
-                                   prov_des = g.Key.prov_des,
+                                   prov_des = g.Key.co_prov + " - " + g.Key.prov_des,
                                    campo1 = Math.Round(g.Select(x => double.Parse(x)).Sum(), 2).ToString()
 
                                }).OrderByDescending(x => double.Parse(x.campo1)).ToList();

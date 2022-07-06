@@ -105,13 +105,35 @@
             <div class="container-fluid" style="padding: 5px 40px">
                 <br />
                 <a href="/Home/@ViewData["home"]" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar</a>
-                <figure class="highcharts-figure">
-                    <div id="container-mac"></div>
-                </figure>
+                @{
+                    if (ViewBag.mostActiveClients.Count > 0)
+                    {
+                        <figure class="highcharts-figure">
+                            <div id="container-mac"></div>
+                        </figure>
+                    }
+                    else
+                    {
+                        <hr />
+                        <h5 class="text-center mt-5 mb-5">Clientes con más ventas (Sin datos)</h5>
+                        <hr />
+                    }
+                }
                 <hr />
-                <figure class="highcharts-figure">
-                    <div id="container-mmc"></div>
-                </figure>
+                @{
+                    if (ViewBag.mostMorousClients.Count > 0)
+                    {
+                        <figure class="highcharts-figure">
+                            <div id="container-mmc"></div>
+                        </figure>
+                    }
+                    else
+                    {
+                        <hr />
+                        <h5 class="text-center mt-5 mb-5">Clientes más saldo pendiente (Sin datos)</h5>
+                        <hr />
+                    }
+                }
             </div>
         </div>
     </div>

@@ -21,12 +21,7 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
     private XRPageInfo pageInfo2;
     private ReportHeaderBand ReportHeader;
     private XRLabel label1;
-    private GroupHeaderBand GroupHeader1;
     private DetailBand Detail;
-    private XRTable table3;
-    private XRTableRow tableRow3;
-    private XRTableCell tableCell5;
-    private XRTableCell tableCell6;
     private DevExpress.XtraReports.Parameters.Parameter fecDesde;
     private DevExpress.XtraReports.Parameters.Parameter fecHasta;
     private DevExpress.XtraReports.Parameters.Parameter cenDesde;
@@ -50,8 +45,15 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
     private XRTableCell xrTableCell1;
     private XRTableCell xrTableCell2;
     private XRTableCell xrTableCell3;
-    private XRTableCell xrTableCell4;
-    private XRTableCell xrTableCell5;
+    private XRLine xrLine1;
+    private XRLabel xrLabel11;
+    private XRLabel xrLabel10;
+    private XRLabel xrLabel2;
+    private ReportFooterBand ReportFooter;
+    private XRLine xrLine3;
+    private XRLabel xrLabel15;
+    private XRLabel xrLabel12;
+    private CalculatedField totalSaldoA;
 
     /// <summary>
     /// Required designer variable.
@@ -88,34 +90,18 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
     private void InitializeComponent()
     {
             this.components = new System.ComponentModel.Container();
-            DevExpress.DataAccess.Sql.StoredProcQuery storedProcQuery1 = new DevExpress.DataAccess.Sql.StoredProcQuery();
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery1 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery2 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter1 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery3 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery4 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
+            DevExpress.DataAccess.Sql.StoredProcQuery storedProcQuery1 = new DevExpress.DataAccess.Sql.StoredProcQuery();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter2 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter3 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter4 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter5 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter6 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter7 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter8 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter9 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter10 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter11 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter12 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter13 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter14 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter15 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter16 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter17 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter18 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter19 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter20 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter21 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter22 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery1 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
-            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery2 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter23 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery3 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
-            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery4 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepEstadoResultados2KDoce));
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings1 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings2 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
@@ -136,14 +122,11 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.pageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.ReportHeader = new DevExpress.XtraReports.UI.ReportHeaderBand();
             this.label1 = new DevExpress.XtraReports.UI.XRLabel();
-            this.GroupHeader1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
-            this.table3 = new DevExpress.XtraReports.UI.XRTable();
-            this.tableRow3 = new DevExpress.XtraReports.UI.XRTableRow();
-            this.xrTableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.xrTableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
+            this.xrLabel11 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel10 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLine1 = new DevExpress.XtraReports.UI.XRLine();
             this.fecDesde = new DevExpress.XtraReports.Parameters.Parameter();
             this.fecHasta = new DevExpress.XtraReports.Parameters.Parameter();
             this.cenDesde = new DevExpress.XtraReports.Parameters.Parameter();
@@ -167,7 +150,11 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel9 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.PB_Logo = new DevExpress.XtraReports.UI.XRPictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.table3)).BeginInit();
+            this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
+            this.xrLabel12 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLine3 = new DevExpress.XtraReports.UI.XRLine();
+            this.xrLabel15 = new DevExpress.XtraReports.UI.XRLabel();
+            this.totalSaldoA = new DevExpress.XtraReports.UI.CalculatedField();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
@@ -175,106 +162,52 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             // 
             this.DemoCont.ConnectionName = "DemoCont";
             this.DemoCont.Name = "DemoCont";
-            storedProcQuery1.Name = "RepEstadoResultados2KDoce";
-            queryParameter1.Name = "@sCo_cue_d";
-            queryParameter1.Type = typeof(string);
-            queryParameter2.Name = "@sCo_cue_h";
-            queryParameter2.Type = typeof(string);
-            queryParameter3.Name = "@sdFec_emis_d";
-            queryParameter3.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter3.Value = new DevExpress.DataAccess.Expression("?fecDesde", typeof(System.DateTime));
-            queryParameter4.Name = "@sdFec_emis_h";
-            queryParameter4.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter4.Value = new DevExpress.DataAccess.Expression("?fecHasta", typeof(System.DateTime));
-            queryParameter5.Name = "@sCo_cen_d";
-            queryParameter5.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter5.Value = new DevExpress.DataAccess.Expression("?cenDesde", typeof(string));
-            queryParameter6.Name = "@sCo_cen_h";
-            queryParameter6.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter6.Value = new DevExpress.DataAccess.Expression("?cenHasta", typeof(string));
-            queryParameter7.Name = "@sCo_gas_d";
-            queryParameter7.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter7.Value = new DevExpress.DataAccess.Expression("?cueDesde", typeof(string));
-            queryParameter8.Name = "@sCo_gas_h";
-            queryParameter8.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter8.Value = new DevExpress.DataAccess.Expression("?cueHasta", typeof(string));
-            queryParameter9.Name = "@sCo_tab";
-            queryParameter9.Type = typeof(string);
-            queryParameter10.Name = "@sCo_adi_d";
-            queryParameter10.Type = typeof(string);
-            queryParameter11.Name = "@sCo_adi_h";
-            queryParameter11.Type = typeof(string);
-            queryParameter12.Name = "@sCo_aux_d";
-            queryParameter12.Type = typeof(string);
-            queryParameter13.Name = "@sCo_aux_h";
-            queryParameter13.Type = typeof(string);
-            queryParameter14.Name = "@bCuentaconMov";
-            queryParameter14.Type = typeof(bool);
-            queryParameter14.ValueInfo = "False";
-            queryParameter15.Name = "@iTipo_compro";
-            queryParameter15.Type = typeof(int);
-            queryParameter15.ValueInfo = "0";
-            queryParameter16.Name = "@sCo_mone";
-            queryParameter16.Type = typeof(string);
-            queryParameter17.Name = "@bExcluir_CtaOrden";
-            queryParameter17.Type = typeof(bool);
-            queryParameter17.ValueInfo = "False";
-            queryParameter18.Name = "@iNivel";
-            queryParameter18.Type = typeof(DevExpress.DataAccess.Expression);
-            queryParameter18.Value = new DevExpress.DataAccess.Expression("null", typeof(byte));
-            queryParameter19.Name = "@bComprobanteCIE";
-            queryParameter19.Type = typeof(bool);
-            queryParameter19.ValueInfo = "False";
-            queryParameter20.Name = "@sCampOrderBy";
-            queryParameter20.Type = typeof(string);
-            queryParameter21.Name = "@sDir";
-            queryParameter21.Type = typeof(string);
-            queryParameter22.Name = "@bHeaderRep";
-            queryParameter22.Type = typeof(bool);
-            queryParameter22.ValueInfo = "False";
-            storedProcQuery1.Parameters.Add(queryParameter1);
-            storedProcQuery1.Parameters.Add(queryParameter2);
-            storedProcQuery1.Parameters.Add(queryParameter3);
-            storedProcQuery1.Parameters.Add(queryParameter4);
-            storedProcQuery1.Parameters.Add(queryParameter5);
-            storedProcQuery1.Parameters.Add(queryParameter6);
-            storedProcQuery1.Parameters.Add(queryParameter7);
-            storedProcQuery1.Parameters.Add(queryParameter8);
-            storedProcQuery1.Parameters.Add(queryParameter9);
-            storedProcQuery1.Parameters.Add(queryParameter10);
-            storedProcQuery1.Parameters.Add(queryParameter11);
-            storedProcQuery1.Parameters.Add(queryParameter12);
-            storedProcQuery1.Parameters.Add(queryParameter13);
-            storedProcQuery1.Parameters.Add(queryParameter14);
-            storedProcQuery1.Parameters.Add(queryParameter15);
-            storedProcQuery1.Parameters.Add(queryParameter16);
-            storedProcQuery1.Parameters.Add(queryParameter17);
-            storedProcQuery1.Parameters.Add(queryParameter18);
-            storedProcQuery1.Parameters.Add(queryParameter19);
-            storedProcQuery1.Parameters.Add(queryParameter20);
-            storedProcQuery1.Parameters.Add(queryParameter21);
-            storedProcQuery1.Parameters.Add(queryParameter22);
-            storedProcQuery1.StoredProcName = "RepEstadoResultados2KDoce";
             customSqlQuery1.Name = "Datos";
             customSqlQuery1.Sql = "select\r\n\t(select val_campoadi from sccampadi where co_campadi = \'DIR_F\') as Direc" +
     "cion,\r\n\t(select val_campoadi from sccampadi where co_campadi = \'TELEF\') as Telef" +
     "ono";
             customSqlQuery2.Name = "Master";
-            queryParameter23.Name = "DB";
-            queryParameter23.Type = typeof(string);
-            customSqlQuery2.Parameters.Add(queryParameter23);
+            queryParameter1.Name = "DB";
+            queryParameter1.Type = typeof(string);
+            customSqlQuery2.Parameters.Add(queryParameter1);
             customSqlQuery2.Sql = "select cod_empresa, desc_empresa, rif from [MasterProfitPro].dbo.MpEmpresa\r\nwhere" +
     " cod_empresa = @DB";
             customSqlQuery3.Name = "Centros";
             customSqlQuery3.Sql = "select co_cen, des_cen from sccentro\r\n";
             customSqlQuery4.Name = "Cuentas";
             customSqlQuery4.Sql = "select co_gas, des_gas from scgastos";
+            storedProcQuery1.Name = "RepEstadoResultados2KDoce";
+            queryParameter2.Name = "@fecEmisD";
+            queryParameter2.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter2.Value = new DevExpress.DataAccess.Expression("?fecDesde", typeof(System.DateTime));
+            queryParameter3.Name = "@fecEmisH";
+            queryParameter3.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter3.Value = new DevExpress.DataAccess.Expression("?fecHasta", typeof(System.DateTime));
+            queryParameter4.Name = "@coCenD";
+            queryParameter4.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter4.Value = new DevExpress.DataAccess.Expression("?cenDesde", typeof(string));
+            queryParameter5.Name = "@coCenH";
+            queryParameter5.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter5.Value = new DevExpress.DataAccess.Expression("?cenHasta", typeof(string));
+            queryParameter6.Name = "@coGasD";
+            queryParameter6.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter6.Value = new DevExpress.DataAccess.Expression("?cueDesde", typeof(string));
+            queryParameter7.Name = "@coGasH";
+            queryParameter7.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter7.Value = new DevExpress.DataAccess.Expression("?cueHasta", typeof(string));
+            storedProcQuery1.Parameters.Add(queryParameter2);
+            storedProcQuery1.Parameters.Add(queryParameter3);
+            storedProcQuery1.Parameters.Add(queryParameter4);
+            storedProcQuery1.Parameters.Add(queryParameter5);
+            storedProcQuery1.Parameters.Add(queryParameter6);
+            storedProcQuery1.Parameters.Add(queryParameter7);
+            storedProcQuery1.StoredProcName = "RepEstadoResultados2KDocePW";
             this.DemoCont.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
-            storedProcQuery1,
             customSqlQuery1,
             customSqlQuery2,
             customSqlQuery3,
-            customSqlQuery4});
+            customSqlQuery4,
+            storedProcQuery1});
             this.DemoCont.ResultSchemaSerializable = resources.GetString("DemoCont.ResultSchemaSerializable");
             // 
             // Title
@@ -415,85 +348,75 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.label1.Text = "Estado de Resultado";
             this.label1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
-            // GroupHeader1
-            // 
-            this.GroupHeader1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.table3});
-            this.GroupHeader1.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
-            new DevExpress.XtraReports.UI.GroupField("co_cue", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
-            this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
-            this.GroupHeader1.HeightF = 25.00001F;
-            this.GroupHeader1.Name = "GroupHeader1";
-            // 
-            // table3
-            // 
-            this.table3.LocationFloat = new DevExpress.Utils.PointFloat(3.814697E-05F, 1.40667E-05F);
-            this.table3.Name = "table3";
-            this.table3.OddStyleName = "DetailData3_Odd";
-            this.table3.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
-            this.tableRow3});
-            this.table3.SizeF = new System.Drawing.SizeF(750F, 25F);
-            // 
-            // tableRow3
-            // 
-            this.tableRow3.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell5,
-            this.xrTableCell4,
-            this.tableCell6,
-            this.tableCell5});
-            this.tableRow3.Name = "tableRow3";
-            this.tableRow3.Weight = 11.5D;
-            // 
-            // xrTableCell5
-            // 
-            this.xrTableCell5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "WidthF", "[NivelCuenta] * 5")});
-            this.xrTableCell5.Multiline = true;
-            this.xrTableCell5.Name = "xrTableCell5";
-            this.xrTableCell5.StyleName = "DetailData1";
-            this.xrTableCell5.Weight = 0.039262772034477936D;
-            // 
-            // xrTableCell4
-            // 
-            this.xrTableCell4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_cue]")});
-            this.xrTableCell4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.xrTableCell4.Multiline = true;
-            this.xrTableCell4.Name = "xrTableCell4";
-            this.xrTableCell4.StyleName = "DetailData1";
-            this.xrTableCell4.StylePriority.UseFont = false;
-            this.xrTableCell4.Text = "xrTableCell4";
-            this.xrTableCell4.Weight = 0.125801252938912D;
-            // 
-            // tableCell6
-            // 
-            this.tableCell6.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[des_cue]")});
-            this.tableCell6.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.tableCell6.Name = "tableCell6";
-            this.tableCell6.StyleName = "DetailData1";
-            this.tableCell6.StylePriority.UseFont = false;
-            this.tableCell6.Weight = 0.68750005410297366D;
-            // 
-            // tableCell5
-            // 
-            this.tableCell5.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.tableCell5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[SaldoActual]")});
-            this.tableCell5.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.tableCell5.Name = "tableCell5";
-            this.tableCell5.StyleName = "DetailData1";
-            this.tableCell5.StylePriority.UseBorders = false;
-            this.tableCell5.StylePriority.UseFont = false;
-            this.tableCell5.StylePriority.UseTextAlignment = false;
-            this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.tableCell5.TextFormatString = "{0:n}";
-            this.tableCell5.Weight = 0.30128201998197113D;
-            // 
             // Detail
             // 
-            this.Detail.HeightF = 2.972285F;
+            this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel11,
+            this.xrLabel10,
+            this.xrLabel2,
+            this.xrLine1});
+            this.Detail.HeightF = 27.68129F;
             this.Detail.Name = "Detail";
+            // 
+            // xrLabel11
+            // 
+            this.xrLabel11.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[des_cue]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            this.xrLabel11.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.xrLabel11.LocationFloat = new DevExpress.Utils.PointFloat(107.2917F, 3.417183F);
+            this.xrLabel11.Multiline = true;
+            this.xrLabel11.Name = "xrLabel11";
+            this.xrLabel11.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 3, 0, 100F);
+            this.xrLabel11.SizeF = new System.Drawing.SizeF(430.75F, 23F);
+            this.xrLabel11.StylePriority.UseFont = false;
+            this.xrLabel11.StylePriority.UsePadding = false;
+            this.xrLabel11.Text = "xrLabel11";
+            // 
+            // xrLabel10
+            // 
+            this.xrLabel10.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[SaldoActual]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            this.xrLabel10.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.xrLabel10.LocationFloat = new DevExpress.Utils.PointFloat(538.0417F, 3.041681F);
+            this.xrLabel10.Multiline = true;
+            this.xrLabel10.Name = "xrLabel10";
+            this.xrLabel10.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 3, 0, 100F);
+            this.xrLabel10.SizeF = new System.Drawing.SizeF(211.9583F, 23F);
+            this.xrLabel10.StylePriority.UseFont = false;
+            this.xrLabel10.StylePriority.UsePadding = false;
+            this.xrLabel10.StylePriority.UseTextAlignment = false;
+            this.xrLabel10.Text = "xrLabel10";
+            this.xrLabel10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            this.xrLabel10.TextFormatString = "{0:n}";
+            // 
+            // xrLabel2
+            // 
+            this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_cue]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            this.xrLabel2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 3.417183F);
+            this.xrLabel2.Multiline = true;
+            this.xrLabel2.Name = "xrLabel2";
+            this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 3, 0, 100F);
+            this.xrLabel2.SizeF = new System.Drawing.SizeF(107.2917F, 23F);
+            this.xrLabel2.StylePriority.UseFont = false;
+            this.xrLabel2.StylePriority.UsePadding = false;
+            this.xrLabel2.Text = "xrLabel2";
+            // 
+            // xrLine1
+            // 
+            this.xrLine1.BorderColor = System.Drawing.Color.Black;
+            this.xrLine1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Visible", "[is_total]")});
+            this.xrLine1.ForeColor = System.Drawing.Color.DimGray;
+            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(538.0417F, 0F);
+            this.xrLine1.Name = "xrLine1";
+            this.xrLine1.SizeF = new System.Drawing.SizeF(211.9583F, 3.041681F);
+            this.xrLine1.StylePriority.UseBorderColor = false;
+            this.xrLine1.StylePriority.UseForeColor = false;
             // 
             // fecDesde
             // 
@@ -501,7 +424,6 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.fecDesde.Description = "Fecha Desde";
             this.fecDesde.Name = "fecDesde";
             this.fecDesde.Type = typeof(System.DateTime);
-            this.fecDesde.ValueInfo = "2021-01-01";
             // 
             // fecHasta
             // 
@@ -509,7 +431,6 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.fecHasta.Description = "Fecha Hasta";
             this.fecHasta.Name = "fecHasta";
             this.fecHasta.Type = typeof(System.DateTime);
-            this.fecHasta.ValueInfo = "2021-01-01";
             // 
             // cenDesde
             // 
@@ -624,7 +545,7 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.xrTableCell2.StylePriority.UseTextAlignment = false;
             this.xrTableCell2.Text = "Cuenta";
             this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell2.Weight = 0.68750003521259018D;
+            this.xrTableCell2.Weight = 0.66269234290489787D;
             // 
             // xrTableCell3
             // 
@@ -638,7 +559,7 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.xrTableCell3.StylePriority.UseTextAlignment = false;
             this.xrTableCell3.Text = "Saldo a la fecha";
             this.xrTableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell3.Weight = 0.30128201998197113D;
+            this.xrTableCell3.Weight = 0.32608971228966344D;
             // 
             // xrLabel4
             // 
@@ -770,15 +691,69 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.PB_Logo.SizeF = new System.Drawing.SizeF(128.5417F, 102.611F);
             this.PB_Logo.Sizing = DevExpress.XtraPrinting.ImageSizeMode.ZoomImage;
             // 
+            // ReportFooter
+            // 
+            this.ReportFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel12,
+            this.xrLine3,
+            this.xrLabel15});
+            this.ReportFooter.HeightF = 41.66616F;
+            this.ReportFooter.Name = "ReportFooter";
+            // 
+            // xrLabel12
+            // 
+            this.xrLabel12.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "IsNull([totalSaldoA], 0)")});
+            this.xrLabel12.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.xrLabel12.LocationFloat = new DevExpress.Utils.PointFloat(538.0417F, 10.00001F);
+            this.xrLabel12.Multiline = true;
+            this.xrLabel12.Name = "xrLabel12";
+            this.xrLabel12.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 3, 0, 100F);
+            this.xrLabel12.SizeF = new System.Drawing.SizeF(211.9583F, 23F);
+            this.xrLabel12.StylePriority.UseFont = false;
+            this.xrLabel12.StylePriority.UsePadding = false;
+            this.xrLabel12.StylePriority.UseTextAlignment = false;
+            this.xrLabel12.Text = "xrLabel12";
+            this.xrLabel12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            this.xrLabel12.TextFormatString = "{0:n}";
+            // 
+            // xrLine3
+            // 
+            this.xrLine3.LocationFloat = new DevExpress.Utils.PointFloat(0F, 1.000007F);
+            this.xrLine3.Name = "xrLine3";
+            this.xrLine3.SizeF = new System.Drawing.SizeF(750F, 2.832826F);
+            // 
+            // xrLabel15
+            // 
+            this.xrLabel15.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrLabel15.LocationFloat = new DevExpress.Utils.PointFloat(107.2917F, 10.00001F);
+            this.xrLabel15.Multiline = true;
+            this.xrLabel15.Name = "xrLabel15";
+            this.xrLabel15.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 3, 0, 100F);
+            this.xrLabel15.SizeF = new System.Drawing.SizeF(430.75F, 23F);
+            this.xrLabel15.StylePriority.UseFont = false;
+            this.xrLabel15.StylePriority.UsePadding = false;
+            this.xrLabel15.StylePriority.UseTextAlignment = false;
+            this.xrLabel15.Text = "TOTAL DE ESTADO DE RESULTADO";
+            this.xrLabel15.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+            // 
+            // totalSaldoA
+            // 
+            this.totalSaldoA.DataMember = "RepEstadoResultados2KDoce";
+            this.totalSaldoA.Expression = "[][![detalle] && IsNull([co_cuepadre])].Sum([SaldoActual])";
+            this.totalSaldoA.Name = "totalSaldoA";
+            // 
             // RepEstadoResultados2KDoce
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.TopMargin,
             this.BottomMargin,
             this.ReportHeader,
-            this.GroupHeader1,
             this.Detail,
-            this.PageHeader});
+            this.PageHeader,
+            this.ReportFooter});
+            this.CalculatedFields.AddRange(new DevExpress.XtraReports.UI.CalculatedField[] {
+            this.totalSaldoA});
             this.ComponentStorage.AddRange(new System.ComponentModel.IComponent[] {
             this.DemoCont});
             this.DataMember = "RepEstadoResultados2KDoce";
@@ -803,7 +778,6 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.PageInfo});
             this.Version = "18.2";
             this.DataSourceDemanded += new System.EventHandler<System.EventArgs>(this.RepEstadoResultados2KDoce_DataSourceDemanded);
-            ((System.ComponentModel.ISupportInitialize)(this.table3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
@@ -813,8 +787,7 @@ public class RepEstadoResultados2KDoce : DevExpress.XtraReports.UI.XtraReport
 
     private void RepEstadoResultados2KDoce_DataSourceDemanded(object sender, EventArgs e)
     {
-        XtraReport report = (XtraReport)sender;
-
+        XtraReport report = sender as XtraReport;
         var parameters = report.Parameters;
 
         foreach (var param in parameters)

@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Linq;
+using System;
 
 namespace ProfitTM.Controllers
 {
@@ -241,6 +242,10 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                DateTime today = DateTime.Now;
+                @ViewBag.current_month = today.Month > 10 ? today.Month.ToString() : "0" + today.Month;
+                @ViewBag.current_year = today.Year;
+
                 if (Session["modules"] == null)
                 {
                     string msg = "", userID = ((Users)ViewBag.user).ID.ToString();
@@ -252,12 +257,12 @@ namespace ProfitTM.Controllers
                     Client cliManager = new Client();
                     Supplier supManager = new Supplier();
 
-                    ProfitTMResponse responseMSP = proManager.GetMostProducts(5, true);// sqlController.getMostSelledProducts(5);
-                    ProfitTMResponse responseMPP = proManager.GetMostProducts(5, false);// sqlController.getMostPurchasedProducts(5);
-                    ProfitTMResponse responseMAC = cliManager.GetMostActiveClients(5);// sqlController.getMostActiveClients(5);
-                    ProfitTMResponse responseMMC = cliManager.GetMostMorousClients(5);// sqlController.getMostMorousClients(5);
-                    ProfitTMResponse responseMAS = supManager.GetMostActiveSuppliers(5);// sqlController.getMostActiveSuppliers(5);
-                    ProfitTMResponse responseMMS = supManager.GetMostMorousSuppliers(5);// sqlController.getMostMorousSuppliers(5);
+                    ProfitTMResponse responseMSP = proManager.GetMostProducts(5, true);
+                    ProfitTMResponse responseMPP = proManager.GetMostProducts(5, false);
+                    ProfitTMResponse responseMAC = cliManager.GetMostActiveClients(5);
+                    ProfitTMResponse responseMMC = cliManager.GetMostMorousClients(5);
+                    ProfitTMResponse responseMAS = supManager.GetMostActiveSuppliers(5);
+                    ProfitTMResponse responseMMS = supManager.GetMostMorousSuppliers(5);
 
                     responses.Add(responseMSP);
                     responses.Add(responseMPP);

@@ -105,13 +105,35 @@
             <div class="container-fluid" style="padding: 5px 40px">
                 <br />
                 <a href="/Home/@ViewData["home"]" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar</a>
-                <figure class="highcharts-figure">
-                    <div id="container-mas"></div>
-                </figure>
+                @{
+                    if (ViewBag.mostActiveSuppliers.Count > 0)
+                    {
+                        <figure class="highcharts-figure">
+                            <div id="container-mas"></div>
+                        </figure>
+                    }
+                    else
+                    {
+                        <hr />
+                        <h5 class="text-center mt-5 mb-5">Proveedores con más compras (Sin datos)</h5>
+                        <hr />
+                    }
+                }
                 <hr />
-                <figure class="highcharts-figure">
-                    <div id="container-mms"></div>
-                </figure>
+                @{
+                    if (ViewBag.mostMorousSuppliers.Count > 0)
+                    {
+                        <figure class="highcharts-figure">
+                            <div id="container-mms"></div>
+                        </figure>
+                    }
+                    else
+                    {
+                        <hr />
+                        <h5 class="text-center mt-5 mb-5">Proveedores con más saldo pendiente (Sin datos)</h5>
+                        <hr />
+                    }
+                }
             </div>
         </div>
     </div>

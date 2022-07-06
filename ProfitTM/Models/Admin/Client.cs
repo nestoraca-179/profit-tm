@@ -239,7 +239,10 @@ namespace ProfitTM.Models
 
             try
             {
-                var sp = db.RepClienteMasVenta(null, null, null, null, null, null, null, null, null, number, null, null, null, null);
+                DateTime fec_h = DateTime.Now;
+                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+
+                var sp = db.RepClienteMasVenta(fec_d, fec_h, null, null, null, null, null, null, null, number, null, null, null, null);
                 var enumerator = sp.GetEnumerator();
 
                 while (enumerator.MoveNext())
@@ -247,7 +250,7 @@ namespace ProfitTM.Models
                     saCliente cliente = new saCliente();
 
                     cliente.co_cli = enumerator.Current.co_cli;
-                    cliente.cli_des = enumerator.Current.cli_des;
+                    cliente.cli_des = enumerator.Current.co_cli + " - " + enumerator.Current.cli_des;
                     cliente.campo1 = enumerator.Current.Venta.ToString();
 
                     clientes.Add(cliente);
@@ -272,7 +275,10 @@ namespace ProfitTM.Models
 
             try
             {
-                var sp = db.RepEstadoCuentaCli(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                DateTime fec_h = DateTime.Now;
+                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+
+                var sp = db.RepEstadoCuentaCli(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
                 var enumerator = sp.GetEnumerator();
 
                 while (enumerator.MoveNext())
@@ -292,7 +298,7 @@ namespace ProfitTM.Models
                             {
 
                                 co_cli = g.Key.co_cli,
-                                cli_des = g.Key.cli_des,
+                                cli_des = g.Key.co_cli + " - " + g.Key.cli_des,
                                 campo1 = Math.Round(g.Select(x => double.Parse(x)).Sum(), 2).ToString()
 
                             }).OrderByDescending(x => double.Parse(x.campo1)).ToList();

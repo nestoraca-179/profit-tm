@@ -26,6 +26,7 @@ namespace ProfitTM.Models
         public string Icon { get; set; }
         public string Product { get; set; }
         public string ReportURL { get; set; }
+        public int Order { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Options> Options { get; set; }

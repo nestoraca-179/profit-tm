@@ -86,6 +86,9 @@ namespace ProfitTM.Models
 
             try
             {
+                DateTime fec_h = DateTime.Now;
+                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+
                 List<saFacturaVentaReng> rengsV = db.saFacturaVentaReng.ToList();
                 List<saFacturaCompraReng> rengsC = db.saFacturaCompraReng.ToList();
                 List<saArticulo> arts = db.saArticulo.ToList();
@@ -94,6 +97,7 @@ namespace ProfitTM.Models
                 {
                     articulos = (from r in rengsV
                                  join a in arts on r.co_art equals a.co_art
+                                 where r.fe_us_in >= fec_d && r.fe_us_in <= fec_h
                                  group r.total_art by (r.co_art, a.art_des) into g
                                  select new saArticulo
                                  {
@@ -107,6 +111,7 @@ namespace ProfitTM.Models
                 {
                     articulos = (from r in rengsC
                                  join a in arts on r.co_art equals a.co_art
+                                 where r.fe_us_in >= fec_d && r.fe_us_in <= fec_h
                                  group r.total_art by (r.co_art, a.art_des) into g
                                  select new saArticulo
                                  {

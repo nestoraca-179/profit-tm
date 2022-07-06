@@ -147,7 +147,7 @@
                                     <legend class="col-sm-4 col-form-label pt-0">Acceso a opciones</legend>
                                     <div class="col-sm-8">
                                         <p ng-if="(!user.IsAdm && !user.IsCon && !user.IsNom) || modsChecked.length == 0">No has seleccionado ningún módulo</p>
-                                        <div ng-repeat="mod in modsChecked" ng-show="user.IsAdm || user.IsCon || user.IsNom">
+                                        <div ng-repeat="mod in modsChecked | orderBy: 'Order'" ng-show="user.IsAdm || user.IsCon || user.IsNom">
                                             <h5 class="text-center font-weight-bold">{{ mod.ModuleName }}</h5>
                                             <div class="form-check" ng-repeat="opt in mod.Options">
                                                 <input class="form-check-input" type="checkbox" ng-click="checked($event.target.checked, opt, 'O')" ng-checked="verifyChecked(false, opt.ID)">

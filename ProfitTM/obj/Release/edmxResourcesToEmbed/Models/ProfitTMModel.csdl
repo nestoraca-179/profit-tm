@@ -33,6 +33,7 @@
     <Property Name="ReportURL" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Options" Relationship="Self.FK__Options__ModuleI__123EB7A3" FromRole="Modules" ToRole="Options" />
     <NavigationProperty Name="UserModules" Relationship="Self.FK__UserModules_Modules" FromRole="Modules" ToRole="UserModules" />
+    <Property Name="Order" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="Options">
     <Key>
