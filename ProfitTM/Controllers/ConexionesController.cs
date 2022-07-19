@@ -24,7 +24,7 @@ namespace ProfitTM.Controllers
             else
             {
                 ViewBag.connections = Connection.GetConnectionsByType();
-                ViewBag.prod = Session["Prod"].ToString();
+                ViewBag.prod = Session["prod"].ToString();
 
                 return View();
             }

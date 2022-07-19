@@ -146,8 +146,6 @@
 
     btn.addEventListener("click", hide);
 
-    btn.addEventListener("click", hide);
-
     function print(elem) {
 
         $(".my-dropdown").slideUp();
@@ -207,50 +205,52 @@
         }
     });
 
-    Highcharts.chart('container-msp', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: '10 Artículos más vendidos'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
-            title: {
-                text: '<b>Cantidad</b>'
+    if (objects.length > 0) {
+        Highcharts.chart('container-msp', {
+            chart: {
+                type: 'column'
             },
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Unds'
+            title: {
+                text: '10 Artículos más vendidos'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds vendidas<br/>'
-        },
-        series: [{
-            name: 'Cantidad',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Cantidad</b>'
+                },
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Unds'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds vendidas<br/>'
+            },
+            series: [{
+                name: 'Cantidad',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>
 @* GRAFICA ARTICULOS COMPRADOS *@
@@ -271,49 +271,51 @@
         }
     });
 
-    Highcharts.chart('container-mpp', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: '10 Artículos más comprados'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
-            title: {
-                text: '<b>Cantidad</b>'
+    if (objects.length > 0) {
+        Highcharts.chart('container-mpp', {
+            chart: {
+                type: 'column'
             },
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Unds'
+            title: {
+                text: '10 Artículos más comprados'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds vendidas<br/>'
-        },
-        series: [{
-            name: 'Cantidad',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Cantidad</b>'
+                },
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Unds'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds vendidas<br/>'
+            },
+            series: [{
+                name: 'Cantidad',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>

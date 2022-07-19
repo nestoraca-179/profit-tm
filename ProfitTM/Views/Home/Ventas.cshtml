@@ -205,50 +205,52 @@
         }
     });
 
-    Highcharts.chart('container-mac', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: '10 Clientes con más ventas'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
+    if (objects.length > 0) {
+        Highcharts.chart('container-mac', {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '<b>Monto en ventas</b>'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Bs'
+                text: '10 Clientes con más ventas'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Monto en ventas</span>: <b>{point.y:,.2f}</b><br/>'
-        },
-        series: [{
-            name: 'Monto en ventas',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Monto en ventas</b>'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Bs'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Monto en ventas</span>: <b>{point.y:,.2f}</b><br/>'
+            },
+            series: [{
+                name: 'Monto en ventas',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>
 @* GRAFICA CLIENTES MOROSOS *@
@@ -269,49 +271,51 @@
         }
     });
 
-    Highcharts.chart('container-mmc', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: '10 Clientes con más saldo pendiente'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
+    if (objects.length > 0) {
+        Highcharts.chart('container-mmc', {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '<b>Saldo pendiente</b>'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Bs'
+                text: '10 Clientes con más saldo pendiente'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
-        },
-        series: [{
-            name: 'Saldo pendiente',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Saldo pendiente</b>'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Bs'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
+            },
+            series: [{
+                name: 'Saldo pendiente',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>

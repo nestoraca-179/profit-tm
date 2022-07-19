@@ -131,42 +131,7 @@
         <h2 class="text-white">Seleccionar Empresa</h2>
     </div>
     <form action="/Home/SelectDashboard" method="post">
-        @*<div class="container-control">
-            <h2 class="text-white" style="position: static;">Seleccionar Empresa</h2>
-            <select id="selectDb" class="shadow" onchange="enable(this)">
-                <option value="#">Seleccionar empresa...</option>
-                @{
-                    foreach (var item in ViewBag.connections)
-                    {
-                        string name = item.Name;
-
-                        if (name.Contains(ViewBag.prod))
-                        {
-                            <option value="@item.ModuleName">@item.ModuleName</option>
-                        }
-                    }
-                }
-            </select>
-        </div>
-        <input type="hidden" id="connect" name="connect" value="" />
-        <div class="col-md-12">
-            <button type="button" id="btn-send" class="btn btn-primary" onclick="send(this)" disabled>Seleccionar empresa</button>
-        </div>*@
         <div class="container-cards">
-            @*@{
-                foreach (var item in ViewBag.connections)
-                {
-                    string name = item.Name, prod = ViewBag.prod;
-
-                    if (name.Contains(prod))
-                    {
-                        <div class="card-prod shadow-lg" id="@name">
-                            <i class="fas fa-building"></i>
-                            <h4 class="text-white font-weight-bold">@name</h4>
-                        </div>
-                    }
-                }
-            }*@
             @{
                 foreach (var item in ViewBag.connections)
                 {
@@ -186,32 +151,26 @@
     </form>
 </div>
 <script>
+    var submitted = false;
+
     $(document).ready(function () {
         $(".card-prod").hide().fadeIn(1500);
     });
 
     $(".card-prod").click(function () {
+        if (!submitted) {
+            $(".card-prod.selected-card").removeClass("selected-card");
+            $(this).addClass("selected-card");
+            $("#connect").val(this.id);
 
-        $(".card-prod.selected-card").removeClass("selected-card");
-        $(this).addClass("selected-card");
-        $("#connect").val(this.id);
-
-        if ($("#btn-send").prop('disabled'))
-            $("#btn-send").prop('disabled', false)
-
+            if ($("#btn-send").prop('disabled'))
+                $("#btn-send").prop('disabled', false)
+        }
     });
-    //function enable(elem) {
-    //    if (elem.value != "#") {
-    //        $("#btn-send").prop("disabled", "");
-    //        $("#connect").val(elem.value);
-    //    } else {
-    //        $("#btn-send").prop("disabled", "true");
-    //        $("#connect").val("");
-    //    }
-    //}
 
     function send(elem) {
         $(elem).prop("disabled", "true");
         $("form").trigger("submit");
+        submitted = true;
     }
 </script>

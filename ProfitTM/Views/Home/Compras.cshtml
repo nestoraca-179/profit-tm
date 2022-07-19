@@ -205,50 +205,52 @@
         }
     });
 
-    Highcharts.chart('container-mas', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: '10 Proveedores con más compras'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
+    if (objects.length > 0) {
+        Highcharts.chart('container-mas', {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '<b>Monto en compras</b>'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Bs'
+                text: '10 Proveedores con más compras'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Monto en compras</span>: <b>{point.y:,.2f}</b><br/>'
-        },
-        series: [{
-            name: 'Monto en compras',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Monto en compras</b>'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Bs'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Monto en compras</span>: <b>{point.y:,.2f}</b><br/>'
+            },
+            series: [{
+                name: 'Monto en compras',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>
 @* GRAFICA PROVEEDORES SALDO PENDIENTE *@
@@ -269,49 +271,51 @@
         }
     });
 
-    Highcharts.chart('container-mms', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: '10 Proveedores con más saldo pendiente'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
+    if (objects.length > 0){
+        Highcharts.chart('container-mms', {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '<b>Saldo pendiente</b>'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Bs'
+                text: '10 Proveedores con más saldo pendiente'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
-        },
-        series: [{
-            name: 'Saldo pendiente',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Saldo pendiente</b>'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Bs'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
+            },
+            series: [{
+                name: 'Saldo pendiente',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>

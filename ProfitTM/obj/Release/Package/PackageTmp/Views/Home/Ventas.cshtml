@@ -1,0 +1,317 @@
+﻿@{
+    ViewData["Title"] = "Ventas";
+    ViewData["home"] = Session["home"];
+}
+<style>
+    .highcharts-figure, .highcharts-data-table table {
+        min-width: 320px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .highcharts-credits {
+        display: none;
+    }
+</style>
+<header class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 header-left-side text-white">
+            <i class="fas fa-bars icon-menu" id="icon-menu"></i>
+            <a href="/Home/@ViewData["home"]">Profit Plus TM</a>
+        </div>
+        <div class="col-sm-10 header-right-side">
+            <div class="user-active" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user icon-user"></i>
+                <p class="mb-0">@ViewBag.user.Descrip</p>
+            </div>
+            <div style="width: 225px; text-align: center;" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a style="text-align: center; text-decoration: none;" href="/Account/Logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-fluid p-0">
+    <div class="dash-container" id="dash-container">
+        <div class="dash-left-side border-right p-0" id="menu-left">
+            <ul class="list-menu dropright">
+                @{
+                    foreach (var item in ViewBag.modules)
+                    {
+                        string disReport = item.ReportURL == "#" ? "disabled" : "";
+
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="@item.Icon"></i>
+                            <p class="mb-0 ml-3">@item.ModuleName</p>
+                            <i class="fas fa-caret-up"></i>
+                        </li>
+                        <div class="my-dropdown">
+                            @{
+                                foreach (var elem in item.Options)
+                                {
+                                    string disabled = elem.Enabled ? "" : "disabled";
+
+                                    <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                }
+                            }
+                            <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
+                        </div>
+                    }
+                }
+                <li class="menu-item" onclick="print(this)">
+                    <i class="fas fa-cog fa-spin"></i>
+                    <p class="mb-0 ml-3">Configuración</p>
+                    <i class="fas fa-caret-up"></i>
+                </li>
+                <div class="my-dropdown">
+                    <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
+                    <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
+                </div>
+            </ul>
+        </div>
+        <div class="dash-right-side">
+            <div class="container-fluid" style="padding: 5px 40px">
+                <br />
+                <a href="/Home/@ViewData["home"]" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar</a>
+                @{
+                    if (ViewBag.mostActiveClients.Count > 0)
+                    {
+                        <figure class="highcharts-figure">
+                            <div id="container-mac"></div>
+                        </figure>
+                    }
+                    else
+                    {
+                        <hr />
+                        <h5 class="text-center mt-5 mb-5">Clientes con más ventas (Sin datos)</h5>
+                        <hr />
+                    }
+                }
+                <hr />
+                @{
+                    if (ViewBag.mostMorousClients.Count > 0)
+                    {
+                        <figure class="highcharts-figure">
+                            <div id="container-mmc"></div>
+                        </figure>
+                    }
+                    else
+                    {
+                        <hr />
+                        <h5 class="text-center mt-5 mb-5">Clientes más saldo pendiente (Sin datos)</h5>
+                        <hr />
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var capitalize = str => str.substring(0, 1).toLocaleUpperCase() + str.substring(1).toLocaleLowerCase();
+    var btn = document.getElementById("icon-menu");
+    var menu = document.getElementById("menu-left");
+    var node = null;
+
+    btn.addEventListener("click", hide);
+
+    function print(elem) {
+
+        $(".my-dropdown").slideUp();
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            $(node).children("i.fa-caret-up").hide();
+        }
+
+        $(elem).addClass("selected");
+
+        if (node != elem) {
+
+            $(elem).next().slideDown();
+            $(elem).next().css("display", "flex");
+            $(elem).next().css("flex-direction", "column");
+            $(elem).children("i.fa-caret-up").show();
+            node = elem;
+
+        } else {
+            $(elem).removeClass("selected");
+            $(elem).children("i.fa-caret-up").hide();
+            node = null;
+        }
+    }
+
+    function hide() {
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            node = null;
+        }
+
+        menu.classList.toggle("active");
+
+        $(".my-dropdown").slideUp();
+        $("i.fa-caret-up").hide();
+    }
+
+</script>
+
+@* GRAFICA CLIENTES VENTAS *@
+<script>
+
+    var clientes = @Html.Raw(Json.Encode(@ViewBag.mostActiveClients));
+    var objects = clientes.map(function (x) {
+        return {
+            name: capitalize(x.cli_des),
+            y: parseFloat(x.campo1),
+        };
+    });
+
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
+    });
+
+    Highcharts.chart('container-mac', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: '10 Clientes con más ventas'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Monto en ventas</b>'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:,.2f} Bs'
+                }
+            }
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Monto en ventas</span>: <b>{point.y:,.2f}</b><br/>'
+        },
+        series: [{
+            name: 'Monto en ventas',
+            colorByPoint: true,
+            data: objects
+        }]
+    });
+
+</script>
+@* GRAFICA CLIENTES MOROSOS *@
+<script>
+
+    var clientes = @Html.Raw(Json.Encode(@ViewBag.mostMorousClients));
+    var objects = clientes.map(function (x) {
+        return {
+            name: capitalize(x.cli_des),
+            y: parseFloat(x.campo1),
+        };
+    });
+
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: ",",
+            thousandsSep: "."
+        }
+    });
+
+    Highcharts.chart('container-mmc', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: '10 Clientes con más saldo pendiente'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                format: '<b>{value}</b>'
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<b>Saldo pendiente</b>'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:,.2f} Bs'
+                }
+            }
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
+        },
+        series: [{
+            name: 'Saldo pendiente',
+            colorByPoint: true,
+            data: objects
+        }]
+    });
+
+</script>

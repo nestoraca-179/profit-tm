@@ -123,23 +123,26 @@
     </form>
 </div>
 <script>
+    var submitted = false;
+
     $(document).ready(function () {
         $(".card-prod").hide().fadeIn(1500);
     });
 
     $(".card-prod").click(function () {
+        if (!submitted) {
+            $(".card-prod.selected-card").removeClass("selected-card");
+            $(this).addClass("selected-card");
+            $("#prod").val(this.id);
 
-        $(".card-prod.selected-card").removeClass("selected-card");
-        $(this).addClass("selected-card");
-        $("#prod").val(this.id);
-
-        if ($("#btn-send").prop('disabled'))
-            $("#btn-send").prop('disabled', false)
-
+            if ($("#btn-send").prop('disabled'))
+                $("#btn-send").prop('disabled', false)
+        }
     });
 
     function send(elem) {
         $(elem).prop("disabled", "true");
         $("form").trigger("submit");
+        submitted = true;
     }
 </script>

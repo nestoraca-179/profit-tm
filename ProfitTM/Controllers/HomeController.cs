@@ -139,7 +139,7 @@ namespace ProfitTM.Controllers
             ViewBag.user = Session["user"];
             ViewBag.modules = Session["modules"];
 
-            Session["Prod"] = prod;
+            Session["prod"] = prod;
 
             if (ViewBag.user == null)
             {
@@ -175,29 +175,11 @@ namespace ProfitTM.Controllers
             }
         }
 
-        // Seleccion de dashboard segun el aplicativo
+        // Seleccion de sucursal
         [Authorize]
-        [HttpPost]
-        public ActionResult SelectDashboard(string connect = "")
+        public ActionResult SeleccionSucursal()
         {
             ViewBag.user = Session["user"];
-            string prod = Session["Prod"].ToString();
-
-            //Connection conn = Connection.GetConnections(prod).Find(c => c.ID == connect);
-            Connections conn = new Connections();
-            using (ProfitTMEntities db = new ProfitTMEntities())
-            {
-                conn = db.Connections.First(c => c.ID.ToString() == connect);
-            }
-
-            string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
-
-            Session["connect"] = connectionString;
-            //Session["connect"] = EntityController.GetEntity(connectionString);
-
-            //SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings[connect].ConnectionString);
-            SqlConnection connection = new SqlConnection(connectionString);
-            Session["DB"] = connection.Database;
 
             if (ViewBag.user == null)
             {
@@ -206,20 +188,73 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                switch (prod)
+                Branch braManager = new Branch();
+                ViewBag.branchs = braManager.GetAllBranchs();
+
+                return View();
+            }
+        }
+        
+        // Seleccion de dashboard segun el aplicativo
+        [Authorize]
+        [HttpPost]
+        public ActionResult SelectDashboard(string connect = "", bool connected = false)
+        {
+            ViewBag.user = Session["user"];
+            string prod = Session["prod"].ToString();
+
+            if (!connected)
+            {
+                Connections conn = new Connections();
+                using (ProfitTMEntities db = new ProfitTMEntities())
                 {
-                    case "ADM":
-                        Session["home"] = "DashboardAdmin";
-                        break;
-                    case "CON":
-                        Session["home"] = "DashboardCont";
-                        break;
-                    case "NOM":
-                        Session["home"] = "DashboardNomi";
-                        break;
+                    conn = db.Connections.First(c => c.ID.ToString() == connect);
                 }
 
-                return RedirectToAction(Session["home"].ToString());
+                string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                Session["connect"] = connectionString;
+                Session["DB"] = connection.Database;
+            }
+            else
+            {
+                Session["branch"] = connect;
+            }
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
+            }
+            else
+            {
+                bool useBranchs = false;
+
+                if (prod == "ADM")
+                    useBranchs = new Branch().UseBranchs();
+
+                if (useBranchs && Session["branch"] == null)
+                {
+                    return RedirectToAction("SeleccionSucursal");
+                }
+                else
+                {
+                    switch (prod)
+                    {
+                        case "ADM":
+                            Session["home"] = "DashboardAdmin";
+                            break;
+                        case "CON":
+                            Session["home"] = "DashboardCont";
+                            break;
+                        case "NOM":
+                            Session["home"] = "DashboardNomi";
+                            break;
+                    }
+
+                    return RedirectToAction(Session["home"].ToString());
+                }
             }
         }
 
@@ -229,7 +264,6 @@ namespace ProfitTM.Controllers
         {
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
-            ViewBag.session = Session;
 
             if (ViewBag.user == null)
             {
@@ -243,8 +277,8 @@ namespace ProfitTM.Controllers
             else
             {
                 DateTime today = DateTime.Now;
-                @ViewBag.current_month = today.Month > 10 ? today.Month.ToString() : "0" + today.Month;
-                @ViewBag.current_year = today.Year;
+                ViewBag.current_month = today.Month > 10 ? today.Month.ToString() : "0" + today.Month;
+                ViewBag.current_year = today.Year;
 
                 if (Session["modules"] == null)
                 {

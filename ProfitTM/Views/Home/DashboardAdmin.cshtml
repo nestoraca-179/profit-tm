@@ -98,7 +98,59 @@
             </ul>
         </div>
         <div class="dash-right-side">
-            <div class="container-fluid" style="padding: 5px 40px">
+            <div class="container-fluid mt-3">
+                <div class="row justify-content-between" style="margin: 0;">
+                    <div class="col-sm-3 direct shadow-tm" style="border-bottom: solid 5px #1565C0;">
+                        <h5>Total Facturas del Mes</h5>
+                        <span>27</span>
+                        <i class="fas fa-file-invoice" style="color: #1565C0;"></i>
+                    </div>
+                    <div class="col-sm-3 direct shadow-tm" style="border-bottom: solid 5px #2E7D32;">
+                        <h5>Total Ventas del Mes</h5>
+                        <span>6.547.289,67</span>
+                        <i class="fas fa-dollar-sign" style="color: #2E7D32;"></i>
+                    </div>
+                    <div class="col-sm-3 direct shadow-tm" style="border-bottom: solid 5px #EF6C00;">
+                        <h5>Total Compras del Mes</h5>
+                        <span>4.283.191,34</span>
+                        <i class="fas fa-dollar-sign" style="color: #EF6C00;"></i>
+                    </div>
+                    <div class="col-sm-3 direct shadow-tm" style="border-bottom: solid 5px #D84315;">
+                        <h5>Total Estado de Ganancia del Mes</h5>
+                        <span>2.264.098,33</span>
+                        <i class="fas fa-sort-alt" style="color: #D84315;"></i>
+                    </div>
+                </div>
+                <hr />
+                <div class="row mt-3">
+                    <div class="col-sm-8">
+                        @{
+                            if (ViewBag.mostSelledProds.Count > 0)
+                            {
+                                <div class="container-chart shadow-tm">
+                                    <figure class="highcharts-figure">
+                                        <div id="container-msp"></div>
+                                    </figure>
+                                </div>
+                            }
+                            else
+                            {
+                                <hr />
+                                <h5 class="text-center mt-5 mb-5">Artículos más vendidos (Sin datos)</h5>
+                                <hr />
+                            }
+                        }
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="container-chart shadow-tm">
+                            <figure class="highcharts-figure">
+                                <div id="container-demo"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                @*
                 <h3 class="mt-2">Accesos Directos</h3>
                 <div class="row mt-3">
                     <div class="col-sm-3 direct">
@@ -234,6 +286,7 @@
                         }
                     </div>
                 </div>
+                *@
             </div>
         </div>
     </div>
@@ -296,6 +349,52 @@
 
 </script>
 
+<script>
+    Highcharts.chart('container-demo', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Browsers'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        exporting: {
+            enabled: false,
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Share',
+            data: [
+                { name: 'Chrome', y: 61.41 },
+                { name: 'Internet Explorer', y: 11.84 },
+                { name: 'Firefox', y: 10.85 },
+                { name: 'Edge', y: 4.67 },
+                { name: 'Safari', y: 4.18 },
+                { name: 'Other', y: 7.05 }
+            ]
+        }]
+    });
+</script>
+
 @* GRAFICA ARTICULOS VENDIDOS *@
 <script>
 
@@ -307,6 +406,7 @@
         };
     });
     objects.reverse();
+    console.log(objects);
 
     Highcharts.setOptions({
         lang: {
@@ -315,50 +415,56 @@
         }
     });
 
-    Highcharts.chart('container-msp', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Artículos más vendidos'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
-            title: {
-                text: '<b>Cantidad</b>'
+    if (objects.length > 0) {
+        Highcharts.chart('container-msp', {
+            chart: {
+                type: 'column'
             },
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Unds'
+            colors: ['#0277bd', '#01579b'],
+            title: {
+                text: 'Servicios más vendidos'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds vendidas<br/>'
-        },
-        series: [{
-            name: 'Cantidad',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            exporting: {
+                enabled: false,
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b style="font-family: \'Raleway\', sans-serif;">{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b style="font-family: \'Raleway\', sans-serif;">Cantidad</b>'
+                },
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Unds'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds vendidas<br/>'
+            },
+            series: [{
+                name: 'Cantidad',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>
 @* GRAFICA ARTICULOS COMPRADOS *@
@@ -379,50 +485,52 @@
         }
     });
 
-    Highcharts.chart('container-mpp', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Artículos más comprados'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
+    if (objects.length > 0) {
+        Highcharts.chart('container-mpp', {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '<b>Cantidad</b>'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Unds'
+                text: 'Artículos más comprados'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds compradas<br/>'
-        },
-        series: [{
-            name: 'Cantidad',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Cantidad</b>'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Unds'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds compradas<br/>'
+            },
+            series: [{
+                name: 'Cantidad',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>
 @* GRAFICA CLIENTES VENTAS *@
@@ -444,50 +552,52 @@
         }
     });
 
-    Highcharts.chart('container-mac', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Clientes con más ventas'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
+    if (objects.length > 0) {
+        Highcharts.chart('container-mac', {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '<b>Monto en ventas</b>'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Bs'
+                text: 'Clientes con más ventas'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Monto en ventas</span>: <b>{point.y:,.2f}</b><br/>'
-        },
-        series: [{
-            name: 'Monto en ventas',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Monto en ventas</b>'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Bs'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Monto en ventas</span>: <b>{point.y:,.2f}</b><br/>'
+            },
+            series: [{
+                name: 'Monto en ventas',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>
 @* GRAFICA CLIENTES SALDO PENDIENTE *@
@@ -501,8 +611,6 @@
         };
     });
 
-    console.log(objects);
-
     Highcharts.setOptions({
         lang: {
             decimalPoint: ",",
@@ -510,50 +618,52 @@
         }
     });
 
-    Highcharts.chart('container-mmc', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Clientes más saldo pendiente'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
+    if (objects.length > 0) {
+        Highcharts.chart('container-mmc', {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '<b>Saldo pendiente</b>'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Bs'
+                text: 'Clientes más saldo pendiente'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
-        },
-        series: [{
-            name: 'Saldo pendiente',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Saldo pendiente</b>'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Bs'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
+            },
+            series: [{
+                name: 'Saldo pendiente',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>
 @* GRAFICA PROVEEDORES COMPRAS *@
@@ -575,50 +685,52 @@
         }
     });
 
-    Highcharts.chart('container-mas', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Proveedores con más compras'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
+    if (objects.length > 0) {
+        Highcharts.chart('container-mas', {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '<b>Monto en compras</b>'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Bs'
+                text: 'Proveedores con más compras'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Monto en compras</span>: <b>{point.y:,.2f}</b><br/>'
-        },
-        series: [{
-            name: 'Monto en compras',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Monto en compras</b>'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Bs'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Monto en compras</span>: <b>{point.y:,.2f}</b><br/>'
+            },
+            series: [{
+                name: 'Monto en compras',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>
 @* GRAFICA PROVEEDORES SALDO PENDIENTE *@
@@ -639,49 +751,51 @@
         }
     });
 
-    Highcharts.chart('container-mms', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Proveedores con más saldo pendiente'
-        },
-        accessibility: {
-            announceNewData: {
-                enabled: true
-            }
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                format: '<b>{value}</b>'
-            }
-        },
-        yAxis: {
+    if (objects.length > 0) {
+        Highcharts.chart('container-mms', {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '<b>Saldo pendiente</b>'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:,.2f} Bs'
+                text: 'Proveedores con más saldo pendiente'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
                 }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
-        },
-        series: [{
-            name: 'Saldo pendiente',
-            colorByPoint: true,
-            data: objects
-        }]
-    });
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    format: '<b>{value}</b>'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '<b>Saldo pendiente</b>'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:,.2f} Bs'
+                    }
+                }
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">Saldo pendiente</span>: <b>{point.y:,.2f}</b><br/>'
+            },
+            series: [{
+                name: 'Saldo pendiente',
+                colorByPoint: true,
+                data: objects
+            }]
+        });
+    }
 
 </script>

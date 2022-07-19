@@ -1,0 +1,91 @@
+﻿<style>
+    body > .container-fluid > main {
+        overflow-y: auto;
+    }
+    .box{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .container-title{
+        flex: 1;
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+    }
+    .container-title h1{
+        margin: 0;
+    }
+    .container-login{
+        width: 100%;
+        flex: 8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    form{
+        width: 50%;
+    }
+    form .input-main {
+        width: 320px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    form .input-main i {
+        color: #FFF;
+        font-size: 20px;
+    }
+    form .input-main .form-control {
+        max-width: 250px;
+        background: none;
+        border: 0;
+        border-bottom: solid 1px #FFF;
+        border-radius: 0;
+        color: #FFF;
+    }
+    form button{
+        width: 40%;
+    }
+    @@media (max-width: 728px){
+        form{
+            width: 100%;
+        }
+        .container-title{
+            padding: 5%;
+            justify-content: center;
+        }
+        .container-title h1{
+            text-align: center;
+        }
+    }
+</style>
+<div class="box">
+    <div class="container-title">
+        <h1 class="text-white">Profit TM</h1>
+    </div>
+    @{
+        ViewData["Title"] = "Inicio";
+
+        if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div style="width: 80%; position: absolute; top: 15%; left: 10%;" class="alert alert-warning">@ViewBag.Message</div>
+        }
+    }
+    <div class="container-login">
+        <form class="form-floating" action="/Account/Login" method="post" style="height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div class="mb-5">
+                <h2 class="text-white">Iniciar Sesión</h2>
+            </div>
+            <div class="input-main">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Usuario" />
+            </div>
+            <div class="input-main mt-3">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="pass" name="pass" class="form-control" placeholder="Clave" />
+            </div>
+            <button class="btn btn-primary mt-5">Entrar</button>
+        </form>
+    </div>
+</div>

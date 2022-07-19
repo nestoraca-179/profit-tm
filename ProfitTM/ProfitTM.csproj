@@ -352,6 +352,7 @@
     <Content Include="Views\Usuarios\Editar.cshtml" />
     <Content Include="Views\Home\AgregarConexion.cshtml" />
     <Content Include="Views\Conexiones\Index.cshtml" />
+    <Content Include="Views\Home\SeleccionSucursal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -457,6 +458,7 @@
     </Compile>
     <Compile Include="Models\Admin\Account.cs" />
     <Compile Include="Models\Admin\Bank.cs" />
+    <Compile Include="Models\Admin\Branch.cs" />
     <Compile Include="Models\Admin\Currency.cs" />
     <Compile Include="Models\Admin\Invoice.cs" />
     <Compile Include="Models\Admin\Client.cs" />
