@@ -341,9 +341,6 @@
     <Content Include="Views\Error.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Home\Inventario.cshtml" />
-    <Content Include="Views\Home\Ventas.cshtml" />
-    <Content Include="Views\Home\Compras.cshtml" />
     <Content Include="Views\Home\SeleccionProducto.cshtml" />
     <Content Include="Views\Home\SeleccionEmpresa.cshtml" />
     <Content Include="Views\Home\DashboardCont.cshtml" />
