@@ -14596,6 +14596,24 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sDir" Type="varchar" Mode="In" />
           <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
         </Function>
+        <Function Name="RepCompraxFecha" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cCo_Numero_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Numero_h" Type="char" Mode="In" />
+          <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+          <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+          <Parameter Name="cCo_Proveedor_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Proveedor_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Zona_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Zona_h" Type="char" Mode="In" />
+          <Parameter Name="cImprSubTotal" Type="char" Mode="In" />
+          <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+          <Parameter Name="cStatus" Type="char" Mode="In" />
+          <Parameter Name="cAnulado" Type="char" Mode="In" />
+          <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
+          <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+          <Parameter Name="sDir" Type="varchar" Mode="In" />
+          <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+        </Function>
         <Function Name="RepEstadoCuentaCli" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="dFecha_d" Type="smalldatetime" Mode="In" />
           <Parameter Name="dFecha_h" Type="smalldatetime" Mode="In" />
@@ -14630,12 +14648,89 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sDir" Type="varchar" Mode="In" />
           <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
         </Function>
+        <Function Name="RepFacturaVentaxFecha" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cCo_Numero_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Numero_h" Type="char" Mode="In" />
+          <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+          <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+          <Parameter Name="cCo_cliente_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_cliente_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Vendedor_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Vendedor_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Transporte_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Transporte_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Zona_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Zona_h" Type="char" Mode="In" />
+          <Parameter Name="cImprSubTotal" Type="char" Mode="In" />
+          <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+          <Parameter Name="cStatus" Type="char" Mode="In" />
+          <Parameter Name="cAnulado" Type="char" Mode="In" />
+          <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
+          <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+          <Parameter Name="sDir" Type="varchar" Mode="In" />
+          <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="RepFacturaVentaxNum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cCo_Numero_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Numero_h" Type="char" Mode="In" />
+          <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+          <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+          <Parameter Name="cCo_cliente_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_cliente_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Vendedor_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Vendedor_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Transporte_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Transporte_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Zona_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Zona_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+          <Parameter Name="cStatus" Type="char" Mode="In" />
+          <Parameter Name="cAnulado" Type="char" Mode="In" />
+          <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
+          <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+          <Parameter Name="sDir" Type="varchar" Mode="In" />
+          <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+        </Function>
         <Function Name="RepProveedorMasCompra" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sFecha_Emis_d" Type="smalldatetime" Mode="In" />
           <Parameter Name="sFecha_Emis_h" Type="smalldatetime" Mode="In" />
           <Parameter Name="sCo_Prov_d" Type="char" Mode="In" />
           <Parameter Name="sCo_Prov_h" Type="char" Mode="In" />
           <Parameter Name="iCantidad" Type="int" Mode="In" />
+          <Parameter Name="sCo_Moneda" Type="char" Mode="In" />
+          <Parameter Name="sCo_Sucursal" Type="char" Mode="In" />
+          <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+          <Parameter Name="sDir" Type="varchar" Mode="In" />
+          <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="RepTotalCompraxArticulo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sCo_fecha_d" Type="smalldatetime" Mode="In" />
+          <Parameter Name="sCo_fecha_h" Type="smalldatetime" Mode="In" />
+          <Parameter Name="sCo_Art_d" Type="char" Mode="In" />
+          <Parameter Name="sCo_Art_h" Type="char" Mode="In" />
+          <Parameter Name="sCo_Linea_d" Type="char" Mode="In" />
+          <Parameter Name="sCo_Linea_h" Type="char" Mode="In" />
+          <Parameter Name="sCo_Sub_Linea_d" Type="char" Mode="In" />
+          <Parameter Name="sCo_Sub_Linea_h" Type="char" Mode="In" />
+          <Parameter Name="sCo_Categoria_d" Type="char" Mode="In" />
+          <Parameter Name="sCo_Categoria_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+          <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
+          <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+          <Parameter Name="sDir" Type="varchar" Mode="In" />
+          <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="RepTotalVentaxArticulo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+          <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+          <Parameter Name="sCo_Art_d" Type="char" Mode="In" />
+          <Parameter Name="sCo_Art_h" Type="char" Mode="In" />
+          <Parameter Name="sCo_Linea_d" Type="char" Mode="In" />
+          <Parameter Name="sCo_Linea_h" Type="char" Mode="In" />
+          <Parameter Name="sCo_Sub_Linea_d" Type="char" Mode="In" />
+          <Parameter Name="sCo_Sub_Linea_h" Type="char" Mode="In" />
+          <Parameter Name="sCo_Categoria_d" Type="char" Mode="In" />
+          <Parameter Name="sCo_Categoria_h" Type="char" Mode="In" />
           <Parameter Name="sCo_Moneda" Type="char" Mode="In" />
           <Parameter Name="sCo_Sucursal" Type="char" Mode="In" />
           <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
@@ -34350,6 +34445,101 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <Parameter Name="sEmail_alterno" Mode="In" Type="String" />
             <Parameter Name="bSujeto_Obj_RetenISLR_Auto" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="RepTotalVentaxArticulo" ReturnType="Collection(ProfitAdmContext.RepTotalVentaxArticulo_Result)">
+            <Parameter Name="dCo_fecha_d" Mode="In" Type="DateTime" />
+            <Parameter Name="dCo_fecha_h" Mode="In" Type="DateTime" />
+            <Parameter Name="sCo_Art_d" Mode="In" Type="String" />
+            <Parameter Name="sCo_Art_h" Mode="In" Type="String" />
+            <Parameter Name="sCo_Linea_d" Mode="In" Type="String" />
+            <Parameter Name="sCo_Linea_h" Mode="In" Type="String" />
+            <Parameter Name="sCo_Sub_Linea_d" Mode="In" Type="String" />
+            <Parameter Name="sCo_Sub_Linea_h" Mode="In" Type="String" />
+            <Parameter Name="sCo_Categoria_d" Mode="In" Type="String" />
+            <Parameter Name="sCo_Categoria_h" Mode="In" Type="String" />
+            <Parameter Name="sCo_Moneda" Mode="In" Type="String" />
+            <Parameter Name="sCo_Sucursal" Mode="In" Type="String" />
+            <Parameter Name="sCampOrderBy" Mode="In" Type="String" />
+            <Parameter Name="sDir" Mode="In" Type="String" />
+            <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="RepTotalCompraxArticulo" ReturnType="Collection(ProfitAdmContext.RepTotalCompraxArticulo_Result)">
+            <Parameter Name="sCo_fecha_d" Mode="In" Type="DateTime" />
+            <Parameter Name="sCo_fecha_h" Mode="In" Type="DateTime" />
+            <Parameter Name="sCo_Art_d" Mode="In" Type="String" />
+            <Parameter Name="sCo_Art_h" Mode="In" Type="String" />
+            <Parameter Name="sCo_Linea_d" Mode="In" Type="String" />
+            <Parameter Name="sCo_Linea_h" Mode="In" Type="String" />
+            <Parameter Name="sCo_Sub_Linea_d" Mode="In" Type="String" />
+            <Parameter Name="sCo_Sub_Linea_h" Mode="In" Type="String" />
+            <Parameter Name="sCo_Categoria_d" Mode="In" Type="String" />
+            <Parameter Name="sCo_Categoria_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Moneda" Mode="In" Type="String" />
+            <Parameter Name="cCo_Sucursal" Mode="In" Type="String" />
+            <Parameter Name="sCampOrderBy" Mode="In" Type="String" />
+            <Parameter Name="sDir" Mode="In" Type="String" />
+            <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="RepFacturaVentaxNum" ReturnType="Collection(ProfitAdmContext.RepFacturaVentaxNum_Result)">
+            <Parameter Name="cCo_Numero_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Numero_h" Mode="In" Type="String" />
+            <Parameter Name="dCo_fecha_d" Mode="In" Type="DateTime" />
+            <Parameter Name="dCo_fecha_h" Mode="In" Type="DateTime" />
+            <Parameter Name="cCo_cliente_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_cliente_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Vendedor_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Vendedor_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Transporte_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Transporte_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Zona_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Zona_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Moneda" Mode="In" Type="String" />
+            <Parameter Name="cStatus" Mode="In" Type="String" />
+            <Parameter Name="cAnulado" Mode="In" Type="String" />
+            <Parameter Name="cCo_Sucursal" Mode="In" Type="String" />
+            <Parameter Name="sCampOrderBy" Mode="In" Type="String" />
+            <Parameter Name="sDir" Mode="In" Type="String" />
+            <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="RepFacturaVentaxFecha" ReturnType="Collection(ProfitAdmContext.RepFacturaVentaxFecha_Result)">
+            <Parameter Name="cCo_Numero_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Numero_h" Mode="In" Type="String" />
+            <Parameter Name="dCo_fecha_d" Mode="In" Type="DateTime" />
+            <Parameter Name="dCo_fecha_h" Mode="In" Type="DateTime" />
+            <Parameter Name="cCo_cliente_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_cliente_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Vendedor_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Vendedor_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Transporte_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Transporte_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Zona_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Zona_h" Mode="In" Type="String" />
+            <Parameter Name="cImprSubTotal" Mode="In" Type="String" />
+            <Parameter Name="cCo_Moneda" Mode="In" Type="String" />
+            <Parameter Name="cStatus" Mode="In" Type="String" />
+            <Parameter Name="cAnulado" Mode="In" Type="String" />
+            <Parameter Name="cCo_Sucursal" Mode="In" Type="String" />
+            <Parameter Name="sCampOrderBy" Mode="In" Type="String" />
+            <Parameter Name="sDir" Mode="In" Type="String" />
+            <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="RepCompraxFecha" ReturnType="Collection(ProfitAdmContext.RepCompraxFecha_Result)">
+            <Parameter Name="cCo_Numero_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Numero_h" Mode="In" Type="String" />
+            <Parameter Name="dCo_fecha_d" Mode="In" Type="DateTime" />
+            <Parameter Name="dCo_fecha_h" Mode="In" Type="DateTime" />
+            <Parameter Name="cCo_Proveedor_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Proveedor_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Zona_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Zona_h" Mode="In" Type="String" />
+            <Parameter Name="cImprSubTotal" Mode="In" Type="String" />
+            <Parameter Name="cCo_Moneda" Mode="In" Type="String" />
+            <Parameter Name="cStatus" Mode="In" Type="String" />
+            <Parameter Name="cAnulado" Mode="In" Type="String" />
+            <Parameter Name="cCo_Sucursal" Mode="In" Type="String" />
+            <Parameter Name="sCampOrderBy" Mode="In" Type="String" />
+            <Parameter Name="sDir" Mode="In" Type="String" />
+            <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="RepEstadoCuentaCli_Result">
           <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -34440,6 +34630,237 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
           <Property Type="Guid" Name="rowguid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="RepTotalVentaxArticulo_Result">
+          <Property Type="String" Name="co_art" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="art_des" Nullable="false" MaxLength="120" />
+          <Property Type="String" Name="co_uni" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="des_uni" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="doc_num" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="total_art" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="otros" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="iva" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+          <Property Type="Decimal" Name="monto_base" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="total_dev" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="monto_base_dev" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="otros_dev" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="iva_dev" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="String" Name="Campo1" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Campo2" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Campo3" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Campo4" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Campo5" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Campo6" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Campo7" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Campo8" Nullable="true" MaxLength="60" />
+        </ComplexType>
+        <ComplexType Name="RepTotalCompraxArticulo_Result">
+          <Property Type="String" Name="co_art" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="art_des" Nullable="false" MaxLength="120" />
+          <Property Type="String" Name="co_uni" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="des_uni" Nullable="true" MaxLength="60" />
+          <Property Type="Decimal" Name="total_art" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="total_dev" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="String" Name="doc_num" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="otros" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="iva" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+          <Property Type="Decimal" Name="monto_base" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="monto_base_dev" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="otros_dev" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="iva_dev" Nullable="true" Precision="38" Scale="5" />
+        </ComplexType>
+        <ComplexType Name="RepFacturaVentaxNum_Result">
+          <Property Type="String" Name="Filtro_anulado" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="tipo_rep" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="tip_cli" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="cli_des" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="co_zon" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="doc_num" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="descrip" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="co_cli" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="co_tran" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_mone" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_ven" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_cond" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="fec_venc" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="fec_reg" Nullable="false" Precision="16" />
+          <Property Type="Boolean" Name="anulado" Nullable="false" />
+          <Property Type="String" Name="status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="n_control" Nullable="true" MaxLength="20" />
+          <Property Type="Boolean" Name="ven_ter" Nullable="false" />
+          <Property Type="Decimal" Name="tasa" Nullable="false" Precision="21" Scale="8" />
+          <Property Type="String" Name="porc_desc_glob" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="monto_desc_glob" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="porc_reca" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="monto_reca" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_bruto" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp2" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp3" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros1" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros2" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros3" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_neto" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_neto1" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="saldo" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="dir_ent" Nullable="true" />
+          <Property Type="String" Name="comentario" Nullable="true" />
+          <Property Type="String" Name="dis_cen" Nullable="true" MaxLength="Max" />
+          <Property Type="DateTime" Name="feccom" Nullable="true" Precision="16" />
+          <Property Type="Int32" Name="numcom" Nullable="true" />
+          <Property Type="Boolean" Name="contrib" Nullable="false" />
+          <Property Type="Boolean" Name="impresa" Nullable="false" />
+          <Property Type="Int32" Name="seriales_s" Nullable="true" />
+          <Property Type="String" Name="salestax" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="impfis" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="impfisfac" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="campo1" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo2" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo3" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo4" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo5" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo6" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo7" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo8" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="co_us_in" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_sucu_in" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fe_us_in" Nullable="false" Precision="23" />
+          <Property Type="String" Name="co_us_mo" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_sucu_mo" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="false" Precision="23" />
+          <Property Type="String" Name="revisado" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="trasnfe" Nullable="true" MaxLength="1" />
+          <Property Type="Binary" Name="validador" Nullable="false" MaxLength="8" />
+          <Property Type="Guid" Name="rowguid" Nullable="false" />
+          <Property Type="Decimal" Name="monto_base" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="RepFacturaVentaxFecha_Result">
+          <Property Type="String" Name="Filtro_anulado" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="SubTotales" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="tipo_rep" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="tip_cli" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="cli_des" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="co_zon" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_seg" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="doc_num" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="descrip" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="co_cli" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="co_tran" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_mone" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_ven" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_cond" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="fec_venc" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="fec_reg" Nullable="false" Precision="16" />
+          <Property Type="Boolean" Name="anulado" Nullable="false" />
+          <Property Type="String" Name="status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="n_control" Nullable="true" MaxLength="20" />
+          <Property Type="Boolean" Name="ven_ter" Nullable="false" />
+          <Property Type="Decimal" Name="tasa" Nullable="false" Precision="21" Scale="8" />
+          <Property Type="String" Name="porc_desc_glob" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="monto_desc_glob" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="porc_reca" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="monto_reca" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_bruto" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp2" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp3" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros1" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros2" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros3" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_neto" Nullable="true" Precision="38" Scale="14" />
+          <Property Type="Decimal" Name="saldo" Nullable="true" Precision="38" Scale="14" />
+          <Property Type="String" Name="dir_ent" Nullable="true" />
+          <Property Type="String" Name="comentario" Nullable="true" />
+          <Property Type="String" Name="dis_cen" Nullable="true" MaxLength="Max" />
+          <Property Type="DateTime" Name="feccom" Nullable="true" Precision="16" />
+          <Property Type="Int32" Name="numcom" Nullable="true" />
+          <Property Type="Boolean" Name="contrib" Nullable="false" />
+          <Property Type="Boolean" Name="impresa" Nullable="false" />
+          <Property Type="Int32" Name="seriales_s" Nullable="true" />
+          <Property Type="String" Name="salestax" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="impfis" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="impfisfac" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="campo1" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo2" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo3" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo4" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo5" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo6" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo7" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo8" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="co_us_in" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_sucu_in" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fe_us_in" Nullable="false" Precision="23" />
+          <Property Type="String" Name="co_us_mo" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_sucu_mo" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="false" Precision="23" />
+          <Property Type="String" Name="revisado" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="trasnfe" Nullable="true" MaxLength="1" />
+          <Property Type="Binary" Name="validador" Nullable="false" MaxLength="8" />
+          <Property Type="Guid" Name="rowguid" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="RepCompraxFecha_Result">
+          <Property Type="String" Name="Filtro_anulado" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="SubTotales" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="tip_rep" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="tip_pro" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="prov_des" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="co_zon" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_seg" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="doc_num" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="descrip" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="co_prov" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="co_mone" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_cond" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="fec_venc" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="fec_reg" Nullable="false" Precision="16" />
+          <Property Type="Boolean" Name="anulado" Nullable="false" />
+          <Property Type="String" Name="status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="n_control" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="tasa" Nullable="false" Precision="21" Scale="8" />
+          <Property Type="String" Name="porc_desc_glob" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="monto_desc_glob" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="porc_reca" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="monto_reca" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_bruto" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp2" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp3" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros1" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros2" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros3" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_neto" Nullable="true" Precision="38" Scale="14" />
+          <Property Type="Decimal" Name="saldo" Nullable="true" Precision="38" Scale="14" />
+          <Property Type="String" Name="dir_ent" Nullable="true" />
+          <Property Type="String" Name="comentario" Nullable="true" />
+          <Property Type="String" Name="dis_cen" Nullable="true" MaxLength="Max" />
+          <Property Type="DateTime" Name="feccom" Nullable="true" Precision="16" />
+          <Property Type="Int32" Name="numcom" Nullable="true" />
+          <Property Type="Boolean" Name="impresa" Nullable="false" />
+          <Property Type="String" Name="salestax" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="campo1" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo2" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo3" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo4" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo5" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo6" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo7" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo8" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="co_us_in" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_sucu_in" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fe_us_in" Nullable="false" Precision="23" />
+          <Property Type="String" Name="co_us_mo" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_sucu_mo" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="false" Precision="23" />
+          <Property Type="String" Name="revisado" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="trasnfe" Nullable="true" MaxLength="1" />
+          <Property Type="Binary" Name="validador" Nullable="false" MaxLength="8" />
+          <Property Type="Guid" Name="rowguid" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -43021,6 +43442,257 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
                 <ScalarProperty Name="validador" ColumnName="validador" />
                 <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
                 <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RepTotalVentaxArticulo" FunctionName="ProfitAdmContext.Store.RepTotalVentaxArticulo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.RepTotalVentaxArticulo_Result">
+                <ScalarProperty Name="co_art" ColumnName="co_art" />
+                <ScalarProperty Name="art_des" ColumnName="art_des" />
+                <ScalarProperty Name="co_uni" ColumnName="co_uni" />
+                <ScalarProperty Name="des_uni" ColumnName="des_uni" />
+                <ScalarProperty Name="doc_num" ColumnName="doc_num" />
+                <ScalarProperty Name="total_art" ColumnName="total_art" />
+                <ScalarProperty Name="otros" ColumnName="otros" />
+                <ScalarProperty Name="iva" ColumnName="iva" />
+                <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+                <ScalarProperty Name="monto_base" ColumnName="monto_base" />
+                <ScalarProperty Name="total_dev" ColumnName="total_dev" />
+                <ScalarProperty Name="monto_base_dev" ColumnName="monto_base_dev" />
+                <ScalarProperty Name="otros_dev" ColumnName="otros_dev" />
+                <ScalarProperty Name="iva_dev" ColumnName="iva_dev" />
+                <ScalarProperty Name="Campo1" ColumnName="Campo1" />
+                <ScalarProperty Name="Campo2" ColumnName="Campo2" />
+                <ScalarProperty Name="Campo3" ColumnName="Campo3" />
+                <ScalarProperty Name="Campo4" ColumnName="Campo4" />
+                <ScalarProperty Name="Campo5" ColumnName="Campo5" />
+                <ScalarProperty Name="Campo6" ColumnName="Campo6" />
+                <ScalarProperty Name="Campo7" ColumnName="Campo7" />
+                <ScalarProperty Name="Campo8" ColumnName="Campo8" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RepTotalCompraxArticulo" FunctionName="ProfitAdmContext.Store.RepTotalCompraxArticulo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.RepTotalCompraxArticulo_Result">
+                <ScalarProperty Name="co_art" ColumnName="co_art" />
+                <ScalarProperty Name="art_des" ColumnName="art_des" />
+                <ScalarProperty Name="co_uni" ColumnName="co_uni" />
+                <ScalarProperty Name="des_uni" ColumnName="des_uni" />
+                <ScalarProperty Name="total_art" ColumnName="total_art" />
+                <ScalarProperty Name="total_dev" ColumnName="total_dev" />
+                <ScalarProperty Name="doc_num" ColumnName="doc_num" />
+                <ScalarProperty Name="otros" ColumnName="otros" />
+                <ScalarProperty Name="iva" ColumnName="iva" />
+                <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+                <ScalarProperty Name="monto_base" ColumnName="monto_base" />
+                <ScalarProperty Name="monto_base_dev" ColumnName="monto_base_dev" />
+                <ScalarProperty Name="otros_dev" ColumnName="otros_dev" />
+                <ScalarProperty Name="iva_dev" ColumnName="iva_dev" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RepFacturaVentaxNum" FunctionName="ProfitAdmContext.Store.RepFacturaVentaxNum">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.RepFacturaVentaxNum_Result">
+                <ScalarProperty Name="Filtro_anulado" ColumnName="Filtro_anulado" />
+                <ScalarProperty Name="tipo_rep" ColumnName="tipo_rep" />
+                <ScalarProperty Name="tip_cli" ColumnName="tip_cli" />
+                <ScalarProperty Name="cli_des" ColumnName="cli_des" />
+                <ScalarProperty Name="co_zon" ColumnName="co_zon" />
+                <ScalarProperty Name="doc_num" ColumnName="doc_num" />
+                <ScalarProperty Name="descrip" ColumnName="descrip" />
+                <ScalarProperty Name="co_cli" ColumnName="co_cli" />
+                <ScalarProperty Name="co_tran" ColumnName="co_tran" />
+                <ScalarProperty Name="co_mone" ColumnName="co_mone" />
+                <ScalarProperty Name="co_ven" ColumnName="co_ven" />
+                <ScalarProperty Name="co_cond" ColumnName="co_cond" />
+                <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+                <ScalarProperty Name="fec_venc" ColumnName="fec_venc" />
+                <ScalarProperty Name="fec_reg" ColumnName="fec_reg" />
+                <ScalarProperty Name="anulado" ColumnName="anulado" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="n_control" ColumnName="n_control" />
+                <ScalarProperty Name="ven_ter" ColumnName="ven_ter" />
+                <ScalarProperty Name="tasa" ColumnName="tasa" />
+                <ScalarProperty Name="porc_desc_glob" ColumnName="porc_desc_glob" />
+                <ScalarProperty Name="monto_desc_glob" ColumnName="monto_desc_glob" />
+                <ScalarProperty Name="porc_reca" ColumnName="porc_reca" />
+                <ScalarProperty Name="monto_reca" ColumnName="monto_reca" />
+                <ScalarProperty Name="total_bruto" ColumnName="total_bruto" />
+                <ScalarProperty Name="monto_imp" ColumnName="monto_imp" />
+                <ScalarProperty Name="monto_imp2" ColumnName="monto_imp2" />
+                <ScalarProperty Name="monto_imp3" ColumnName="monto_imp3" />
+                <ScalarProperty Name="otros1" ColumnName="otros1" />
+                <ScalarProperty Name="otros2" ColumnName="otros2" />
+                <ScalarProperty Name="otros3" ColumnName="otros3" />
+                <ScalarProperty Name="total_neto" ColumnName="total_neto" />
+                <ScalarProperty Name="total_neto1" ColumnName="total_neto1" />
+                <ScalarProperty Name="saldo" ColumnName="saldo" />
+                <ScalarProperty Name="dir_ent" ColumnName="dir_ent" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+                <ScalarProperty Name="dis_cen" ColumnName="dis_cen" />
+                <ScalarProperty Name="feccom" ColumnName="feccom" />
+                <ScalarProperty Name="numcom" ColumnName="numcom" />
+                <ScalarProperty Name="contrib" ColumnName="contrib" />
+                <ScalarProperty Name="impresa" ColumnName="impresa" />
+                <ScalarProperty Name="seriales_s" ColumnName="seriales_s" />
+                <ScalarProperty Name="salestax" ColumnName="salestax" />
+                <ScalarProperty Name="impfis" ColumnName="impfis" />
+                <ScalarProperty Name="impfisfac" ColumnName="impfisfac" />
+                <ScalarProperty Name="campo1" ColumnName="campo1" />
+                <ScalarProperty Name="campo2" ColumnName="campo2" />
+                <ScalarProperty Name="campo3" ColumnName="campo3" />
+                <ScalarProperty Name="campo4" ColumnName="campo4" />
+                <ScalarProperty Name="campo5" ColumnName="campo5" />
+                <ScalarProperty Name="campo6" ColumnName="campo6" />
+                <ScalarProperty Name="campo7" ColumnName="campo7" />
+                <ScalarProperty Name="campo8" ColumnName="campo8" />
+                <ScalarProperty Name="co_us_in" ColumnName="co_us_in" />
+                <ScalarProperty Name="co_sucu_in" ColumnName="co_sucu_in" />
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="co_us_mo" ColumnName="co_us_mo" />
+                <ScalarProperty Name="co_sucu_mo" ColumnName="co_sucu_mo" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="revisado" ColumnName="revisado" />
+                <ScalarProperty Name="trasnfe" ColumnName="trasnfe" />
+                <ScalarProperty Name="validador" ColumnName="validador" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="monto_base" ColumnName="monto_base" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RepFacturaVentaxFecha" FunctionName="ProfitAdmContext.Store.RepFacturaVentaxFecha">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.RepFacturaVentaxFecha_Result">
+                <ScalarProperty Name="Filtro_anulado" ColumnName="Filtro_anulado" />
+                <ScalarProperty Name="SubTotales" ColumnName="SubTotales" />
+                <ScalarProperty Name="tipo_rep" ColumnName="tipo_rep" />
+                <ScalarProperty Name="tip_cli" ColumnName="tip_cli" />
+                <ScalarProperty Name="cli_des" ColumnName="cli_des" />
+                <ScalarProperty Name="co_zon" ColumnName="co_zon" />
+                <ScalarProperty Name="co_seg" ColumnName="co_seg" />
+                <ScalarProperty Name="doc_num" ColumnName="doc_num" />
+                <ScalarProperty Name="descrip" ColumnName="descrip" />
+                <ScalarProperty Name="co_cli" ColumnName="co_cli" />
+                <ScalarProperty Name="co_tran" ColumnName="co_tran" />
+                <ScalarProperty Name="co_mone" ColumnName="co_mone" />
+                <ScalarProperty Name="co_ven" ColumnName="co_ven" />
+                <ScalarProperty Name="co_cond" ColumnName="co_cond" />
+                <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+                <ScalarProperty Name="fec_venc" ColumnName="fec_venc" />
+                <ScalarProperty Name="fec_reg" ColumnName="fec_reg" />
+                <ScalarProperty Name="anulado" ColumnName="anulado" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="n_control" ColumnName="n_control" />
+                <ScalarProperty Name="ven_ter" ColumnName="ven_ter" />
+                <ScalarProperty Name="tasa" ColumnName="tasa" />
+                <ScalarProperty Name="porc_desc_glob" ColumnName="porc_desc_glob" />
+                <ScalarProperty Name="monto_desc_glob" ColumnName="monto_desc_glob" />
+                <ScalarProperty Name="porc_reca" ColumnName="porc_reca" />
+                <ScalarProperty Name="monto_reca" ColumnName="monto_reca" />
+                <ScalarProperty Name="total_bruto" ColumnName="total_bruto" />
+                <ScalarProperty Name="monto_imp" ColumnName="monto_imp" />
+                <ScalarProperty Name="monto_imp2" ColumnName="monto_imp2" />
+                <ScalarProperty Name="monto_imp3" ColumnName="monto_imp3" />
+                <ScalarProperty Name="otros1" ColumnName="otros1" />
+                <ScalarProperty Name="otros2" ColumnName="otros2" />
+                <ScalarProperty Name="otros3" ColumnName="otros3" />
+                <ScalarProperty Name="total_neto" ColumnName="total_neto" />
+                <ScalarProperty Name="saldo" ColumnName="saldo" />
+                <ScalarProperty Name="dir_ent" ColumnName="dir_ent" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+                <ScalarProperty Name="dis_cen" ColumnName="dis_cen" />
+                <ScalarProperty Name="feccom" ColumnName="feccom" />
+                <ScalarProperty Name="numcom" ColumnName="numcom" />
+                <ScalarProperty Name="contrib" ColumnName="contrib" />
+                <ScalarProperty Name="impresa" ColumnName="impresa" />
+                <ScalarProperty Name="seriales_s" ColumnName="seriales_s" />
+                <ScalarProperty Name="salestax" ColumnName="salestax" />
+                <ScalarProperty Name="impfis" ColumnName="impfis" />
+                <ScalarProperty Name="impfisfac" ColumnName="impfisfac" />
+                <ScalarProperty Name="campo1" ColumnName="campo1" />
+                <ScalarProperty Name="campo2" ColumnName="campo2" />
+                <ScalarProperty Name="campo3" ColumnName="campo3" />
+                <ScalarProperty Name="campo4" ColumnName="campo4" />
+                <ScalarProperty Name="campo5" ColumnName="campo5" />
+                <ScalarProperty Name="campo6" ColumnName="campo6" />
+                <ScalarProperty Name="campo7" ColumnName="campo7" />
+                <ScalarProperty Name="campo8" ColumnName="campo8" />
+                <ScalarProperty Name="co_us_in" ColumnName="co_us_in" />
+                <ScalarProperty Name="co_sucu_in" ColumnName="co_sucu_in" />
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="co_us_mo" ColumnName="co_us_mo" />
+                <ScalarProperty Name="co_sucu_mo" ColumnName="co_sucu_mo" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="revisado" ColumnName="revisado" />
+                <ScalarProperty Name="trasnfe" ColumnName="trasnfe" />
+                <ScalarProperty Name="validador" ColumnName="validador" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RepCompraxFecha" FunctionName="ProfitAdmContext.Store.RepCompraxFecha">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.RepCompraxFecha_Result">
+                <ScalarProperty Name="Filtro_anulado" ColumnName="Filtro_anulado" />
+                <ScalarProperty Name="SubTotales" ColumnName="SubTotales" />
+                <ScalarProperty Name="tip_rep" ColumnName="tip_rep" />
+                <ScalarProperty Name="tip_pro" ColumnName="tip_pro" />
+                <ScalarProperty Name="prov_des" ColumnName="prov_des" />
+                <ScalarProperty Name="co_zon" ColumnName="co_zon" />
+                <ScalarProperty Name="co_seg" ColumnName="co_seg" />
+                <ScalarProperty Name="doc_num" ColumnName="doc_num" />
+                <ScalarProperty Name="descrip" ColumnName="descrip" />
+                <ScalarProperty Name="co_prov" ColumnName="co_prov" />
+                <ScalarProperty Name="co_mone" ColumnName="co_mone" />
+                <ScalarProperty Name="co_cond" ColumnName="co_cond" />
+                <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+                <ScalarProperty Name="fec_venc" ColumnName="fec_venc" />
+                <ScalarProperty Name="fec_reg" ColumnName="fec_reg" />
+                <ScalarProperty Name="anulado" ColumnName="anulado" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="n_control" ColumnName="n_control" />
+                <ScalarProperty Name="tasa" ColumnName="tasa" />
+                <ScalarProperty Name="porc_desc_glob" ColumnName="porc_desc_glob" />
+                <ScalarProperty Name="monto_desc_glob" ColumnName="monto_desc_glob" />
+                <ScalarProperty Name="porc_reca" ColumnName="porc_reca" />
+                <ScalarProperty Name="monto_reca" ColumnName="monto_reca" />
+                <ScalarProperty Name="total_bruto" ColumnName="total_bruto" />
+                <ScalarProperty Name="monto_imp" ColumnName="monto_imp" />
+                <ScalarProperty Name="monto_imp2" ColumnName="monto_imp2" />
+                <ScalarProperty Name="monto_imp3" ColumnName="monto_imp3" />
+                <ScalarProperty Name="otros1" ColumnName="otros1" />
+                <ScalarProperty Name="otros2" ColumnName="otros2" />
+                <ScalarProperty Name="otros3" ColumnName="otros3" />
+                <ScalarProperty Name="total_neto" ColumnName="total_neto" />
+                <ScalarProperty Name="saldo" ColumnName="saldo" />
+                <ScalarProperty Name="dir_ent" ColumnName="dir_ent" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+                <ScalarProperty Name="dis_cen" ColumnName="dis_cen" />
+                <ScalarProperty Name="feccom" ColumnName="feccom" />
+                <ScalarProperty Name="numcom" ColumnName="numcom" />
+                <ScalarProperty Name="impresa" ColumnName="impresa" />
+                <ScalarProperty Name="salestax" ColumnName="salestax" />
+                <ScalarProperty Name="campo1" ColumnName="campo1" />
+                <ScalarProperty Name="campo2" ColumnName="campo2" />
+                <ScalarProperty Name="campo3" ColumnName="campo3" />
+                <ScalarProperty Name="campo4" ColumnName="campo4" />
+                <ScalarProperty Name="campo5" ColumnName="campo5" />
+                <ScalarProperty Name="campo6" ColumnName="campo6" />
+                <ScalarProperty Name="campo7" ColumnName="campo7" />
+                <ScalarProperty Name="campo8" ColumnName="campo8" />
+                <ScalarProperty Name="co_us_in" ColumnName="co_us_in" />
+                <ScalarProperty Name="co_sucu_in" ColumnName="co_sucu_in" />
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="co_us_mo" ColumnName="co_us_mo" />
+                <ScalarProperty Name="co_sucu_mo" ColumnName="co_sucu_mo" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="revisado" ColumnName="revisado" />
+                <ScalarProperty Name="trasnfe" ColumnName="trasnfe" />
+                <ScalarProperty Name="validador" ColumnName="validador" />
                 <ScalarProperty Name="rowguid" ColumnName="rowguid" />
               </ComplexTypeMapping>
             </ResultMapping>

@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
+using System.Collections.Generic;
 
 namespace ProfitTM.Models
 {
@@ -232,40 +233,26 @@ namespace ProfitTM.Models
             return clients;
         }
 
-        public ProfitTMResponse GetMostActiveClients(int number)
+        public List<saCliente> GetMostActiveClients(DateTime fec_d, DateTime fec_h, int number)
         {
-            ProfitTMResponse response = new ProfitTMResponse();
             List<saCliente> clientes = new List<saCliente>();
 
-            try
+            var sp = db.RepClienteMasVenta(fec_d, fec_h, null, null, null, null, null, null, null, number, null, null, null, null);
+            var enumerator = sp.GetEnumerator();
+
+            while (enumerator.MoveNext())
             {
-                DateTime fec_h = DateTime.Now;
-                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+                saCliente cliente = new saCliente();
 
-                var sp = db.RepClienteMasVenta(fec_d, fec_h, null, null, null, null, null, null, null, number, null, null, null, null);
-                var enumerator = sp.GetEnumerator();
+                cliente.co_cli = enumerator.Current.co_cli.Trim();
+                cliente.cli_des = enumerator.Current.cli_des.Trim();
+                cliente.campo1 = Convert.ToDouble(enumerator.Current.Venta).ToString("N2", CultureInfo.GetCultureInfo("es-ES"));
+                cliente.campo2 = Math.Round(Convert.ToDouble((enumerator.Current.Venta * 100) / enumerator.Current.Venta_total), 2).ToString("N2", CultureInfo.GetCultureInfo("es-ES"));
 
-                while (enumerator.MoveNext())
-                {
-                    saCliente cliente = new saCliente();
-
-                    cliente.co_cli = enumerator.Current.co_cli;
-                    cliente.cli_des = enumerator.Current.co_cli + " - " + enumerator.Current.cli_des;
-                    cliente.campo1 = enumerator.Current.Venta.ToString();
-
-                    clientes.Add(cliente);
-                }
-
-                response.Status = "OK";
-                response.Result = clientes;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = "MAC - " + ex.Message;
+                clientes.Add(cliente);
             }
 
-            return response;
+            return clientes;
         }
 
         public ProfitTMResponse GetMostMorousClients(int number)

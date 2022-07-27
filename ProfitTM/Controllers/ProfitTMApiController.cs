@@ -1,8 +1,8 @@
-﻿using ProfitTM.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
+using ProfitTM.Models;
 
 namespace ProfitTM.Controllers
 {
@@ -10,6 +10,9 @@ namespace ProfitTM.Controllers
     {
         // CADENA DE CONEXION
         private readonly string connect = HttpContext.Current.Session["connect"].ToString();
+
+        // UTILS
+        private readonly UtilsController utils = new UtilsController();
 
         // CONTROLADORES DEL API
 
@@ -37,7 +40,7 @@ namespace ProfitTM.Controllers
         }
 
         // USUARIO
-        
+
         [HttpPost]
         [Route("api/ProfitTMApi/AddUser/")]
         public ProfitTMResponse AddUser(Users user)
@@ -240,34 +243,131 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // FACTURA
+        // ESTADISTICAS DASHBOARD ADMIN
 
-        /*[HttpPost]
-        [Route("api/ProfitTMApi/AddInvoice/{order}/")]
-        public ProfitTMResponse AddInvoice(string order, Invoice invoice)
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetStatsInvoices/{fec_d}/{fec_h}")]
+        public ProfitTMResponse GetStatsInvoices(string fec_d, string fec_h)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
-            InvoiceManager invoiceManager = new InvoiceManager(connect);
-
-            if (invoice.Type == "V")
+            try
             {
-                response = invoiceManager.addSaleInvoice(invoice, order);
+                DateTime fecha_d = utils.FormatDate(fec_d);
+                DateTime fecha_h = utils.FormatDate(fec_h);
+
+                object stats = new Invoice().GetStatsInvoices(fecha_d, fecha_h);
+
+                response.Status = "OK";
+                response.Result = stats;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
             }
 
             return response;
         }
 
-        [HttpPost]
-        [Route("api/ProfitTMApi/EditInvoice/")]
-        public ProfitTMResponse EditInvoice(Invoice invoice)
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetMostSaleProducts/{fec_d}/{fec_h}/{number}")]
+        public ProfitTMResponse GetMostSaleProducts(string fec_d, string fec_h, int number)
         {
-            ProfitTMResponse response;
+            ProfitTMResponse response = new ProfitTMResponse();
 
-            InvoiceManager invoiceManager = new InvoiceManager(connect);
-            response = invoiceManager.editInvoice(invoice);
+            try
+            {
+                DateTime fecha_d = utils.FormatDate(fec_d);
+                DateTime fecha_h = utils.FormatDate(fec_h);
+
+                List<saArticulo> arts = new Product().GetMostProducts(fecha_d, fecha_h, number, true);
+
+                response.Status = "OK";
+                response.Result = arts;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
 
             return response;
-        }*/
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetMostPurchaseProducts/{fec_d}/{fec_h}/{number}")]
+        public ProfitTMResponse GetMostPurchaseProducts(string fec_d, string fec_h, int number)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                DateTime fecha_d = utils.FormatDate(fec_d);
+                DateTime fecha_h = utils.FormatDate(fec_h);
+
+                List<saArticulo> arts = new Product().GetMostProducts(fecha_d, fecha_h, number, false);
+
+                response.Status = "OK";
+                response.Result = arts;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetMostActiveClients/{fec_d}/{fec_h}/{number}")]
+        public ProfitTMResponse GetMostActiveClients(string fec_d, string fec_h, int number)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                DateTime fecha_d = utils.FormatDate(fec_d);
+                DateTime fecha_h = utils.FormatDate(fec_h);
+
+                List<saCliente> clients = new Client().GetMostActiveClients(fecha_d, fecha_h, number);
+
+                response.Status = "OK";
+                response.Result = clients;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetMostActiveSuppliers/{fec_d}/{fec_h}/{number}")]
+        public ProfitTMResponse GetMostActiveSuppliers(string fec_d, string fec_h, int number)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                DateTime fecha_d = utils.FormatDate(fec_d);
+                DateTime fecha_h = utils.FormatDate(fec_h);
+
+                List<saProveedor> suppliers = new Supplier().GetMostActiveSuppliers(fecha_d, fecha_h, number);
+
+                response.Status = "OK";
+                response.Result = suppliers;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
     }
 }

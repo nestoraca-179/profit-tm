@@ -492,5 +492,46 @@ namespace ProfitTM.Models
 
             return invoices;
         }
+    
+        public object GetStatsInvoices(DateTime fec_d, DateTime fec_h)
+        {
+            int totalCount = 0;
+            decimal totalAmountSale = 0, totalAmountPurchase = 0, totalState = 0;
+
+            // VENTAS
+            var sp1 = db.RepFacturaVentaxFecha(null, null, fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+            var enumerator1 = sp1.GetEnumerator();
+
+            while (enumerator1.MoveNext())
+            {
+                totalCount++;
+                totalAmountSale += Math.Round(decimal.Parse(enumerator1.Current.total_neto.ToString()), 2);
+            }
+
+            // COMPRAS
+            var sp2 = db.RepCompraxFecha(null, null, fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null);
+            var enumerator2 = sp2.GetEnumerator();
+
+            while (enumerator2.MoveNext())
+            {
+                totalAmountPurchase += Math.Round(decimal.Parse(enumerator2.Current.total_neto.ToString()), 2);
+            }
+
+            // ESTADO DE GANANCIA
+            totalState = totalAmountSale - totalAmountPurchase;
+
+            enumerator1.Dispose();
+            enumerator2.Dispose();
+
+            // OBJETO ESTADISTICAS
+            var obj = new {
+                totalCount = totalCount,
+                totalAmountSale = totalAmountSale,
+                totalAmountPurchase = totalAmountPurchase,
+                totalState = totalState
+            };
+
+            return obj;
+        }
     }
 }

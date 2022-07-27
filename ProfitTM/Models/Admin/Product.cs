@@ -79,62 +79,88 @@ namespace ProfitTM.Models
             return arts;
         }
 
-        public ProfitTMResponse GetMostProducts(int number, bool selling)
+        public List<saArticulo> GetMostProducts(DateTime fec_d, DateTime fec_h, int number, bool selling)
         {
-            ProfitTMResponse response = new ProfitTMResponse();
             List<saArticulo> articulos = new List<saArticulo>();
 
-            try
+            #region CODIGO ANTERIOR
+            //if (selling)
+            //{
+            //    articulos = (from r in rengsV
+            //                 join a in arts on r.co_art equals a.co_art
+            //                 where r.fe_us_in >= fec_d && r.fe_us_in <= fec_h
+            //                 group r.total_art by (r.co_art, a.art_des) into g
+            //                 select new saArticulo
+            //                 {
+            //                     co_art = g.Key.co_art,
+            //                     art_des = g.Key.art_des,
+            //                     campo1 = Math.Round(g.Sum(), 2).ToString()
+
+            //                 }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
+            //}
+            //else
+            //{
+            //    articulos = (from r in rengsC
+            //                 join a in arts on r.co_art equals a.co_art
+            //                 where r.fe_us_in >= fec_d && r.fe_us_in <= fec_h
+            //                 group r.total_art by (r.co_art, a.art_des) into g
+            //                 select new saArticulo
+            //                 {
+            //                     co_art = g.Key.co_art,
+            //                     art_des = g.Key.art_des,
+            //                     campo1 = Math.Round(g.Sum(), 2).ToString()
+
+            //                 }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
+            //}
+            #endregion
+
+            if (selling) // ARTICULOS VENTAS
             {
-                DateTime fec_h = DateTime.Now;
-                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+                var sp = db.RepTotalVentaxArticulo(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                var enumerator = sp.GetEnumerator();
 
-                List<saFacturaVentaReng> rengsV = db.saFacturaVentaReng.ToList();
-                List<saFacturaCompraReng> rengsC = db.saFacturaCompraReng.ToList();
-                List<saArticulo> arts = db.saArticulo.ToList();
-
-                if (selling)
+                while (enumerator.MoveNext())
                 {
-                    articulos = (from r in rengsV
-                                 join a in arts on r.co_art equals a.co_art
-                                 where r.fe_us_in >= fec_d && r.fe_us_in <= fec_h
-                                 group r.total_art by (r.co_art, a.art_des) into g
-                                 select new saArticulo
-                                 {
-                                     co_art = g.Key.co_art,
-                                     art_des = g.Key.art_des,
-                                     campo1 = Math.Round(g.Sum(), 2).ToString()
+                    saArticulo articulo = new saArticulo();
 
-                                 }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
+                    articulo.co_art = enumerator.Current.co_art.Trim();
+                    articulo.art_des = enumerator.Current.art_des.Trim();
+                    articulo.campo1 = (enumerator.Current.total_art - enumerator.Current.total_dev).ToString();
+
+                    articulos.Add(articulo);
                 }
-                else
-                {
-                    articulos = (from r in rengsC
-                                 join a in arts on r.co_art equals a.co_art
-                                 where r.fe_us_in >= fec_d && r.fe_us_in <= fec_h
-                                 group r.total_art by (r.co_art, a.art_des) into g
-                                 select new saArticulo
-                                 {
-                                     co_art = g.Key.co_art,
-                                     art_des = g.Key.art_des,
-                                     campo1 = Math.Round(g.Sum(), 2).ToString()
-
-                                 }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
-                }
-
-                if (articulos.Count > number)
-                    articulos.RemoveRange(number, articulos.Count - number);
-
-                response.Status = "OK";
-                response.Result = articulos;
             }
-            catch (Exception ex)
+            else // ARTICULOS COMPRAS
             {
-                response.Status = "ERROR";
-                response.Message = "MP - " + ex.Message;
+                var sp = db.RepTotalCompraxArticulo(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                var enumerator = sp.GetEnumerator();
+
+                while (enumerator.MoveNext())
+                {
+                    saArticulo articulo = new saArticulo();
+
+                    articulo.co_art = enumerator.Current.co_art.Trim();
+                    articulo.art_des = enumerator.Current.art_des.Trim();
+                    articulo.campo1 = (enumerator.Current.total_art - enumerator.Current.total_dev).ToString();
+
+                    articulos.Add(articulo);
+                }
             }
 
-            return response;
+            articulos = (from a in articulos
+                         group decimal.Parse(a.campo1) by (a.co_art, a.art_des) into g
+                         select new saArticulo
+                         {
+                             co_art = g.Key.co_art,
+                             art_des = g.Key.art_des,
+                             campo1 = Math.Round(g.Sum(), 2).ToString()
+
+                         }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
+
+            if (articulos.Count > number)
+                articulos.RemoveRange(number, articulos.Count - number);
+
+            return articulos;
         }
     }
 }

@@ -14591,6 +14591,24 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sDir" Type="varchar" Mode="In" />
     <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
   </Function>
+  <Function Name="RepCompraxFecha" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cCo_Numero_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Numero_h" Type="char" Mode="In" />
+    <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+    <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+    <Parameter Name="cCo_Proveedor_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Proveedor_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Zona_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Zona_h" Type="char" Mode="In" />
+    <Parameter Name="cImprSubTotal" Type="char" Mode="In" />
+    <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+    <Parameter Name="cStatus" Type="char" Mode="In" />
+    <Parameter Name="cAnulado" Type="char" Mode="In" />
+    <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
+    <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+    <Parameter Name="sDir" Type="varchar" Mode="In" />
+    <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+  </Function>
   <Function Name="RepEstadoCuentaCli" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="dFecha_d" Type="smalldatetime" Mode="In" />
     <Parameter Name="dFecha_h" Type="smalldatetime" Mode="In" />
@@ -14625,12 +14643,89 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sDir" Type="varchar" Mode="In" />
     <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
   </Function>
+  <Function Name="RepFacturaVentaxFecha" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cCo_Numero_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Numero_h" Type="char" Mode="In" />
+    <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+    <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+    <Parameter Name="cCo_cliente_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_cliente_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Vendedor_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Vendedor_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Transporte_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Transporte_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Zona_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Zona_h" Type="char" Mode="In" />
+    <Parameter Name="cImprSubTotal" Type="char" Mode="In" />
+    <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+    <Parameter Name="cStatus" Type="char" Mode="In" />
+    <Parameter Name="cAnulado" Type="char" Mode="In" />
+    <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
+    <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+    <Parameter Name="sDir" Type="varchar" Mode="In" />
+    <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="RepFacturaVentaxNum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cCo_Numero_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Numero_h" Type="char" Mode="In" />
+    <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+    <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+    <Parameter Name="cCo_cliente_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_cliente_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Vendedor_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Vendedor_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Transporte_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Transporte_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Zona_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Zona_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+    <Parameter Name="cStatus" Type="char" Mode="In" />
+    <Parameter Name="cAnulado" Type="char" Mode="In" />
+    <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
+    <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+    <Parameter Name="sDir" Type="varchar" Mode="In" />
+    <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+  </Function>
   <Function Name="RepProveedorMasCompra" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sFecha_Emis_d" Type="smalldatetime" Mode="In" />
     <Parameter Name="sFecha_Emis_h" Type="smalldatetime" Mode="In" />
     <Parameter Name="sCo_Prov_d" Type="char" Mode="In" />
     <Parameter Name="sCo_Prov_h" Type="char" Mode="In" />
     <Parameter Name="iCantidad" Type="int" Mode="In" />
+    <Parameter Name="sCo_Moneda" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sucursal" Type="char" Mode="In" />
+    <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+    <Parameter Name="sDir" Type="varchar" Mode="In" />
+    <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="RepTotalCompraxArticulo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sCo_fecha_d" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sCo_fecha_h" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sCo_Art_d" Type="char" Mode="In" />
+    <Parameter Name="sCo_Art_h" Type="char" Mode="In" />
+    <Parameter Name="sCo_Linea_d" Type="char" Mode="In" />
+    <Parameter Name="sCo_Linea_h" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sub_Linea_d" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sub_Linea_h" Type="char" Mode="In" />
+    <Parameter Name="sCo_Categoria_d" Type="char" Mode="In" />
+    <Parameter Name="sCo_Categoria_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+    <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
+    <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+    <Parameter Name="sDir" Type="varchar" Mode="In" />
+    <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="RepTotalVentaxArticulo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+    <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sCo_Art_d" Type="char" Mode="In" />
+    <Parameter Name="sCo_Art_h" Type="char" Mode="In" />
+    <Parameter Name="sCo_Linea_d" Type="char" Mode="In" />
+    <Parameter Name="sCo_Linea_h" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sub_Linea_d" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sub_Linea_h" Type="char" Mode="In" />
+    <Parameter Name="sCo_Categoria_d" Type="char" Mode="In" />
+    <Parameter Name="sCo_Categoria_h" Type="char" Mode="In" />
     <Parameter Name="sCo_Moneda" Type="char" Mode="In" />
     <Parameter Name="sCo_Sucursal" Type="char" Mode="In" />
     <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />

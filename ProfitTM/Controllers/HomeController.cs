@@ -282,54 +282,10 @@ namespace ProfitTM.Controllers
 
                 if (Session["modules"] == null)
                 {
-                    string msg = "", userID = ((Users)ViewBag.user).ID.ToString();
-
-                    List<Modules> modules = Module.GetModulesByUser("ADM", userID);
-                    List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-
-                    Product proManager = new Product();
-                    Client cliManager = new Client();
-                    Supplier supManager = new Supplier();
-
-                    ProfitTMResponse responseMSP = proManager.GetMostProducts(5, true);
-                    ProfitTMResponse responseMPP = proManager.GetMostProducts(5, false);
-                    ProfitTMResponse responseMAC = cliManager.GetMostActiveClients(5);
-                    ProfitTMResponse responseMMC = cliManager.GetMostMorousClients(5);
-                    ProfitTMResponse responseMAS = supManager.GetMostActiveSuppliers(5);
-                    ProfitTMResponse responseMMS = supManager.GetMostMorousSuppliers(5);
-
-                    responses.Add(responseMSP);
-                    responses.Add(responseMPP);
-                    responses.Add(responseMAC);
-                    responses.Add(responseMMC);
-                    responses.Add(responseMAS);
-                    responses.Add(responseMMS);
-
-                    ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
-
-                    if (obj == null)
-                    {
-                        Session["MSP"] = responseMSP.Result;
-                        Session["MPP"] = responseMPP.Result;
-                        Session["MAC"] = responseMAC.Result;
-                        Session["MMC"] = responseMMC.Result;
-                        Session["MAS"] = responseMAS.Result;
-                        Session["MMS"] = responseMMS.Result;
-                        Session["modules"] = modules;
-                    }
-                    else
-                    {
-                        msg = obj.Message;
-                        return RedirectToAction("Logout", "Account", new { msg = msg });
-                    }
+                    string userID = ((Users)ViewBag.user).ID.ToString();
+                    Session["modules"] = Module.GetModulesByUser("ADM", userID);
                 }
 
-                ViewBag.mostSelledProds = Session["MSP"];
-                ViewBag.mostPurchasedProds = Session["MPP"];
-                ViewBag.mostActiveClients = Session["MAC"];
-                ViewBag.mostMorousClients = Session["MMC"];
-                ViewBag.mostActiveSuppliers = Session["MAS"];
-                ViewBag.mostMorousSuppliers = Session["MMS"];
                 ViewBag.modules = Session["modules"];
 
                 return View();
@@ -356,22 +312,8 @@ namespace ProfitTM.Controllers
             {
                 if (Session["modules"] == null)
                 {
-                    string msg = "", userID = ((Users)ViewBag.user).ID.ToString();
-
-                    List<Modules> modules = Module.GetModulesByUser("CON", userID);
-                    List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-
-                    ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
-
-                    if (obj == null)
-                    {
-                        Session["modules"] = modules;
-                    }
-                    else
-                    {
-                        msg = obj.Message;
-                        return RedirectToAction("Logout", "Account", new { msg = msg });
-                    }
+                    string userID = ((Users)ViewBag.user).ID.ToString();
+                    Session["modules"] = Module.GetModulesByUser("CON", userID);
                 }
 
                 ViewBag.modules = Session["modules"];
@@ -400,166 +342,13 @@ namespace ProfitTM.Controllers
             {
                 if (Session["modules"] == null)
                 {
-                    string msg = "", userID = ((Users)ViewBag.user).ID.ToString();
-
-                    List<Modules> modules = Module.GetModulesByUser("NOM", userID);
-                    List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-
-                    ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
-
-                    if (obj == null)
-                    {
-                        Session["modules"] = modules;
-                    }
-                    else
-                    {
-                        msg = obj.Message;
-                        return RedirectToAction("Logout", "Account", new { msg = msg });
-                    }
+                    string userID = ((Users)ViewBag.user).ID.ToString();
+                    Session["modules"] = Module.GetModulesByUser("NOM", userID);
                 }
 
                 ViewBag.modules = Session["modules"];
 
                 return View();
-            }
-        }
-
-        // Opciones Admin
-        [Authorize]
-        public ActionResult Inventario()
-        {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
-
-            if (ViewBag.user == null)
-            {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
-            }
-            else if (ViewBag.connect == null)
-            {
-                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
-            }
-            else
-            {
-                string msg = "";
-
-                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-
-                Product manager = new Product();
-                ProfitTMResponse responseMSP = manager.GetMostProducts(10, true);// sqlController.getMostSelledProducts(5);
-                ProfitTMResponse responseMPP = manager.GetMostProducts(10, false);// sqlController.getMostPurchasedProducts(5);
-
-                responses.Add(responseMSP);
-                responses.Add(responseMPP);
-
-                ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
-
-                if (obj == null)
-                {
-                    ViewBag.mostSelledProds = responseMSP.Result;
-                    ViewBag.mostPurchasedProds = responseMPP.Result;
-                    ViewBag.modules = Session["modules"];
-
-                    return View();
-                }
-                else
-                {
-                    msg = obj.Message;
-                    return RedirectToAction("Logout", "Account", new { msg = msg });
-                }
-            }
-        }
-
-        [Authorize]
-        public ActionResult Ventas()
-        {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
-
-            if (ViewBag.user == null)
-            {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
-            }
-            else if (ViewBag.connect == null)
-            {
-                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
-            }
-            else
-            {
-                string msg = "";
-
-                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-
-                Client manager = new Client();
-                ProfitTMResponse responseMAC = manager.GetMostActiveClients(10);// sqlController.getMostActiveClients(5);
-                ProfitTMResponse responseMMC = manager.GetMostMorousClients(10);// sqlController.getMostMorousClients(5);
-
-                responses.Add(responseMAC);
-                responses.Add(responseMMC);
-
-                ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
-
-                if (obj == null)
-                {
-                    ViewBag.mostActiveClients = responseMAC.Result;
-                    ViewBag.mostMorousClients = responseMMC.Result;
-                    ViewBag.modules = Session["modules"];
-
-                    return View();
-                }
-                else
-                {
-                    msg = obj.Message;
-                    return RedirectToAction("Logout", "Account", new { msg = msg });
-                }
-            }
-        }
-
-        [Authorize]
-        public ActionResult Compras()
-        {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
-
-            if (ViewBag.user == null)
-            {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
-            }
-            else if (ViewBag.connect == null)
-            {
-                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
-            }
-            else
-            {
-                string msg = "";
-
-                List<ProfitTMResponse> responses = new List<ProfitTMResponse>();
-
-                Supplier manager = new Supplier();
-                ProfitTMResponse responseMAS = manager.GetMostActiveSuppliers(10);// sqlController.getMostActiveSuppliers(5);
-                ProfitTMResponse responseMMS = manager.GetMostMorousSuppliers(10);// sqlController.getMostMorousSuppliers(5);
-
-                responses.Add(responseMAS);
-                responses.Add(responseMMS);
-
-                ProfitTMResponse obj = responses.FirstOrDefault(r => r.Status == "ERROR");
-
-                if (obj == null)
-                {
-                    ViewBag.mostActiveSuppliers = responseMAS.Result;
-                    ViewBag.mostMorousSuppliers = responseMMS.Result;
-                    ViewBag.modules = Session["modules"];
-
-                    return View();
-                }
-                else
-                {
-                    msg = obj.Message;
-                    return RedirectToAction("Logout", "Account", new { msg = msg });
-                }
             }
         }
     }

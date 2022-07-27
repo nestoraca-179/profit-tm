@@ -198,26 +198,22 @@ input#username::placeholder, input#pass::placeholder {
     font-size: 28px;
     font-family: 'Ubuntu', sans-serif;
     font-weight: 500;
+    opacity: 0;
 }
-.direct i {
+.direct i:not(.fa-spinner-third) {
     position: absolute;
     bottom: 20px;
     right: 20px;
     font-size: 50px;
     z-index: 0;
 }
-/*.direct div a {
-    width: 100%;
+.direct i.fa-spinner-third {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    color: #FFF;
-    text-decoration: none;
-    background: rgba(0,0,0,0.4);
-    border-radius: 0 0 5px 5px;
-    text-align: center;
-    padding: 5px;
-}*/
+    bottom: 20px;
+    left: 20px;
+    font-size: 30px;
+    color: #4d4b4b;
+}
 .my-dropdown {
     width: 100%;
     background: #212121;
@@ -245,6 +241,13 @@ input#username::placeholder, input#pass::placeholder {
     background: #FFF;
     padding: 10px 0;
     border-radius: 5px;
+}
+.container-chart i.fa-spinner-third {
+    max-width: 50px;
+    display: block;
+    font-size: 50px;
+    margin: 0 auto;
+    padding: 15px 0;
 }
 
 /* REPORTES */

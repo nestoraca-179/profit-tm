@@ -166,6 +166,7 @@
     <Content Include="Content\datatables.css" />
     <Content Include="Content\datatables.js" />
     <Content Include="Content\drilldown.js" />
+    <Content Include="Content\highcharts-3d.js" />
     <Content Include="Content\highcharts.js" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
@@ -453,6 +454,7 @@
     <Compile Include="Controllers\ProfitTMApiController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Controllers\UtilsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -598,10 +600,19 @@
     <Compile Include="Models\RepClienteMasVenta_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RepCompraxFecha_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RepEstadoCuentaCli_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepEstadoCuentaProv_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepFacturaVentaxFecha_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepFacturaVentaxNum_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Report.cs" />
@@ -615,6 +626,12 @@
     <Compile Include="Models\Admin\TypePerson.cs" />
     <Compile Include="Models\Admin\Zone.cs" />
     <Compile Include="Models\RepProveedorMasCompra_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepTotalCompraxArticulo_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepTotalVentaxArticulo_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\saAdiCampo.cs">

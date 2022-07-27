@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
+using System.Collections.Generic;
 
 namespace ProfitTM.Models
 {
@@ -124,40 +125,26 @@ namespace ProfitTM.Models
             return proveedores;
         }
 
-        public ProfitTMResponse GetMostActiveSuppliers(int number)
+        public List<saProveedor> GetMostActiveSuppliers(DateTime fec_d, DateTime fec_h, int number)
         {
-            ProfitTMResponse response = new ProfitTMResponse();
             List<saProveedor> proveedores = new List<saProveedor>();
 
-            try
+            var sp = db.RepProveedorMasCompra(fec_d, fec_h, null, null, number, null, null, null, null, null);
+            var enumerator = sp.GetEnumerator();
+
+            while (enumerator.MoveNext())
             {
-                DateTime fec_h = DateTime.Now;
-                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+                saProveedor proveedor = new saProveedor();
 
-                var sp = db.RepProveedorMasCompra(fec_d, fec_h, null, null, number, null, null, null, null, null);
-                var enumerator = sp.GetEnumerator();
+                proveedor.co_prov = enumerator.Current.co_prov.Trim();
+                proveedor.prov_des = enumerator.Current.prov_des.Trim();
+                proveedor.campo1 = Convert.ToDouble(enumerator.Current.Compra).ToString("N2", CultureInfo.GetCultureInfo("es-ES"));
+                proveedor.campo2 = Math.Round(Convert.ToDouble((enumerator.Current.Compra * 100) / enumerator.Current.Compra_total), 2).ToString("N2", CultureInfo.GetCultureInfo("es-ES"));
 
-                while (enumerator.MoveNext())
-                {
-                    saProveedor proveedor = new saProveedor();
-
-                    proveedor.co_prov = enumerator.Current.co_prov;
-                    proveedor.prov_des = enumerator.Current.co_prov + " - " + enumerator.Current.prov_des;
-                    proveedor.campo1 = enumerator.Current.Compra.ToString();
-
-                    proveedores.Add(proveedor);
-                }
-
-                response.Status = "OK";
-                response.Result = proveedores;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = "MAS - " + ex.Message;
+                proveedores.Add(proveedor);
             }
 
-            return response;
+            return proveedores;
         }
 
         public ProfitTMResponse GetMostMorousSuppliers(int number)
