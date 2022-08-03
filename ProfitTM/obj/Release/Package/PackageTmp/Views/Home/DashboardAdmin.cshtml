@@ -41,17 +41,46 @@
     .row.mt-3 {
         align-items: center;
     }
+    .table.borderless thead {
+        background: #01579b;
+        color: #FFF;
+    }
     .table.borderless td {
         border: none;
     }
     .table.borderless th {
         border-top: none;
     }
-    #cont-mac{
+    #cont-mac {
         flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+    }
+    @@media (max-width: 728px) {
+        .header-right-side {
+            display: none;
+        }
+        .dash-left-side {
+            width: 100%;
+            position: absolute;
+            z-index: 10;
+            border: 0 !important;
+        }
+        .list-menu {
+            margin: 0;
+            display: none;
+        }
+        .menu-item {
+            padding: 20px;
+        }
+        .direct.shadow-tm {
+            max-width: 100%;
+            margin: 5px 0;
+        }
+        .col-stat {
+            margin: 5px 0;
+        }
     }
 </style>
 <header class="container-fluid">
@@ -107,6 +136,10 @@
                     <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
                     <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
                 </div>
+                <li class="menu-item border-top" onclick="location.href = '/Account/Logout'">
+                    <i class="fas fa-power-off"></i>
+                    <p class="mb-0 ml-3">Cerrar Sesión</p>
+                </li>
             </ul>
         </div>
         <div class="dash-right-side">
@@ -139,7 +172,7 @@
                 </div>
                 <hr />
                 <div class="row mt-3">
-                    <div class="col-sm-8">
+                    <div class="col-sm-8 col-stat">
                         <div class="container-chart shadow-tm">
                             <i ng-if="!msp || !show_all" class="fas fa-spinner-third fa-spin"></i>
                             <div id="cont-msp" style="display: none;">
@@ -150,7 +183,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 col-stat">
                         <div class="container-chart shadow-tm">
                             <i ng-if="!mpp || !show_all" class="fas fa-spinner-third fa-spin"></i>
                             <div id="cont-mpp" style="display: none;">
@@ -163,7 +196,7 @@
                     </div>
                 </div>
                 <div class="row mt-3" style="align-items: stretch;">
-                    <div class="col-sm-7">
+                    <div class="col-sm-7 col-stat">
                         <div class="container-chart shadow-tm pl-3 pr-3 d-flex" style="height: 100%;">
                             <i ng-if="!mac || !show_all" class="fas fa-spinner-third fa-spin"></i>
                             <div id="cont-mac" style="display: none;">
@@ -173,7 +206,7 @@
                                         <tr>
                                             <th></th>
                                             <th>Cliente</th>
-                                            <th>Monto Total</th>
+                                            <th>Total</th>
                                             <th>Porcentaje</th>
                                         </tr>
                                     </thead>
@@ -182,7 +215,7 @@
                                             <td style="vertical-align: middle;"><i class="fas fa-user-alt" style="color: #333;"></i></td>
                                             <td>{{ client.cli_des }}</td>
                                             <td>{{ client.campo1 }}</td>
-                                            <td>{{ client.campo2 }} %</td>
+                                            <td style="text-align: right;">{{ client.campo2 }} %</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -190,7 +223,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-5 col-stat">
                         <div class="container-chart shadow-tm">
                             <i ng-if="!mas || !show_all" class="fas fa-spinner-third fa-spin"></i>
                             <div id="cont-mas" style="display: none;">
@@ -215,9 +248,8 @@
     var btn = document.getElementById("icon-menu");
     var menu = document.getElementById("menu-left");
     var graphs = ['msp', 'mpp', 'mac', 'mas'];
+    var responsive = screen.availWidth <= 728 ? true : false;
     var node = null;
-
-    btn.addEventListener("click", hide);
 
     $(".dash-right-side").on("mousedown", function (event) {
         event.preventDefault();
@@ -228,6 +260,12 @@
     });
 
     app.controller("controller", function ($scope, $http) {
+
+        if (responsive) {
+            btn.addEventListener("click", slide);
+        } else {
+            btn.addEventListener("click", hide);
+        }
 
         $scope.show_all = false;
 
@@ -288,10 +326,20 @@
                 $scope.show_all = true;
 
                 setTimeout(function () {
+
                     initMSP($scope.msp);
                     initMPP($scope.mpp);
                     $("#cont-mac").removeAttr("style");
                     initMAS($scope.mas);
+
+                    if (responsive) {
+                        $("table.borderless").addClass("table-sm");
+                        $("table.borderless th").first().remove();
+                        $("table.borderless tr").each(function () {
+                            $(this).find("td").first().remove();
+                        });
+                    }
+
                 }, 0.05);
             }
         }
@@ -334,6 +382,10 @@
 
         $(".my-dropdown").slideUp();
         $("i.fa-caret-up").hide();
+    }
+
+    function slide() {
+        $(".list-menu").slideToggle()
     }
 
 </script>
@@ -383,7 +435,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: '<b style="font-family: \'Raleway\', sans-serif;">Cantidad</b>'
+                        text: responsive ? null : '<b style="font-family: \'Raleway\', sans-serif;">Cantidad</b>'
                     },
                 },
                 legend: {
@@ -394,17 +446,19 @@
                         borderWidth: 0,
                         dataLabels: {
                             enabled: true,
-                            format: '{point.y:,.2f} Unds'
-                        }
-                    }
+                            format: '{point.y} Unds'
+                            // format: '{point.y:,.2f} Unds'
+                        },
+                    },
                 },
                 tooltip: {
-                    pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds<br/>'
+                    pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y}</b> Unds<br/>'
+                    // pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds<br/>'
                 },
                 series: [{
                     name: 'Cantidad',
                     colorByPoint: true,
-                    data: objects
+                    data: objects,
                 }]
             });
         }
