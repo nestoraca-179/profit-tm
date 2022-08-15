@@ -23,6 +23,11 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                ViewBag.user = new Users()
+                {
+                    Descrip = "null"
+                };
+
                 return View();
             }
         }

@@ -2,6 +2,9 @@
     ViewData["Title"] = "Seleccion de Sucursal";
 }
 <style>
+    body > header {
+        display: none;
+    }
     body > .container-fluid > main {
         overflow-y: auto;
     }
@@ -38,6 +41,7 @@
         max-width: 325px;
         height: 150px;
         background: #2980b9;
+        padding: 0 15px;
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -56,11 +60,15 @@
         outline: solid #FFF 5px;
     }
     .col-md-12 {
-        padding: 15px 0;
         flex: 1;
+        padding: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .btn.btn-primary {
-        width: 30%;
+        width: 100%;
+        max-width: 600px;
         padding: 20px 0;
     }
     @@media (max-width: 789px) {
@@ -78,56 +86,15 @@
             height: 150px;
             margin: 10px 0;
         }
-        .card-prod img {
-            width: 100px;
-            height: 100px;
+        .card-prod i {
+            flex: 1;
+            font-size: 6em;
+            text-align: center;
         }
-        .btn.btn-primary {
-            width: 70%;
+        .card-prod h4 {
+            flex: 1;
         }
     }
-    /*.box {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    form {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 10px 0;
-    }
-    .container-control{
-        flex: 3;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
-    .container-control select{
-        width: 50%;
-    }
-    .col-md-12 {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .col-md-12 button {
-        width: 80%;
-        max-width: 500px;
-        padding: 20px 0;
-    }
-    @@media (max-width: 789px) {
-        .container-control{
-            flex: 3;
-            flex-direction: column;
-            justify-content: space-evenly;
-        }
-        .container-control select {
-            width: 90%;
-        }
-    }*/
 </style>
 <div class="box">
     <div class="container-title">

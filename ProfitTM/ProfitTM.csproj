@@ -158,21 +158,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\angular-min.js" />
+    <Content Include="Content\bootstrap-5.2.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datatables.css" />
-    <Content Include="Content\datatables.js" />
-    <Content Include="Content\drilldown.js" />
-    <Content Include="Content\highcharts-3d.js" />
-    <Content Include="Content\highcharts.js" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
-    <Content Include="Content\module-accesibility.js" />
-    <Content Include="Content\module-exportdata.js" />
-    <Content Include="Content\module-exporting.js" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -205,12 +198,14 @@
     <Content Include="Scripts\ace.js" />
     <Content Include="Scripts\additional-methods.js" />
     <Content Include="Scripts\additional-methods.min.js" />
+    <Content Include="Scripts\angular-min.js" />
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap-5.2.js" />
     <Content Include="Scripts\cldr.event.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr.supplemental.js" />
     <Content Include="Scripts\cldr.unresolved.js" />
+    <Content Include="Scripts\drilldown.js" />
     <Content Include="Scripts\ext-language_tools.js" />
     <Content Include="Scripts\globalize.currency.js" />
     <Content Include="Scripts\globalize.date.js" />
@@ -280,10 +275,13 @@
     <Content Include="Areas\Ventas\Views\Procesos\_GridViewFactRengsPartial.cshtml" />
     <None Include="Properties\PublishProfiles\ProfitTMRelease.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\highcharts-3d.js" />
+    <Content Include="Scripts\highcharts.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.js" />
@@ -317,6 +315,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\module-accesibility.js" />
+    <Content Include="Scripts\module-exportdata.js" />
+    <Content Include="Scripts\module-exporting.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Boolean.cshtml" />

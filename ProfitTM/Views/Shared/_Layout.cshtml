@@ -4,20 +4,35 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProfitTM</title>
-    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap-5.2.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/popper.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Content/highcharts.js"></script>
-    <script src="~/Content/highcharts-3d.js"></script>
-    <script src="~/Content/drilldown.js"></script>
-    <script src="~/Content/module-exporting.js"></script>
-    <script src="~/Content/module-exportdata.js"></script>
-    <script src="~/Content/module-accesibility.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/highcharts.js"></script>
+    <script src="~/Scripts/highcharts-3d.js"></script>
+    <script src="~/Scripts/drilldown.js"></script>
+    <script src="~/Scripts/module-exporting.js"></script>
+    <script src="~/Scripts/module-exportdata.js"></script>
+    <script src="~/Scripts/module-accesibility.js"></script>
 </head>
 <body>
+    <header class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-xl-3 header-left-side text-white">
+                <i class="fas fa-bars icon-menu" id="icon-menu"></i>
+                <a href="/Home/@ViewData["home"]">Profit Plus TM</a>
+            </div>
+            <div class="col-md-8 col-xl-9 header-right-side">
+                <div class="user-active" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user icon-user"></i>
+                    <p class="mb-0">@ViewBag.user.Descrip</p>
+                </div>
+                <div style="width: 225px; text-align: center;" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a style="text-align: center; text-decoration: none;" href="/Account/Logout">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="container-fluid p-0">
         <main role="main">
             @RenderBody()
@@ -25,36 +40,10 @@
     </div>
     <footer class="border-top footer text-muted footer-bottom">
         <div class="container" style="display: flex;">
-            &copy; 2022 - <a href="http://gtsconsultingca.com/" target="_blank" style="margin-left: 5px;">GTS Consulting C.A.</a></p>
+            &copy; 2022 - <a href="http://gtsconsultingca.com/" target="_blank" style="margin-left: 5px; text-decoration: none;">GTS Consulting C.A.</a></p>
         </div>
     </footer>
-    @*@RenderSection("Scripts", required: false)*@
-    <script>
-        /*$(document).ready(function () {
-            $("g text").css("font-weight", "bold");
-            $("g text tspan").css("font-weight", "normal");
-        });*/
-
-        //$(document).on("mousedown", function (event) {
-
-        //    var classes = event.target.classList;
-
-        //    if (!classes.contains("fas") && !classes.contains("menu-item") && !classes.contains("my-dropdown") && !classes.contains("dropdown-item")) {
-        //        if ($(".selected")[0] != null) {
-
-        //            if (node != null) {
-        //                node.classList.remove("selected");
-        //                node = null;
-        //            }
-
-        //            var elems = document.getElementsByClassName("my-dropdown");
-
-        //            for (var item of elems) {
-        //                $(item).slideUp();
-        //            }
-        //        }
-        //    }
-        //});
-    </script>
+    <script src="~/Scripts/popper.js"></script>
+    <script src="~/Scripts/bootstrap-5.2.js"></script>
 </body>
 </html>

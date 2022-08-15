@@ -10,35 +10,45 @@
 html {
     font-size: 14px;
     position: relative;
+    height: auto;
     min-height: 100%;
 }
 body {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
     display: flex;
-    background: rgb(2,0,36);
+    flex-direction: column;
     background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(18,122,209,1) 0%, rgba(62,201,221,1) 100%);
-}
-body > .container-fluid{
-    height: 92.5%;
     position: absolute;
 }
-body > .container-fluid > main{
+body > header {
+    flex: 1;
+    max-height: 75px;
+    position: relative;
+}
+body > header .row {
+    width: 100%;
     height: 100%;
+    position: absolute;
 }
-body > .container-fluid > main > header {
-    height: 10%;
+body > div.container-fluid{
+    flex: auto;
+    position: relative;
 }
-body > .container-fluid > main > header .row {
+body > div.container-fluid > main{
+    width: 100%;
     height: 100%;
+    position: absolute;
 }
-body > .container-fluid > main > div.container-fluid {
-    height: 90%;
+body > div.container-fluid > main > div.container-fluid {
+    height: 100%;
 }
 body > .footer {
     width: 100%;
-    height: 7.5%;
-    position: absolute;
-    bottom: 0;
-    z-index: 200;
+    flex: 1;
+    max-height: 75px;
+    min-height: 50px;
     white-space: nowrap;
     display: flex;
     align-items: center;
@@ -64,7 +74,7 @@ hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(34, 23, 23, 0.72);
 }
 .shadow-tm {
     box-shadow: 0 0.46875rem 2.1875rem rgb(4 9 20 / 3%), 0 0.9375rem 1.40625rem rgb(4 9 20 / 3%), 
@@ -93,22 +103,23 @@ input#username::placeholder, input#pass::placeholder {
 }
 .header-right-side {
     background: #0277BD;
+    position: relative;
 }
 .dash-container {
     display: flex;
     height: 100%;
+    margin: 0;
 }
 .dash-left-side {
     background: #333;
-    flex: 1;
     transition: all 0.5s ease-out;
 }
 .dash-right-side {
     height: 100%;
     background: #f4f4f8;
-    flex: 5;
     overflow-y: auto;
     position: relative;
+    padding: 0;
 }
 .list-menu {
     padding: 0;
@@ -128,6 +139,7 @@ input#username::placeholder, input#pass::placeholder {
 }
 .menu-item p {
     display: block;
+    margin-left: 20px;
 }
 .menu-item i {
     width: 20px;
@@ -158,7 +170,8 @@ input#username::placeholder, input#pass::placeholder {
     display: none;
 }
 .user-active {
-    width: 20%;
+    width: 40%;
+    max-width: 275px;
     height: 100%;
     padding: 20px;
     display: flex;
@@ -176,11 +189,19 @@ input#username::placeholder, input#pass::placeholder {
 .user-active .icon-user {
     font-size: 35px;
 }
+col-stat:first-child {
+    padding-left: 0;
+}
+
+col-stat:last-child {
+    padding-right: 0;
+}
 .direct {
-    max-width: 300px;
+    width: 100%;
     height: 150px;
     background: #FFF;
     border-radius: 5px;
+    position: relative;
 }
 .direct h5 {
     color: #7d7777;
@@ -281,8 +302,23 @@ input#username::placeholder, input#pass::placeholder {
     align-items: center;
 }
 
+/* RESPONSIVE */
 @media (min-width: 768px) {
     html {
         font-size: 16px;
+    }
+}
+@media (min-width: 576px) and (max-width: 728px) {
+    body > .container-fluid {
+        height: 90%;
+    }
+    body > .footer {
+        height: 10%;
+    }
+    body > .container-fluid > main > header {
+        height: 15%;
+    }
+    body > .container-fluid > main > div.container-fluid {
+        height: 85%;
     }
 }

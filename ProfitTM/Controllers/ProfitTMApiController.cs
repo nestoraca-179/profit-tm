@@ -9,7 +9,7 @@ namespace ProfitTM.Controllers
     public class ProfitTMApiController : ApiController
     {
         // CADENA DE CONEXION
-        private readonly string connect = HttpContext.Current.Session["connect"].ToString();
+        // private readonly string connect = HttpContext.Current.Session["connect"].ToString();
 
         // UTILS
         private readonly UtilsController utils = new UtilsController();
