@@ -152,9 +152,6 @@ input#username::placeholder, input#pass::placeholder {
     background: #636363;
     border-left: solid 5px #01579B;
 }
-.selected p {
-
-}
 .menu-item p {
     display: block;
     margin-left: 20px;
