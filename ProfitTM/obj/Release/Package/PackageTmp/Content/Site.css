@@ -105,6 +105,19 @@ input#username::placeholder, input#pass::placeholder {
     background: #0277BD;
     position: relative;
 }
+.header-right-side .dropdown-menu {
+    width: 250px;
+    text-align: center;
+    background: #333;
+    border-radius: 0 0 5px 5px;
+    border: 2px #aca7a7 solid;
+    border-top: 0;
+}
+.header-right-side .dropdown-menu a {
+    color: #FFF;
+    text-decoration: none;
+    font-weight: bold;
+}
 .dash-container {
     display: flex;
     height: 100%;
@@ -115,6 +128,7 @@ input#username::placeholder, input#pass::placeholder {
     transition: all 0.5s ease-out;
 }
 .dash-right-side {
+    flex: auto;
     height: 100%;
     background: #f4f4f8;
     overflow-y: auto;
@@ -132,10 +146,14 @@ input#username::placeholder, input#pass::placeholder {
     align-items: center;
     cursor: pointer;
     position: relative;
+    text-align: center;
 }
 .menu-item:hover, .selected {
     background: #636363;
     border-left: solid 5px #01579B;
+}
+.selected p {
+
 }
 .menu-item p {
     display: block;

@@ -117,7 +117,7 @@
 </style>
 <div class="container-fluid p-0" ng-app="DashboardAdmin" ng-controller="controller">
     <div class="row dash-container" id="dash-container">
-        <div class="col-md-4 col-xl-3 dash-left-side border-right p-0" id="menu-left">
+        <div class="col-md-4 col-xl-3 col-xxl-2 dash-left-side border-right p-0" id="menu-left">
             <ul class="list-menu dropright">
                 @{
                     foreach (var item in ViewBag.modules)
@@ -157,7 +157,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-8 col-xl-9 dash-right-side">
+        <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
             <div class="container-fluid mt-3">
                 <div class="row justify-content-between" style="margin: 0;">
                     <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3  col-stat">
@@ -379,6 +379,7 @@
 
     function print(elem) {
 
+        let item_active = $("#menu-left.active").length == 1;
         $(".my-dropdown").slideUp();
 
         if (node != null) {
@@ -396,10 +397,15 @@
             $(elem).children("i.fa-caret-up").show();
             node = elem;
 
+            if (item_active)
+                $("#menu-left").removeClass("active");
+
         } else {
+
             $(elem).removeClass("selected");
             $(elem).children("i.fa-caret-up").hide();
             node = null;
+
         }
     }
 

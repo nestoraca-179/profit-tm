@@ -18,17 +18,17 @@
 <body>
     <header class="container-fluid">
         <div class="row">
-            <div class="col-md-4 col-xl-3 header-left-side text-white">
+            <div class="col-md-4 col-xl-3 col-xxl-2 header-left-side text-white">
                 <i class="fas fa-bars icon-menu" id="icon-menu"></i>
                 <a href="/Home/@ViewData["home"]">Profit Plus TM</a>
             </div>
-            <div class="col-md-8 col-xl-9 header-right-side">
-                <div class="user-active" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="col-md-8 col-xl-9 col-xxl-10 header-right-side">
+                <div class="user-active" role="button" id="drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user icon-user"></i>
                     <p class="mb-0">@ViewBag.user.Descrip</p>
                 </div>
-                <div style="width: 225px; text-align: center;" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a style="text-align: center; text-decoration: none;" href="/Account/Logout">Cerrar Sesión</a>
+                <div class="dropdown-menu" aria-labelledby="drop-menu">
+                    <a href="/Account/Logout">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
