@@ -2,26 +2,31 @@
     ViewData["Title"] = "Dashboard";
     ViewData["home"] = Session["home"];
 }
-<header class="container-fluid">
-    <div class="row">
-        <div class="col-sm-2 header-left-side text-white">
-            <i class="fas fa-bars icon-menu" id="icon-menu"></i>
-            <a href="/Home/@ViewData["home"]">Profit Plus TM</a>
-        </div>
-        <div class="col-sm-10 header-right-side">
-            <div class="user-active" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user icon-user"></i>
-                <p class="mb-0">@ViewBag.user.Descrip</p>
-            </div>
-            <div style="width: 225px; text-align: center;" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a style="text-align: center; text-decoration: none;" href="/Account/Logout">Cerrar Sesión</a>
-            </div>
-        </div>
-    </div>
-</header>
+<style>
+    @@media (max-width: 767px) {
+        .header-right-side {
+            display: none;
+        }
+        .dash-left-side {
+            width: 100%;
+            max-height: 100%;
+            position: absolute;
+            z-index: 10;
+            border: 0 !important;
+            overflow-y: auto;
+        }
+        .list-menu {
+            margin: 0;
+            display: none;
+        }
+        .menu-item {
+            padding: 20px;
+        }
+    }
+</style>
 <div class="container-fluid p-0">
-    <div class="dash-container" id="dash-container">
-        <div class="dash-left-side border-right p-0" id="menu-left">
+    <div class="row dash-container" id="dash-container" ng-app="DashboardNomi" ng-controller="controller">
+        <div class="col-md-4 col-xl-3 col-xxl-2 dash-left-side border-right p-0" id="menu-left">
             <ul class="list-menu dropright">
                 @{
                     foreach (var item in ViewBag.modules)
@@ -55,54 +60,34 @@
                     <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
                     <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
                 </div>
+                <li class="menu-item border-top" onclick="location.href = '/Account/Logout'">
+                    <i class="fas fa-power-off"></i>
+                    <p class="mb-0 ml-3">Cerrar Sesión</p>
+                </li>
             </ul>
         </div>
-        <div class="dash-right-side">
-            <div class="container-fluid" style="padding: 5px 40px">
-                <h3 class="mt-2">Accesos Directos</h3>
-                <div class="row mt-3">
-                    <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded" style="background: #1565C0;">
-                            <h4>Inventario</h4>
-                            <i class="fas fa-box" style="color: #0D47A1;"></i>
-                            <a href="Inventario">Ir a Inventario <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded" style="background: #2E7D32;">
-                            <h4>Ventas</h4>
-                            <i class="fas fa-dollar-sign" style="color: #1B5E20;"></i>
-                            <a href="Ventas">Ir a Ventas <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded" style="background: #EF6C00;">
-                            <h4>Compras</h4>
-                            <i class="fas fa-tags" style="color: #E65100;"></i>
-                            <a href="Compras">Ir a Compras <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 direct">
-                        <div class="col-md-12 shadow rounded" style="background: #D84315;">
-                            <h4>Configuración</h4>
-                            <i class="fas fa-cog fa-spin" style="color: #BF360C;"></i>
-                            <a href="#">Ir a Configuración <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <hr />
-                <h3 class="mt-2">Estadísticas</h3>
-            </div>
+        <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
+            <div class="container-fluid mt-3"></div>
         </div>
     </div>
 </div>
+<script src="~/Scripts/angular-min.js"></script>
 <script>
+    var app = angular.module("DashboardNomi", []);
     var capitalize = str => str.substring(0, 1).toLocaleUpperCase() + str.substring(1).toLocaleLowerCase();
     var btn = document.getElementById("icon-menu");
     var menu = document.getElementById("menu-left");
+    var responsive = screen.availWidth <= 767 ? true : false;
     var node = null;
 
-    btn.addEventListener("click", hide);
+    var fec_d = new Date(), fec_h = new Date();
+    fec_d.setDate(1);
+    fec_d.setHours(0);
+    fec_d.setMinutes(0);
+    fec_d.setSeconds(0);
+
+    var fecha_d = fec_d.toLocaleDateString().replaceAll("/", "-");
+    var fecha_h = fec_h.toLocaleDateString().replaceAll("/", "-");
 
     $(".dash-right-side").on("mousedown", function (event) {
         event.preventDefault();
@@ -112,8 +97,36 @@
         event.preventDefault();
     });
 
+    app.controller("controller", function ($scope, $http) {
+
+        if (responsive) {
+            btn.addEventListener("click", slide);
+        } else {
+            btn.addEventListener("click", hide);
+            $(".menu-item.border-top").attr('style', 'display: none;');
+        }
+
+        window.addEventListener("resize", function () {
+            responsive = screen.availWidth <= 767;
+
+            if (responsive) {
+                btn.removeEventListener("click", hide);
+                btn.addEventListener("click", slide);
+                $(".menu-item.border-top").removeAttr('style', 'display: none;');
+                $("#menu-left.active").removeClass("active");
+            } else {
+                btn.removeEventListener("click", slide);
+                btn.addEventListener("click", hide);
+                $("ul.list-menu").removeAttr('style');
+                $(".menu-item.border-top").attr('style', 'display: none;');
+            }
+        });
+
+    });
+
     function print(elem) {
 
+        let item_active = $("#menu-left.active").length == 1;
         $(".my-dropdown").slideUp();
 
         if (node != null) {
@@ -131,10 +144,15 @@
             $(elem).children("i.fa-caret-up").show();
             node = elem;
 
+            if (item_active)
+                $("#menu-left").removeClass("active");
+
         } else {
+
             $(elem).removeClass("selected");
             $(elem).children("i.fa-caret-up").hide();
             node = null;
+
         }
     }
 
@@ -149,6 +167,10 @@
 
         $(".my-dropdown").slideUp();
         $("i.fa-caret-up").hide();
+    }
+
+    function slide() {
+        $(".list-menu").slideToggle()
     }
 
 </script>

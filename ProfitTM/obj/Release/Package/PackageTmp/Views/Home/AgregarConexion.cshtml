@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "AgregarConexion";
 }
 <style>
@@ -13,10 +12,11 @@
         height: 100%;
         display: flex;
         flex-direction: column;
+        align-items: center;
     }
     .container-title {
+        width: 100%;
         flex: 1;
-        height: 15%;
         padding: 0 5%;
         display: flex;
         align-items: center;
@@ -32,38 +32,65 @@
         font-size: 12px;
     }
     form {
-        width: 50%;
-        height: 75%;
-        margin: 0 auto;
-        padding: 10px 0;
+        width: 100%;
+        max-width: 700px;
+        flex: 5;
+        padding: 10px;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
     }
     form .input-main {
-        /*width: 320px;*/
         display: flex;
-        justify-content: space-between;
-        align-items: center;
     }
     form .input-main i {
+        flex: 1;
+        max-width: 40px;
         color: #FFF;
-        font-size: 30px;
+        font-size: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     form .input-main .form-control {
-        /*max-width: 250px;*/
+        flex: 1;
         background: none;
+        margin-left: 10px;
+        padding: 15px 0;
         border: 0;
         border-bottom: solid 1px #FFF;
         border-radius: 0;
         color: #FFF;
-        margin-left: 40px;
     }
     form .input-main .form-control::placeholder{
         color: #FFF;
     }
     form button{
         padding: 20px 0 !important;
+    }
+    @@media (max-width: 789px) {
+        form {
+            height: auto;
+        }
+        .container-title {
+            padding: 5%;
+            justify-content: center;
+        }
+        .container-cards {
+            padding: 15px;
+        }
+        .card-prod {
+            height: 150px;
+            margin: 10px 0;
+        }
+        .card-prod i {
+            flex: 1;
+            font-size: 6em;
+            text-align: center;
+        }
+        .card-prod h4 {
+            flex: 1;
+        }
     }
 </style>
 <div class="box">
@@ -91,11 +118,11 @@
         </div>
         <div class="input-main">
             <i class="fas fa-user"></i>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Usuario" required autocomplete="off" />
+            <input type="text" id="username_conn" name="username_conn" class="form-control" placeholder="Usuario" required autocomplete="off" />
         </div>
         <div class="input-main">
             <i class="fas fa-lock"></i>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Clave" required autocomplete="off" />
+            <input type="password" id="password_conn" name="password_conn" class="form-control" placeholder="Clave" required autocomplete="off" />
         </div>
         <input type="hidden" name="prod" value="@ViewBag.prod" />
         <button class="btn btn-primary mt-5">Guardar Conexión</button>

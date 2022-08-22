@@ -2,74 +2,22 @@
     ViewBag.Title = "Cliente";
 }
 <style>
-    .dash-right-side .container-fluid {
+    .container-clients {
         height: 100%;
-        padding: 5px;
         display: flex;
-    }
-    h3{
-        margin: 0;
-    }
-    .container-list{
-        flex: 1;
-        overflow-y: auto;
-        margin-right: 5px;
-        padding-right: 5px;
-    }
-    .container-list .table td, .table th {
-        padding: 5px;
-        font-size: 14px;
-        user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-    }
-    .container-list .table thead {
-        background: #13568a;
-    }
-    .container-form {
-        flex: 3;
-        background: #f9f9f9;
-        border: solid 1px #b9b9b9;
-        position: relative;
-        overflow-y: auto;
-    }
-    .form-header {
-        background: #13568a;
-        padding: 10px 0;
-        border-bottom: solid 3px #126fb9;
-    }
-    .form-buttons {
-        background: #eeeded;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-    }
-    .form-buttons .btn{
-        padding: 5px 10px;
-        font-size: 14px;
-    }
-    .buttons-next-prev, .buttons-actions, .buttons-save-cancel {
-        width: fit-content;
-        display: flex;
-        justify-content: space-between;
-    }
-    .form-body {
-        background: #f9f9f9;
-        display: none;
-        flex-wrap: wrap;
-    }
-    .form-body > div {
+        flex-direction: column;
         padding: 15px;
+        box-sizing: border-box;
     }
-    .form-body .left, .form-body .right {
-        width: 50%;
+    .container-clients > .row {
+        height: 100%;
+        margin: 0;
+        padding: 0;
     }
-    .form-body .bottom{
-        width: 100%;
-        border-top: solid 1px #b9b9b9;
+    .container-clients > .row hr {
+        display: none;
     }
-    .controls{
+    /*.controls{
         min-height: 40px;
         display: flex;
         justify-content: space-between;
@@ -88,7 +36,7 @@
     .controls input[readonly][disabled]{
         background: #e9ecef;
     }
-    .controls input[type=text], .controls input[type=date] {
+    .controls input[type=text], .controls input[type=date], .controls .input-search {
         width: auto;
         min-width: 300px;
         border: 1px solid #ced4da;
@@ -108,13 +56,25 @@
         font-size: 14px;
         display: flex;
         align-items: center;
-    }
-    .input-search{
-        max-width: 300px;
+    }*/
+    .input-search {
+        display: flex;
+        border: 0 !important;
     }
     .input-search input{
         width: 100% !important;
         min-width: auto !important;
+    }
+    .input-search i {
+        min-width: 40px;
+        background: #13568a;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #FFF;
+        border: solid 2px #0277bd;
+        margin-left: 5px;
     }
     .form-tabs {
         overflow: hidden;
@@ -147,430 +107,438 @@
         font-size: 6em;
         padding: 5%;
     }
-    .container-list .table-striped tbody tr:nth-of-type(2n+1) {
-        background-color: rgb(227, 227, 227);
+    @@media (max-width: 1399px) {
+        .container-clients, .container-clients > .row {
+            height: auto !important;
+        }
+        hr {
+            display: block !important;
+        }
     }
 </style>
-<div class="container-fluid" ng-app="Clients" ng-controller="controller">
-    <div class="container-list">
-        <input type="text" id="input-clients" class="form-control" placeholder="Buscar cliente..." style="border: solid 1px #ced4da;" onkeyup="searchClient()" />
-        <table class="table table-hover table-striped" id="table-clients" style="margin-top: 5px;">
-            <thead>
-                <tr>
-                    <th class="text-white">RIF</th>
-                    <th class="text-white">Nombre</th>
-                </tr>
-            </thead>
-            <tr ng-repeat="client in clients" ng-click="selectClient(client.co_cli)" style="cursor: pointer;">
-                <td>{{ client.rif }}</td>
-                <td>{{ client.cli_des }}</td>
-            </tr>
-        </table>
+<div class="container-fluid container-clients" ng-app="Clients" ng-controller="controller">
+    <div class="row">
+        <div class="col-md-12 col-xxl-3 container-list">
+            <input type="text" id="input-clients" class="form-control" placeholder="Buscar cliente..." style="border: solid 1px #ced4da;" ng-model="search" ng-keyup="searchClient(search)" />
+            <div class="list-table-clients">
+                <table class="table table-hover table-striped" id="table-clients">
+                    <thead>
+                        <tr>
+                            <th class="text-white">RIF</th>
+                            <th class="text-white">Nombre</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="client in clients" ng-click="selectClient(client.co_cli)" style="cursor: pointer;">
+                        <td>{{ client.co_cli }}</td>
+                        <td>{{ client.cli_des }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr />
+        <form action="" method="post" id="form" class="col-md-12 col-xxl-9 container-form" onsubmit="return false;">
+            <div class="form-header">
+                <h3 class="text-center text-white"><i class="fas fa-user"></i> Cliente</h3>
+            </div>
+            <div class="form-buttons">
+                <div class="row">
+                    <div class="col buttons-actions" ng-show="!adding && !editing">
+                        <button type="button" class="btn btn-primary" ng-click="initAddClient()">
+                            <i class="fas fa-plus"></i>
+                            Nuevo
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-warning" ng-click="editing = true">
+                            <i class="fas fa-file-edit"></i>
+                            Modificar
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-danger" onclick="$('#modalDelete').modal('show')">
+                            <i class="fas fa-times"></i>
+                            Eliminar
+                        </button>
+                    </div>
+                    <div class="col buttons-save-cancel" ng-show="adding">
+                        <button type="button" class="btn btn-danger" ng-click="adding = false; client = clients[index]">
+                            <i class="fas fa-times"></i>
+                            Cancelar
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="submit" class="btn btn-success" ng-click="addClient()">
+                            <i class="fas fa-save"></i>
+                            Agregar
+                        </button>
+                    </div>
+                    <div class="col buttons-save-cancel" ng-show="editing">
+                        <button type="button" class="btn btn-danger" ng-click="editing = false">
+                            <i class="fas fa-times"></i>
+                            Cancelar
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-success" ng-click="editClient()">
+                            <i class="fas fa-save"></i>
+                            Guardar
+                        </button>
+                    </div>
+                    <div class="col buttons-next-prev" ng-show="!adding && !editing">
+                        <button type="button" class="btn btn-primary" ng-click="margin('s')">
+                            <i class="fas fa-chevron-double-left"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="prev()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="next()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="margin('e')">
+                            <i class="fas fa-chevron-double-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-tabs">
+                @*<button type="button" id="btn-general" class="tablinks active" onclick="openTab(event, 'general')">General</button>
+                <button type="button" id="btn-ubicacion" class="tablinks" onclick="openTab(event, 'ubicacion')">Ubicación</button>
+                <button type="button" id="btn-credito" class="tablinks" onclick="openTab(event, 'credito')">Crédito y Saldos</button>
+                <button type="button" id="btn-otros" class="tablinks" onclick="openTab(event, 'otros')">Otros</button>
+                <button type="button" id="btn-adicionales" class="tablinks" onclick="openTab(event, 'adicionales')">Adicionales</button>*@
+            </div>
+            <div id="general" class="form-body" style="display: flex;">
+                <div class="left">
+                    <div class="controls">
+                        <label>Código</label>
+                        <input type="text" class="form-control" id="id" name="id" ng-model="client.co_cli" ng-disabled="!adding" ng-required="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" id="name" ng-model="client.cli_des" ng-disabled="!adding && !editing" ng-required="true" />
+                    </div>
+                    <div class="controls">
+                        <label>RIF</label>
+                        <input type="text" class="form-control" id="rif" ng-model="client.rif" ng-disabled="!adding && !editing" ng-required="true" />
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="controls">
+                        <label>Tipo</label>
+                        <div class="input-search">
+                            <input type="text" class="form-control" id="type" onfocus="this.blur()" ng-model="client.tip_cli" ng-disabled="!adding && !editing" ng-required="true" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTypes')" data-name="type"></i>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <label>Fecha de Registro</label>
+                        <input type="date" class="form-control" id="fechaReg" ng-model="client.fecha_reg" ng-disabled="!adding && !editing" />
+                    </div>
+                    <div class="controls">
+                        <label class="label-check"><input type="checkbox" ng-model="client.contrib" ng-disabled="!adding && !editing" /> Contribuyente</label>
+                    </div>
+                    <div class="controls">
+                        <label class="label-check"><input type="checkbox" ng-model="client.inactivo" ng-disabled="!adding && !editing" /> Inactivo</label>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Segmento</label>
+                                <div class="input-search">
+                                    <input type="text" class="form-control" id="segment" onfocus="this.blur()" ng-model="client.co_seg" ng-disabled="!adding && !editing" ng-required="true" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSegments')" data-name="segment"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Vendedor</label>
+                                <div class="input-search">
+                                    <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="client.co_ven" ng-disabled="!adding && !editing" ng-required="true" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Cuenta Ingr/Egr</label>
+                                <div class="input-search">
+                                    <input type="text" class="form-control" id="account" onfocus="this.blur()" ng-model="client.co_cta_ingr_egr" ng-disabled="!adding && !editing" ng-required="true" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="account"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Contacto</label>
+                                <input type="text" class="form-control" id="respons" ng-model="client.respons" ng-disabled="!adding && !editing" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Teléfono</label>
+                                <input type="text" class="form-control" id="phone" ng-model="client.telefonos" ng-disabled="!adding && !editing" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Fax</label>
+                                <input type="text" class="form-control" id="fax" ng-model="client.fax" ng-disabled="!adding && !editing" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Email</label>
+                                <input type="text" class="form-control" id="email" ng-model="client.email" ng-disabled="!adding && !editing" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Email Alterno</label>
+                                <input type="text" class="form-control" id="altEmail" ng-model="client.email_alterno" ng-disabled="!adding && !editing" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="ubicacion" class="form-body">
+                <div class="left">
+                    <div class="controls">
+                        <label>País</label>
+                        <div class="input-search">
+                            <input type="text" class="form-control" id="country" onfocus="this.blur()" ng-model="client.co_pais" ng-disabled="!adding && !editing" ng-required="true" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCountries')" data-name="country"></i>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <label>Zona</label>
+                        <div class="input-search">
+                            <input type="text" class="form-control" id="zone" onfocus="this.blur()" ng-model="client.co_zon" ng-disabled="!adding && !editing" ng-required="true" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalZones')" data-name="zone"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="controls">
+                        <label>Ciudad</label>
+                        <input type="text" class="form-control" id="city" ng-model="client.ciudad" ng-disabled="!adding && !editing" />
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="controls">
+                                <label>Dirección</label>
+                                <textarea class="form-control" id="address1" ng-model="client.direc1" ng-disabled="!adding && !editing"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="controls">
+                                <label>Dirección Entrega</label>
+                                <textarea class="form-control" id="delAddress" ng-model="client.dir_ent2" ng-disabled="!adding && !editing"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="credito" class="form-body">
+                <div class="left">
+                    <div class="controls">
+                        <label class="label-check"><input type="checkbox" ng-model="client.sincredito" ng-click="client.mont_cre = 0; client.cond_pag = null" ng-disabled="!adding && !editing" /> Sin Crédito</label>
+                    </div>
+                    <div class="controls">
+                        <label>Cond. Pago</label>
+                        <div class="input-search">
+                            <input type="text" class="form-control" id="cond" onfocus="this.blur()" ng-model="client.cond_pag" ng-disabled="(!adding && !editing) || client.sincredito" ng-required="!client.SinCred" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="controls">
+                        <label>Límite</label>
+                        <input type="text" class="form-control" id="montcre" ng-model="client.mont_cre" ng-disabled="(!adding && !editing) || client.SinCred" />
+                    </div>
+                    <div class="controls">
+                        <button type="button" class="btn btn-primary" disabled>Saldo Actual</button>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Desc. P. Pago</label>
+                                <input type="text" class="form-control" id="descppago" ng-model="client.desc_ppago" ng-disabled="!adding && !editing" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Desc. Glob.</label>
+                                <input type="text" class="form-control" id="descglob" ng-model="client.desc_glob" ng-disabled="!adding && !editing" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5 class="text-center mt-3 mb-3">Días de visita</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="controls">
+                                <label class="label-check"><input type="checkbox" ng-model="client.lunes" ng-disabled="true" /> Lunes</label>
+                                <label class="label-check"><input type="checkbox" ng-model="client.martes" ng-disabled="true" /> Martes</label>
+                                <label class="label-check"><input type="checkbox" ng-model="client.miercoles" ng-disabled="true" /> Miércoles</label>
+                                <label class="label-check"><input type="checkbox" ng-model="client.jueves" ng-disabled="true" /> Jueves</label>
+                                <label class="label-check"><input type="checkbox" ng-model="client.viernes" ng-disabled="true" /> Viernes</label>
+                                <label class="label-check"><input type="checkbox" ng-model="client.sabado" ng-disabled="true" /> Sábado</label>
+                                <label class="label-check"><input type="checkbox" ng-model="client.domingo" ng-disabled="true" /> Domingo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Horario Caja</label>
+                                <input type="text" class="form-control" id="horarcaja" ng-model="client.horar_caja" ng-disabled="true" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Frecuencia</label>
+                                <input type="text" class="form-control" id="frecuvist" ng-model="client.frecu_vist" ng-disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="controls">
+                                <label>Comentario</label>
+                                <textarea class="form-control" id="comment" ng-model="client.comentario" ng-disabled="!adding && !editing"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="otros" class="form-body">
+                <div class="left">
+                    <div class="controls">
+                        <label>Tipo de persona</label>
+                        <select ng-model="client.tipo_per" ng-disabled="!adding && !editing">
+                            <option value="1">(PNR) Persona Natural Residente</option>
+                            <option value="2">(PNNR) Persona Natural No Residente</option>
+                            <option value="3">(PJD) Persona Jurídica Domiciliada</option>
+                            <option value="4">(PJND) Persona Jurídica No Domiciliada</option>
+                            <option value="5">Exenta</option>
+                            <option value="6">Tesorería Nacional</option>
+                            <option value="7">Otros 1</option>
+                            <option value="8">Otros 2</option>
+                        </select>
+                    </div>
+                    <div class="controls">
+                        <label>Tabulador de I.S.L.R</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.co_tab" ng-disabled="!adding && !editing" />
+                    </div>
+                    <div class="controls">
+                        <button type="button" class="btn btn-primary" disabled>Consulta de R.I.F</button>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="controls">
+                        <label class="label-check"><input type="checkbox" ng-model="client.contribu_e" ng-change="client.porc_esp = 0" ng-disabled="!adding && !editing" /> Contribuyente Especial</label>
+                        <label class="label-check"><input type="checkbox" ng-model="client.rete_regis_doc" ng-disabled="(!adding && !editing) || !client.contribu_e" /> Retener al registrar documento</label>
+                    </div>
+                    <div class="controls">
+                        <label>Retención (%)</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.porc_esp" ng-disabled="(!adding && !editing) || !client.contribu_e" />
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5 class="text-center mt-3 mb-3">Clasificación</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label class="label-radio"><input type="radio" value="1" ng-model="client.tipo_adi" ng-disabled="true" /> Normal</label>
+                                <label class="label-radio"><input type="radio" value="2" ng-model="client.tipo_adi" ng-disabled="true" /> Casa Matriz</label>
+                                <label class="label-radio"><input type="radio" value="3" ng-model="client.tipo_adi" ng-disabled="true" /> Sucursal</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="controls">
+                                <label>Casa Matriz</label>
+                                <input type="text" class="form-control" id="matriz" ng-model="client.matriz" ng-disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="adicionales" class="form-body">
+                <div class="left">
+                    <div class="controls">
+                        <label>Campo 1</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.campo1" ng-disabled="!adding && !editing" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 3</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.campo3" ng-disabled="!adding && !editing" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 5</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.campo5" ng-disabled="!adding && !editing" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 7</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.campo7" ng-disabled="!adding && !editing" />
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="controls">
+                        <label>Campo 2</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.campo2" ng-disabled="!adding && !editing" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 4</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.campo4" ng-disabled="!adding && !editing" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 6</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.campo6" ng-disabled="!adding && !editing" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 8</label>
+                        <input type="text" class="form-control" id="tab" ng-model="client.campo8" ng-disabled="!adding && !editing" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-footer">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="controls">
+                            <button type="button" class="btn btn-primary" disabled>Imagen</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="controls">
+                            <label class="label-check"><input type="checkbox" disabled />Heredar características al incluir</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-    <form action="" method="post" id="form" class="container-form" onsubmit="return false;">
-        <div class="form-header">
-            <h3 class="text-center text-white"><i class="fas fa-user"></i> Cliente</h3>
-        </div>
-        <div class="form-buttons">
-            <div class="buttons-actions" ng-show="!adding && !editing">
-                <button type="button" class="btn btn-primary" ng-click="initAddClient()">
-                    <i class="fas fa-plus"></i>
-                    Nuevo
-                </button>
-                <div style="width: 10px;"></div>
-                <button type="button" class="btn btn-warning" ng-click="editing = true">
-                    <i class="fas fa-file-edit"></i>
-                    Modificar
-                </button>
-                <div style="width: 10px;"></div>
-                <button type="button" class="btn btn-danger" onclick="$('#modalDelete').modal('show')">
-                    <i class="fas fa-times"></i>
-                    Eliminar
-                </button>
-            </div>
-            <div class="buttons-save-cancel" ng-show="adding">
-                <button type="button" class="btn btn-danger" ng-click="adding = false; client = clients[index]">
-                    <i class="fas fa-times"></i>
-                    Cancelar
-                </button>
-                <div style="width: 10px;"></div>
-                <button type="submit" class="btn btn-success" ng-click="addClient()">
-                    <i class="fas fa-save"></i>
-                    Agregar
-                </button>
-            </div>
-            <div class="buttons-save-cancel" ng-show="editing">
-                <button type="button" class="btn btn-danger" ng-click="editing = false">
-                    <i class="fas fa-times"></i>
-                    Cancelar
-                </button>
-                <div style="width: 10px;"></div>
-                <button type="button" class="btn btn-success" ng-click="editClient()">
-                    <i class="fas fa-save"></i>
-                    Guardar
-                </button>
-            </div>
-            <div class="buttons-next-prev" ng-show="!adding && !editing">
-                <button type="button" class="btn btn-primary" ng-click="margin('s')">
-                    <i class="fas fa-chevron-double-left"></i>
-                    Ir al primero
-                </button>
-                <div style="width: 10px;"></div>
-                <button type="button" class="btn btn-primary" ng-click="prev()">
-                    <i class="fas fa-chevron-left"></i>
-                    Anterior
-                </button>
-                <div style="width: 10px;"></div>
-                <button type="button" class="btn btn-primary" ng-click="next()">
-                    Siguiente
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                <div style="width: 10px;"></div>
-                <button type="button" class="btn btn-primary" ng-click="margin('e')">
-                    Ir al último
-                    <i class="fas fa-chevron-double-right"></i>
-                </button>
-            </div>
-        </div>
-        <div class="form-tabs">
-            <button type="button" id="btn-general" class="tablinks active" onclick="openTab(event, 'general')">General</button>
-            <button type="button" id="btn-ubicacion" class="tablinks" onclick="openTab(event, 'ubicacion')">Ubicación</button>
-            <button type="button" id="btn-credito" class="tablinks" onclick="openTab(event, 'credito')">Crédito y Saldos</button>
-            <button type="button" id="btn-otros" class="tablinks" onclick="openTab(event, 'otros')">Otros</button>
-            <button type="button" id="btn-adicionales" class="tablinks" onclick="openTab(event, 'adicionales')">Adicionales</button>
-        </div>
-        <div id="general" class="form-body" style="display: flex;">
-            <div class="left">
-                <div class="controls">
-                    <label>Código</label>
-                    <input type="text" class="form-control" id="id" name="id" ng-model="client.co_cli" ng-disabled="!adding" ng-required="true" />
-                </div>
-                <div class="controls">
-                    <label>Nombre</label>
-                    <input type="text" class="form-control" id="name" ng-model="client.cli_des" ng-disabled="!adding && !editing" ng-required="true" />
-                </div>
-                <div class="controls">
-                    <label>Tipo</label>
-                    <div class="input-search">
-                        <input type="text" class="form-control" id="type" onfocus="this.blur()" ng-model="client.tip_cli" ng-disabled="!adding && !editing" ng-required="true" />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTypes')" data-name="type"></i>
-                    </div>
-                </div>
-                <div class="controls">
-                    <label>RIF</label>
-                    <input type="text" class="form-control" id="rif" ng-model="client.rif" ng-disabled="!adding && !editing" ng-required="true" />
-                </div>
-            </div>
-            <div class="right">
-                <div class="controls">
-                    <label>Fecha de Registro</label>
-                    <input type="date" class="form-control" id="fechaReg" ng-model="client.fecha_reg" ng-disabled="!adding && !editing" />
-                </div>
-                <div class="controls">
-                    <label class="label-check"><input type="checkbox" ng-model="client.contrib" ng-disabled="!adding && !editing" /> Contribuyente</label>
-                </div>
-                <div class="controls">
-                    <label class="label-check"><input type="checkbox" ng-model="client.inactivo" ng-disabled="!adding && !editing" /> Inactivo</label>
-                </div>
-            </div>
-            <div class="bottom">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Segmento</label>
-                            <div class="input-search">
-                                <input type="text" class="form-control" id="segment" onfocus="this.blur()" ng-model="client.co_seg" ng-disabled="!adding && !editing" ng-required="true" />
-                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSegments')" data-name="segment"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Vendedor</label>
-                            <div class="input-search">
-                                <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="client.co_ven" ng-disabled="!adding && !editing" ng-required="true" />
-                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Cuenta Ingr/Egr</label>
-                            <div class="input-search">
-                                <input type="text" class="form-control" id="account" onfocus="this.blur()" ng-model="client.co_cta_ingr_egr" ng-disabled="!adding && !editing" ng-required="true" />
-                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="account"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Contacto</label>
-                            <input type="text" class="form-control" id="respons" ng-model="client.respons" ng-disabled="!adding && !editing" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Teléfono</label>
-                            <input type="text" class="form-control" id="phone" ng-model="client.telefonos" ng-disabled="!adding && !editing" />
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Fax</label>
-                            <input type="text" class="form-control" id="fax" ng-model="client.fax" ng-disabled="!adding && !editing" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Email</label>
-                            <input type="text" class="form-control" id="email" ng-model="client.email" ng-disabled="!adding && !editing" />
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Email Alterno</label>
-                            <input type="text" class="form-control" id="altEmail" ng-model="client.email_alterno" ng-disabled="!adding && !editing" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="ubicacion" class="form-body">
-            <div class="left">
-                <div class="controls">
-                    <label>País</label>
-                    <div class="input-search">
-                        <input type="text" class="form-control" id="country" onfocus="this.blur()" ng-model="client.co_pais" ng-disabled="!adding && !editing" ng-required="true" />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCountries')" data-name="country"></i>
-                    </div>
-                </div>
-                <div class="controls">
-                    <label>Zona</label>
-                    <div class="input-search">
-                        <input type="text" class="form-control" id="zone" onfocus="this.blur()" ng-model="client.co_zon" ng-disabled="!adding && !editing" ng-required="true" />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalZones')" data-name="zone"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="right">
-                <div class="controls">
-                    <label>Ciudad</label>
-                    <input type="text" class="form-control" id="city" ng-model="client.ciudad" ng-disabled="!adding && !editing" />
-                </div>
-            </div>
-            <div class="bottom">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="controls">
-                            <label>Dirección</label>
-                            <textarea class="form-control" id="address1" ng-model="client.direc1" ng-disabled="!adding && !editing"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="controls">
-                            <label>Dirección Entrega</label>
-                            <textarea class="form-control" id="delAddress" ng-model="client.dir_ent2" ng-disabled="!adding && !editing"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="credito" class="form-body">
-            <div class="left">
-                <div class="controls">
-                    <label class="label-check"><input type="checkbox" ng-model="client.sincredito" ng-click="client.mont_cre = 0; client.cond_pag = null" ng-disabled="!adding && !editing" /> Sin Crédito</label>
-                </div>
-                <div class="controls">
-                    <label>Cond. Pago</label>
-                    <div class="input-search">
-                        <input type="text" class="form-control" id="cond" onfocus="this.blur()" ng-model="client.cond_pag" ng-disabled="(!adding && !editing) || client.sincredito" ng-required="!client.SinCred" />
-                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="right">
-                <div class="controls">
-                    <label>Límite</label>
-                    <input type="text" class="form-control" id="montcre" ng-model="client.mont_cre" ng-disabled="(!adding && !editing) || client.SinCred" />
-                </div>
-                <div class="controls">
-                    <button type="button" class="btn btn-primary" disabled>Saldo Actual</button>
-                </div>
-            </div>
-            <div class="bottom">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Desc. P. Pago</label>
-                            <input type="text" class="form-control" id="descppago" ng-model="client.desc_ppago" ng-disabled="!adding && !editing" />
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Desc. Glob.</label>
-                            <input type="text" class="form-control" id="descglob" ng-model="client.desc_glob" ng-disabled="!adding && !editing" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h5 class="text-center mt-3 mb-3">Días de visita</h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="controls">
-                            <label class="label-check"><input type="checkbox" ng-model="client.lunes" ng-disabled="true" /> Lunes</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.martes" ng-disabled="true" /> Martes</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.miercoles" ng-disabled="true" /> Miércoles</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.jueves" ng-disabled="true" /> Jueves</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.viernes" ng-disabled="true" /> Viernes</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.sabado" ng-disabled="true" /> Sábado</label>
-                            <label class="label-check"><input type="checkbox" ng-model="client.domingo" ng-disabled="true" /> Domingo</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Horario Caja</label>
-                            <input type="text" class="form-control" id="horarcaja" ng-model="client.horar_caja" ng-disabled="true" />
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Frecuencia</label>
-                            <input type="text" class="form-control" id="frecuvist" ng-model="client.frecu_vist" ng-disabled="true" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="controls">
-                            <label>Comentario</label>
-                            <textarea class="form-control" id="comment" ng-model="client.comentario" ng-disabled="!adding && !editing"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="otros" class="form-body">
-            <div class="left">
-                <div class="controls">
-                    <label>Tipo de persona</label>
-                    <select ng-model="client.tipo_per" ng-disabled="!adding && !editing">
-                        <option value="1">(PNR) Persona Natural Residente</option>
-                        <option value="2">(PNNR) Persona Natural No Residente</option>
-                        <option value="3">(PJD) Persona Jurídica Domiciliada</option>
-                        <option value="4">(PJND) Persona Jurídica No Domiciliada</option>
-                        <option value="5">Exenta</option>
-                        <option value="6">Tesorería Nacional</option>
-                        <option value="7">Otros 1</option>
-                        <option value="8">Otros 2</option>
-                    </select>
-                </div>
-                <div class="controls">
-                    <label>Tabulador de I.S.L.R</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.co_tab" ng-disabled="!adding && !editing" />
-                </div>
-                <div class="controls">
-                    <button type="button" class="btn btn-primary" disabled>Consulta de R.I.F</button>
-                </div>
-            </div>
-            <div class="right">
-                <div class="controls">
-                    <label class="label-check"><input type="checkbox" ng-model="client.contribu_e" ng-change="client.porc_esp = 0" ng-disabled="!adding && !editing" /> Contribuyente Especial</label>
-                    <label class="label-check"><input type="checkbox" ng-model="client.rete_regis_doc" ng-disabled="(!adding && !editing) || !client.contribu_e" /> Retener al registrar documento</label>
-                </div>
-                <div class="controls">
-                    <label>Retención (%)</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.porc_esp" ng-disabled="(!adding && !editing) || !client.contribu_e" />
-                </div>
-            </div>
-            <div class="bottom">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h5 class="text-center mt-3 mb-3">Clasificación</h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label class="label-radio"><input type="radio" value="1" ng-model="client.tipo_adi" ng-disabled="true" /> Normal</label>
-                            <label class="label-radio"><input type="radio" value="2" ng-model="client.tipo_adi" ng-disabled="true" /> Casa Matriz</label>
-                            <label class="label-radio"><input type="radio" value="3" ng-model="client.tipo_adi" ng-disabled="true" /> Sucursal</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="controls">
-                            <label>Casa Matriz</label>
-                            <input type="text" class="form-control" id="matriz" ng-model="client.matriz" ng-disabled="true" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="adicionales" class="form-body">
-            <div class="left">
-                <div class="controls">
-                    <label>Campo 1</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.campo1" ng-disabled="!adding && !editing" />
-                </div>
-                <div class="controls">
-                    <label>Campo 3</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.campo3" ng-disabled="!adding && !editing" />
-                </div>
-                <div class="controls">
-                    <label>Campo 5</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.campo5" ng-disabled="!adding && !editing" />
-                </div>
-                <div class="controls">
-                    <label>Campo 7</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.campo7" ng-disabled="!adding && !editing" />
-                </div>
-            </div>
-            <div class="right">
-                <div class="controls">
-                    <label>Campo 2</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.campo2" ng-disabled="!adding && !editing" />
-                </div>
-                <div class="controls">
-                    <label>Campo 4</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.campo4" ng-disabled="!adding && !editing" />
-                </div>
-                <div class="controls">
-                    <label>Campo 6</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.campo6" ng-disabled="!adding && !editing" />
-                </div>
-                <div class="controls">
-                    <label>Campo 8</label>
-                    <input type="text" class="form-control" id="tab" ng-model="client.campo8" ng-disabled="!adding && !editing" />
-                </div>
-            </div>
-        </div>
-        <div class="form-footer">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="controls">
-                        <button type="button" class="btn btn-primary" disabled>Imagen</button>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="controls">
-                        <label class="label-check"><input type="checkbox" disabled />Heredar características al incluir</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
     <!-- Modal Eliminar Cliente -->
     <div class="modal fade modal-info" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
@@ -897,11 +865,17 @@
     app.controller("controller", function ($scope, $http) {
 
         $scope.index = 0;
+
         $scope.clients = clients;
         $scope.adding = false;
         $scope.editing = false;
 
         $scope.client = clients[$scope.index];
+
+        $scope.searchClient = function (value) {
+            value = value.toLocaleLowerCase();
+            $scope.clients = clients.filter(c => c.co_cli.toLocaleLowerCase().includes(value) || c.cli_des.toLocaleLowerCase().includes(value));
+        }
 
         $scope.next = function () {
             if ($scope.index == (clients.length - 1)) {
@@ -931,6 +905,8 @@
             } else {
                 $scope.client = clients.find(c => c.co_cli == id);
                 $scope.index = clients.indexOf($scope.client);
+                $scope.clients = clients;
+                $scope.search = "";
             }
         }
 

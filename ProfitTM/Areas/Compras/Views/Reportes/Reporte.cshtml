@@ -1,0 +1,48 @@
+﻿@{
+    // REPORTES COMPRAS
+    if (!string.IsNullOrEmpty(ViewBag.name))
+    {
+        ViewBag.Title = ViewBag.name;
+    }
+    else
+    {
+        ViewBag.Title = "Ver Reporte";
+    }
+}
+
+@Html.DevExpress().GetStyleSheets(
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Report }
+)
+@Html.DevExpress().GetScripts(
+    //new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.Report }
+)
+<div class="page-report container-fluid py-3">
+    <a href="/Compras/Reportes" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Volver al menú de reportes</a>
+    @{
+        if (string.IsNullOrEmpty(ViewBag.report))
+        {
+            <h2 class="text-center mt-3">No has seleccionado ningún reporte</h2>
+        }
+        else
+        {
+            string report = ViewBag.report;
+
+            <div class="cont-report">
+                @Html.Action(report, "Reps")
+            </div>
+        }
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $(".dxrd-preview-parameter-action.dxrdp-parameters-submit").on("click", function () {
+                $(".dxrd-right-panel-collapse").trigger("click");
+            });
+        }, 1000);
+    });
+</script>

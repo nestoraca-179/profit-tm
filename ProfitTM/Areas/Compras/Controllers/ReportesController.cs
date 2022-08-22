@@ -6,7 +6,7 @@ namespace ProfitTM.Areas.Compras.Controllers
     [Authorize]
     public class ReportesController : Controller
     {
-        public ActionResult Index(string name = "", string format = "")
+        public ActionResult Index()
         {
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
@@ -23,6 +23,35 @@ namespace ProfitTM.Areas.Compras.Controllers
             }
             else
             {
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.bran_conn = Session["bran_conn"].ToString();
+
+                return View();
+            }
+        }
+
+        public ActionResult Reporte(string name = "", string format = "")
+        {
+            ViewBag.user = Session["user"];
+            ViewBag.connect = Session["connect"];
+            ViewBag.modules = Session["modules"];
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
+            }
+            else
+            {
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.bran_conn = Session["bran_conn"].ToString();
+
                 ViewBag.name = name;
                 ViewBag.report = format;
 

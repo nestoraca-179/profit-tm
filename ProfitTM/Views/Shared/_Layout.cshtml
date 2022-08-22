@@ -39,8 +39,23 @@
         </main>
     </div>
     <footer class="border-top footer text-muted footer-bottom">
-        <div class="container" style="display: flex;">
-            &copy; 2022 - <a href="http://gtsconsultingca.com/" target="_blank" style="margin-left: 5px; text-decoration: none;">GTS Consulting C.A.</a></p>
+        <div class="container">
+            <p>&copy; 2022 - <a href="http://gtsconsultingca.com/" target="_blank" style="margin-left: 5px; text-decoration: none;">Global Technology and Systems Consulting C.A.</a></p>
+            @{
+                if (ViewBag.user_conn != null)
+                {
+                    <ul class="list-connection">
+                        <li><i class="fas fa-user"></i> @ViewBag.user_conn</li>
+                        <li style="margin: 0 10px;"><i class="fas fa-building"></i> @ViewBag.data_conn</li>
+                        @{ 
+                            if (ViewBag.bran_conn != null)
+                            {
+                                <li><i class="fas fa-building"></i> @ViewBag.bran_conn</li>
+                            }
+                        }
+                    </ul>
+                }
+            }
         </div>
     </footer>
     <script src="~/Scripts/popper.js"></script>

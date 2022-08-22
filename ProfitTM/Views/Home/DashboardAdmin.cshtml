@@ -72,9 +72,11 @@
         }
         .dash-left-side {
             width: 100%;
+            max-height: 100%;
             position: absolute;
             z-index: 10;
             border: 0 !important;
+            overflow-y: auto;
         }
         .list-menu {
             margin: 0;
@@ -151,7 +153,7 @@
                     <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
                     <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
                 </div>
-                <li ng-if="responsive" class="menu-item border-top" onclick="location.href = '/Account/Logout'">
+                <li class="menu-item border-top" onclick="location.href = '/Account/Logout'">
                     <i class="fas fa-power-off"></i>
                     <p class="mb-0 ml-3">Cerrar Sesión</p>
                 </li>
@@ -194,6 +196,7 @@
                     </div>
                 </div>
                 <hr />
+                <h4 class="text-center">Estadísticas del mes actual</h4>
                 <div class="row mt-3">
                     <div class="col-md-12 col-xl-6 col-xxl-8 col-graph">
                         <div class="container-chart shadow-tm">
@@ -270,7 +273,7 @@
     var btn = document.getElementById("icon-menu");
     var menu = document.getElementById("menu-left");
     var graphs = ['msp', 'mpp', 'mac', 'mas'];
-    var responsive = screen.availWidth <= 728 ? true : false;
+    var responsive = screen.availWidth <= 767 ? true : false;
     var node = null;
 
     var fec_d = new Date(), fec_h = new Date();
@@ -296,10 +299,26 @@
             btn.addEventListener("click", slide);
         } else {
             btn.addEventListener("click", hide);
+            $(".menu-item.border-top").attr('style', 'display: none;');
         }
 
-        $scope.responsive = responsive;
         $scope.show_all = false;
+
+        window.addEventListener("resize", function () {
+            responsive = screen.availWidth <= 767;
+
+            if (responsive) {
+                btn.removeEventListener("click", hide);
+                btn.addEventListener("click", slide);
+                $(".menu-item.border-top").removeAttr('style', 'display: none;');
+                $("#menu-left.active").removeClass("active");
+            } else {
+                btn.removeEventListener("click", slide);
+                btn.addEventListener("click", hide);
+                $("ul.list-menu").removeAttr('style');
+                $(".menu-item.border-top").attr('style', 'display: none;');
+            }
+        });
 
         // ESTADISTICAS
         $http.get(`../../api/ProfitTMApi/GetStatsInvoices/${fecha_d}/${fecha_h}`)

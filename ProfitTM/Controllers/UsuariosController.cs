@@ -24,6 +24,10 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.bran_conn = Session["bran_conn"] != null ? Session["bran_conn"].ToString() : null;
+
                 ViewBag.users = MyUser.GetAllUsers();
 
                 return View();
@@ -47,6 +51,10 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.bran_conn = Session["bran_conn"] != null ? Session["bran_conn"].ToString() : null;
+
                 ViewBag.allModules = Module.GetAllModules();
 
                 return View();
@@ -70,6 +78,10 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.bran_conn = Session["bran_conn"] != null ? Session["bran_conn"].ToString() : null;
+
                 ViewBag.userEdit = MyUser.GetUserByID(id);
                 ViewBag.allModules = Module.GetAllModules();
 

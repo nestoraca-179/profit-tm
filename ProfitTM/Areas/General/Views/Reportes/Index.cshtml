@@ -1,45 +1,26 @@
 ﻿@{
-    // REPORTES GENERAL
-    if (!string.IsNullOrEmpty(ViewBag.name))
-    {
-        ViewBag.Title = ViewBag.name;
-    }
-    else
-    {
-        ViewBag.Title = "Reportes";
-    }
-
+    ViewBag.Title = "Reportes";
     ViewData["home"] = Session["home"];
 }
-@Html.DevExpress().GetStyleSheets(
-    //new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
-    //new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
-    new StyleSheet { ExtensionSuite = ExtensionSuite.Report }
-)
-@Html.DevExpress().GetScripts(
-    //new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
-    //new Script { ExtensionSuite = ExtensionSuite.Editors },
-    new Script { ExtensionSuite = ExtensionSuite.Report }
-)
 <div class="reports-container" ng-app="Reports" ng-controller="controller">
-    <form action="" method="post">
+    <form action="/General/Reportes/Reporte" method="post">
         <div class="row mt-2 p-3">
-            <div class="col-sm-3">
-                <div class="d-flex flex-column align-items-center mb-5">
+            <div class="col-sm-12 col-xl-4 col-xxl-3 col-controls">
+                <div class="d-flex flex-column align-items-center">
                     <h5>Árbol de Reportes</h5>
                     <select ng-model="tree" ng-change="loadGroup(tree)" ng-disabled="!treeReports">
                         <option value="#">Seleccione Árbol de Reportes...</option>
                         <option ng-repeat="tree in treeReports" value="{{ tree.ID }}">{{ tree.TreeName }}</option>
                     </select>
                 </div>
-                <div class="d-flex flex-column align-items-center mt-5 mb-5">
+                <div class="d-flex flex-column align-items-center">
                     <h5>Grupo de Reportes</h5>
                     <select ng-model="group" ng-change="loadReport(group)" ng-disabled="tree == '#'">
                         <option value="#">Seleccione Grupo de Reportes...</option>
                         <option ng-repeat="group in groupReports" value="{{ group.ID }}">{{ group.GroupName }}</option>
                     </select>
                 </div>
-                <div class="d-flex flex-column align-items-center mt-5 mb-5">
+                <div class="d-flex flex-column align-items-center">
                     <h5>Reporte</h5>
                     <select ng-model="report" ng-change="loadButton(report)" ng-disabled="group == '#' || tree == '#'">
                         <option value="#">Seleccione Reporte...</option>
@@ -48,25 +29,14 @@
                     <input type="hidden" id="name" name="name" value="" />
                     <input type="hidden" id="format" name="format" value="" />
                 </div>
-                <div class="d-flex flex-column align-items-center mt-5">
-                    <button type="submit" id="btnSubmit" class="btn btn-primary" style="margin: 15px 0" ng-disabled="!completed">Cargar Reporte</button>
+                <div class="d-flex flex-column align-items-center">
+                    <button type="button" id="btnSubmit" class="btn btn-primary" onclick="send(this)" style="margin: 15px 0" ng-disabled="!completed">Cargar Reporte</button>
                 </div>
             </div>
-            <div class="col-sm-9">
-                @{
-                    if (!string.IsNullOrEmpty(ViewBag.report))
-                    {
-                        string report = ViewBag.report;
-
-                        @Html.Action(report, "Reps")
-                    }
-                    else
-                    {
-                        <div class="background">
-                            <h2><i class="fas fa-file m-3"></i> Aquí se mostrará el reporte</h2>
-                        </div>
-                    }
-                }
+            <div class="col-sm-12 col-xl-8 col-xxl-9 col-report">
+                <div class="background">
+                    <h2><i class="fas fa-file m-3"></i> Aquí se mostrará el reporte</h2>
+                </div>
             </div>
         </div>
     </form>
@@ -74,16 +44,6 @@
 <script src="~/Scripts/angular-min.js"></script>
 <script>
     var app = angular.module("Reports", []);
-
-    $(document).ready(function () {
-
-        setTimeout(function () {
-            $(".dxrd-preview-parameter-action.dxrdp-parameters-submit").on("click", function () {
-                $(".dxrd-right-panel-collapse").trigger("click");
-            });
-        }, 1000);
-
-    });
 
     app.controller("controller", function ($scope, $http) {
 
@@ -138,5 +98,11 @@
             }
         }
     });
+
+    function send(elem) {
+        $(elem).prop("disabled", "true");
+        $("select").prop("disabled", "true");
+        $("form").trigger("submit");
+    }
 
 </script>

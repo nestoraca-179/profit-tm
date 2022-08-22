@@ -24,6 +24,10 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.bran_conn = Session["bran_conn"].ToString();
+
                 return View();
             }
         }
@@ -45,6 +49,10 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.bran_conn = Session["bran_conn"].ToString();
+
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 50000000;
 

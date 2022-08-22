@@ -71,7 +71,7 @@ namespace ProfitTM.Controllers
         // Guardar Conexion
         [Authorize]
         [HttpPost]
-        public ActionResult GuardarConexion(string name, string server, string db, string username, string password, string prod)
+        public ActionResult GuardarConexion(string name, string server, string db, string username_conn, string password_conn, string prod)
         {
             ViewBag.user = Session["user"];
 
@@ -83,7 +83,7 @@ namespace ProfitTM.Controllers
             else
             {
                 bool connected;
-                string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", server, db, username, password), msg = "";
+                string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", server, db, username_conn, password_conn), msg = "";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -111,8 +111,8 @@ namespace ProfitTM.Controllers
                         Name = name,
                         Server = server,
                         DB = db,
-                        Username = username,
-                        Password = password,
+                        Username = username_conn,
+                        Password = password_conn,
                         Type = prod
                     };
 
@@ -221,6 +221,7 @@ namespace ProfitTM.Controllers
 
                 Session["connect"] = connectionString;
                 Session["DB"] = connection.Database;
+                Session["name_conn"] = conn.Name;
             }
             else
             {
@@ -291,6 +292,20 @@ namespace ProfitTM.Controllers
                     Session["modules"] = Module.GetModulesByUser("ADM", userID);
                 }
 
+                string name_branch = "N/A";
+                if (Session["branch"] != null)
+                {
+                    name_branch = new Branch().GetBranchByID(Session["branch"].ToString()).sucur_des;
+                }
+
+                Session["user_conn"] = ViewBag.user.Descrip;
+                Session["data_conn"] = Session["name_conn"].ToString();
+                Session["bran_conn"] = name_branch;
+
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.bran_conn = Session["bran_conn"].ToString();
+
                 ViewBag.modules = Session["modules"];
 
                 return View();
@@ -321,6 +336,12 @@ namespace ProfitTM.Controllers
                     Session["modules"] = Module.GetModulesByUser("CON", userID);
                 }
 
+                Session["user_conn"] = ViewBag.user.Descrip;
+                Session["data_conn"] = Session["name_conn"].ToString();
+
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
+
                 ViewBag.modules = Session["modules"];
 
                 return View();
@@ -350,6 +371,12 @@ namespace ProfitTM.Controllers
                     string userID = ((Users)ViewBag.user).ID.ToString();
                     Session["modules"] = Module.GetModulesByUser("NOM", userID);
                 }
+
+                Session["user_conn"] = ViewBag.user.Descrip;
+                Session["data_conn"] = Session["name_conn"].ToString();
+
+                ViewBag.user_conn = Session["user_conn"].ToString();
+                ViewBag.data_conn = Session["data_conn"].ToString();
 
                 ViewBag.modules = Session["modules"];
 
