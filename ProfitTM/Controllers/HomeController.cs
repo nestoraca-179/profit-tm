@@ -270,6 +270,7 @@ namespace ProfitTM.Controllers
         {
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
+            ViewBag.product = "Administrativo";
 
             if (ViewBag.user == null)
             {
@@ -294,18 +295,12 @@ namespace ProfitTM.Controllers
 
                 string name_branch = "N/A";
                 if (Session["branch"] != null)
-                {
                     name_branch = new Branch().GetBranchByID(Session["branch"].ToString()).sucur_des;
-                }
 
-                Session["user_conn"] = ViewBag.user.Descrip;
                 Session["data_conn"] = Session["name_conn"].ToString();
                 Session["bran_conn"] = name_branch;
-
-                ViewBag.user_conn = Session["user_conn"].ToString();
                 ViewBag.data_conn = Session["data_conn"].ToString();
                 ViewBag.bran_conn = Session["bran_conn"].ToString();
-
                 ViewBag.modules = Session["modules"];
 
                 return View();
@@ -318,6 +313,7 @@ namespace ProfitTM.Controllers
         {
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
+            ViewBag.product = "Contabilidad";
 
             if (ViewBag.user == null)
             {
@@ -336,12 +332,8 @@ namespace ProfitTM.Controllers
                     Session["modules"] = Module.GetModulesByUser("CON", userID);
                 }
 
-                Session["user_conn"] = ViewBag.user.Descrip;
                 Session["data_conn"] = Session["name_conn"].ToString();
-
-                ViewBag.user_conn = Session["user_conn"].ToString();
                 ViewBag.data_conn = Session["data_conn"].ToString();
-
                 ViewBag.modules = Session["modules"];
 
                 return View();
@@ -354,6 +346,7 @@ namespace ProfitTM.Controllers
         {
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
+            ViewBag.product = "Nómina";
 
             if (ViewBag.user == null)
             {
@@ -372,12 +365,8 @@ namespace ProfitTM.Controllers
                     Session["modules"] = Module.GetModulesByUser("NOM", userID);
                 }
 
-                Session["user_conn"] = ViewBag.user.Descrip;
                 Session["data_conn"] = Session["name_conn"].ToString();
-
-                ViewBag.user_conn = Session["user_conn"].ToString();
                 ViewBag.data_conn = Session["data_conn"].ToString();
-
                 ViewBag.modules = Session["modules"];
 
                 return View();

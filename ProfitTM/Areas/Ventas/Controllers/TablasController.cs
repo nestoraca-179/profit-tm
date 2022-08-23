@@ -13,6 +13,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
             ViewBag.modules = Session["modules"];
+            ViewBag.product = "Administrativo";
 
             if (ViewBag.user == null)
             {
@@ -25,7 +26,6 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                ViewBag.user_conn = Session["user_conn"].ToString();
                 ViewBag.data_conn = Session["data_conn"].ToString();
                 ViewBag.bran_conn = Session["bran_conn"].ToString();
 
@@ -38,6 +38,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
             ViewBag.modules = Session["modules"];
+            ViewBag.product = "Administrativo";
 
             if (ViewBag.user == null)
             {
@@ -50,7 +51,6 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                ViewBag.user_conn = Session["user_conn"].ToString();
                 ViewBag.data_conn = Session["data_conn"].ToString();
                 ViewBag.bran_conn = Session["bran_conn"].ToString();
 

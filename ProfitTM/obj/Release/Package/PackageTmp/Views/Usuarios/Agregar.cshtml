@@ -270,6 +270,7 @@
     var app = angular.module("AddUser", []);
     var modules = @Html.Raw(Json.Encode(ViewBag.allModules));
     var btn = document.getElementById("icon-menu");
+    var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
     var responsive = screen.availWidth <= 767 ? true : false;
     var node = null;
@@ -300,6 +301,7 @@
                 btn.removeEventListener("click", hide);
                 btn.addEventListener("click", slide);
                 $(".menu-item.border-top").removeAttr('style', 'display: none;');
+                $("#header-left.active").removeClass("active");
                 $("#menu-left.active").removeClass("active");
             } else {
                 btn.removeEventListener("click", slide);
@@ -451,8 +453,10 @@
             $(elem).children("i.fa-caret-up").show();
             node = elem;
 
-            if (item_active)
+            if (item_active) {
+                $("#header-left").removeClass("active");
                 $("#menu-left").removeClass("active");
+            }
 
         } else {
 
@@ -470,6 +474,7 @@
             node = null;
         }
 
+        header.classList.toggle("active");
         menu.classList.toggle("active");
 
         $(".my-dropdown").slideUp();

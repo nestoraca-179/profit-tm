@@ -12,6 +12,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
             ViewBag.modules = Session["modules"];
+            ViewBag.product = "Administrativo";
 
             if (ViewBag.user == null)
             {
@@ -24,7 +25,6 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                ViewBag.user_conn = Session["user_conn"].ToString();
                 ViewBag.data_conn = Session["data_conn"].ToString();
                 ViewBag.bran_conn = Session["bran_conn"].ToString();
 
@@ -37,6 +37,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             ViewBag.user = Session["user"];
             ViewBag.connect = Session["connect"];
             ViewBag.modules = Session["modules"];
+            ViewBag.product = "Administrativo";
 
             if (ViewBag.user == null)
             {
@@ -49,7 +50,6 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                ViewBag.user_conn = Session["user_conn"].ToString();
                 ViewBag.data_conn = Session["data_conn"].ToString();
                 ViewBag.bran_conn = Session["bran_conn"].ToString();
 
@@ -67,115 +67,5 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 return View();
             }
         }
-
-        #region CODIGO ANTERIOR
-        //public ActionResult EditarFactura(string id = "")
-        //{
-        //    ViewBag.user = Session["user"];
-        //    ViewBag.modules = Session["modules"];
-
-        //    if (ViewBag.user == null)
-        //    {
-        //        FormsAuthentication.SignOut();
-        //        return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
-        //    }
-        //    else
-        //    {
-        //        string connect = Session["connect"].ToString();
-
-        //        if (id != "")
-        //        {
-        //            /*Invoice order = Invoice.GetInvoice(connect, id, "V");
-        //            ViewBag.order = order;*/
-        //        }
-
-        //        //ViewBag.clients = Client.GetAllClients(connect);
-        //        ViewBag.conds = new Cond().GetAllConds();
-        //        ViewBag.sellers = new Seller().GetAllSellers();
-        //        ViewBag.transports = Transport.GetAllTransports(connect);
-        //        ViewBag.currencies = Currency.GetAllCurrencies(connect);
-
-        //        return View();
-        //    }
-        //}
-
-        //public ActionResult ImprimirFactura(string id)
-        //{
-        //    ViewBag.user = Session["user"];
-        //    ViewBag.modules = Session["modules"];
-
-        //    ViewBag.report = id;
-
-        //    if (ViewBag.user == null)
-        //    {
-        //        FormsAuthentication.SignOut();
-        //        return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //public ActionResult EditarPedido(string id = "")
-        //{
-        //    ViewBag.user = Session["user"];
-        //    ViewBag.modules = Session["modules"];
-
-        //    if (ViewBag.user == null)
-        //    {
-        //        FormsAuthentication.SignOut();
-        //        return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
-        //    }
-        //    else
-        //    {
-        //        string connect = Session["connect"].ToString();
-
-        //        if (id != "")
-        //        {
-        //            /*Invoice order = Invoice.GetInvoice(connect, id, "PV");
-        //            ViewBag.order = order;*/
-        //        }
-
-        //        //ViewBag.clients = Client.GetAllClients(connect);
-        //        ViewBag.conds = new Cond().GetAllConds();
-        //        ViewBag.sellers = new Seller().GetAllSellers();
-        //        ViewBag.transports = Transport.GetAllTransports(connect);
-        //        ViewBag.currencies = Currency.GetAllCurrencies(connect);
-
-        //        return View();
-        //    }
-        //}
-
-        //public ActionResult ImportarPedido(string id = "")
-        //{
-        //    ViewBag.user = Session["user"];
-        //    ViewBag.modules = Session["modules"];
-
-        //    if (ViewBag.user == null)
-        //    {
-        //        FormsAuthentication.SignOut();
-        //        return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
-        //    }
-        //    else
-        //    {
-        //        string connect = Session["connect"].ToString();
-
-        //        if (id != "")
-        //        {
-        //            /*Invoice order = Invoice.GetInvoice(connect, id, "PV");
-        //            ViewBag.order = order;*/
-        //        }
-
-        //        //ViewBag.clients = Client.GetAllClients(connect);
-        //        ViewBag.conds = new Cond().GetAllConds();
-        //        ViewBag.sellers = new Seller().GetAllSellers();
-        //        ViewBag.transports = Transport.GetAllTransports(connect);
-        //        ViewBag.currencies = Currency.GetAllCurrencies(connect);
-
-        //        return View();
-        //    }
-        //}
-        #endregion
     }
 }

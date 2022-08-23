@@ -32,9 +32,9 @@
 <body>
     <header class="container-fluid">
         <div class="row">
-            <div class="col-md-4 col-xl-3 col-xxl-2 header-left-side text-white">
+            <div class="col-md-4 col-xl-3 col-xxl-2 header-left-side text-white" id="header-left">
                 <i class="fas fa-bars icon-menu" id="icon-menu"></i>
-                <a href="/Home/@ViewData["home"]">Profit Plus TM</a>
+                <a href="/Home/@ViewData["home"]">Profit Plus TM <br /> @{ if (!string.IsNullOrEmpty(ViewBag.product)) { <span>@ViewBag.product</span> } }</a>
             </div>
             <div class="col-md-8 col-xl-9 col-xxl-10 header-right-side">
                 <div class="user-active" role="button" id="drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -97,23 +97,18 @@
         </main>
     </div>
     <footer class="border-top footer text-muted footer-bottom">
-        <div class="container" style="display: flex;">
+        <div class="container-fluid">
             <p>&copy; 2022 - <a href="http://gtsconsultingca.com/" target="_blank" style="margin-left: 5px; text-decoration: none;">Global Technology and Systems Consulting C.A.</a></p>
-            @{
-                if (ViewBag.user_conn != null)
-                {
-                    <ul class="list-connection">
-                        <li><i class="fas fa-user"></i> @ViewBag.user_conn</li>
-                        <li style="margin: 0 10px;"><i class="fas fa-building"></i> @ViewBag.data_conn</li>
-                    </ul>
-                }
-            }
+            <ul class="list-connection">
+                <li style="margin: 0 10px;"><i class="fas fa-building"></i> Empresa: @ViewBag.data_conn</li>
+            </ul>
         </div>
     </footer>
     <script src="~/Scripts/popper.js"></script>
     <script src="~/Scripts/bootstrap-5.2.js"></script>
     <script>
         var btn = document.getElementById("icon-menu");
+        var header = document.getElementById("header-left");
         var menu = document.getElementById("menu-left");
         var responsive = screen.availWidth <= 767 ? true : false;
         var node = null;
@@ -132,6 +127,7 @@
                 btn.removeEventListener("click", hide);
                 btn.addEventListener("click", slide);
                 $(".menu-item.border-top").removeAttr('style');
+                $("#header-left.active").removeClass("active");
                 $("#menu-left.active").removeClass("active");
             } else {
                 btn.removeEventListener("click", slide);
@@ -161,8 +157,10 @@
                 $(elem).children("i.fa-caret-up").show();
                 node = elem;
 
-                if (item_active)
+                if (item_active) {
+                    $("#header-left").removeClass("active");
                     $("#menu-left").removeClass("active");
+                }
 
             } else {
 
@@ -180,6 +178,7 @@
                 node = null;
             }
 
+            header.classList.toggle("active");
             menu.classList.toggle("active");
 
             $(".my-dropdown").slideUp();
