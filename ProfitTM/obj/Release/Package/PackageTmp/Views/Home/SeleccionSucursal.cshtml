@@ -1,0 +1,147 @@
+﻿@{
+    ViewData["Title"] = "Seleccion de Sucursal";
+}
+<style>
+    body > header {
+        display: none;
+    }
+    body > .container-fluid > main {
+        overflow-y: auto;
+    }
+    .box {
+        height: 100%;
+    }
+    .container-title {
+        flex: 1;
+        height: 15%;
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+    }
+    .container-title h2 {
+        margin: 0;
+    }
+    form {
+        height: 85%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 10px 0;
+    }
+    .container-cards {
+        flex: 4;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .card-prod {
+        width: 100%;
+        max-width: 325px;
+        height: 150px;
+        background: #2980b9;
+        padding: 0 15px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .card-prod i {
+        color: #156497;
+        font-size: 6em;
+    }
+    .card-prod h5 {
+        max-width: 150px;
+        margin: 0;
+    }
+    .card-prod.selected-card {
+        outline: solid #FFF 5px;
+    }
+    .col-md-12 {
+        flex: 1;
+        padding: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .btn.btn-primary {
+        width: 100%;
+        max-width: 600px;
+        padding: 20px 0;
+    }
+    @@media (max-width: 789px) {
+        form {
+            height: auto;
+        }
+        .container-title {
+            padding: 5%;
+            justify-content: center;
+        }
+        .container-cards {
+            padding: 15px;
+        }
+        .card-prod {
+            height: 150px;
+            margin: 10px 0;
+        }
+        .card-prod i {
+            flex: 1;
+            font-size: 6em;
+            text-align: center;
+        }
+        .card-prod h4 {
+            flex: 1;
+        }
+    }
+</style>
+<div class="box">
+    <div class="container-title">
+        <h2 class="text-white">Seleccionar Sucursal</h2>
+    </div>
+    <form action="/Home/SelectDashboard" method="post">
+        <div class="container-cards">
+            @{
+                foreach (var item in ViewBag.branchs)
+                {
+                    string id = item.co_sucur.ToString().Trim(), name = item.sucur_des.Trim();
+
+                    <div class="card-prod shadow-lg" id="@id">
+                        <i class="fas fa-building"></i>
+                        <h5 class="text-white font-weight-bold">@name</h5>
+                    </div>
+                }
+            }
+        </div>
+        <input type="hidden" id="connect" name="connect" value="" />
+        <input type="hidden" id="connected" name="connected" value="true" />
+        <div class="col-md-12 text-center">
+            <button type="button" id="btn-send" class="btn btn-primary" onclick="send(this)" disabled>Seleccionar sucursal</button>
+        </div>
+    </form>
+</div>
+<script>
+    var submitted = false;
+
+    $(document).ready(function () {
+        $(".card-prod").hide().fadeIn(1500);
+    });
+
+    $(".card-prod").click(function () {
+        if (!submitted) {
+            $(".card-prod.selected-card").removeClass("selected-card");
+            $(this).addClass("selected-card");
+            $("#connect").val(this.id);
+
+            if ($("#btn-send").prop('disabled'))
+                $("#btn-send").prop('disabled', false)
+        }
+    });
+
+    function send(elem) {
+        $(elem).prop("disabled", "true");
+        $("form").trigger("submit");
+        submitted = true;
+    }
+</script>

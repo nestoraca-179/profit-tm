@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8cebd5e9ef734b62b2bad0886864675e" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="ProfitAdmContext.par_emp" Width="1.5" PointX="42.75" PointY="341.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvArticuloExt" Width="1.5" PointX="5.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvCaja" Width="1.5" PointX="5.25" PointY="371" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvCobroExt" Width="1.5" PointX="14.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvCobroTPRengExt" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvConfigPuntoV" Width="1.5" PointX="6.75" PointY="450.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvConfigPuntoVPrecio" Width="1.5" PointX="9" PointY="399.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvDevolucionClienteExt" Width="1.5" PointX="11.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvEtiquetaBalanza" Width="1.5" PointX="16.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvFacturaVentaExt" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvMovimientoBancoExt" Width="1.5" PointX="7.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvMovimientoCajaDevolucionExt" Width="1.5" PointX="7.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvMovimientoCajaExt" Width="1.5" PointX="18.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvParEmp" Width="1.5" PointX="11.25" PointY="364.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvRenglonTicket" Width="1.5" PointX="19.5" PointY="386.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvTarjetaCreditoExt" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvTipoTarjeta" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvTurno" Width="1.5" PointX="6" PointY="363.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvTurnoExe" Width="1.5" PointX="8.25" PointY="372.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvValeAlimentacion" Width="1.5" PointX="12" PointY="395" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvValeAlimentacionReng" Width="1.5" PointX="17.25" PointY="436.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saAdiCampo" Width="1.5" PointX="17" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saAdiGrupo" Width="1.5" PointX="14.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saAjPrecioCostoAuto" Width="1.5" PointX="3" PointY="340.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saAjPrecioCostoM" Width="1.5" PointX="3" PointY="330.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saAjPrecioCostoReng" Width="1.5" PointX="5.25" PointY="332.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saAjuste" Width="1.5" PointX="6" PointY="342.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saAjusteReng" Width="1.5" PointX="17.25" PointY="349.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saAlmacen" Width="1.5" PointX="14" PointY="303.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saAreaImpresion" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtCaracteristica" Width="1.5" PointX="21.75" PointY="414.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtCaracteristicaMov" Width="1.5" PointX="16.5" PointY="444.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtCompuesto" Width="1.5" PointX="33" PointY="421" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtCompuestoGen" Width="1.5" PointX="9" PointY="341.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtCompuestoGenReng" Width="1.5" PointX="20.25" PointY="342.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtCompuestoReng" Width="1.5" PointX="36.25" PointY="417.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArticulo" Width="1.5" PointX="16.5" PointY="407.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtIdentificadorReng" Width="1.5" PointX="33" PointY="427.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtImagen" Width="1.5" PointX="18.75" PointY="429.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtImportacion" Width="1.5" PointX="24.75" PointY="414.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtMargen" Width="1.5" PointX="24.75" PointY="421.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtPrecio" Width="1.5" PointX="21.75" PointY="423.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtProveedorReng" Width="1.5" PointX="27.75" PointY="414.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtRelacionadoReng" Width="1.5" PointX="18.75" PointY="445.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtUbicacion" Width="1.5" PointX="27.75" PointY="419.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtUnidad" Width="1.5" PointX="30.75" PointY="410.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saBanco" Width="1.5" PointX="3.75" PointY="362.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saBeneficiario" Width="1.5" PointX="14.25" PointY="295.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCaja" Width="1.5" PointX="3" PointY="371.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCatArticulo" Width="1.5" PointX="14.25" PointY="419.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCheque" Width="1.5" PointX="13.5" PointY="320.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saChequeDevueltoCompra" Width="1.5" PointX="36.75" PointY="391.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saChequeDevueltoVenta" Width="1.5" PointX="10.5" PointY="409.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saChequera" Width="1.5" PointX="8.25" PointY="320.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCliente" Width="1.5" PointX="5.25" PointY="402.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saClienteExt" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCobro" Width="1.5" PointX="22.5" PointY="378.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCobroDocReng" Width="1.5" PointX="39.75" PointY="374.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCobroRentenReng" Width="1.5" PointX="8.75" PointY="272.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCobroRetenIvaReng" Width="1.5" PointX="2.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCobroTPReng" Width="1.5" PointX="5.25" PointY="378" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saColor" Width="1.5" PointX="14.25" PointY="428.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saComisionGeneracion" Width="1.5" PointX="27.75" PointY="403.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saComisionPrecioArticulo" Width="1.5" PointX="30.75" PointY="425.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saComisionPrecioCategoria" Width="1.5" PointX="35.5" PointY="423.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saComisionPrecioLinea" Width="1.5" PointX="32.25" PointY="434.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saComisionRentabArticulo" Width="1.5" PointX="18.75" PointY="489.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saComisionRentabCategoria" Width="1.5" PointX="16.5" PointY="427.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saComisionRentabLinea" Width="1.5" PointX="14.25" PointY="458.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saComisionResultado" Width="1.5" PointX="30" PointY="434.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saComisionTipo" Width="1.5" PointX="25.5" PointY="435.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConcBanco" Width="1.5" PointX="12.75" PointY="389" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConciliacionAutoReng" Width="1.5" PointX="8.25" PointY="388.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConciliacionDetalle" Width="1.5" PointX="10.5" PointY="388.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCondicionPago" Width="1.5" PointX="8.75" PointY="302.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigAjuste" Width="1.5" PointX="19.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigArticulo" Width="1.5" PointX="4.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigCliente" Width="1.5" PointX="20.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigCobro" Width="1.5" PointX="13.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigCotizacionCliente" Width="1.5" PointX="18.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigCotizacionProveedor" Width="1.5" PointX="20.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigDevolucionCliente" Width="1.5" PointX="21.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigDevolucionProveedor" Width="1.5" PointX="22.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigDistCosto" Width="1.5" PointX="9.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigFacturaCompra" Width="1.5" PointX="22.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigFacturaVenta" Width="1.5" PointX="15.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigMovBanco" Width="1.5" PointX="22.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigMovCaja" Width="1.5" PointX="23.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigNotaDespachoVenta" Width="1.5" PointX="6.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigNotaEntregaVenta" Width="1.5" PointX="24.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigNotaRecepcionCompra" Width="1.5" PointX="24.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigOrdenCompra" Width="1.5" PointX="24.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigOrdenPago" Width="1.5" PointX="25.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigPago" Width="1.5" PointX="26.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigPedidoVenta" Width="1.5" PointX="26.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigPlantillaCompra" Width="1.5" PointX="26.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigPlantillaVenta" Width="1.5" PointX="27.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigProveedor" Width="1.5" PointX="0.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConfigTraslado" Width="1.5" PointX="2.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConISLR" Width="1.5" PointX="6.5" PointY="291.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConsecutivo" Width="1.5" PointX="45" PointY="336.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saConsecutivoTipo" Width="1.5" PointX="42.75" PointY="335.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCostoHistoricoEntrada" Width="1.5" PointX="16.25" PointY="307.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCostoHistoricoSalida" Width="1.5" PointX="18.5" PointY="308.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCotizacionCliente" Width="1.5" PointX="22.5" PointY="363.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCotizacionClienteReng" Width="1.5" PointX="33.75" PointY="359.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCotizacionProveedor" Width="1.5" PointX="12" PointY="339.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCotizacionProveedorReng" Width="1.5" PointX="23.25" PointY="339.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCuentaBancaria" Width="1.5" PointX="6" PointY="351.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saCuentaIngEgr" Width="1.5" PointX="8.75" PointY="289.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDatosDeImportacion" Width="1.5" PointX="17.25" PointY="343.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDepositoBanco" Width="1.5" PointX="8.25" PointY="362.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDepositoBancoReng" Width="1.5" PointX="16.5" PointY="369.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDescArticulo" Width="1.5" PointX="24.75" PointY="426.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDescCategoria" Width="1.5" PointX="36.5" PointY="407.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDescLinea" Width="1.5" PointX="25.25" PointY="441.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDescProntoPago" Width="1.5" PointX="5.25" PointY="386.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDevolucionCliente" Width="1.5" PointX="16.5" PointY="376.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDevolucionClienteReng" Width="1.5" PointX="30.75" PointY="385.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDevolucionProveedor" Width="1.5" PointX="19.5" PointY="371.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDevolucionProveedorReng" Width="1.5" PointX="33.75" PointY="372.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDevolucionProveedorRengExt" Width="1.5" PointX="11.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDistribCosto" Width="1.5" PointX="25.5" PointY="459.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDistribCostoDestinoReng" Width="1.5" PointX="27.75" PointY="436.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDistribCostoOrigenReng" Width="1.5" PointX="27.75" PointY="442" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDistribCostoRelaReng" Width="1.5" PointX="30" PointY="441.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDocumentoCompra" Width="1.5" PointX="31.5" PointY="367.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDocumentoCompraReng" Width="1.5" PointX="39.75" PointY="393.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDocumentoElectronico" Width="1.5" PointX="13.5" PointY="407.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDocumentoImagen" Width="1.5" PointX="17.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDocumentoVenta" Width="1.5" PointX="25.5" PointY="366.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDocumentoVentaReng" Width="1.5" PointX="36.75" PointY="370.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saFactCompRengCaracteristicasAdic" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saFactCompRengPesoVolumen" Width="1.5" PointX="19.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saFacturaCompra" Width="1.5" PointX="15" PointY="339.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saFacturaCompraImportacion" Width="1.5" PointX="24.75" PointY="451.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saFacturaCompraReng" Width="1.5" PointX="26.25" PointY="339.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saFacturaCompraRengExt" Width="1.5" PointX="28.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saFacturaVenta" Width="1.5" PointX="22.5" PointY="387.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saFacturaVentaReng" Width="1.5" PointX="33.75" PointY="388.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saGiroCompra" Width="1.5" PointX="11.25" PointY="317.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saGiroCompraReng" Width="1.5" PointX="33.75" PointY="348.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saGiroVenta" Width="1.5" PointX="34.5" PointY="340.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saGiroVentaReng" Width="1.5" PointX="36.75" PointY="365" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saHistoricoEstado" Width="1.5" PointX="2.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saImpMun" Width="1.5" PointX="14" PointY="281.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saImpuesto" Width="1.5" PointX="0.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saImpuestoReng" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saImpuestoSobreVenta" Width="1.5" PointX="10.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saImpuestoSobreVentaReng" Width="1.5" PointX="13" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saIncoterm" Width="1.5" PointX="22.5" PointY="435" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saIntegr" Width="1.5" PointX="14" PointY="264.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saInventarioFisico" Width="1.5" PointX="3.75" PointY="354.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saLineaArticulo" Width="1.5" PointX="12" PointY="440.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saLoteEntrada" Width="1.5" PointX="27.75" PointY="426.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saLoteSalida" Width="1.5" PointX="33.75" PointY="414.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saMoneda" Width="1.5" PointX="0.75" PointY="340.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saMovimientoBanco" Width="1.5" PointX="14.25" PointY="353.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saMovimientoCaja" Width="1.5" PointX="14.25" PointY="369.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saNCFInfoDocCompra" Width="1.5" PointX="39.75" PointY="366.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saNCFInfoDocVenta" Width="1.5" PointX="36.75" PointY="380.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saNotaDespachoVenta" Width="1.5" PointX="15.5" PointY="393.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saNotaDespachoVentaReng" Width="1.5" PointX="24.75" PointY="400.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saNotaEntregaVenta" Width="1.5" PointX="25.5" PointY="385.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saNotaEntregaVentaReng" Width="1.5" PointX="27.75" PointY="390.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saNotaRecepcionCompra" Width="1.5" PointX="8" PointY="327.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saNotaRecepcionCompraReng" Width="1.5" PointX="19.25" PointY="327.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saOrdenCompra" Width="1.5" PointX="11" PointY="325.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saOrdenCompraReng" Width="1.5" PointX="16.25" PointY="325.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saOrdenPago" Width="1.5" PointX="16.5" PointY="357.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saOrdenPagoReng" Width="1.5" PointX="21.75" PointY="356.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPago" Width="1.5" PointX="9" PointY="351.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPagoDocReng" Width="1.5" PointX="39.75" PointY="358.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPagoRentenReng" Width="1.5" PointX="8.75" PointY="266.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPagoRetenIvaReng" Width="1.5" PointX="28.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPagoTPReng" Width="1.5" PointX="19.5" PointY="362.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPais" Width="1.5" PointX="3" PointY="480.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saParametroConc" Width="1.5" PointX="6" PointY="319.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPedidoVenta" Width="1.5" PointX="18.5" PointY="393.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPedidoVentaReng" Width="1.5" PointX="21.75" PointY="402.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPista" Width="1.5" PointX="28.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPlanillaFiscal" Width="1.5" PointX="21.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPlantillaCompra" Width="1.5" PointX="28.5" PointY="361.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPlantillaCompraReng" Width="1.5" PointX="42" PointY="386.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPlantillaCompraReq" Width="1.5" PointX="16.5" PointY="452.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPlantillaCompraReqRelacion" Width="1.5" PointX="23.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPlantillaCompraReqRenglon" Width="1.5" PointX="25.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPlantillaVenta" Width="1.5" PointX="28.5" PointY="375.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPlantillaVentaReng" Width="1.5" PointX="39.75" PointY="381.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saProcedencia" Width="1.5" PointX="14.25" PointY="434.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saProveedor" Width="1.5" PointX="8.25" PointY="405.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saProveedorExt" Width="1.5" PointX="39.75" PointY="178.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saPuntoEmision" Width="1.5" PointX="5.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saReglaInt" Width="1.5" PointX="28.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saResInventario" Width="1.5" PointX="12" PointY="353.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saResInventarioReng" Width="1.5" PointX="42" PointY="380.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saSaldoBanco" Width="1.5" PointX="8.25" PointY="380.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saSaldoCaja" Width="1.5" PointX="5.25" PointY="439.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saSegmento" Width="1.5" PointX="6" PointY="395.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saSeriales" Width="1.5" PointX="33.75" PointY="408.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saSerie" Width="1.5" PointX="12" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saSerieTipo" Width="1.5" PointX="9.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saSerieTipoExt" Width="1.5" PointX="8" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saStockAlmacen" Width="1.5" PointX="21.75" PointY="430.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saSubLinea" Width="1.5" PointX="14.25" PointY="441.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saSucursal" Width="1.5" PointX="11.75" PointY="307" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTabuladorIslr" Width="1.5" PointX="6" PointY="424.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTabuladorIslrReng" Width="1.5" PointX="24.75" PointY="358.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTarjetaCredito" Width="1.5" PointX="12" PointY="420.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTasa" Width="1.5" PointX="3" PointY="494.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTax" Width="1.5" PointX="8.75" PointY="279.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTipoAjuste" Width="1.5" PointX="1.5" PointY="355.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTipoAnulacionVenta" Width="1.5" PointX="37.5" PointY="358.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTipoCliente" Width="1.5" PointX="3" PointY="404" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTipoComprobante" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTipoDocumento" Width="1.5" PointX="29.25" PointY="342.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTipoGasto" Width="1.5" PointX="37.5" PointY="352.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTipoImagen" Width="1.5" PointX="29.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTipoPrecio" Width="1.5" PointX="0.75" PointY="404" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTipoProveedor" Width="1.5" PointX="6" PointY="431" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTransferenciaEntreCuentas" Width="1.5" PointX="19.5" PointY="350.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTransporte" Width="1.5" PointX="14.25" PointY="288" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTraslado" Width="1.5" PointX="14" PointY="329.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saTrasladoReng" Width="1.5" PointX="42" PointY="372.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saUbicacion" Width="1.5" PointX="14.25" PointY="450.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saUnidad" Width="1.5" PointX="28.5" PointY="354.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saUnidadTributaria" Width="1.5" PointX="8.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saVendedor" Width="1.5" PointX="3" PointY="411.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saZona" Width="1.5" PointX="6" PointY="443" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.scCentro" Width="1.5" PointX="13.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.scCuenta" Width="1.5" PointX="4.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.scGastos" Width="1.5" PointX="30.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.stgFactLoteGen" Width="1.5" PointX="30.75" PointY="397.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.stgFacturaVentaExt" Width="1.5" PointX="30.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.pvDenominacionesMoneda" Width="1.5" PointX="30.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saArtCrearAut" Width="1.5" PointX="19.5" PointY="408.125" IsExpanded="true" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saCondicionPago_C" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saCondicionPago_V" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saCuentaIngEgr_C" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saCuentaIngEgr_V" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saSegmento_C" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saSegmento_V" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saTipoCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saTipoProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saUnidadPeso" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saUnidadVolumen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saZona_C" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_par_emp_saZona_V" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saConsecutivo_par_emp" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCaja_pvCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvConfigPuntoVPrecio_pvConfigPuntoV" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvConfigPuntoVPrecio_saTipoPrecio" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvMovimientoBancoExt_pvMovimientoBancoExt1" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmp_saCaja_Moneda2" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmp_saCaja_Moneda3" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmp_saCuentaIngEgr_Moneda2" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmp_saCuentaIngEgr_Moneda3" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmp_saCuentaIngEgrBanco_Moneda2" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmp_saCuentaIngEgrBanco_Moneda3" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmp_saCuentaIngEgrFacDev" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmp_saCuentaIngEgrFacDev_Moneda2" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmp_saCuentaIngEgrFacDev_Moneda3" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmpA_saCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvParEmpA_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvRenglonTicket_pvValeAlimentacionReng" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvRenglonTicket_saCobroTPReng" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvTurnoExe_pvTurno" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvTurnoExe_saCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvValeAlimentacionReng_pvValeAlimentacion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroTPReng_pvValeAlimentacion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saMovimientoCaja_pvValeAlimentacion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAdiCampo_saAdiGrupo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjPrecioCostoAuto_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjPrecioCostoAuto_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjPrecioCostoM_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjPrecioCostoRenglon_saAjPrecioCostotM" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjuste_saInventarioFisico" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjuste_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjusteReng_saAjuste" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjusteReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjusteReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjusteReng_saArtUnidadSec" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAjusteReng_saTipoAjuste" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saAlmacen_saSucursal" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCompuestoGen_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCompuestoGenReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_Alma" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtPrecio_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtUbicacion_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCostoHistoricoEntrada_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCostoHistoricoSalida_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionClienteReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionProveedorReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionClienteReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedorReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompraReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVentaReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saInventarioFisico_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saLoteEntrada_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saLoteSalida_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVentaReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVentaReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaRecepcionCompraReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenCompraReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVentaReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaCompraReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVentaReng_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saResInventario_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saSeriales_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saStockAlmacen_saAlmacen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTraslado_Alm_Dest" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTraslado_Alm_Orig" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTraslado_Alm_Temp" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saSerieTipoExt_saAreaImpresion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristica_saLineaArticulo01" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristica_saLineaArticulo02" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristica_saLineaArticulo03" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristica_saLineaArticulo04" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristica_saLineaArticulo05" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristicas_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristicaMov_saSubLinea01" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristicaMov_saSubLinea02" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristicaMov_saSubLinea03" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristicaMov_saSubLinea04" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCaracteristicaMov_saSubLinea05" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCompuesto_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCompuestoReng_saArtCompuesto" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCompuestoGen_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCompuestoGen_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCompuestoGenReng_saArtCompuestoGen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCompuestoGenReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCompuestoReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArticulo_saCatArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArticulo_saColor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArticulo_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArticulo_saProcedencia" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArticulo_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArticulo_saSubLinea" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArticulo_saUbicacion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtImagen_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtImportacion_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtMargen_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtPrecio_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtProveedorReng_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtRelacionadoReng_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtRelacionadoReng_saArticulo1" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtUbicacion_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtUnidad_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionGeneracion_saArticulo_desde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionGeneracion_saArticulo_hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionPrecioArticulo_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionRentabArticulo_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDescArticulo_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saLoteEntrada_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saLoteSalida_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saSeriales_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saStockAlmacen_saArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtIdentificadorReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtImportacion_saIncoterm" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtMargen_saTipoPrecio" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtPrecio_saTipoPrecio" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtProveedorReng_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtUbicacion_saUbicacion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtUbicacion_saUbicacion_2" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtUbicacion_saUbicacion_3" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtUnidad_saUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionClienteReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionClienteReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionProveedorReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionProveedorReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionClienteReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionClienteReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedorReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedorReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoCompraReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVentaReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompraReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompraReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVentaReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVentaReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVentaReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVentaReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVentaReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVentaReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaRecepcionCompraReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaRecepcionCompraReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenCompraReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenCompraReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVentaReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVentaReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaCompraReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaCompraReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVentaReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVentaReng_saArtUnidadSecundaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saResInventarioReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saResInventarioReng_saArtUnidadS" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTrasladoReng_saArtUnidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTrasladoReng_saArtUnidadSec" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroTPReng_saBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCuentaBancaria_saBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saMovimientoCaja_saBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saParametroConc_saBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenPago_saBeneficiario" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCaja_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroTPReng_saCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDepositoBanco_saCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDepositoBancoReng_saCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saMovimientoCaja_saCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenPago_saCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPagoTPReng_saCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saSaldoCaja_saCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saCatArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saCatArticulo_Hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCatArticulo_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionGeneracion_saCatArticulo_desde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionGeneracion_saCatArticulo_hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionPrecioCategoria_saCatArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionRentabCategoria_saCatArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDescCategoria_saCatArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCheque_saChequera" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCheque_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saChequeDevueltoCompra_saDocumentoCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saChequeDevueltoCompra_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saChequeDevueltoVenta_saChequeDevueltoVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saChequeDevueltoVenta_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saChequera_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saClienteCasaMatriz" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saPais" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saSegmento" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saTabuladorIslr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saTipoCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCliente_saZona" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobro_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionCliente_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoElectronico_saClienteDesde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoElectronico_saClienteHasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVenta_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVenta_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVenta_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVenta_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVenta_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVenta_saCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_stgFactLoteGen_saClienteD" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_stgFactLoteGen_saClienteH" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saClienteExt_saTipoComprobante" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saClienteExt_saTipoComprobante1" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saClienteExt_saTipoComprobante2" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobro_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobro_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroDocReng_saCobro" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroTPReng_saCobro" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroDocReng_saDocumentoVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroRentenReng_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroTPReng_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroTPReng_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroTPReng_saMovimientoCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCobroTPReng_saTarjetaCredito" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saColor_Desde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saColor_Hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionGeneracion_saComisionTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionGeneracion_saLineaArticulo_desde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionGeneracion_saLineaArticulo_hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionGeneracion_saVendedor_desde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionGeneracion_saVendedor_hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionResultado_saComisionGeneracion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionPrecioArticulo_saTipoPrecio" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionPrecioCategoria_saTipoPrecio" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionPrecioLinea_saLineaArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionPrecioLinea_saTipoPrecio" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saComisionRentabLinea_saLineaArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saConcBanco_saConciliacionDetalle" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saConcBanco_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saConciliacionAutoReng_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saConciliacionDetalle_saConciliacionAutoReng" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionCliente_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionProveedor_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedor_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompra_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVenta_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVenta_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVenta_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaRecepcionCompra_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenCompra_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVenta_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaCompra_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVenta_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedor_saCondicionPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCuentaIngEgr_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saLineaArticulo_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenPagoReng_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPagoRentenReng_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saSubLinea_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTabuladorIslrReng_saConISLR" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saConsecutivo_saConsecutivoTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saConsecutivo_saSucursal" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCostoHistoricoEntrada_saCostoHistoricoSalida" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCostoHistoricoSalida_saCostoHistoricoEntrada" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionCliente_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionCliente_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionCliente_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionCliente_saTransporte" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionCliente_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionClienteReng_saCotizacionCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionProveedor_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionProveedor_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionProveedor_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCotizacionProveedorReng_saCotizacionProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saCuentaBancaria_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDepositoBanco_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saMovimientoBanco_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenPago_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPagoTPReng_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saSaldoBanco_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTransferenciaEntreBancos_cta_comision_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTransferenciaEntreBancos_cta_destino_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTransferenciaEntreBancos_cta_origen_saCuentaBancaria" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDepositoBanco_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedor_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoCompra_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVenta_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompra_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVenta_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saMovimientoBanco_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saMovimientoCaja_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVenta_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVenta_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaRecepcionCompra_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenCompra_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenPagoReng_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVenta_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVenta_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedor_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTransferenciaEntreBancos_cta_ingr_egr_comision_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTransferenciaEntreBancos_cta_ingr_egr_destino_saTransferenciaEntreBancos" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTransferenciaEntreBancos_cta_ingr_egr_origen_saCuentaIngEgr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDatosDeImportacion_saFacturaCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDepositoBancoReng_saDepositoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDepositoBancoReng_saMovimientoCajaAfec" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDepositoBancoReng_saMovimientoCajaGene" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDescArticulo_saTipoCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDescCategoria_saTipoCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDescLinea_saLineaArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDescLinea_saTipoCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDescProntoPago_saTipoCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saDocumentoVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saMovimientoCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saTransporte" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionCliente_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionClienteReng_saDevolucionCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedor_saDocumentoCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedor_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedor_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedor_saMovimientoCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedor_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedor_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDevolucionProveedorReng_saDevolucionProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDistribCostoDestinoReng_saDistribCosto" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDistribCostoOrigenReng_saDistribCosto" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDistribCostoDestinoReng_saIncoterm" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDistribCostoRelaReng_saDistribCostoDestinoReng" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDistribCostoOrigenReng_saIncoterm" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDistribCostoRelaReng_saDistribCostoOrigenReng" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoCompra_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoCompra_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoCompra_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoCompra_saProveedorTercero" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoCompra_saTipoDocumento" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoCompra_saTipoDocumentoOrigen" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoCompraReng_saDocumentoCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saGiroCompraReng_saDocumentoCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNCFInfoDocCompra_saDocumentoCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPagoDocReng_saDocumentoCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoElectronico_saProveedorDesde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoElectronico_saProveedorHasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVenta_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVenta_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVenta_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVenta_saTipoDocumento" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVenta_saTipoDocumento_Doc_Orig" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVenta_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saDocumentoVentaReng_saDocumentoVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saGiroVentaReng_saDocumentoVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNCFInfoDocVenta_saDocumentoVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFactCompRengCaracteristicasAdic_saFactCompRengCaracteristicasAdic" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompra_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompra_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompra_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompraReng_saFacturaCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaCompraImportacion_saIncoterm" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVenta_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVenta_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVenta_saTransporte" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVenta_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saFacturaVentaReng_saFacturaVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saGiroCompra_saPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saGiroCompraReng_saGiroCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saGiroVentaReng_saGiroVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saImpMun_saSucursal" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saImpuestoReng_saImpuesto" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saImpuestoSobreVentaReng_saImpuestoSobreVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saIntegr_saSucursal_co_sucu_desde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saIntegr_saSucursal_co_sucu_hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saInventarioFisico_saTipoAjuste1" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saInventarioFisico_saTipoAjuste2" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saResInventario_saInventarioFisico" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saSubLinea_saLineaArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVenta_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVenta_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaRecepcionCompra_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenCompra_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenPago_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPago_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPais_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVenta_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaCompra_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVenta_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedor_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saResInventario_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTasa_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTraslado_saMoneda" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenPago_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPagoTPReng_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTransferenciaEntreBancos_mov_ban_comision_saTransferenciaEntreBancos" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTransferenciaEntreBancos_mov_ban_destino_saTransferenciaEntreBancos" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTransferenciaEntreBancos_mov_ban_origen_saMovimientoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saMovimientoCaja_saMovimientoCajaTran" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saMovimientoCaja_saTarjetaCredito" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenPago_saMovimientoCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPagoTPReng_saMovimientoCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNCFInfoDocCompra_saTipoAnulacionVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNCFInfoDocCompra_saTipoGasto" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNCFInfoDocVenta_saTipoAnulacionVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVenta_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVenta_saTransporte" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVenta_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaDespachoVentaReng_saNotaDespachoVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVenta_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVenta_saTransporte" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVenta_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaEntregaVentaReng_saNotaEntregaVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaRecepcionCompra_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaRecepcionCompra_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saNotaRecepcionCompraReng_saNotaRecepcionCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenCompra_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenCompra_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenCompraReng_saOrdenCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saOrdenPagoReng_saOrdenPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPago_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPagoDocReng_saPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPagoTPReng_saPago" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedor_saPais" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVenta_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVenta_saTransporte" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVenta_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPedidoVentaReng_saPedidoVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaCompra_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaCompra_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaCompraReng_saPlantillaCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaCompraReq_saUbicacion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVenta_saTax" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVenta_saTransporte" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVenta_saVendedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saPlantillaVentaReng_saPlantillaVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_stgFactLoteGen_saPlantillaVenta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saProcedencia_Desde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saProcedencia_Hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedor_saProveedorCasaMatriz" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedor_saSegmento" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedor_saTabuladorIslr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedor_saTipoProveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedor_saZona" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedorExt_saTipoComprobante" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saProveedorExt_saTipoGasto" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saSerieTipoExt_saPuntoEmision" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saResInventarioReng_saResInventario" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saSerie_saSerieTipo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saSubLinea_Desde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saSubLinea_Hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTabuladorIslrReng_saTabuladorIslr" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTipoCliente_saTipoPrecio" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saTrasladoReng_saTraslado" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saUbicacion_Desde" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saUbicacion_Hasta" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_Uni" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saVendedor_saZona" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

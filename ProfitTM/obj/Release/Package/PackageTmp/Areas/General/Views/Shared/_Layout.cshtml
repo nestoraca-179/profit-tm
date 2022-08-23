@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ProfitTM</title>
+    <link rel="stylesheet" href="~/Content/bootstrap-5.2.css" />
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <style>
+        @@media (max-width: 767px) {
+            .header-right-side {
+                display: none;
+            }
+            .dash-left-side {
+                width: 100%;
+                position: absolute;
+                z-index: 10;
+                border: 0 !important;
+            }
+            .list-menu {
+                margin: 0;
+                display: none;
+            }
+            .menu-item {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-xl-3 col-xxl-2 header-left-side text-white" id="header-left">
+                <i class="fas fa-bars icon-menu" id="icon-menu"></i>
+                <a href="/Home/@ViewData["home"]">Profit Plus TM <br /> @{ if (!string.IsNullOrEmpty(ViewBag.product)) { <span>@ViewBag.product</span> } }</a>
+            </div>
+            <div class="col-md-8 col-xl-9 col-xxl-10 header-right-side">
+                <div class="user-active" role="button" id="drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user icon-user"></i>
+                    <p class="mb-0">@ViewBag.user.Descrip</p>
+                </div>
+                <div class="dropdown-menu" aria-labelledby="drop-menu">
+                    <a href="/Account/Logout">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid p-0">
+        <main role="main">
+            <div class="dash-container" id="dash-container">
+                <div class="col-md-4 col-xl-3 col-xxl-2 dash-left-side border-right p-0" id="menu-left">
+                    <ul class="list-menu dropright">
+                        @{
+                            foreach (var item in ViewBag.modules)
+                            {
+                                string disReport = item.ReportURL == "#" ? "disabled" : "";
+
+                                <li class="menu-item" onclick="print(this)">
+                                    <i class="@item.Icon"></i>
+                                    <p class="mb-0 ml-3">@item.ModuleName</p>
+                                    <i class="fas fa-caret-up"></i>
+                                </li>
+                                <div class="my-dropdown">
+                                    @{
+                                        foreach (var elem in item.Options)
+                                        {
+                                            string disabled = elem.Enabled ? "" : "disabled";
+
+                                            <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                        }
+                                    }
+                                    <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
+                                </div>
+                            }
+                        }
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="fas fa-cog fa-spin"></i>
+                            <p class="mb-0 ml-3">Configuración</p>
+                            <i class="fas fa-caret-up"></i>
+                        </li>
+                        <div class="my-dropdown">
+                            <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
+                            <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
+                        </div>
+                        <li class="menu-item border-top" id="item-logout" style="display: none;" onclick="location.href = '/Account/Logout'">
+                            <i class="fas fa-power-off"></i>
+                            <p class="mb-0 ml-3">Cerrar Sesión</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="border-top footer text-muted footer-bottom">
+        <div class="container-fluid">
+            <p>&copy; 2022 - <a href="http://gtsconsultingca.com/" target="_blank" style="margin-left: 5px; text-decoration: none;">Global Technology and Systems Consulting C.A.</a></p>
+            <ul class="list-connection">
+                <li style="margin: 0 10px;"><i class="fas fa-building"></i> Empresa: @ViewBag.data_conn</li>
+            </ul>
+        </div>
+    </footer>
+    <script src="~/Scripts/popper.js"></script>
+    <script src="~/Scripts/bootstrap-5.2.js"></script>
+    <script>
+        var btn = document.getElementById("icon-menu");
+        var header = document.getElementById("header-left");
+        var menu = document.getElementById("menu-left");
+        var responsive = screen.availWidth <= 767 ? true : false;
+        var node = null;
+
+        if (responsive) {
+            btn.addEventListener("click", slide);
+        } else {
+            btn.addEventListener("click", hide);
+            $(".menu-item.border-top").attr('style', 'display: none;');
+        }
+
+        window.addEventListener("resize", function () {
+            responsive = screen.availWidth <= 767;
+
+            if (responsive) {
+                btn.removeEventListener("click", hide);
+                btn.addEventListener("click", slide);
+                $(".menu-item.border-top").removeAttr('style');
+                $("#header-left.active").removeClass("active");
+                $("#menu-left.active").removeClass("active");
+            } else {
+                btn.removeEventListener("click", slide);
+                btn.addEventListener("click", hide);
+                $("ul.list-menu").removeAttr('style');
+                $(".menu-item.border-top").attr('style', 'display: none;');
+            }
+        });
+
+        function print(elem) {
+
+            let item_active = $("#menu-left.active").length == 1;
+            $(".my-dropdown").slideUp();
+
+            if (node != null) {
+                $(node).removeClass("selected");
+                $(node).children("i.fa-caret-up").hide();
+            }
+
+            $(elem).addClass("selected");
+
+            if (node != elem) {
+
+                $(elem).next().slideDown();
+                $(elem).next().css("display", "flex");
+                $(elem).next().css("flex-direction", "column");
+                $(elem).children("i.fa-caret-up").show();
+                node = elem;
+
+                if (item_active) {
+                    $("#header-left").removeClass("active");
+                    $("#menu-left").removeClass("active");
+                }
+
+            } else {
+
+                $(elem).removeClass("selected");
+                $(elem).children("i.fa-caret-up").hide();
+                node = null;
+
+            }
+        }
+
+        function hide() {
+
+            if (node != null) {
+                $(node).removeClass("selected");
+                node = null;
+            }
+
+            header.classList.toggle("active");
+            menu.classList.toggle("active");
+
+            $(".my-dropdown").slideUp();
+            $("i.fa-caret-up").hide();
+        }
+
+        function slide() {
+            $(".list-menu").slideToggle()
+        }
+
+    </script>
+</body>
+</html>

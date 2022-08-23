@@ -1,0 +1,545 @@
+﻿@{
+    ViewBag.Title = "Editar Factura";
+}
+<style>
+    h1 {
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+    }
+    .container-doc {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .form-group {
+        width: 90%;
+        height: 60px;
+        padding: 10px;
+    }
+    .form-group label {
+        width: 50%;
+        margin: 0;
+    }
+    .form-group input[type=text] {
+        padding: 5px 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        border-bottom: solid 1px #D2D2D2;
+        outline: 0;
+    }
+    .form-group > input {
+        width: 50%;
+    }
+    .form-group input label {
+        width: 100%;
+    }
+    .doc-info {
+        width: 50%;
+        /*background: #f0f0f0;*/
+        padding: 20px;
+    }
+    .doc-number {
+        width: 50%;
+        /*background: #f0f0f0;*/
+        padding: 20px;
+    }
+    .doc-items {
+        width: 100%;
+        /*background: blue;*/
+    }
+    .container-btn {
+        width: 100%;
+        padding: 20px 0;
+    }
+    .btn-send {
+        display: block;
+        margin: 0 auto;
+        padding: 10px 30px;
+    }
+    .modal-info .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
+</style>
+<div class="container-fluid" ng-app="Process" ng-controller="controller">
+    <h1>Editar Factura</h1>
+    <form id="formFactura" class="container-doc">
+        <div class="doc-info">
+            <div class="form-group">
+                <label for="idFacturaEdit">N° Documento</label>
+                <input type="text" id="idFacturaEdit" style="background: #d5d5d5;" readonly onfocus="this.blur()" ng-model="formEdit.ID" />
+            </div>
+            <div class="form-group">
+                <label for="controlFacturaEdit">N° Control</label>
+                <input type="text" id="controlFacturaEdit" ng-model="formEdit.ControlNumber" required />
+            </div>
+            <div class="form-group">
+                <label for="personFacturaEdit">Cliente</label>
+                <div class="input-search">
+                    <input type="text" id="personFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.InvoicePerson.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="personFacturaEdit"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="condFacturaEdit">Cond. Pago</label>
+                <div class="input-search">
+                    <input type="text" id="condFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Cond.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="condFacturaEdit"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="sellerFacturaEdit">Vendedor</label>
+                <div class="input-search">
+                    <input type="text" id="sellerFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Seller.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="sellerFacturaEdit"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="transFacturaEdit">Transporte</label>
+                <div class="input-search">
+                    <input type="text" id="transFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Transport.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transFacturaEdit"></i>
+                </div>
+            </div>
+        </div>
+        <div class="doc-number">
+            <div class="form-group">
+                <label for="monedaFacturaEdit">Moneda</label>
+                <div class="input-search">
+                    <input type="text" id="monedaFacturaEdit" onfocus="this.blur()" style="max-width: 80%;" ng-model="formEdit.Currency.ID" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="monedaFacturaEdit"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tasaFacturaEdit">Tasa</label>
+                <input type="text" id="tasaFacturaEdit" onkeypress="return (event.charCode > 47 && event.charCode < 58) || event.charCode == 46" ng-model="formEdit.Rate" />
+            </div>
+            <div class="form-group">
+                <input ng-if="formEdit.Rate != 1" type="button" class="btn btn-primary" value="Conversión" ng-click="convert()" />
+            </div>
+            <div class="form-group">
+                <label for="subtotalFacturaEdit">Sub-Total <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
+                <input type="text" id="subtotalFacturaEdit" class="input-number" readonly onfocus="this.blur()" ng-model="formEdit.SubTotal" />
+            </div>
+            <div class="form-group">
+                <label for="ivaFacturaEdit">I.V.A <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
+                <input type="text" id="ivaFacturaEdit" class="input-number" readonly onfocus="this.blur()" ng-model="formEdit.IVA" />
+            </div>
+            <div class="form-group">
+                <label for="montoFacturaEdit">Total <span ng-if="converted">({{ formEdit.Currency.ID }})</span></label>
+                <input type="text" id="montoFacturaEdit" class="input-number" readonly onfocus="this.blur()" style="background: #85ffa1;" ng-model="formEdit.Amount" />
+            </div>
+        </div>
+        <div class="doc-items">
+            <table class="table table-bordered table-striped mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th style="vertical-align: middle; text-align: center;" scope="col">N° Reng</th>
+                        <th style="vertical-align: middle; text-align: center;" scope="col">Código</th>
+                        <th style="vertical-align: middle; text-align: center;" scope="col">Artículo</th>
+                        <th style="vertical-align: middle; text-align: center;" scope="col">Almacén</th>
+                        <th style="vertical-align: middle; text-align: center;" scope="col">Cantidad</th>
+                        <th style="vertical-align: middle; text-align: center;" scope="col">Monto Neto</th>
+                        <th style="vertical-align: middle; text-align: center;" scope="col">IVA</th>
+                        <th style="vertical-align: middle; text-align: center;" scope="col">Total Art.</th>
+                    </tr>
+                </thead>
+                <tbody style="background: #FFF;">
+                    <tr ng-repeat="item in formEdit.Items" style="cursor: pointer">
+                        <td>{{ item.Reng }}</td>
+                        <td>{{ item.Code }}</td>
+                        <td>{{ item.Name }}</td>
+                        <td>{{ item.Storage.ID }}</td>
+                        <td>{{ item.Quantity }}</td>
+                        <td>{{ format(item.Amount.toFixed(2)) }} <span ng-if="converted">({{ formEdit.Currency.ID }})</span></td>
+                        <td>{{ format(item.IVA.toFixed(2)) }} <span ng-if="converted">({{ formEdit.Currency.ID }})</span></td>
+                        <td>{{ format((item.Amount + item.IVA).toFixed(2)) }} <span ng-if="converted">({{ formEdit.Currency.ID }})</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container-btn">
+            <button type="submit" class="btn btn-primary btn-send" ng-click="editInvoice()">Guardar</button>
+        </div>
+    </form>
+    <!-- Modal Waiting -->
+    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-spinner fa-spin" style="color: #01579b;"></i>
+                    </div>
+                    <h2 class="text-center">Procesando...</h2>
+                </div>
+                @*<div class="modal-footer"></div>*@
+            </div>
+        </div>
+    </div>
+    <!-- Modal Success -->
+    <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-check-circle" style="color: var(--green)"></i>
+                    </div>
+                    <h2 class="text-center">El documento se ha procesado con éxito</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href = '/Ventas/Procesos/'">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Error -->
+    <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--red)"></i>
+                    </div>
+                    <h2 class="text-center">Ha ocurrido un error</h2>
+                    <p class="text-center">{{ errorMessage }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 1 -->
+    <div class="modal fade" id="modalClients" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cliente..." onkeyup="search('modalClients')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        @{
+                            foreach (var elem in ViewBag.clients)
+                            {
+                                <tr style="cursor: pointer" onclick="selectRow(this)">
+                                    <td>@elem.ID</td>
+                                    <td>@elem.OptionName</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalClients')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 2 -->
+    <div class="modal fade" id="modalSellers" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Vendedor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar vendedor..." onkeyup="search('modalSellers')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        @{
+                            foreach (var elem in ViewBag.sellers)
+                            {
+                                <tr style="cursor: pointer" onclick="selectRow(this)">
+                                    <td>@elem.ID</td>
+                                    <td>@elem.OptionName</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalSellers')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 3 -->
+    <div class="modal fade" id="modalConds" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Cond. Pago</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cond. pago..." onkeyup="search('modalConds')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        @{
+                            foreach (var elem in ViewBag.conds)
+                            {
+                                <tr style="cursor: pointer" onclick="selectRow(this)">
+                                    <td>@elem.ID</td>
+                                    <td>@elem.OptionName</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalConds')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 4 -->
+    <div class="modal fade" id="modalTransports" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Transporte</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar transporte..." onkeyup="search('modalTransports')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        @{
+                            foreach (var elem in ViewBag.transports)
+                            {
+                                <tr style="cursor: pointer" onclick="selectRow(this)">
+                                    <td>@elem.ID</td>
+                                    <td>@elem.OptionName</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalTransports')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 5 -->
+    <div class="modal fade" id="modalCurrencies" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Moneda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar moneda..." onkeyup="search('modalCurrencies')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        @{
+                            foreach (var elem in ViewBag.currencies)
+                            {
+                                <tr style="cursor: pointer" onclick="selectRow(this)">
+                                    <td>@elem.ID</td>
+                                    <td>@elem.OptionName</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalCurrencies')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/angular-min.js"></script>
+<script>
+    var app = angular.module("Process", []);
+    var order = @Html.Raw(Json.Encode(@ViewBag.order));
+    console.log(order);
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.formEdit = order;
+        $scope.converted = false;
+
+        $scope.format = (number) => !$scope.converted ? new Intl.NumberFormat().format(number) : new Intl.NumberFormat().format((number / $scope.formEdit.Rate).toFixed(2));
+
+        $scope.editInvoice = function () {
+
+            if ($("#formFactura")[0].checkValidity()) {
+
+                $("#modalWaiting").modal("show");
+                $("#formFactura input").change();
+
+                var value = "";
+                var str = $scope.formEdit.DateEmis.toString().replaceAll("/", "");
+
+                eval("value = new " + str);
+                var timeOffset = value.getTimezoneOffset() * 60000;
+
+                $scope.formEdit.DateEmis = new Date(value.getTime() - timeOffset).toUTCString();
+                $scope.formEdit.Status = 0;
+
+                if ($scope.converted) {
+                    var rate = $scope.formEdit.Rate;
+
+                    $(".doc-number .input-number").css("background", "#FFF");
+                    $(".doc-number #montoFacturaEdit").css("background", "#85ffa1");
+
+                    $scope.formEdit.SubTotal = ($scope.formEdit.SubTotal * rate).toFixed(2);
+                    $scope.formEdit.IVA = ($scope.formEdit.IVA * rate).toFixed(2);
+                    $scope.formEdit.Amount = ($scope.formEdit.Amount * rate).toFixed(2);
+
+                    $scope.converted = false;
+                }
+
+                console.log($scope.formEdit);
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/EditInvoice/',
+                    data: $scope.formEdit,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    console.log(response.data);
+                    var res = response.data;
+
+                    if (res.Status == "OK") {
+                        $("#modalWaiting").modal("hide");
+                        $("#modalSuccess").modal("show");
+                    } else {
+                        $("#modalWaiting").modal("hide");
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+
+                }, function (response) {
+                    console.log(response);
+                });
+            }
+        }
+
+        $scope.convert = function () {
+
+            var rate = $scope.formEdit.Rate;
+
+            if (!$scope.converted) {
+                $(".doc-number .input-number").css("background", "#1fffff");
+
+                $scope.formEdit.SubTotal = ($scope.formEdit.SubTotal / rate).toFixed(2);
+                $scope.formEdit.IVA = ($scope.formEdit.IVA / rate).toFixed(2);
+                $scope.formEdit.Amount = ($scope.formEdit.Amount / rate).toFixed(2);
+
+                $scope.converted = true;
+            } else {
+                $(".doc-number .input-number").css("background", "#FFF");
+                $(".doc-number #montoFacturaEdit").css("background", "#85ffa1");
+
+                $scope.formEdit.SubTotal = ($scope.formEdit.SubTotal * rate).toFixed(2);
+                $scope.formEdit.IVA = ($scope.formEdit.IVA * rate).toFixed(2);
+                $scope.formEdit.Amount = ($scope.formEdit.Amount * rate).toFixed(2);
+
+                $scope.converted = false;
+            }
+        }
+
+    });
+
+    function openModal(elem, modal) {
+
+        var previous = elem.previousElementSibling;
+
+        if (!previous.disabled) {
+
+            $("#" + modal).find("#name-input").val($(elem).data("name"));
+            $("#" + modal).modal("show");
+
+        }
+    }
+
+    function search(modal) {
+        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+            table = $("#" + modal).find("#results")[0];
+
+        for (var i = 0; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    function selectRow(elem) {
+        var previous = document.getElementsByClassName("selected-row")[0];
+
+        if (previous != null) {
+            previous.classList.remove("selected-row");
+        }
+
+        elem.classList.add("selected-row");
+    }
+
+    function saveRow(modal) {
+        var item = document.getElementsByClassName("selected-row")[0];
+
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val();
+
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            $("#" + modal).modal("hide");
+        } else {
+            alert("Debes seleccionar un item");
+        }
+    }
+
+</script>

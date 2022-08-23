@@ -1,0 +1,243 @@
+﻿@{
+    ViewData["Title"] = "Conexiones";
+    ViewData["home"] = Session["home"];
+}
+<style>
+    .table-info {
+        overflow-x: auto;
+    }
+    table thead {
+        background: #0277bd;
+        color: #FFF;
+    }
+    table thead th {
+        padding: 10px;
+    }
+    table td {
+        vertical-align: middle !important;
+    }
+    .btn.btn-success {
+        color: #FFF;
+    }
+    input[type=checkbox] {
+        display: block;
+        margin: 0 auto;
+    }
+    .cell-buttons {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .cell-buttons .btn {
+        margin: 5px;
+        padding: 5px 15px;
+    }
+    .modal-delete .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
+    @@media (max-width: 767px) {
+        .header-right-side {
+            display: none;
+        }
+        .dash-left-side {
+            width: 100%;
+            max-height: 100%;
+            position: absolute;
+            z-index: 10;
+            border: 0 !important;
+            overflow-y: auto;
+        }
+        .list-menu {
+            margin: 0;
+            display: none;
+        }
+        .menu-item {
+            padding: 20px;
+        }
+        table {
+            width: max-content !important;
+        }
+    }
+</style>
+<div class="container-fluid p-0" ng-app="Connections" ng-controller="controller">
+    <div class="dash-container" id="dash-container">
+        <div class="col-md-4 col-xl-3 col-xxl-2 dash-left-side border-right p-0" id="menu-left">
+            <ul class="list-menu dropright">
+                @{
+                    foreach (var item in ViewBag.modules)
+                    {
+                        string disReport = item.ReportURL == "#" ? "disabled" : "";
+
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="@item.Icon"></i>
+                            <p class="mb-0 ml-3">@item.ModuleName</p>
+                            <i class="fas fa-caret-up"></i>
+                        </li>
+                        <div class="my-dropdown">
+                            @{
+                                foreach (var elem in item.Options)
+                                {
+                                    string disabled = elem.Enabled ? "" : "disabled";
+
+                                    <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                }
+                            }
+                            <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
+                        </div>
+                    }
+                }
+                <li class="menu-item" onclick="print(this)">
+                    <i class="fas fa-cog fa-spin"></i>
+                    <p class="mb-0 ml-3">Configuración</p>
+                    <i class="fas fa-caret-up"></i>
+                </li>
+                <div class="my-dropdown">
+                    <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
+                    <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
+                </div>
+                <li class="menu-item border-top" onclick="location.href = '/Account/Logout'">
+                    <i class="fas fa-power-off"></i>
+                    <p class="mb-0 ml-3">Cerrar Sesión</p>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
+            <div class="container-fluid">
+                @*<div ng-if="show" class="{{ class }}">{{ message }}</div>*@
+                <h2 class="text-center mt-3">Conexiones</h2>
+                <a href="/Home/AgregarConexion?product=@ViewBag.prod" class="btn btn-success mt-5">
+                    <i class="fas fa-plus"></i> Agregar nueva
+                </a>
+                <div class="table-info">
+                    <table class="table mt-3">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Servidor</th>
+                                <th>Base de Datos</th>
+                                <th>Producto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="conn in connections">
+                                <td>{{ conn.ID }}</td>
+                                <td>{{ conn.Name }}</td>
+                                <td>{{ conn.Server }}</td>
+                                <td>{{ conn.DB }}</td>
+                                <td>{{ conn.Type }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/angular-min.js"></script>
+<script>
+    var app = angular.module("Connections", []);
+    var connections = @Html.Raw(Json.Encode(ViewBag.connections));
+    var btn = document.getElementById("icon-menu");
+    var header = document.getElementById("header-left");
+    var menu = document.getElementById("menu-left");
+    var responsive = screen.availWidth <= 767 ? true : false;
+    var node = null;
+
+    app.controller("controller", function ($scope, $http) {
+
+        if (responsive) {
+            btn.addEventListener("click", slide);
+        } else {
+            btn.addEventListener("click", hide);
+            $(".menu-item.border-top").attr('style', 'display: none;');
+        }
+
+        window.addEventListener("resize", function () {
+            responsive = screen.availWidth <= 767;
+
+            if (responsive) {
+                btn.removeEventListener("click", hide);
+                btn.addEventListener("click", slide);
+                $(".menu-item.border-top").removeAttr('style', 'display: none;');
+                $("#header-left.active").removeClass("active");
+                $("#menu-left.active").removeClass("active");
+            } else {
+                btn.removeEventListener("click", slide);
+                btn.addEventListener("click", hide);
+                $("ul.list-menu").removeAttr('style');
+                $(".menu-item.border-top").attr('style', 'display: none;');
+            }
+        });
+
+        $scope.connections = connections;
+
+        $scope.formatDate = function (date) {
+
+            var day = date.getDate(), month = date.getMonth() + 1, year = date.getFullYear();
+
+            if (day < 10)
+                day = "0" + day;
+
+            if (month < 10)
+                month = "0" + month;
+
+            return day + "/" + month + "/" + year;
+        }
+
+    });
+
+    function print(elem) {
+
+        let item_active = $("#menu-left.active").length == 1;
+        $(".my-dropdown").slideUp();
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            $(node).children("i.fa-caret-up").hide();
+        }
+
+        $(elem).addClass("selected");
+
+        if (node != elem) {
+
+            $(elem).next().slideDown();
+            $(elem).next().css("display", "flex");
+            $(elem).next().css("flex-direction", "column");
+            $(elem).children("i.fa-caret-up").show();
+            node = elem;
+
+            if (item_active) {
+                $("#header-left").removeClass("active");
+                $("#menu-left").removeClass("active");
+            }
+
+        } else {
+
+            $(elem).removeClass("selected");
+            $(elem).children("i.fa-caret-up").hide();
+            node = null;
+
+        }
+    }
+
+    function hide() {
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            node = null;
+        }
+
+        header.classList.toggle("active");
+        menu.classList.toggle("active");
+
+        $(".my-dropdown").slideUp();
+        $("i.fa-caret-up").hide();
+    }
+
+    function slide() {
+        $(".list-menu").slideToggle()
+    }
+
+</script>

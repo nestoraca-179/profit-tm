@@ -1,0 +1,651 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["home"] = Session["home"];
+}
+<style>
+    .highcharts-figure, .highcharts-data-table table {
+        min-width: 320px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+    .highcharts-credits {
+        display: none;
+    }
+    .row.mt-3 {
+        align-items: center;
+    }
+    .table.borderless thead {
+        background: #01579b;
+        color: #FFF;
+    }
+    .table.borderless td {
+        border: none;
+    }
+    .table.borderless th {
+        border-top: none;
+    }
+    #cont-mac {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 0 10px;
+    }
+    @@media (min-width: 576px) {
+        .col-stat {
+            padding: 5px;
+        }
+        .col-graph {
+            padding: 5px 15px;
+        }
+    }
+    @@media (max-width: 767px) {
+        .header-right-side {
+            display: none;
+        }
+        .dash-left-side {
+            width: 100%;
+            max-height: 100%;
+            position: absolute;
+            z-index: 10;
+            border: 0 !important;
+            overflow-y: auto;
+        }
+        .list-menu {
+            margin: 0;
+            display: none;
+        }
+        .menu-item {
+            padding: 20px;
+        }
+        .direct.shadow-tm {
+            margin: 5px 0;
+        }
+        .col-graph {
+            margin: 5px 0;
+        }
+    }
+    @@media (min-width: 768px) and (max-width: 991px) {
+        .col-stat {
+            padding: 0;
+        }
+        .direct {
+            width: 100%;
+            max-width: 100%;
+            margin: 5px 0;
+        }
+        .col-stat:nth-child(odd) {
+            padding-right: 5px;
+        }
+        .col-stat:nth-child(even) {
+            padding-left: 5px;
+        }
+        .col-graph {
+            margin: 5px 0;
+        }
+    }
+    @@media (min-width: 992px) and (max-width: 1399px) {
+        .col-graph {
+            margin: 5px 0;
+        }
+    }
+</style>
+<div class="container-fluid p-0" ng-app="DashboardAdmin" ng-controller="controller">
+    <div class="row dash-container" id="dash-container">
+        <div class="col-md-4 col-xl-3 col-xxl-2 dash-left-side border-right p-0" id="menu-left">
+            <ul class="list-menu dropright">
+                @{
+                    foreach (var item in ViewBag.modules)
+                    {
+                        string disReport = item.ReportURL == "#" ? "disabled" : "";
+
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="@item.Icon"></i>
+                            <p class="mb-0 ml-3">@item.ModuleName</p>
+                            <i class="fas fa-caret-up"></i>
+                        </li>
+                        <div class="my-dropdown">
+                            @{
+                                foreach (var elem in item.Options)
+                                {
+                                    string disabled = elem.Enabled ? "" : "disabled";
+
+                                    <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                }
+                            }
+                            <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
+                        </div>
+                    }
+                }
+                <li class="menu-item" onclick="print(this)">
+                    <i class="fas fa-cog fa-spin"></i>
+                    <p class="mb-0 ml-3">Configuración</p>
+                    <i class="fas fa-caret-up"></i>
+                </li>
+                <div class="my-dropdown">
+                    <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
+                    <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
+                </div>
+                <li class="menu-item border-top" onclick="location.href = '/Account/Logout'">
+                    <i class="fas fa-power-off"></i>
+                    <p class="mb-0 ml-3">Cerrar Sesión</p>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
+            <div class="container-fluid mt-3">
+                <div class="row justify-content-between" style="margin: 0;">
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3  col-stat">
+                        <div class="direct shadow-tm" style="border-bottom: solid 5px #1565C0;">
+                            <h5>Total Facturas del Mes</h5>
+                            <span ng-show="stats" class="stat-number">{{ stats.totalCount }}</span>
+                            <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
+                            <i class="fas fa-file-invoice" style="color: #1565C0;"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm" style="border-bottom: solid 5px #2E7D32;">
+                            <h5>Total Ventas del Mes</h5>
+                            <span ng-show="stats" class="stat-number">{{ stats.totalAmountSale.toLocaleString('es-ES') }}</span>
+                            <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
+                            <i class="fas fa-dollar-sign" style="color: #2E7D32;"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm" style="border-bottom: solid 5px #EF6C00;">
+                            <h5>Total Compras del Mes</h5>
+                            <span ng-show="stats" class="stat-number">{{ stats.totalAmountPurchase.toLocaleString('es-ES') }}</span>
+                            <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
+                            <i class="fas fa-dollar-sign" style="color: #EF6C00;"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm" style="border-bottom: solid 5px #D84315;">
+                            <h5>Total Estado de Ganancia del Mes</h5>
+                            <span ng-show="stats" class="stat-number">{{ stats.totalState.toLocaleString('es-ES') }}</span>
+                            <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
+                            <i class="fas fa-sort-alt" style="color: #D84315;"></i>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <h4 class="text-center">Estadísticas del mes actual</h4>
+                <div class="row mt-3">
+                    <div class="col-md-12 col-xl-6 col-xxl-8 col-graph">
+                        <div class="container-chart shadow-tm">
+                            <i ng-if="!msp || !show_all" class="fas fa-spinner-third fa-spin"></i>
+                            <div id="cont-msp" style="display: none;">
+                                <figure ng-if="msp.length > 0" class="highcharts-figure">
+                                    <div id="container-msp"></div>
+                                </figure>
+                                <h5 ng-if="msp.length == 0" class="text-center mt-5 mb-5">Servicios más vendidos (Sin datos)</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xl-6 col-xxl-4 col-graph">
+                        <div class="container-chart shadow-tm">
+                            <i ng-if="!mpp || !show_all" class="fas fa-spinner-third fa-spin"></i>
+                            <div id="cont-mpp" style="display: none;">
+                                <figure ng-if="mpp.length > 0" class="highcharts-figure">
+                                    <div id="container-mpp"></div>
+                                </figure>
+                                <h5 ng-if="mpp.length == 0" class="text-center mt-5 mb-5">Servicios más comprados (Sin datos)</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3" style="align-items: stretch;">
+                    <div class="col-md-12 col-xl-7 col-graph">
+                        <div class="container-chart shadow-tm pl-3 pr-3 d-flex" style="height: 100%;">
+                            <i ng-if="!mac || !show_all" class="fas fa-spinner-third fa-spin"></i>
+                            <div id="cont-mac" style="display: none;">
+                                <h5 ng-if="mac.length > 0" class="text-center mt-3 mb-3">Clientes más activos</h5>
+                                <table ng-if="mac.length > 0" class="table table-hover borderless">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Cliente</th>
+                                            <th>Total</th>
+                                            <th>Porcentaje</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="client in mac">
+                                            <td style="vertical-align: middle;"><i class="fas fa-user-alt" style="color: #333;"></i></td>
+                                            <td>{{ client.cli_des }}</td>
+                                            <td>{{ client.campo1 }}</td>
+                                            <td style="text-align: right;">{{ client.campo2 }} %</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h5 ng-if="mac.length == 0" class="text-center mt-5 mb-5">Clientes más activos (Sin datos)</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xl-5 col-graph">
+                        <div class="container-chart shadow-tm">
+                            <i ng-if="!mas || !show_all" class="fas fa-spinner-third fa-spin"></i>
+                            <div id="cont-mas" style="display: none;">
+                                <figure ng-if="mas.length > 0" class="highcharts-figure">
+                                    <div id="container-mas"></div>
+                                </figure>
+                                <h5 ng-if="mas.length == 0" class="text-center mt-5 mb-5">Proveedores más activos (Sin datos)</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/angular-min.js"></script>
+<script>
+    var app = angular.module("DashboardAdmin", []);
+    var capitalize = str => str.substring(0, 1).toLocaleUpperCase() + str.substring(1).toLocaleLowerCase();
+    var btn = document.getElementById("icon-menu");
+    var header = document.getElementById("header-left");
+    var menu = document.getElementById("menu-left");
+    var graphs = ['msp', 'mpp', 'mac', 'mas'];
+    var responsive = screen.availWidth <= 767 ? true : false;
+    var node = null;
+
+    var fec_d = new Date(), fec_h = new Date();
+    fec_d.setDate(1);
+    fec_d.setHours(0);
+    fec_d.setMinutes(0);
+    fec_d.setSeconds(0);
+
+    var fecha_d = fec_d.toLocaleDateString().replaceAll("/","-");
+    var fecha_h = fec_h.toLocaleDateString().replaceAll("/","-");
+
+    $(".dash-right-side").on("mousedown", function (event) {
+        event.preventDefault();
+    });
+
+    $(".dash-right-side").on("contextmenu", function (event) {
+        event.preventDefault();
+    });
+
+    app.controller("controller", function ($scope, $http) {
+
+        if (responsive) {
+            btn.addEventListener("click", slide);
+        } else {
+            btn.addEventListener("click", hide);
+            $(".menu-item.border-top").attr('style', 'display: none;');
+        }
+
+        $scope.show_all = false;
+
+        window.addEventListener("resize", function () {
+            responsive = screen.availWidth <= 767;
+
+            if (responsive) {
+                btn.removeEventListener("click", hide);
+                btn.addEventListener("click", slide);
+                $(".menu-item.border-top").removeAttr('style', 'display: none;');
+                $("#header-left.active").removeClass("active");
+                $("#menu-left.active").removeClass("active");
+            } else {
+                btn.removeEventListener("click", slide);
+                btn.addEventListener("click", hide);
+                $("ul.list-menu").removeAttr('style');
+                $(".menu-item.border-top").attr('style', 'display: none;');
+            }
+        });
+
+        // ESTADISTICAS
+        $http.get(`../../api/ProfitTMApi/GetStatsInvoices/${fecha_d}/${fecha_h}`)
+            .then(function (response) {
+
+                $scope.stats = response.data.Result;
+                $("span.stat-number").css('opacity', '1');
+
+            }, function (error) { console.log("Ha ocurrido un error (STATS) -> " + error.statusText); });
+
+        // SERVICIOS MAS VENDIDOS
+        $http.get(`../../api/ProfitTMApi/GetMostSaleProducts/${fecha_d}/${fecha_h}/5`)
+            .then(function (response) {
+
+                $scope.msp = response.data.Result;
+                $scope.validate('msp');
+
+            }, function (error) { console.log("Ha ocurrido un error (MSP) -> " + error.statusText); });
+
+        // SERVICIOS MAS COMPRADOS
+        $http.get(`../../api/ProfitTMApi/GetMostPurchaseProducts/${fecha_d}/${fecha_h}/5`)
+            .then(function (response) {
+
+                $scope.mpp = response.data.Result;
+                $scope.validate('mpp');
+
+            }, function (error) { console.log("Ha ocurrido un error (MPP) -> " + error.statusText); });
+
+        // CLIENTES CON MAS VENTAS
+        $http.get(`../../api/ProfitTMApi/GetMostActiveClients/${fecha_d}/${fecha_h}/5`)
+            .then(function (response) {
+
+                $scope.mac = response.data.Result;
+                $scope.validate('mac');
+
+            }, function (error) { console.log("Ha ocurrido un error (MAC) -> " + error.statusText); });
+
+        // PROVEEDORES CON MAS COMPRAS
+        $http.get(`../../api/ProfitTMApi/GetMostActiveSuppliers/${fecha_d}/${fecha_h}/5`)
+            .then(function (response) {
+
+                $scope.mas = response.data.Result;
+                $scope.validate('mas');
+
+            }, function (error) { console.log("Ha ocurrido un error (MAS) -> " + error.statusText); });
+
+        $scope.validate = function (item) {
+
+            graphs = graphs.filter(x => x != item);
+
+            if (graphs.length == 0) {
+
+                $("#cont-msp").removeAttr("style");
+                $("#cont-mpp").removeAttr("style");
+                $("#cont-mas").removeAttr("style");
+                $scope.show_all = true;
+
+                setTimeout(function () {
+
+                    initMSP($scope.msp);
+                    initMPP($scope.mpp);
+                    $("#cont-mac").removeAttr("style");
+                    initMAS($scope.mas);
+
+                    if (responsive) {
+                        $("table.borderless").addClass("table-sm");
+                        $("table.borderless th").first().remove();
+                        $("table.borderless tr").each(function () {
+                            $(this).find("td").first().remove();
+                        });
+                    }
+
+                }, 0.05);
+            }
+        }
+    });
+
+    function print(elem) {
+
+        let item_active = $("#menu-left.active").length == 1;
+        $(".my-dropdown").slideUp();
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            $(node).children("i.fa-caret-up").hide();
+        }
+
+        $(elem).addClass("selected");
+
+        if (node != elem) {
+
+            $(elem).next().slideDown();
+            $(elem).next().css("display", "flex");
+            $(elem).next().css("flex-direction", "column");
+            $(elem).children("i.fa-caret-up").show();
+            node = elem;
+
+            if (item_active) {
+                $("#header-left").removeClass("active");
+                $("#menu-left").removeClass("active");
+            }
+
+        } else {
+
+            $(elem).removeClass("selected");
+            $(elem).children("i.fa-caret-up").hide();
+            node = null;
+
+        }
+    }
+
+    function hide() {
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            node = null;
+        }
+
+        header.classList.toggle("active");
+        menu.classList.toggle("active");
+
+        $(".my-dropdown").slideUp();
+        $("i.fa-caret-up").hide();
+    }
+
+    function slide() {
+        $(".list-menu").slideToggle()
+    }
+
+</script>
+
+@* GRAFICA ARTICULOS VENDIDOS *@
+<script>
+
+    function initMSP (msp) {
+
+        var productos = msp;
+        var objects = productos.map(function (x) {
+            return {
+                name: capitalize(x.art_des),
+                y: parseFloat(x.campo1)
+            };
+        }).reverse();
+
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: ",",
+                thousandsSep: "."
+            }
+        });
+
+        if (objects.length > 0) {
+            Highcharts.chart('container-msp', {
+                chart: {
+                    type: 'column'
+                },
+                colors: ['#0277bd', '#01579b'],
+                title: {
+                    text: 'Servicios más vendidos'
+                },
+                accessibility: {
+                    announceNewData: {
+                        enabled: true
+                    }
+                },
+                exporting: {
+                    enabled: false,
+                },
+                xAxis: {
+                    type: 'category',
+                    labels: {
+                        format: '<b style="font-family: \'Raleway\', sans-serif;">{value}</b>'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: responsive ? null : '<b style="font-family: \'Raleway\', sans-serif;">Cantidad</b>'
+                    },
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y} Unds'
+                            // format: '{point.y:,.2f} Unds'
+                        },
+                    },
+                },
+                tooltip: {
+                    pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y}</b> Unds<br/>'
+                    // pointFormat: '<span style="color:{point.color}">Cantidad</span>: <b>{point.y:,.2f}</b> Unds<br/>'
+                },
+                series: [{
+                    name: 'Cantidad',
+                    colorByPoint: true,
+                    data: objects,
+                }]
+            });
+        }
+    }
+
+</script>
+@* GRAFICA ARTICULOS COMPRADOS *@
+<script>
+
+    function initMPP (mpp) {
+
+        var productos = mpp;
+        var objects = productos.map(function (x) {
+            return {
+                name: capitalize(x.art_des),
+                y: parseFloat(x.campo1)
+            };
+        });
+
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: ",",
+                thousandsSep: "."
+            }
+        });
+
+        if (objects.length > 0) {
+            Highcharts.chart('container-mpp', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                colors: ['#0277BD', '#014B75', '#029CF5', '#012236', '#028CDB'],
+                title: {
+                    text: 'Servicios más comprados'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y:,.2f} Unds</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                exporting: {
+                    enabled: false,
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<span>{point.percentage:.2f} %</span>',
+                            borderWidth: 0,
+                            distance: -25
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Cantidad',
+                    colorByPoint: true,
+                    data: objects
+                }]
+            });
+        }
+    }
+
+</script>
+@* GRAFICA PROVEEDORES COMPRAS *@
+<script>
+
+    function initMAS (mas) {
+
+        var proveedores = mas;
+        var objects = proveedores.map(function (x) {
+            return [
+                capitalize(x.prov_des),
+                parseFloat(x.campo1)
+            ];
+        });
+
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: ",",
+                thousandsSep: "."
+            }
+        });
+
+        if (objects.length > 0) {
+            Highcharts.chart('container-mas', {
+                chart: {
+                    type: 'pie',
+                    options3d: {
+                        enabled: true,
+                        alpha: 45
+                    }
+                },
+                colors: ['#1565C0', '#2E7D32', '#EF6C00', '#D84315', '#6610F2'],
+                title: {
+                    text: 'Proveedores más activos'
+                },
+                exporting: {
+                    enabled: false,
+                },
+                plotOptions: {
+                    pie: {
+                        innerSize: 100,
+                        depth: 45,
+                        dataLabels: {
+                            enabled: true,
+                            format: '<span>{point.percentage:.2f} %</span>'
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Monto Total',
+                    data: objects
+                }]
+            });
+        }
+    }
+
+</script>

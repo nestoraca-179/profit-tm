@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "AgregarConexion";
+}
+<style>
+    body > header {
+        display: none;
+    }
+    body > .container-fluid > main {
+        overflow-y: auto;
+    }
+    .box {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .container-title {
+        width: 100%;
+        flex: 1;
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+    }
+    .container-title h2{
+        margin: 0;
+    }
+    .alert{
+        width: 90%;
+        height: auto;
+        max-height: 10%;
+        margin: 0 auto;
+        font-size: 12px;
+    }
+    form {
+        width: 100%;
+        max-width: 700px;
+        flex: 5;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+    form .input-main {
+        display: flex;
+    }
+    form .input-main i {
+        flex: 1;
+        max-width: 40px;
+        color: #FFF;
+        font-size: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    form .input-main .form-control {
+        flex: 1;
+        background: none;
+        margin-left: 10px;
+        padding: 15px 0;
+        border: 0;
+        border-bottom: solid 1px #FFF;
+        border-radius: 0;
+        color: #FFF;
+    }
+    form .input-main .form-control::placeholder{
+        color: #FFF;
+    }
+    form button{
+        padding: 20px 0 !important;
+    }
+    @@media (max-width: 789px) {
+        form {
+            height: auto;
+        }
+        .container-title {
+            padding: 5%;
+            justify-content: center;
+        }
+        .container-cards {
+            padding: 15px;
+        }
+        .card-prod {
+            height: 150px;
+            margin: 10px 0;
+        }
+        .card-prod i {
+            flex: 1;
+            font-size: 6em;
+            text-align: center;
+        }
+        .card-prod h4 {
+            flex: 1;
+        }
+    }
+</style>
+<div class="box">
+    <div class="container-title">
+        <h2 class="text-white">Agregar Conexión</h2>
+    </div>
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.message))
+        {
+            <div class="alert alert-warning">@ViewBag.message</div>
+        }
+    }
+    <form action="/Home/GuardarConexion" method="post">
+        <div class="input-main">
+            <i class="fas fa-file"></i>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Nombre de la conexión" required autocomplete="off" />
+        </div>
+        <div class="input-main">
+            <i class="fas fa-server"></i>
+            <input type="text" id="server" name="server" class="form-control" placeholder="Servidor" required autocomplete="off" />
+        </div>
+        <div class="input-main">
+            <i class="fas fa-database"></i>
+            <input type="text" id="db" name="db" class="form-control" placeholder="Base de Datos" required autocomplete="off" />
+        </div>
+        <div class="input-main">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username_conn" name="username_conn" class="form-control" placeholder="Usuario" required autocomplete="off" />
+        </div>
+        <div class="input-main">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password_conn" name="password_conn" class="form-control" placeholder="Clave" required autocomplete="off" />
+        </div>
+        <input type="hidden" name="prod" value="@ViewBag.prod" />
+        <button class="btn btn-primary mt-5">Guardar Conexión</button>
+    </form>
+</div>

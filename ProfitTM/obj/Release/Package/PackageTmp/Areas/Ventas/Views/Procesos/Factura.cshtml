@@ -1,0 +1,563 @@
+﻿@{
+    ViewBag.Title = "Factura";
+}
+<style>
+    .dash-right-side .container-fluid {
+        height: 100%;
+        padding: 5px;
+        display: flex;
+    }
+    h3 {
+        margin: 0;
+    }
+    .container-list {
+        flex: 1;
+        overflow-y: auto;
+        margin-right: 5px;
+        padding-right: 5px;
+    }
+    .container-list .table td, .table th {
+        padding: 5px;
+        font-size: 14px;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+    .container-list .table thead {
+        background: #13568a;
+    }
+    .container-form {
+        flex: 3;
+        background: #f9f9f9;
+        border: solid 1px #b9b9b9;
+        position: relative;
+        overflow-y: auto;
+    }
+    .form-header {
+        background: #13568a;
+        padding: 10px 0;
+        border-bottom: solid 3px #126fb9;
+    }
+    .form-buttons {
+        background: #eeeded;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-buttons .btn {
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+    .buttons-next-prev, .buttons-actions, .buttons-save-cancel {
+        width: fit-content;
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-body {
+        background: #f9f9f9;
+        display: none;
+        flex-wrap: wrap;
+    }
+    .form-body > div {
+        padding: 15px;
+    }
+    .form-body .left, .form-body .right {
+        width: 50%;
+    }
+    .form-body .bottom {
+        width: 100%;
+        border-top: solid 1px #b9b9b9;
+    }
+    .controls {
+        min-height: 40px;
+        display: flex;
+        justify-content: space-between;
+        margin: 2px 0;
+    }
+    .controls label:not(.label-check) {
+        width: 150px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+    .controls input[readonly] {
+        background: #FFF;
+    }
+    .controls input[readonly][disabled] {
+        background: #e9ecef;
+    }
+    .controls input[type=text], .controls input[type=date] {
+        width: auto;
+        min-width: 300px;
+        border: 1px solid #ced4da;
+        font-size: 14px;
+    }
+    .controls input[type=checkbox], .controls input[type=radio] {
+        margin-right: 20px;
+    }
+    .controls select {
+        min-width: 300px;
+        border: 1px solid #ced4da;
+        box-shadow: none;
+        font-size: 14px;
+    }
+    label.label-check, label.label-radio {
+        margin: 0;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+    .input-search {
+        max-width: 300px;
+    }
+    .input-search input {
+        width: 100% !important;
+        min-width: auto !important;
+    }
+    .form-tabs {
+        overflow: hidden;
+        display: flex;
+    }
+    .form-tabs button {
+        flex: 1;
+        background: #f9f9f9;
+        color: #25224a;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+    .form-tabs button:hover, .form-tabs button.active {
+        background-color: #E6E7FF;
+        border-bottom: solid 2px #5157ff;
+    }
+    .form-footer {
+        width: 100%;
+        padding: 10px;
+        position: relative;
+        bottom: 0;
+    }
+    .form-footer .row {
+        margin: 0;
+    }
+    .modal-info .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
+    .container-list .table-striped tbody tr:nth-of-type(2n+1) {
+        background-color: rgb(227, 227, 227);
+    }
+</style>
+<div class="container-fluid" ng-app="Invoices" ng-controller="controller">
+    <div class="container-list">
+        <input type="text" id="input-invoices" class="form-control" placeholder="Buscar factura..." style="border: solid 1px #ced4da;" onkeyup="searchInvoice()" />
+        <table class="table table-hover table-striped" id="table-invoices" style="margin-top: 5px;">
+            <thead>
+                <tr>
+                    <th class="text-white">N° Factura</th>
+                    <th class="text-white">Cliente</th>
+                </tr>
+            </thead>
+            <tr ng-repeat="invoice in invoices" ng-click="selectInvoice(invoice.doc_num)" style="cursor: pointer;">
+                <td>{{ invoice.doc_num }}</td>
+                <td>{{ invoice.co_cli }}</td>
+            </tr>
+        </table>
+    </div>
+    <form action="" method="post" id="form" class="container-form" onsubmit="return false;">
+        <div class="form-header">
+            <h3 class="text-center text-white"><i class="fas fa-file-invoice-dollar"></i> Factura</h3>
+        </div>
+        <div class="form-buttons">
+            <div class="buttons-actions" ng-show="!adding && !editing">
+                <button type="button" class="btn btn-primary" @*ng-click="initAddClient()"*@>
+                    <i class="fas fa-plus"></i>
+                    Nuevo
+                </button>
+                <div style="width: 10px;"></div>
+                <button type="button" class="btn btn-warning" ng-click="editing = true">
+                    <i class="fas fa-file-edit"></i>
+                    Modificar
+                </button>
+                <div style="width: 10px;"></div>
+                <button type="button" class="btn btn-danger">
+                    <i class="fas fa-times"></i>
+                    Eliminar
+                </button>
+            </div>
+            <div class="buttons-save-cancel" ng-show="adding">
+                <button type="button" class="btn btn-danger" ng-click="adding = false; client = clients[index]">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+                <div style="width: 10px;"></div>
+                <button type="submit" class="btn btn-success" ng-click="addClient()">
+                    <i class="fas fa-save"></i>
+                    Agregar
+                </button>
+            </div>
+            <div class="buttons-save-cancel" ng-show="editing">
+                <button type="button" class="btn btn-danger" ng-click="editing = false">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+                <div style="width: 10px;"></div>
+                <button type="button" class="btn btn-success" ng-click="editClient()">
+                    <i class="fas fa-save"></i>
+                    Guardar
+                </button>
+            </div>
+            <div class="buttons-next-prev" ng-show="!adding && !editing">
+                <button type="button" class="btn btn-primary" ng-click="margin('s')">
+                    <i class="fas fa-chevron-double-left"></i>
+                    Ir al primero
+                </button>
+                <div style="width: 10px;"></div>
+                <button type="button" class="btn btn-primary" ng-click="prev()">
+                    <i class="fas fa-chevron-left"></i>
+                    Anterior
+                </button>
+                <div style="width: 10px;"></div>
+                <button type="button" class="btn btn-primary" ng-click="next()">
+                    Siguiente
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div style="width: 10px;"></div>
+                <button type="button" class="btn btn-primary" ng-click="margin('e')">
+                    Ir al último
+                    <i class="fas fa-chevron-double-right"></i>
+                </button>
+            </div>
+        </div>
+        <div class="form-tabs">
+            <button type="button" id="btn-general" class="tablinks active" onclick="openTab(event, 'general')">General</button>
+            <button type="button" id="btn-credito" class="tablinks" onclick="openTab(event, 'detalle')">Detalle</button>
+            <button type="button" id="btn-adicionales" class="tablinks" onclick="openTab(event, 'adicionales')">Adicionales</button>
+        </div>
+        <div id="general" class="form-body" style="display: flex;">
+            <div class="left">
+                <div class="controls">
+                    <label>Número</label>
+                    <input type="text" class="form-control" id="id" name="id" ng-model="invoice.doc_num" ng-disabled="!adding" ng-required="true" />
+                </div>
+                <div class="controls">
+                    <label>Cliente</label>
+                    <input type="text" class="form-control" id="client" ng-model="invoice.co_cli" ng-disabled="!adding && !editing" ng-required="true" />
+                </div>
+                <div class="controls">
+                    <label>Cond. Pago</label>
+                    <div class="input-search">
+                        <input type="text" class="form-control" id="cond" onfocus="this.blur()" ng-model="invoice.co_cond" ng-disabled="!adding && !editing" ng-required="true" />
+                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
+                    </div>
+                </div>
+                <div class="controls">
+                    <label>Vendedor</label>
+                    <div class="input-search">
+                        <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="invoice.co_ven" ng-disabled="!adding && !editing" ng-required="true" />
+                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="controls">
+                    <label>Status</label>
+                    <input type="text" class="form-control" id="status" ng-model="invoice.EstatusF" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>N° Control</label>
+                    <input type="text" class="form-control" id="name" ng-model="invoice.n_control" ng-disabled="!adding && !editing" ng-required="true" />
+                </div>
+                <div class="controls">
+                    <label>Moneda</label>
+                    <div class="input-search">
+                        <input type="text" class="form-control" id="currency" onfocus="this.blur()" ng-model="invoice.co_mone" ng-disabled="!adding && !editing" ng-required="true" />
+                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="currency"></i>
+                    </div>
+                </div>
+                <div class="controls">
+                    <label>Tasa</label>
+                    <input type="text" class="form-control" id="rate" ng-model="invoice.tasa" ng-disabled="!adding && !editing" ng-required="true" />
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="controls">
+                            <label>Descripción</label>
+                            <input type="text" class="form-control" id="descrip" ng-model="invoice.descrip" ng-disabled="!adding && !editing" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="controls">
+                            <label>Transporte</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="transport" onfocus="this.blur()" ng-model="invoice.co_tran" ng-disabled="!adding && !editing" ng-required="true" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTransports')" data-name="transport"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="controls">
+                            <label>Fec. de Emis.</label>
+                            <input type="date" class="form-control" id="fechaEmis" ng-model="invoice.fec_emis" ng-disabled="!adding && !editing" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="controls">
+                            <label>Fec. de Venc.</label>
+                            <input type="date" class="form-control" id="fechaVenc" ng-model="invoice.fec_venc" ng-disabled="!adding && !editing" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="controls">
+                            <label>Fec. de Reg.</label>
+                            <input type="date" class="form-control" id="fechaReg" ng-model="invoice.fec_reg" ng-disabled="!adding && !editing" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="controls">
+                            <label class="label-check"><input type="checkbox" ng-model="client.ven_ter" ng-disabled="!adding && !editing" /> Venta por cuenta de terceros</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="detalle" class="form-body">
+            @*<table class="table table-sm table-striped table-bordered">
+                <tr>
+                    <td>Hola</td>
+                </tr>
+            </table>*@
+            @*@Html.Action("GridViewFactRengsPartial", "Reps", new { doc_num = "0000000070" })*@
+        </div>
+        <div id="adicionales" class="form-body">
+            <div class="left">
+                <div class="controls">
+                    <label>Campo 1</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo1" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 3</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo3" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 5</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo5" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 7</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo7" ng-disabled="!adding && !editing" />
+                </div>
+            </div>
+            <div class="right">
+                <div class="controls">
+                    <label>Campo 2</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo2" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 4</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo4" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 6</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo6" ng-disabled="!adding && !editing" />
+                </div>
+                <div class="controls">
+                    <label>Campo 8</label>
+                    <input type="text" class="form-control" id="tab" ng-model="invoice.campo8" ng-disabled="!adding && !editing" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="~/Scripts/angular-min.js"></script>
+<script>
+    var app = angular.module("Invoices", []);
+    var invoices = @Html.Raw(ViewBag.invoices);
+
+    for (var item of invoices) {
+        item.fec_emis = new Date(parseInt(item.fec_emis.substr(6)));
+        item.fec_venc = new Date(parseInt(item.fec_venc.substr(6)));
+        item.fec_reg = new Date(parseInt(item.fec_reg.substr(6)));
+        item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
+        item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
+
+        switch (item.status) {
+            case "0":
+                item.EstatusF = "NO PROCESADA";
+                break;
+            case "1":
+                item.EstatusF = "PARCIALMENTE PROCESADA";
+                break;
+            case "2":
+                item.EstatusF = "PROCESADA";
+                break;
+        }
+    }
+
+    console.log(invoices);
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.index = 0;
+        $scope.invoices = invoices;
+        $scope.adding = false;
+        $scope.editing = false;
+
+        $scope.invoice = invoices[$scope.index];
+
+        $scope.next = function () {
+            if ($scope.index == (invoices.length - 1)) {
+                $scope.index = 0;
+            } else {
+                $scope.index++;
+            }
+
+            $scope.invoice = invoices[$scope.index];
+        }
+
+        $scope.prev = function () {
+            if ($scope.index == 0) {
+                $scope.index = invoices.length - 1;
+            } else {
+                $scope.index--;
+            }
+
+            $scope.invoice = invoices[$scope.index];
+        }
+
+        $scope.selectInvoice = function (id) {
+            if ($scope.adding) {
+                alert("Debes terminar de agregar la factura");
+            } else if ($scope.editing) {
+                alert("Debes terminar de modificar la factura " + $scope.invoice.doc_num);
+            } else {
+                $scope.invoice = invoices.find(c => c.doc_num == id);
+                $scope.index = invoices.indexOf($scope.invoice);
+            }
+        }
+
+        $scope.margin = function (p) {
+            if (p == "s") {
+                $scope.index = 0;
+                $scope.invoice = invoices[0];
+            } else if (p == "e") {
+                $scope.index = invoices.length - 1;
+                $scope.invoice = invoices[invoices.length - 1];
+            }
+        }
+
+    });
+
+    function origDate(value) {
+
+        var timeOffset = value.getTimezoneOffset() * 60000;
+        var date = new Date(value.getTime() - timeOffset).toUTCString();
+
+        return new Date(date);
+    }
+
+    function openModal(elem, modal) {
+
+        var previous = elem.previousElementSibling;
+
+        if (!previous.disabled) {
+
+            $("#" + modal).find("#name-input").val($(elem).data("name"));
+            $("#" + modal).modal("show");
+
+        }
+    }
+
+    function search(modal) {
+        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+            table = $("#" + modal).find("#results")[0];
+
+        for (var i = 0; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    function selectRow(elem) {
+        var previous = document.getElementsByClassName("selected-row")[0];
+
+        if (previous != null) {
+            previous.classList.remove("selected-row");
+        }
+
+        elem.classList.add("selected-row");
+    }
+
+    function saveRow(modal) {
+        var item = document.getElementsByClassName("selected-row")[0];
+
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val();
+
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            $("#" + modal).modal("hide");
+        } else {
+            alert("Debes seleccionar un item");
+        }
+    }
+
+    function openTab(e, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("form-body");
+
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(tabName).style.display = "flex";
+        e.target.className += " active";
+    }
+
+    function searchInvoice() {
+        var value = $("#input-invoices").val().toLowerCase(),
+            table = $("#table-invoices")[0];
+
+        for (var i = 1; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+</script>
