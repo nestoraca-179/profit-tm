@@ -107,7 +107,7 @@
         font-size: 6em;
         padding: 5%;
     }
-    @@media (max-width: 1399px) {
+    @@media (max-width: 1199px) {
         .container-clients, .container-clients > .row {
             height: auto !important;
         }
@@ -118,13 +118,13 @@
 </style>
 <div class="container-fluid container-clients" ng-app="Clients" ng-controller="controller">
     <div class="row">
-        <div class="col-md-12 col-xxl-3 container-list">
-            <input type="text" id="input-clients" class="form-control" placeholder="Buscar cliente..." style="border: solid 1px #ced4da;" ng-model="search" ng-keyup="searchClient(search)" />
+        <div class="col-md-12 col-xl-3 container-list">
+            <input type="text" id="input-clients" class="form-control" placeholder="Buscar cliente..." style="border: solid 1px #ced4da;" ng-model="search" onkeyup="searchClient()" />
             <div class="list-table-clients">
                 <table class="table table-hover table-striped" id="table-clients">
                     <thead>
                         <tr>
-                            <th class="text-white">RIF</th>
+                            <th class="text-white">Código</th>
                             <th class="text-white">Nombre</th>
                         </tr>
                     </thead>
@@ -136,7 +136,7 @@
             </div>
         </div>
         <hr />
-        <form action="" method="post" id="form" class="col-md-12 col-xxl-9 container-form" onsubmit="return false;">
+        <form action="" method="post" id="form" class="col-md-12 col-xl-9 container-form" onsubmit="return false;">
             <div class="form-header">
                 <h3 class="text-center text-white"><i class="fas fa-user"></i> Cliente</h3>
             </div>

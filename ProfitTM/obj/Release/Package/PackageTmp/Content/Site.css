@@ -235,7 +235,7 @@ input#username::placeholder, input#pass::placeholder {
 }
 .user-active {
     width: 40%;
-    max-width: 275px;
+    max-width: 200px;
     height: 100%;
     padding: 20px;
     display: flex;
@@ -520,7 +520,7 @@ col-stat:last-child {
         font-size: 16px;
     }
 }
-@media (max-width: 1399px) {
+@media (max-width: 1199px) {
     .container-list {
         max-height: 300px;
         margin-bottom: 10px;
@@ -543,5 +543,10 @@ col-stat:last-child {
     }
     .form-buttons .buttons-actions, .form-buttons .buttons-save-cancel {
         justify-content: space-between;
+    }
+}
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .header-left-side a {
+        font-size: 16px;
     }
 }

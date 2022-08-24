@@ -32,11 +32,11 @@
 <body>
     <header class="container-fluid">
         <div class="row">
-            <div class="col-md-4 col-xl-3 col-xxl-2 header-left-side text-white" id="header-left">
+            <div class="col-md-4 col-xl-2 header-left-side text-white" id="header-left">
                 <i class="fas fa-bars icon-menu" id="icon-menu"></i>
                 <a href="/Home/@ViewData["home"]">Profit Plus TM <br /> @{ if (!string.IsNullOrEmpty(ViewBag.product)) { <span>@ViewBag.product</span> } }</a>
             </div>
-            <div class="col-md-8 col-xl-9 col-xxl-10 header-right-side">
+            <div class="col-md-8 col-xl-10 header-right-side">
                 <div class="user-active" role="button" id="drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user icon-user"></i>
                     <p class="mb-0">@ViewBag.user.Descrip</p>
@@ -50,7 +50,7 @@
     <div class="container-fluid p-0">
         <main role="main">
             <div class="dash-container" id="dash-container">
-                <div class="col-md-4 col-xl-3 col-xxl-2 dash-left-side border-right p-0" id="menu-left">
+                <div class="col-md-4 col-xl-2 dash-left-side border-right p-0" id="menu-left">
                     <ul class="list-menu dropright">
                         @{
                             foreach (var item in ViewBag.modules)
@@ -90,7 +90,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
+                <div class="col-md-8 col-xl-10 dash-right-side">
                     @RenderBody()
                 </div>
             </div>

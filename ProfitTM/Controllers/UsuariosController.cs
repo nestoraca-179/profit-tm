@@ -24,6 +24,19 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                switch (Session["prod"].ToString())
+                {
+                    case "ADM":
+                        ViewBag.product = "Administrativo";
+                        break;
+                    case "CON":
+                        ViewBag.product = "Contabilidad";
+                        break;
+                    case "NOM":
+                        ViewBag.product = "Nómina";
+                        break;
+                }
+
                 ViewBag.data_conn = Session["data_conn"].ToString();
                 ViewBag.bran_conn = Session["bran_conn"] != null ? Session["bran_conn"].ToString() : null;
 
@@ -50,6 +63,19 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                switch (Session["prod"].ToString())
+                {
+                    case "ADM":
+                        ViewBag.product = "Administrativo";
+                        break;
+                    case "CON":
+                        ViewBag.product = "Contabilidad";
+                        break;
+                    case "NOM":
+                        ViewBag.product = "Nómina";
+                        break;
+                }
+
                 ViewBag.data_conn = Session["data_conn"].ToString();
                 ViewBag.bran_conn = Session["bran_conn"] != null ? Session["bran_conn"].ToString() : null;
 
@@ -76,6 +102,19 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                switch (Session["prod"].ToString())
+                {
+                    case "ADM":
+                        ViewBag.product = "Administrativo";
+                        break;
+                    case "CON":
+                        ViewBag.product = "Contabilidad";
+                        break;
+                    case "NOM":
+                        ViewBag.product = "Nómina";
+                        break;
+                }
+
                 ViewBag.data_conn = Session["data_conn"].ToString();
                 ViewBag.bran_conn = Session["bran_conn"] != null ? Session["bran_conn"].ToString() : null;
 
