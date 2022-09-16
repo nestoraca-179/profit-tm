@@ -5,6 +5,7 @@ using System.Web.Security;
 
 namespace ProfitTM.Areas.Ventas.Controllers
 {
+    [Authorize]
     public class ProcesosController : Controller
     {
         public ActionResult Index()
@@ -50,13 +51,15 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
+                string sucur = Session["branch"].ToString();
                 ViewBag.data_conn = Session["data_conn"].ToString();
                 ViewBag.bran_conn = Session["bran_conn"].ToString();
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 50000000;
-
-                ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices());
+                
+                ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(sucur));
+                ViewBag.arts = serializer.Serialize(new Product().GetAllArts());
 
                 ViewBag.clients = new Client().GetAllClients();
                 ViewBag.conds = new Cond().GetAllConds();

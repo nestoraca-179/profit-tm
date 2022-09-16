@@ -250,13 +250,8 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Areas\Ventas\Views\Procesos\ImportarPedido.cshtml" />
-    <Content Include="Areas\Ventas\Views\Procesos\EditarFactura.cshtml" />
-    <Content Include="Areas\Ventas\Views\Procesos\EditarPedido.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\_RepFormatoFacturaVentaPartial.cshtml" />
-    <Content Include="Areas\Ventas\Views\Procesos\ImprimirFactura.cshtml" />
     <Content Include="Areas\Ventas\Views\Tablas\Cliente.cshtml" />
-    <Content Include="Areas\Ventas\Views\Procesos\Factura.cshtml" />
     <EntityDeploy Include="Models\ProfitTMModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ProfitTMModel.Designer.cs</LastGenOutput>
@@ -271,12 +266,12 @@
     <Content Include="Models\ProfitAdmModel.edmx.diagram">
       <DependentUpon>ProfitAdmModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Ventas\Views\Procesos\_GridViewFactRengsPartial.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Inventario\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Compras\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\General\Views\Reportes\Reporte.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\Factura.cshtml" />
     <None Include="Properties\PublishProfiles\ProfitTMRelease.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
@@ -469,6 +464,7 @@
     <Compile Include="Models\Admin\Cond.cs" />
     <Compile Include="Models\Admin\Country.cs" />
     <Compile Include="Models\Admin\InvoiceItem.cs" />
+    <Compile Include="Models\Admin\Order.cs" />
     <Compile Include="Models\Admin\ProfitAdmManager.cs" />
     <Compile Include="Models\Admin\Transport.cs" />
     <Compile Include="Models\Connection.cs" />
@@ -502,7 +498,16 @@
     <Compile Include="Models\pInsertarCliente_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\pInsertarDocumentoVenta_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\pInsertarFacturaVenta_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\pInsertarProveedor_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\pInsertarRenglonesFacturaVenta_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProfitAdmModel.Context.cs">

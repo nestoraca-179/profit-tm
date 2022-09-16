@@ -14424,6 +14424,10 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sEmail_alterno" Type="varchar" Mode="In" />
     <Parameter Name="bSujeto_Obj_RetenISLR_Auto" Type="bit" Mode="In" />
   </Function>
+  <Function Name="pConsecutivoProximo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sCo_Sucur" Type="char" Mode="In" />
+    <Parameter Name="sCo_Consecutivo" Type="char" Mode="In" />
+  </Function>
   <Function Name="pEliminarCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sCo_CliOri" Type="char" Mode="In" />
     <Parameter Name="tsValidador" Type="timestamp" Mode="In" />
@@ -14518,6 +14522,124 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sTComp" Type="char" Mode="In" />
     <Parameter Name="sEmail_alterno" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="pInsertarDocumentoVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sCo_Tipo_Doc" Type="char" Mode="In" />
+    <Parameter Name="sNro_Doc" Type="char" Mode="In" />
+    <Parameter Name="sCo_Cli" Type="char" Mode="In" />
+    <Parameter Name="sCo_Ven" Type="char" Mode="In" />
+    <Parameter Name="sCo_Mone" Type="char" Mode="In" />
+    <Parameter Name="sMov_Ban" Type="char" Mode="In" />
+    <Parameter Name="sCo_Cta_Ingr_Egr" Type="char" Mode="In" />
+    <Parameter Name="deTasa" Type="decimal" Mode="In" />
+    <Parameter Name="sObserva" Type="varchar(max)" Mode="In" />
+    <Parameter Name="sdFec_Reg" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sdFec_Emis" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sdFec_Venc" Type="smalldatetime" Mode="In" />
+    <Parameter Name="bAnulado" Type="bit" Mode="In" />
+    <Parameter Name="bAut" Type="bit" Mode="In" />
+    <Parameter Name="bContrib" Type="bit" Mode="In" />
+    <Parameter Name="sDoc_Orig" Type="char" Mode="In" />
+    <Parameter Name="sNro_Orig" Type="varchar" Mode="In" />
+    <Parameter Name="sNro_Che" Type="varchar" Mode="In" />
+    <Parameter Name="deMonto_Imp" Type="decimal" Mode="In" />
+    <Parameter Name="deSaldo" Type="decimal" Mode="In" />
+    <Parameter Name="deTotal_Bruto" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Desc_Glob" Type="decimal" Mode="In" />
+    <Parameter Name="sPorc_Desc_Glob" Type="varchar" Mode="In" />
+    <Parameter Name="sPorc_Reca" Type="varchar" Mode="In" />
+    <Parameter Name="deMonto_Reca" Type="decimal" Mode="In" />
+    <Parameter Name="deTotal_Neto" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Imp2" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Imp3" Type="decimal" Mode="In" />
+    <Parameter Name="sTipo_Imp" Type="char" Mode="In" />
+    <Parameter Name="iTipo_Origen" Type="int" Mode="In" />
+    <Parameter Name="dePorc_Imp" Type="decimal" Mode="In" />
+    <Parameter Name="dePorc_Imp2" Type="decimal" Mode="In" />
+    <Parameter Name="dePorc_Imp3" Type="decimal" Mode="In" />
+    <Parameter Name="sNum_Comprobante" Type="char" Mode="In" />
+    <Parameter Name="sN_Control" Type="varchar" Mode="In" />
+    <Parameter Name="sDis_Cen" Type="varchar(max)" Mode="In" />
+    <Parameter Name="deComis1" Type="decimal" Mode="In" />
+    <Parameter Name="deComis2" Type="decimal" Mode="In" />
+    <Parameter Name="deComis3" Type="decimal" Mode="In" />
+    <Parameter Name="deComis4" Type="decimal" Mode="In" />
+    <Parameter Name="deComis5" Type="decimal" Mode="In" />
+    <Parameter Name="deComis6" Type="decimal" Mode="In" />
+    <Parameter Name="deAdicional" Type="decimal" Mode="In" />
+    <Parameter Name="sSalestax" Type="char" Mode="In" />
+    <Parameter Name="bVen_Ter" Type="bit" Mode="In" />
+    <Parameter Name="sImpfis" Type="varchar" Mode="In" />
+    <Parameter Name="sImpfisfac" Type="varchar" Mode="In" />
+    <Parameter Name="sImp_nro_z" Type="char" Mode="In" />
+    <Parameter Name="deOtros1" Type="decimal" Mode="In" />
+    <Parameter Name="deOtros2" Type="decimal" Mode="In" />
+    <Parameter Name="deOtros3" Type="decimal" Mode="In" />
+    <Parameter Name="sCampo1" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo2" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo3" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo4" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo5" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo6" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo7" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo8" Type="varchar" Mode="In" />
+    <Parameter Name="sRevisado" Type="char" Mode="In" />
+    <Parameter Name="sTrasnfe" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
+    <Parameter Name="sCo_Us_In" Type="char" Mode="In" />
+    <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="pInsertarFacturaVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sDoc_Num" Type="char" Mode="In" />
+    <Parameter Name="sDescrip" Type="varchar" Mode="In" />
+    <Parameter Name="sCo_Cli" Type="char" Mode="In" />
+    <Parameter Name="sCo_Tran" Type="char" Mode="In" />
+    <Parameter Name="sCo_Mone" Type="char" Mode="In" />
+    <Parameter Name="sCo_Cta_Ingr_Egr" Type="char" Mode="In" />
+    <Parameter Name="sCo_Ven" Type="char" Mode="In" />
+    <Parameter Name="sCo_Cond" Type="char" Mode="In" />
+    <Parameter Name="sdFec_Emis" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sdFec_Venc" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sdFec_Reg" Type="smalldatetime" Mode="In" />
+    <Parameter Name="bAnulado" Type="bit" Mode="In" />
+    <Parameter Name="sStatus" Type="char" Mode="In" />
+    <Parameter Name="deTasa" Type="decimal" Mode="In" />
+    <Parameter Name="sN_Control" Type="varchar" Mode="In" />
+    <Parameter Name="sPorc_Desc_Glob" Type="varchar" Mode="In" />
+    <Parameter Name="deMonto_Desc_Glob" Type="decimal" Mode="In" />
+    <Parameter Name="sPorc_Reca" Type="varchar" Mode="In" />
+    <Parameter Name="deMonto_Reca" Type="decimal" Mode="In" />
+    <Parameter Name="deSaldo" Type="decimal" Mode="In" />
+    <Parameter Name="deTotal_Bruto" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Imp" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Imp2" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Imp3" Type="decimal" Mode="In" />
+    <Parameter Name="deOtros1" Type="decimal" Mode="In" />
+    <Parameter Name="deOtros2" Type="decimal" Mode="In" />
+    <Parameter Name="deOtros3" Type="decimal" Mode="In" />
+    <Parameter Name="deTotal_Neto" Type="decimal" Mode="In" />
+    <Parameter Name="sDis_Cen" Type="varchar(max)" Mode="In" />
+    <Parameter Name="sComentario" Type="varchar(max)" Mode="In" />
+    <Parameter Name="sDir_Ent" Type="varchar(max)" Mode="In" />
+    <Parameter Name="bContrib" Type="bit" Mode="In" />
+    <Parameter Name="bImpresa" Type="bit" Mode="In" />
+    <Parameter Name="sSalestax" Type="char" Mode="In" />
+    <Parameter Name="sImpfis" Type="varchar" Mode="In" />
+    <Parameter Name="sImpfisfac" Type="varchar" Mode="In" />
+    <Parameter Name="bVen_Ter" Type="bit" Mode="In" />
+    <Parameter Name="sCampo1" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo2" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo3" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo4" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo5" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo6" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo7" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo8" Type="varchar" Mode="In" />
+    <Parameter Name="sCo_Us_In" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
+    <Parameter Name="sRevisado" Type="char" Mode="In" />
+    <Parameter Name="sTrasnfe" Type="char" Mode="In" />
+    <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="pInsertarProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sCo_Prov" Type="char" Mode="In" />
     <Parameter Name="sProv_des" Type="varchar" Mode="In" />
@@ -14574,6 +14696,59 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sTComp" Type="char" Mode="In" />
     <Parameter Name="sEmail_alterno" Type="varchar" Mode="In" />
     <Parameter Name="bSujeto_Obj_RetenISLR_Auto" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="pInsertarRenglonesFacturaVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="iReng_Num" Type="int" Mode="In" />
+    <Parameter Name="sDoc_Num" Type="char" Mode="In" />
+    <Parameter Name="sCo_Art" Type="char" Mode="In" />
+    <Parameter Name="sDes_Art" Type="varchar" Mode="In" />
+    <Parameter Name="sCo_Uni" Type="char" Mode="In" />
+    <Parameter Name="sSco_Uni" Type="char" Mode="In" />
+    <Parameter Name="sCo_Alma" Type="char" Mode="In" />
+    <Parameter Name="sCo_Precio" Type="char" Mode="In" />
+    <Parameter Name="sTipo_Imp" Type="char" Mode="In" />
+    <Parameter Name="sTipo_Imp2" Type="char" Mode="In" />
+    <Parameter Name="sTipo_Imp3" Type="char" Mode="In" />
+    <Parameter Name="deTotal_Art" Type="decimal" Mode="In" />
+    <Parameter Name="deSTotal_Art" Type="decimal" Mode="In" />
+    <Parameter Name="dePrec_Vta" Type="decimal" Mode="In" />
+    <Parameter Name="sPorc_Desc" Type="varchar" Mode="In" />
+    <Parameter Name="deMonto_Desc" Type="decimal" Mode="In" />
+    <Parameter Name="deReng_Neto" Type="decimal" Mode="In" />
+    <Parameter Name="dePendiente" Type="decimal" Mode="In" />
+    <Parameter Name="dePendiente2" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Desc_Glob" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_reca_Glob" Type="decimal" Mode="In" />
+    <Parameter Name="deOtros1_glob" Type="decimal" Mode="In" />
+    <Parameter Name="deOtros2_glob" Type="decimal" Mode="In" />
+    <Parameter Name="deOtros3_glob" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_imp_afec_glob" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_imp2_afec_glob" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_imp3_afec_glob" Type="decimal" Mode="In" />
+    <Parameter Name="sTipo_Doc" Type="char" Mode="In" />
+    <Parameter Name="gRowguid_Doc" Type="uniqueidentifier" Mode="In" />
+    <Parameter Name="sNum_Doc" Type="varchar" Mode="In" />
+    <Parameter Name="dePorc_Imp" Type="decimal" Mode="In" />
+    <Parameter Name="dePorc_Imp2" Type="decimal" Mode="In" />
+    <Parameter Name="dePorc_Imp3" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Imp" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Imp2" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Imp3" Type="decimal" Mode="In" />
+    <Parameter Name="deOtros" Type="decimal" Mode="In" />
+    <Parameter Name="deTotal_Dev" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Dev" Type="decimal" Mode="In" />
+    <Parameter Name="sComentario" Type="varchar(max)" Mode="In" />
+    <Parameter Name="sDis_Cen" Type="varchar(max)" Mode="In" />
+    <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
+    <Parameter Name="sCo_Us_In" Type="char" Mode="In" />
+    <Parameter Name="sREVISADO" Type="char" Mode="In" />
+    <Parameter Name="sTRASNFE" Type="char" Mode="In" />
+    <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="pStockPendienteActualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="uniRowGuidOri" Type="uniqueidentifier" Mode="In" />
+    <Parameter Name="deCantidad" Type="decimal" Mode="In" />
+    <Parameter Name="sTipoDocumento" Type="char" Mode="In" />
   </Function>
   <Function Name="RepClienteMasVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="dFecha_Emis_d" Type="smalldatetime" Mode="In" />

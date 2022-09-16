@@ -243,6 +243,71 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        // PEDIDO VENTA
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetOrder/{id}")]
+        public ProfitTMResponse GetOrder(string id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                saPedidoVenta order = new Order().GetOrder(id);
+
+                if (order != null)
+                {
+                    if (order.status == "0")
+                    {
+                        response.Status = "OK";
+                        response.Result = order;
+                    }
+                    else
+                    {
+                        response.Status = "ERROR";
+                        response.Message = "1"; // PEDIDO BLOQUEADO
+                    }
+                }
+                else
+                {
+                    response.Status = "ERROR";
+                    response.Message = "0"; // PEDIDO NO EXISTE
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddInvoiceFromOrder/")]
+        public ProfitTMResponse AddInvoiceFromOrder(saFacturaVenta invoice)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            string user = (HttpContext.Current.Session["user"] as Users).Username;
+            string sucur = HttpContext.Current.Session["branch"].ToString();
+
+            try
+            {
+                saFacturaVenta newInvoice = new Invoice().AddFromOrder(invoice, user, sucur);
+
+                response.Status = "OK";
+                response.Result = newInvoice.doc_num;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
         // ESTADISTICAS DASHBOARD ADMIN
 
         [HttpGet]

@@ -335,7 +335,7 @@ col-stat:last-child {
     padding: 15px 0;
 }
 
-/* TABLAS */
+/* TABLAS - PROCESOS */
 .container-list {
     height: 100%;
     padding: 0;
@@ -354,7 +354,7 @@ col-stat:last-child {
 .container-list .table thead {
     background: #13568a;
 }
-.container-list .list-table-clients {
+.container-list .list-table-clients, .container-list .list-table-invoices {
     height: 100%;
     margin-top: 5px;
     overflow-y: auto;
@@ -371,10 +371,14 @@ col-stat:last-child {
     overflow-y: auto;
 }
 .container-form .controls {
+    width: 100%;
     margin: 5px 0;
 }
 .container-form .controls label {
     margin: 5px 0;
+}
+.container-form .controls select {
+    box-shadow: none;
 }
 .form-header {
     background: #13568a;
@@ -399,13 +403,35 @@ col-stat:last-child {
     padding: 5px 10px;
     font-size: 14px;
 }
+.form-tabs {
+    overflow: hidden;
+    display: flex;
+}
+.form-tabs button {
+    flex: 1;
+    background: #f9f9f9;
+    color: #25224a;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+.form-tabs .row {
+    width: 100%;
+    margin: 0;
+}
+.form-tabs button:hover, .form-tabs button.active {
+    background-color: #E6E7FF;
+    border-bottom: solid 2px #5157ff;
+}
 .buttons-next-prev, .buttons-actions, .buttons-save-cancel {
-    width: fit-content;
+    /*width: fit-content;*/
     display: flex;
     padding: 0;
 }
 .form-buttons .buttons-next-prev {
-    justify-content: space-between;
+    justify-content: start;
 }
 .form-body {
     background: #f9f9f9;
@@ -422,8 +448,49 @@ col-stat:last-child {
     width: 100%;
     border-top: solid 1px #b9b9b9;
 }
+.form-footer{
+    width: 100%;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+}
+.form-footer .row{
+    margin: 0;
+}
 .label-check input {
     margin-right: 15px;
+}
+.input-search {
+    display: flex;
+    border: 0 !important;
+}
+.input-search input{
+    width: 100% !important;
+    min-width: auto !important;
+}
+.input-search i {
+    min-width: 40px;
+    background: #13568a;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+    border: solid 2px #0277bd;
+    margin-left: 5px;
+}
+.modal-header button {
+    background: none;
+    border: 0;
+}
+.modal-header button span {
+    font-size: 25px;
+}
+.selected-row {
+    background: #01579b;
+}
+.selected-row td {
+    color: #FFF !important;
 }
 
 /* REPORTES */
