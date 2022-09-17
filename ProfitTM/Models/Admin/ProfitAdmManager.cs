@@ -10,7 +10,7 @@ namespace ProfitTM.Models
         private static string connect;
 
         // ENTIDAD PARA EF
-        private static EntityConnectionStringBuilder entity;
+        public static EntityConnectionStringBuilder entity;
         
         // CONTEXTO EF
         public static ProfitAdmEntities db;

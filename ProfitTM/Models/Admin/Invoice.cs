@@ -450,7 +450,7 @@ namespace ProfitTM.Models
 
             try
             {
-                invoices = db.saFacturaVenta.Where(r => r.co_sucu_in == sucur).OrderByDescending(i => i.fec_reg).ThenBy(i => i.doc_num).Take(200).ToList();
+                invoices = db.saFacturaVenta.Where(r => r.co_sucu_in == sucur).OrderByDescending(i => i.fe_us_in).ThenBy(i => i.doc_num).Take(200).ToList();
                 foreach (saFacturaVenta invoice in invoices)
                 {
                     invoice.saFacturaVentaReng = new InvoiceItem().GetRengsBySaleInvoice(invoice.doc_num.Trim());
@@ -549,7 +549,7 @@ namespace ProfitTM.Models
         {
             saFacturaVenta newInvoice = new saFacturaVenta();
 
-            using (DbContextTransaction tran = db.Database.BeginTransaction())
+            using (DbContextTransaction tran = new ProfitAdmEntities(entity.ToString()).Database.BeginTransaction())
             {
                 try
                 {
@@ -559,8 +559,8 @@ namespace ProfitTM.Models
                         db.pStockPendienteActualizar(reng.rowguid, reng.total_art, "PCLI");
                     }
 
-                    var sp_n_fact = db.pConsecutivoProximo(sucur, "FACT_VTA_N_CON").GetEnumerator();
-                    var sp_n_cont = db.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();
+                    var sp_n_fact = db.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();
+                    var sp_n_cont = db.pConsecutivoProximo(sucur, "FACT_VTA_N_CON").GetEnumerator();
 
                     if (sp_n_fact.MoveNext())
                         n_fact = sp_n_fact.Current;
@@ -568,24 +568,45 @@ namespace ProfitTM.Models
                     if (sp_n_cont.MoveNext())
                         n_cont = sp_n_cont.Current;
 
-                    var sp = db.pInsertarFacturaVenta(n_fact, invoice.descrip, invoice.co_cli, invoice.co_tran, invoice.co_mone, invoice.co_cta_ingr_egr, invoice.co_ven,
-                                                      invoice.co_cond, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, invoice.anulado, invoice.status, invoice.tasa,
-                                                      n_cont, invoice.porc_desc_glob, invoice.monto_desc_glob, invoice.porc_reca, invoice.monto_reca, invoice.saldo, invoice.total_bruto,
-                                                      invoice.monto_imp, invoice.monto_imp2, invoice.monto_imp3, invoice.otros1, invoice.otros2, invoice.otros3, invoice.total_neto,
-                                                      null, invoice.comentario, invoice.dir_ent, invoice.contrib, invoice.impresa, invoice.salestax, invoice.impfis, invoice.impfisfac,
-                                                      invoice.ven_ter, invoice.campo1, invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7,
-                                                      invoice.campo8, user, sucur, invoice.revisado, invoice.trasnfe, "SERVER PROFIT WEB");
+                    sp_n_fact.Dispose();
+                    sp_n_cont.Dispose();
 
+                    // FACTURA
+                    var sp = db.pInsertarFacturaVenta(n_fact, invoice.descrip, invoice.co_cli, invoice.co_tran, invoice.co_mone, invoice.co_cta_ingr_egr, invoice.co_ven,
+                        invoice.co_cond, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, invoice.anulado, invoice.status, invoice.tasa, n_cont, invoice.porc_desc_glob, 
+                        invoice.monto_desc_glob, invoice.porc_reca, invoice.monto_reca, invoice.saldo, invoice.total_bruto, invoice.monto_imp, invoice.monto_imp2, 
+                        invoice.monto_imp3, invoice.otros1, invoice.otros2, invoice.otros3, invoice.total_neto, null, invoice.comentario, invoice.dir_ent, invoice.contrib, 
+                        invoice.impresa, invoice.salestax, invoice.impfis, invoice.impfisfac, invoice.ven_ter, invoice.campo1, invoice.campo2, invoice.campo3, 
+                        invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, user, sucur, invoice.revisado, invoice.trasnfe, "SERVER PROFIT WEB");
+
+                    // RENGLONES
                     foreach (saFacturaVentaReng r in invoice.saFacturaVentaReng)
                     {
-                        db.pInsertarRenglonesFacturaVenta(r.reng_num, r.doc_num, r.co_art, r.des_art, r.co_uni, r.sco_uni, r.co_alma, r.co_precio, r.tipo_imp, r.tipo_imp2,
-                                                          r.tipo_imp3, r.total_art, r.stotal_art, r.prec_vta, r.porc_desc, r.monto_desc, r.reng_neto, r.pendiente, r.pendiente2,
-                                                          r.monto_desc_glob, r.monto_reca_glob, r.otros1_glob, r.otros2_glob, r.otros3_glob, r.monto_imp_afec_glob, r.monto_imp2_afec_glob,
-                                                          r.monto_imp3_afec_glob, r.tipo_doc, r.rowguid_doc, r.num_doc, r.porc_imp, r.porc_imp2, r.porc_imp3, r.monto_imp, r.monto_imp2, 
-                                                          r.monto_imp3, r.otros, r.total_dev, r.monto_dev, r.comentario, null, sucur, user, r.revisado, r.trasnfe, "SERVER PROFIT WEB");
+                        db.pInsertarRenglonesFacturaVenta(r.reng_num, n_fact, r.co_art, r.des_art, r.co_uni, r.sco_uni, r.co_alma, r.co_precio, r.tipo_imp, r.tipo_imp2,
+                            r.tipo_imp3, r.total_art, r.stotal_art, r.prec_vta, r.porc_desc, r.monto_desc, r.reng_neto, r.pendiente, r.pendiente2, r.monto_desc_glob, 
+                            r.monto_reca_glob, r.otros1_glob, r.otros2_glob, r.otros3_glob, r.monto_imp_afec_glob, r.monto_imp2_afec_glob, r.monto_imp3_afec_glob, 
+                            r.tipo_doc, r.rowguid_doc, r.num_doc, r.porc_imp, r.porc_imp2, r.porc_imp3, r.monto_imp, r.monto_imp2, r.monto_imp3, r.otros, r.total_dev, 
+                            r.monto_dev, r.comentario, null, sucur, user, r.revisado, r.trasnfe, "SERVER PROFIT WEB");
                     }
+
+                    // DOCUMENTO VENTA
+                    var sp_doc = db.pInsertarDocumentoVenta("FACT", n_fact, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, invoice.co_cta_ingr_egr, invoice.tasa,
+                        string.Format("FACT N° {0} de Cliente {1}", n_fact, invoice.co_cli), invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.anulado, true, invoice.contrib,
+                        "FACT", n_fact, null, invoice.monto_imp, invoice.saldo, invoice.total_bruto, invoice.monto_desc_glob, invoice.porc_desc_glob, invoice.porc_reca, 
+                        invoice.monto_reca, invoice.total_neto, invoice.monto_imp2, invoice.monto_imp3, null, 0, 0, 0, 0, null, n_cont, null, 0, 0, 0, 0, 0, 0, 
+                        0, invoice.salestax, invoice.ven_ter, invoice.impfis, invoice.impfisfac, invoice.imp_nro_z, invoice.otros1, invoice.otros2, invoice.otros3, invoice.campo1,
+                        invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, invoice.revisado, invoice.trasnfe, sucur, user,
+                        "SERVER PROFIT WEB");
                     
-                    var enumerator = sp.GetEnumerator();
+                    /*var enumerator = sp.GetEnumerator();
+                    if (enumerator.MoveNext())
+                    {
+                        Guid rowguid = enumerator.Current.rowguid.Value;
+                        newInvoice = db.saFacturaVenta.SingleOrDefault(c => c.rowguid == rowguid);
+                    }
+                    enumerator.Dispose();*/
+
+                    tran.Commit();
                 }
                 catch (Exception ex)
                 {

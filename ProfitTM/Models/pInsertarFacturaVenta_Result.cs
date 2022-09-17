@@ -17,6 +17,5 @@ namespace ProfitTM.Models
         public Nullable<System.DateTime> fe_us_in { get; set; }
         public Nullable<System.DateTime> fe_us_mo { get; set; }
         public Nullable<System.Guid> rowguid { get; set; }
-        public string Column1 { get; set; }
     }
 }

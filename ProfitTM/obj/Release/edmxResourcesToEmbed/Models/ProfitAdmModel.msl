@@ -8841,17 +8841,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="pInsertarFacturaVenta" FunctionName="ProfitAdmContext.Store.pInsertarFacturaVenta">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarFacturaVenta_Result">
-          <ScalarProperty Name="validador" ColumnName="validador" />
-          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
-          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
-          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
-          <ScalarProperty Name="Column1" ColumnName="Column1" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="pInsertarRenglonesFacturaVenta" FunctionName="ProfitAdmContext.Store.pInsertarRenglonesFacturaVenta">
       <ResultMapping>
         <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarRenglonesFacturaVenta_Result">
@@ -8862,5 +8851,15 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="pStockPendienteActualizar" FunctionName="ProfitAdmContext.Store.pStockPendienteActualizar" />
+    <FunctionImportMapping FunctionImportName="pInsertarFacturaVenta" FunctionName="ProfitAdmContext.Store.pInsertarFacturaVenta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarFacturaVenta_Result">
+          <ScalarProperty Name="validador" ColumnName="validador" />
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

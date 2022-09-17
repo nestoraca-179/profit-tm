@@ -14,8 +14,6 @@ namespace ProfitTM.Controllers
         // UTILS
         private readonly UtilsController utils = new UtilsController();
 
-        // CONTROLADORES DEL API
-
         // BUSCAR REPORTES
         [HttpGet]
         [Route("api/ProfitTMApi/GetReports/Prod/{prod}/Mod/{mod}")]
@@ -282,6 +280,8 @@ namespace ProfitTM.Controllers
 
             return response;
         }
+
+        // FACTURA
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddInvoiceFromOrder/")]
