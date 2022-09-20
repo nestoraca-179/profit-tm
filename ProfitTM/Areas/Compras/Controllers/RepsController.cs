@@ -11,7 +11,7 @@ namespace ProfitTM.Areas.Compras.Controllers
         RepCompraxArt report = new RepCompraxArt();
         public ActionResult RepCompraxArtPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
             report.Parameters["fecHasta"].Value = DateTime.Now;
 
@@ -30,7 +30,7 @@ namespace ProfitTM.Areas.Compras.Controllers
         RepTotalCompraxArticulo report1 = new RepTotalCompraxArticulo();
         public ActionResult RepTotalCompraxArticuloPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
@@ -48,7 +48,7 @@ namespace ProfitTM.Areas.Compras.Controllers
         RepProveedorMasCompra report2 = new RepProveedorMasCompra();
         public ActionResult RepProveedorMasCompraPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;

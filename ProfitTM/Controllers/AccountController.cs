@@ -24,7 +24,7 @@ namespace ProfitTM.Controllers
                         if (user.Enabled)
                         {
                             FormsAuthentication.SetAuthCookie(username, true);
-                            Session["user"] = user;
+                            Session["USER"] = user;
 
                             return RedirectToAction("SeleccionProducto", "Home");
                         }
@@ -66,7 +66,7 @@ namespace ProfitTM.Controllers
                                         IsNom = bool.Parse(reader["IsNom"].ToString())
                                     };
 
-                                    Session["user"] = user;
+                                    Session["USER"] = user;
 
                                     return RedirectToAction("SeleccionProducto", "Home");
                                 }

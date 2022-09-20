@@ -10,7 +10,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
         RepBanco report = new RepBanco();
         public ActionResult RepBancoPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
@@ -28,7 +28,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
         RepDisponibilidadBancaria report1 = new RepDisponibilidadBancaria();
         public ActionResult RepDisponibilidadBancariaPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
@@ -46,7 +46,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
         RepMoviBancoXNum report2 = new RepMoviBancoXNum();
         public ActionResult RepMoviBancoXNumPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
@@ -64,7 +64,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
         RepDisponibilidad report3 = new RepDisponibilidad();
         public ActionResult RepDisponibilidadPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report3.DataSource as SqlDataSource;

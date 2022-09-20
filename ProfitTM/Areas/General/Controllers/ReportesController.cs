@@ -8,9 +8,9 @@ namespace ProfitTM.Areas.General.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
-            ViewBag.modules = Session["modules"];
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
+            ViewBag.modules = Session["MODULES"];
             ViewBag.product = "Contabilidad";
 
             if (ViewBag.user == null)
@@ -24,7 +24,7 @@ namespace ProfitTM.Areas.General.Controllers
             }
             else
             {
-                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
 
                 return View();
             }
@@ -32,9 +32,9 @@ namespace ProfitTM.Areas.General.Controllers
 
         public ActionResult Reporte(string name = "", string format = "")
         {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
-            ViewBag.modules = Session["modules"];
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
+            ViewBag.modules = Session["MODULES"];
             ViewBag.product = "Contabilidad";
 
             if (ViewBag.user == null)
@@ -48,7 +48,7 @@ namespace ProfitTM.Areas.General.Controllers
             }
             else
             {
-                ViewBag.data_conn = Session["data_conn"].ToString();
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
 
                 ViewBag.name = name;
                 ViewBag.report = format;

@@ -10,9 +10,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
-            ViewBag.modules = Session["modules"];
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
+            ViewBag.modules = Session["MODULES"];
             ViewBag.product = "Administrativo";
 
             if (ViewBag.user == null)
@@ -26,8 +26,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                ViewBag.data_conn = Session["data_conn"].ToString();
-                ViewBag.bran_conn = Session["bran_conn"].ToString();
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
 
                 return View();
             }
@@ -35,9 +35,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
 
         public ActionResult Factura()
         {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
-            ViewBag.modules = Session["modules"];
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
+            ViewBag.modules = Session["MODULES"];
             ViewBag.product = "Administrativo";
 
             if (ViewBag.user == null)
@@ -51,14 +51,14 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                string sucur = Session["branch"].ToString();
-                ViewBag.data_conn = Session["data_conn"].ToString();
-                ViewBag.bran_conn = Session["bran_conn"].ToString();
+                string sucur = Session["BRANCH"].ToString();
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 50000000;
                 
-                ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(sucur));
+                ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(200, sucur));
                 ViewBag.arts = serializer.Serialize(new Product().GetAllArts());
 
                 ViewBag.clients = new Client().GetAllClients();

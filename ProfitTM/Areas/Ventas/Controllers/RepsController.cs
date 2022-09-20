@@ -19,7 +19,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         RepFacturaVentaxArt report = new RepFacturaVentaxArt();
         public ActionResult RepFacturaVentaxArtPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
             report.Parameters["fecDesde"].Value = fecha_d;
             report.Parameters["fecHasta"].Value = fecha_h;
@@ -39,7 +39,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         RepTotalVentaxArticulo report1 = new RepTotalVentaxArticulo();
         public ActionResult RepTotalVentaxArticuloPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
             report1.Parameters["fecDesde"].Value = fecha_d;
             report1.Parameters["fecHasta"].Value = fecha_h;
@@ -59,7 +59,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         RepClienteMasVenta report2 = new RepClienteMasVenta();
         public ActionResult RepClienteMasVentaPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
             report2.Parameters["fecDesde"].Value = fecha_d;
             report2.Parameters["fecHasta"].Value = fecha_h;
@@ -79,7 +79,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         RepFormatoFacturaVenta report3 = new RepFormatoFacturaVenta();
         public ActionResult RepFormatoFacturaVentaPartial(string id)
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report3.DataSource as SqlDataSource;

@@ -8,8 +8,8 @@ namespace ProfitTM.Areas.Compras.Controllers
         public ActionResult Index()
         {
             ViewBag.product = "Administrativo";
-            ViewBag.data_conn = Session["data_conn"].ToString();
-            ViewBag.bran_conn = Session["bran_conn"].ToString();
+            ViewBag.data_conn = Session["DATA_CONN"].ToString();
+            ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
 
             return View();
         }

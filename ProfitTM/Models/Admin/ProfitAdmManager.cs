@@ -17,7 +17,7 @@ namespace ProfitTM.Models
 
         public ProfitAdmManager()
         {
-            connect = HttpContext.Current.Session["connect"].ToString();
+            connect = HttpContext.Current.Session["CONNECT"].ToString();
             entity = EntityController.GetEntity(connect);
             db = new ProfitAdmEntities(entity.ToString());
         }

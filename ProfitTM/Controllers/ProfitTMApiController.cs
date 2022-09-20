@@ -9,7 +9,7 @@ namespace ProfitTM.Controllers
     public class ProfitTMApiController : ApiController
     {
         // CADENA DE CONEXION
-        // private readonly string connect = HttpContext.Current.Session["connect"].ToString();
+        // private readonly string connect = HttpContext.Current.Session["CONNECT"].ToString();
 
         // UTILS
         private readonly UtilsController utils = new UtilsController();
@@ -289,15 +289,38 @@ namespace ProfitTM.Controllers
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
-            string user = (HttpContext.Current.Session["user"] as Users).Username;
-            string sucur = HttpContext.Current.Session["branch"].ToString();
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
 
             try
             {
                 saFacturaVenta newInvoice = new Invoice().AddFromOrder(invoice, user, sucur);
 
                 response.Status = "OK";
-                response.Result = newInvoice.doc_num;
+                response.Result = newInvoice;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetInvoices/{number}")]
+        public ProfitTMResponse GetInvoicesByNumber(int number)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+
+            try
+            {
+                List<saFacturaVenta> invoices = new Invoice().GetAllSaleInvoices(number, sucur);
+
+                response.Status = "OK";
+                response.Result = invoices;
             }
             catch (Exception ex)
             {

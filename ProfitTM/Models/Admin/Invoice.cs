@@ -444,13 +444,13 @@ namespace ProfitTM.Models
             return invoice;
         }
 
-        public List<saFacturaVenta> GetAllSaleInvoices(string sucur)
+        public List<saFacturaVenta> GetAllSaleInvoices(int number, string sucur)
         {
             List<saFacturaVenta> invoices = new List<saFacturaVenta>();
 
             try
             {
-                invoices = db.saFacturaVenta.Where(r => r.co_sucu_in == sucur).OrderByDescending(i => i.fe_us_in).ThenBy(i => i.doc_num).Take(200).ToList();
+                invoices = db.saFacturaVenta.Where(r => r.co_sucu_in == sucur).OrderByDescending(i => i.fe_us_in).ThenBy(i => i.doc_num).Take(number).ToList();
                 foreach (saFacturaVenta invoice in invoices)
                 {
                     invoice.saFacturaVentaReng = new InvoiceItem().GetRengsBySaleInvoice(invoice.doc_num.Trim());
@@ -560,16 +560,23 @@ namespace ProfitTM.Models
                     }
 
                     var sp_n_fact = db.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();
-                    var sp_n_cont = db.pConsecutivoProximo(sucur, "FACT_VTA_N_CON").GetEnumerator();
-
                     if (sp_n_fact.MoveNext())
                         n_fact = sp_n_fact.Current;
 
-                    if (sp_n_cont.MoveNext())
-                        n_cont = sp_n_cont.Current;
-
                     sp_n_fact.Dispose();
-                    sp_n_cont.Dispose();
+
+                    if (string.IsNullOrEmpty(invoice.n_control))
+                    {
+                        var sp_n_cont = db.pConsecutivoProximo(sucur, "FACT_VTA_N_CON").GetEnumerator();
+                        if (sp_n_cont.MoveNext())
+                            n_cont = sp_n_cont.Current;
+
+                        sp_n_cont.Dispose();
+                    }
+                    else
+                    {
+                        n_cont = invoice.n_control;
+                    }
 
                     // FACTURA
                     var sp = db.pInsertarFacturaVenta(n_fact, invoice.descrip, invoice.co_cli, invoice.co_tran, invoice.co_mone, invoice.co_cta_ingr_egr, invoice.co_ven,
@@ -598,13 +605,14 @@ namespace ProfitTM.Models
                         invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, invoice.revisado, invoice.trasnfe, sucur, user,
                         "SERVER PROFIT WEB");
                     
-                    /*var enumerator = sp.GetEnumerator();
+                    var enumerator = sp.GetEnumerator();
                     if (enumerator.MoveNext())
                     {
                         Guid rowguid = enumerator.Current.rowguid.Value;
                         newInvoice = db.saFacturaVenta.SingleOrDefault(c => c.rowguid == rowguid);
+                        newInvoice.saFacturaVentaReng = new InvoiceItem().GetRengsBySaleInvoice(newInvoice.doc_num);
                     }
-                    enumerator.Dispose();*/
+                    enumerator.Dispose();
 
                     tran.Commit();
                 }

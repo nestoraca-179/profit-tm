@@ -8,9 +8,9 @@ namespace ProfitTM.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
-            ViewBag.modules = Session["modules"];
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
+            ViewBag.modules = Session["MODULES"];
 
             if (ViewBag.user == null)
             {
@@ -23,7 +23,7 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                switch (Session["prod"].ToString())
+                switch (Session["PROD"].ToString())
                 {
                     case "ADM":
                         ViewBag.product = "Administrativo";
@@ -36,11 +36,11 @@ namespace ProfitTM.Controllers
                         break;
                 }
                 
-                ViewBag.data_conn = Session["data_conn"].ToString();
-                ViewBag.bran_conn = Session["bran_conn"] != null ? Session["bran_conn"].ToString() : null;
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.bran_conn = Session["BRAN_CONN"] != null ? Session["BRAN_CONN"].ToString() : null;
 
                 ViewBag.connections = Connection.GetConnectionsByType();
-                ViewBag.prod = Session["prod"].ToString();
+                ViewBag.prod = Session["PROD"].ToString();
 
                 return View();
             }

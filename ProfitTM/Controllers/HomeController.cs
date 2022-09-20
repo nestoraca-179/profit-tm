@@ -13,13 +13,13 @@ namespace ProfitTM.Controllers
         // Vista principal del login
         public ActionResult Index(string message = "")
         {
-            ViewBag.user = Session["user"];
-            ViewBag.home = Session["home"];
+            ViewBag.user = Session["USER"];
+            ViewBag.home = Session["HOME"];
             ViewBag.Message = message;
 
             if (ViewBag.user != null && ViewBag.home != null)
             {
-                return RedirectToAction(Session["home"].ToString());
+                return RedirectToAction(Session["HOME"].ToString());
             }
             else
             {
@@ -36,7 +36,7 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult SeleccionProducto()
         {
-            ViewBag.user = Session["user"];
+            ViewBag.user = Session["USER"];
 
             if (ViewBag.user == null)
             {
@@ -53,7 +53,7 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult AgregarConexion(string product, string message = "")
         {
-            ViewBag.user = Session["user"];
+            ViewBag.user = Session["USER"];
             ViewBag.prod = product;
             ViewBag.message = message;
 
@@ -73,7 +73,7 @@ namespace ProfitTM.Controllers
         [HttpPost]
         public ActionResult GuardarConexion(string name, string server, string db, string username_conn, string password_conn, string prod)
         {
-            ViewBag.user = Session["user"];
+            ViewBag.user = Session["USER"];
 
             if (ViewBag.user == null)
             {
@@ -141,10 +141,10 @@ namespace ProfitTM.Controllers
         public ActionResult SeleccionEmpresa(string prod)
         {
             ViewBag.prod = prod;
-            ViewBag.user = Session["user"];
-            ViewBag.modules = Session["modules"];
+            ViewBag.user = Session["USER"];
+            ViewBag.modules = Session["MODULES"];
 
-            Session["prod"] = prod;
+            Session["PROD"] = prod;
 
             if (ViewBag.user == null)
             {
@@ -184,7 +184,7 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult SeleccionSucursal()
         {
-            ViewBag.user = Session["user"];
+            ViewBag.user = Session["USER"];
 
             if (ViewBag.user == null)
             {
@@ -205,8 +205,8 @@ namespace ProfitTM.Controllers
         [HttpPost]
         public ActionResult SelectDashboard(string connect = "", bool connected = false)
         {
-            ViewBag.user = Session["user"];
-            string prod = Session["prod"].ToString();
+            ViewBag.user = Session["USER"];
+            string prod = Session["PROD"].ToString();
 
             if (!connected)
             {
@@ -219,13 +219,13 @@ namespace ProfitTM.Controllers
                 string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
                 SqlConnection connection = new SqlConnection(connectionString);
 
-                Session["connect"] = connectionString;
+                Session["CONNECT"] = connectionString;
                 Session["DB"] = connection.Database;
-                Session["name_conn"] = conn.Name;
+                Session["NAME_CONN"] = conn.Name;
             }
             else
             {
-                Session["branch"] = connect;
+                Session["BRANCH"] = connect;
             }
 
             if (ViewBag.user == null)
@@ -240,7 +240,7 @@ namespace ProfitTM.Controllers
                 if (prod == "ADM")
                     useBranchs = new Branch().UseBranchs();
 
-                if (useBranchs && Session["branch"] == null)
+                if (useBranchs && Session["BRANCH"] == null)
                 {
                     return RedirectToAction("SeleccionSucursal");
                 }
@@ -249,17 +249,17 @@ namespace ProfitTM.Controllers
                     switch (prod)
                     {
                         case "ADM":
-                            Session["home"] = "DashboardAdmin";
+                            Session["HOME"] = "DashboardAdmin";
                             break;
                         case "CON":
-                            Session["home"] = "DashboardCont";
+                            Session["HOME"] = "DashboardCont";
                             break;
                         case "NOM":
-                            Session["home"] = "DashboardNomi";
+                            Session["HOME"] = "DashboardNomi";
                             break;
                     }
 
-                    return RedirectToAction(Session["home"].ToString());
+                    return RedirectToAction(Session["HOME"].ToString());
                 }
             }
         }
@@ -268,8 +268,8 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult DashboardAdmin()
         {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
             ViewBag.product = "Administrativo";
 
             if (ViewBag.user == null)
@@ -287,21 +287,21 @@ namespace ProfitTM.Controllers
                 ViewBag.current_month = today.Month > 10 ? today.Month.ToString() : "0" + today.Month;
                 ViewBag.current_year = today.Year;
 
-                if (Session["modules"] == null)
+                if (Session["MODULES"] == null)
                 {
                     string userID = ((Users)ViewBag.user).ID.ToString();
-                    Session["modules"] = Module.GetModulesByUser("ADM", userID);
+                    Session["MODULES"] = Module.GetModulesByUser("ADM", userID);
                 }
 
                 string name_branch = "N/A";
-                if (Session["branch"] != null)
-                    name_branch = new Branch().GetBranchByID(Session["branch"].ToString()).sucur_des;
+                if (Session["BRANCH"] != null)
+                    name_branch = new Branch().GetBranchByID(Session["BRANCH"].ToString()).sucur_des;
 
-                Session["data_conn"] = Session["name_conn"].ToString();
-                Session["bran_conn"] = name_branch;
-                ViewBag.data_conn = Session["data_conn"].ToString();
-                ViewBag.bran_conn = Session["bran_conn"].ToString();
-                ViewBag.modules = Session["modules"];
+                Session["DATA_CONN"] = Session["NAME_CONN"].ToString();
+                Session["BRAN_CONN"] = name_branch;
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
+                ViewBag.modules = Session["MODULES"];
 
                 return View();
             }
@@ -311,8 +311,8 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult DashboardCont()
         {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
             ViewBag.product = "Contabilidad";
 
             if (ViewBag.user == null)
@@ -326,15 +326,15 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                if (Session["modules"] == null)
+                if (Session["MODULES"] == null)
                 {
                     string userID = ((Users)ViewBag.user).ID.ToString();
-                    Session["modules"] = Module.GetModulesByUser("CON", userID);
+                    Session["MODULES"] = Module.GetModulesByUser("CON", userID);
                 }
 
-                Session["data_conn"] = Session["name_conn"].ToString();
-                ViewBag.data_conn = Session["data_conn"].ToString();
-                ViewBag.modules = Session["modules"];
+                Session["DATA_CONN"] = Session["NAME_CONN"].ToString();
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.modules = Session["MODULES"];
 
                 return View();
             }
@@ -344,8 +344,8 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult DashboardNomi()
         {
-            ViewBag.user = Session["user"];
-            ViewBag.connect = Session["connect"];
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
             ViewBag.product = "Nómina";
 
             if (ViewBag.user == null)
@@ -359,15 +359,15 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                if (Session["modules"] == null)
+                if (Session["MODULES"] == null)
                 {
                     string userID = ((Users)ViewBag.user).ID.ToString();
-                    Session["modules"] = Module.GetModulesByUser("NOM", userID);
+                    Session["MODULES"] = Module.GetModulesByUser("NOM", userID);
                 }
 
-                Session["data_conn"] = Session["name_conn"].ToString();
-                ViewBag.data_conn = Session["data_conn"].ToString();
-                ViewBag.modules = Session["modules"];
+                Session["DATA_CONN"] = Session["NAME_CONN"].ToString();
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.modules = Session["MODULES"];
 
                 return View();
             }

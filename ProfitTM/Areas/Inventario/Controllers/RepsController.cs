@@ -10,7 +10,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
         RepArticuloConPrecio report = new RepArticuloConPrecio();
         public ActionResult RepArticuloConPrecioPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
@@ -28,7 +28,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
         RepArticuloProveedor report1 = new RepArticuloProveedor();
         public ActionResult RepArticuloProveedorPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
@@ -46,7 +46,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
         RepStockArticulos report2 = new RepStockArticulos();
         public ActionResult RepStockArticulosPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
@@ -64,7 +64,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
         RepArticuloConCosto report3 = new RepArticuloConCosto();
         public ActionResult RepArticuloConCostoPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report3.DataSource as SqlDataSource;
@@ -82,7 +82,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
         RepArticulosTodoStock report4 = new RepArticulosTodoStock();
         public ActionResult RepArticulosTodoStockPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report4.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report4.DataSource as SqlDataSource;
@@ -100,7 +100,7 @@ namespace ProfitTM.Areas.Inventario.Controllers
         RepArticuloConCostoYPrecio report5 = new RepArticuloConCostoYPrecio();
         public ActionResult RepArticuloConCostoYPrecioPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report5.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report5.DataSource as SqlDataSource;

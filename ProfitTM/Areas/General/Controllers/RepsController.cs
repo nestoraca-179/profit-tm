@@ -11,7 +11,7 @@ namespace ProfitTM.Areas.General.Controllers
         RepBalanceGeneral2KDoce report = new RepBalanceGeneral2KDoce();
         public ActionResult RepBalanceGeneral2KDocePartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
             report.Parameters["fecha"].Value = DateTime.Now;
 
@@ -30,7 +30,7 @@ namespace ProfitTM.Areas.General.Controllers
         RepEstadoResultados2KDoce report1 = new RepEstadoResultados2KDoce();
         public ActionResult RepEstadoResultados2KDocePartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
             report1.Parameters["fecDesde"].Value = DateTime.Now;
             report1.Parameters["fecHasta"].Value = DateTime.Now;
@@ -50,7 +50,7 @@ namespace ProfitTM.Areas.General.Controllers
         RepBalanceComprobacion report2 = new RepBalanceComprobacion();
         public ActionResult RepBalanceComprobacionPartial()
         {
-            string connect = Session["connect"].ToString();
+            string connect = Session["CONNECT"].ToString();
             report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
             report2.Parameters["fecDesde"].Value = DateTime.Now;
             report2.Parameters["fecHasta"].Value = DateTime.Now;
