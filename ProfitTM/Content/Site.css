@@ -118,7 +118,7 @@ input#username::placeholder, input#pass::placeholder {
     align-items: center;
     font-size: 1.25em;
 }
-.header-left-side a, .header-left-side a:hover {
+.header-left-side a, .header-left-side a:hover, .header-left-side-alt a, .header-left-side-alt a:hover {
     text-decoration: none;
     color: #FFF;
 }
@@ -127,7 +127,7 @@ input#username::placeholder, input#pass::placeholder {
     flex-direction: column;
     align-items: center;
 }
-.header-left-side a span {
+.header-left-side a span, .header-left-side-alt a span {
     font-size: 12px;
 }
 .header-left-side.active {
@@ -149,18 +149,33 @@ input#username::placeholder, input#pass::placeholder {
     justify-content: center;
     align-items: center;
 }
+.header-left-side-alt {
+    width: 200px;
+    text-align: center;
+    font-size: 18px;
+    display: none;
+}
+.header-left-side.active + .header-right-side > .header-left-side-alt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .header-right-side {
     flex: auto;
     background: #0277BD;
     position: relative;
+    display: flex;
 }
 .header-right-side .dropdown-menu {
-    width: 250px;
+    width: 100%;
     text-align: center;
     background: #333;
     border-radius: 0 0 5px 5px;
     border: 2px #aca7a7 solid;
     border-top: 0;
+    position: absolute;
+    left: 0;
+    top: 100%;
 }
 .header-right-side .dropdown-menu a {
     color: #FFF;
@@ -173,8 +188,11 @@ input#username::placeholder, input#pass::placeholder {
     margin: 0;
 }
 .dash-left-side {
+    min-width: 50px;
+    height: 100%;
     background: #333;
     transition: all 0.5s ease-out;
+    overflow-y: auto;
 }
 .dash-right-side {
     flex: auto;
@@ -215,7 +233,7 @@ input#username::placeholder, input#pass::placeholder {
     top: 35%;
     right: 15px;
 }
-.icon-menu {
+.header-left-side .icon-menu {
     position: absolute;
     left: 10px;
     cursor: pointer;
@@ -224,7 +242,7 @@ input#username::placeholder, input#pass::placeholder {
     border-radius: 50px;
     font-size: 20px;
 }
-.icon-menu:hover {
+.header-left-side .icon-menu:hover {
     background: #1E88E5;
 }
 .active {
@@ -251,7 +269,7 @@ input#username::placeholder, input#pass::placeholder {
     background: #01579B;
 }
 .user-active .icon-user {
-    font-size: 35px;
+    font-size: 20px;
 }
 col-stat:first-child {
     padding-left: 0;
@@ -298,6 +316,11 @@ col-stat:last-child {
     left: 20px;
     font-size: 30px;
     color: #4d4b4b;
+}
+p.title-opt {
+    background: #a6a6a6;
+    margin: 0;
+    padding: 10px 0 10px 25px;
 }
 .my-dropdown {
     width: 100%;
@@ -482,6 +505,9 @@ col-stat:last-child {
 .modal-header button {
     background: none;
     border: 0;
+}
+.modal-title {
+    font-weight: bold;
 }
 .modal-header button span {
     font-size: 25px;

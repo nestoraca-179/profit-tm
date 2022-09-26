@@ -2,6 +2,9 @@
     ViewBag.Title = "Cliente";
 }
 <style>
+    input[disabled] {
+        pointer-events: none;
+    }
     .container-clients {
         height: 100%;
         display: flex;
@@ -44,7 +47,8 @@
         }
     }
 </style>
-<div class="container-fluid container-clients" ng-app="Clients" ng-controller="controller">
+<script src="~/Scripts/angular-min.js"></script>
+<div class="container-fluid container-clients" id="container-clients" style="display: none;" ng-app="Clients" ng-controller="controller">
     <div class="row">
         <div class="col-md-12 col-xl-3 container-list">
             <input type="text" id="input-clients" class="form-control" placeholder="Buscar cliente..." style="border: solid 1px #ced4da;" onkeyup="searchClient()" />
@@ -56,7 +60,7 @@
                             <th class="text-white">Nombre</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="client in clients" ng-click="selectClient(client.co_cli)" style="cursor: pointer;">
+                    <tr ng-repeat="client in clients | limitTo:200 " ng-click="selectClient(client.co_cli)" style="cursor: pointer;">
                         <td>{{ client.co_cli }}</td>
                         <td>{{ client.cli_des }}</td>
                     </tr>
@@ -778,7 +782,9 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/angular-min.js"></script>
+<div class="panel-loading p-3">
+    <h4>Cargando modulo de clientes...</h4>
+</div>
 <script>
     var app = angular.module("Clients", []);
     var clients = @Html.Raw(ViewBag.clients);
@@ -790,7 +796,11 @@
         item.tipo_adi = item.tipo_adi.toString();
     }
 
-    console.log(clients);
+    $(document).ready(function () {
+        $(".container-clients").removeAttr("style");
+        $(".panel-loading").css("display", "none");
+        $("#icon-menu").trigger("click");
+    });
 
     app.controller("controller", function ($scope, $http) {
 

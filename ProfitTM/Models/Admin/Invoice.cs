@@ -433,7 +433,7 @@ namespace ProfitTM.Models
                 using (db)
                 {
                     invoice = db.saFacturaVenta.SingleOrDefault(i => i.doc_num == id);
-                    invoice.saFacturaVentaReng = db.saFacturaVentaReng.Where(r => r.doc_num.Trim() == invoice.doc_num.Trim()).ToList();
+                    invoice.saFacturaVentaReng = new InvoiceItem().GetRengsBySaleInvoice(invoice.doc_num.Trim());
                 }
             }
             catch (Exception ex)
@@ -604,16 +604,8 @@ namespace ProfitTM.Models
                         0, invoice.salestax, invoice.ven_ter, invoice.impfis, invoice.impfisfac, invoice.imp_nro_z, invoice.otros1, invoice.otros2, invoice.otros3, invoice.campo1,
                         invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, invoice.revisado, invoice.trasnfe, sucur, user,
                         "SERVER PROFIT WEB");
-                    
-                    var enumerator = sp.GetEnumerator();
-                    if (enumerator.MoveNext())
-                    {
-                        Guid rowguid = enumerator.Current.rowguid.Value;
-                        newInvoice = db.saFacturaVenta.SingleOrDefault(c => c.rowguid == rowguid);
-                        newInvoice.saFacturaVentaReng = new InvoiceItem().GetRengsBySaleInvoice(newInvoice.doc_num);
-                    }
-                    enumerator.Dispose();
 
+                    newInvoice = GetSaleInvoice(n_fact);
                     tran.Commit();
                 }
                 catch (Exception ex)

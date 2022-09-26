@@ -2,6 +2,9 @@
     ViewBag.Title = "Factura";
 }
 <style>
+    input[disabled] {
+        pointer-events: none;
+    }
     .container-invoices {
         height: 100%;
         display: flex;
@@ -80,7 +83,7 @@
     }
 </style>
 <script src="~/Scripts/angular-min.js"></script>
-<div class="container-fluid container-invoices" style="display: none;" ng-app="Invoices" ng-controller="controller">
+<div class="container-fluid container-invoices" id="container-invoices" style="display: none;" ng-app="Invoices" ng-controller="controller">
     <div class="row">
         <div class="col-md-12 col-xl-3 container-list">
             <input type="text" id="input-invoices" class="form-control" placeholder="Buscar factura..." style="border: solid 1px #ced4da;" onkeyup="searchInvoice()" />
@@ -123,20 +126,28 @@
                             <i class="fas fa-chevron-double-right"></i>
                         </button>
                     </div>
-                    <div class="col d-flex justify-content-end button-import" ng-show="!adding">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido">
+                    <div class="col d-flex justify-content-end button-import p-0" ng-show="!adding">
+                        <button type="button" class="btn mx-2" style="background: #ec9d0b; color: #FFF;" ng-disabled="invoice.impresa">
+                            <i class="fas fa-print"></i> Imprimir
+                        </button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField()">
                             <i class="fas fa-file-search"></i> Importar Preliquidación
                         </button>
                     </div>
                     <div class="col buttons-save-cancel" ng-show="adding">
-                        <button type="button" class="btn btn-danger" ng-click="adding = false; invoice = invoices[index]">
-                            <i class="fas fa-times"></i>
-                            Cancelar
-                        </button>
-                        <div style="width: 10px;"></div>
                         <button type="submit" class="btn btn-success" ng-click="confirmAdd()">
                             <i class="fas fa-save"></i>
-                            Agregar
+                            Guardar Documento Importado
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-warning">
+                            <i class="fas fa-trash"></i>
+                            Eliminar Documento Importado
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-danger" ng-click="adding = false; confirm = false; invoice = invoices[index];">
+                            <i class="fas fa-times"></i>
+                            Cancelar
                         </button>
                     </div>
                 </div>
@@ -169,22 +180,23 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-6">
                         <div class="controls">
                             <label>Cliente</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="client" ng-model="invoice.co_cli" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control" id="client" ng-model="invoice.co_cli" ng-disabled="true" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_client" ng-model="invoice.des_cli" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="client"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Emis</label>
                             <input type="date" class="form-control" id="fec_emis" ng-model="invoice.fec_emis" ng-disabled="true" ng-required="true" />
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Transporte</label>
                             <div class="input-search">
@@ -195,22 +207,23 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-6">
                         <div class="controls">
                             <label>Cond. Pago</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="cond" ng-model="invoice.co_cond" ng-disabled="!adding" ng-required="true" />
+                                <input type="text" class="form-control" id="cond" ng-model="invoice.co_cond" ng-disabled="!adding" ng-required="true" ng-readonly="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_cond" ng-model="invoice.des_cond" ng-disabled="!adding" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Venc</label>
                             <input type="date" class="form-control" id="fec_venc" ng-model="invoice.fec_venc" ng-disabled="true" ng-required="true" />
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Moneda</label>
                             <div class="input-search">
@@ -221,74 +234,77 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-6">
                         <div class="controls">
                             <label>Vendedor</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="seller" ng-model="invoice.co_ven" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control" id="seller" ng-model="invoice.co_ven" ng-disabled="true" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_seller" ng-model="invoice.des_ven" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Reg</label>
                             <input type="date" class="form-control" id="fec_reg" ng-model="invoice.fec_reg" ng-disabled="true" ng-required="true" />
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Tasa</label>
-                            <input type="text" class="form-control" id="tasa" ng-model="invoice.tasa" ng-disabled="!adding" ng-required="true" />
+                            <input type="text" class="form-control" id="tasa" ng-model="invoice.tasa" ng-disabled="!adding" ng-required="true" ng-change="update(invoice.tasa)" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-md-8">
+                    <div class="col-sm-12 col-md-9">
                         <div class="controls">
                             <label>Descripción</label>
                             <input type="text" class="form-control" id="descrip" ng-model="invoice.descrip" ng-disabled="!adding" ng-required="false" />
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4 btn-convert">
+                    <div class="col-sm-12 col-md-3 btn-convert">
                         <button class="btn btn-primary" ng-click="convert()">Conversión</button>
                     </div>
                 </div>
-                <div class="bottom">
-                    <h4 class="text-center">Items de la Factura</h4>
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>N°</th>
-                                <th>Artículo</th>
-                                <th>Descripción</th>
-                                <th>Almacén</th>
-                                <th>Cantidad</th>
-                                <th>IVA</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="reng in invoice.saFacturaVentaReng" style="cursor: pointer;">
-                                <td>{{ reng.reng_num }}</td>
-                                <td>{{ reng.co_art }}</td>
-                                <td>{{ searchArt(reng.co_art) }}</td>
-                                <td>{{ reng.co_alma }}</td>
-                                <td>{{ reng.total_art }}</td>
-                                <td ng-show="!converted">{{ reng.monto_imp }}</td>
-                                <td ng-show="converted" class="converted">{{ reng.monto_imp_om }}</td>
-                                <td ng-show="!converted">{{ reng.reng_neto }}</td>
-                                <td ng-show="converted" class="converted">{{ reng.reng_neto_om }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="bottom" style="padding: 0 0 10px 0;">
+                    <h4 class="text-center text-white form-header">Items de la Factura</h4>
+                    <div style="padding: 0 10px;">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Artículo</th>
+                                    <th>Descripción</th>
+                                    <th>Almacén</th>
+                                    <th>Cantidad</th>
+                                    <th>IVA</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="reng in invoice.saFacturaVentaReng" style="cursor: pointer;">
+                                    <td>{{ reng.reng_num }}</td>
+                                    <td>{{ reng.co_art }}</td>
+                                    <td>{{ searchArt(reng.co_art) }}</td>
+                                    <td>{{ reng.co_alma }}</td>
+                                    <td>{{ reng.total_art }}</td>
+                                    <td ng-show="!converted">{{ reng.monto_imp }}</td>
+                                    <td ng-show="converted" class="field-active">{{ reng.monto_imp_om }}</td>
+                                    <td ng-show="!converted">{{ reng.reng_neto }}</td>
+                                    <td ng-show="converted" class="field-active">{{ reng.reng_neto_om }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <hr />
                     <div class="row">
                         <div class="col-sm-12 col-md-6 offset-md-6">
                             <div class="controls">
                                 <label>Sub-Total</label>
                                 <input type="text" class="form-control" id="subtotal" ng-model="invoice.total_bruto" ng-show="!converted" ng-disabled="true" ng-required="true" />
-                                <input type="text" class="form-control converted" id="subtotal_om" ng-model="invoice.total_bruto_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="subtotal_om" ng-model="invoice.total_bruto_om" ng-show="converted" ng-disabled="true" ng-required="true" />
                             </div>
                         </div>
                     </div>
@@ -297,7 +313,7 @@
                             <div class="controls">
                                 <label>IVA</label>
                                 <input type="text" class="form-control" id="iva" ng-model="invoice.monto_imp" ng-show="!converted" ng-disabled="true" ng-required="true" />
-                                <input type="text" class="form-control converted" id="iva_om" ng-model="invoice.monto_imp_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="iva_om" ng-model="invoice.monto_imp_om" ng-show="converted" ng-disabled="true" ng-required="true" />
                             </div>
                         </div>
                     </div>
@@ -306,14 +322,14 @@
                             <div class="controls">
                                 <label>Saldo</label>
                                 <input type="text" class="form-control" id="saldo" ng-model="invoice.saldo" ng-show="!converted" ng-disabled="true" ng-required="true" />
-                                <input type="text" class="form-control converted" id="saldo_om" ng-model="invoice.saldo_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="saldo_om" ng-model="invoice.saldo_om" ng-show="converted" ng-disabled="true" ng-required="true" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <div class="controls">
                                 <label>Total</label>
                                 <input type="text" class="form-control" id="total" ng-model="invoice.total_neto" ng-show="!converted" ng-disabled="true" ng-required="true" />
-                                <input type="text" class="form-control converted" id="total_om" ng-model="invoice.total_neto_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="total_om" ng-model="invoice.total_neto_om" ng-show="converted" ng-disabled="true" ng-required="true" />
                             </div>
                         </div>
                     </div>
@@ -386,7 +402,7 @@
                     <h3 class="text-center">El número de control será generado automáticamente. ¿Desea continuar?</h3>
                 </div>
                 <div class="modal-footer" style="justify-content: center">
-                    <button type="button" style="width: 70px;" class="btn btn-danger" ng-click="confirm = true" data-dismiss="modal">No</button>
+                    <button type="button" style="width: 70px;" class="btn btn-danger" ng-click="confirm = true" onclick="alertField()" data-dismiss="modal">No</button>
                     <button type="button" style="width: 70px;" class="btn btn-success" ng-click="addInvoice()">Sí</button>
                 </div>
             </div>
@@ -405,12 +421,12 @@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                     <div style="width: 80%; margin: 50px auto; display: flex; align-items: center;">
                         <label style="flex: 1;">Ingrese Nro. de Preliquidación</label>
-                        <div class="input-search" style="flex: 1;">
-                            <input type="text" class="form-control" id="preliq" ng-model="idOrder" ng-keypress="detectEnter($event.originalEvent)" />
+                        <div class="input-search" style="flex: 1; position: relative;">
+                            <input type="text" class="form-control" id="n_preliq" ng-model="idOrder" ng-keypress="detectEnter($event.originalEvent)" />
                             <i class="fas fa-search" role="button"></i>
+                            <label class="text-danger text-center w-100" id="text-error" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
                         </div>
                     </div>
-                    <label class="text-danger text-center w-100" id="text-error"></label>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -633,6 +649,11 @@
     var isNullOrEmpty = (str) => str == null || str == "";
     var invoices = @Html.Raw(ViewBag.invoices);
     var arts = @Html.Raw(ViewBag.arts);
+    var clients = @Html.Raw(ViewBag.obj_client);
+    var conds = @Html.Raw(Json.Encode(ViewBag.conds));
+    var sellers = @Html.Raw(Json.Encode(ViewBag.sellers));
+    var header = document.getElementById("header-left");
+    var menu = document.getElementById("menu-left");
 
     for (var item of invoices) {
 
@@ -664,13 +685,33 @@
         item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
         item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
 
-        // STATUS
+        // DATOS
         item.estatus = setStatus(item.status);
+        item.des_cli = searchCli(item.co_cli);
+        item.des_cond = searchCond(item.co_cond);
+        item.des_ven = searchVen(item.co_ven);
     }
 
     $(document).ready(function () {
         $(".container-invoices").removeAttr("style");
         $(".panel-loading").css("display", "none");
+        $("#icon-menu").trigger("click");
+    });
+
+    $(document).on("click", function (event) {
+        $("#n_control").removeAttr("style");
+    });
+
+    $("#container-invoices").on("click", function (event) {
+        if (event.target.id != "icon-menu" && event.target.id != "menu-left") {
+            if ($("#menu-left.active").length == 0) {
+                $("#icon-menu").trigger("click");
+            }
+        }
+    });
+
+    $("#container-invoices").on("contextmenu", function (event) {
+        event.preventDefault();
     });
 
     app.controller("controller", function ($scope, $http) {
@@ -732,13 +773,29 @@
         }
 
         $scope.convert = function () {
-            $(".converted").toggleClass("field-active");
             $scope.converted = !$scope.converted;
+        }
+
+        $scope.update = function (tasa) {
+
+            tasa = tasa == null ? 1 : tasa;
+
+            $scope.invoice.total_bruto_om = ($scope.invoice.total_bruto / tasa).toFixed(2);
+            $scope.invoice.monto_imp_om = ($scope.invoice.monto_imp / tasa).toFixed(2);
+            $scope.invoice.total_neto_om = ($scope.invoice.total_neto / tasa).toFixed(2);
+            $scope.invoice.saldo_om = ($scope.invoice.saldo / tasa).toFixed(2);
+
+            for (var reng of $scope.invoice.saFacturaVentaReng) {
+                reng.monto_imp_om = (reng.monto_imp / tasa).toFixed(2);
+                reng.reng_neto_om = (reng.reng_neto / tasa).toFixed(2);
+            }
         }
 
         $scope.detectEnter = function (e) {
             if (e.which == 13) {
                 $scope.searchOrder($scope.idOrder);
+            } else {
+                $("#text-error").text("");
             }
         }
 
@@ -746,11 +803,11 @@
 
             if (!isNullOrEmpty(id)) {
 
-                $scope.idOrder = "";
                 $http.get("/api/ProfitTMApi/GetOrder/" + id)
                     .then(function (response) {
 
                         var res = response.data;
+                        $scope.idOrder = "";
 
                         if (res.Status == "OK") {
 
@@ -761,14 +818,7 @@
 
                             $scope.invoice.doc_num = "";
                             $scope.invoice.n_control = "";
-                            $scope.invoice = convert($scope.invoice); // AGREGAR PRECIOS OM
-
-                            $scope.invoice.fec_emis = new Date($scope.invoice.fec_emis);
-                            $scope.invoice.fec_venc = new Date($scope.invoice.fec_venc);
-                            $scope.invoice.fec_reg = new Date($scope.invoice.fec_reg);
-                            $scope.invoice.fe_us_in = new Date($scope.invoice.fe_us_in);
-                            $scope.invoice.fe_us_mo = new Date($scope.invoice.fe_us_mo);
-                            $scope.invoice.estatus = setStatus($scope.invoice.status);
+                            $scope.invoice = convert($scope.invoice); // AGREGAR PRECIOS OM, DESCRIPCIONES Y FECHAS
 
                             for (var reng of $scope.invoice.saFacturaVentaReng) {
                                 reng.tipo_doc = "PCLI";
@@ -776,36 +826,46 @@
                                 reng.rowguid_doc = reng.rowguid;
                             }
 
-                            $("#preliq").val("");
+                            $("#n_preliq").val("");
                             $("#text-error").text("");
                             $scope.adding = true;
 
                         } else {
+                            $scope.idOrder = "";
+                            $("#n_preliq").focus();
+
                             if (res.Message == "0")
-                                $("#text-error").text("*PRELIQUIDACIÓN NO ENCONTRADA*");
+                                $("#text-error").text("**PRELIQUIDACIÓN NO ENCONTRADA**");
                             else if (res.Message == "1")
-                                $("#text-error").text("*PRELIQUIDACIÓN BLOQUEADA*");
+                                $("#text-error").text("**PRELIQUIDACIÓN BLOQUEADA**");
                             else
-                                $("#text-error").text("*HA OCURRIDO UN ERROR*");
+                                $("#text-error").text("**HA OCURRIDO UN ERROR**");
                         }
 
-                    }, function () { $("#text-error").text("*HA OCURRIDO UN ERROR*"); });
+                    }, function () {
+                        $scope.idOrder = "";
+                        $("#n_preliq").val("");
+                        $("#n_preliq").focus();
+                        $("#text-error").text("**HA OCURRIDO UN ERROR**");
+                    });
 
             } else {
-                $("#text-error").text("*DEBES INGRESAR UN NÚMERO DE PRELIQUIDACIÓN*");
+                $("#text-error").text("**DEBES INGRESAR UN NÚMERO DE PRELIQUIDACIÓN**");
             }
 
         }
 
         $scope.confirmAdd = function () {
 
-            if (!$scope.confirm) {
-                $('#modalConfirm').modal('show');
-            } else {
-                if (isNullOrEmpty($scope.invoice.n_control)) {
+            if ($("#form")[0].checkValidity()) {
+                if (!$scope.confirm) {
                     $('#modalConfirm').modal('show');
                 } else {
-                    $scope.addInvoice();
+                    if (isNullOrEmpty($scope.invoice.n_control)) {
+                        $('#modalConfirm').modal('show');
+                    } else {
+                        $scope.addInvoice();
+                    }
                 }
             }
         }
@@ -848,15 +908,9 @@
                         $scope.invoice = $scope.invoices[0];
                         $scope.invoice = convert($scope.invoice); // AGREGAR PRECIOS OM
 
-                        $scope.invoice.fec_emis = new Date($scope.invoice.fec_emis);
-                        $scope.invoice.fec_venc = new Date($scope.invoice.fec_venc);
-                        $scope.invoice.fec_reg = new Date($scope.invoice.fec_reg);
-                        $scope.invoice.fe_us_in = new Date($scope.invoice.fe_us_in);
-                        $scope.invoice.fe_us_mo = new Date($scope.invoice.fe_us_mo);
-                        $scope.invoice.estatus = setStatus($scope.invoice.status);
-
                         $scope.index = 0;
                         $scope.adding = false;
+                        $scope.confirm = false;
                     } else {
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;
@@ -894,6 +948,16 @@
             reng.reng_neto_om = (reng.reng_neto / i.tasa).toFixed(2);
         }
 
+        i.fec_emis = new Date(i.fec_emis);
+        i.fec_venc = new Date(i.fec_venc);
+        i.fec_reg = new Date(i.fec_reg);
+        i.fe_us_in = new Date(i.fe_us_in);
+        i.fe_us_mo = new Date(i.fe_us_mo);
+        i.estatus = setStatus(i.status);
+        i.des_cli = searchCli(i.co_cli);
+        i.des_cond = searchCond(item.co_cond);
+        i.des_ven = searchVen(i.co_ven);
+
         return i;
     }
 
@@ -909,6 +973,33 @@
             value = "PROCESADA";
 
         return value;
+    }
+
+    function searchCli(id) {
+        return clients.find(c => c.co_cli == id).cli_des;
+    }
+
+    function searchCond(id) {
+        return conds.find(c => c.co_cond == id).cond_des;
+    }
+
+    function searchVen(id) {
+        return sellers.find(s => s.co_ven == id).ven_des;
+    }
+
+    function focusField() {
+        setTimeout(function () {
+            $("#n_preliq").focus();
+        }, 1000);
+    }
+
+    function alertField() {
+        alert('Debe agregar manualmente el Número de Control');
+
+        setTimeout(function () {
+            $("#n_control").focus();
+            $("#n_control").css("background", "#ffcd95");
+        }, 1000);
     }
 
     function origDate(value) {
@@ -971,6 +1062,11 @@
             $(".selected-row")[0].classList.remove("selected-row");
             $("#" + modal).find("input[type=text]").val("");
             $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            if (input == "cond") {
+                console.log(value.trim());
+                $("#des_cond").val(searchCond(value));
+            }
 
             $("#" + modal).modal("hide");
         } else {

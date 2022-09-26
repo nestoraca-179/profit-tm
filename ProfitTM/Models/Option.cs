@@ -22,6 +22,7 @@ namespace ProfitTM.Models
                            {
                                ID = u.OptionID,
                                OptionName = o.OptionName,
+                               OptionType = o.OptionType,
                                Icon = o.Icon,
                                URL = o.URL,
                                Enabled = o.Enabled,

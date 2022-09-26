@@ -296,8 +296,16 @@ namespace ProfitTM.Controllers
             {
                 saFacturaVenta newInvoice = new Invoice().AddFromOrder(invoice, user, sucur);
 
-                response.Status = "OK";
-                response.Result = newInvoice;
+                if (newInvoice == null)
+                {
+                    response.Status = "ERROR";
+                    response.Message = "Error agregando la factura";
+                }
+                else
+                {
+                    response.Status = "OK";
+                    response.Result = newInvoice;
+                }
             }
             catch (Exception ex)
             {

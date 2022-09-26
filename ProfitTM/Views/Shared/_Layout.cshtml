@@ -23,12 +23,15 @@
                 <a href="/Home/@ViewData["home"]">Profit Plus TM <br /> @{ if (!string.IsNullOrEmpty(ViewBag.product)) { <span>@ViewBag.product</span> } }</a>
             </div>
             <div class="col-md-8 col-xl-9 col-xxl-10 header-right-side">
-                <div class="user-active" role="button" id="drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="header-left-side-alt">
+                    <a href="/Home/@ViewData["home"]">Profit Plus TM <br /> @{ if (!string.IsNullOrEmpty(ViewBag.product)) { <span>@ViewBag.product</span> } }</a>
+                </div>
+                <div class="user-active" role="button" id="drop-menu" onclick="$('#dropdown-menu').slideToggle();">
                     <i class="fas fa-user icon-user"></i>
                     <p class="mb-0">@ViewBag.user.Descrip</p>
-                </div>
-                <div class="dropdown-menu" aria-labelledby="drop-menu">
-                    <a href="/Account/Logout">Cerrar Sesión</a>
+                    <div class="dropdown-menu" id="dropdown-menu">
+                        <a href="/Account/Logout">Cerrar Sesión</a>
+                    </div>
                 </div>
             </div>
         </div>

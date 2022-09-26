@@ -62,6 +62,7 @@
         .col-stat {
             padding: 5px;
         }
+
         .col-graph {
             padding: 5px 15px;
         }
@@ -72,6 +73,7 @@
         }
         .dash-left-side {
             width: 100%;
+            height: auto;
             max-height: 100%;
             position: absolute;
             z-index: 10;
@@ -133,14 +135,42 @@
                         </li>
                         <div class="my-dropdown">
                             @{
+                                bool first_t = true;
                                 foreach (var elem in item.Options)
                                 {
-                                    string disabled = elem.Enabled ? "" : "disabled";
+                                    string type = elem.OptionType.Trim();
+                                    if (type == "T")
+                                    {
+                                        if (first_t)
+                                        {
+                                            <p class="title-opt"><i class="fas fa-table"></i> Tablas</p>
+                                            first_t = false;
+                                        }
 
-                                    <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                        string disabled = elem.Enabled ? "" : "disabled";
+                                        <a class="dropdown-item @disabled" href="@elem.URL" onclick="$('#modalLoading').modal('show');"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                    }
                                 }
                             }
-                            <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
+                            @{
+                                bool first_p = true;
+                                foreach (var elem in item.Options)
+                                {
+                                    string type = elem.OptionType.Trim();
+                                    if (type == "P")
+                                    {
+                                        if (first_p)
+                                        {
+                                            <p class="title-opt"><i class="fas fa-table"></i> Procesos</p>
+                                            first_p = false;
+                                        }
+
+                                        string disabled = elem.Enabled ? "" : "disabled";
+                                        <a class="dropdown-item @disabled" href="@elem.URL" onclick="$('#modalLoading').modal('show');"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                    }
+                                }
+                            }
+                            <a class="dropdown-item @disReport" href="@item.ReportURL" style="border-top: solid 1px #a6a6a6;"><i class="fas fa-file"></i>  Reportes</a>
                         </div>
                     }
                 }
@@ -266,6 +296,21 @@
         </div>
     </div>
 </div>
+<!-- Modal Loading -->
+<div class="modal fade modal-info" id="modalLoading" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+        <div class="modal-content">
+            @*<div class="modal-header"></div>*@
+            <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                <div style="display: flex; justify-content: center;">
+                    <i class="fas fa-spinner fa-spin" style="color: #01579b; font-size: 7em;"></i>
+                </div>
+                <h1 class="text-center mt-5">Cargando opción...</h1>
+            </div>
+            @*<div class="modal-footer"></div>*@
+        </div>
+    </div>
+</div>
 <script src="~/Scripts/angular-min.js"></script>
 <script>
     var app = angular.module("DashboardAdmin", []);
@@ -283,8 +328,8 @@
     fec_d.setMinutes(0);
     fec_d.setSeconds(0);
 
-    var fecha_d = fec_d.toLocaleDateString().replaceAll("/","-");
-    var fecha_h = fec_h.toLocaleDateString().replaceAll("/","-");
+    var fecha_d = fec_d.toLocaleDateString().replaceAll("/", "-");
+    var fecha_h = fec_h.toLocaleDateString().replaceAll("/", "-");
 
     $(".dash-right-side").on("mousedown", function (event) {
         event.preventDefault();
@@ -455,7 +500,7 @@
 @* GRAFICA ARTICULOS VENDIDOS *@
 <script>
 
-    function initMSP (msp) {
+    function initMSP(msp) {
 
         var productos = msp;
         var objects = productos.map(function (x) {
@@ -530,7 +575,7 @@
 @* GRAFICA ARTICULOS COMPRADOS *@
 <script>
 
-    function initMPP (mpp) {
+    function initMPP(mpp) {
 
         var productos = mpp;
         var objects = productos.map(function (x) {
@@ -596,7 +641,7 @@
 @* GRAFICA PROVEEDORES COMPRAS *@
 <script>
 
-    function initMAS (mas) {
+    function initMAS(mas) {
 
         var proveedores = mas;
         var objects = proveedores.map(function (x) {

@@ -9,6 +9,7 @@
         }
         .dash-left-side {
             width: 100%;
+            height: auto;
             max-height: 100%;
             position: absolute;
             z-index: 10;
@@ -40,14 +41,42 @@
                         </li>
                         <div class="my-dropdown">
                             @{
+                                bool first_t = true;
                                 foreach (var elem in item.Options)
                                 {
-                                    string disabled = elem.Enabled ? "" : "disabled";
+                                    string type = elem.OptionType.Trim();
+                                    if (type == "T")
+                                    {
+                                        if (first_t)
+                                        {
+                                            <p class="title-opt"><i class="fas fa-table"></i> Tablas</p>
+                                            first_t = false;
+                                        }
 
-                                    <a class="dropdown-item @disabled" href="@elem.URL"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                        string disabled = elem.Enabled ? "" : "disabled";
+                                        <a class="dropdown-item @disabled" href="@elem.URL" onclick="$('#modalLoading').modal('show');"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                    }
                                 }
                             }
-                            <a class="dropdown-item @disReport" href="@item.ReportURL"><i class="fas fa-file"></i>  Reportes</a>
+                            @{
+                                bool first_p = true;
+                                foreach (var elem in item.Options)
+                                {
+                                    string type = elem.OptionType.Trim();
+                                    if (type == "P")
+                                    {
+                                        if (first_p)
+                                        {
+                                            <p class="title-opt"><i class="fas fa-table"></i> Procesos</p>
+                                            first_p = false;
+                                        }
+
+                                        string disabled = elem.Enabled ? "" : "disabled";
+                                        <a class="dropdown-item @disabled" href="@elem.URL" onclick="$('#modalLoading').modal('show');"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                    }
+                                }
+                            }
+                            <a class="dropdown-item @disReport" href="@item.ReportURL" style="border-top: solid 1px #a6a6a6;"><i class="fas fa-file"></i>  Reportes</a>
                         </div>
                     }
                 }
