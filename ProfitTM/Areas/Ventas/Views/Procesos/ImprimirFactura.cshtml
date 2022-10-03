@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Imprimir Factura";
+}
+
+@Html.DevExpress().GetStyleSheets(
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Report }
+)
+@Html.DevExpress().GetScripts(
+    //new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.Report }
+)
+
+<div class="page-report container-fluid py-3">
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.fact))
+        {
+            string factura = ViewBag.fact;
+            string format = ViewBag.format;
+
+            @Html.Action(format, "Reps", new { id = factura })
+        }
+        else
+        {
+            <h2 class="text-center mt-3">No has seleccionado ninguna factura</h2>
+        }
+    }
+</div>

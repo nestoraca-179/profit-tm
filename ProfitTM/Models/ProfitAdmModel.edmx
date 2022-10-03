@@ -14441,6 +14441,14 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sCo_Sucu_Mo" Type="char" Mode="In" />
           <Parameter Name="gRowguid" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="pEliminarPedidoVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sDoc_NumOri" Type="char" Mode="In" />
+          <Parameter Name="tsValidador" Type="timestamp" Mode="In" />
+          <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+          <Parameter Name="sCo_Us_Mo" Type="char" Mode="In" />
+          <Parameter Name="sCo_Sucu_Mo" Type="char" Mode="In" />
+          <Parameter Name="gRowguid" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="pEliminarProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sCo_ProvOri" Type="char" Mode="In" />
           <Parameter Name="tsValidador" Type="timestamp" Mode="In" />
@@ -34890,6 +34898,14 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <Parameter Name="sTrasnfe" Mode="In" Type="String" />
             <Parameter Name="sMaquina" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="pEliminarPedidoVenta">
+            <Parameter Name="sDoc_NumOri" Mode="In" Type="String" />
+            <Parameter Name="tsValidador" Mode="In" Type="Binary" />
+            <Parameter Name="sMaquina" Mode="In" Type="String" />
+            <Parameter Name="sCo_Us_Mo" Mode="In" Type="String" />
+            <Parameter Name="sCo_Sucu_Mo" Mode="In" Type="String" />
+            <Parameter Name="gRowguid" Mode="In" Type="Guid" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="RepEstadoCuentaCli_Result">
           <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -44095,6 +44111,7 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pEliminarPedidoVenta" FunctionName="ProfitAdmContext.Store.pEliminarPedidoVenta" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

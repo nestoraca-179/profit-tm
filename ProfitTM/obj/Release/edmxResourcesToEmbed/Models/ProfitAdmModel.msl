@@ -8861,5 +8861,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pEliminarPedidoVenta" FunctionName="ProfitAdmContext.Store.pEliminarPedidoVenta" />
   </EntityContainerMapping>
 </Mapping>

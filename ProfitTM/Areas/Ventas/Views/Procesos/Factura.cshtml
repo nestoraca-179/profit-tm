@@ -101,6 +101,7 @@
                     </tr>
                 </table>
             </div>
+            <button type="button" class="btn btn-primary mt-2" ng-click="loadInvoices()">Cargar más facturas</button>
         </div>
         <hr class="divider" />
         <form action="" method="post" id="form" class="col-md-12 col-xl-9 container-form" onsubmit="return false;">
@@ -127,7 +128,8 @@
                         </button>
                     </div>
                     <div class="col d-flex justify-content-end button-import p-0" ng-show="!adding">
-                        <button type="button" class="btn mx-2" style="background: #ec9d0b; color: #FFF;" ng-disabled="invoice.impresa">
+                        <p ng-if="invoice.impresa" class="m-0 d-flex align-items-center"><b>Doc. Impreso</b></p>
+                        <button type="button" class="btn mx-2" style="background: #ec9d0b; color: #FFF;" ng-disabled="invoice.impresa" ng-click="print(invoice.doc_num)">
                             <i class="fas fa-print"></i> Imprimir
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField()">
@@ -140,7 +142,7 @@
                             Guardar Documento Importado
                         </button>
                         <div style="width: 10px;"></div>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalDelete">
                             <i class="fas fa-trash"></i>
                             Eliminar Documento Importado
                         </button>
@@ -338,6 +340,11 @@
             <div id="adicionales" class="form-body">
                 <div class="left">
                     <div class="controls">
+                        <label>Contenedor</label>
+                        <textarea class="form-control" ng-model="invoice.dir_ent" ng-disabled="true"></textarea>
+                    </div>
+                    <br />
+                    <div class="controls">
                         <label>Ag. Aduanal</label>
                         <input type="text" class="form-control" ng-model="invoice.campo1" ng-disabled="true" />
                     </div>
@@ -355,6 +362,11 @@
                     </div>
                 </div>
                 <div class="right">
+                    <div class="controls">
+                        <label>Divisas</label>
+                        <textarea class="form-control" ng-model="invoice.comentario" ng-disabled="true"></textarea>
+                    </div>
+                    <br />
                     <div class="controls">
                         <label>Fec. Viaje</label>
                         <input type="text" class="form-control" ng-model="invoice.campo2" ng-disabled="true" />
@@ -413,7 +425,7 @@
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Buscar Preliquidación</h5>
+                    <h5 class="modal-title">Importar Preliquidación</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -423,13 +435,13 @@
                         <label style="flex: 1;">Ingrese Nro. de Preliquidación</label>
                         <div class="input-search" style="flex: 1; position: relative;">
                             <input type="text" class="form-control" id="n_preliq" ng-model="idOrder" ng-keypress="detectEnter($event.originalEvent)" />
-                            <i class="fas fa-search" role="button"></i>
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalOrders')" data-name="n_preliq"></i>
                             <label class="text-danger text-center w-100" id="text-error" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-error').text('');">Cerrar</button>
                     <button type="button" class="btn btn-primary" ng-click="searchOrder(idOrder)">Seleccionar</button>
                 </div>
             </div>
@@ -466,6 +478,24 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Delete -->
+    <div class="modal fade modal-info" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
+                    </div>
+                    <h3 class="text-center">¿Desea eliminar la preliquidación N° {{ idOrder }}?</h3>
+                </div>
+                <div class="modal-footer" style="justify-content: center">
+                    <button type="button" style="width: 70px;" class="btn btn-danger" data-dismiss="modal">No</button>
+                    <button type="button" style="width: 70px;" class="btn btn-success" ng-click="deleteOrder(idOrder)">Sí</button>
                 </div>
             </div>
         </div>
@@ -640,9 +670,43 @@
             </div>
         </div>
     </div>
+    <!-- Modal 6 -->
+    <div class="modal fade" id="modalOrders" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Preliquidación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar preliquidación..." onkeyup="search('modalOrders')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        @{
+                            foreach (var elem in ViewBag.orders)
+                            {
+                                <tr style="cursor: pointer" onclick="selectRow(this)">
+                                    <td>@elem.doc_num</td>
+                                    <td>@elem.co_cli</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalOrders')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel-loading p-3">
-    <h4>Cargando modulo de facturación...</h4>
+    <h4>Cargando módulo de facturación...</h4>
 </div>
 <script>
     var app = angular.module("Invoices", []);
@@ -655,42 +719,7 @@
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
 
-    for (var item of invoices) {
-
-        // TOTALES OM
-        item.total_bruto = item.total_bruto.toFixed(2);
-        item.total_bruto_om = (item.total_bruto / item.tasa).toFixed(2);
-
-        item.monto_imp = item.monto_imp.toFixed(2);
-        item.monto_imp_om = (item.monto_imp / item.tasa).toFixed(2);
-
-        item.total_neto = item.total_neto.toFixed(2);
-        item.total_neto_om = (item.total_neto / item.tasa).toFixed(2);
-
-        item.saldo = item.saldo.toFixed(2);
-        item.saldo_om = (item.saldo / item.tasa).toFixed(2);
-
-        for (var r of item.saFacturaVentaReng) {
-            r.monto_imp = r.monto_imp.toFixed(2);
-            r.monto_imp_om = (r.monto_imp / item.tasa).toFixed(2);
-
-            r.reng_neto = r.reng_neto.toFixed(2);
-            r.reng_neto_om = (r.reng_neto / item.tasa).toFixed(2);
-        }
-
-        // FECHAS
-        item.fec_emis = new Date(parseInt(item.fec_emis.substr(6)));
-        item.fec_venc = new Date(parseInt(item.fec_venc.substr(6)));
-        item.fec_reg = new Date(parseInt(item.fec_reg.substr(6)));
-        item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
-        item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
-
-        // DATOS
-        item.estatus = setStatus(item.status);
-        item.des_cli = searchCli(item.co_cli);
-        item.des_cond = searchCond(item.co_cond);
-        item.des_ven = searchVen(item.co_ven);
-    }
+    invoices = parseItems(invoices);
 
     $(document).ready(function () {
         $(".container-invoices").removeAttr("style");
@@ -710,7 +739,7 @@
         }
     });
 
-    $("#container-invoices").on("contextmenu", function (event) {
+    $(document).on("contextmenu", function (event) {
         event.preventDefault();
     });
 
@@ -801,13 +830,15 @@
 
         $scope.searchOrder = function (id) {
 
+            if (isNullOrEmpty(id))
+                id = $("#n_preliq").val();
+
             if (!isNullOrEmpty(id)) {
 
                 $http.get("/api/ProfitTMApi/GetOrder/" + id)
                     .then(function (response) {
 
                         var res = response.data;
-                        $scope.idOrder = "";
 
                         if (res.Status == "OK") {
 
@@ -923,7 +954,116 @@
                 $("#btn-" + id).trigger("click", event);
             }
         }
+
+        $scope.deleteOrder = function (id) {
+
+            $("#modalDelete").modal("hide");
+            $("#modalWaiting").modal("show");
+
+            $http.get("/api/ProfitTMApi/DeleteOrder/" + id)
+                .then(function (response) {
+
+                    console.log(response.data);
+                    var res = response.data;
+
+                    $("#modalWaiting").modal("hide");
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = "La preliquidación " + res.Result + " se ha eliminado con éxito";
+                        $scope.invoice = $scope.invoices[0];
+                        $scope.index = 0;
+
+                        $scope.adding = false;
+                        $scope.confirm = false;
+                        $scope.convert = false;
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+                });
+        }
+
+        $scope.print = function (id) {
+            location.href = '/Ventas/Procesos/ImprimirFactura?id=' + id.trim() + '&type=' + $scope.invoice.co_cond;
+        }
+
+        $scope.loadInvoices = function () {
+
+            $scope.numberI += 200;
+            $("#modalWaiting").modal("show");
+
+            $http.get("/api/ProfitTMApi/GetInvoices/" + $scope.numberI)
+                .then(function (response) {
+
+                    var res = response.data;
+
+                    if (res.Status == "OK") {
+
+                        invoices = res.Result;
+
+                        for (var i in invoices) {
+                            invoices[i] = convert(invoices[i]);
+                        }
+
+                        $scope.invoices = invoices;
+                        $scope.invoice = invoices[0];
+                        $scope.index = 0;
+                        $scope.successMessage = "Facturas cargadas con éxito";
+                        $("#modalSuccess").modal("show");
+
+                    } else {
+
+                        $scope.errorMessage = res.Message;
+                        $("#modalError").modal("show");
+
+                    }
+                });
+        }
     });
+
+    function parseItems(items_c) {
+
+        var items = items_c;
+
+        for (var item of items) {
+
+            // TOTALES OM
+            item.total_bruto = item.total_bruto.toFixed(2);
+            item.total_bruto_om = (item.total_bruto / item.tasa).toFixed(2);
+
+            item.monto_imp = item.monto_imp.toFixed(2);
+            item.monto_imp_om = (item.monto_imp / item.tasa).toFixed(2);
+
+            item.total_neto = item.total_neto.toFixed(2);
+            item.total_neto_om = (item.total_neto / item.tasa).toFixed(2);
+
+            item.saldo = item.saldo.toFixed(2);
+            item.saldo_om = (item.saldo / item.tasa).toFixed(2);
+
+            for (var r of item.saFacturaVentaReng) {
+                r.monto_imp = r.monto_imp.toFixed(2);
+                r.monto_imp_om = (r.monto_imp / item.tasa).toFixed(2);
+
+                r.reng_neto = r.reng_neto.toFixed(2);
+                r.reng_neto_om = (r.reng_neto / item.tasa).toFixed(2);
+            }
+
+            // FECHAS
+            item.fec_emis = new Date(parseInt(item.fec_emis.substr(6)));
+            item.fec_venc = new Date(parseInt(item.fec_venc.substr(6)));
+            item.fec_reg = new Date(parseInt(item.fec_reg.substr(6)));
+            item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
+            item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
+
+            // DATOS
+            item.estatus = setStatus(item.status);
+            item.des_cli = searchCli(item.co_cli);
+            item.des_cond = searchCond(item.co_cond);
+            item.des_ven = searchVen(item.co_ven);
+        }
+
+        return items;
+    }
 
     function convert(invoice) {
 
@@ -955,7 +1095,7 @@
         i.fe_us_mo = new Date(i.fe_us_mo);
         i.estatus = setStatus(i.status);
         i.des_cli = searchCli(i.co_cli);
-        i.des_cond = searchCond(item.co_cond);
+        i.des_cond = searchCond(i.co_cond);
         i.des_ven = searchVen(i.co_ven);
 
         return i;
@@ -1104,7 +1244,7 @@
             var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
 
             if (!val1.includes(value) && !val2.includes(value))
-                $(row).slideUp(); // row.style.display = "none";
+                row.style.display = "none";
             else
                 row.style.display = "";
         }

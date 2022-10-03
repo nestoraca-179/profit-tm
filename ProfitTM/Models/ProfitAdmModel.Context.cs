@@ -22,7 +22,7 @@ namespace ProfitTM.Models
             Configuration.ProxyCreationEnabled = false;
             ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -2699,6 +2699,35 @@ namespace ProfitTM.Models
                 new ObjectParameter("sMaquina", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pInsertarFacturaVenta_Result>("pInsertarFacturaVenta", sDoc_NumParameter, sDescripParameter, sCo_CliParameter, sCo_TranParameter, sCo_MoneParameter, sCo_Cta_Ingr_EgrParameter, sCo_VenParameter, sCo_CondParameter, sdFec_EmisParameter, sdFec_VencParameter, sdFec_RegParameter, bAnuladoParameter, sStatusParameter, deTasaParameter, sN_ControlParameter, sPorc_Desc_GlobParameter, deMonto_Desc_GlobParameter, sPorc_RecaParameter, deMonto_RecaParameter, deSaldoParameter, deTotal_BrutoParameter, deMonto_ImpParameter, deMonto_Imp2Parameter, deMonto_Imp3Parameter, deOtros1Parameter, deOtros2Parameter, deOtros3Parameter, deTotal_NetoParameter, sDis_CenParameter, sComentarioParameter, sDir_EntParameter, bContribParameter, bImpresaParameter, sSalestaxParameter, sImpfisParameter, sImpfisfacParameter, bVen_TerParameter, sCampo1Parameter, sCampo2Parameter, sCampo3Parameter, sCampo4Parameter, sCampo5Parameter, sCampo6Parameter, sCampo7Parameter, sCampo8Parameter, sCo_Us_InParameter, sCo_Sucu_InParameter, sRevisadoParameter, sTrasnfeParameter, sMaquinaParameter);
+        }
+    
+        public virtual int pEliminarPedidoVenta(string sDoc_NumOri, byte[] tsValidador, string sMaquina, string sCo_Us_Mo, string sCo_Sucu_Mo, Nullable<System.Guid> gRowguid)
+        {
+            var sDoc_NumOriParameter = sDoc_NumOri != null ?
+                new ObjectParameter("sDoc_NumOri", sDoc_NumOri) :
+                new ObjectParameter("sDoc_NumOri", typeof(string));
+    
+            var tsValidadorParameter = tsValidador != null ?
+                new ObjectParameter("tsValidador", tsValidador) :
+                new ObjectParameter("tsValidador", typeof(byte[]));
+    
+            var sMaquinaParameter = sMaquina != null ?
+                new ObjectParameter("sMaquina", sMaquina) :
+                new ObjectParameter("sMaquina", typeof(string));
+    
+            var sCo_Us_MoParameter = sCo_Us_Mo != null ?
+                new ObjectParameter("sCo_Us_Mo", sCo_Us_Mo) :
+                new ObjectParameter("sCo_Us_Mo", typeof(string));
+    
+            var sCo_Sucu_MoParameter = sCo_Sucu_Mo != null ?
+                new ObjectParameter("sCo_Sucu_Mo", sCo_Sucu_Mo) :
+                new ObjectParameter("sCo_Sucu_Mo", typeof(string));
+    
+            var gRowguidParameter = gRowguid.HasValue ?
+                new ObjectParameter("gRowguid", gRowguid) :
+                new ObjectParameter("gRowguid", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("pEliminarPedidoVenta", sDoc_NumOriParameter, tsValidadorParameter, sMaquinaParameter, sCo_Us_MoParameter, sCo_Sucu_MoParameter, gRowguidParameter);
         }
     }
 }

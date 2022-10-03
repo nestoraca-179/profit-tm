@@ -14436,6 +14436,14 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sCo_Sucu_Mo" Type="char" Mode="In" />
     <Parameter Name="gRowguid" Type="uniqueidentifier" Mode="In" />
   </Function>
+  <Function Name="pEliminarPedidoVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sDoc_NumOri" Type="char" Mode="In" />
+    <Parameter Name="tsValidador" Type="timestamp" Mode="In" />
+    <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+    <Parameter Name="sCo_Us_Mo" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sucu_Mo" Type="char" Mode="In" />
+    <Parameter Name="gRowguid" Type="uniqueidentifier" Mode="In" />
+  </Function>
   <Function Name="pEliminarProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sCo_ProvOri" Type="char" Mode="In" />
     <Parameter Name="tsValidador" Type="timestamp" Mode="In" />

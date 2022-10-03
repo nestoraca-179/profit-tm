@@ -547,7 +547,7 @@ namespace ProfitTM.Models
 
         public saFacturaVenta AddFromOrder(saFacturaVenta invoice, string user, string sucur)
         {
-            saFacturaVenta newInvoice = new saFacturaVenta();
+            saFacturaVenta new_invoice = new saFacturaVenta();
 
             using (DbContextTransaction tran = new ProfitAdmEntities(entity.ToString()).Database.BeginTransaction())
             {
@@ -605,17 +605,17 @@ namespace ProfitTM.Models
                         invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, invoice.revisado, invoice.trasnfe, sucur, user,
                         "SERVER PROFIT WEB");
 
-                    newInvoice = GetSaleInvoice(n_fact);
+                    new_invoice = GetSaleInvoice(n_fact);
                     tran.Commit();
                 }
                 catch (Exception ex)
                 {
                     tran.Rollback();
-                    newInvoice = null;
+                    new_invoice = null;
                 }
             }
 
-            return newInvoice;
+            return new_invoice;
         }
     }
 }

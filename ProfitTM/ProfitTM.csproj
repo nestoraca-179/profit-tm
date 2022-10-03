@@ -65,6 +65,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Humanizer, Version=2.14.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.14.1\lib\netstandard2.0\Humanizer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Features, Version=5.0.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.5.0.4\lib\net461\Microsoft.AspNetCore.Http.Features.dll</HintPath>
     </Reference>
@@ -272,6 +275,9 @@
     <Content Include="Areas\CajaBanco\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\General\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Ventas\Views\Procesos\Factura.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\Preliquidacion.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\ImprimirFactura.cshtml" />
+    <Content Include="Areas\Ventas\Views\Reportes\_RepFormatoFacturaVentaOMPartial.cshtml" />
     <None Include="Properties\PublishProfiles\ProfitTMRelease.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
@@ -437,7 +443,7 @@
     <Compile Include="Areas\Ventas\Reports\RepFormatoFacturaVenta.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Areas\Ventas\Reports\RepFormatoFactVenta.cs">
+    <Compile Include="Areas\Ventas\Reports\RepFormatoFacturaVentaOM.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Areas\Ventas\Reports\RepTotalVentaxArticulo.cs">
@@ -465,6 +471,7 @@
     <Compile Include="Models\Admin\Country.cs" />
     <Compile Include="Models\Admin\InvoiceItem.cs" />
     <Compile Include="Models\Admin\Order.cs" />
+    <Compile Include="Models\Admin\OrderItem.cs" />
     <Compile Include="Models\Admin\ProfitAdmManager.cs" />
     <Compile Include="Models\Admin\Transport.cs" />
     <Compile Include="Models\Connection.cs" />
@@ -1374,8 +1381,8 @@
     <EmbeddedResource Include="Areas\Ventas\Reports\RepFormatoFacturaVenta.resx">
       <DependentUpon>RepFormatoFacturaVenta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Areas\Ventas\Reports\RepFormatoFactVenta.resx">
-      <DependentUpon>RepFormatoFactVenta.cs</DependentUpon>
+    <EmbeddedResource Include="Areas\Ventas\Reports\RepFormatoFacturaVentaOM.resx">
+      <DependentUpon>RepFormatoFacturaVentaOM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Ventas\Reports\RepTotalVentaxArticulo.resx">
       <DependentUpon>RepTotalVentaxArticulo.cs</DependentUpon>

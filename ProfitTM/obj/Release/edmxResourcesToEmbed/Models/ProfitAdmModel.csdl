@@ -17774,6 +17774,14 @@
       <Parameter Name="sTrasnfe" Mode="In" Type="String" />
       <Parameter Name="sMaquina" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="pEliminarPedidoVenta">
+      <Parameter Name="sDoc_NumOri" Mode="In" Type="String" />
+      <Parameter Name="tsValidador" Mode="In" Type="Binary" />
+      <Parameter Name="sMaquina" Mode="In" Type="String" />
+      <Parameter Name="sCo_Us_Mo" Mode="In" Type="String" />
+      <Parameter Name="sCo_Sucu_Mo" Mode="In" Type="String" />
+      <Parameter Name="gRowguid" Mode="In" Type="Guid" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />

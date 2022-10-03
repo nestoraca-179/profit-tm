@@ -47,10 +47,10 @@ namespace ProfitTM.Controllers
 
             try
             {
-                Users newUser = Models.User.Add(user);
+                Users new_user = Models.User.Add(user);
 
                 response.Status = "OK";
-                response.Result = newUser.ID;
+                response.Result = new_user.ID;
             }
             catch (Exception ex)
             {
@@ -69,10 +69,10 @@ namespace ProfitTM.Controllers
 
             try
             {
-                Users editUser = Models.User.Edit(user);
+                Users edit_user = Models.User.Edit(user);
 
                 response.Status = "OK";
-                response.Result = editUser.ID;
+                response.Result = edit_user.ID;
             }
             catch (Exception ex)
             {
@@ -91,10 +91,10 @@ namespace ProfitTM.Controllers
 
             try
             {
-                Users delUser = Models.User.Delete(id);
+                Users del_user = Models.User.Delete(id);
 
                 response.Status = "OK";
-                response.Result = delUser.ID;
+                response.Result = del_user.ID;
             }
             catch (Exception ex)
             {
@@ -115,10 +115,10 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saCliente newClient = new Client().Add(client);
+                saCliente new_client = new Client().Add(client);
 
                 response.Status = "OK";
-                response.Result = newClient.co_cli;
+                response.Result = new_client.co_cli;
             }
             catch (Exception ex)
             {
@@ -137,10 +137,10 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saCliente editClient = new Client().Edit(client);
+                saCliente edit_client = new Client().Edit(client);
 
                 response.Status = "OK";
-                response.Result = editClient.co_cli;
+                response.Result = edit_client.co_cli;
             }
             catch (Exception ex)
             {
@@ -159,10 +159,10 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saCliente delClient = new Client().Delete(id);
+                saCliente del_client = new Client().Delete(id);
 
                 response.Status = "OK";
-                response.Result = delClient.co_cli;
+                response.Result = del_client.co_cli;
             }
             catch (Exception ex)
             {
@@ -183,10 +183,10 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saProveedor newSupplier = new Supplier().Add(supplier);
+                saProveedor new_supplier = new Supplier().Add(supplier);
 
                 response.Status = "OK";
-                response.Result = newSupplier.co_prov;
+                response.Result = new_supplier.co_prov;
             }
             catch (Exception ex)
             {
@@ -205,10 +205,10 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saProveedor editSupplier = new Supplier().Edit(supplier);
+                saProveedor edit_supplier = new Supplier().Edit(supplier);
 
                 response.Status = "OK";
-                response.Result = editSupplier.co_prov;
+                response.Result = edit_supplier.co_prov;
             }
             catch (Exception ex)
             {
@@ -227,10 +227,10 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saProveedor delSupplier = new Supplier().Delete(id);
+                saProveedor del_supplier = new Supplier().Delete(id);
 
                 response.Status = "OK";
-                response.Result = delSupplier.co_prov;
+                response.Result = del_supplier.co_prov;
             }
             catch (Exception ex)
             {
@@ -251,7 +251,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saPedidoVenta order = new Order().GetOrder(id);
+                saPedidoVenta order = new Order().GetOrderByID(id);
 
                 if (order != null)
                 {
@@ -275,6 +275,28 @@ namespace ProfitTM.Controllers
             catch (Exception ex)
             {
                 response.Status = "ERROR";
+                response.Message = ex.Message; // HA OCURRIDO UN ERROR
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/DeleteOrder/{id}/")]
+        public ProfitTMResponse DeleteOrder(string id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                saPedidoVenta del_order = new Order().Delete(id);
+
+                response.Status = "OK";
+                response.Result = del_order.doc_num;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
                 response.Message = ex.Message;
             }
 
@@ -294,9 +316,9 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saFacturaVenta newInvoice = new Invoice().AddFromOrder(invoice, user, sucur);
+                saFacturaVenta new_invoice = new Invoice().AddFromOrder(invoice, user, sucur);
 
-                if (newInvoice == null)
+                if (new_invoice == null)
                 {
                     response.Status = "ERROR";
                     response.Message = "Error agregando la factura";
@@ -304,7 +326,7 @@ namespace ProfitTM.Controllers
                 else
                 {
                     response.Status = "OK";
-                    response.Result = newInvoice;
+                    response.Result = new_invoice;
                 }
             }
             catch (Exception ex)

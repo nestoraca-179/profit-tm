@@ -116,7 +116,7 @@ input#username::placeholder, input#pass::placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.25em;
+    font-size: 1.3em;
 }
 .header-left-side a, .header-left-side a:hover, .header-left-side-alt a, .header-left-side-alt a:hover {
     text-decoration: none;
@@ -128,7 +128,7 @@ input#username::placeholder, input#pass::placeholder {
     align-items: center;
 }
 .header-left-side a span, .header-left-side-alt a span {
-    font-size: 12px;
+    font-size: 13px;
 }
 .header-left-side.active {
     padding: 0;
@@ -377,7 +377,7 @@ p.title-opt {
 .container-list .table thead {
     background: #13568a;
 }
-.container-list .list-table-clients, .container-list .list-table-invoices {
+.container-list .list-table-clients, .container-list .list-table-invoices, .container-list .list-table-orders {
     height: 100%;
     margin-top: 5px;
     overflow-y: auto;

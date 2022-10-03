@@ -80,18 +80,34 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult RepFormatoFacturaVentaPartial(string id)
         {
             string connect = Session["CONNECT"].ToString();
-            report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            // report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report3.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
-            ds.Queries["RepFormatoFacturaVenta"].Parameters[0].Value = id;
-            ds.Queries["RepFormatoFacturaVenta"].Parameters[1].Value = id;
+            report3.Parameters["nroFact"].Value = id;
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepFormatoFacturaVentaPartial.cshtml", report3);
         }
         public ActionResult RepFormatoFacturaVentaPartialExport()
         {
             return DocumentViewerExtension.ExportTo(report3, Request);
+        }
+
+        RepFormatoFacturaVentaOM report4 = new RepFormatoFacturaVentaOM();
+        public ActionResult RepFormatoFacturaVentaOMPartial(string id)
+        {
+            string connect = Session["CONNECT"].ToString();
+            // report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+
+            SqlDataSource ds = report4.DataSource as SqlDataSource;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
+            report4.Parameters["nroFact"].Value = id;
+
+            return PartialView("~/Areas/Ventas/Views/Reportes/_RepFormatoFacturaVentaOMPartial.cshtml", report4);
+        }
+        public ActionResult RepFormatoFacturaVentaOMPartialExport()
+        {
+            return DocumentViewerExtension.ExportTo(report4, Request);
         }
     }
 }

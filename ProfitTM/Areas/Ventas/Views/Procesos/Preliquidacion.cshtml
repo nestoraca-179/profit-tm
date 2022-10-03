@@ -1,0 +1,652 @@
+﻿@{
+    ViewBag.Title = "Preliquidación";
+}
+
+<style>
+    input[disabled] {
+        pointer-events: none;
+    }
+    .container-orders {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+    .container-orders > .row {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .container-orders > .row hr {
+        display: none;
+    }
+    .container-form .controls {
+        margin: 0;
+    }
+    .col-sm-12.col-md-4.controls {
+        width: auto;
+    }
+    .form-body .row {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .form-body .row .controls {
+        margin: 0;
+        padding: 0;
+    }
+    .cont-checks {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .cont-checks .label-check {
+        width: 140px;
+    }
+    .cont-radios {
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .btn-convert {
+        display: flex;
+        justify-content: center;
+        align-items: end;
+    }
+    .btn-convert button {
+        width: 100%;
+    }
+    .bottom {
+        margin-top: 15px;
+    }
+    .modal-info .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
+    tr.active {
+        background: #0277bd !important;
+    }
+    tr.active td {
+        color: #FFF !important;
+    }
+    .field-active {
+        background: #7af4af !important;
+    }
+    @@media (max-width: 1199px) {
+        .container-orders, .container-orders > .row {
+            height: auto !important;
+        }
+        hr:not(.divider) {
+            display: block !important;
+        }
+    }
+</style>
+<script src="~/Scripts/angular-min.js"></script>
+<div class="container-fluid container-orders" id="container-orders" style="display: none;" ng-app="Orders" ng-controller="controller">
+    <div class="row">
+        <div class="col-md-12 col-xl-3 container-list">
+            <input type="text" id="input-orders" class="form-control" placeholder="Buscar preliquidación..." style="border: solid 1px #ced4da;" onkeyup="searchOrder()" />
+            <div class="list-table-orders">
+                <table class="table table-hover table-striped" id="table-orders">
+                    <thead>
+                        <tr>
+                            <th class="text-white">Código</th>
+                            <th class="text-white">Cliente</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="order in orders" ng-class="{ active: orders[index].doc_num == order.doc_num }" ng-click="selectOrder(order.doc_num)" style="cursor: pointer;">
+                        <td><i class="fas fa-caret-right mx-1" ng-show="orders[index].doc_num == order.doc_num"></i>{{ order.doc_num }}</td>
+                        <td>{{ order.co_cli }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr class="divider" />
+        <form action="" method="post" id="form" class="col-md-12 col-xl-9 container-form" onsubmit="return false;">
+            <div class="form-header">
+                <h3 class="text-center text-white"><i class="fas fa-file-invoice"></i> Preliquidación</h3>
+            </div>
+            <div class="form-buttons">
+                <div class="row">
+                    <div class="col buttons-next-prev" ng-show="!adding">
+                        <button type="button" class="btn btn-primary" ng-click="margin('s')">
+                            <i class="fas fa-chevron-double-left"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="prev()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="next()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="margin('e')">
+                            <i class="fas fa-chevron-double-right"></i>
+                        </button>
+                    </div>
+                    <div class="col d-flex justify-content-end button-delete p-0" ng-show="!adding">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalConfirm" ng-disabled="order.status != 0">
+                            <i class="fas fa-trash"></i> Eliminar Preliquidación
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-tabs">
+                <div class="row">
+                    <button type="button" id="btn-general" class="col tablinks active" onclick="openTab(event, 'general')">General</button>
+                    <button type="button" id="btn-adicionales" class="col tablinks" onclick="openTab(event, 'adicionales')">Adicionales</button>
+                </div>
+            </div>
+            <div id="general" class="form-body" style="display: flex;">
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="controls">
+                            <label>Número</label>
+                            <input type="text" class="form-control" id="id" ng-model="order.doc_num" ng-disabled="true" ng-required="true" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="controls">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="fec_emis" ng-model="order.fec_emis" ng-disabled="true" ng-required="true" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Fec. Venc</label>
+                            <input type="date" class="form-control" id="fec_emis" ng-model="order.fec_venc" ng-disabled="true" ng-required="true" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="controls">
+                            <label>Cliente</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="client" ng-model="order.co_cli" ng-disabled="true" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_client" ng-model="order.des_cli" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="client"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="controls">
+                            <label>Vendedor</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="seller" ng-model="order.co_ven" ng-disabled="true" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_seller" ng-model="order.des_ven" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Moneda</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="currency" ng-model="order.co_mone" ng-disabled="true" ng-required="true" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="currency"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="controls">
+                            <label>Cond. Pago</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="cond" ng-model="order.co_cond" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_cond" ng-model="order.des_cond" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="controls">
+                            <label>Transporte</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="trans" ng-model="order.co_tran" ng-disabled="true" ng-required="true" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTrans')" data-name="trans"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Tasa</label>
+                            <input type="text" class="form-control" id="tasa" ng-model="order.tasa" ng-disabled="true" ng-required="true" ng-change="update(order.tasa)" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="controls">
+                            <label>Descripción</label>
+                            <input type="text" class="form-control" id="descrip" ng-model="order.descrip" ng-disabled="true" ng-required="false" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="controls">
+                            <label>Estatus</label>
+                            <input type="text" class="form-control" id="n_control" ng-model="order.estatus" ng-disabled="!confirm" ng-required="false" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 btn-convert">
+                        <button class="btn btn-primary" ng-click="convert()">Conversión</button>
+                    </div>
+                </div>
+                <div class="bottom" style="padding: 0 0 10px 0;">
+                    <h4 class="text-center text-white form-header">Items de la Preliquidación</h4>
+                    <div style="padding: 0 10px;">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Artículo</th>
+                                    <th>Descripción</th>
+                                    <th>Almacén</th>
+                                    <th>Cantidad</th>
+                                    <th>IVA</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="reng in order.saPedidoVentaReng" style="cursor: pointer;">
+                                    <td>{{ reng.reng_num }}</td>
+                                    <td>{{ reng.co_art }}</td>
+                                    <td>{{ searchArt(reng.co_art) }}</td>
+                                    <td>{{ reng.co_alma }}</td>
+                                    <td>{{ reng.total_art }}</td>
+                                    <td ng-show="!converted">{{ reng.monto_imp }}</td>
+                                    <td ng-show="converted" class="field-active">{{ reng.monto_imp_om }}</td>
+                                    <td ng-show="!converted">{{ reng.reng_neto }}</td>
+                                    <td ng-show="converted" class="field-active">{{ reng.reng_neto_om }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 offset-md-6">
+                            <div class="controls">
+                                <label>Sub-Total</label>
+                                <input type="text" class="form-control" id="subtotal" ng-model="order.total_bruto" ng-show="!converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="subtotal_om" ng-model="order.total_bruto_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 offset-md-6">
+                            <div class="controls">
+                                <label>IVA</label>
+                                <input type="text" class="form-control" id="iva" ng-model="order.monto_imp" ng-show="!converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="iva_om" ng-model="order.monto_imp_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="controls">
+                                <label>Saldo</label>
+                                <input type="text" class="form-control" id="saldo" ng-model="order.saldo" ng-show="!converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="saldo_om" ng-model="order.saldo_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="controls">
+                                <label>Total</label>
+                                <input type="text" class="form-control" id="total" ng-model="order.total_neto" ng-show="!converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="total_om" ng-model="order.total_neto_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="adicionales" class="form-body">
+                <div class="left">
+                    <div class="controls">
+                        <label>Contenedor</label>
+                        <textarea class="form-control" ng-model="order.dir_ent" ng-disabled="true"></textarea>
+                    </div>
+                    <br />
+                    <div class="controls">
+                        <label>Ag. Aduanal</label>
+                        <input type="text" class="form-control" ng-model="order.campo1" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>No. Doc.</label>
+                        <input type="text" class="form-control" ng-model="order.campo3" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Destino</label>
+                        <input type="text" class="form-control" ng-model="order.campo5" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Buque</label>
+                        <input type="text" class="form-control" ng-model="order.campo7" ng-disabled="true" />
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="controls">
+                        <label>Divisas</label>
+                        <textarea class="form-control" ng-model="invoice.comentario" ng-disabled="true"></textarea>
+                    </div>
+                    <br />
+                    <div class="controls">
+                        <label>Fec. Viaje</label>
+                        <input type="text" class="form-control" ng-model="order.campo2" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Pto. Embq.</label>
+                        <input type="text" class="form-control" ng-model="order.campo4" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Mercancía</label>
+                        <input type="text" class="form-control" ng-model="order.campo6" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>No. Viaje</label>
+                        <input type="text" class="form-control" ng-model="order.campo8" ng-disabled="true" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal Confirm -->
+    <div class="modal fade modal-info" id="modalConfirm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
+                    </div>
+                    <h3 class="text-center">¿Desea eliminar la preliquidación N° {{ order.doc_num }}?</h3>
+                </div>
+                <div class="modal-footer" style="justify-content: center">
+                    <button type="button" style="width: 70px;" class="btn btn-danger" data-dismiss="modal">No</button>
+                    <button type="button" style="width: 70px;" class="btn btn-success" ng-click="deleteOrder(order.doc_num)">Sí</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Waiting -->
+    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-spinner fa-spin" style="color: #01579b;"></i>
+                    </div>
+                    <h2 class="text-center">Procesando...</h2>
+                </div>
+                @*<div class="modal-footer"></div>*@
+            </div>
+        </div>
+    </div>
+    <!-- Modal Success -->
+    <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-check-circle" style="color: var(--bs-green)"></i>
+                    </div>
+                    <h2 class="text-center">{{ successMessage }}</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Error -->
+    <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-red)"></i>
+                    </div>
+                    <h2 class="text-center">Ha ocurrido un error</h2>
+                    <p class="text-center">{{ errorMessage }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-loading p-3">
+    <h4>Cargando módulo de preliquidación...</h4>
+</div>
+<script>
+    var app = angular.module("Orders", []);
+    var orders = @Html.Raw(ViewBag.orders);
+    var header = document.getElementById("header-left");
+    var menu = document.getElementById("menu-left");
+    var arts = @Html.Raw(ViewBag.arts);
+    var clients = @Html.Raw(ViewBag.obj_client);
+    var conds = @Html.Raw(Json.Encode(ViewBag.conds));
+    var sellers = @Html.Raw(Json.Encode(ViewBag.sellers));
+
+    for (var item of orders) {
+
+        // TOTALES OM
+        item.total_bruto = item.total_bruto.toFixed(2);
+        item.total_bruto_om = (item.total_bruto / item.tasa).toFixed(2);
+
+        item.monto_imp = item.monto_imp.toFixed(2);
+        item.monto_imp_om = (item.monto_imp / item.tasa).toFixed(2);
+
+        item.total_neto = item.total_neto.toFixed(2);
+        item.total_neto_om = (item.total_neto / item.tasa).toFixed(2);
+
+        item.saldo = item.saldo.toFixed(2);
+        item.saldo_om = (item.saldo / item.tasa).toFixed(2);
+
+        for (var r of item.saPedidoVentaReng) {
+            r.monto_imp = r.monto_imp.toFixed(2);
+            r.monto_imp_om = (r.monto_imp / item.tasa).toFixed(2);
+
+            r.reng_neto = r.reng_neto.toFixed(2);
+            r.reng_neto_om = (r.reng_neto / item.tasa).toFixed(2);
+        }
+
+        // FECHAS
+        item.fec_emis = new Date(parseInt(item.fec_emis.substr(6)));
+        item.fec_venc = new Date(parseInt(item.fec_venc.substr(6)));
+        item.fec_reg = new Date(parseInt(item.fec_reg.substr(6)));
+        item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
+        item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
+
+        // DATOS
+        item.estatus = setStatus(item.status);
+        item.des_cli = searchCli(item.co_cli);
+        item.des_cond = searchCond(item.co_cond);
+        item.des_ven = searchVen(item.co_ven);
+    }
+
+    $(document).ready(function () {
+        $(".container-orders").removeAttr("style");
+        $(".panel-loading").css("display", "none");
+        $("#icon-menu").trigger("click");
+    });
+
+    $("#container-orders").on("click", function (event) {
+        if (event.target.id != "icon-menu" && event.target.id != "menu-left") {
+            if ($("#menu-left.active").length == 0) {
+                $("#icon-menu").trigger("click");
+            }
+        }
+    });
+
+    $("#container-orders").on("contextmenu", function (event) {
+        event.preventDefault();
+    });
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.index = 0;
+        $scope.numberI = 200;
+        $scope.orders = orders;
+        $scope.order = orders[$scope.index];
+        $scope.converted = false;
+
+        $scope.next = function () {
+            if ($scope.index == (orders.length - 1)) {
+                $scope.index = 0;
+            } else {
+                $scope.index++;
+            }
+
+            $scope.order = orders[$scope.index];
+        }
+
+        $scope.prev = function () {
+            if ($scope.index == 0) {
+                $scope.index = orders.length - 1;
+            } else {
+                $scope.index--;
+            }
+
+            $scope.order = orders[$scope.index];
+        }
+
+        $scope.selectOrder = function (id) {
+
+            $scope.order = orders.find(o => o.doc_num == id);
+            $scope.index = orders.indexOf($scope.order);
+            $scope.orders = orders;
+            $("#input-orders").val("");
+            searchOrder();
+        }
+
+        $scope.margin = function (p) {
+            if (p == "s") {
+                $scope.index = 0;
+                $scope.order = orders[0];
+            } else if (p == "e") {
+                $scope.index = orders.length - 1;
+                $scope.order = orders[orders.length - 1];
+            }
+        }
+
+        $scope.searchArt = function (id) {
+            return arts.find(a => a.co_art == id).art_des;
+        }
+
+        $scope.convert = function () {
+            $scope.converted = !$scope.converted;
+        }
+
+        $scope.update = function (tasa) {
+
+            tasa = tasa == null ? 1 : tasa;
+
+            $scope.order.total_bruto_om = ($scope.order.total_bruto / tasa).toFixed(2);
+            $scope.order.monto_imp_om = ($scope.order.monto_imp / tasa).toFixed(2);
+            $scope.order.total_neto_om = ($scope.order.total_neto / tasa).toFixed(2);
+            $scope.order.saldo_om = ($scope.order.saldo / tasa).toFixed(2);
+
+            for (var reng of $scope.invoice.saPedidoVentaReng) {
+                reng.monto_imp_om = (reng.monto_imp / tasa).toFixed(2);
+                reng.reng_neto_om = (reng.reng_neto / tasa).toFixed(2);
+            }
+        }
+
+        $scope.deleteOrder = function (id) {
+
+            $("#modalConfirm").modal("hide");
+            $("#modalWaiting").modal("show");
+
+            $http.get("/api/ProfitTMApi/DeleteOrder/" + id)
+                .then(function (response) {
+
+                    console.log(response.data);
+                    var res = response.data;
+
+                    $("#modalWaiting").modal("hide");
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = "La preliquidación " + res.Result + " se ha eliminado con éxito";
+                        orders = orders.filter(o => o != $scope.order);
+                        $scope.orders = orders;
+                        $scope.order = $scope.orders[0];
+                        $scope.index = 0;
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+                });
+        }
+    });
+
+    function setStatus(status) {
+
+        var value;
+
+        if (status == 0)
+            value = "NO PROCESADA";
+        else if (status == 1)
+            value = "PARC. PROCESADA";
+        else if (status == 2)
+            value = "PROCESADA";
+
+        return value;
+    }
+
+    function searchCli(id) {
+        return clients.find(c => c.co_cli == id).cli_des;
+    }
+
+    function searchCond(id) {
+        return conds.find(c => c.co_cond == id).cond_des;
+    }
+
+    function searchVen(id) {
+        return sellers.find(s => s.co_ven == id).ven_des;
+    }
+
+    function openTab(e, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("form-body");
+
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(tabName).style.display = "flex";
+        e.target.className += " active";
+    }
+
+    function searchOrder() {
+        var value = $("#input-orders").val().toLowerCase(),
+            table = $("#table-orders")[0];
+
+        for (var i = 1; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+</script>
