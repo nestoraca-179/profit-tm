@@ -128,12 +128,12 @@
                         </button>
                     </div>
                     <div class="col d-flex justify-content-end button-import p-0" ng-show="!adding">
-                        <button type="button" class="btn btn-primary mx-2" ng-disabled="invoice.status != 0">
-                            <i class="fas fa-times"></i> Anular
-                        </button>
                         <p ng-if="invoice.impresa" class="m-0 d-flex align-items-center"><b>Doc. Impreso</b></p>
                         <button type="button" class="btn mx-2" style="background: #ec9d0b; color: #FFF;" ng-disabled="invoice.impresa" ng-click="print(invoice.doc_num)">
                             <i class="fas fa-print"></i> Imprimir
+                        </button>
+                        <button type="button" class="btn btn-primary mx-2" ng-disabled="invoice.status != 0">
+                            <i class="fas fa-times"></i> Anular
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField()">
                             <i class="fas fa-file-search"></i> Importar Preliquidación
@@ -744,7 +744,7 @@
     app.controller("controller", function ($scope, $http) {
 
         $scope.index = 0;
-        $scope.numberI = 50;
+        $scope.numberI = 20;
         $scope.invoices = invoices;
         $scope.invoice = invoices[$scope.index];
         $scope.adding = false;
@@ -797,12 +797,13 @@
 
         $scope.searchArt = function (id) {
             var name = "";
+            id = id.trim();
 
             for (var a of arts) {
                 var code = a.split("/")[0];
 
                 if (code == id) {
-                    name = c.split("/")[1];
+                    name = a.split("/")[1];
                     break;
                 }
             }
@@ -998,7 +999,7 @@
 
         $scope.loadInvoices = function () {
 
-            $scope.numberI += 50;
+            $scope.numberI += 20;
             $("#modalWaiting").modal("show");
 
             $http.get("/api/ProfitTMApi/GetInvoices/" + $scope.numberI)

@@ -58,7 +58,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 50000000;
                 
-                ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(50, sucur));
+                ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(20, sucur));
 
                 if (Session["ARTS"] == null)
                      Session["ARTS"] = serializer.Serialize(new Product().GetAllNameArts());
