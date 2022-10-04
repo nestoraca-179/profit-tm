@@ -59,15 +59,22 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 serializer.MaxJsonLength = 50000000;
                 
                 ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(200, sucur));
-                ViewBag.arts = serializer.Serialize(new Product().GetAllArts());
 
-                ViewBag.clients = new Client().GetAllClients();
+                if (Session["ARTS"] == null)
+                    Session["ARTS"] = serializer.Serialize(new Product().GetAllArts());
+
+                ViewBag.arts = Session["ARTS"];
+
+                // ViewBag.clients = new Client().GetAllClients();
                 ViewBag.conds = new Cond().GetAllConds();
-                ViewBag.sellers = new Seller().GetAllSellers();
-                ViewBag.transports = new Transport().GetAllTransports();
-                ViewBag.currencies = new Currency().GetAllCurrencies();
+                ViewBag.sellers = serializer.Serialize(new Seller().GetAllSellers());
+                // ViewBag.transports = new Transport().GetAllTransports();
+                // ViewBag.currencies = new Currency().GetAllCurrencies();
                 // ViewBag.orders = new Order().GetAllOrders(200, true);
-                ViewBag.obj_client = serializer.Serialize(ViewBag.clients);
+                if (Session["CLIENTS"] == null)
+                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllClients());
+
+                ViewBag.clients = Session["CLIENTS"];
 
                 return View();
             }

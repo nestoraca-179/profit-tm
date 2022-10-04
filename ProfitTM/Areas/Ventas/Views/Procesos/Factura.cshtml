@@ -128,7 +128,7 @@
                         </button>
                     </div>
                     <div class="col d-flex justify-content-end button-import p-0" ng-show="!adding">
-                        <button type="button" class="btn btn-primary" ng-disabled="invoice.status != 0">
+                        <button type="button" class="btn btn-primary mx-2" ng-disabled="invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
                         <p ng-if="invoice.impresa" class="m-0 d-flex align-items-center"><b>Doc. Impreso</b></p>
@@ -391,7 +391,7 @@
         </form>
     </div>
     <!-- Modal Waiting -->
-    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 100000; background: rgba(0, 0, 0, .7);">
+    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="background: rgba(0, 0, 0, .7);">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
                 @*<div class="modal-header"></div>*@
@@ -424,7 +424,7 @@
         </div>
     </div>
     <!-- Modal Search Order -->
-    <div class="modal fade" id="modalImportarPedido" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="modalImportarPedido" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -504,7 +504,7 @@
         </div>
     </div>
     <!-- Modal 1 -->
-    <div class="modal fade" id="modalClients" tabindex="-1" role="dialog" aria-hidden="true">
+    @*<div class="modal fade" id="modalClients" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -536,9 +536,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
     <!-- Modal 2 -->
-    <div class="modal fade" id="modalSellers" tabindex="-1" role="dialog" aria-hidden="true">
+    @*<div class="modal fade" id="modalSellers" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -570,7 +570,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
     <!-- Modal 3 -->
     <div class="modal fade" id="modalConds" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
@@ -606,7 +606,7 @@
         </div>
     </div>
     <!-- Modal 4 -->
-    <div class="modal fade" id="modalTrans" tabindex="-1" role="dialog" aria-hidden="true">
+    @*<div class="modal fade" id="modalTrans" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -638,9 +638,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
     <!-- Modal 5 -->
-    <div class="modal fade" id="modalCurrencies" tabindex="-1" role="dialog" aria-hidden="true">
+    @*<div class="modal fade" id="modalCurrencies" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -672,7 +672,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
     <!-- Modal 6 -->
     <div class="modal fade" id="modalOrders" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
@@ -711,9 +711,9 @@
     var isNullOrEmpty = (str) => str == null || str == "";
     var invoices = @Html.Raw(ViewBag.invoices);
     var arts = @Html.Raw(ViewBag.arts);
-    var clients = @Html.Raw(ViewBag.obj_client);
+    var clients = @Html.Raw(ViewBag.clients);
     var conds = @Html.Raw(Json.Encode(ViewBag.conds));
-    var sellers = @Html.Raw(Json.Encode(ViewBag.sellers));
+    var sellers = @Html.Raw(ViewBag.sellers);
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
 
