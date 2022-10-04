@@ -450,7 +450,11 @@ namespace ProfitTM.Models
 
             try
             {
-                invoices = db.saFacturaVenta.Where(r => r.co_sucu_in == sucur).OrderByDescending(i => i.fe_us_in).ThenBy(i => i.doc_num).Take(number).ToList();
+                invoices = (from i in db.saFacturaVenta
+                            where i.co_sucu_in == sucur
+                            orderby i.fe_us_in descending, i.doc_num
+                            select i).Take(number).ToList();
+                // invoices = db.saFacturaVenta.Where(r => r.co_sucu_in == sucur).OrderByDescending(i => i.fe_us_in).ThenBy(i => i.doc_num).Take(number).ToList();
                 foreach (saFacturaVenta invoice in invoices)
                 {
                     invoice.saFacturaVentaReng = new InvoiceItem().GetRengsBySaleInvoice(invoice.doc_num.Trim());
