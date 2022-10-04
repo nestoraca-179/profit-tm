@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using Humanizer;
+using System.Globalization;
 
 /// <summary>
 /// Summary description for RepFormatoFacturaVenta
@@ -337,7 +338,7 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             // 
             // TopMargin
             // 
-            this.TopMargin.HeightF = 155F;
+            this.TopMargin.HeightF = 205F;
             this.TopMargin.Name = "TopMargin";
             // 
             // BottomMargin
@@ -1187,7 +1188,7 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.DataMember = "RepFormatoFacturaVenta";
             this.DataSource = this.DemoAdmin;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.Margins = new System.Drawing.Printing.Margins(50, 50, 155, 100);
+            this.Margins = new System.Drawing.Printing.Margins(50, 50, 205, 100);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.nroFact});
             this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
@@ -1217,11 +1218,11 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
 
         if (dec > 0)
         {
-            number = num.ToWords().ToUpper() + " CON " + dec + "/100 CENTIMOS";
+            number = num.ToWords(new CultureInfo("es-ES")).ToUpper() + " CON " + dec + "/100 CENTIMOS";
         }
         else
         {
-            number = num.ToWords().ToUpper();
+            number = num.ToWords(new CultureInfo("es-ES")).ToUpper();
         }
 
         bolivares.Text = number;

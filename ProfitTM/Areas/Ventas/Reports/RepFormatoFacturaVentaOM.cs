@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using Humanizer;
+using System.Globalization;
 
 /// <summary>
 /// Summary description for RepFormatoFacturaVentaOM
@@ -259,7 +260,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             // TopMargin
             // 
-            this.TopMargin.HeightF = 155F;
+            this.TopMargin.HeightF = 205F;
             this.TopMargin.Name = "TopMargin";
             // 
             // BottomMargin
@@ -1284,7 +1285,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             this.DataMember = "RepFormatoFacturaVentaOM";
             this.DataSource = this.DemoAdmin;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.Margins = new System.Drawing.Printing.Margins(50, 50, 155, 100);
+            this.Margins = new System.Drawing.Printing.Margins(50, 50, 205, 100);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.nroFact});
             this.Version = "18.2";
@@ -1309,11 +1310,11 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
 
         if (dec_u > 0)
         {
-            number_usd = num_u.ToWords().ToUpper() + " CON " + dec_u + "/100 CENTIMOS";
+            number_usd = num_u.ToWords(new CultureInfo("es-ES")).ToUpper() + " CON " + dec_u + "/100 CENTIMOS";
         }
         else
         {
-            number_usd = num_u.ToWords().ToUpper();
+            number_usd = num_u.ToWords(new CultureInfo("es-ES")).ToUpper();
         }
 
         int num_b = Convert.ToInt32(Math.Floor(valor_bs));
