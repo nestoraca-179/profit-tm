@@ -292,7 +292,7 @@
                                 <tr ng-repeat="reng in invoice.saFacturaVentaReng" style="cursor: pointer;">
                                     <td>{{ reng.reng_num }}</td>
                                     <td>{{ reng.co_art }}</td>
-                                    <td>{{ searchArt(reng.co_art) }}</td>
+                                    @*<td>{{ searchArt(reng.co_art) }}</td>*@
                                     <td>{{ reng.co_alma }}</td>
                                     <td>{{ reng.total_art }}</td>
                                     <td ng-show="!converted">{{ reng.monto_imp }}</td>
@@ -710,8 +710,8 @@
     var app = angular.module("Invoices", []);
     var isNullOrEmpty = (str) => str == null || str == "";
     var invoices = @Html.Raw(ViewBag.invoices);
-    var arts = @Html.Raw(ViewBag.arts);
-    var clients = @Html.Raw(ViewBag.clients);
+    // var arts = @Html.Raw(ViewBag.arts);
+    // var clients = @Html.Raw(ViewBag.clients);
     var conds = @Html.Raw(Json.Encode(ViewBag.conds));
     var sellers = @Html.Raw(ViewBag.sellers);
     var header = document.getElementById("header-left");
@@ -744,7 +744,7 @@
     app.controller("controller", function ($scope, $http) {
 
         $scope.index = 0;
-        $scope.numberI = 200;
+        $scope.numberI = 50;
         $scope.invoices = invoices;
         $scope.invoice = invoices[$scope.index];
         $scope.adding = false;
@@ -987,7 +987,7 @@
 
         $scope.loadInvoices = function () {
 
-            $scope.numberI += 200;
+            $scope.numberI += 50;
             $("#modalWaiting").modal("show");
 
             $http.get("/api/ProfitTMApi/GetInvoices/" + $scope.numberI)
@@ -1079,7 +1079,7 @@
 
             // DATOS
             item.estatus = setStatus(item.status);
-            item.des_cli = searchCli(item.co_cli);
+            // item.des_cli = searchCli(item.co_cli);
             item.des_cond = searchCond(item.co_cond);
             item.des_ven = searchVen(item.co_ven);
         }

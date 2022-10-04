@@ -6,46 +6,8 @@ namespace ProfitTM.Models
 {
     public class Product : ProfitAdmManager
     {
-        #region CODIGO ANTERIOR
-        //public string ID { get; set; }
-        //public string Name { get; set; }
-        //public double Stock { get; set; }
-        //public double Price { get; set; }
-
-        //public static List<Product> GetAllProducts(string connect)
-        //{
-        //    List<Product> products = new List<Product>();
-        //    string DBadmin = connect;
-
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(DBadmin))
-        //        {
-        //            conn.Open();
-        //            using (SqlCommand comm = new SqlCommand("select * from saArticulo", conn))
-        //            {
-        //                using (SqlDataReader reader = comm.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        products.Add(new Product()
-        //                        {
-        //                            ID = reader["co_art"].ToString(),
-        //                            Name = reader["art_des"].ToString()
-        //                        });
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        products = null;
-        //    }
-
-        //    return products;
-        //}
-        #endregion
+        public string co_art { get; set; }
+        public string art_des { get; set; }
 
         public saArticulo GetArtByID(string id)
         {
@@ -77,6 +39,22 @@ namespace ProfitTM.Models
             }
 
             return arts;
+        }
+
+        public List<Product> GetAllNameArts()
+        {
+            List<Product> prods = new List<Product>();
+
+            try
+            {
+                prods = db.saArticulo.Select(a => new Product() { co_art = a.co_art, art_des = a.art_des }).ToList();
+            }
+            catch (Exception ex)
+            {
+                prods = null;
+            }
+
+            return prods;
         }
 
         public List<saArticulo> GetMostProducts(DateTime fec_d, DateTime fec_h, int number, bool selling)
