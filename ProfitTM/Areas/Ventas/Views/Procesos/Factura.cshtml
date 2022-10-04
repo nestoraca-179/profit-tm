@@ -128,6 +128,9 @@
                         </button>
                     </div>
                     <div class="col d-flex justify-content-end button-import p-0" ng-show="!adding">
+                        <button type="button" class="btn btn-primary" ng-disabled="invoice.status != 0">
+                            <i class="fas fa-times"></i> Anular
+                        </button>
                         <p ng-if="invoice.impresa" class="m-0 d-flex align-items-center"><b>Doc. Impreso</b></p>
                         <button type="button" class="btn mx-2" style="background: #ec9d0b; color: #FFF;" ng-disabled="invoice.impresa" ng-click="print(invoice.doc_num)">
                             <i class="fas fa-print"></i> Imprimir
@@ -388,7 +391,7 @@
         </form>
     </div>
     <!-- Modal Waiting -->
-    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 100000; background: rgba(0, 0, 0, .7);">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
                 @*<div class="modal-header"></div>*@
@@ -435,7 +438,7 @@
                         <label style="flex: 1;">Ingrese Nro. de Preliquidación</label>
                         <div class="input-search" style="flex: 1; position: relative;">
                             <input type="text" class="form-control" id="n_preliq" ng-model="idOrder" ng-keypress="detectEnter($event.originalEvent)" />
-                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalOrders')" data-name="n_preliq"></i>
+                            <i class="fas fa-search" role="button" id="btn-preliq" ng-click="getOrders()" data-name="n_preliq"></i>
                             <label class="text-danger text-center w-100" id="text-error" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
                         </div>
                     </div>
@@ -685,20 +688,15 @@
                         <input type="text" class="form-control" placeholder="Buscar preliquidación..." onkeyup="search('modalOrders')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.orders)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.doc_num</td>
-                                    <td>@elem.co_cli</td>
-                                </tr>
-                            }
-                        }
+                        <tr ng-repeat="order in orders" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ order.doc_num }}</td>
+                            <td>{{ order.co_cli }}</td>
+                        </tr>
                     </table>
                     <input type="hidden" id="name-input" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" onclick="$('#modalWaiting').modal('hide')" data-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-primary" onclick="saveRow('modalOrders')">Seleccionar</button>
                 </div>
             </div>
@@ -1010,6 +1008,30 @@
                         $scope.index = 0;
                         $scope.successMessage = "Facturas cargadas con éxito";
                         $("#modalSuccess").modal("show");
+
+                    } else {
+
+                        $scope.errorMessage = res.Message;
+                        $("#modalError").modal("show");
+
+                    }
+                });
+        }
+
+        $scope.getOrders = function () {
+
+            $("#modalWaiting").modal("show");
+
+            $http.get("/api/ProfitTMApi/GetOrders/" + 20)
+                .then(function (response) {
+
+                    var res = response.data;
+                    $("#modalWaiting").modal("hide");
+
+                    if (res.Status == "OK") {
+
+                        $scope.orders = res.Result;
+                        openModal($("#btn-preliq")[0], "modalOrders");
 
                     } else {
 

@@ -66,7 +66,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.sellers = new Seller().GetAllSellers();
                 ViewBag.transports = new Transport().GetAllTransports();
                 ViewBag.currencies = new Currency().GetAllCurrencies();
-                ViewBag.orders = new Order().GetAllOrders(200, true);
+                // ViewBag.orders = new Order().GetAllOrders(200, true);
                 ViewBag.obj_client = serializer.Serialize(ViewBag.clients);
 
                 return View();

@@ -282,6 +282,28 @@ namespace ProfitTM.Controllers
         }
 
         [HttpGet]
+        [Route("api/ProfitTMApi/GetOrders/{number}")]
+        public ProfitTMResponse GetOrders(int number)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                List<saPedidoVenta> orders = new Order().GetAllOrders(20, true);
+
+                response.Status = "OK";
+                response.Result = orders;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpGet]
         [Route("api/ProfitTMApi/DeleteOrder/{id}/")]
         public ProfitTMResponse DeleteOrder(string id)
         {
