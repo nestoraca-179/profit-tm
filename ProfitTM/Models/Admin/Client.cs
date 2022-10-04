@@ -48,13 +48,13 @@ namespace ProfitTM.Models
             return clients;
         }
 
-        public List<Client> GetAllNameClients()
+        public List<string> GetAllNameClients()
         {
-            List<Client> clients = new List<Client>();
+            List<string> clients = new List<string>();
 
             try
             {
-                clients = db.saCliente.Select(c => new Client() { co_cli = c.co_cli, cli_des = c.cli_des }).ToList();
+                clients = db.saCliente.Select(c => c.co_cli.Trim() + "/" + c.cli_des.Trim()).ToList();
             }
             catch (Exception ex)
             {

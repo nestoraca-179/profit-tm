@@ -292,7 +292,7 @@
                                 <tr ng-repeat="reng in invoice.saFacturaVentaReng" style="cursor: pointer;">
                                     <td>{{ reng.reng_num }}</td>
                                     <td>{{ reng.co_art }}</td>
-                                    @*<td>{{ searchArt(reng.co_art) }}</td>*@
+                                    <td>{{ searchArt(reng.co_art) }}</td>
                                     <td>{{ reng.co_alma }}</td>
                                     <td>{{ reng.total_art }}</td>
                                     <td ng-show="!converted">{{ reng.monto_imp }}</td>
@@ -710,8 +710,8 @@
     var app = angular.module("Invoices", []);
     var isNullOrEmpty = (str) => str == null || str == "";
     var invoices = @Html.Raw(ViewBag.invoices);
-    // var arts = @Html.Raw(ViewBag.arts);
-    // var clients = @Html.Raw(ViewBag.clients);
+    var arts = @Html.Raw(ViewBag.arts);
+    var clients = @Html.Raw(ViewBag.clients);
     var conds = @Html.Raw(Json.Encode(ViewBag.conds));
     var sellers = @Html.Raw(ViewBag.sellers);
     var header = document.getElementById("header-left");
@@ -796,7 +796,18 @@
         }
 
         $scope.searchArt = function (id) {
-            return arts.find(a => a.co_art == id).art_des;
+            var name = "";
+
+            for (var a of arts) {
+                var code = a.split("/")[0];
+
+                if (code == id) {
+                    name = c.split("/")[1];
+                    break;
+                }
+            }
+
+            return name;
         }
 
         $scope.convert = function () {
@@ -1079,7 +1090,7 @@
 
             // DATOS
             item.estatus = setStatus(item.status);
-            // item.des_cli = searchCli(item.co_cli);
+            item.des_cli = searchCli(item.co_cli.trim());
             item.des_cond = searchCond(item.co_cond);
             item.des_ven = searchVen(item.co_ven);
         }
@@ -1138,7 +1149,18 @@
     }
 
     function searchCli(id) {
-        return clients.find(c => c.co_cli == id).cli_des;
+        var name = "";
+
+        for (var c of clients) {
+            var code = c.split("/")[0];
+
+            if (code == id) {
+                name = c.split("/")[1];
+                break;
+            }
+        }
+
+        return name;
     }
 
     function searchCond(id) {

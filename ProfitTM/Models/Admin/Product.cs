@@ -41,13 +41,13 @@ namespace ProfitTM.Models
             return arts;
         }
 
-        public List<Product> GetAllNameArts()
+        public List<string> GetAllNameArts()
         {
-            List<Product> prods = new List<Product>();
+            List<string> prods = new List<string>();
 
             try
             {
-                prods = db.saArticulo.Select(a => new Product() { co_art = a.co_art, art_des = a.art_des }).ToList();
+                prods = db.saArticulo.Select(a => a.co_art.Trim() + "/" + a.art_des.Trim()).ToList();
             }
             catch (Exception ex)
             {
