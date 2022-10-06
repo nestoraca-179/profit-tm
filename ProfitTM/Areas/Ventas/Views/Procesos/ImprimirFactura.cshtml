@@ -13,7 +13,9 @@
     new Script { ExtensionSuite = ExtensionSuite.Report }
 )
 
-<div class="page-report container-fluid py-3">
+<script src="~/Scripts/angular-min.js"></script>
+<div class="page-report container-fluid py-3" ng-app="PrintInvoice" ng-controller="controller">
+    <a href="/Ventas/Procesos/Factura" class="btn btn-primary my-2"><i class="fas fa-arrow-left"></i> Volver al módulo de facturación</a>
     @{
         if (!string.IsNullOrEmpty(ViewBag.fact))
         {
@@ -28,3 +30,28 @@
         }
     }
 </div>
+<script>
+    var app = angular.module("PrintInvoice", []);
+    var id = `@ViewBag.fact`;
+
+    app.controller("controller", function ($scope, $http) {
+
+        $(document).ready(function () {
+            $(".dxrd-image-print").on("click", function (e) {
+                $http.get("/api/ProfitTMApi/SetPrintedInvoice/" + id)
+                    .then(function (response) {
+                        var res = response.data;
+
+                        if (res.Status == "OK") {
+                            console.log("impreso con exito");
+                        } else {
+                            alert("Ha ocurrido un error marcando el registro de la factura como impresa");
+                            console.log(res.Message);
+                        }
+                    });
+            });
+
+            $(".dxrd-image-print-page").css("display", "none");
+        });
+    });
+</script>

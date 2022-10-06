@@ -1,11 +1,5 @@
-﻿using DevExpress.DataAccess.Native.Sql;
-using DevExpress.DataAccess.Sql;
-using DevExpress.XtraReports.UI;
+﻿using DevExpress.XtraReports.UI;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
-using System.Linq;
 
 /// <summary>
 /// Summary description for RepBalanceComprobacion

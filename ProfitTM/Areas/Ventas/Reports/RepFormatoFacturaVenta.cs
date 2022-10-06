@@ -1,8 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
 using Humanizer;
 using System.Globalization;
 
@@ -338,11 +335,12 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             // 
             // TopMargin
             // 
-            this.TopMargin.HeightF = 205F;
+            this.TopMargin.HeightF = 185F;
             this.TopMargin.Name = "TopMargin";
             // 
             // BottomMargin
             // 
+            this.BottomMargin.HeightF = 70F;
             this.BottomMargin.Name = "BottomMargin";
             // 
             // ReportHeader
@@ -1188,7 +1186,7 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.DataMember = "RepFormatoFacturaVenta";
             this.DataSource = this.DemoAdmin;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.Margins = new System.Drawing.Printing.Margins(50, 50, 205, 100);
+            this.Margins = new System.Drawing.Printing.Margins(50, 50, 185, 70);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.nroFact});
             this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {

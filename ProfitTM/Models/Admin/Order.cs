@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace ProfitTM.Models
 {
@@ -12,9 +12,12 @@ namespace ProfitTM.Models
 
             try
             {
-                order = db.saPedidoVenta.Single(i => i.doc_num == id);
-                order.saPedidoVentaReng = db.saPedidoVentaReng.Where(o => o.doc_num.Trim() == order.doc_num.Trim()).ToList();
+                order = db.saPedidoVenta.AsNoTracking().Include("saPedidoVentaReng").Include("saCliente")
+                    .Include("saCondicionPago").Include("saVendedor").Single(i => i.doc_num == id);
 
+                order.saCliente.saPedidoVenta = null;
+                order.saVendedor.saPedidoVenta = null;
+                order.saCondicionPago.saPedidoVenta = null;
                 foreach (saPedidoVentaReng reng in order.saPedidoVentaReng)
                 {
                     reng.saPedidoVenta = null;
@@ -35,13 +38,29 @@ namespace ProfitTM.Models
             try
             {
                 if (free)
-                    orders = db.saPedidoVenta.Where(i => i.status.Trim() == "0").OrderByDescending(i => i.fec_emis).ThenBy(i => i.doc_num).Take(number).ToList();
+                {
+                    orders = db.saPedidoVenta.AsNoTracking().Include("saCliente").Where(o => o.status.Trim() == "0")
+                        .OrderByDescending(i => i.fec_emis).ThenBy(i => i.doc_num).Take(number).ToList();
+                }
                 else
-                    orders = db.saPedidoVenta.OrderByDescending(i => i.fec_emis).ThenBy(i => i.doc_num).Take(number).ToList();
-    
+                {
+                    orders = db.saPedidoVenta.AsNoTracking().Include("saPedidoVentaReng").Include("saCliente").Include("saVendedor")
+                        .Include("saCondicionPago").OrderByDescending(i => i.fec_emis).ThenBy(i => i.doc_num).Take(number).ToList();
+                }
+
                 foreach (saPedidoVenta order in orders)
                 {
-                    order.saPedidoVentaReng = new OrderItem().GetRengsByOrder(order.doc_num.Trim());
+                    if (!free)
+                    {
+                        order.saVendedor.saPedidoVenta = null;
+                        order.saCondicionPago.saPedidoVenta = null;
+                    }
+
+                    order.saCliente.saPedidoVenta = null;
+                    foreach (saPedidoVentaReng reng in order.saPedidoVentaReng)
+                    {
+                        reng.saPedidoVenta = null;
+                    }
                 }
             }
             catch (Exception ex)

@@ -1,7 +1,7 @@
-﻿using ProfitTM.Models;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
+﻿using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.Script.Serialization;
+using ProfitTM.Models;
 
 namespace ProfitTM.Areas.Ventas.Controllers
 {
@@ -58,23 +58,13 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 50000000;
                 
-                ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(20, sucur));
+                ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(200, sucur));
 
                 if (Session["ARTS"] == null)
-                     Session["ARTS"] = serializer.Serialize(new Product().GetAllNameArts());
+                      Session["ARTS"] = serializer.Serialize(new Product().GetAllNameSellArts());
 
                 ViewBag.arts = Session["ARTS"];
-
-                // ViewBag.clients = new Client().GetAllClients();
                 ViewBag.conds = new Cond().GetAllConds();
-                ViewBag.sellers = serializer.Serialize(new Seller().GetAllSellers());
-                // ViewBag.transports = new Transport().GetAllTransports();
-                // ViewBag.currencies = new Currency().GetAllCurrencies();
-                // ViewBag.orders = new Order().GetAllOrders(200, true);
-                if (Session["CLIENTS"] == null)
-                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllNameClients());
-
-                ViewBag.clients = Session["CLIENTS"];
 
                 return View();
             }

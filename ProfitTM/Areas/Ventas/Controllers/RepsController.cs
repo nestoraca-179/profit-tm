@@ -1,11 +1,6 @@
 ﻿using DevExpress.DataAccess.Sql;
 using DevExpress.Web.Mvc;
-using ProfitTM.Controllers;
-using ProfitTM.Models;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.EntityClient;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace ProfitTM.Areas.Ventas.Controllers

@@ -1,8 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
 using Humanizer;
 using System.Globalization;
 
@@ -260,11 +257,12 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             // TopMargin
             // 
-            this.TopMargin.HeightF = 205F;
+            this.TopMargin.HeightF = 185F;
             this.TopMargin.Name = "TopMargin";
             // 
             // BottomMargin
             // 
+            this.BottomMargin.HeightF = 70F;
             this.BottomMargin.Name = "BottomMargin";
             // 
             // Detail
@@ -499,7 +497,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_cli]")});
-            this.xrLabel2.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
+            this.xrLabel2.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
             this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(110.601F, 6.5F);
             this.xrLabel2.Multiline = true;
             this.xrLabel2.Name = "xrLabel2";
@@ -512,7 +510,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel3.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[cli_des]")});
-            this.xrLabel3.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
+            this.xrLabel3.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
             this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(196.7121F, 6.500021F);
             this.xrLabel3.Multiline = true;
             this.xrLabel3.Name = "xrLabel3";
@@ -536,7 +534,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[doc_num]")});
-            this.xrLabel5.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
+            this.xrLabel5.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
             this.xrLabel5.LocationFloat = new DevExpress.Utils.PointFloat(610.6212F, 6.5F);
             this.xrLabel5.Multiline = true;
             this.xrLabel5.Name = "xrLabel5";
@@ -562,7 +560,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel7.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[rif]")});
-            this.xrLabel7.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
+            this.xrLabel7.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
             this.xrLabel7.LocationFloat = new DevExpress.Utils.PointFloat(110.601F, 58.01513F);
             this.xrLabel7.Multiline = true;
             this.xrLabel7.Name = "xrLabel7";
@@ -588,7 +586,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel9.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[telefonos]")});
-            this.xrLabel9.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
+            this.xrLabel9.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
             this.xrLabel9.LocationFloat = new DevExpress.Utils.PointFloat(110.601F, 83.01522F);
             this.xrLabel9.Multiline = true;
             this.xrLabel9.Name = "xrLabel9";
@@ -614,7 +612,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel11.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[direc1]")});
-            this.xrLabel11.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
+            this.xrLabel11.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
             this.xrLabel11.LocationFloat = new DevExpress.Utils.PointFloat(110.601F, 106.0152F);
             this.xrLabel11.Multiline = true;
             this.xrLabel11.Name = "xrLabel11";
@@ -649,7 +647,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel14.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[fec_venc]")});
-            this.xrLabel14.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
+            this.xrLabel14.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
             this.xrLabel14.LocationFloat = new DevExpress.Utils.PointFloat(610.6212F, 83.0152F);
             this.xrLabel14.Multiline = true;
             this.xrLabel14.Name = "xrLabel14";
@@ -663,7 +661,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel15.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[fec_emis]")});
-            this.xrLabel15.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
+            this.xrLabel15.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold);
             this.xrLabel15.LocationFloat = new DevExpress.Utils.PointFloat(610.6212F, 58.01511F);
             this.xrLabel15.Multiline = true;
             this.xrLabel15.Name = "xrLabel15";
@@ -889,7 +887,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel19.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[total_neto_usd]")});
-            this.xrLabel19.Font = new System.Drawing.Font("Microsoft JhengHei", 10F);
+            this.xrLabel19.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
             this.xrLabel19.LocationFloat = new DevExpress.Utils.PointFloat(463.1692F, 134.9002F);
             this.xrLabel19.Multiline = true;
             this.xrLabel19.Name = "xrLabel19";
@@ -952,7 +950,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel55.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[igtf]")});
-            this.xrLabel55.Font = new System.Drawing.Font("Microsoft JhengHei", 10F);
+            this.xrLabel55.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
             this.xrLabel55.LocationFloat = new DevExpress.Utils.PointFloat(463.1692F, 161.0252F);
             this.xrLabel55.Multiline = true;
             this.xrLabel55.Name = "xrLabel55";
@@ -981,7 +979,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel53.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[monto_imp_bs]")});
-            this.xrLabel53.Font = new System.Drawing.Font("Microsoft JhengHei", 10F);
+            this.xrLabel53.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
             this.xrLabel53.LocationFloat = new DevExpress.Utils.PointFloat(622.0796F, 80.56684F);
             this.xrLabel53.Multiline = true;
             this.xrLabel53.Name = "xrLabel53";
@@ -997,7 +995,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel52.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[exento_bs]")});
-            this.xrLabel52.Font = new System.Drawing.Font("Microsoft JhengHei", 10F);
+            this.xrLabel52.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
             this.xrLabel52.LocationFloat = new DevExpress.Utils.PointFloat(622.0796F, 106.6919F);
             this.xrLabel52.Multiline = true;
             this.xrLabel52.Name = "xrLabel52";
@@ -1013,7 +1011,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel50.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[total_bruto_bs]")});
-            this.xrLabel50.Font = new System.Drawing.Font("Microsoft JhengHei", 10F);
+            this.xrLabel50.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
             this.xrLabel50.LocationFloat = new DevExpress.Utils.PointFloat(622.0796F, 54.44184F);
             this.xrLabel50.Multiline = true;
             this.xrLabel50.Name = "xrLabel50";
@@ -1035,7 +1033,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel45.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[exento]")});
-            this.xrLabel45.Font = new System.Drawing.Font("Microsoft JhengHei", 10F);
+            this.xrLabel45.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
             this.xrLabel45.LocationFloat = new DevExpress.Utils.PointFloat(463.1529F, 106.6919F);
             this.xrLabel45.Multiline = true;
             this.xrLabel45.Name = "xrLabel45";
@@ -1051,7 +1049,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel43.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[total_bruto]")});
-            this.xrLabel43.Font = new System.Drawing.Font("Microsoft JhengHei", 10F);
+            this.xrLabel43.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
             this.xrLabel43.LocationFloat = new DevExpress.Utils.PointFloat(463.1529F, 54.44184F);
             this.xrLabel43.Multiline = true;
             this.xrLabel43.Name = "xrLabel43";
@@ -1066,7 +1064,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel47.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[total_neto]")});
-            this.xrLabel47.Font = new System.Drawing.Font("Microsoft JhengHei", 10F);
+            this.xrLabel47.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
             this.xrLabel47.LocationFloat = new DevExpress.Utils.PointFloat(622.0796F, 134.9002F);
             this.xrLabel47.Multiline = true;
             this.xrLabel47.Name = "xrLabel47";
@@ -1094,7 +1092,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // 
             this.xrLabel44.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[monto_imp]")});
-            this.xrLabel44.Font = new System.Drawing.Font("Microsoft JhengHei", 10F);
+            this.xrLabel44.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
             this.xrLabel44.LocationFloat = new DevExpress.Utils.PointFloat(463.1529F, 80.56694F);
             this.xrLabel44.Multiline = true;
             this.xrLabel44.Name = "xrLabel44";
@@ -1284,10 +1282,14 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             this.DemoAdmin});
             this.DataMember = "RepFormatoFacturaVentaOM";
             this.DataSource = this.DemoAdmin;
+            this.DefaultPrinterSettingsUsing.UseLandscape = true;
+            this.DefaultPrinterSettingsUsing.UsePaperKind = true;
+            this.DesignerOptions.ShowPrintingWarnings = false;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.Margins = new System.Drawing.Printing.Margins(50, 50, 205, 100);
+            this.Margins = new System.Drawing.Printing.Margins(50, 50, 185, 70);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.nroFact});
+            this.ReportPrintOptions.PrintOnEmptyDataSource = false;
             this.Version = "18.2";
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
@@ -1322,11 +1324,11 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
 
         if (dec_b > 0)
         {
-            number_bs = num_b.ToWords().ToUpper() + " CON " + dec_b + "/100 CENTIMOS";
+            number_bs = num_b.ToWords(new CultureInfo("es-ES")).ToUpper() + " CON " + dec_b + "/100 CENTIMOS";
         }
         else
         {
-            number_bs = num_b.ToWords().ToUpper();
+            number_bs = num_b.ToWords(new CultureInfo("es-ES")).ToUpper();
         }
 
         dolares.Text = number_usd;

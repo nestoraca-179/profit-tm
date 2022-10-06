@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
+using System.Collections.Generic;
 using ProfitTM.Models;
 
 namespace ProfitTM.Controllers
@@ -291,8 +291,16 @@ namespace ProfitTM.Controllers
             {
                 List<saPedidoVenta> orders = new Order().GetAllOrders(20, true);
 
-                response.Status = "OK";
-                response.Result = orders;
+                if (orders.Count > 0)
+                {
+                    response.Status = "OK";
+                    response.Result = orders;
+                }
+                else
+                {
+                    response.Status = "ERROR";
+                    response.Result = "No se encontraron preliquidaciones sin procesar";
+                }
             }
             catch (Exception ex)
             {
@@ -373,6 +381,51 @@ namespace ProfitTM.Controllers
 
                 response.Status = "OK";
                 response.Result = invoices;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/SetPrintedInvoice/{id}")]
+        public ProfitTMResponse SetPrintedInvoice(string id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                new Invoice().SetPrinted(id);
+
+                response.Status = "OK";
+                response.Result = id;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/CancelInvoice/{id}")]
+        public ProfitTMResponse CancelInvoice(string id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+
+            try
+            {
+                new Invoice().SetCancelled(id, user);
+
+                response.Status = "OK";
+                response.Result = id;
             }
             catch (Exception ex)
             {

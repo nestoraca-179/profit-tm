@@ -48,22 +48,6 @@ namespace ProfitTM.Models
             return clients;
         }
 
-        public List<string> GetAllNameClients()
-        {
-            List<string> clients = new List<string>();
-
-            try
-            {
-                clients = db.saCliente.Select(c => c.co_cli.Trim() + "/" + c.cli_des.Trim()).ToList();
-            }
-            catch (Exception ex)
-            {
-                clients = null;
-            }
-
-            return clients;
-        }
-
         public List<saCliente> GetMostActiveClients(DateTime fec_d, DateTime fec_h, int number)
         {
             List<saCliente> clientes = new List<saCliente>();
