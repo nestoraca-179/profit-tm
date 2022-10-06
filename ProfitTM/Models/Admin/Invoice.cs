@@ -184,7 +184,7 @@ namespace ProfitTM.Models
                     string n_fact = "", n_cont = "";
                     foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
                     {
-                        db.pStockPendienteActualizar(reng.rowguid, reng.total_art, "PCLI");
+                        db.pStockPendienteActualizar(reng.rowguid_doc, reng.total_art, "PCLI");
                     }
 
                     var sp_n_fact = db.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();
@@ -193,11 +193,21 @@ namespace ProfitTM.Models
 
                     sp_n_fact.Dispose();
 
+
                     if (string.IsNullOrEmpty(invoice.n_control))
                     {
-                        var sp_n_cont = db.pConsecutivoProximo(sucur, "FACT_VTA_N_CON").GetEnumerator();
-                        if (sp_n_cont.MoveNext())
-                            n_cont = sp_n_cont.Current;
+                        IEnumerator<string> sp_n_cont;
+                        
+                        do
+                        {
+                            sp_n_cont = db.pConsecutivoProximo(sucur, "FACT_VTA_N_CON").GetEnumerator();
+                            
+                            if (sp_n_cont.MoveNext())
+                                n_cont = sp_n_cont.Current;
+
+                            sp_n_cont.Dispose();
+
+                        } while (db.saFacturaVenta.AsNoTracking().SingleOrDefault(i => i.n_control.Trim() == n_cont) != null);
 
                         sp_n_cont.Dispose();
                     }
