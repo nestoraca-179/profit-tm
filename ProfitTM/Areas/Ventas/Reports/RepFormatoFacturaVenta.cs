@@ -83,7 +83,6 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
     private XRLabel xrLabel46;
     private XRLine xrLine7;
     private XRLabel xrLabel47;
-    private XRLabel xrLabel48;
     private XRLabel xrLabel49;
     public XRLabel bolivares;
 
@@ -191,7 +190,6 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.PageFooter = new DevExpress.XtraReports.UI.PageFooterBand();
             this.bolivares = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel49 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel48 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel47 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel46 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLine7 = new DevExpress.XtraReports.UI.XRLine();
@@ -933,7 +931,6 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.PageFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.bolivares,
             this.xrLabel49,
-            this.xrLabel48,
             this.xrLabel47,
             this.xrLabel46,
             this.xrLine7,
@@ -971,19 +968,6 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel49.StylePriority.UseTextAlignment = false;
             this.xrLabel49.Text = "Bolívares:";
             this.xrLabel49.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-            // 
-            // xrLabel48
-            // 
-            this.xrLabel48.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[comentario]")});
-            this.xrLabel48.Font = new System.Drawing.Font("Microsoft JhengHei", 11F, System.Drawing.FontStyle.Bold);
-            this.xrLabel48.LocationFloat = new DevExpress.Utils.PointFloat(0F, 137.0417F);
-            this.xrLabel48.Multiline = true;
-            this.xrLabel48.Name = "xrLabel48";
-            this.xrLabel48.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel48.SizeF = new System.Drawing.SizeF(788.1252F, 76.12498F);
-            this.xrLabel48.StylePriority.UseFont = false;
-            this.xrLabel48.Text = "xrLabel48";
             // 
             // xrLabel47
             // 

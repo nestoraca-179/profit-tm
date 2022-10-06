@@ -1033,6 +1033,11 @@
         i.saldo_om = (i.saldo / i.tasa).toFixed(2);
 
         for (var reng of i.saFacturaVentaReng) {
+
+            if (reng.porc_imp > 0) {
+                reng.monto_imp = (reng.reng_neto * 0.16);
+            }
+
             reng.monto_imp = reng.monto_imp.toFixed(2);
             reng.monto_imp_om = (reng.monto_imp / i.tasa).toFixed(2);
             reng.reng_neto = reng.reng_neto.toFixed(2);
