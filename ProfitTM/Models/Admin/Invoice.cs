@@ -249,7 +249,8 @@ namespace ProfitTM.Models
                 catch (Exception ex)
                 {
                     tran.Rollback();
-                    new_invoice = null;
+                    new_invoice.descrip = "ERROR";
+                    new_invoice.comentario = ex.Message;
                 }
             }
 

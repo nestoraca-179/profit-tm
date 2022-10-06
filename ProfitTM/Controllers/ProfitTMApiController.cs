@@ -348,10 +348,10 @@ namespace ProfitTM.Controllers
             {
                 saFacturaVenta new_invoice = new Invoice().AddFromOrder(invoice, user, sucur);
 
-                if (new_invoice == null)
+                if (new_invoice.descrip == "ERROR")
                 {
                     response.Status = "ERROR";
-                    response.Message = "Error agregando la factura";
+                    response.Message = new_invoice.comentario;
                 }
                 else
                 {
