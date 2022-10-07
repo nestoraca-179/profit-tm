@@ -100,6 +100,7 @@
           <Property Name="IsCon" Type="bit" Nullable="false" />
           <Property Name="IsNom" Type="bit" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Admin" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK__Options__ModuleI__123EB7A3">
           <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />
@@ -341,6 +342,7 @@
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="UserModules" Relationship="Self.FK__UserModules_Users" FromRole="Users" ToRole="UserModules" />
           <NavigationProperty Name="UserOptions" Relationship="Self.FK__UserOptions_Users" FromRole="Users" ToRole="UserOptions" />
+          <Property Name="Admin" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_GroupR_Reps">
           <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />
@@ -565,6 +567,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ProfitTMContext.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Admin" ColumnName="Admin" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

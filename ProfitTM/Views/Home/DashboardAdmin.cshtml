@@ -1,6 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Dashboard";
-    ViewData["home"] = Session["HOME"];
+    ViewData["TITLE"] = "Dashboard";
+    ViewData["HOME"] = Session["HOME"];
 }
 <style>
     .highcharts-figure, .highcharts-data-table table {
@@ -174,16 +174,20 @@
                             <a class="dropdown-item @disReport" href="@item.ReportURL" onclick="$('#modalLoading').modal('show');"><i class="fas fa-file"></i>  Reportes</a>
                         </div>
                     }
+
+                    if (ViewBag.user.Admin)
+                    {
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="fas fa-cog fa-spin"></i>
+                            <p class="mb-0 ml-3">Configuración</p>
+                            <i class="fas fa-caret-up"></i>
+                        </li>
+                        <div class="my-dropdown">
+                            <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
+                            <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
+                        </div>
+                    }
                 }
-                <li class="menu-item" onclick="print(this)">
-                    <i class="fas fa-cog fa-spin"></i>
-                    <p class="mb-0 ml-3">Configuración</p>
-                    <i class="fas fa-caret-up"></i>
-                </li>
-                <div class="my-dropdown">
-                    <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
-                    <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
-                </div>
                 <li class="menu-item border-top" onclick="location.href = '/Account/Logout'">
                     <i class="fas fa-power-off"></i>
                     <p class="mb-0 ml-3">Cerrar Sesión</p>

@@ -109,6 +109,7 @@
     <Property Name="Enabled" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="UserModules" Relationship="Self.FK__UserModules_Users" FromRole="Users" ToRole="UserModules" />
     <NavigationProperty Name="UserOptions" Relationship="Self.FK__UserOptions_Users" FromRole="Users" ToRole="UserOptions" />
+    <Property Name="Admin" Type="Boolean" Nullable="false" />
   </EntityType>
   <Association Name="FK_GroupR_Reps">
     <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />

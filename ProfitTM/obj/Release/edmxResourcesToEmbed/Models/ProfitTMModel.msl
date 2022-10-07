@@ -91,6 +91,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="ProfitTMContext.Users">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Admin" ColumnName="Admin" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="Password" ColumnName="Password" />

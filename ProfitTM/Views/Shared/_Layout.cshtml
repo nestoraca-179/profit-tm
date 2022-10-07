@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ProfitTM</title>
+    <title>@ViewData["TITLE"] - ProfitTM</title>
     <link rel="stylesheet" href="~/Content/bootstrap-5.2.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
@@ -20,11 +20,11 @@
         <div class="row">
             <div class="col-md-4 col-xl-3 col-xxl-2 header-left-side text-white" id="header-left">
                 <i class="fas fa-bars icon-menu" id="icon-menu"></i>
-                <a href="/Home/@ViewData["home"]">Profit Plus TM <br /> @{ if (!string.IsNullOrEmpty(ViewBag.product)) { <span>@ViewBag.product</span> } }</a>
+                <a href="/Home/@ViewData["HOME"]">Profit Plus TM <br /> @{ if (!string.IsNullOrEmpty(ViewBag.product)) { <span>@ViewBag.product</span> } }</a>
             </div>
             <div class="col-md-8 col-xl-9 col-xxl-10 header-right-side">
                 <div class="header-left-side-alt">
-                    <a href="/Home/@ViewData["home"]">Profit Plus TM <br /> @{ if (!string.IsNullOrEmpty(ViewBag.product)) { <span>@ViewBag.product</span> } }</a>
+                    <a href="/Home/@ViewData["HOME"]">Profit Plus TM <br /> @{ if (!string.IsNullOrEmpty(ViewBag.product)) { <span>@ViewBag.product</span> } }</a>
                 </div>
                 <div class="user-active" role="button" id="drop-menu" onclick="$('#dropdown-menu').slideToggle();">
                     <i class="fas fa-user icon-user"></i>

@@ -18,7 +18,6 @@ namespace ProfitTM.Models
         public ProfitTMEntities() : base("name=ProfitTMEntities")
         {
             Configuration.ProxyCreationEnabled = false;
-            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
