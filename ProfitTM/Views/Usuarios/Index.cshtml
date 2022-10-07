@@ -299,7 +299,7 @@
                     if (res.Status == "OK") {
                         $scope.users = $scope.users.filter(u => u.ID != id);
                         $scope.message = "El usuario se ha eliminado con éxito";
-                        $scope.class = "alert alert-success";
+                        $scope.class = "alert alert-success mt-2";
                     } else {
                         $scope.message = "Ha ocurrido un error => " + res.Message;
                         $scope.class = "alert alert-danger mt-2";
