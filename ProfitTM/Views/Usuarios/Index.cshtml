@@ -188,7 +188,7 @@
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
-                        <i class="fas fa-exclamation-triangle" style="color: var(--yellow)"></i>
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
                     </div>
                     <h2 class="text-center">¿Desea eliminar el usuario {{ userDelete.Username }}?</h2>
                 </div>
@@ -298,7 +298,7 @@
                         $scope.class = "alert alert-success";
                     } else {
                         $scope.message = "Ha ocurrido un error => " + res.Message;
-                        $scope.class = "alert alert-danger";
+                        $scope.class = "alert alert-danger mt-2";
                     }
 
                 });
