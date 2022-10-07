@@ -763,6 +763,9 @@
                                 reng.tipo_doc = "PCLI";
                                 reng.num_doc = id;
                                 reng.rowguid_doc = reng.rowguid;
+                                reng.fec_emis = new Date(Date.now());
+                                reng.fec_venc = new Date(Date.now());
+                                reng.fec_reg = new Date(Date.now());
                             }
 
                             $("#n_preliq").val("");
