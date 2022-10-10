@@ -715,16 +715,16 @@
 
         $scope.update = function (tasa) {
 
-            tasa = tasa == null ? 1 : tasa;
+            tasa = tasa == null || parseInt(tasa) == 0 ? 1 : tasa;
 
-            $scope.invoice.total_bruto_om = ($scope.invoice.total_bruto / tasa).toFixed(2);
-            $scope.invoice.monto_imp_om = ($scope.invoice.monto_imp / tasa).toFixed(2);
-            $scope.invoice.total_neto_om = ($scope.invoice.total_neto / tasa).toFixed(2);
-            $scope.invoice.saldo_om = ($scope.invoice.saldo / tasa).toFixed(2);
+            $scope.invoice.total_bruto_om = setSeparator(($scope.invoice.total_bruto / tasa).toFixed(2));
+            $scope.invoice.monto_imp_om = setSeparator(($scope.invoice.monto_imp / tasa).toFixed(2));
+            $scope.invoice.total_neto_om = setSeparator(($scope.invoice.total_neto / tasa).toFixed(2));
+            $scope.invoice.saldo_om = setSeparator(($scope.invoice.saldo / tasa).toFixed(2));
 
             for (var reng of $scope.invoice.saFacturaVentaReng) {
-                reng.monto_imp_om = (reng.monto_imp / tasa).toFixed(2);
-                reng.reng_neto_om = (reng.reng_neto / tasa).toFixed(2);
+                reng.monto_imp_om = setSeparator((reng.monto_imp / tasa).toFixed(2));
+                reng.reng_neto_om = setSeparator((reng.reng_neto / tasa).toFixed(2));
             }
         }
 
@@ -983,24 +983,24 @@
         for (var item of items) {
 
             // TOTALES OM
-            item.total_bruto = item.total_bruto.toFixed(2);
-            item.total_bruto_om = (item.total_bruto / item.tasa).toFixed(2);
+            item.total_bruto_om = setSeparator((item.total_bruto / item.tasa).toFixed(2));
+            item.total_bruto = setSeparator(item.total_bruto.toFixed(2));
 
-            item.monto_imp = item.monto_imp.toFixed(2);
-            item.monto_imp_om = (item.monto_imp / item.tasa).toFixed(2);
+            item.monto_imp_om = setSeparator((item.monto_imp / item.tasa).toFixed(2));
+            item.monto_imp = setSeparator(item.monto_imp.toFixed(2));
 
-            item.total_neto = item.total_neto.toFixed(2);
-            item.total_neto_om = (item.total_neto / item.tasa).toFixed(2);
+            item.total_neto_om = setSeparator((item.total_neto / item.tasa).toFixed(2));
+            item.total_neto = setSeparator(item.total_neto.toFixed(2));
 
-            item.saldo = item.saldo.toFixed(2);
-            item.saldo_om = (item.saldo / item.tasa).toFixed(2);
+            item.saldo_om = setSeparator((item.saldo / item.tasa).toFixed(2));
+            item.saldo = setSeparator(item.saldo.toFixed(2));
 
             for (var r of item.saFacturaVentaReng) {
-                r.monto_imp = r.monto_imp.toFixed(2);
-                r.monto_imp_om = (r.monto_imp / item.tasa).toFixed(2);
+                r.monto_imp_om = setSeparator((r.monto_imp / item.tasa).toFixed(2));
+                r.monto_imp = setSeparator(r.monto_imp.toFixed(2));
 
-                r.reng_neto = r.reng_neto.toFixed(2);
-                r.reng_neto_om = (r.reng_neto / item.tasa).toFixed(2);
+                r.reng_neto_om = setSeparator((r.reng_neto / item.tasa).toFixed(2));
+                r.reng_neto = setSeparator(r.reng_neto.toFixed(2));
             }
 
             // FECHAS
@@ -1012,29 +1012,30 @@
 
             // DATOS
             item.estatus = setStatus(item.status);
-            // item.des_cli = searchCli(item.co_cli.trim());
-            // item.des_cond = searchCond(item.co_cond);
-            // item.des_ven = searchVen(item.co_ven);
         }
 
         return items;
+    }
+
+    function setSeparator(value) {
+        return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
     }
 
     function convert(invoice) {
 
         var i = invoice;
 
-        i.total_bruto = i.total_bruto.toFixed(2);
-        i.total_bruto_om = (i.total_bruto / i.tasa).toFixed(2);
+        i.total_bruto_om = setSeparator((i.total_bruto / i.tasa).toFixed(2));
+        i.total_bruto = setSeparator(i.total_bruto.toFixed(2));
 
-        i.monto_imp = i.monto_imp.toFixed(2);
-        i.monto_imp_om = (i.monto_imp / i.tasa).toFixed(2);
+        i.monto_imp_om = setSeparator((i.monto_imp / i.tasa).toFixed(2));
+        i.monto_imp = setSeparator(i.monto_imp.toFixed(2));
 
-        i.total_neto = i.total_neto.toFixed(2);
-        i.total_neto_om = (i.total_neto / i.tasa).toFixed(2);
+        i.total_neto_om = setSeparator((i.total_neto / i.tasa).toFixed(2));
+        i.total_neto = setSeparator(i.total_neto.toFixed(2));
 
-        i.saldo = i.saldo.toFixed(2);
-        i.saldo_om = (i.saldo / i.tasa).toFixed(2);
+        i.saldo_om = setSeparator((i.saldo / i.tasa).toFixed(2));
+        i.saldo = setSeparator(i.saldo.toFixed(2));
 
         for (var reng of i.saFacturaVentaReng) {
 
@@ -1042,10 +1043,10 @@
                 reng.monto_imp = (reng.reng_neto * 0.16);
             }
 
-            reng.monto_imp = reng.monto_imp.toFixed(2);
-            reng.monto_imp_om = (reng.monto_imp / i.tasa).toFixed(2);
-            reng.reng_neto = reng.reng_neto.toFixed(2);
-            reng.reng_neto_om = (reng.reng_neto / i.tasa).toFixed(2);
+            reng.monto_imp_om = setSeparator((reng.monto_imp / i.tasa).toFixed(2));
+            reng.monto_imp = setSeparator(reng.monto_imp.toFixed(2));
+            reng.reng_neto_om = setSeparator((reng.reng_neto / i.tasa).toFixed(2));
+            reng.reng_neto = setSeparator(reng.reng_neto.toFixed(2));
         }
 
         i.fec_emis = new Date(i.fec_emis);
@@ -1054,9 +1055,6 @@
         i.fe_us_in = new Date(i.fe_us_in);
         i.fe_us_mo = new Date(i.fe_us_mo);
         i.estatus = setStatus(i.status);
-        // i.des_cli = searchCli(i.co_cli.trim());
-        // i.des_cond = searchCond(i.co_cond);
-        // i.des_ven = searchVen(i.co_ven);
 
         return i;
     }
