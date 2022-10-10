@@ -200,7 +200,6 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Web.ASPxTreeLi
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxTreeList.v18.2.resources.dll
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.AssemblyReference.cache
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepBanco.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepDisponibilidad.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepDisponibilidadBancaria.resources

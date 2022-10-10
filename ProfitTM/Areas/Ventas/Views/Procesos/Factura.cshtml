@@ -612,6 +612,7 @@
     var isNullOrEmpty = (str) => str == null || str == "";
     var invoices = @Html.Raw(ViewBag.invoices);
     var arts = @Html.Raw(ViewBag.arts);
+    var conds = @Html.Raw(Json.Encode(ViewBag.conds));
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
 
@@ -976,6 +977,10 @@
         }
     });
 
+    function searchCond(value) {
+        return conds.find(c => c.co_cond == value).cond_des;
+    }
+
     function parseItems(items_c) {
 
         var items = items_c;
@@ -1150,7 +1155,6 @@
             $("#" + modal).find("button[name=search-btn]").trigger("click");
 
             if (input == "cond") {
-                console.log(value.trim());
                 $("#des_cond").val(searchCond(value));
             }
 
