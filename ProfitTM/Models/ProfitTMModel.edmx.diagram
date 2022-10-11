@@ -21,6 +21,7 @@
         <AssociationConnector Association="ProfitTMContext.FK__UserOptions_Options" ManuallyRouted="false" />
         <AssociationConnector Association="ProfitTMContext.FK__UserModules_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ProfitTMContext.FK__UserOptions_Users" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ProfitTMContext.Incidents" Width="1.5" PointX="3" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

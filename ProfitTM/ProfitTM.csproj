@@ -483,6 +483,10 @@
     <Compile Include="Models\GroupReports.cs">
       <DependentUpon>ProfitTMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Incident.cs" />
+    <Compile Include="Models\Incidents.cs">
+      <DependentUpon>ProfitTMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Module.cs" />
     <Compile Include="Models\Admin\Price.cs" />
     <Compile Include="Models\Admin\Product.cs" />

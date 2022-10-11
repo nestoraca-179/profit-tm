@@ -17,72 +17,23 @@ namespace ProfitTM.Controllers
 
                 using (ProfitTMEntities db = new ProfitTMEntities())
                 {
-                    Users user = db.Users.SingleOrDefault(u => u.Username == username && u.Password == encryptedPass);
+                    Users user = db.Users.AsNoTracking().SingleOrDefault(u => u.Username == username && u.Password == encryptedPass);
                     
-                    if (user != null)
-                    {
-                        if (user.Enabled)
-                        {
-                            FormsAuthentication.SetAuthCookie(username, true);
-                            Session["USER"] = user;
-
-                            return RedirectToAction("SeleccionProducto", "Home");
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Home", new { message = "Usuario inactivo" });
-                        }
-                    }
-                    else
+                    if (user == null)
                     {
                         return RedirectToAction("Index", "Home", new { message = "Usuario o clave incorrectos" });
                     }
-                }
-
-                #region CODIGO ANTERIOR
-                /*using (SqlConnection conn = new SqlConnection(DBProfitTM))
-                {
-                    conn.Open();
-                    using (SqlCommand comm = new SqlCommand("SELECT * FROM Users WHERE Username = @Username AND Password = @Pass", conn))
+                    else
                     {
-                        comm.Parameters.AddWithValue("@Username", username);
-                        comm.Parameters.AddWithValue("@Pass", encryptedPass);
+                        if (!user.Enabled)
+                            return RedirectToAction("Index", "Home", new { message = "Usuario inactivo" });
 
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                if (bool.Parse(reader["Enabled"].ToString()))
-                                {
-                                    FormsAuthentication.SetAuthCookie(username, true);
+                        FormsAuthentication.SetAuthCookie(username, true);
+                        Session["USER"] = user;
 
-                                    User user = new User()
-                                    {
-                                        ID = reader["ID"].ToString(),
-                                        Username = reader["Username"].ToString(),
-                                        Descrip = reader["Descrip"].ToString(),
-                                        IsAdm = bool.Parse(reader["IsAdm"].ToString()),
-                                        IsCon = bool.Parse(reader["IsCon"].ToString()),
-                                        IsNom = bool.Parse(reader["IsNom"].ToString())
-                                    };
-
-                                    Session["USER"] = user;
-
-                                    return RedirectToAction("SeleccionProducto", "Home");
-                                }
-                                else
-                                {
-                                    return RedirectToAction("Index", "Home", new { message = "Usuario inactivo" });
-                                }
-                            }
-                            else
-                            {
-                                return RedirectToAction("Index", "Home", new { message = "Usuario o clave incorrectos" });
-                            }
-                        }
+                        return RedirectToAction("SeleccionProducto", "Home");
                     }
-                }*/
-                #endregion
+                }
             }
             else
             {
@@ -96,9 +47,7 @@ namespace ProfitTM.Controllers
             Session.Clear();
 
             if (msg != "")
-            {
                 return RedirectToAction("Index", "Home", new { message = msg });
-            }
 
             return RedirectToAction("Index", "Home");
         }

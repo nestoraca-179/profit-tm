@@ -345,7 +345,7 @@
                 <div class="left">
                     <div class="controls">
                         <label>Contenedor</label>
-                        <textarea class="form-control" ng-model="invoice.dir_ent" ng-disabled="true"></textarea>
+                        <textarea class="form-control" ng-model="invoice.dir_ent" ng-disabled="!adding"></textarea>
                     </div>
                     <br />
                     <div class="controls">
@@ -477,6 +477,7 @@
                             <input type="text" class="form-control" id="n_preliq" ng-model="idOrder" ng-keypress="detectEnter($event.originalEvent)" />
                             <i class="fas fa-search" role="button" id="btn-preliq" ng-click="getOrders()" data-name="n_preliq"></i>
                             <label class="text-danger text-center w-100" id="text-error" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
+                            <label class="text-primary text-center w-100" id="text-search" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
                         </div>
                     </div>
                 </div>
@@ -742,8 +743,10 @@
             if (isNullOrEmpty(id))
                 id = $("#n_preliq").val();
 
+            $("#text-error").text("");
             if (!isNullOrEmpty(id)) {
 
+                $("#text-search").text("BUSCANDO PRELIQUIDACIÓN...");
                 $http.get("/api/ProfitTMApi/GetOrder/" + id)
                     .then(function (response) {
 
@@ -772,11 +775,13 @@
 
                             $("#n_preliq").val("");
                             $("#text-error").text("");
+                            $("#text-search").text("");
                             $scope.adding = true;
 
                         } else {
                             $scope.idOrder = "";
                             $("#n_preliq").focus();
+                            $("#text-search").text("");
 
                             if (res.Message == "0")
                                 $("#text-error").text("**PRELIQUIDACIÓN NO ENCONTRADA**");
@@ -790,11 +795,13 @@
                         $scope.idOrder = "";
                         $("#n_preliq").val("");
                         $("#n_preliq").focus();
+                        $("#text-search").text("");
                         $("#text-error").text("**HA OCURRIDO UN ERROR**");
                     });
 
             } else {
                 $("#text-error").text("**DEBES INGRESAR UN NÚMERO DE PRELIQUIDACIÓN**");
+                $("#text-search").text("");
             }
 
         }

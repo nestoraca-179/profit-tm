@@ -20,6 +20,15 @@
     <Property Name="GroupName" Type="varchar" MaxLength="50" />
     <Property Name="TreeID" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="Incidents">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Titulo" Type="varchar(max)" />
+    <Property Name="Descripcion" Type="varchar(max)" />
+    <Property Name="Fecha" Type="datetime" Nullable="false" />
+  </EntityType>
   <EntityType Name="Modules">
     <Key>
       <PropertyRef Name="ID" />
@@ -188,6 +197,7 @@
   <EntityContainer Name="ProfitTMContextStoreContainer">
     <EntitySet Name="Connections" EntityType="Self.Connections" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GroupReports" EntityType="Self.GroupReports" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Incidents" EntityType="Self.Incidents" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />

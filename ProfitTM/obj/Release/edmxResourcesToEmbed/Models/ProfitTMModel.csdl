@@ -237,5 +237,15 @@
       <End Role="Users" EntitySet="Users" />
       <End Role="UserOptions" EntitySet="UserOptions" />
     </AssociationSet>
+    <EntitySet Name="Incidents" EntityType="ProfitTMContext.Incidents" />
   </EntityContainer>
+  <EntityType Name="Incidents">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Titulo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
 </Schema>
