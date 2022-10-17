@@ -15,13 +15,14 @@ namespace ProfitTM.Models
 
             try
             {
-                user = db.Users.SingleOrDefault(u => u.ID.ToString() == id);
+                user = db.Users.AsNoTracking().SingleOrDefault(u => u.ID.ToString() == id);
                 user.UserModules = GetUserModules(user.ID.ToString());
                 user.UserOptions = GetUserOptions(user.ID.ToString());
             }
             catch (Exception ex)
             {
                 user = null;
+                Incident.CreateIncident("ERROR BUSCANDO USUARIO " + id, ex);
             }
 
             return user;
@@ -30,15 +31,16 @@ namespace ProfitTM.Models
         public static List<Users> GetAllUsers()
         {
             ProfitTMEntities db = new ProfitTMEntities();
-            List<Users> users = new List<Users>();
+            List<Users> users;
 
             try
             {
-                users = db.Users.ToList();
+                users = db.Users.AsNoTracking().ToList();
             }
             catch (Exception ex)
             {
                 users = null;
+                Incident.CreateIncident("ERROR BUSCANDO USUARIOS", ex);
             }
 
             return users;
@@ -124,11 +126,12 @@ namespace ProfitTM.Models
 
             try
             {
-                modules = db.UserModules.Where(um => um.UserID.ToString() == id).ToList();
+                modules = db.UserModules.AsNoTracking().Where(um => um.UserID.ToString() == id).ToList();
             }
             catch (Exception ex)
             {
                 modules = null;
+                Incident.CreateIncident("ERROR BUSCANDO MODULOS DE USUARIO " + id, ex);
             }
 
             return modules;
@@ -141,11 +144,12 @@ namespace ProfitTM.Models
 
             try
             {
-                options = db.UserOptions.Where(uo => uo.UserID.ToString() == id).ToList();
+                options = db.UserOptions.AsNoTracking().Where(uo => uo.UserID.ToString() == id).ToList();
             }
             catch (Exception ex)
             {
                 options = null;
+                Incident.CreateIncident("ERROR BUSCANDO OPCIONES DE USUARIO " + id, ex);
             }
 
             return options;

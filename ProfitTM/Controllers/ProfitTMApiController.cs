@@ -32,6 +32,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO REPORTES", ex);
             }
 
             return response;
@@ -56,6 +57,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO USUARIO " + user.Username, ex);
             }
 
             return response;
@@ -78,6 +80,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR EDITANDO USUARIO " + user.Username, ex);
             }
 
             return response;
@@ -100,6 +103,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR ELIMINANDO USUARIO " + id.ToString(), ex);
             }
 
             return response;
@@ -124,6 +128,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO CLIENTE " + client.cli_des, ex);
             }
 
             return response;
@@ -146,6 +151,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR EDITANDO CLIENTE " + client.cli_des, ex);
             }
 
             return response;
@@ -168,6 +174,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR ELIMINANDO CLIENTE " + id.ToString(), ex);
             }
 
             return response;
@@ -192,6 +199,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO PROVEEDOR " + supplier.prov_des, ex);
             }
 
             return response;
@@ -214,6 +222,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR EDITANDO PROVEEDOR " + supplier.prov_des, ex);
             }
 
             return response;
@@ -236,6 +245,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR ELIMINANDO PROVEEDOR " + id.ToString(), ex);
             }
 
             return response;
@@ -276,6 +286,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message; // HA OCURRIDO UN ERROR
+                Incident.CreateIncident("ERROR BUSCANDO PEDIDO " + id, ex);
             }
 
             return response;
@@ -289,7 +300,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                List<saPedidoVenta> orders = new Order().GetAllOrders(20, true);
+                List<saPedidoVenta> orders = new Order().GetAllOrders(number, true);
 
                 if (orders.Count > 0)
                 {
@@ -306,6 +317,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO PRELIQUIDACIONES", ex);
             }
 
             return response;
@@ -328,6 +340,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR ELIMINANDO PRELIQUIDACION " + id, ex);
             }
 
             return response;
@@ -363,6 +376,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO FACTURA TRAS PRELIQUIDACION", ex);
             }
 
             return response;
@@ -386,6 +400,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO FACTURAS", ex);
             }
 
             return response;
@@ -408,6 +423,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR MARCANDO FACTURA N° " + id + " COMO IMPRESA", ex);
             }
 
             return response;
@@ -431,6 +447,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR ANULANDO FACTURA N° " + id, ex);
             }
 
             return response;
@@ -458,6 +475,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR OBTENIENDO ESTADISTICAS DE VENTAS", ex);
             }
 
             return response;
@@ -483,6 +501,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR OBTENIENDO PRODUCTOS MAS VENDIDOS", ex);
             }
 
             return response;
@@ -508,6 +527,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR OBTENIENDO PRODUCTOS MAS COMPRADOS", ex);
             }
 
             return response;
@@ -533,6 +553,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR OBTENIENDO CLIENTES MAS ACTIVOS", ex);
             }
 
             return response;
@@ -558,6 +579,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR OBTENIENDO PROVEEDORES MAS ACTIVOS", ex);
             }
 
             return response;

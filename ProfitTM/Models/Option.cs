@@ -13,8 +13,8 @@ namespace ProfitTM.Models
 
             try
             {
-                List<Options> opts = db.Options.Where(o => o.ModuleID.ToString() == moduleID).ToList();
-                List<UserOptions> userOptions = db.UserOptions.Where(uo => uo.UserID.ToString() == userID).OrderBy(uo => uo.OptionID).ToList();
+                List<Options> opts = db.Options.AsNoTracking().Where(o => o.ModuleID.ToString() == moduleID).ToList();
+                List<UserOptions> userOptions = db.UserOptions.AsNoTracking().Where(uo => uo.UserID.ToString() == userID).OrderBy(uo => uo.OptionID).ToList();
 
                 options = (from u in userOptions
                            join o in opts on u.OptionID equals o.ID
@@ -28,39 +28,11 @@ namespace ProfitTM.Models
                                Enabled = o.Enabled,
 
                            }).ToList();
-
-                #region CODIGO ANTERIOR
-                /*using (SqlConnection conn = new SqlConnection(DBMain))
-                {
-                    conn.Open();
-                    using (SqlCommand comm = new SqlCommand(string.Format(@"select O.* from UserOptions UO
-                        inner join Options O on UO.OptionID = O.ID
-                        inner join Users U on UO.UserID = U.ID
-                        where O.ModuleID = {0} and U.ID = {1}
-                        order by O.Number", moduleID, userID), conn))
-                    {
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Option option = new Option();
-
-                                option.ID = reader["ID"].ToString();
-                                option.Name = reader["OptionName"].ToString();
-                                option.Icon = reader["Icon"].ToString();
-                                option.URL = reader["URL"].ToString();
-                                option.Enabled = bool.Parse(reader["Enabled"].ToString());
-
-                                options.Add(option);
-                            }
-                        }
-                    }
-                }*/
-                #endregion
             }
             catch (Exception ex)
             {
                 options = null;
+                Incident.CreateIncident("ERROR BUSCANDO OPCIONES POR USUARIO", ex);
             }
 
             return options;
@@ -73,34 +45,12 @@ namespace ProfitTM.Models
 
             try
             {
-                options = db.Options.Where(o => o.ModuleID.ToString() == moduleID).ToList();
-
-                #region CODIGO ANTERIOR
-                //using (SqlConnection conn = new SqlConnection(DBMain))
-                //{
-                //    conn.Open();
-                //    using (SqlCommand comm = new SqlCommand(string.Format("select * from Options where ModuleID = {0}", moduleID), conn))
-                //    {
-                //        using (SqlDataReader reader = comm.ExecuteReader())
-                //        {
-                //            while (reader.Read())
-                //            {
-                //                Option option = new Option();
-
-                //                option.ID = reader["ID"].ToString();
-                //                option.Name = reader["OptionName"].ToString();
-                //                option.ModuleID = reader["ModuleID"].ToString();
-
-                //                options.Add(option);
-                //            }
-                //        }
-                //    }
-                //}
-                #endregion
+                options = db.Options.AsNoTracking().Where(o => o.ModuleID.ToString() == moduleID).ToList();
             }
             catch (Exception ex)
             {
                 options = null;
+                Incident.CreateIncident("ERROR BUSCANDO OPCIONES POR MODULO", ex);
             }
 
             return options;

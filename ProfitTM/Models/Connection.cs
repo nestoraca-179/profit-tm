@@ -14,13 +14,14 @@ namespace ProfitTM.Models
             try
             {
                 if (!string.IsNullOrEmpty(type))
-                    connections = db.Connections.Where(c => c.Type == type).ToList();
+                    connections = db.Connections.AsNoTracking().Where(c => c.Type == type).ToList();
                 else
-                    connections = db.Connections.ToList();
+                    connections = db.Connections.AsNoTracking().ToList();
             }
             catch (Exception ex)
             {
                 connections = null;
+                Incident.CreateIncident("ERROR BUSCANDO CONEXIONES", ex);
             }
 
             return connections;
@@ -28,9 +29,10 @@ namespace ProfitTM.Models
 
         public static ProfitTMResponse Add(Connections conn)
         {
-            ProfitTMEntities db = new ProfitTMEntities();
             ProfitTMResponse response = new ProfitTMResponse();
-            Connections newConn = new Connections();
+
+            ProfitTMEntities db = new ProfitTMEntities();
+            Connections newConn;
 
             try
             {
@@ -44,6 +46,7 @@ namespace ProfitTM.Models
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO CONEXION", ex);
             }
 
             return response;
