@@ -7,18 +7,13 @@ namespace ProfitTM.Models
 {
     public class Client : ProfitAdmManager
     {
-        public string co_cli { get; set; }
-        public string cli_des { get; set; }
-
         public saCliente GetClientByID(string id)
         {
             saCliente client = new saCliente();
 
             try
             {
-                client = db.saCliente.SingleOrDefault(c => c.co_cli == id);
-                client.saCliente1 = null;
-                client.saCliente2 = null;
+                client = db.saCliente.AsNoTracking().SingleOrDefault(c => c.co_cli == id);
             }
             catch (Exception ex)
             {
@@ -34,11 +29,21 @@ namespace ProfitTM.Models
 
             try
             {
-                clients = db.saCliente.ToList();
-                clients.ForEach(delegate(saCliente c) {
-                    c.saCliente1 = null;
-                    c.saCliente2 = null;
-                });
+                clients = db.saCliente.AsNoTracking().Include("saCondicionPago").Include("saVendedor").Include("saZona").Include("saCuentaIngEgr")
+                    .Include("saSegmento").Include("saTipoCliente").Include("saPais").ToList();
+
+                foreach (saCliente client in clients)
+                {
+                    client.saCondicionPago.saCliente = null;
+                    client.saVendedor.saCliente = null;
+                    client.saZona.saCliente = null;
+                    client.saCuentaIngEgr.saCliente = null;
+                    client.saSegmento.saCliente = null;
+                    client.saTipoCliente.saCliente = null;
+                    client.saPais.saCliente = null;
+                    client.saCliente1 = null;
+                    client.saCliente2 = null;
+                }
             }
             catch (Exception ex)
             {

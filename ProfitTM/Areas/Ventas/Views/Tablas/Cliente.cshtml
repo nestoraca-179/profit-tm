@@ -60,7 +60,7 @@
                             <th class="text-white">Nombre</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="client in clients | limitTo:200 " ng-click="selectClient(client.co_cli)" style="cursor: pointer;">
+                    <tr ng-repeat="client in clients" ng-click="selectClient(client.co_cli)" style="cursor: pointer;">
                         <td>{{ client.co_cli }}</td>
                         <td>{{ client.cli_des }}</td>
                     </tr>
@@ -74,20 +74,21 @@
             </div>
             <div class="form-buttons">
                 <div class="row">
-                    <div class="col buttons-actions" ng-show="!adding && !editing">
-                        <button type="button" class="btn btn-primary" ng-click="initAddClient()">
-                            <i class="fas fa-plus"></i>
-                            Nuevo
+                    <div class="col buttons-next-prev" ng-show="!adding && !editing">
+                        <button type="button" class="btn btn-primary" ng-click="margin('s')">
+                            <i class="fas fa-chevron-double-left"></i>
                         </button>
                         <div style="width: 10px;"></div>
-                        <button type="button" class="btn btn-warning" ng-click="editing = true">
-                            <i class="fas fa-file-edit"></i>
-                            Modificar
+                        <button type="button" class="btn btn-primary" ng-click="prev()">
+                            <i class="fas fa-chevron-left"></i>
                         </button>
                         <div style="width: 10px;"></div>
-                        <button type="button" class="btn btn-danger" onclick="$('#modalDelete').modal('show')">
-                            <i class="fas fa-times"></i>
-                            Eliminar
+                        <button type="button" class="btn btn-primary" ng-click="next()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="margin('e')">
+                            <i class="fas fa-chevron-double-right"></i>
                         </button>
                     </div>
                     <div class="col buttons-save-cancel" ng-show="adding">
@@ -112,21 +113,20 @@
                             Guardar
                         </button>
                     </div>
-                    <div class="col buttons-next-prev" ng-show="!adding && !editing">
-                        <button type="button" class="btn btn-primary" ng-click="margin('s')">
-                            <i class="fas fa-chevron-double-left"></i>
+                    <div class="col buttons-actions justify-content-end" ng-show="!adding && !editing">
+                        <button type="button" class="btn btn-primary" ng-click="initAddClient()">
+                            <i class="fas fa-plus"></i>
+                            Nuevo
                         </button>
                         <div style="width: 10px;"></div>
-                        <button type="button" class="btn btn-primary" ng-click="prev()">
-                            <i class="fas fa-chevron-left"></i>
+                        <button type="button" class="btn btn-warning" ng-click="editing = true">
+                            <i class="fas fa-file-edit"></i>
+                            Modificar
                         </button>
                         <div style="width: 10px;"></div>
-                        <button type="button" class="btn btn-primary" ng-click="next()">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <div style="width: 10px;"></div>
-                        <button type="button" class="btn btn-primary" ng-click="margin('e')">
-                            <i class="fas fa-chevron-double-right"></i>
+                        <button type="button" class="btn btn-danger" onclick="$('#modalDelete').modal('show')">
+                            <i class="fas fa-times"></i>
+                            Eliminar
                         </button>
                     </div>
                 </div>
@@ -159,7 +159,8 @@
                     <div class="controls">
                         <label>Tipo</label>
                         <div class="input-search">
-                            <input type="text" class="form-control" id="type" onfocus="this.blur()" ng-model="client.tip_cli" ng-disabled="!adding && !editing" ng-required="true" />
+                            <input type="text" class="form-control" id="type" onfocus="this.blur()" ng-model="client.tip_cli" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
+                            <input type="text" class="form-control" id="des_type" ng-model="client.saTipoCliente.des_tipo" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                             <i class="fas fa-search" role="button" onclick="openModal(this, 'modalTypes')" data-name="type"></i>
                         </div>
                     </div>
@@ -180,7 +181,8 @@
                             <div class="controls">
                                 <label>Segmento</label>
                                 <div class="input-search">
-                                    <input type="text" class="form-control" id="segment" onfocus="this.blur()" ng-model="client.co_seg" ng-disabled="!adding && !editing" ng-required="true" />
+                                    <input type="text" class="form-control" id="segment" onfocus="this.blur()" ng-model="client.co_seg" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
+                                    <input type="text" class="form-control" id="des_segment" ng-model="client.saSegmento.seg_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSegments')" data-name="segment"></i>
                                 </div>
                             </div>
@@ -189,7 +191,8 @@
                             <div class="controls">
                                 <label>Vendedor</label>
                                 <div class="input-search">
-                                    <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="client.co_ven" ng-disabled="!adding && !editing" ng-required="true" />
+                                    <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="client.co_ven" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
+                                    <input type="text" class="form-control" id="des_seller" ng-model="client.saVendedor.ven_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
                                 </div>
                             </div>
@@ -200,7 +203,8 @@
                             <div class="controls">
                                 <label>Cuenta Ingr/Egr</label>
                                 <div class="input-search">
-                                    <input type="text" class="form-control" id="account" onfocus="this.blur()" ng-model="client.co_cta_ingr_egr" ng-disabled="!adding && !editing" ng-required="true" />
+                                    <input type="text" class="form-control" id="account" onfocus="this.blur()" ng-model="client.co_cta_ingr_egr" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
+                                    <input type="text" class="form-control" id="des_account" ng-model="client.saCuentaIngEgr.descrip" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="account"></i>
                                 </div>
                             </div>
@@ -247,14 +251,16 @@
                     <div class="controls">
                         <label>País</label>
                         <div class="input-search">
-                            <input type="text" class="form-control" id="country" onfocus="this.blur()" ng-model="client.co_pais" ng-disabled="!adding && !editing" ng-required="true" />
+                            <input type="text" class="form-control" id="country" onfocus="this.blur()" ng-model="client.co_pais" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
+                            <input type="text" class="form-control" id="des_country" ng-model="client.saPais.pais_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                             <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCountries')" data-name="country"></i>
                         </div>
                     </div>
                     <div class="controls">
                         <label>Zona</label>
                         <div class="input-search">
-                            <input type="text" class="form-control" id="zone" onfocus="this.blur()" ng-model="client.co_zon" ng-disabled="!adding && !editing" ng-required="true" />
+                            <input type="text" class="form-control" id="zone" onfocus="this.blur()" ng-model="client.co_zon" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
+                            <input type="text" class="form-control" id="des_zone" ng-model="client.saZona.zon_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                             <i class="fas fa-search" role="button" onclick="openModal(this, 'modalZones')" data-name="zone"></i>
                         </div>
                     </div>
@@ -292,7 +298,8 @@
                     <div class="controls">
                         <label>Cond. Pago</label>
                         <div class="input-search">
-                            <input type="text" class="form-control" id="cond" onfocus="this.blur()" ng-model="client.cond_pag" ng-disabled="(!adding && !editing) || client.sincredito" ng-required="!client.SinCred" />
+                            <input type="text" class="form-control" id="cond" onfocus="this.blur()" ng-model="client.cond_pag" ng-disabled="(!adding && !editing) || client.sincredito" ng-required="!client.SinCred" style="flex: 1;" />
+                            <input type="text" class="form-control" id="des_cond" ng-model="client.saCondicionPago.cond_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                             <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
                         </div>
                     </div>

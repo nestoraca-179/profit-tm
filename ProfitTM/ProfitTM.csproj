@@ -469,10 +469,10 @@
     <Compile Include="Models\Admin\Client.cs" />
     <Compile Include="Models\Admin\Cond.cs" />
     <Compile Include="Models\Admin\Country.cs" />
-    <Compile Include="Models\Admin\InvoiceItem.cs" />
     <Compile Include="Models\Admin\Order.cs" />
     <Compile Include="Models\Admin\OrderItem.cs" />
     <Compile Include="Models\Admin\ProfitAdmManager.cs" />
+    <Compile Include="Models\Admin\Step.cs" />
     <Compile Include="Models\Admin\Transport.cs" />
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\Connections.cs">
