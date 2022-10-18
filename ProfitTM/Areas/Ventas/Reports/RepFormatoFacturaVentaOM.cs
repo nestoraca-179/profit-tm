@@ -1113,7 +1113,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel46.SizeF = new System.Drawing.SizeF(132.4597F, 26.12502F);
             this.xrLabel46.StylePriority.UseFont = false;
             this.xrLabel46.StylePriority.UseTextAlignment = false;
-            this.xrLabel46.Text = "I.V.A:";
+            this.xrLabel46.Text = "I.V.A (16%):";
             this.xrLabel46.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             // 
             // xrLabel48

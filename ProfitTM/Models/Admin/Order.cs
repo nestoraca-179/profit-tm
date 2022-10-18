@@ -26,6 +26,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 order = null;
+                Incident.CreateIncident("ERROR BUSCANDO PEDIDO " + id, ex);
             }
 
             return order;
@@ -66,6 +67,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 orders = null;
+                Incident.CreateIncident("ERROR BUSCANDO PEDIDOS", ex);
             }
 
             return orders;

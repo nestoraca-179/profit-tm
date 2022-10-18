@@ -18,6 +18,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 client = null;
+                Incident.CreateIncident("ERROR BUSCANDO CLIENTE " + id, ex);
             }
 
             return client;
@@ -25,7 +26,7 @@ namespace ProfitTM.Models
 
         public List<saCliente> GetAllClients()
         {
-            List<saCliente> clients = new List<saCliente>();
+            List<saCliente> clients;
 
             try
             {
@@ -34,7 +35,9 @@ namespace ProfitTM.Models
 
                 foreach (saCliente client in clients)
                 {
-                    client.saCondicionPago.saCliente = null;
+                    if (client.saCondicionPago != null)
+                        client.saCondicionPago.saCliente = null;
+
                     client.saVendedor.saCliente = null;
                     client.saZona.saCliente = null;
                     client.saCuentaIngEgr.saCliente = null;
@@ -48,6 +51,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 clients = null;
+                Incident.CreateIncident("ERROR BUSCANDO CLIENTES", ex);
             }
 
             return clients;

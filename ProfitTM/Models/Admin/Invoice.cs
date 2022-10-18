@@ -27,6 +27,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 invoice = null;
+                Incident.CreateIncident("ERROR BUSCANDO FACTURA DE VENTA " + id, ex);
             }
 
             return invoice;
@@ -55,6 +56,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 invoices = null;
+                Incident.CreateIncident("ERROR BUSCANDO FACTURAS DE VENTA", ex);
             }
 
             return invoices;
@@ -71,6 +73,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 doc = null;
+                Incident.CreateIncident("ERROR DOCUMENTO DE VENTA DE FACTURA " + id, ex);
             }
 
             return doc;
@@ -95,6 +98,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 invoice = null;
+                Incident.CreateIncident("ERROR BUSCANDO FACTURA DE COMPRA " + id, ex);
             }
 
             return invoice;
@@ -122,6 +126,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 invoices = null;
+                Incident.CreateIncident("ERROR BUSCANDO FACTURAS DE COMPRA", ex);
             }
 
             return invoices;
@@ -138,6 +143,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 doc = null;
+                Incident.CreateIncident("ERROR DOCUMENTO DE COMPRA DE FACTURA " + id, ex);
             }
 
             return doc;
@@ -264,6 +270,7 @@ namespace ProfitTM.Models
                         tran.Rollback();
                         new_invoice.descrip = "ERROR";
                         new_invoice.comentario = ex.Message;
+                        Incident.CreateIncident("ERROR INTERNO AGREGANDO FACTURA CON PRELIQUIDACION", ex);
                     }
                 }
             }

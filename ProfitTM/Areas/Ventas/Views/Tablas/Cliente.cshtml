@@ -38,6 +38,12 @@
         font-size: 6em;
         padding: 5%;
     }
+    tr.active {
+        background: #0277bd !important;
+    }
+    tr.active td {
+        color: #FFF !important;
+    }
     @@media (max-width: 1199px) {
         .container-clients, .container-clients > .row {
             height: auto !important;
@@ -60,12 +66,13 @@
                             <th class="text-white">Nombre</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="client in clients" ng-click="selectClient(client.co_cli)" style="cursor: pointer;">
-                        <td>{{ client.co_cli }}</td>
+                    <tr ng-repeat="client in clients | limitTo:numberC" ng-class="{ active: clients[index].co_cli == client.co_cli }" ng-click="selectClient(client.co_cli)" style="cursor: pointer;">
+                        <td><i class="fas fa-caret-right mx-1" ng-show="clients[index].co_cli == client.co_cli"></i>{{ client.co_cli }}</td>
                         <td>{{ client.cli_des }}</td>
                     </tr>
                 </table>
             </div>
+            <button type="button" class="btn btn-primary mt-2" ng-click="loadClients()">Cargar más clientes</button>
         </div>
         <hr />
         <form action="" method="post" id="form" class="col-md-12 col-xl-9 container-form" onsubmit="return false;">
@@ -815,6 +822,7 @@
         $scope.clients = clients;
         $scope.adding = false;
         $scope.editing = false;
+        $scope.numberC = 200;
 
         $scope.client = clients[$scope.index];
 
@@ -994,6 +1002,10 @@
                         $scope.errorMessage = res.Message;
                     }
                 });
+        }
+
+        $scope.loadClients = function () {
+            $scope.numberC += 200;
         }
     });
 
