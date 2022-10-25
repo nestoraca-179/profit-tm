@@ -1,0 +1,240 @@
+﻿@{
+    ViewBag.Title = "Datos de Empresa";
+}
+
+<div class="container-fluid p-0" ng-app="Business" ng-controller="controller">
+    <div class="dash-container" id="dash-container">
+        <div class="col-md-4 col-xl-3 col-xxl-2 dash-left-side border-right p-0" id="menu-left">
+            <ul class="list-menu dropright">
+                @{
+                    foreach (var item in ViewBag.modules)
+                    {
+                        string disReport = item.ReportURL == "#" ? "disabled" : "";
+
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="@item.Icon"></i>
+                            <p class="mb-0 ml-3">@item.ModuleName</p>
+                            <i class="fas fa-caret-up"></i>
+                        </li>
+                        <div class="my-dropdown">
+                            @{
+                                bool first_t = true;
+                                foreach (var elem in item.Options)
+                                {
+                                    string type = elem.OptionType.Trim();
+                                    if (type == "T")
+                                    {
+                                        if (first_t)
+                                        {
+                                            <p class="title-opt"><i class="fas fa-table"></i> Tablas</p>
+                                            first_t = false;
+                                        }
+
+                                        string disabled = elem.Enabled ? "" : "disabled";
+                                        <a class="dropdown-item @disabled" href="@elem.URL" onclick="$('#modalLoading').modal('show');"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                    }
+                                }
+                            }
+                            @{
+                                bool first_p = true;
+                                foreach (var elem in item.Options)
+                                {
+                                    string type = elem.OptionType.Trim();
+                                    if (type == "P")
+                                    {
+                                        if (first_p)
+                                        {
+                                            <p class="title-opt"><i class="fas fa-sync"></i> Procesos</p>
+                                            first_p = false;
+                                        }
+
+                                        string disabled = elem.Enabled ? "" : "disabled";
+                                        <a class="dropdown-item @disabled" href="@elem.URL" onclick="$('#modalLoading').modal('show');"><i class="@elem.Icon"></i> @elem.OptionName</a>
+                                    }
+                                }
+                            }
+                            <p class="title-opt"><i class="fas fa-file"></i> Reportes</p>
+                            <a class="dropdown-item @disReport" href="@item.ReportURL" onclick="$('#modalLoading').modal('show');"><i class="fas fa-file"></i>  Reportes</a>
+                        </div>
+                    }
+
+                    if (ViewBag.user.Admin)
+                    {
+                        <li class="menu-item" onclick="print(this)">
+                            <i class="fas fa-cog fa-spin"></i>
+                            <p class="mb-0 ml-3">Configuración</p>
+                            <i class="fas fa-caret-up"></i>
+                        </li>
+                        <div class="my-dropdown">
+                            <a class="dropdown-item" href="/Usuarios/Index"><i class="fas fa-user"></i> Usuarios</a>
+                            <a class="dropdown-item" href="/Conexiones/Index"><i class="fas fa-network-wired"></i> Conexiones</a>
+                        </div>
+                    }
+                }
+                <li class="menu-item border-top" onclick="location.href = '/Account/Logout'">
+                    <i class="fas fa-power-off"></i>
+                    <p class="mb-0 ml-3">Cerrar Sesión</p>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
+            @{
+                if (!string.IsNullOrEmpty(ViewBag.message))
+                {
+                    if (ViewBag.message == "OK")
+                    {
+                        <div class="alert alert-success m-3">
+                            <p class="m-0">Datos guardados con éxito</p>
+                        </div>
+                    }
+                    else 
+                    {
+                        <div class="alert alert-danger m-3">
+                            <p class="m-0">@ViewBag.message</p>
+                        </div>
+                    }
+                }
+            }
+            <div class="container-fluid">
+                <h2 class="text-center my-3">Datos de Empresa</h2>
+                @using (Html.BeginForm("GuardarDatos", "Empresa", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.ValidationSummary();
+                    <div class="form-group row mt-4">
+                        <label for="name" class="col-sm-2 col-form-label">Nombre de la Empresa</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name" ng-model="conn.Name">
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label for="rif" class="col-sm-2 col-form-label">R.I.F</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="rif" name="rif" ng-model="conn.RIF">
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label for="phone" class="col-sm-2 col-form-label">Teléfono</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone" name="phone" ng-model="conn.Phone">
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label for="address" class="col-sm-2 col-form-label">Dirección</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="address" name="address" ng-model="conn.Address"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="col-sm-2 col-form-label">Logo actual</label>
+                        <div class="col-sm-10">
+                            <img src="{{ conn.Image }}" alt="Logo" width="400" />
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label for="image" class="col-sm-2 col-form-label">Cambiar logo</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control-file" id="image" name="image" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/angular-min.js"></script>
+<script>
+    var app = angular.module("Business", []);
+    var conn = @Html.Raw(Json.Encode(ViewBag.conn));
+    var btn = document.getElementById("icon-menu");
+    var header = document.getElementById("header-left");
+    var menu = document.getElementById("menu-left");
+    var responsive = screen.availWidth <= 767 ? true : false;
+    var node = null;
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.conn = conn;
+
+        if (responsive) {
+            btn.addEventListener("click", slide);
+        } else {
+            btn.addEventListener("click", hide);
+            $(".menu-item.border-top").attr('style', 'display: none;');
+        }
+
+        $(document).ready(function () {
+            $scope.show = true;
+        });
+
+        window.addEventListener("resize", function () {
+            responsive = screen.availWidth <= 767;
+
+            if (responsive) {
+                btn.removeEventListener("click", hide);
+                btn.addEventListener("click", slide);
+                $(".menu-item.border-top").removeAttr('style', 'display: none;');
+                $("#header-left.active").removeClass("active");
+                $("#menu-left.active").removeClass("active");
+            } else {
+                btn.removeEventListener("click", slide);
+                btn.addEventListener("click", hide);
+                $("ul.list-menu").removeAttr('style');
+                $(".menu-item.border-top").attr('style', 'display: none;');
+            }
+        });
+    });
+
+    function print(elem) {
+
+        let item_active = $("#menu-left.active").length == 1;
+        $(".my-dropdown").slideUp();
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            $(node).children("i.fa-caret-up").hide();
+        }
+
+        $(elem).addClass("selected");
+
+        if (node != elem) {
+
+            $(elem).next().slideDown();
+            $(elem).next().css("display", "flex");
+            $(elem).next().css("flex-direction", "column");
+            $(elem).children("i.fa-caret-up").show();
+            node = elem;
+
+            if (item_active) {
+                $("#header-left").removeClass("active");
+                $("#menu-left").removeClass("active");
+            }
+
+        } else {
+
+            $(elem).removeClass("selected");
+            $(elem).children("i.fa-caret-up").hide();
+            node = null;
+
+        }
+    }
+
+    function hide() {
+
+        if (node != null) {
+            $(node).removeClass("selected");
+            node = null;
+        }
+
+        header.classList.toggle("active");
+        menu.classList.toggle("active");
+
+        $(".my-dropdown").slideUp();
+        $("i.fa-caret-up").hide();
+    }
+
+    function slide() {
+        $(".list-menu").slideToggle()
+    }
+
+</script>

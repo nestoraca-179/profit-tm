@@ -717,16 +717,16 @@
 
         $scope.update = function (tasa) {
 
-            tasa = tasa == null || parseInt(tasa) == 0 ? 1 : tasa;
+            tasa = tasa == null || parseFloat(tasa) == 0 ? 1 : parseFloat(tasa);
 
-            $scope.invoice.total_bruto_om = setSeparator(($scope.invoice.total_bruto / tasa).toFixed(2));
-            $scope.invoice.monto_imp_om = setSeparator(($scope.invoice.monto_imp / tasa).toFixed(2));
-            $scope.invoice.total_neto_om = setSeparator(($scope.invoice.total_neto / tasa).toFixed(2));
-            $scope.invoice.saldo_om = setSeparator(($scope.invoice.saldo / tasa).toFixed(2));
+            $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / tasa).toFixed(2));
+            $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / tasa).toFixed(2));
+            $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / tasa).toFixed(2));
+            $scope.invoice.saldo_om = setSeparator((parse($scope.invoice.saldo) / tasa).toFixed(2));
 
             for (var reng of $scope.invoice.saFacturaVentaReng) {
-                reng.monto_imp_om = setSeparator((reng.monto_imp / tasa).toFixed(2));
-                reng.reng_neto_om = setSeparator((reng.reng_neto / tasa).toFixed(2));
+                reng.monto_imp_om = setSeparator((parse(reng.monto_imp) / tasa).toFixed(2));
+                reng.reng_neto_om = setSeparator((parse(reng.reng_neto) / tasa).toFixed(2));
             }
         }
 
@@ -867,6 +867,11 @@
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;
                     }
+
+                }, function (response) {
+
+                    $("#modalError").modal("show");
+                    $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
 
                 });
 
@@ -1031,6 +1036,10 @@
 
     function setSeparator(value) {
         return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
+    }
+
+    function parse(value) {
+        return parseFloat(value.replace(',', ''));
     }
 
     function convert(invoice) {

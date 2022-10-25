@@ -6,6 +6,10 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="RIF" Type="varchar" MaxLength="20" />
+    <Property Name="Address" Type="varchar(max)" />
+    <Property Name="Phone" Type="varchar" MaxLength="50" />
+    <Property Name="Image" Type="varchar(max)" />
     <Property Name="Server" Type="varchar" MaxLength="100" />
     <Property Name="DB" Type="varchar" MaxLength="80" />
     <Property Name="Username" Type="varchar" MaxLength="50" />
@@ -24,7 +28,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Titulo" Type="varchar(max)" />
     <Property Name="Descripcion" Type="varchar(max)" />
     <Property Name="Fecha" Type="datetime" Nullable="false" />

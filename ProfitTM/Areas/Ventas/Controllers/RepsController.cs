@@ -1,5 +1,6 @@
 ﻿using DevExpress.DataAccess.Sql;
 using DevExpress.Web.Mvc;
+using ProfitTM.Models;
 using System;
 using System.Web.Mvc;
 
@@ -15,7 +16,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult RepFacturaVentaxArtPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
             report.Parameters["fecDesde"].Value = fecha_d;
             report.Parameters["fecHasta"].Value = fecha_h;
 
@@ -35,7 +38,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult RepTotalVentaxArticuloPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
             report1.Parameters["fecDesde"].Value = fecha_d;
             report1.Parameters["fecHasta"].Value = fecha_h;
 
@@ -55,7 +60,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult RepClienteMasVentaPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
             report2.Parameters["fecDesde"].Value = fecha_d;
             report2.Parameters["fecHasta"].Value = fecha_h;
 
