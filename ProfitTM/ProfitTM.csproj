@@ -357,6 +357,7 @@
     <Content Include="Views\Home\AgregarConexion.cshtml" />
     <Content Include="Views\Conexiones\Index.cshtml" />
     <Content Include="Views\Home\SeleccionSucursal.cshtml" />
+    <Content Include="Views\Empresa\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -452,6 +453,7 @@
     <Compile Include="Areas\Ventas\VentasAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConexionesController.cs" />
+    <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfitTMApiController.cs" />

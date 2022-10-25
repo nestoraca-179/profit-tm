@@ -1,10 +1,9 @@
-﻿using ProfitTM.Models;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System;
 using System.Web.Mvc;
 using System.Web.Security;
-using System.Linq;
-using System;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+using ProfitTM.Models;
 
 namespace ProfitTM.Controllers
 {
@@ -210,18 +209,14 @@ namespace ProfitTM.Controllers
 
             if (!connected)
             {
-                Connections conn = new Connections();
-                using (ProfitTMEntities db = new ProfitTMEntities())
-                {
-                    conn = db.Connections.First(c => c.ID.ToString() == connect);
-                }
-
+                Connections conn = Connection.GetConnByID(connect);
                 string connectionString = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
                 SqlConnection connection = new SqlConnection(connectionString);
 
                 Session["CONNECT"] = connectionString;
                 Session["DB"] = connection.Database;
                 Session["NAME_CONN"] = conn.Name;
+                Session["ID_CONN"] = conn.ID;
             }
             else
             {

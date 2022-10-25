@@ -1,5 +1,6 @@
 ﻿using DevExpress.DataAccess.Sql;
 using DevExpress.Web.Mvc;
+using ProfitTM.Models;
 using System;
 using System.Web.Mvc;
 
@@ -12,7 +13,9 @@ namespace ProfitTM.Areas.General.Controllers
         public ActionResult RepBalanceGeneral2KDocePartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
             report.Parameters["fecha"].Value = DateTime.Now;
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
@@ -31,7 +34,9 @@ namespace ProfitTM.Areas.General.Controllers
         public ActionResult RepEstadoResultados2KDocePartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
             report1.Parameters["fecDesde"].Value = DateTime.Now;
             report1.Parameters["fecHasta"].Value = DateTime.Now;
 
@@ -51,7 +56,9 @@ namespace ProfitTM.Areas.General.Controllers
         public ActionResult RepBalanceComprobacionPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
             report2.Parameters["fecDesde"].Value = DateTime.Now;
             report2.Parameters["fecHasta"].Value = DateTime.Now;
 

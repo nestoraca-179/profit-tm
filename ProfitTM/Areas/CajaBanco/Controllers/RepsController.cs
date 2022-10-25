@@ -1,5 +1,6 @@
 ﻿using DevExpress.DataAccess.Sql;
 using DevExpress.Web.Mvc;
+using ProfitTM.Models;
 using System.Web.Mvc;
 
 namespace ProfitTM.Areas.CajaBanco.Controllers
@@ -11,7 +12,9 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
         public ActionResult RepBancoPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
@@ -29,7 +32,9 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
         public ActionResult RepDisponibilidadBancariaPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
@@ -47,7 +52,9 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
         public ActionResult RepMoviBancoXNumPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
@@ -65,7 +72,9 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
         public ActionResult RepDisponibilidadPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
+            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+
+            report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
 
             SqlDataSource ds = report3.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
