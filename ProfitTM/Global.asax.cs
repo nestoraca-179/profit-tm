@@ -46,5 +46,17 @@ namespace ProfitTM
             return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(WebApiConfig.UrlPrefixRelative);
         }
 
+        protected void Session_End(Object sender, EventArgs e)
+        {
+            //All the Session
+            HttpContext.Current.Session.Clear();
+            HttpContext.Current.Session.Abandon();
+        }
+
+        protected void Application_End(object sender, EventArgs e)
+        {
+            HttpContext.Current.Session.Clear();
+            HttpContext.Current.Session.Abandon();
+        }
     }
 }
