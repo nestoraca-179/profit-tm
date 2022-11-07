@@ -278,7 +278,6 @@
     <Content Include="Areas\Ventas\Views\Procesos\Preliquidacion.cshtml" />
     <Content Include="Areas\Ventas\Views\Procesos\ImprimirFactura.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\_RepFormatoFacturaVentaOMPartial.cshtml" />
-    <None Include="Properties\PublishProfiles\ProfitTMRelease.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
     <Content Include="Scripts\highcharts.js" />
@@ -1327,6 +1326,7 @@
     <Folder Include="Areas\Ventas\Views\Reps\" />
     <Folder Include="Areas\Ventas\Views\SQL\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Areas\CajaBanco\Reports\RepBanco.resx">
