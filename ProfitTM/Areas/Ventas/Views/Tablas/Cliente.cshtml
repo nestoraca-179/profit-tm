@@ -189,7 +189,7 @@
                                 <label>Segmento</label>
                                 <div class="input-search">
                                     <input type="text" class="form-control" id="segment" onfocus="this.blur()" ng-model="client.co_seg" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
-                                    <input type="text" class="form-control" id="des_segment" ng-model="client.saSegmento.seg_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                    <input type="text" class="form-control" id="des_segment" ng-model="client.saSegmento.seg_des" ng-disabled="!adding && !editing" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSegments')" data-name="segment"></i>
                                 </div>
                             </div>
@@ -199,7 +199,7 @@
                                 <label>Vendedor</label>
                                 <div class="input-search">
                                     <input type="text" class="form-control" id="seller" onfocus="this.blur()" ng-model="client.co_ven" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
-                                    <input type="text" class="form-control" id="des_seller" ng-model="client.saVendedor.ven_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                    <input type="text" class="form-control" id="des_seller" ng-model="client.saVendedor.ven_des" ng-disabled="!adding && !editing" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
                                 </div>
                             </div>
@@ -211,7 +211,7 @@
                                 <label>Cuenta Ingr/Egr</label>
                                 <div class="input-search">
                                     <input type="text" class="form-control" id="account" onfocus="this.blur()" ng-model="client.co_cta_ingr_egr" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
-                                    <input type="text" class="form-control" id="des_account" ng-model="client.saCuentaIngEgr.descrip" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                    <input type="text" class="form-control" id="des_account" ng-model="client.saCuentaIngEgr.descrip" ng-disabled="!adding && !editing" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="account"></i>
                                 </div>
                             </div>
@@ -259,7 +259,7 @@
                         <label>País</label>
                         <div class="input-search">
                             <input type="text" class="form-control" id="country" onfocus="this.blur()" ng-model="client.co_pais" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
-                            <input type="text" class="form-control" id="des_country" ng-model="client.saPais.pais_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                            <input type="text" class="form-control" id="des_country" ng-model="client.saPais.pais_des" ng-disabled="!adding && !editing" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                             <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCountries')" data-name="country"></i>
                         </div>
                     </div>
@@ -267,7 +267,7 @@
                         <label>Zona</label>
                         <div class="input-search">
                             <input type="text" class="form-control" id="zone" onfocus="this.blur()" ng-model="client.co_zon" ng-disabled="!adding && !editing" ng-required="true" style="flex: 1;" />
-                            <input type="text" class="form-control" id="des_zone" ng-model="client.saZona.zon_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                            <input type="text" class="form-control" id="des_zone" ng-model="client.saZona.zon_des" ng-disabled="!adding && !editing" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                             <i class="fas fa-search" role="button" onclick="openModal(this, 'modalZones')" data-name="zone"></i>
                         </div>
                     </div>
@@ -803,6 +803,11 @@
     var app = angular.module("Clients", []);
     var clients = @Html.Raw(ViewBag.clients);
     var types = @Html.Raw(Json.Encode(ViewBag.types));
+    var segments = @Html.Raw(Json.Encode(ViewBag.segments));
+    var sellers = @Html.Raw(Json.Encode(ViewBag.sellers));
+    var accounts = @Html.Raw(Json.Encode(ViewBag.accounts));
+    var countries = @Html.Raw(Json.Encode(ViewBag.countries));
+    var zones = @Html.Raw(Json.Encode(ViewBag.zones));
     var conds = @Html.Raw(Json.Encode(ViewBag.conds));
 
     for (var item of clients) {
@@ -1011,12 +1016,32 @@
         }
     });
 
-    function searchCond(value) {
-        return conds.find(c => c.co_cond == value).cond_des;
-    }
-
     function searchType(value) {
         return types.find(c => c.tip_cli == value).des_tipo;
+    }
+
+    function searchSegment(value) {
+        return segments.find(c => c.co_seg == value).seg_des;
+    }
+
+    function searchSeller(value) {
+        return sellers.find(c => c.co_ven == value).ven_des;
+    }
+
+    function searchAccount(value) {
+        return accounts.find(c => c.co_cta_ingr_egr == value).descrip;
+    }
+
+    function searchCountry(value) {
+        return countries.find(c => c.co_pais == value).pais_des;
+    }
+
+    function searchZone(value) {
+        return zones.find(c => c.co_zon == value).zon_des;
+    }
+
+    function searchCond(value) {
+        return conds.find(c => c.co_cond == value).cond_des;
     }
 
     function origDate(value) {
@@ -1080,10 +1105,28 @@
             $("#" + modal).find("input[type=text]").val("");
             $("#" + modal).find("button[name=search-btn]").trigger("click");
 
-            if (input == "cond") {
-                $("#des_cond").val(searchCond(value));
-            } else if (input == "type") {
-                $("#des_type").val(searchType(value));
+            switch (input) {
+                case "type":
+                    $("#des_type").val(searchType(value));
+                    break;
+                case "segment":
+                    $("#des_segment").val(searchSegment(value));
+                    break;
+                case "seller":
+                    $("#des_seller").val(searchSeller(value));
+                    break;
+                case "account":
+                    $("#des_account").val(searchAccount(value));
+                    break;
+                case "country":
+                    $("#des_country").val(searchCountry(value));
+                    break;
+                case "zone":
+                    $("#des_zone").val(searchZone(value));
+                    break;
+                case "cond":
+                    $("#des_cond").val(searchCond(value));
+                    break;
             }
 
             $("#" + modal).modal("hide");
