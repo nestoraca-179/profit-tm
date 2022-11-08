@@ -47,13 +47,13 @@ public class RepDisponibilidadBancaria : DevExpress.XtraReports.UI.XtraReport
     private XRLabel xrLabel3;
     private CalculatedField total;
     public XRPictureBox PB_Logo;
-    private XRLabel xrLabel5;
-    private XRLabel xrLabel1;
-    private XRLabel xrLabel4;
-    private XRLabel xrLabel2;
-    private XRLabel xrLabel6;
-    private XRLabel xrLabel7;
+    public XRLabel LBL_RIF;
+    public XRLabel LBL_Telf;
+    public XRLabel LBL_Direc;
     private XRLabel xrLabel8;
+    private XRLabel xrLabel7;
+    private XRLabel xrLabel6;
+    public XRLabel LBL_DescEmpresa;
 
     /// <summary>
     /// Required designer variable.
@@ -104,9 +104,6 @@ public class RepDisponibilidadBancaria : DevExpress.XtraReports.UI.XtraReport
             DevExpress.DataAccess.Sql.QueryParameter queryParameter11 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter12 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery1 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
-            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery2 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
-            DevExpress.DataAccess.Sql.QueryParameter queryParameter13 = new DevExpress.DataAccess.Sql.QueryParameter();
-            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery3 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepDisponibilidadBancaria));
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings1 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
             DevExpress.XtraReports.Parameters.DynamicListLookUpSettings dynamicListLookUpSettings2 = new DevExpress.XtraReports.Parameters.DynamicListLookUpSettings();
@@ -146,14 +143,14 @@ public class RepDisponibilidadBancaria : DevExpress.XtraReports.UI.XtraReport
             this.cueDesde = new DevExpress.XtraReports.Parameters.Parameter();
             this.cueHasta = new DevExpress.XtraReports.Parameters.Parameter();
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
-            this.PB_Logo = new DevExpress.XtraReports.UI.XRPictureBox();
-            this.xrLabel5 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel6 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel7 = new DevExpress.XtraReports.UI.XRLabel();
+            this.LBL_RIF = new DevExpress.XtraReports.UI.XRLabel();
+            this.LBL_Telf = new DevExpress.XtraReports.UI.XRLabel();
+            this.LBL_Direc = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel8 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel7 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel6 = new DevExpress.XtraReports.UI.XRLabel();
+            this.LBL_DescEmpresa = new DevExpress.XtraReports.UI.XRLabel();
+            this.PB_Logo = new DevExpress.XtraReports.UI.XRPictureBox();
             this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
@@ -211,21 +208,9 @@ public class RepDisponibilidadBancaria : DevExpress.XtraReports.UI.XtraReport
             customSqlQuery1.Name = "Cuentas";
             customSqlQuery1.Sql = "select CB.cod_cta, B.des_ban from saCuentaBancaria CB\r\ninner join saBanco B on CB" +
     ".co_ban = B.co_ban";
-            customSqlQuery2.Name = "Master";
-            queryParameter13.Name = "DB";
-            queryParameter13.Type = typeof(string);
-            customSqlQuery2.Parameters.Add(queryParameter13);
-            customSqlQuery2.Sql = "select cod_empresa, desc_empresa, rif from [MasterProfitPro].dbo.MpEmpresa\r\nwhere" +
-    " cod_empresa = @DB";
-            customSqlQuery3.Name = "Datos";
-            customSqlQuery3.Sql = "select\r\n\t(select val_str from saAdiCampo where co_adicampo = \'DIR_FIS\') as Direcc" +
-    "ion,\r\n\t(select val_str from saAdiCampo where co_adicampo = \'TELEF\') as Telefono\r" +
-    "\n";
             this.DemoAdmin.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
             storedProcQuery1,
-            customSqlQuery1,
-            customSqlQuery2,
-            customSqlQuery3});
+            customSqlQuery1});
             this.DemoAdmin.ResultSchemaSerializable = resources.GetString("DemoAdmin.ResultSchemaSerializable");
             // 
             // Title
@@ -595,14 +580,14 @@ public class RepDisponibilidadBancaria : DevExpress.XtraReports.UI.XtraReport
             // PageHeader
             // 
             this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.PB_Logo,
-            this.xrLabel5,
-            this.xrLabel1,
-            this.xrLabel4,
-            this.xrLabel2,
-            this.xrLabel6,
-            this.xrLabel7,
+            this.LBL_RIF,
+            this.LBL_Telf,
+            this.LBL_Direc,
             this.xrLabel8,
+            this.xrLabel7,
+            this.xrLabel6,
+            this.LBL_DescEmpresa,
+            this.PB_Logo,
             this.label1,
             this.xrPageInfo1,
             this.xrPageInfo2,
@@ -611,88 +596,35 @@ public class RepDisponibilidadBancaria : DevExpress.XtraReports.UI.XtraReport
             this.PageHeader.HeightF = 207.8749F;
             this.PageHeader.Name = "PageHeader";
             // 
-            // PB_Logo
+            // LBL_RIF
             // 
-            this.PB_Logo.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 10.00001F);
-            this.PB_Logo.Name = "PB_Logo";
-            this.PB_Logo.SizeF = new System.Drawing.SizeF(128.5417F, 102.611F);
-            this.PB_Logo.Sizing = DevExpress.XtraPrinting.ImageSizeMode.ZoomImage;
+            this.LBL_RIF.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.LBL_RIF.LocationFloat = new DevExpress.Utils.PointFloat(212.5F, 32.99999F);
+            this.LBL_RIF.Multiline = true;
+            this.LBL_RIF.Name = "LBL_RIF";
+            this.LBL_RIF.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.LBL_RIF.SizeF = new System.Drawing.SizeF(327.9606F, 17.99997F);
+            this.LBL_RIF.StylePriority.UseFont = false;
             // 
-            // xrLabel5
+            // LBL_Telf
             // 
-            this.xrLabel5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Datos].[Telefono]")});
-            this.xrLabel5.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.xrLabel5.LocationFloat = new DevExpress.Utils.PointFloat(212.5001F, 50.99993F);
-            this.xrLabel5.Multiline = true;
-            this.xrLabel5.Name = "xrLabel5";
-            this.xrLabel5.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel5.SizeF = new System.Drawing.SizeF(327.96F, 18F);
-            this.xrLabel5.StylePriority.UseFont = false;
-            this.xrLabel5.Text = "xrLabel5";
+            this.LBL_Telf.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.LBL_Telf.LocationFloat = new DevExpress.Utils.PointFloat(212.4983F, 50.99996F);
+            this.LBL_Telf.Multiline = true;
+            this.LBL_Telf.Name = "LBL_Telf";
+            this.LBL_Telf.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.LBL_Telf.SizeF = new System.Drawing.SizeF(327.9623F, 18F);
+            this.LBL_Telf.StylePriority.UseFont = false;
             // 
-            // xrLabel1
+            // LBL_Direc
             // 
-            this.xrLabel1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Master].[desc_empresa]")});
-            this.xrLabel1.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold);
-            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 10.00001F);
-            this.xrLabel1.Multiline = true;
-            this.xrLabel1.Name = "xrLabel1";
-            this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel1.SizeF = new System.Drawing.SizeF(391.5023F, 22.99998F);
-            this.xrLabel1.StylePriority.UseFont = false;
-            this.xrLabel1.Text = "xrLabel1";
-            // 
-            // xrLabel4
-            // 
-            this.xrLabel4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Datos].[Direccion]")});
-            this.xrLabel4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(212.5001F, 68.99995F);
-            this.xrLabel4.Multiline = true;
-            this.xrLabel4.Name = "xrLabel4";
-            this.xrLabel4.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel4.SizeF = new System.Drawing.SizeF(327.96F, 43.61105F);
-            this.xrLabel4.StylePriority.UseFont = false;
-            this.xrLabel4.Text = "xrLabel4";
-            // 
-            // xrLabel2
-            // 
-            this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Master].[rif]")});
-            this.xrLabel2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(212.5001F, 32.99999F);
-            this.xrLabel2.Multiline = true;
-            this.xrLabel2.Name = "xrLabel2";
-            this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel2.SizeF = new System.Drawing.SizeF(327.96F, 17.99996F);
-            this.xrLabel2.StylePriority.UseFont = false;
-            this.xrLabel2.StylePriority.UseTextAlignment = false;
-            this.xrLabel2.Text = "xrLabel2";
-            this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-            // 
-            // xrLabel6
-            // 
-            this.xrLabel6.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.xrLabel6.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 68.99995F);
-            this.xrLabel6.Multiline = true;
-            this.xrLabel6.Name = "xrLabel6";
-            this.xrLabel6.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel6.SizeF = new System.Drawing.SizeF(63.53999F, 43.61105F);
-            this.xrLabel6.StylePriority.UseFont = false;
-            this.xrLabel6.Text = "Dirección:";
-            // 
-            // xrLabel7
-            // 
-            this.xrLabel7.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.xrLabel7.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 50.99993F);
-            this.xrLabel7.Multiline = true;
-            this.xrLabel7.Name = "xrLabel7";
-            this.xrLabel7.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel7.SizeF = new System.Drawing.SizeF(63.54F, 18F);
-            this.xrLabel7.StylePriority.UseFont = false;
-            this.xrLabel7.Text = "Teléfonos:";
+            this.LBL_Direc.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.LBL_Direc.LocationFloat = new DevExpress.Utils.PointFloat(212.4983F, 68.99995F);
+            this.LBL_Direc.Multiline = true;
+            this.LBL_Direc.Name = "LBL_Direc";
+            this.LBL_Direc.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.LBL_Direc.SizeF = new System.Drawing.SizeF(327.9623F, 42.45835F);
+            this.LBL_Direc.StylePriority.UseFont = false;
             // 
             // xrLabel8
             // 
@@ -704,6 +636,46 @@ public class RepDisponibilidadBancaria : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel8.SizeF = new System.Drawing.SizeF(63.54167F, 17.99997F);
             this.xrLabel8.StylePriority.UseFont = false;
             this.xrLabel8.Text = "RIF:";
+            // 
+            // xrLabel7
+            // 
+            this.xrLabel7.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.xrLabel7.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 50.99995F);
+            this.xrLabel7.Multiline = true;
+            this.xrLabel7.Name = "xrLabel7";
+            this.xrLabel7.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel7.SizeF = new System.Drawing.SizeF(63.54F, 18F);
+            this.xrLabel7.StylePriority.UseFont = false;
+            this.xrLabel7.Text = "Teléfonos:";
+            // 
+            // xrLabel6
+            // 
+            this.xrLabel6.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.xrLabel6.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 68.99995F);
+            this.xrLabel6.Multiline = true;
+            this.xrLabel6.Name = "xrLabel6";
+            this.xrLabel6.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel6.SizeF = new System.Drawing.SizeF(63.53999F, 42.45835F);
+            this.xrLabel6.StylePriority.UseFont = false;
+            this.xrLabel6.Text = "Dirección:";
+            // 
+            // LBL_DescEmpresa
+            // 
+            this.LBL_DescEmpresa.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold);
+            this.LBL_DescEmpresa.LocationFloat = new DevExpress.Utils.PointFloat(148.9583F, 10.00001F);
+            this.LBL_DescEmpresa.Multiline = true;
+            this.LBL_DescEmpresa.Name = "LBL_DescEmpresa";
+            this.LBL_DescEmpresa.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.LBL_DescEmpresa.SizeF = new System.Drawing.SizeF(391.5023F, 22.99998F);
+            this.LBL_DescEmpresa.StylePriority.UseFont = false;
+            this.LBL_DescEmpresa.Text = "LBL_DescEmpresa";
+            // 
+            // PB_Logo
+            // 
+            this.PB_Logo.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 10.00001F);
+            this.PB_Logo.Name = "PB_Logo";
+            this.PB_Logo.SizeF = new System.Drawing.SizeF(128.5417F, 102.611F);
+            this.PB_Logo.Sizing = DevExpress.XtraPrinting.ImageSizeMode.ZoomImage;
             // 
             // xrPageInfo1
             // 

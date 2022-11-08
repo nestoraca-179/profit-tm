@@ -13,14 +13,17 @@ namespace ProfitTM.Areas.Compras.Controllers
         public ActionResult RepCompraxArtPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+            Connections conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
 
-            report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
+            report.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + conn.Image;
+            report.LBL_DescEmpresa.Text = conn.Name;
+            report.LBL_RIF.Text = conn.RIF;
+            report.LBL_Telf.Text = conn.Phone;
+            report.LBL_Direc.Text = conn.Address;
             report.Parameters["fecHasta"].Value = DateTime.Now;
 
             SqlDataSource ds = report.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
-            ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Compras/Views/Reportes/_RepCompraxArtPartial.cshtml", report);
         }
@@ -34,13 +37,16 @@ namespace ProfitTM.Areas.Compras.Controllers
         public ActionResult RepTotalCompraxArticuloPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+            Connections conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
 
-            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
+            report1.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + conn.Image;
+            report1.LBL_DescEmpresa.Text = conn.Name;
+            report1.LBL_RIF.Text = conn.RIF;
+            report1.LBL_Telf.Text = conn.Phone;
+            report1.LBL_Direc.Text = conn.Address;
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
-            ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Compras/Views/Reportes/_RepTotalCompraxArticuloPartial.cshtml", report1);
         }
@@ -54,13 +60,16 @@ namespace ProfitTM.Areas.Compras.Controllers
         public ActionResult RepProveedorMasCompraPartial()
         {
             string connect = Session["CONNECT"].ToString();
-            string path = Connection.GetConnByID(Session["ID_CONN"].ToString()).Image;
+            Connections conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
 
-            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + path;
+            report2.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + conn.Image;
+            report2.LBL_DescEmpresa.Text = conn.Name;
+            report2.LBL_RIF.Text = conn.RIF;
+            report2.LBL_Telf.Text = conn.Phone;
+            report2.LBL_Direc.Text = conn.Address;
 
             SqlDataSource ds = report2.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
-            ds.Queries["Master"].Parameters[0].Value = Session["DB"].ToString();
 
             return PartialView("~/Areas/Compras/Views/Reportes/_RepProveedorMasCompraPartial.cshtml", report2);
         }

@@ -227,7 +227,6 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.Core
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.CopyComplete
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.pdb
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.AssemblyReference.cache
 C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ProfitTM.dll.config
 C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ProfitTM.dll
 C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ProfitTM.pdb
@@ -458,3 +457,4 @@ C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\obj\R
 C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.CopyComplete
 C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll
 C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.pdb
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.AssemblyReference.cache
