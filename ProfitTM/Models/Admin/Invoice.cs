@@ -217,7 +217,12 @@ namespace ProfitTM.Models
                         {
                             do
                             {
-                                var sp_n_cont = context.pConsecutivoProximo(sucur, "FACT_VTA_N_CON").GetEnumerator();
+                                string consec = "FACT_VTA_N_CON";
+
+                                if (user == "KKCC" || user == "LMMS" || user == "FJPN")
+                                    consec = "FACT_VTA_N_CON_2";
+
+                                var sp_n_cont = context.pConsecutivoProximo(sucur, consec).GetEnumerator();
                                 if (sp_n_cont.MoveNext())
                                     n_cont = sp_n_cont.Current;
 

@@ -439,13 +439,13 @@ public class RepDisponibilidad : DevExpress.XtraReports.UI.XtraReport
             this.GroupHeader1.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
             new DevExpress.XtraReports.UI.GroupField("nombre", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
             this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
-            this.GroupHeader1.HeightF = 27F;
+            this.GroupHeader1.HeightF = 25F;
             this.GroupHeader1.Level = 1;
             this.GroupHeader1.Name = "GroupHeader1";
             // 
             // table1
             // 
-            this.table1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 2F);
+            this.table1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.table1.Name = "table1";
             this.table1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.tableRow1});

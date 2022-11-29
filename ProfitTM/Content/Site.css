@@ -171,7 +171,7 @@ input#username::placeholder, input#pass::placeholder {
     text-align: center;
     background: #333;
     border-radius: 0 0 5px 5px;
-    border: 2px #aca7a7 solid;
+    border: 1px #aca7a7 solid;
     border-top: 0;
     position: absolute;
     left: 0;
