@@ -278,6 +278,7 @@
     <Content Include="Areas\Ventas\Views\Procesos\Preliquidacion.cshtml" />
     <Content Include="Areas\Ventas\Views\Procesos\ImprimirFactura.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\_RepFormatoFacturaVentaOMPartial.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\Caja.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
     <Content Include="Scripts\highcharts.js" />
