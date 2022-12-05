@@ -43,6 +43,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
             report1.LBL_RIF.Text = conn.RIF;
             report1.LBL_Telf.Text = conn.Phone;
             report1.LBL_Direc.Text = conn.Address;
+            report1.Parameters["fecha"].Value = DateTime.Now;
 
             SqlDataSource ds = report1.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;

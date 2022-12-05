@@ -13,6 +13,7 @@ namespace ProfitTM.Controllers
             ViewBag.user = Session["USER"];
             ViewBag.connect = Session["CONNECT"];
             ViewBag.modules = Session["MODULES"];
+            ViewBag.product = "Administrativo";
 
             if (ViewBag.user == null)
             {
@@ -26,6 +27,8 @@ namespace ProfitTM.Controllers
             else
             {
                 ViewBag.message = message;
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
                 ViewBag.conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
 
                 return View();

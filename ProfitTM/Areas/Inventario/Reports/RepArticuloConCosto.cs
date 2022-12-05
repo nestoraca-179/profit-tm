@@ -376,7 +376,7 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             this.tableCell8.StyleName = "DetailData1";
             this.tableCell8.StylePriority.UseBorders = false;
             this.tableCell8.StylePriority.UseFont = false;
-            this.tableCell8.Weight = 0.14228135329026442D;
+            this.tableCell8.Weight = 0.16792236328125D;
             // 
             // tableCell9
             // 
@@ -386,7 +386,7 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             this.tableCell9.Name = "tableCell9";
             this.tableCell9.StyleName = "DetailData1";
             this.tableCell9.StylePriority.UseFont = false;
-            this.tableCell9.Weight = 0.36994868351862975D;
+            this.tableCell9.Weight = 0.34430767352764419D;
             // 
             // tableCell10
             // 
@@ -657,7 +657,7 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             this.tableCell1.StylePriority.UseTextAlignment = false;
             this.tableCell1.Text = "Código";
             this.tableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell1.Weight = 0.13753861960386621D;
+            this.tableCell1.Weight = 0.16232495195437702D;
             // 
             // tableCell2
             // 
@@ -668,7 +668,7 @@ public class RepArticuloConCosto : DevExpress.XtraReports.UI.XtraReport
             this.tableCell2.StylePriority.UseTextAlignment = false;
             this.tableCell2.Text = "Artículo";
             this.tableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell2.Weight = 0.35761701398018075D;
+            this.tableCell2.Weight = 0.33283068162966994D;
             // 
             // tableCell3
             // 
