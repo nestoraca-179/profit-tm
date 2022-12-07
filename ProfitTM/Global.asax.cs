@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.SessionState;
+using ProfitTM.Models;
 
 namespace ProfitTM
 {
@@ -29,7 +30,8 @@ namespace ProfitTM
         }
 
         protected void Application_Error(object sender, EventArgs e) {
-            Exception exception = System.Web.HttpContext.Current.Server.GetLastError();
+            Exception ex = System.Web.HttpContext.Current.Server.GetLastError();
+            Incident.CreateIncident("APPLICATION ERROR", ex);
             //TODO: Handle Exception
         }
 
@@ -44,19 +46,6 @@ namespace ProfitTM
         private bool IsWebApiRequest()
         {
             return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(WebApiConfig.UrlPrefixRelative);
-        }
-
-        protected void Session_End(Object sender, EventArgs e)
-        {
-            //All the Session
-            HttpContext.Current.Session.Clear();
-            HttpContext.Current.Session.Abandon();
-        }
-
-        protected void Application_End(object sender, EventArgs e)
-        {
-            HttpContext.Current.Session.Clear();
-            HttpContext.Current.Session.Abandon();
         }
     }
 }

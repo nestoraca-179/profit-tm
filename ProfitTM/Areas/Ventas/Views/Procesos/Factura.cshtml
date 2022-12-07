@@ -129,7 +129,7 @@
                     </div>
                     <div class="col d-flex justify-content-end button-import p-0" ng-show="!adding">
                         <p ng-if="invoice.impresa" class="my-0 d-flex align-items-center" style="margin-right: 5px;"><b>Doc. Impreso</b></p>
-                        <button type="button" class="btn" style="background: #ec9d0b; color: #FFF; margin-right: 5px;" ng-disabled="invoice.anulado || invoice.impresa" ng-click="print(invoice.doc_num)">
+                        <button type="button" class="btn" style="background: #ec9d0b; color: #FFF; margin-right: 5px;" ng-disabled="invoice.anulado" ng-click="print(invoice.doc_num)">
                             <i class="fas fa-print"></i> Imprimir
                         </button>
                         <p ng-if="invoice.anulado" class="my-0 d-flex align-items-center" style="margin-right: 5px;"><b>Anulado</b></p>

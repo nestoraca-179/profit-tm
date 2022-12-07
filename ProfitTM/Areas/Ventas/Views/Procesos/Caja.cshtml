@@ -1,10 +1,27 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Cajas";
 }
-
 <style>
-
+    table thead {
+        background: #0277bd;
+        color: #FFF;
+    }
+    table td {
+        vertical-align: middle;
+    }
+    .status {
+        padding: 5px;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        color: #FFF;
+    }
+    .buttons-actions {
+        justify-content: space-around;
+        font-size: 20px;
+        color: #6c6c6c;
+        cursor: pointer;
+    }
 </style>
 <div class="container-fluid">
     <div class="row m-3">
@@ -17,7 +34,7 @@
         <div class="col"></div>
     </div>
     <hr />
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Usuario</th>
@@ -26,9 +43,10 @@
                 <th>Saldo Inicial</th>
                 <th>Depósitos</th>
                 <th>Retiros</th>
-                <th>Ventas</th>
+                <th>Ventas Contado</th>
                 <th>Saldo en Caja</th>
-                <th>Estado</th>
+                <th class="text-center">Estado</th>
+                <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +59,16 @@
                 <td>30.00</td>
                 <td>100.00</td>
                 <td>300.00</td>
-                <td>ABIERTO</td>
+                <td>
+                    <p class="status bg-success m-0">ABIERTO</p>
+                </td>
+                <td>
+                    <div class="buttons-actions">
+                        <i class="fas fa-exchange" title="Generar Movimiento" data-toggle="modal" data-target="#modal-exchange"></i>
+                        <i class="fas fa-eye" title="Ver Transacciones" data-toggle="modal" data-target="#modal-eye"></i>
+                        <i class="fas fa-dollar-sign" title="Cerrar Caja" data-toggle="modal" data-target="#modal-dollar-sign"></i>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>GSSP</td>
@@ -52,8 +79,77 @@
                 <td>30.00</td>
                 <td>100.00</td>
                 <td>450.00</td>
-                <td>CERRADO</td>
+                <td>
+                    <p class="status bg-danger m-0">CERRADO</p>
+                </td>
+                <td>
+                    <div class="buttons-actions">
+                        <i class="fas fa-exchange"></i>
+                        <i class="fas fa-eye"></i>
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
+    <!-- Modal Generar Movimiento -->
+    <div class="modal fade" id="modal-exchange" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Generar Movimiento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Ver Transacciones -->
+    <div class="modal fade" id="modal-eye" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ver Transacciones</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Cerrar Caja -->
+    <div class="modal fade" id="modal-dollar-sign" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cerrar Caja</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
