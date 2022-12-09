@@ -2,6 +2,14 @@
     ViewBag.Title = "Cajas";
 }
 <style>
+    input, select, textarea {
+        border: solid 1px #d7d7d7;
+        border-radius: 5px;
+        box-shadow: none;
+    }
+    input[type=text] {
+        padding: 5px;
+    }
     table thead {
         background: #0277bd;
         color: #FFF;
@@ -22,11 +30,35 @@
         color: #6c6c6c;
         cursor: pointer;
     }
+    .fa-exchange {
+        color: #79a1ff;
+    }
+    .fa-eye {
+        color: #ffb300;
+    }
+    .fa-dollar-sign {
+        color: #208c01;
+    }
+    .modal-dialog {
+        min-width: 650px !important;
+    }
+    .controls {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+    .controls > * {
+        width: 50%;
+    }
 </style>
-<div class="container-fluid">
+<script src="~/Scripts/angular-min.js"></script>
+<div class="container-fluid" ng-app="Billings" ng-controller="controller">
     <div class="row m-3">
         <div class="col">
-            <button class="btn btn-success">Nuevo</button>
+            <button class="btn btn-success d-flex align-items-center" data-toggle="modal" data-target="#modal-new">
+                <i class="fas fa-plus"></i>
+                <p class="mx-2 my-0">Nuevo</p>
+            </button>
         </div>
         <div class="col">
             <h2 class="text-center">Control de Cajas</h2>
@@ -50,51 +82,57 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>LMMS</td>
-                <td>01-12-2022</td>
-                <td>02-12-2022</td>
-                <td>100.00</td>
-                <td>50.00</td>
-                <td>30.00</td>
-                <td>100.00</td>
-                <td>300.00</td>
-                <td>
+            <tr ng-repeat="item in items">
+                <td>{{ item.UserID }}</td>
+                <td>{{ item.DateS }}</td>
+                <td>{{ item.DateE }}</td>
+                <td>{{ item.AmountInit.toFixed(2) }}</td>
+                <td>{{ item.Incomes.toFixed(2) }}</td>
+                <td>{{ item.Expenses.toFixed(2) }}</td>
+                <td>{{ item.Sales.toFixed(2) }}</td>
+                <td>{{ item.Total.toFixed(2) }}</td>
+                <td ng-if="item.Open">
                     <p class="status bg-success m-0">ABIERTO</p>
                 </td>
-                <td>
-                    <div class="buttons-actions">
-                        <i class="fas fa-exchange" title="Generar Movimiento" data-toggle="modal" data-target="#modal-exchange"></i>
-                        <i class="fas fa-eye" title="Ver Transacciones" data-toggle="modal" data-target="#modal-eye"></i>
-                        <i class="fas fa-dollar-sign" title="Cerrar Caja" data-toggle="modal" data-target="#modal-dollar-sign"></i>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>GSSP</td>
-                <td>01-12-2022</td>
-                <td>02-12-2022</td>
-                <td>100.00</td>
-                <td>50.00</td>
-                <td>30.00</td>
-                <td>100.00</td>
-                <td>450.00</td>
-                <td>
+                <td ng-if="!item.Open">
                     <p class="status bg-danger m-0">CERRADO</p>
                 </td>
                 <td>
                     <div class="buttons-actions">
-                        <i class="fas fa-exchange"></i>
-                        <i class="fas fa-eye"></i>
-                        <i class="fas fa-dollar-sign"></i>
+                        <i class="fas fa-exchange" title="Generar Movimiento" data-toggle="modal" data-target="#modal-exchange"></i>
+                        <i class="fas fa-eye" title="Ver Transacciones" ng-click="viewMov(item.ID)"></i>
+                        <i class="fas fa-dollar-sign" title="Cerrar Caja" data-toggle="modal" data-target="#modal-dollar-sign"></i>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
+    <!-- Modal Nuevo -->
+    <div class="modal fade" id="modal-new" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Abrir Caja</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="controls">
+                        <label>Monto</label>
+                        <input type="text" ng-model="initAmount" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success" ng-click="addBox()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal Generar Movimiento -->
     <div class="modal fade" id="modal-exchange" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document">
+        <form class="modal-dialog" id="form" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Generar Movimiento</h5>
@@ -110,13 +148,21 @@
                             <option value="E">Egreso</option>
                         </select>
                     </div>
+                    <div class="controls">
+                        <label>Monto</label>
+                        <input type="text" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                    </div>
+                    <div class="controls">
+                        <label>Comentario</label>
+                        <textarea required style="font-size: 14px;"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Aceptar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success" ng-click="sendMov()">Aceptar</button>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <!-- Modal Ver Transacciones -->
     <div class="modal fade" id="modal-eye" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -129,11 +175,33 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <table ng-if="movs.length > 0" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                                <th>Fecha</th>
+                                <th>Comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="m in movs" style="font-size: 14px;">
+                                <td>{{ m.ID }}</td>
+                                <td>{{ m.UserID }}</td>
+                                <td ng-if="m.Type == 1" style="font-weight: bold;" class="text-success">INGRESO (+)</td>
+                                <td ng-if="m.Type == 2" style="font-weight: bold;" class="text-danger">EGRESO (-)</td>
+                                <td>{{ m.Amount.toFixed(2) }}</td>
+                                <td>{{ m.Date }}</td>
+                                <td>{{ m.Comment }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p ng-if="movs.length == 0" class="text-center">No hay transacciones</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -159,3 +227,78 @@
         </div>
     </div>
 </div>
+<script>
+    var app = angular.module("Billings", []);
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.initAmount = 0;
+
+        $scope.items = [
+            {
+                ID: 1,
+                UserID: "GSSP",
+                DateS: "09-12-2022",
+                DateE: null,
+                AmountInit: 100.00,
+                Incomes: 50.00,
+                Expenses: 30.00,
+                Sales: 0.00,
+                Total: 120.00,
+                Open: true
+            },
+            {
+                ID: 2,
+                UserID: "LMMS",
+                DateS: "08-12-2022",
+                DateE: "08-12-2022",
+                AmountInit: 100.00,
+                Incomes: 50.00,
+                Expenses: 30.00,
+                Sales: 0.00,
+                Total: 120.00,
+                Open: false
+            },
+        ];
+
+        $scope.moves = [
+            {
+                ID: 1,
+                BoxID: 1,
+                UserID: "NACA",
+                Amount: 50,
+                Type: 1,
+                Date: "09-12-2022 15:52:36",
+                Comment: "Initial Move",
+            },
+            {
+                ID: 2,
+                BoxID: 1,
+                UserID: "NMCT",
+                Amount: 30,
+                Type: 2,
+                Date: "09-12-2022 16:52:36",
+                Comment: "Final Move",
+            }
+        ];
+
+        $scope.sendMov = function () {
+
+            if ($("#form")[0].checkValidity()) {
+                alert("Has ingresado un movimiento!");
+            }
+        }
+
+        $scope.viewMov = function (id) {
+
+            $scope.movs = $scope.moves.filter(m => m.BoxID == id);
+            $("#modal-eye").modal("show");
+        }
+
+        $scope.addBox = function () {
+
+
+        }
+    });
+
+</script>
