@@ -93,7 +93,7 @@
         </tbody>
     </table>
     <!-- Modal Generar Movimiento -->
-    <div class="modal fade" id="modal-exchange" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modal-exchange" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -103,7 +103,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div class="controls">
+                        <label>Tipo de Movimiento</label>
+                        <select>
+                            <option value="I">Ingreso</option>
+                            <option value="E">Egreso</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -113,7 +119,7 @@
         </div>
     </div>
     <!-- Modal Ver Transacciones -->
-    <div class="modal fade" id="modal-eye" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modal-eye" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -133,7 +139,7 @@
         </div>
     </div>
     <!-- Modal Cerrar Caja -->
-    <div class="modal fade" id="modal-dollar-sign" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modal-dollar-sign" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
