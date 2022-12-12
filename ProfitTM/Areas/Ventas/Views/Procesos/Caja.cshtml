@@ -36,7 +36,7 @@
     .fa-eye {
         color: #ffb300;
     }
-    .fa-dollar-sign {
+    table .fa-dollar-sign {
         color: #208c01;
     }
     .modal-dialog {
@@ -55,7 +55,7 @@
 <div class="container-fluid" ng-app="Billings" ng-controller="controller">
     <div class="row m-3">
         <div class="col">
-            <button class="btn btn-success d-flex align-items-center" data-toggle="modal" data-target="#modal-new">
+            <button class="btn btn-success d-flex align-items-center" data-toggle="modal" data-target="#modal-new" onclick="setTimeout(() => $('#initAmount').focus(), 1000)">
                 <i class="fas fa-plus"></i>
                 <p class="mx-2 my-0">Nuevo</p>
             </button>
@@ -82,25 +82,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in items">
-                <td>{{ item.UserID }}</td>
-                <td>{{ item.DateS }}</td>
-                <td>{{ item.DateE }}</td>
-                <td>{{ item.AmountInit.toFixed(2) }}</td>
-                <td>{{ item.Incomes.toFixed(2) }}</td>
-                <td>{{ item.Expenses.toFixed(2) }}</td>
-                <td>{{ item.Sales.toFixed(2) }}</td>
-                <td>{{ item.Total.toFixed(2) }}</td>
-                <td ng-if="item.Open">
+            <tr ng-repeat="box in boxes">
+                <td>{{ box.UserID }}</td>
+                <td>{{ box.DateS }}</td>
+                <td>{{ box.DateE }}</td>
+                <td>{{ box.AmountInit.toFixed(2) }}</td>
+                <td>{{ box.Incomes.toFixed(2) }}</td>
+                <td>{{ box.Expenses.toFixed(2) }}</td>
+                <td>{{ box.Sales.toFixed(2) }}</td>
+                <td>{{ box.Total.toFixed(2) }}</td>
+                <td ng-if="box.Open">
                     <p class="status bg-success m-0">ABIERTO</p>
                 </td>
-                <td ng-if="!item.Open">
+                <td ng-if="!box.Open">
                     <p class="status bg-danger m-0">CERRADO</p>
                 </td>
                 <td>
                     <div class="buttons-actions">
                         <i class="fas fa-exchange" title="Generar Movimiento" data-toggle="modal" data-target="#modal-exchange"></i>
-                        <i class="fas fa-eye" title="Ver Transacciones" ng-click="viewMov(item.ID)"></i>
+                        <i class="fas fa-eye" title="Ver Transacciones" ng-click="viewMov(box.ID)"></i>
                         <i class="fas fa-dollar-sign" title="Cerrar Caja" data-toggle="modal" data-target="#modal-dollar-sign"></i>
                     </div>
                 </td>
@@ -118,14 +118,17 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="controls">
+                    <div class="controls my-5">
                         <label>Monto</label>
-                        <input type="text" ng-model="initAmount" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                        <div style="position: relative;">
+                            <input type="text" id="initAmount" class="w-100" ng-model="initAmount" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                            <label class="text-danger text-center w-100" id="text-error" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 40px; left: 0;"></label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-success" ng-click="addBox()">Aceptar</button>
+                    <button type="submit" class="btn btn-success" ng-click="addBox(initAmount)">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -232,9 +235,9 @@
 
     app.controller("controller", function ($scope, $http) {
 
-        $scope.initAmount = 0;
+        $scope.initAmount = "0";
 
-        $scope.items = [
+        $scope.boxes = [
             {
                 ID: 1,
                 UserID: "GSSP",
@@ -295,9 +298,17 @@
             $("#modal-eye").modal("show");
         }
 
-        $scope.addBox = function () {
+        $scope.addBox = function (amount) {
 
+            $("#text-error").text("");
 
+            if (amount == "") {
+                $("#text-error").text("**DEBES INGRESAR UN SALDO INICIAL**");
+            } else {
+                amount = parseFloat(amount);
+                $scope.initAmount = "0";
+                alert("saldo inicial: " + amount);
+            }
         }
     });
 
