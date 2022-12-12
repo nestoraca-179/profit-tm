@@ -90,11 +90,11 @@
                 <td>{{ box.Incomes.toFixed(2) }}</td>
                 <td>{{ box.Expenses.toFixed(2) }}</td>
                 <td>{{ box.Sales.toFixed(2) }}</td>
-                <td>{{ box.Total.toFixed(2) }}</td>
-                <td ng-if="box.Open">
+                <td>{{ (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) }}</td>
+                <td ng-if="box.IsOpen">
                     <p class="status bg-success m-0">ABIERTO</p>
                 </td>
-                <td ng-if="!box.Open">
+                <td ng-if="!box.IsOpen">
                     <p class="status bg-danger m-0">CERRADO</p>
                 </td>
                 <td>
@@ -247,7 +247,6 @@
                 Incomes: 50.00,
                 Expenses: 30.00,
                 Sales: 0.00,
-                Total: 120.00,
                 Open: true
             },
             {
@@ -259,7 +258,6 @@
                 Incomes: 50.00,
                 Expenses: 30.00,
                 Sales: 0.00,
-                Total: 120.00,
                 Open: false
             },
         ];
