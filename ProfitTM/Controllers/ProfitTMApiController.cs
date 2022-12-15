@@ -109,6 +109,77 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        // CAJA
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetBoxes/")]
+        public ProfitTMResponse GetBoxes()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                List<Boxes> boxes = Box.GetAllBoxesAndMoves();
+
+                response.Status = "OK";
+                response.Result = boxes;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO CAJAS", ex);
+            }
+
+            return response;
+        }
+        
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddBox/")]
+        public ProfitTMResponse AddBox(Boxes box)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                Boxes new_box = Box.AddBox(box);
+                
+                response.Status = "OK";
+                response.Result = new_box;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO CAJA", ex);
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddBoxMove/")]
+        public ProfitTMResponse AddBoxMove(BoxMoves move)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                BoxMoves new_move = Box.AddBoxMove(move);
+
+                response.Status = "OK";
+                response.Result = new_move;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO MOVIMIENTO DE CAJA", ex);
+            }
+
+            return response;
+        }
+
         // CLIENTE
 
         [HttpPost]

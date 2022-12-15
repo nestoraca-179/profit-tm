@@ -1,0 +1,85 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Data.Entity;
+
+namespace ProfitTM.Models
+{
+    public class Box
+    {
+        public static Boxes GetBoxByID(string id)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+            Boxes box;
+
+            try
+            {
+                box = db.Boxes.AsNoTracking().First(b => b.ID.ToString() == id);
+            }
+            catch (Exception ex)
+            {
+                box = null;
+                Incident.CreateIncident("ERROR BUSCANDO CAJA " + id, ex);
+            }
+
+            return box;
+        }
+
+        public static List<Boxes> GetAllBoxesAndMoves()
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+            List<Boxes> boxes;
+
+            try
+            {
+                boxes = db.Boxes.AsNoTracking().Include("BoxMoves").ToList();
+                foreach (Boxes box in boxes)
+                {
+                    box.BoxMoves.ToList().ForEach(delegate(BoxMoves m) {
+                        m.Boxes = null;
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                boxes = null;
+                Incident.CreateIncident("ERROR BUSCANDO CAJAS Y MOVIMIENTOS", ex);
+            }
+            
+            return boxes;
+        }
+
+        public static Boxes AddBox(Boxes box)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+            box.DateS = DateTime.Now;
+
+            Boxes new_box = db.Boxes.Add(box);
+            db.SaveChanges();
+
+            return new_box;
+        }
+
+        public static BoxMoves AddBoxMove(BoxMoves move)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+            Boxes box = GetBoxByID(move.BoxID.ToString());
+
+            if (move.Type == 1)
+                box.Incomes += move.Amount;
+            else if (move.Type == 2)
+                box.Expenses += move.Amount;
+
+            db.Entry(box).State = EntityState.Modified;
+
+            move.Date = DateTime.Now;
+            BoxMoves new_move = db.BoxMoves.Add(move);
+            db.SaveChanges();
+
+            new_move.BoxID = move.BoxID;
+            new_move.Boxes = null;
+
+            return new_move;
+        }
+    }
+}
