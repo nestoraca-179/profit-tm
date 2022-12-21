@@ -196,7 +196,6 @@ namespace ProfitTM.Models
 
             using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
             {
-                // context.Database.Connection.Open();
                 using (DbContextTransaction tran = context.Database.BeginTransaction())
                 {
                     try

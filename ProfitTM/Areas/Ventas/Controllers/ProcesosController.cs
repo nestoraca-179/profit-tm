@@ -54,6 +54,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 string sucur = Session["BRANCH"].ToString();
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
+                ViewBag.username = (Session["USER"] as Users).Username;
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 50000000;

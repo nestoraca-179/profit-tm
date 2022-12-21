@@ -49,6 +49,22 @@ namespace ProfitTM.Models
             return boxes;
         }
 
+        public static int GetBoxOpenByUser(string user)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+            Boxes box = db.Boxes.AsNoTracking().OrderByDescending(b => b.DateS).FirstOrDefault(b => b.UserID == user && b.IsOpen);
+
+            if (box != null)
+            {
+                if (box.DateS.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    return box.ID;
+                else
+                    return 0;
+            }
+            else
+                return 0;
+        }
+
         public static Boxes AddBox(Boxes box)
         {
             ProfitTMEntities db = new ProfitTMEntities();

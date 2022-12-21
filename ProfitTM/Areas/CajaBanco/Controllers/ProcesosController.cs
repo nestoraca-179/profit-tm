@@ -1,13 +1,10 @@
-﻿using ProfitTM.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
+using ProfitTM.Models;
 
 namespace ProfitTM.Areas.CajaBanco.Controllers
 {
+    [Authorize]
     public class ProcesosController : Controller
     {
         public ActionResult Index()
