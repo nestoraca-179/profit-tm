@@ -37,7 +37,7 @@ namespace ProfitTM.Models
                         saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().FirstOrDefault(f => f.doc_num == doc_num);
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().FirstOrDefault(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
-                        string n_coll = "", n_move = "";
+                        string n_coll = "", n_move = "", n_adel = "";
 
                         // SERIE COBRO
                         var sp_n_coll = context.pConsecutivoProximo(sucur, "COBRO").GetEnumerator();
@@ -50,14 +50,27 @@ namespace ProfitTM.Models
                         var sp_s = context.pSaldoActualizar("004", "EF", "EF", amount * fact.tasa, true, "COBRO", false);
                         sp_s.Dispose();
 
+                        // SERIE ADELANTO
+                        var sp_n_adel = context.pConsecutivoProximo(sucur, "DOC_VEN_ADEL").GetEnumerator();
+                        if (sp_n_adel.MoveNext())
+                            n_adel = sp_n_adel.Current;
+
+                        sp_n_adel.Dispose();
+
+                        // INSERTAR DOCUMENTO
+                        var sp_a = context.pInsertarDocumentoVenta("ADEL", n_adel, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "COBRO N° " + n_coll,
+                            DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_coll, null, 0, amount * fact.tasa, amount * fact.tasa, 0, null, null,
+                            0, amount * fact.tasa, 0, 0, "7", 0, 0, 0, 0, null, null, null, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, 
+                            null, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
+
                         // ACTUALIZAR FACTURA
-                        fact.saldo -= (amount * fact.tasa);
-                        fact.status = fact.saldo > 0 ? "1" : "2";
+                        // fact.saldo -= (amount * fact.tasa);
+                        fact.status = "1";
                         context.Entry(fact).State = EntityState.Modified;
 
                         // ACTUALIZAR DOCUMENTO
-                        doc_v.saldo -= (amount * fact.tasa);
-                        context.Entry(doc_v).State = EntityState.Modified;
+                        /*doc_v.saldo -= (amount * fact.tasa);
+                        context.Entry(doc_v).State = EntityState.Modified;*/
 
                         // SERIE MOVIMIENTO
                         var sp_n_move = context.pConsecutivoProximo(sucur, "MOVC_NUM").GetEnumerator();
@@ -76,17 +89,20 @@ namespace ProfitTM.Models
                             "COBRO EN DOLARES FACT " + doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
 
                         // INSERTAR DOC COBRO
-                        var sp_d = context.pInsertarRenglonesDocCobro(1, n_coll, "FACT", doc_num, amount * fact.tasa, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(), 
+                        var sp_d = context.pInsertarRenglonesDocCobro(1, n_coll, "ADEL", n_adel, 0, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(), 
                             null, null, sucur, user, null, null, "SERVER PROFIT WEB");
 
                         // INSERTAR TP COBRO
                         var sp_t = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", n_move, null, null, false, amount * fact.tasa, null, null, null, null, "004", DateTime.Now,
                             sucur, user, null, null, "SERVER PROFIT WEB");
 
+                        sp_a.Dispose();
                         sp_m.Dispose();
                         sp_c.Dispose();
                         sp_d.Dispose();
                         sp_t.Dispose();
+
+                        Box.AddSale(doc_num, amount, user);
 
                         tran.Commit();
                         context.SaveChanges();

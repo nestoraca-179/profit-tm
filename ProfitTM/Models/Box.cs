@@ -97,5 +97,26 @@ namespace ProfitTM.Models
 
             return new_move;
         }
+
+        public static void AddSale(string fact, decimal amount, string user)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+
+            Boxes box = GetBoxByID(GetBoxOpenByUser(user).ToString());
+            BoxMoves move = new BoxMoves() { 
+                BoxID = box.ID,
+                UserID = user,
+                Amount = amount,
+                Type = 1,
+                Date = DateTime.Now,
+                Comment = "COBRO EN DOLARES FACT " + fact
+            };
+
+            box.Sales += amount;
+            db.Entry(box).State = EntityState.Modified;
+            db.BoxMoves.Add(move);
+
+            db.SaveChanges();
+        }
     }
 }
