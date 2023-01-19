@@ -245,7 +245,7 @@
     <EntitySet Name="Incidents" EntityType="ProfitTMContext.Incidents" />
     <EntitySet Name="Boxes" EntityType="ProfitTMContext.Boxes" />
     <EntitySet Name="BoxMoves" EntityType="ProfitTMContext.BoxMoves" />
-    <AssociationSet Name="FK__BoxMoves__BoxID__762C88DA" Association="ProfitTMContext.FK__BoxMoves__BoxID__762C88DA">
+    <AssociationSet Name="FK_Boxes_BoxMoves" Association="ProfitTMContext.FK_Boxes_BoxMoves">
       <End Role="Boxes" EntitySet="Boxes" />
       <End Role="BoxMoves" EntitySet="BoxMoves" />
     </AssociationSet>
@@ -272,23 +272,25 @@
     <Property Name="Expenses" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="Sales" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="IsOpen" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="BoxMoves" Relationship="ProfitTMContext.FK__BoxMoves__BoxID__762C88DA" FromRole="Boxes" ToRole="BoxMoves" />
+    <NavigationProperty Name="BoxMoves" Relationship="ProfitTMContext.FK_Boxes_BoxMoves" FromRole="Boxes" ToRole="BoxMoves" />
   </EntityType>
   <EntityType Name="BoxMoves">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="BoxID" Type="Int32" />
+    <Property Name="BoxID" Type="Int32" Nullable="false" />
     <Property Name="UserID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="Type" Type="Byte" Nullable="false" />
     <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK__BoxMoves__BoxID__762C88DA" FromRole="BoxMoves" ToRole="Boxes" />
+    <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK_Boxes_BoxMoves" FromRole="BoxMoves" ToRole="Boxes" />
   </EntityType>
-  <Association Name="FK__BoxMoves__BoxID__762C88DA">
-    <End Type="ProfitTMContext.Boxes" Role="Boxes" Multiplicity="0..1" />
+  <Association Name="FK_Boxes_BoxMoves">
+    <End Type="ProfitTMContext.Boxes" Role="Boxes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Type="ProfitTMContext.BoxMoves" Role="BoxMoves" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Boxes">

@@ -15,7 +15,7 @@ namespace ProfitTM.Models
     public partial class BoxMoves
     {
         public int ID { get; set; }
-        public Nullable<int> BoxID { get; set; }
+        public int BoxID { get; set; }
         public string UserID { get; set; }
         public decimal Amount { get; set; }
         public byte Type { get; set; }

@@ -657,15 +657,15 @@
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Report.cs" />
-    <Compile Include="Models\Reports.cs">
-      <DependentUpon>ProfitTMModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Admin\Segment.cs" />
     <Compile Include="Models\Admin\Seller.cs" />
     <Compile Include="Models\Admin\Storage.cs" />
     <Compile Include="Models\Admin\Supplier.cs" />
     <Compile Include="Models\Admin\TypePerson.cs" />
     <Compile Include="Models\Admin\Zone.cs" />
+    <Compile Include="Models\Reports.cs">
+      <DependentUpon>ProfitTMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RepProveedorMasCompra_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>

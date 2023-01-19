@@ -19,7 +19,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="BoxID" Type="int" />
+    <Property Name="BoxID" Type="int" Nullable="false" />
     <Property Name="UserID" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Type" Type="tinyint" Nullable="false" />
@@ -137,18 +137,6 @@
     <Property Name="Admin" Type="bit" Nullable="false" />
     <Property Name="NextChange" Type="smalldatetime" Nullable="false" />
   </EntityType>
-  <Association Name="FK__BoxMoves__BoxID__762C88DA">
-    <End Role="Boxes" Type="Self.Boxes" Multiplicity="0..1" />
-    <End Role="BoxMoves" Type="Self.BoxMoves" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Boxes">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="BoxMoves">
-        <PropertyRef Name="BoxID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__Options__ModuleI__123EB7A3">
     <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />
     <End Role="Options" Type="Self.Options" Multiplicity="*" />
@@ -190,7 +178,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__UserOptions_Options">
-    <End Role="Options" Type="Self.Options" Multiplicity="1" />
+    <End Role="Options" Type="Self.Options" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="UserOptions" Type="Self.UserOptions" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Options">
@@ -212,6 +202,20 @@
       </Principal>
       <Dependent Role="UserOptions">
         <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Boxes_BoxMoves">
+    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="BoxMoves" Type="Self.BoxMoves" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Boxes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="BoxMoves">
+        <PropertyRef Name="BoxID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -252,10 +256,6 @@
     <EntitySet Name="UserModules" EntityType="Self.UserModules" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserOptions" EntityType="Self.UserOptions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__BoxMoves__BoxID__762C88DA" Association="Self.FK__BoxMoves__BoxID__762C88DA">
-      <End Role="Boxes" EntitySet="Boxes" />
-      <End Role="BoxMoves" EntitySet="BoxMoves" />
-    </AssociationSet>
     <AssociationSet Name="FK__Options__ModuleI__123EB7A3" Association="Self.FK__Options__ModuleI__123EB7A3">
       <End Role="Modules" EntitySet="Modules" />
       <End Role="Options" EntitySet="Options" />
@@ -275,6 +275,10 @@
     <AssociationSet Name="FK__UserOptions_Users" Association="Self.FK__UserOptions_Users">
       <End Role="Users" EntitySet="Users" />
       <End Role="UserOptions" EntitySet="UserOptions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Boxes_BoxMoves" Association="Self.FK_Boxes_BoxMoves">
+      <End Role="Boxes" EntitySet="Boxes" />
+      <End Role="BoxMoves" EntitySet="BoxMoves" />
     </AssociationSet>
     <AssociationSet Name="FK_GroupR_Reps" Association="Self.FK_GroupR_Reps">
       <End Role="GroupReports" EntitySet="GroupReports" />
