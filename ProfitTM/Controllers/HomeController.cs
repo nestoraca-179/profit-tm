@@ -22,15 +22,28 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                ViewBag.user = new Users()
-                {
-                    Descrip = "null"
-                };
-
+                ViewBag.user = new Users(){ Descrip = "null" };
                 return View();
             }
         }
 
+        // Cambiar clave
+        public ActionResult CambiarClave(string message = "")
+        {
+            ViewBag.user = Session["USER"];
+            ViewBag.Message = message;
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
+            }
+            else 
+            {
+                return View();
+            }
+        }
+        
         // Seleccion de aplicativo
         [Authorize]
         public ActionResult SeleccionProducto()

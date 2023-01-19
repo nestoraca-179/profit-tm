@@ -358,6 +358,7 @@
     <Content Include="Views\Conexiones\Index.cshtml" />
     <Content Include="Views\Home\SeleccionSucursal.cshtml" />
     <Content Include="Views\Empresa\Index.cshtml" />
+    <Content Include="Views\Home\CambiarClave.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
