@@ -109,6 +109,104 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        // CAJA
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetBoxes/")]
+        public ProfitTMResponse GetBoxes()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                List<Boxes> boxes = Box.GetAllBoxesAndMoves();
+
+                response.Status = "OK";
+                response.Result = boxes;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO CAJAS", ex);
+            }
+
+            return response;
+        }
+        
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetBoxOpen/{user}/")]
+        public ProfitTMResponse GetBoxOpen(string user)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+
+            try
+            {
+                int id = 0;
+                
+                if (sucur == "002")
+                    id = Box.GetBoxOpenByUser(user);
+
+                response.Status = "OK";
+                response.Result = id;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO CAJA ABIERTA", ex);
+            }
+            
+            return response;
+        }
+        
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddBox/")]
+        public ProfitTMResponse AddBox(Boxes box)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                Boxes new_box = Box.AddBox(box);
+                
+                response.Status = "OK";
+                response.Result = new_box;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO CAJA", ex);
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddBoxMove/")]
+        public ProfitTMResponse AddBoxMove(BoxMoves move)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                BoxMoves new_move = Box.AddBoxMove(move);
+
+                response.Status = "OK";
+                response.Result = new_move;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO MOVIMIENTO DE CAJA", ex);
+            }
+
+            return response;
+        }
+
         // CLIENTE
 
         [HttpPost]
@@ -453,6 +551,42 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        // COBRO
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddCollect/{doc_num}")]
+        public ProfitTMResponse AddCollect(string doc_num, object amount)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+
+            try
+            {
+                saCobro new_collect = new Collect().AddCollectFromInvoice(doc_num, decimal.Parse(amount.ToString()), user, sucur);
+
+                if (new_collect.descrip == "ERROR")
+                {
+                    response.Status = "ERROR";
+                    response.Message = new_collect.campo1;
+                }
+                else
+                {
+                    response.Status = "OK";
+                    response.Result = new_collect;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO COBRO", ex);
+            }
+            
+            return response;
+        }
+        
         // ESTADISTICAS DASHBOARD ADMIN
 
         [HttpGet]

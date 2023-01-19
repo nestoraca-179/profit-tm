@@ -278,7 +278,7 @@
     <Content Include="Areas\Ventas\Views\Procesos\Preliquidacion.cshtml" />
     <Content Include="Areas\Ventas\Views\Procesos\ImprimirFactura.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\_RepFormatoFacturaVentaOMPartial.cshtml" />
-    <Content Include="Areas\Ventas\Views\Procesos\Caja.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Procesos\Caja.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
     <Content Include="Scripts\highcharts.js" />
@@ -371,6 +371,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\CajaBanco\CajaBancoAreaRegistration.cs" />
+    <Compile Include="Areas\CajaBanco\Controllers\ProcesosController.cs" />
     <Compile Include="Areas\CajaBanco\Controllers\ReportesController.cs" />
     <Compile Include="Areas\CajaBanco\Controllers\RepsController.cs" />
     <Compile Include="Areas\CajaBanco\Reports\RepBanco.cs">
@@ -467,6 +468,7 @@
     <Compile Include="Models\Admin\Account.cs" />
     <Compile Include="Models\Admin\Bank.cs" />
     <Compile Include="Models\Admin\Branch.cs" />
+    <Compile Include="Models\Admin\Collect.cs" />
     <Compile Include="Models\Admin\Currency.cs" />
     <Compile Include="Models\Admin\Invoice.cs" />
     <Compile Include="Models\Admin\Client.cs" />
@@ -476,6 +478,13 @@
     <Compile Include="Models\Admin\ProfitAdmManager.cs" />
     <Compile Include="Models\Admin\Step.cs" />
     <Compile Include="Models\Admin\Transport.cs" />
+    <Compile Include="Models\Box.cs" />
+    <Compile Include="Models\Boxes.cs">
+      <DependentUpon>ProfitTMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BoxMoves.cs">
+      <DependentUpon>ProfitTMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\Connections.cs">
       <DependentUpon>ProfitTMModel.tt</DependentUpon>
@@ -511,16 +520,28 @@
     <Compile Include="Models\pInsertarCliente_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\pInsertarCobro_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\pInsertarDocumentoVenta_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pInsertarFacturaVenta_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\pInsertarMovimientoCaja_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\pInsertarProveedor_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\pInsertarRenglonesDocCobro_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\pInsertarRenglonesFacturaVenta_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\pInsertarRenglonesTPCobro_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProfitAdmModel.Context.cs">

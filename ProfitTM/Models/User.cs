@@ -49,37 +49,36 @@ namespace ProfitTM.Models
         public static Users Add(Users user)
         {
             ProfitTMEntities db = new ProfitTMEntities();
-            Users newUser;
+            Users new_user;
 
             user.DateReg = DateTime.Now;
             user.Password = SecurityController.Encrypt(user.Password);
 
-            newUser = db.Users.Add(user);
+            new_user = db.Users.Add(user);
 
             foreach (UserModules um in user.UserModules)
             {
-                um.UserID = newUser.ID;
+                um.UserID = new_user.ID;
                 db.UserModules.Add(um);
             }
 
             foreach (UserOptions uo in user.UserOptions)
             {
-                uo.UserID = newUser.ID;
+                uo.UserID = new_user.ID;
                 db.UserOptions.Add(uo);
             }
 
             db.SaveChanges();
 
-            newUser.UserModules = null;
-            newUser.UserOptions = null;
+            new_user.UserModules = null;
+            new_user.UserOptions = null;
 
-            return newUser;
+            return new_user;
         }
 
         public static Users Edit(Users user)
         {
             ProfitTMEntities db = new ProfitTMEntities();
-
             db.UserModules.RemoveRange(db.UserModules.Where(um => um.UserID == user.ID));
             db.UserOptions.RemoveRange(db.UserOptions.Where(uo => uo.UserID == user.ID));
 

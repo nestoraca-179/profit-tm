@@ -19,7 +19,7 @@ namespace ProfitTM.Models
         {
             Configuration.ProxyCreationEnabled = false;
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -35,5 +35,7 @@ namespace ProfitTM.Models
         public virtual DbSet<UserOptions> UserOptions { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Incidents> Incidents { get; set; }
+        public virtual DbSet<Boxes> Boxes { get; set; }
+        public virtual DbSet<BoxMoves> BoxMoves { get; set; }
     }
 }

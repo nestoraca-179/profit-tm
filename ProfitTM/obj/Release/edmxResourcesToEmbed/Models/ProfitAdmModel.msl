@@ -8862,5 +8862,44 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="pEliminarPedidoVenta" FunctionName="ProfitAdmContext.Store.pEliminarPedidoVenta" />
+    <FunctionImportMapping FunctionImportName="pInsertarCobro" FunctionName="ProfitAdmContext.Store.pInsertarCobro">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarCobro_Result">
+          <ScalarProperty Name="validador" ColumnName="validador" />
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pInsertarMovimientoCaja" FunctionName="ProfitAdmContext.Store.pInsertarMovimientoCaja">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarMovimientoCaja_Result">
+          <ScalarProperty Name="validador" ColumnName="validador" />
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pInsertarRenglonesDocCobro" FunctionName="ProfitAdmContext.Store.pInsertarRenglonesDocCobro">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarRenglonesDocCobro_Result">
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pInsertarRenglonesTPCobro" FunctionName="ProfitAdmContext.Store.pInsertarRenglonesTPCobro">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarRenglonesTPCobro_Result">
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pSaldoActualizar" FunctionName="ProfitAdmContext.Store.pSaldoActualizar" />
   </EntityContainerMapping>
 </Mapping>
