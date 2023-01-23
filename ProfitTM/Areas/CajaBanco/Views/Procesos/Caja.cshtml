@@ -71,7 +71,7 @@
         <div class="col d-flex align-items-center">
             <button class="btn btn-success d-flex align-items-center" ng-click="initBox()">
                 <i class="fas fa-plus"></i>
-                <p class="mx-2 my-0">Abri nueva caja</p>
+                <p class="mx-2 my-0">Abrir nueva caja</p>
             </button>
         </div>
         <div class="col">
@@ -113,7 +113,7 @@
                 </td>
                 <td>
                     <div class="buttons-actions">
-                        <i ng-show="box.IsOpen" class="fas fa-exchange" title="Generar Movimiento" data-toggle="modal" data-target="#modal-exchange" ng-click="setId(box.ID)"></i>
+                        <i ng-show="box.IsOpen" class="fas fa-exchange" title="Generar Movimiento" data-toggle="modal" data-target="#modal-exchange" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)"></i>
                         <i class="fas fa-eye mx-2" title="Ver Transacciones" ng-click="viewMovs(box.ID)"></i>
                         <i ng-show="box.IsOpen" class="fas fa-dollar-sign" title="Cerrar Caja" data-toggle="modal" data-target="#modal-dollar-sign"></i>
                     </div>
@@ -224,8 +224,8 @@
         </div>
     </div>
     <!-- Modal Cerrar Caja -->
-    <div class="modal fade" id="modal-dollar-sign" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade modal-info" id="modal-dollar-sign" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
                 @*<div class="modal-header"></div>*@
                 <div class="modal-body">
@@ -258,6 +258,56 @@
             </div>
         </div>
     </div>
+    <!-- Modal Waiting -->
+    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="background: rgba(0, 0, 0, .7);">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-spinner fa-spin" style="color: #01579b;"></i>
+                    </div>
+                    <h2 class="text-center">Procesando...</h2>
+                </div>
+                @*<div class="modal-footer"></div>*@
+            </div>
+        </div>
+    </div>
+    <!-- Modal Success -->
+    <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-check-circle" style="color: var(--bs-green)"></i>
+                    </div>
+                    <h2 class="text-center">{{ successMessage }}</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Error -->
+    <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-red)"></i>
+                    </div>
+                    <h2 class="text-center">Ha ocurrido un error</h2>
+                    <p class="text-center">{{ errorMessage }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel-loading p-3">
     <h4>Cargando cajas...</h4>
@@ -272,6 +322,7 @@
         $scope.initAmount = "0";
         $scope.move = { Type: "1" };
         $scope.boxId = "";
+        $scope.totalBox = 0;
 
         $http.get("/api/ProfitTMApi/GetBoxes/")
             .then(function (response) {
@@ -311,8 +362,9 @@
             $("#modal-eye").modal("show");
         }
 
-        $scope.setId = function (id) {
+        $scope.setId = function (id, total) {
             $scope.boxId = id;
+            $scope.totalBox = total;
         }
 
         $scope.addBox = function (amount) {
@@ -360,6 +412,18 @@
 
             if ($("#form")[0].checkValidity()) {
 
+                $("#modal-exchange").modal("hide");
+                $("modalWaiting").modal("show");
+
+                var amount = parseFloat($scope.move.Amount);
+                var total = parseFloat($scope.totalBox);
+
+                if ($scope.move.Type == "2" && amount > total) {
+                    $("#modalError").modal("show");
+                    $scope.errorMessage = `Debes ingresar un monto menor al saldo disponible en caja (${total.toFixed(2)})`;
+                    return;
+                }
+
                 $scope.move.BoxID = $scope.boxId;
                 $scope.move.UserID = user;
 
@@ -385,11 +449,14 @@
                         else if (new_move.Type == 2)
                             $scope.boxes.find(b => b.ID == new_move.BoxID).Expenses += new_move.Amount;
 
-                        $("#modal-exchange").modal("hide");
-                        $scope.move = { Type: "1" }
+                        $scope.move = { Type: "1" };
+
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = `Movimiento agregado con éxito`;
 
                     } else {
-                        alert("HA OCURRIDO UN ERROR");
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = "Ha ocurrido un error agregando el movimiento de caja";
                     }
                 });
             }

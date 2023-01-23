@@ -65,7 +65,10 @@ namespace ProfitTM.Areas.Ventas.Controllers
                       Session["ARTS"] = serializer.Serialize(new Product().GetAllNameSellArts());
 
                 ViewBag.arts = Session["ARTS"];
-                ViewBag.conds = new Cond().GetAllConds();
+                ViewBag.conds = serializer.Serialize(new Cond().GetAllConds());
+                ViewBag.clients = serializer.Serialize(new Client().GetAllClients(false));
+                ViewBag.currencies = serializer.Serialize(new Currency().GetAllCurrencies());
+                ViewBag.sellers = serializer.Serialize(new Seller().GetAllSellers());
 
                 return View();
             }
@@ -98,7 +101,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.orders = serializer.Serialize(new Order().GetAllOrders(200, false));
                 ViewBag.arts = serializer.Serialize(new Product().GetAllArts());
 
-                ViewBag.clients = new Client().GetAllClients();
+                ViewBag.clients = new Client().GetAllClients(false);
                 ViewBag.conds = new Cond().GetAllConds();
                 ViewBag.sellers = new Seller().GetAllSellers();
                 ViewBag.obj_client = serializer.Serialize(ViewBag.clients);

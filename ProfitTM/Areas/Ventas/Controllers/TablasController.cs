@@ -57,7 +57,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 50000000;
 
-                ViewBag.clients = serializer.Serialize(new Client().GetAllClients());
+                ViewBag.clients = serializer.Serialize(new Client().GetAllClients(true));
 
                 ViewBag.conds = new Cond().GetAllConds();
                 ViewBag.sellers = new Seller().GetAllSellers();

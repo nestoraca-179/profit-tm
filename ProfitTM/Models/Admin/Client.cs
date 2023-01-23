@@ -24,29 +24,36 @@ namespace ProfitTM.Models
             return client;
         }
 
-        public List<saCliente> GetAllClients()
+        public List<saCliente> GetAllClients(bool full)
         {
             List<saCliente> clients;
 
             try
             {
-                clients = db.saCliente.AsNoTracking().Include("saCondicionPago").Include("saVendedor").Include("saZona").Include("saCuentaIngEgr")
-                    .Include("saSegmento").Include("saTipoCliente").Include("saPais").ToList();
-
-                foreach (saCliente client in clients)
+                if (full)
                 {
-                    if (client.saCondicionPago != null)
-                        client.saCondicionPago.saCliente = null;
+                    clients = db.saCliente.AsNoTracking().Include("saCondicionPago").Include("saVendedor").Include("saZona").Include("saCuentaIngEgr")
+                        .Include("saSegmento").Include("saTipoCliente").Include("saPais").ToList();
 
-                    client.saVendedor.saCliente = null;
-                    client.saZona.saCliente = null;
-                    client.saCuentaIngEgr.saCliente = null;
-                    client.saSegmento.saCliente = null;
-                    client.saTipoCliente.saCliente = null;
-                    client.saPais.saCliente = null;
-                    client.saCliente1 = null;
-                    client.saCliente2 = null;
+                    foreach (saCliente client in clients)
+                    {
+                        if (client.saCondicionPago != null)
+                            client.saCondicionPago.saCliente = null;
+
+                        client.saVendedor.saCliente = null;
+                        client.saZona.saCliente = null;
+                        client.saCuentaIngEgr.saCliente = null;
+                        client.saSegmento.saCliente = null;
+                        client.saTipoCliente.saCliente = null;
+                        client.saPais.saCliente = null;
+                        client.saCliente1 = null;
+                        client.saCliente2 = null;
+                    }
                 }
+                else
+                {
+                    clients = db.saCliente.AsNoTracking().ToList();
+                }   
             }
             catch (Exception ex)
             {
