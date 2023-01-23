@@ -62,13 +62,25 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(200, sucur));
 
                 if (Session["ARTS"] == null)
-                      Session["ARTS"] = serializer.Serialize(new Product().GetAllNameSellArts());
+                    Session["ARTS"] = serializer.Serialize(new Product().GetAllNameSellArts());
+
+                if (Session["CONDS"] == null)
+                    Session["CONDS"] = serializer.Serialize(new Cond().GetAllConds());
+
+                if (Session["CLIENTS"] == null)
+                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllClients(false));
+
+                if (Session["CURRENCIES"] == null)
+                    Session["CURRENCIES"] = serializer.Serialize(new Currency().GetAllCurrencies());
+
+                if (Session["SELLERS"] == null)
+                    Session["SELLERS"] = serializer.Serialize(new Seller().GetAllSellers());
 
                 ViewBag.arts = Session["ARTS"];
-                ViewBag.conds = serializer.Serialize(new Cond().GetAllConds());
-                ViewBag.clients = serializer.Serialize(new Client().GetAllClients(false));
-                ViewBag.currencies = serializer.Serialize(new Currency().GetAllCurrencies());
-                ViewBag.sellers = serializer.Serialize(new Seller().GetAllSellers());
+                ViewBag.conds = Session["CONDS"];
+                ViewBag.clients = Session["CLIENTS"];
+                ViewBag.currencies = Session["CURRENCIES"];
+                ViewBag.sellers = Session["SELLERS"];
 
                 return View();
             }

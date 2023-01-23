@@ -217,7 +217,7 @@
                         <div class="controls">
                             <label>Cliente</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="client" ng-model="invoice.co_cli" ng-disabled="!new" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="client" ng-model="invoice.co_cli" ng-disabled="!new" ng-required="true" style="flex: 1;" onkeypress="return false;" />
                                 <input type="text" class="form-control" id="des_client" ng-model="invoice.saCliente.cli_des" ng-disabled="!new" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="client"></i>
                             </div>
@@ -303,7 +303,7 @@
                 </div>
                 <div class="row mt-3" ng-if="new">
                     <div class="col">
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarItem">
                             <i class="fas fa-plus"></i> Agregar Item
                         </button>
                     </div>
@@ -619,6 +619,63 @@
             </div>
         </div>
     </div>
+    <!-- Modal Add Item -->
+    <div class="modal fade" id="modalAgregarItem" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
+        <form class="modal-dialog" role="document" style="max-width: 800px;" onsubmit="return false;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-9">
+                            <div class="controls">
+                                <label>Articulo</label>
+                                <div class="input-search">
+                                    <input type="text" class="form-control" id="art" ng-model="reng.co_art" ng-disabled="!new" ng-required="true" style="flex: 1;" onkeypress="return false;" />
+                                    <input type="text" class="form-control" id="des_art" ng-disabled="!new" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalArts')" data-name="art"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Cantidad</label>
+                                <input type="text" class="form-control" id="quantity" ng-model="reng.total_art" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePrice()" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4">
+                            <div class="controls">
+                                <label>Precio Unit. $USD</label>
+                                <input type="text" class="form-control" id="price_usd" ng-model="reng.prec_vta_om" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePrice()" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <div class="controls">
+                                <label>Total $USD (Sin IVA)</label>
+                                <input type="text" class="form-control" id="total_usd" ng-model="reng.reng_neto_om" ng-disabled="!new" ng-required="true" ng-readonly="true" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <div class="controls">
+                                <label>Monto IVA $USD</label>
+                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" ng-click="addItem(reng)">Agregar</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!-- Modal 1 -->
     <div class="modal fade" id="modalConds" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
@@ -764,6 +821,35 @@
             </div>
         </div>
     </div>
+    <!-- Modal 6 -->
+    <div class="modal fade" id="modalArts" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Moneda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar moneda..." onkeyup="search('modalArts')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="art in arts" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ art.split("/")[0] }}</td>
+                            <td>{{ art.split("/")[1] }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalArts')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel-loading p-3">
     <h4>Cargando módulo de facturación...</h4>
@@ -774,6 +860,7 @@
 <script>
     var app = angular.module("Invoices", []);
     var user = '@ViewBag.username';
+    var sucur = '@Session["BRANCH"]';
     var isNullOrEmpty = (str) => str == null || str == "";
     var invoices = @Html.Raw(ViewBag.invoices);
     var arts = @Html.Raw(ViewBag.arts);
@@ -820,10 +907,12 @@
         $scope.clients = clients;
         $scope.currencies = currencies;
         $scope.sellers = sellers;
+        $scope.arts = arts;
         $scope.adding = false;
         $scope.confirm = false;
         $scope.converted = false;
         $scope.boxOpen = true;
+        $scope.reng = { reng_neto_om: (0).toFixed(2), monto_imp_om: (0).toFixed(2) };
 
         $http.get("/api/ProfitTMApi/GetBoxOpen/" + user)
             .then(function (response) {
@@ -914,24 +1003,11 @@
                 total_neto_om: setSeparator((0).toFixed(2)),
                 saldo: setSeparator((0).toFixed(2)),
                 saldo_om: setSeparator((0).toFixed(2)),
+                saFacturaVentaReng: [],
             };
         }
 
-        $scope.searchArt = function (id) {
-            var name = "";
-            id = id.trim();
-
-            for (var a of arts) {
-                var code = a.split("/")[0];
-
-                if (code == id) {
-                    name = a.split("/")[1];
-                    break;
-                }
-            }
-
-            return name;
-        }
+        $scope.searchArt = (id) => searchArt(id);
 
         $scope.convert = function () {
             $scope.converted = !$scope.converted;
@@ -946,9 +1022,11 @@
             $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / tasa).toFixed(2));
             $scope.invoice.saldo_om = setSeparator((parse($scope.invoice.saldo) / tasa).toFixed(2));
 
-            for (var reng of $scope.invoice.saFacturaVentaReng) {
-                reng.monto_imp_om = setSeparator((parse(reng.monto_imp) / tasa).toFixed(2));
-                reng.reng_neto_om = setSeparator((parse(reng.reng_neto) / tasa).toFixed(2));
+            if ($scope.invoice.saFacturaVentaReng) {
+                for (var reng of $scope.invoice.saFacturaVentaReng) {
+                    reng.monto_imp_om = setSeparator((parse(reng.monto_imp) / tasa).toFixed(2));
+                    reng.reng_neto_om = setSeparator((parse(reng.reng_neto) / tasa).toFixed(2));
+                }
             }
         }
 
@@ -1282,6 +1360,41 @@
                 }
             });
         }
+
+        $scope.updatePrice = function () {
+
+            var cant = parseFloat($scope.reng.total_art ?? 0);
+            var price = parseFloat($scope.reng.prec_vta_om ?? 0);
+
+            $scope.reng.reng_neto_om = (cant * price).toFixed(2);
+            $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(2);
+        }
+
+        $scope.addItem = function (reng) {
+
+            $("#modalAgregarItem form input").change();
+            if ($("#modalAgregarItem form")[0].checkValidity()) {
+
+                var r = reng;
+
+                r.reng_num = $scope.invoice.saFacturaVentaReng.length + 1;
+                r.co_uni = "UND";
+                r.co_alma = sucur;
+                r.co_precio = "001";
+                r.total_art = parseInt(r.total_art);
+                r.prec_vta_om = parseFloat(r.prec_vta_om).toFixed(2);
+                r.prec_vta = setSeparator((r.prec_vta_om * parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+                r.reng_neto_om = parseFloat(r.reng_neto_om).toFixed(2);
+                r.reng_neto = setSeparator((r.reng_neto_om * parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+                r.monto_imp_om = parseFloat(r.monto_imp_om).toFixed(2);
+                r.monto_imp = setSeparator((r.monto_imp_om * parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+
+                $scope.invoice.saFacturaVentaReng.push(r);
+                $scope.reng = { reng_neto_om: (0).toFixed(2), monto_imp_om: (0).toFixed(2) };
+                $("#des_art").val("");
+                $("#modalAgregarItem").modal("hide");
+            }
+        }
     });
 
     function searchCond(value) {
@@ -1293,7 +1406,24 @@
     }
 
     function searchSeller(value) {
-        return sellers.find(s => s.co_ven.trim() == value).ven_des;
+        return sellers.find(s => s.co_ven.trim() == value.trim()).ven_des;
+    }
+
+    function searchArt(value) {
+
+        var name = "";
+        value = value.trim();
+
+        for (var a of arts) {
+            var code = a.split("/")[0];
+
+            if (code == value) {
+                name = a.split("/")[1];
+                break;
+            }
+        }
+
+        return name;
     }
 
     function parseItems(items_c) {
@@ -1480,6 +1610,8 @@
                 $("#des_client").val(searchClient(value));
             } else if (input == "seller") {
                 $("#des_seller").val(searchSeller(value));
+            } else if (input == "art") {
+                $("#des_art").val(searchArt(value));
             }
 
             rows.forEach(row => row.style.display = "");

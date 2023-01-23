@@ -357,7 +357,6 @@
         }
 
         $scope.viewMovs = function (id) {
-
             $scope.movs = $scope.boxes.find(b => b.ID == id).BoxMoves;
             $("#modal-eye").modal("show");
         }
@@ -374,6 +373,9 @@
             if (amount == "") {
                 $("#text-error").text("**DEBES INGRESAR UN SALDO INICIAL**");
             } else {
+
+                $("#modal-new").modal("hide");
+                $("modalWaiting").modal("show");
 
                 var box = {
                     UserID: user,
@@ -397,10 +399,13 @@
 
                         var new_box = res.Result;
                         $scope.boxes.push(new_box);
-                        $("#modal-new").modal("hide");
+
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = "Caja agregada con éxito";
 
                     } else {
-                        alert("HA OCURRIDO UN ERROR");
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
                     }
                 });
 
@@ -452,11 +457,11 @@
                         $scope.move = { Type: "1" };
 
                         $("#modalSuccess").modal("show");
-                        $scope.successMessage = `Movimiento agregado con éxito`;
+                        $scope.successMessage = "Movimiento agregado con éxito";
 
                     } else {
                         $("#modalError").modal("show");
-                        $scope.errorMessage = "Ha ocurrido un error agregando el movimiento de caja";
+                        $scope.errorMessage = res.Message;
                     }
                 });
             }

@@ -393,14 +393,14 @@ p.title-opt {
     padding: 0;
     overflow-y: auto;
 }
-.container-form .controls {
+.controls {
     width: 100%;
     margin: 5px 0;
 }
-.container-form .controls label {
+.controls label {
     margin: 5px 0;
 }
-.container-form .controls select {
+.controls select {
     box-shadow: none;
 }
 .form-header {

@@ -27,15 +27,16 @@ namespace ProfitTM.Models
 
         public List<saArticulo> GetAllArts()
         {
-            List<saArticulo> arts = new List<saArticulo>();
+            List<saArticulo> arts;
 
             try
             {
-                arts = db.saArticulo.ToList();
+                arts = db.saArticulo.AsNoTracking().ToList();
             }
             catch (Exception ex)
             {
                 arts = null;
+                Incident.CreateIncident("ERROR BUSCANDO ARTICULOS", ex);
             }
 
             return arts;
