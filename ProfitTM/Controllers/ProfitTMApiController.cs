@@ -447,8 +447,8 @@ namespace ProfitTM.Controllers
         // FACTURA
 
         [HttpPost]
-        [Route("api/ProfitTMApi/AddInvoiceFromOrder/")]
-        public ProfitTMResponse AddInvoiceFromOrder(saFacturaVenta invoice)
+        [Route("api/ProfitTMApi/AddInvoice/{fromOrder}")]
+        public ProfitTMResponse AddInvoice(int fromOrder, saFacturaVenta invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -457,7 +457,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saFacturaVenta new_invoice = new Invoice().AddFromOrder(invoice, user, sucur);
+                saFacturaVenta new_invoice = new Invoice().AddInvoice(invoice, user, sucur, Convert.ToBoolean(fromOrder));
 
                 if (new_invoice.descrip == "ERROR")
                 {

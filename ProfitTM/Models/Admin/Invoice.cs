@@ -190,7 +190,7 @@ namespace ProfitTM.Models
             return obj;
         }
 
-        public saFacturaVenta AddFromOrder(saFacturaVenta invoice, string user, string sucur)
+        public saFacturaVenta AddInvoice(saFacturaVenta invoice, string user, string sucur, bool fromOrder)
         {
             saFacturaVenta new_invoice = new saFacturaVenta();
 
@@ -201,9 +201,13 @@ namespace ProfitTM.Models
                     try
                     {
                         string n_fact = "", n_cont = "";
-                        foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
+                        
+                        if (fromOrder)
                         {
-                            context.pStockPendienteActualizar(reng.rowguid_doc, reng.total_art, "PCLI");
+                            foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
+                            {
+                                context.pStockPendienteActualizar(reng.rowguid_doc, reng.total_art, "PCLI");
+                            }
                         }
 
                         var sp_n_fact = context.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();

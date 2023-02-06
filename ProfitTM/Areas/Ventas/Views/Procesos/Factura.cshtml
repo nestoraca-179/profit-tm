@@ -73,6 +73,12 @@
     .field-active {
         background: #7af4af !important;
     }
+    .d-flex.justify-content-evenly > button {
+        width: 25px;
+        height: 25px;
+        padding: 0;
+        font-size: 10px;
+    }
     @@media (max-width: 1199px) {
         .container-invoices, .container-invoices > .row {
             height: auto !important;
@@ -303,7 +309,7 @@
                 </div>
                 <div class="row mt-3" ng-if="new">
                     <div class="col">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarItem">
+                        <button type="button" class="btn btn-primary" ng-click="initItem(false, null)">
                             <i class="fas fa-plus"></i> Agregar Item
                         </button>
                     </div>
@@ -321,6 +327,7 @@
                                     <th>Cantidad</th>
                                     <th>IVA</th>
                                     <th>Total</th>
+                                    <th ng-if="new"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -334,6 +341,14 @@
                                     <td ng-show="converted" class="field-active">{{ reng.monto_imp_om }}</td>
                                     <td ng-show="!converted">{{ reng.reng_neto }}</td>
                                     <td ng-show="converted" class="field-active">{{ reng.reng_neto_om }}</td>
+                                    <td ng-if="new" class="d-flex justify-content-evenly">
+                                        <button type="button" class="btn btn-primary" ng-click="initItem(true, reng);">
+                                            <i class="fas fa-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" ng-click="updateAmounts(invoice, reng, invoice.saFacturaVentaReng, 3);">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -620,11 +635,12 @@
         </div>
     </div>
     <!-- Modal Add Item -->
-    <div class="modal fade" id="modalAgregarItem" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
+    <div class="modal fade" id="modalItem" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
         <form class="modal-dialog" role="document" style="max-width: 800px;" onsubmit="return false;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Agregar Item</h5>
+                    <h5 ng-if="!editItem" class="modal-title">Agregar Item</h5>
+                    <h5 ng-if="editItem" class="modal-title">Editar Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -671,7 +687,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" ng-click="addItem(reng)">Agregar</button>
+                    <button ng-if="!editItem" type="submit" class="btn btn-primary" ng-click="setItem(reng, 1)">Agregar</button>
+                    <button ng-if="editItem" type="submit" class="btn btn-primary" ng-click="setItem(reng, 2)">Editar</button>
                 </div>
             </div>
         </form>
@@ -826,17 +843,17 @@
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Buscar Moneda</h5>
+                    <h5 class="modal-title">Buscar Articulo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar moneda..." onkeyup="search('modalArts')" />
+                        <input type="text" class="form-control" placeholder="Buscar articulo..." onkeyup="search('modalArts')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        <tr ng-repeat="art in arts" style="cursor: pointer" onclick="selectRow(this)">
+                        <tr ng-repeat="art in arts" ng-show="showItem(art)" style="cursor: pointer" onclick="selectRow(this)">
                             <td>{{ art.split("/")[0] }}</td>
                             <td>{{ art.split("/")[1] }}</td>
                         </tr>
@@ -913,6 +930,7 @@
         $scope.converted = false;
         $scope.boxOpen = true;
         $scope.reng = { reng_neto_om: (0).toFixed(2), monto_imp_om: (0).toFixed(2) };
+        $scope.editItem = false;
 
         $http.get("/api/ProfitTMApi/GetBoxOpen/" + user)
             .then(function (response) {
@@ -1146,7 +1164,7 @@
 
                 var req = {
                     method: 'POST',
-                    url: '/api/ProfitTMApi/AddInvoiceFromOrder/',
+                    url: '/api/ProfitTMApi/AddInvoice/1',
                     data: $scope.invoice,
                     headers: {
                         'Content-Type': 'application/json'
@@ -1176,6 +1194,7 @@
                 }, function (response) {
 
                     $("#modalError").modal("show");
+                    console.log(response);
                     $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
 
                 });
@@ -1370,29 +1389,144 @@
             $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(2);
         }
 
-        $scope.addItem = function (reng) {
+        $scope.initItem = function (edit, r) {
 
-            $("#modalAgregarItem form input").change();
-            if ($("#modalAgregarItem form")[0].checkValidity()) {
+            $scope.editItem = edit;
 
-                var r = reng;
-
-                r.reng_num = $scope.invoice.saFacturaVentaReng.length + 1;
-                r.co_uni = "UND";
-                r.co_alma = sucur;
-                r.co_precio = "001";
-                r.total_art = parseInt(r.total_art);
-                r.prec_vta_om = parseFloat(r.prec_vta_om).toFixed(2);
-                r.prec_vta = setSeparator((r.prec_vta_om * parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
-                r.reng_neto_om = parseFloat(r.reng_neto_om).toFixed(2);
-                r.reng_neto = setSeparator((r.reng_neto_om * parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
-                r.monto_imp_om = parseFloat(r.monto_imp_om).toFixed(2);
-                r.monto_imp = setSeparator((r.monto_imp_om * parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
-
-                $scope.invoice.saFacturaVentaReng.push(r);
+            if (edit) {
+                $scope.reng = r;
+                $("#des_art").val(searchArt(r.co_art));
+            }
+            else {
                 $scope.reng = { reng_neto_om: (0).toFixed(2), monto_imp_om: (0).toFixed(2) };
                 $("#des_art").val("");
-                $("#modalAgregarItem").modal("hide");
+            }
+
+            $('#modalItem').modal('show');
+        }
+
+        $scope.showItem = function (art) {
+            return $scope.invoice.saFacturaVentaReng.find(r => r.co_art == art.split('/')[0]) == null;
+        }
+
+        $scope.setItem = function (reng, action) {
+
+            $("#modalItem form input").change();
+            if ($("#modalItem form")[0].checkValidity()) {
+
+                $scope.updateAmounts($scope.invoice, reng, $scope.invoice.saFacturaVentaReng, action);
+
+                $("#des_art").val("");
+                $("#modalItem").modal("hide");
+            }
+        }
+
+        $scope.updateAmounts = function (i, r, rengs, action) {
+
+            if (action != 3) {
+
+                if (action == 1) {
+                    r.reng_num = $scope.invoice.saFacturaVentaReng.length + 1;
+                    r.co_uni = "UND";
+                    r.co_alma = sucur;
+                    r.co_precio = "001";
+                    r.tipo_imp = 1;
+                }
+
+                r.total_art = parseInt(r.total_art);
+                r.pendiente = parseInt(r.total_art);
+                r.prec_vta = setSeparator((parseFloat(r.prec_vta_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
+                r.reng_neto = setSeparator((parseFloat(r.reng_neto_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
+                r.monto_imp = setSeparator((parseFloat(r.monto_imp_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
+                r.prec_vta_om = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
+                r.reng_neto_om = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
+                r.monto_imp_om = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
+            }
+
+            let ind = rengs.indexOf(rengs.find(i => i.reng_num == r.reng_num));
+            switch (action) {
+                case 1: // AGREGAR ITEM
+                    rengs.push(r);
+                    break;
+                case 2: // EDITAR ITEM
+                    rengs[ind] = r;
+                    break;
+                case 3: // ELIMINAR ITEM
+                    rengs.splice(ind, 1);
+                    break;
+            }
+
+            if (action == 3) {
+                for (var r in rengs) {
+                    rengs[r].reng_num = parseInt(r) + 1;
+                }
+            }
+
+            i.total_bruto = setSeparator(rengs.map((r) => r.reng_neto).reduce((acc, act) => acc + parse(act), 0));
+            i.total_bruto_om = setSeparator((parse(i.total_bruto) / parseFloat(i.tasa ?? 1)).toFixed(2));
+            i.monto_imp = setSeparator(rengs.map((r) => r.monto_imp).reduce((acc, act) => acc + parse(act), 0));
+            i.monto_imp_om = setSeparator((parse(i.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(2));
+            i.total_neto = setSeparator(rengs.map((r) => parse(r.reng_neto) + parse(r.monto_imp)).reduce((acc, act) => acc + parse(setSeparator(act)), 0));
+            i.total_neto_om = setSeparator((parse(i.total_neto) / parseFloat(i.tasa ?? 1)).toFixed(2));
+            i.saldo = i.total_neto;
+            i.saldo_om = i.total_neto_om;
+        }
+
+        $scope.addNewInvoice = function () {
+
+            if ($("#form")[0].checkValidity()) {
+                if ($scope.invoice.saFacturaVentaReng.length > 0) {
+
+                    $("#form input, #form textarea").change();
+                    $("#modalWaiting").modal("show");
+
+                    $scope.invoice.fec_emis = origDate($scope.invoice.fec_emis);
+                    $scope.invoice.fec_venc = origDate($scope.invoice.fec_venc);
+                    $scope.invoice.fec_reg = origDate($scope.invoice.fec_reg);
+
+                    for (var ind in $scope.invoice) {
+                        if ($scope.invoice[ind] === "")
+                            $scope.invoice[ind] = null;
+                    }
+
+                    var req = {
+                        method: 'POST',
+                        url: '/api/ProfitTMApi/AddInvoice/0',
+                        data: $scope.invoice,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    }
+
+                    $http(req).then(function (response) {
+
+                        var res = response.data;
+
+                        if (res.Status == "OK") {
+                            $("#modalSuccess").modal("show");
+                            $scope.successMessage = `La Factura ${res.Result.doc_num} se ha agregado con éxito`;
+                            $scope.invoices.unshift(res.Result);
+
+                            $scope.invoice = $scope.invoices[0];
+                            $scope.invoice = convert($scope.invoice); // AGREGAR PRECIOS OM
+
+                            $scope.index = 0;
+                            $scope.new = false;
+                        } else {
+                            $("#modalError").modal("show");
+                            $scope.errorMessage = res.Message;
+                        }
+
+                    }, function (response) {
+
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
+
+                    });
+                    
+                } else {
+                    alert("Debes agregar items a la factura");
+                }
             }
         }
     });
@@ -1472,7 +1606,7 @@
     }
 
     function parse(value) {
-        return parseFloat(value.replace(',', ''));
+        return parseFloat(value.replaceAll(',', ''));
     }
 
     function convert(invoice) {
