@@ -232,7 +232,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Emis</label>
-                            <input type="date" class="form-control" id="fec_emis" ng-model="invoice.fec_emis" ng-disabled="!new" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_emis" ng-model="invoice.fec_emis" ng-disabled="true" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -259,7 +259,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Venc</label>
-                            <input type="date" class="form-control" id="fec_venc" ng-model="invoice.fec_venc" ng-disabled="!new" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_venc" ng-model="invoice.fec_venc" ng-disabled="true" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -286,7 +286,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Reg</label>
-                            <input type="date" class="form-control" id="fec_reg" ng-model="invoice.fec_reg" ng-disabled="!new" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_reg" ng-model="invoice.fec_reg" ng-disabled="true" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -660,7 +660,7 @@
                         <div class="col-sm-12 col-md-3">
                             <div class="controls">
                                 <label>Cantidad</label>
-                                <input type="text" class="form-control" id="quantity" ng-model="reng.total_art" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePrice()" />
+                                <input type="number" class="form-control" id="quantity" ng-model="reng.total_art" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePrice()" />
                             </div>
                         </div>
                     </div>
@@ -929,9 +929,14 @@
         $scope.confirm = false;
         $scope.converted = false;
         $scope.boxOpen = true;
-        $scope.reng = { reng_neto_om: (0).toFixed(2), monto_imp_om: (0).toFixed(2) };
+        $scope.reng = {
+            total_art: 1,
+            reng_neto_om: (0).toFixed(2),
+            monto_imp_om: (0).toFixed(2)
+        };
         $scope.editItem = false;
 
+        /*
         $http.get("/api/ProfitTMApi/GetBoxOpen/" + user)
             .then(function (response) {
 
@@ -948,6 +953,7 @@
                     alert("Ha ocurrido un error " + res.Message);
                 }
             });
+        */
 
         $scope.next = function () {
             if ($scope.index == (invoices.length - 1)) {
@@ -1319,19 +1325,17 @@
             } else if (parseFloat(amount) <= 0) {
                 $("#text-fail").text("**EL MONTO DEBE SER MAYOR A 0**");
             } else {
-                var cant = parseFloat(amount);
-                var total_om = parseFloat($scope.invoice.total_neto_om.replace(",", ""));
+                var cant = parseFloat(amount).toFixed(2);
+                var total_om = parseFloat($scope.invoice.total_neto_om.replace(",", "")).toFixed(2);
 
                 if (cant > total_om) {
                     $("#text-fail").text(`**EL MONTO RECIBIDO DEBE SER MENOR O IGUAL A ${total_om}**`);
                 } else if (cant < total_om) {
-                    // $("#text-fail").text("**MONTO MENOR, LLEVA RETENCIONES**");
-                    // $scope.addCollect(cant, false);
-                    $("#modalConfirmarMonto").modal("show");
+                   $scope.full = false;
+                   $("#modalConfirmarMonto").modal("show");
                 } else {
-                    // $("#text-fail").text("**MONTO COMPLETO**");
-                    // $scope.addCollect(cant, true);
-                    $("#modalConfirmarMonto").modal("show");
+                   $scope.full = true;
+                   $("#modalConfirmarMonto").modal("show");
                 }
             }
         }
@@ -1361,9 +1365,9 @@
                     $scope.successMessage = `El adelanto ${res.Result.cob_num} se ha agregado con éxito`;
 
                     $scope.invoice.status = 1;
-                    $scope.invoice.estatus = setStatus($scope.invoice.status);
+                    $scope.invoice.estatus = setStatus(1);
 
-                    /*if (full) {
+                    if ($scope.full) {
                         $scope.invoice.status = 2;
                         $scope.invoice.saldo = 0;
                         $scope.invoice.saldo_om = 0;
@@ -1371,7 +1375,7 @@
                         $scope.invoice.status = 1;
                         $scope.invoice.saldo = setSeparator((parseFloat(i.total_neto.replace(",", "")) - (parseFloat(cant) * i.tasa)).toFixed(2));
                         $scope.invoice.saldo_om = (i.total_neto_om - cant).toFixed(2);
-                    }*/
+                    }
 
                 } else {
                     $("#modalError").modal("show");
@@ -1398,7 +1402,14 @@
                 $("#des_art").val(searchArt(r.co_art));
             }
             else {
-                $scope.reng = { reng_neto_om: (0).toFixed(2), monto_imp_om: (0).toFixed(2) };
+                $scope.reng = {
+                    co_art: "",
+                    total_art: 1,
+                    reng_neto_om: (0).toFixed(2),
+                    monto_imp_om: (0).toFixed(2)
+                };
+                
+                $("#art").val("");
                 $("#des_art").val("");
             }
 
