@@ -207,6 +207,29 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("api/ProfitTMApi/CloseBox/{id}")]
+        public ProfitTMResponse CloseBox(string id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                Box.CloseBox(id);
+
+                response.Status = "OK";
+                response.Result = id;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR CERRANDO CAJA " + id, ex);
+            }
+
+            return response;
+        }
+
         // CLIENTE
 
         [HttpPost]

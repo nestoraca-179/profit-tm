@@ -118,5 +118,17 @@ namespace ProfitTM.Models
 
             db.SaveChanges();
         }
+    
+        public static void CloseBox(string id)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+
+            Boxes box = GetBoxByID(id);
+            box.DateE = DateTime.Now;
+            box.IsOpen = false;
+            db.Entry(box).State = EntityState.Modified;
+
+            db.SaveChanges();
+        }
     }
 }

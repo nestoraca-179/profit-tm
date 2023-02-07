@@ -115,7 +115,7 @@
                     <div class="buttons-actions">
                         <i ng-show="box.IsOpen" class="fas fa-exchange" title="Generar Movimiento" data-toggle="modal" data-target="#modal-exchange" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)"></i>
                         <i class="fas fa-eye mx-2" title="Ver Transacciones" ng-click="viewMovs(box.ID)"></i>
-                        <i ng-show="box.IsOpen" class="fas fa-dollar-sign" title="Cerrar Caja" data-toggle="modal" data-target="#modal-dollar-sign"></i>
+                        <i ng-show="box.IsOpen" class="fas fa-dollar-sign" title="Cerrar Caja" ng-click="openModalClose(box.ID)"></i>
                     </div>
                 </td>
             </tr>
@@ -236,7 +236,7 @@
                 </div>
                 <div class="modal-footer" style="justify-content: center">
                     <button type="button" style="width: 70px;" class="btn btn-danger" data-dismiss="modal">No</button>
-                    <button type="button" style="width: 70px;" class="btn btn-success">Sí</button>
+                    <button type="button" style="width: 70px;" class="btn btn-success" ng-click="closeBox()">Sí</button>
                 </div>
             </div>
         </div>
@@ -468,6 +468,36 @@
         }
 
         $scope.formatDate = (date) => date != null ? new Date(date).toLocaleString("es-ES", options) : "";
+
+        $scope.openModalClose = function (id) {
+            $scope.boxId = id;
+            $("#modal-dollar-sign").modal("show");
+        }
+
+        $scope.closeBox = function () {
+            $("#modal-dollar-sign").modal("hide");
+            $("modalWaiting").modal("show");
+
+            $http.get("/api/ProfitTMApi/CloseBox/" + $scope.boxId)
+                .then(function (response) {
+
+                    var res = response.data;
+                    if (res.Status == "OK") {
+
+                        var box = $scope.boxes.find(b => b.ID == $scope.boxId);
+                        box.DateE = new Date(Date.now());
+                        box.IsOpen = false;
+
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = "Caja cerrada con éxito";
+
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+
+                });
+        }
     });
 
     function compareDate(d1, d2) {
