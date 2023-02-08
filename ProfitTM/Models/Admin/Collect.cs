@@ -60,7 +60,7 @@ namespace ProfitTM.Models
 
                         // INSERTAR AJPM
                         var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "RECARGO IGTF FACT N° " + fact.doc_num,
-                            DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_ajpm, null, 0, 0, igtf, 0, null, null, 0, igtf, 0, 0, "7", 0, 0, 0, 
+                            DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, null, null, null, 0, 0, igtf, 0, null, null, 0, igtf, 0, 0, "7", 0, 0, 0, 
                             0, null, null, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, 
                             sucur, user, "SERVER PROFIT WEB");
 
@@ -81,10 +81,10 @@ namespace ProfitTM.Models
                             "COBRO EN DOLARES FACT " + doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
 
                         // INSERTAR DOC COBRO
-                        var sp_d1 = context.pInsertarRenglonesDocCobro(1, n_coll, "FACT", fact.doc_num, (amount * fact.tasa), 0, 0, 0, 0, null, null, null, null, 
+                        var sp_d1 = context.pInsertarRenglonesDocCobro(1, n_coll, "AJPM", n_ajpm, igtf, 0, 0, 0, 0, null, null, null, null,
                             Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
 
-                        var sp_d2 = context.pInsertarRenglonesDocCobro(2, n_coll, "AJPM", n_ajpm, igtf, 0, 0, 0, 0, null, null, null, null,
+                        var sp_d2 = context.pInsertarRenglonesDocCobro(2, n_coll, "FACT", fact.doc_num, (amount * fact.tasa), 0, 0, 0, 0, null, null, null, null, 
                             Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
 
                         // INSERTAR TP COBRO
@@ -92,12 +92,12 @@ namespace ProfitTM.Models
                             DateTime.Now, sucur, user, null, null, "SERVER PROFIT WEB");
 
                         // ACTUALIZAR FACTURA
-                        fact.saldo -= (amount * fact.tasa);
+                        fact.saldo -= Math.Round(amount * fact.tasa, 2);
                         fact.status = fact.saldo > 0 ? "1" : "2";
                         context.Entry(fact).State = EntityState.Modified;
 
                         // ACTUALIZAR DOCUMENTO
-                        doc_v.saldo -= (amount * fact.tasa);
+                        doc_v.saldo -= Math.Round(amount * fact.tasa, 2);
                         context.Entry(doc_v).State = EntityState.Modified;
 
                         sp_i.Dispose();

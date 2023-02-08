@@ -315,7 +315,7 @@
                     </div>
                 </div>
                 <div class="bottom" style="padding: 0 0 10px 0;">
-                    <h4 class="text-center text-white form-header">Items de la Factura</h4>
+                    <h4 class="text-center text-white form-header"><i class="fas fa-list"></i> Items de la Factura</h4>
                     <div style="padding: 0 10px;">
                         <table class="table table-striped">
                             <thead class="thead-dark">
@@ -1349,7 +1349,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/api/ProfitTMApi/AddCollect/' + $scope.invoice.doc_num,
+                url: '/api/ProfitTMApi/AddCollect/' + $scope.invoice.doc_num.trim(),
                 data: cant,
                 headers: {
                     'Content-Type': 'application/json'
@@ -1362,25 +1362,26 @@
 
                 if (res.Status == "OK") {
                     $("#modalSuccess").modal("show");
-                    $scope.successMessage = `El adelanto ${res.Result.cob_num} se ha agregado con éxito`;
-
-                    $scope.invoice.status = 1;
-                    $scope.invoice.estatus = setStatus(1);
+                    $scope.successMessage = `El Cobro ${res.Result.cob_num} se ha agregado con éxito`;
 
                     if ($scope.full) {
                         $scope.invoice.status = 2;
+                        $scope.invoice.estatus = setStatus(2);
                         $scope.invoice.saldo = 0;
                         $scope.invoice.saldo_om = 0;
                     } else {
                         $scope.invoice.status = 1;
-                        $scope.invoice.saldo = setSeparator((parseFloat(i.total_neto.replace(",", "")) - (parseFloat(cant) * i.tasa)).toFixed(2));
-                        $scope.invoice.saldo_om = (i.total_neto_om - cant).toFixed(2);
+                        $scope.invoice.estatus = setStatus(1);
+                        $scope.invoice.saldo = setSeparator((parse($scope.invoice.total_neto) - (parseFloat(cant) * $scope.invoice.tasa)).toFixed(2));
+                        $scope.invoice.saldo_om = setSeparator(($scope.invoice.total_neto_om - cant).toFixed(2));
                     }
 
                 } else {
                     $("#modalError").modal("show");
                     $scope.errorMessage = res.Message;
                 }
+            }, function (r) {
+                console.log(r);
             });
         }
 
