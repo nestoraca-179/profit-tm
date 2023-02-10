@@ -132,7 +132,7 @@
             <div class="form-buttons">
                 <div class="row">
                     <div class="col buttons-next-prev" ng-show="!new && !adding">
-                        <button type="button" class="btn text-white" style="background: #810be3; margin: 0 10px 0 0;" ng-click="initAddInvoice()">
+                        <button type="button" class="btn text-white" style="background: #810be3; margin: 0 10px 0 0;" ng-click="initAddInvoice()" ng-disabled="template == null">
                             <i class="fas fa-plus"></i> Nuevo
                         </button>
                         <button type="button" class="btn btn-primary" ng-click="margin('s')">
@@ -1016,6 +1016,7 @@
         $scope.converted = false;
         $scope.boxOpen = true;
         $scope.editItem = false;
+        $scope.template = template;
         $scope.reng = {
             total_art: 1,
             reng_neto_om: (0).toFixed(2),
