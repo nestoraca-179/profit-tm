@@ -76,11 +76,15 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 if (Session["SELLERS"] == null)
                     Session["SELLERS"] = serializer.Serialize(new Seller().GetAllSellers());
 
+                if (Session["TEMPLATE"] == null)
+                    Session["TEMPLATE"] = serializer.Serialize(new Invoice().GetTemplate());
+
                 ViewBag.arts = Session["ARTS"];
                 ViewBag.conds = Session["CONDS"];
                 ViewBag.clients = Session["CLIENTS"];
                 ViewBag.currencies = Session["CURRENCIES"];
                 ViewBag.sellers = Session["SELLERS"];
+                ViewBag.template = Session["TEMPLATE"];
 
                 return View();
             }

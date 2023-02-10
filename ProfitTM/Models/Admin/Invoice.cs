@@ -149,6 +149,32 @@ namespace ProfitTM.Models
             return doc;
         }
 
+        public saPlantillaVenta GetTemplate()
+        {
+            saPlantillaVenta template = new saPlantillaVenta();
+
+            try
+            {
+                template = db.saPlantillaVenta.AsNoTracking().Include("saPlantillaVentaReng").Include("saCliente")
+                    .Include("saCondicionPago").Include("saVendedor").Single(i => i.doc_num == "03000000001");
+
+                template.saCliente.saPlantillaVenta = null;
+                template.saVendedor.saPlantillaVenta = null;
+                template.saCondicionPago.saPlantillaVenta = null;
+                foreach (saPlantillaVentaReng reng in template.saPlantillaVentaReng)
+                {
+                    reng.saPlantillaVenta = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                template = null;
+                Incident.CreateIncident("ERROR BUSCANDO PLANTILLA DE VENTA", ex);
+            }
+
+            return template;
+        }
+        
         public object GetStatsInvoices(DateTime fec_d, DateTime fec_h)
         {
             int totalCount = 0;

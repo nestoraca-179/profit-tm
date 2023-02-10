@@ -175,7 +175,7 @@
                         <div style="width: 10px;"></div>
                         <button type="submit" class="btn btn-success" ng-click="addNewInvoice()">
                             <i class="fas fa-save"></i>
-                            Agregar
+                            Guardar
                         </button>
                     </div>
                     <div class="col buttons-save-cancel" ng-show="adding">
@@ -397,6 +397,14 @@
             </div>
             <div id="adicionales" class="form-body">
                 <div class="left">
+                    <div class="controls" ng-if="new">
+                        <label>¿Como cancela el cliente?</label>
+                        <select class="form-control" ng-model="invoice.typePay" ng-change="updateUSD(invoice.typePay)" style="-webkit-appearance: button; -moz-appearance: button;">
+                            <option value="1">Monto Completo ($USD)</option>
+                            <option value="2">Monto Completo ($USD) - Retenciones</option>
+                            <option value="3">Otro monto</option>
+                        </select>
+                    </div>
                     <div class="controls">
                         <label>Contenedor</label>
                         <textarea class="form-control" ng-model="invoice.dir_ent" ng-disabled="!new && !adding"></textarea>
@@ -420,9 +428,22 @@
                     </div>
                 </div>
                 <div class="right">
+                    <div class="controls" ng-if="new">
+                        <label>Porcentaje de Retenciones</label>
+                        <div class="d-flex justify-content-between">
+                            <fieldset>
+                                <label class="label-radio"><input type="radio" value="75" ng-model="invoice.porc_ret_iva" ng-change="updateUSD('2')" ng-disabled="invoice.typePay != '2'" /> IVA 75%</label>
+                                <label class="label-radio mx-3"><input type="radio" value="100" ng-model="invoice.porc_ret_iva" ng-change="updateUSD('2')" ng-disabled="invoice.typePay != '2'" /> IVA 100%</label>
+                            </fieldset>
+                            <fieldset>
+                                <label class="label-radio mx-3"><input type="radio" value="2" ng-model="invoice.porc_ret_islr" ng-change="updateUSD('2')" ng-disabled="invoice.typePay != '2'" /> ISLR 2%</label>
+                                <label class="label-radio"><input type="radio" value="5" ng-model="invoice.porc_ret_islr" ng-change="updateUSD('2')" ng-disabled="invoice.typePay != '2'" /> ISLR 5%</label>
+                            </fieldset>
+                        </div>
+                    </div>
                     <div class="controls">
                         <label>Divisas</label>
-                        <textarea class="form-control" ng-model="invoice.comentario" ng-disabled="!new"></textarea>
+                        <textarea class="form-control" ng-model="invoice.comentario" ng-disabled="!new || invoice.typePay != '3'"></textarea>
                     </div>
                     <br />
                     <div class="controls">
@@ -949,6 +970,7 @@
     var clients = @Html.Raw(ViewBag.clients);
     var currencies = @Html.Raw(ViewBag.currencies);
     var sellers = @Html.Raw(ViewBag.sellers);
+    var template = @Html.Raw(ViewBag.template);
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
 
@@ -1070,6 +1092,38 @@
 
             $scope.new = true;
 
+            $scope.invoice = template;
+            $scope.invoice.doc_num = "";
+            $scope.invoice.n_control = "";
+            $scope.invoice.status = 0;
+            $scope.invoice.estatus = "NO PROCESADA";
+            $scope.invoice.co_cli = "";
+            $scope.invoice.saCliente = {
+                cli_des: ""
+            },
+            $scope.invoice.fec_emis = new Date(Date.now()),
+            $scope.invoice.fec_venc = new Date(Date.now()),
+            $scope.invoice.fec_reg = new Date(Date.now()),
+            $scope.invoice.saFacturaVentaReng = template.saPlantillaVentaReng;
+            $scope.invoice.total_bruto = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.reng_neto).reduce((acc, act) => acc + act, 0));
+            $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+            $scope.invoice.monto_imp = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.monto_imp).reduce((acc, act) => acc + act, 0));
+            $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+            $scope.invoice.total_neto = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.reng_neto + r.monto_imp).reduce((acc, act) => acc + act, 0));
+            $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+            $scope.invoice.saldo = $scope.invoice.total_neto;
+            $scope.invoice.saldo_om = $scope.invoice.total_neto_om;
+            $scope.invoice.typePay = "1";
+
+            for (var r of $scope.invoice.saFacturaVentaReng) {
+                r.monto_imp_om = setSeparator((r.monto_imp / $scope.invoice.tasa).toFixed(2));
+                r.monto_imp = setSeparator(r.monto_imp.toFixed(2));
+
+                r.reng_neto_om = setSeparator((r.reng_neto / $scope.invoice.tasa).toFixed(2));
+                r.reng_neto = setSeparator(r.reng_neto.toFixed(2));
+            }
+
+            /*
             $scope.invoice = {
                 status: 0,
                 estatus: "NO PROCESADA",
@@ -1094,8 +1148,10 @@
                 total_neto_om: setSeparator((0).toFixed(2)),
                 saldo: setSeparator((0).toFixed(2)),
                 saldo_om: setSeparator((0).toFixed(2)),
+                typePay: "1",
                 saFacturaVentaReng: [],
             };
+            */
         }
 
         $scope.searchArt = (id) => searchArt(id);
@@ -1108,15 +1164,29 @@
 
             tasa = tasa == null || parseFloat(tasa) == 0 ? 1 : parseFloat(tasa);
 
-            $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / tasa).toFixed(2));
-            $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / tasa).toFixed(2));
-            $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / tasa).toFixed(2));
-            $scope.invoice.saldo_om = setSeparator((parse($scope.invoice.saldo) / tasa).toFixed(2));
+            if ($scope.converted) {
+                $scope.invoice.total_bruto = setSeparator((parse($scope.invoice.total_bruto_om) * tasa).toFixed(2));
+                $scope.invoice.monto_imp = setSeparator((parse($scope.invoice.monto_imp_om) * tasa).toFixed(2));
+                $scope.invoice.total_neto = setSeparator((parse($scope.invoice.total_neto_om) * tasa).toFixed(2));
+                $scope.invoice.saldo = setSeparator((parse($scope.invoice.saldo_om) * tasa).toFixed(2));
 
-            if ($scope.invoice.saFacturaVentaReng) {
-                for (var reng of $scope.invoice.saFacturaVentaReng) {
-                    reng.monto_imp_om = setSeparator((parse(reng.monto_imp) / tasa).toFixed(2));
-                    reng.reng_neto_om = setSeparator((parse(reng.reng_neto) / tasa).toFixed(2));
+                if ($scope.invoice.saFacturaVentaReng) {
+                    for (var reng of $scope.invoice.saFacturaVentaReng) {
+                        reng.monto_imp = setSeparator((parse(reng.monto_imp_om) * tasa).toFixed(2));
+                        reng.reng_neto = setSeparator((parse(reng.reng_neto_om) * tasa).toFixed(2));
+                    }
+                }
+            } else {
+                $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / tasa).toFixed(2));
+                $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / tasa).toFixed(2));
+                $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / tasa).toFixed(2));
+                $scope.invoice.saldo_om = setSeparator((parse($scope.invoice.saldo) / tasa).toFixed(2));
+
+                if ($scope.invoice.saFacturaVentaReng) {
+                    for (var reng of $scope.invoice.saFacturaVentaReng) {
+                        reng.monto_imp_om = setSeparator((parse(reng.monto_imp) / tasa).toFixed(2));
+                        reng.reng_neto_om = setSeparator((parse(reng.reng_neto) / tasa).toFixed(2));
+                    }
                 }
             }
         }
@@ -1551,6 +1621,26 @@
             i.total_neto_om = setSeparator((parse(i.total_neto) / parseFloat(i.tasa ?? 1)).toFixed(2));
             i.saldo = i.total_neto;
             i.saldo_om = i.total_neto_om;
+
+            $scope.updateUSD(i.typePay);
+        }
+
+        $scope.updateUSD = function (opt) {
+
+            var i = $scope.invoice;
+            var porc_ret_iva = parseInt(i.porc_ret_iva ?? 0) / 100;
+            var porc_ret_islr = parseInt(i.porc_ret_islr ?? 0) / 100;
+
+            switch (opt) {
+                case "1":
+                    i.comentario = i.total_neto_om;
+                    break;
+                case "2":
+                    var retIva = parse(i.monto_imp_om) - (parse(i.monto_imp_om) * porc_ret_iva);
+                    var retIslr = parse(i.total_bruto_om) - (parse(i.total_bruto_om) * porc_ret_islr);
+                    i.comentario = (retIva + retIslr).toFixed(2);
+                    break;
+            }
         }
 
         $scope.addNewInvoice = function () {
