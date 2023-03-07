@@ -157,7 +157,7 @@
                             <i class="fas fa-print"></i> Imprimir
                         </button>
                         <p ng-if="invoice.anulado" class="my-0 d-flex align-items-center" style="margin-right: 5px;"><b>Anulado</b></p>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="invoice.anulado || invoice.status != 0">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="user != 'ASAP' || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
                         <button type="button" class="btn" data-toggle="modal" data-target="#modalCobrar" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="true" @*ng-disabled="invoice.anulado || invoice.status != 0 || invoice.co_cond.trim() != '002'"*@ onclick="focusField('#n_amount')">
@@ -1017,10 +1017,14 @@
         $scope.boxOpen = true;
         $scope.editItem = false;
         $scope.template = template;
+        $scope.user = user.trim();
         $scope.reng = {
             total_art: 1,
             reng_neto_om: (0).toFixed(2),
-            monto_imp_om: (0).toFixed(2)
+            monto_imp_om: (0).toFixed(2),
+            prec_vta_om: "25.00",
+            reng_neto_om: "25.00",
+            monto_imp_om: "4.00"
         };
         $scope.rengTP = {
             forma_pag: "EF"
@@ -1098,9 +1102,9 @@
             $scope.invoice.n_control = "";
             $scope.invoice.status = 0;
             $scope.invoice.estatus = "NO PROCESADA";
-            $scope.invoice.co_cli = "";
+            $scope.invoice.co_cli = "J411174556";
             $scope.invoice.saCliente = {
-                cli_des: ""
+                cli_des: "COSCO LOGISTICS, C.A"
             },
             $scope.invoice.fec_emis = new Date(Date.now()),
             $scope.invoice.fec_venc = new Date(Date.now()),
@@ -1112,6 +1116,7 @@
             $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
             $scope.invoice.total_neto = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.reng_neto + r.monto_imp).reduce((acc, act) => acc + act, 0));
             $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+            $scope.invoice.comentario = $scope.invoice.total_neto_om;
             $scope.invoice.saldo = $scope.invoice.total_neto;
             $scope.invoice.saldo_om = $scope.invoice.total_neto_om;
             $scope.invoice.typePay = "1";
@@ -1547,7 +1552,10 @@
                     co_art: "",
                     total_art: 1,
                     reng_neto_om: (0).toFixed(2),
-                    monto_imp_om: (0).toFixed(2)
+                    monto_imp_om: (0).toFixed(2),
+                    prec_vta_om: "25.00",
+                    reng_neto_om: "25.00",
+                    monto_imp_om: "4.00"
                 };
                 
                 $("#art").val("");
@@ -1558,7 +1566,7 @@
         }
 
         $scope.showItem = function (art) {
-            return $scope.invoice.saFacturaVentaReng.find(r => r.co_art == art.split('/')[0]) == null;
+            return $scope.invoice.saFacturaVentaReng.find(r => r.co_art.trim() == art.split('/')[0]) == null;
         }
 
         $scope.setItem = function (reng, action) {
