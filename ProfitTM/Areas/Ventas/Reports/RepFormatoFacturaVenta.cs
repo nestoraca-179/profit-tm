@@ -949,7 +949,7 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             // bolivares
             // 
             this.bolivares.Font = new System.Drawing.Font("Microsoft JhengHei", 11F, System.Drawing.FontStyle.Bold);
-            this.bolivares.LocationFloat = new DevExpress.Utils.PointFloat(110.601F, 222.5833F);
+            this.bolivares.LocationFloat = new DevExpress.Utils.PointFloat(110.601F, 210.5833F);
             this.bolivares.Multiline = true;
             this.bolivares.Name = "bolivares";
             this.bolivares.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -959,7 +959,7 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             // xrLabel49
             // 
             this.xrLabel49.Font = new System.Drawing.Font("Microsoft JhengHei", 11F, System.Drawing.FontStyle.Bold);
-            this.xrLabel49.LocationFloat = new DevExpress.Utils.PointFloat(0F, 222.5833F);
+            this.xrLabel49.LocationFloat = new DevExpress.Utils.PointFloat(0F, 210.5833F);
             this.xrLabel49.Multiline = true;
             this.xrLabel49.Name = "xrLabel49";
             this.xrLabel49.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);

@@ -52,6 +52,7 @@ namespace ProfitTM.Models
             Users new_user;
 
             user.DateReg = DateTime.Now;
+            user.NextChange = DateTime.Now;
             user.Password = SecurityController.Encrypt(user.Password);
 
             new_user = db.Users.Add(user);
