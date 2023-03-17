@@ -64,6 +64,12 @@
         font-size: 6em;
         padding: 5%;
     }
+    .container-card-boxes {
+        background: green;
+    }
+    .card-box {
+        background: red;
+    }
 </style>
 <script src="~/Scripts/angular-min.js"></script>
 <div class="container-fluid container-boxes" style="display: none;" ng-app="Boxes" ng-controller="controller">
@@ -121,6 +127,13 @@
             </tr>
         </tbody>
     </table>
+    <div>
+        <div class="container-card-boxes">
+            <div ng-repeat="box in boxes | orderBy:'-DateS'" class="card-box">
+                <p>{{ box.UserID }}</p>
+            </div>
+        </div>
+    </div>
     <!-- Modal Nuevo -->
     <div class="modal fade" id="modal-new" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
