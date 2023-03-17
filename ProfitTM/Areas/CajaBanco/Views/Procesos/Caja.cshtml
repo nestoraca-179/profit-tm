@@ -66,9 +66,19 @@
     }
     .container-card-boxes {
         background: green;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
     }
     .card-box {
         background: red;
+        width: 250px;
+        height: 200px;
+        position: relative;
+    }
+    i.fa-desktop {
+        position: absolute;
+        top: 0;
     }
 </style>
 <script src="~/Scripts/angular-min.js"></script>
@@ -131,6 +141,7 @@
         <div class="container-card-boxes">
             <div ng-repeat="box in boxes | orderBy:'-DateS'" class="card-box">
                 <p>{{ box.UserID }}</p>
+                <i class="fas fa-desktop"></i>
             </div>
         </div>
     </div>
