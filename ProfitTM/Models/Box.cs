@@ -35,6 +35,7 @@ namespace ProfitTM.Models
                 boxes = db.Boxes.AsNoTracking().Include("BoxMoves").ToList();
                 foreach (Boxes box in boxes)
                 {
+                    box.UserID = db.Users.AsNoTracking().Single(u => u.Username == box.UserID).Descrip;
                     box.BoxMoves.ToList().ForEach(delegate(BoxMoves m) {
                         m.Boxes = null;
                     });
