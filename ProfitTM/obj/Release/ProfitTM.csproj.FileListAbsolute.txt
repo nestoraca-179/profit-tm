@@ -458,3 +458,24 @@ C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\obj\R
 C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll
 C:\My Organization\Objetos Comunes\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.pdb
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.AssemblyReference.cache
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Quartz.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Buffers.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Diagnostics.DiagnosticSource.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Memory.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Numerics.Vectors.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Microsoft.Extensions.Logging.Abstractions.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Quartz.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Buffers.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Diagnostics.DiagnosticSource.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Memory.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Numerics.Vectors.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Common.Logging.Core.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Common.Logging.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Common.Logging.pdb
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Common.Logging.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Common.Logging.Core.pdb
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Common.Logging.Core.xml
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\Quartz.pdb

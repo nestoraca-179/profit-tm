@@ -5,6 +5,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.SessionState;
 using ProfitTM.Models;
+using Quartz;
+using Quartz.Impl;
 
 namespace ProfitTM
 {
@@ -27,6 +29,17 @@ namespace ProfitTM
 
             DevExpress.Web.ASPxWebControl.CallbackError += Application_Error;
             DevExpress.Web.Mvc.MVCxWebDocumentViewer.StaticInitialize();
+
+            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
+            IJobDetail jobCerrarCajas = JobBuilder.Create<CerrarCajas>().Build();
+            ITrigger triggerCerrarCajas = TriggerBuilder.Create()
+                .WithIdentity("triggerCerrarCajas")
+                .StartNow()
+                .WithCronSchedule("0 20 11 ? * * *")
+                .Build();
+
+            scheduler.ScheduleJob(jobCerrarCajas, triggerCerrarCajas);
+            scheduler.Start();
         }
 
         protected void Application_Error(object sender, EventArgs e) {
@@ -46,6 +59,21 @@ namespace ProfitTM
         private bool IsWebApiRequest()
         {
             return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(WebApiConfig.UrlPrefixRelative);
+        }
+
+        public class CerrarCajas : IJob
+        {
+            public void Execute(IJobExecutionContext context)
+            {
+                try
+                {
+                    Box.CloseAllBox();
+                }
+                catch (Exception ex)
+                {
+                    Incident.CreateIncident("ERROR CERRANDO CAJAS", ex);
+                }
+            }
         }
     }
 }

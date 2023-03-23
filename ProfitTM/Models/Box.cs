@@ -130,5 +130,20 @@ namespace ProfitTM.Models
 
             db.SaveChanges();
         }
+
+        public static void CloseAllBox()
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+
+            List<Boxes> boxes = db.Boxes.AsNoTracking().Where(b => b.IsOpen).ToList();
+            foreach (Boxes box in boxes)
+            {
+                box.IsOpen = false;
+                box.DateE = DateTime.Now;
+                db.Entry(box).State = EntityState.Modified;
+            }
+
+            db.SaveChanges();
+        }
     }
 }

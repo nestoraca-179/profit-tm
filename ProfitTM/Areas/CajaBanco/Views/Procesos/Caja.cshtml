@@ -150,7 +150,7 @@
     }
 </style>
 <script src="~/Scripts/angular-min.js"></script>
-<div class="container-fluid container-boxes" style="display: none;" ng-app="Boxes" ng-controller="controller">
+<div class="container-fluid container-boxes my-3" style="display: none;" ng-app="Boxes" ng-controller="controller">
     <div class="row m-3">
         <div class="col d-flex align-items-center">
             <button class="btn btn-success d-flex align-items-center" ng-click="initBox()">
@@ -167,7 +167,7 @@
     <div>
         <h5 class="my-3">Cajas abiertas</h5>
         <div class="container-card-boxes">
-            <div ng-repeat="box in boxes | filter: { IsOpen: true } | orderBy:'-DateS'" class="card-box shadow-tm" ng-click="viewBoxDetails(box.ID)">
+            <div ng-repeat="box in boxes | filter: { IsOpen: true } | orderBy:'-DateS'" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
                 <p class="card-box-header">{{ box.UserID }} - {{ formatDate(box.DateS).split(' ')[0] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
@@ -180,10 +180,11 @@
                 </div>
                 <p class="card-box-total">${{ (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) }}</p>
             </div>
+            <p ng-if="showNoItems(true)" class="w-100 my-0 text-center">No hay cajas abiertas</p>
         </div>
         <h5 class="my-3">Cajas cerradas</h5>
         <div class="container-card-boxes">
-            <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:'-DateS'" class="card-box shadow-tm" ng-click="viewBoxDetails(box.ID)">
+            <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:'-DateS'" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
                 <p class="card-box-header">{{ box.UserID }} - {{ formatDate(box.DateS).split(' ')[0] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
@@ -196,6 +197,7 @@
                 </div>
                 <p class="card-box-total">${{ (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) }}</p>
             </div>
+            <p ng-if="showNoItems(false)" class="w-100 my-0 text-center">No hay cajas cerradas</p>
         </div>
     </div>
     <!--
@@ -687,6 +689,13 @@
         $scope.viewBoxDetails = function (id) {
             $scope.box = $scope.boxes.find(b => b.ID == id);
             $("#modalBoxDetails").modal("show");
+        }
+
+        $scope.showNoItems = function (open) {
+            var boxes = $scope.boxes.filter(b => b.IsOpen == open);
+            var count = boxes.length;
+
+            return count == 0;
         }
     });
 
