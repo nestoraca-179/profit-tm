@@ -14871,6 +14871,12 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sRevisado" Type="char" Mode="In" />
           <Parameter Name="sMaquina" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="pObtenerSaldoCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sCodigo" Type="char" Mode="In" />
+        </Function>
+        <Function Name="pObtenerSaldoProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sCodigo" Type="char" Mode="In" />
+        </Function>
         <Function Name="pSaldoActualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sCodigo" Type="char" Mode="In" />
           <Parameter Name="sForma_Pag" Type="char" Mode="In" />
@@ -14879,6 +14885,16 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="bSumarSaldo" Type="bit" Mode="In" />
           <Parameter Name="sModulo" Type="char" Mode="In" />
           <Parameter Name="bPermiteSaldoNegativo" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="pSeleccionarDocumentosCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sCodigo" Type="char" Mode="In" />
+          <Parameter Name="bPendiente" Type="bit" Mode="In" />
+          <Parameter Name="sMoneda" Type="char" Mode="In" />
+        </Function>
+        <Function Name="pSeleccionarDocumentosProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sCodigo" Type="char" Mode="In" />
+          <Parameter Name="bPendiente" Type="bit" Mode="In" />
+          <Parameter Name="sMoneda" Type="char" Mode="In" />
         </Function>
         <Function Name="pStockPendienteActualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="uniRowGuidOri" Type="uniqueidentifier" Mode="In" />
@@ -35150,6 +35166,22 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <Parameter Name="sModulo" Mode="In" Type="String" />
             <Parameter Name="bPermiteSaldoNegativo" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="pObtenerSaldoCliente" ReturnType="Collection(Decimal)">
+            <Parameter Name="sCodigo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pObtenerSaldoProveedor" ReturnType="Collection(Decimal)">
+            <Parameter Name="sCodigo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pSeleccionarDocumentosCliente" ReturnType="Collection(ProfitAdmContext.pSeleccionarDocumentosCliente_Result)">
+            <Parameter Name="sCodigo" Mode="In" Type="String" />
+            <Parameter Name="bPendiente" Mode="In" Type="Boolean" />
+            <Parameter Name="sMoneda" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pSeleccionarDocumentosProveedor" ReturnType="Collection(ProfitAdmContext.pSeleccionarDocumentosProveedor_Result)">
+            <Parameter Name="sCodigo" Mode="In" Type="String" />
+            <Parameter Name="bPendiente" Mode="In" Type="Boolean" />
+            <Parameter Name="sMoneda" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="RepEstadoCuentaCli_Result">
           <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -35510,6 +35542,89 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
           <Property Type="Guid" Name="rowguid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pSeleccionarDocumentosCliente_Result">
+          <Property Type="String" Name="co_tipo_doc" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="nro_doc" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="fec_venc" Nullable="false" Precision="16" />
+          <Property Type="Decimal" Name="saldo" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_neto" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_bruto" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="co_cli" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="co_ven" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_mone" Nullable="false" MaxLength="6" />
+          <Property Type="Decimal" Name="tasa" Nullable="false" Precision="21" Scale="8" />
+        </ComplexType>
+        <ComplexType Name="pSeleccionarDocumentosProveedor_Result">
+          <Property Type="String" Name="co_tipo_doc" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="nro_doc" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="nro_fact" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="co_mone" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_prov" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="doc_orig" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="mov_ban" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nro_orig" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nro_che" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="porc_reca" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="monto_reca" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="porc_desc_glob" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="monto_desc_glob" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Boolean" Name="anulado" Nullable="false" />
+          <Property Type="Boolean" Name="aut" Nullable="false" />
+          <Property Type="Int32" Name="pagar" Nullable="false" />
+          <Property Type="String" Name="observa" Nullable="true" />
+          <Property Type="String" Name="tipo_imp" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="tipo_imp2" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="tipo_imp3" Nullable="true" MaxLength="1" />
+          <Property Type="DateTime" Name="fec_reg" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="fec_venc" Nullable="false" Precision="16" />
+          <Property Type="Decimal" Name="porc_imp" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="porc_imp2" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="porc_imp3" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="monto_imp" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp2" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="monto_imp3" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="tasa" Nullable="false" Precision="21" Scale="8" />
+          <Property Type="Decimal" Name="total_bruto" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="total_neto" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="saldo" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="adicional" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros1" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros2" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="otros3" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="pro_pago" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="salestax" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="prov_ter" Nullable="true" MaxLength="16" />
+          <Property Type="Int32" Name="reng_ter" Nullable="true" />
+          <Property Type="Int32" Name="tipo_origen" Nullable="true" />
+          <Property Type="String" Name="num_comprobante" Nullable="true" MaxLength="14" />
+          <Property Type="DateTime" Name="feccom" Nullable="true" Precision="16" />
+          <Property Type="Int32" Name="numcom" Nullable="true" />
+          <Property Type="String" Name="dis_cen" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="n_control" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="campo1" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo2" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo3" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo4" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo5" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo6" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo7" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="campo8" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="co_us_in" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_sucu_in" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fe_us_in" Nullable="false" Precision="23" />
+          <Property Type="String" Name="co_us_mo" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_sucu_mo" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="false" Precision="23" />
+          <Property Type="String" Name="revisado" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="trasnfe" Nullable="true" MaxLength="1" />
+          <Property Type="Guid" Name="rowguid" Nullable="false" />
+          <Property Type="Binary" Name="validador" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="nac" Nullable="true" />
+          <Property Type="String" Name="co_cta_ingr_egr" Nullable="true" MaxLength="20" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -44417,6 +44532,99 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="pSaldoActualizar" FunctionName="ProfitAdmContext.Store.pSaldoActualizar" />
+          <FunctionImportMapping FunctionImportName="pObtenerSaldoCliente" FunctionName="ProfitAdmContext.Store.pObtenerSaldoCliente" />
+          <FunctionImportMapping FunctionImportName="pObtenerSaldoProveedor" FunctionName="ProfitAdmContext.Store.pObtenerSaldoProveedor" />
+          <FunctionImportMapping FunctionImportName="pSeleccionarDocumentosCliente" FunctionName="ProfitAdmContext.Store.pSeleccionarDocumentosCliente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.pSeleccionarDocumentosCliente_Result">
+                <ScalarProperty Name="co_tipo_doc" ColumnName="co_tipo_doc" />
+                <ScalarProperty Name="nro_doc" ColumnName="nro_doc" />
+                <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+                <ScalarProperty Name="fec_venc" ColumnName="fec_venc" />
+                <ScalarProperty Name="saldo" ColumnName="saldo" />
+                <ScalarProperty Name="total_neto" ColumnName="total_neto" />
+                <ScalarProperty Name="total_bruto" ColumnName="total_bruto" />
+                <ScalarProperty Name="monto_imp" ColumnName="monto_imp" />
+                <ScalarProperty Name="co_cli" ColumnName="co_cli" />
+                <ScalarProperty Name="co_ven" ColumnName="co_ven" />
+                <ScalarProperty Name="co_mone" ColumnName="co_mone" />
+                <ScalarProperty Name="tasa" ColumnName="tasa" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pSeleccionarDocumentosProveedor" FunctionName="ProfitAdmContext.Store.pSeleccionarDocumentosProveedor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.pSeleccionarDocumentosProveedor_Result">
+                <ScalarProperty Name="co_tipo_doc" ColumnName="co_tipo_doc" />
+                <ScalarProperty Name="nro_doc" ColumnName="nro_doc" />
+                <ScalarProperty Name="nro_fact" ColumnName="nro_fact" />
+                <ScalarProperty Name="co_mone" ColumnName="co_mone" />
+                <ScalarProperty Name="co_prov" ColumnName="co_prov" />
+                <ScalarProperty Name="doc_orig" ColumnName="doc_orig" />
+                <ScalarProperty Name="mov_ban" ColumnName="mov_ban" />
+                <ScalarProperty Name="nro_orig" ColumnName="nro_orig" />
+                <ScalarProperty Name="nro_che" ColumnName="nro_che" />
+                <ScalarProperty Name="porc_reca" ColumnName="porc_reca" />
+                <ScalarProperty Name="monto_reca" ColumnName="monto_reca" />
+                <ScalarProperty Name="porc_desc_glob" ColumnName="porc_desc_glob" />
+                <ScalarProperty Name="monto_desc_glob" ColumnName="monto_desc_glob" />
+                <ScalarProperty Name="anulado" ColumnName="anulado" />
+                <ScalarProperty Name="aut" ColumnName="aut" />
+                <ScalarProperty Name="pagar" ColumnName="pagar" />
+                <ScalarProperty Name="observa" ColumnName="observa" />
+                <ScalarProperty Name="tipo_imp" ColumnName="tipo_imp" />
+                <ScalarProperty Name="tipo_imp2" ColumnName="tipo_imp2" />
+                <ScalarProperty Name="tipo_imp3" ColumnName="tipo_imp3" />
+                <ScalarProperty Name="fec_reg" ColumnName="fec_reg" />
+                <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+                <ScalarProperty Name="fec_venc" ColumnName="fec_venc" />
+                <ScalarProperty Name="porc_imp" ColumnName="porc_imp" />
+                <ScalarProperty Name="porc_imp2" ColumnName="porc_imp2" />
+                <ScalarProperty Name="porc_imp3" ColumnName="porc_imp3" />
+                <ScalarProperty Name="monto_imp" ColumnName="monto_imp" />
+                <ScalarProperty Name="monto_imp2" ColumnName="monto_imp2" />
+                <ScalarProperty Name="monto_imp3" ColumnName="monto_imp3" />
+                <ScalarProperty Name="tasa" ColumnName="tasa" />
+                <ScalarProperty Name="total_bruto" ColumnName="total_bruto" />
+                <ScalarProperty Name="total_neto" ColumnName="total_neto" />
+                <ScalarProperty Name="saldo" ColumnName="saldo" />
+                <ScalarProperty Name="adicional" ColumnName="adicional" />
+                <ScalarProperty Name="otros1" ColumnName="otros1" />
+                <ScalarProperty Name="otros2" ColumnName="otros2" />
+                <ScalarProperty Name="otros3" ColumnName="otros3" />
+                <ScalarProperty Name="pro_pago" ColumnName="pro_pago" />
+                <ScalarProperty Name="salestax" ColumnName="salestax" />
+                <ScalarProperty Name="prov_ter" ColumnName="prov_ter" />
+                <ScalarProperty Name="reng_ter" ColumnName="reng_ter" />
+                <ScalarProperty Name="tipo_origen" ColumnName="tipo_origen" />
+                <ScalarProperty Name="num_comprobante" ColumnName="num_comprobante" />
+                <ScalarProperty Name="feccom" ColumnName="feccom" />
+                <ScalarProperty Name="numcom" ColumnName="numcom" />
+                <ScalarProperty Name="dis_cen" ColumnName="dis_cen" />
+                <ScalarProperty Name="n_control" ColumnName="n_control" />
+                <ScalarProperty Name="campo1" ColumnName="campo1" />
+                <ScalarProperty Name="campo2" ColumnName="campo2" />
+                <ScalarProperty Name="campo3" ColumnName="campo3" />
+                <ScalarProperty Name="campo4" ColumnName="campo4" />
+                <ScalarProperty Name="campo5" ColumnName="campo5" />
+                <ScalarProperty Name="campo6" ColumnName="campo6" />
+                <ScalarProperty Name="campo7" ColumnName="campo7" />
+                <ScalarProperty Name="campo8" ColumnName="campo8" />
+                <ScalarProperty Name="co_us_in" ColumnName="co_us_in" />
+                <ScalarProperty Name="co_sucu_in" ColumnName="co_sucu_in" />
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="co_us_mo" ColumnName="co_us_mo" />
+                <ScalarProperty Name="co_sucu_mo" ColumnName="co_sucu_mo" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="revisado" ColumnName="revisado" />
+                <ScalarProperty Name="trasnfe" ColumnName="trasnfe" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="validador" ColumnName="validador" />
+                <ScalarProperty Name="nac" ColumnName="nac" />
+                <ScalarProperty Name="co_cta_ingr_egr" ColumnName="co_cta_ingr_egr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

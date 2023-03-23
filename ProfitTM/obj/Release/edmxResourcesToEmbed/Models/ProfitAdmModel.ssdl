@@ -14866,6 +14866,12 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sRevisado" Type="char" Mode="In" />
     <Parameter Name="sMaquina" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="pObtenerSaldoCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sCodigo" Type="char" Mode="In" />
+  </Function>
+  <Function Name="pObtenerSaldoProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sCodigo" Type="char" Mode="In" />
+  </Function>
   <Function Name="pSaldoActualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sCodigo" Type="char" Mode="In" />
     <Parameter Name="sForma_Pag" Type="char" Mode="In" />
@@ -14874,6 +14880,16 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="bSumarSaldo" Type="bit" Mode="In" />
     <Parameter Name="sModulo" Type="char" Mode="In" />
     <Parameter Name="bPermiteSaldoNegativo" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="pSeleccionarDocumentosCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sCodigo" Type="char" Mode="In" />
+    <Parameter Name="bPendiente" Type="bit" Mode="In" />
+    <Parameter Name="sMoneda" Type="char" Mode="In" />
+  </Function>
+  <Function Name="pSeleccionarDocumentosProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sCodigo" Type="char" Mode="In" />
+    <Parameter Name="bPendiente" Type="bit" Mode="In" />
+    <Parameter Name="sMoneda" Type="char" Mode="In" />
   </Function>
   <Function Name="pStockPendienteActualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="uniRowGuidOri" Type="uniqueidentifier" Mode="In" />

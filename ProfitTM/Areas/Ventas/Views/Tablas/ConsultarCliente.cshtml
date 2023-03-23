@@ -1,0 +1,326 @@
+﻿@{
+    ViewBag.Title = "Consultar Cliente";
+}
+<style>
+    select[name='results_length'] {
+        box-shadow: none;
+    }
+    .controls {
+        display: flex;
+        align-items: center;
+    }
+    .controls > label {
+        flex: 1;
+    }
+    .controls > .input-search {
+        flex: 7;
+    }
+    .modal-info .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
+</style>
+<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+<script src="~/Scripts/angular-min.js"></script>
+<div class="container-fluid container-search my-3" style="display: none;" ng-app="SearchClient" ng-controller="controller">
+    <div class="row m-3">
+        <div class="col-md-8 d-flex align-items-center">
+            <div class="controls">
+                <label>Cliente</label>
+                <div class="input-search">
+                    <input type="text" class="form-control" id="client" ng-model="client.co_cli" style="flex: 1;" onkeypress="return false;" />
+                    <input type="text" class="form-control" id="des_client" ng-model="client.cli_des" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="client"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary d-flex justify-content-center align-items-center w-75" ng-click="searchDocs()">
+                <i class="fas fa-search"></i>
+                <p class="mx-3 my-0">Buscar</p>
+            </button>
+        </div>
+    </div>
+    <hr />
+    <table id="results" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Nro. Doc.</th>
+                <th>Fecha</th>
+                <th>Fecha Venc.</th>
+                <th>Total Bruto</th>
+                <th>Monto IVA</th>
+                <th>Total Neto</th>
+                <th>Saldo</th>
+                <th>Moneda</th>
+                <th>Tasa</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="doc in docs">
+                <td>{{ doc.co_tipo_doc }}</td>
+                <td>{{ doc.nro_doc }}</td>
+                <td>{{ formatDate(doc.fec_emis) }}</td>
+                <td>{{ formatDate(doc.fec_venc) }}</td>
+                <td>{{ setSeparator(doc.total_bruto.toFixed(2)) }}</td>
+                <td>{{ setSeparator(doc.monto_imp.toFixed(2)) }}</td>
+                <td>{{ setSeparator(doc.total_neto.toFixed(2)) }}</td>
+                <td>{{ setSeparator(doc.saldo.toFixed(2)) }}</td>
+                <td>{{ doc.co_mone }}</td>
+                <td>{{ setSeparator(doc.tasa.toFixed(2)) }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- Modal Warning -->
+    <div class="modal fade modal-info" id="modalWarning" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
+                    </div>
+                    <h2 class="text-center">{{ warningMessage }}</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Waiting -->
+    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="background: rgba(0, 0, 0, .7);">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-spinner fa-spin" style="color: #01579b;"></i>
+                    </div>
+                    <h2 class="text-center">Procesando...</h2>
+                </div>
+                @*<div class="modal-footer"></div>*@
+            </div>
+        </div>
+    </div>
+    <!-- Modal Success -->
+    <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-check-circle" style="color: var(--bs-green)"></i>
+                    </div>
+                    <h2 class="text-center">{{ successMessage }}</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Error -->
+    <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-red)"></i>
+                    </div>
+                    <h2 class="text-center">Ha ocurrido un error</h2>
+                    <p class="text-center">{{ errorMessage }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 1 -->
+    <div class="modal fade" id="modalClients" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cliente..." onkeyup="search('modalClients')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="client in clients" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ client.co_cli }}</td>
+                            <td>{{ client.cli_des }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalClients')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-loading p-3">
+    <h4>Cargando módulo de consultas...</h4>
+</div>
+<script>
+    var app = angular.module("SearchClient", []);
+    var clients = @Html.Raw(ViewBag.clients);
+    var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+
+    $(document).ready(function () {
+        $(".container-search").removeAttr("style");
+        $(".panel-loading").css("display", "none");
+
+        $('#results').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "processing": "Procesando...",
+                "search": "Buscar:   ",
+                "zeroRecords": "No se encontraron resultados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+            "lengthMenu": [10, 25, 50, 75, 100]
+        });
+    });
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.client = {};
+        $scope.clients = clients;
+
+        $scope.searchDocs = function () {
+            $("input").change();
+
+            if ($scope.client.co_cli == "") {
+                $scope.warningMessage = "Debes seleccionar un cliente";
+                $("#modalWarning").modal("show");
+            } else {
+
+                $http.get("/api/ProfitTMApi/GetPendingDocs/" + $scope.client.co_cli.trim())
+                    .then(function (response) {
+
+                        var res = response.data;
+
+                        if (res.Status == "OK") {
+
+                            $scope.docs = res.Result;
+                            var table = $('#results').DataTable();
+                            table.ajax = res.Result;
+                            table.ajax.reload();
+
+                            if (res.Result.length == 0) {
+                                $scope.warningMessage = "No hay documentos pendientes";
+                                $("#modalWarning").modal("show");
+                            }
+
+                        } else {
+                            $("#modalError").modal("show");
+                            $scope.errorMessage = res.Message;
+                        }
+
+                    });
+            }
+        }
+
+        $scope.formatDate = (date) => date != null ? new Date(date).toLocaleString("es-ES", options).replace(",", "") : "";
+
+        $scope.setSeparator = (number) => new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(number);
+    });
+
+    function searchClient(value) {
+        return clients.find(c => c.co_cli == value).cli_des;
+    }
+
+    function openModal(elem, modal) {
+
+        var previous = elem.previousElementSibling;
+
+        if (!previous.disabled) {
+
+            $("#" + modal).find("#name-input").val($(elem).data("name"));
+            $("#" + modal).modal("show");
+
+        }
+    }
+
+    function search(modal) {
+        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+            table = $("#" + modal).find("#results")[0];
+
+        for (var i = 0; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    function selectRow(elem) {
+        var previous = document.getElementsByClassName("selected-row")[0];
+
+        if (previous != null) {
+            previous.classList.remove("selected-row");
+        }
+
+        elem.classList.add("selected-row");
+    }
+
+    function saveRow(modal) {
+        var item = document.getElementsByClassName("selected-row")[0];
+
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val(),
+                rows = [...($("#" + modal).find("#results")[0].rows)];
+
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            if (input == "cond") {
+                $("#des_cond").val(searchCond(value));
+            } else if (input == "client") {
+                $("#des_client").val(searchClient(value));
+            } else if (input == "seller") {
+                $("#des_seller").val(searchSeller(value));
+            } else if (input == "art") {
+                $("#des_art").val(searchArt(value));
+            } else if (input == "n_preliq") {
+                $("#n_preliq").change();
+            }
+
+            rows.forEach(row => row.style.display = "");
+            $("#" + modal).modal("hide");
+        } else {
+            alert("Debes seleccionar un item");
+        }
+    }
+
+</script>

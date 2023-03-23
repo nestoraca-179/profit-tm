@@ -30,5 +30,27 @@ namespace ProfitTM.Areas.Compras.Controllers
                 return View();
             }
         }
+
+        public ActionResult ConsultarProveedor()
+        {
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
+            ViewBag.modules = Session["MODULES"];
+            ViewBag.product = "Administrativo";
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
+            }
+            else
+            {
+                return View();
+            }
+        }
     }
 }

@@ -3202,5 +3202,57 @@ namespace ProfitTM.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("pSaldoActualizar", sCodigoParameter, sForma_PagParameter, sTipoSaldoParameter, deMontoParameter, bSumarSaldoParameter, sModuloParameter, bPermiteSaldoNegativoParameter);
         }
+    
+        public virtual ObjectResult<Nullable<decimal>> pObtenerSaldoCliente(string sCodigo)
+        {
+            var sCodigoParameter = sCodigo != null ?
+                new ObjectParameter("sCodigo", sCodigo) :
+                new ObjectParameter("sCodigo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("pObtenerSaldoCliente", sCodigoParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> pObtenerSaldoProveedor(string sCodigo)
+        {
+            var sCodigoParameter = sCodigo != null ?
+                new ObjectParameter("sCodigo", sCodigo) :
+                new ObjectParameter("sCodigo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("pObtenerSaldoProveedor", sCodigoParameter);
+        }
+    
+        public virtual ObjectResult<pSeleccionarDocumentosCliente_Result> pSeleccionarDocumentosCliente(string sCodigo, Nullable<bool> bPendiente, string sMoneda)
+        {
+            var sCodigoParameter = sCodigo != null ?
+                new ObjectParameter("sCodigo", sCodigo) :
+                new ObjectParameter("sCodigo", typeof(string));
+    
+            var bPendienteParameter = bPendiente.HasValue ?
+                new ObjectParameter("bPendiente", bPendiente) :
+                new ObjectParameter("bPendiente", typeof(bool));
+    
+            var sMonedaParameter = sMoneda != null ?
+                new ObjectParameter("sMoneda", sMoneda) :
+                new ObjectParameter("sMoneda", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pSeleccionarDocumentosCliente_Result>("pSeleccionarDocumentosCliente", sCodigoParameter, bPendienteParameter, sMonedaParameter);
+        }
+    
+        public virtual ObjectResult<pSeleccionarDocumentosProveedor_Result> pSeleccionarDocumentosProveedor(string sCodigo, Nullable<bool> bPendiente, string sMoneda)
+        {
+            var sCodigoParameter = sCodigo != null ?
+                new ObjectParameter("sCodigo", sCodigo) :
+                new ObjectParameter("sCodigo", typeof(string));
+    
+            var bPendienteParameter = bPendiente.HasValue ?
+                new ObjectParameter("bPendiente", bPendiente) :
+                new ObjectParameter("bPendiente", typeof(bool));
+    
+            var sMonedaParameter = sMoneda != null ?
+                new ObjectParameter("sMoneda", sMoneda) :
+                new ObjectParameter("sMoneda", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pSeleccionarDocumentosProveedor_Result>("pSeleccionarDocumentosProveedor", sCodigoParameter, bPendienteParameter, sMonedaParameter);
+        }
     }
 }

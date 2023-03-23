@@ -168,15 +168,16 @@ namespace ProfitTM.Models
 
         public saCuentaIngEgr GetAccountByID(string id)
         {
-            saCuentaIngEgr account = new saCuentaIngEgr();
+            saCuentaIngEgr account;
 
             try
             {
-                account = db.saCuentaIngEgr.SingleOrDefault(c => c.co_cta_ingr_egr == id);
+                account = db.saCuentaIngEgr.AsNoTracking().SingleOrDefault(c => c.co_cta_ingr_egr == id);
             }
             catch (Exception ex)
             {
                 account = null;
+                Incident.CreateIncident("ERROR BUSCANDO CUENTA", ex);
             }
 
             return account;
@@ -184,15 +185,16 @@ namespace ProfitTM.Models
 
         public saCuentaBancaria GetBankAccountByID(string id)
         {
-            saCuentaBancaria bankAccount = new saCuentaBancaria();
+            saCuentaBancaria bankAccount;
 
             try
             {
-                bankAccount = db.saCuentaBancaria.SingleOrDefault(c => c.cod_cta == id);
+                bankAccount = db.saCuentaBancaria.AsNoTracking().SingleOrDefault(c => c.cod_cta == id);
             }
             catch (Exception ex)
             {
                 bankAccount = null;
+                Incident.CreateIncident("ERROR BUSCANDO CUENTA BANCARIA", ex);
             }
 
             return bankAccount;
@@ -200,15 +202,16 @@ namespace ProfitTM.Models
 
         public List<saCuentaIngEgr> GetAllAccounts()
         {
-            List<saCuentaIngEgr> accounts = new List<saCuentaIngEgr>();
+            List<saCuentaIngEgr> accounts;
 
             try
             {
-                accounts = db.saCuentaIngEgr.ToList();
+                accounts = db.saCuentaIngEgr.AsNoTracking().ToList();
             }
             catch (Exception ex)
             {
                 accounts = null;
+                Incident.CreateIncident("ERROR BUSCANDO CUENTAS", ex);
             }
 
             return accounts;
@@ -216,15 +219,16 @@ namespace ProfitTM.Models
 
         public List<saCuentaBancaria> GetAllBankAccounts()
         {
-            List<saCuentaBancaria> accounts = new List<saCuentaBancaria>();
+            List<saCuentaBancaria> accounts;
 
             try
             {
-                accounts = db.saCuentaBancaria.ToList();
+                accounts = db.saCuentaBancaria.AsNoTracking().ToList();
             }
             catch (Exception ex)
             {
                 accounts = null;
+                Incident.CreateIncident("ERROR BUSCANDO CUENTAS BANCARIAS", ex);
             }
 
             return accounts;

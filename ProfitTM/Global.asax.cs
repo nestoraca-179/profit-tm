@@ -35,7 +35,7 @@ namespace ProfitTM
             ITrigger triggerCerrarCajas = TriggerBuilder.Create()
                 .WithIdentity("triggerCerrarCajas")
                 .StartNow()
-                .WithCronSchedule("0 20 11 ? * * *")
+                .WithCronSchedule("0 55 23 ? * * *")
                 .Build();
 
             scheduler.ScheduleJob(jobCerrarCajas, triggerCerrarCajas);

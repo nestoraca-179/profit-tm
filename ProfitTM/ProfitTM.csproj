@@ -308,6 +308,8 @@
     <Content Include="Areas\Ventas\Views\Procesos\ImprimirFactura.cshtml" />
     <Content Include="Areas\Ventas\Views\Reportes\_RepFormatoFacturaVentaOMPartial.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Procesos\Caja.cshtml" />
+    <Content Include="Areas\Ventas\Views\Tablas\ConsultarCliente.cshtml" />
+    <Content Include="Areas\Compras\Views\Tablas\ConsultarProveedor.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -607,6 +609,12 @@
       <DependentUpon>ProfitTMModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ProfitTMResponse.cs" />
+    <Compile Include="Models\pSeleccionarDocumentosCliente_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\pSeleccionarDocumentosProveedor_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\pvArticuloExt.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>

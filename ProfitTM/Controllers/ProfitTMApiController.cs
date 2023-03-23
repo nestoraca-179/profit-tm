@@ -301,6 +301,28 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetPendingDocs/{client}")]
+        public ProfitTMResponse GetPendingDocs(string client)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                List<saDocumentoVenta> docs = new Client().GetPendingDocs(client);
+
+                response.Status = "OK";
+                response.Result = docs;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+        
         // PROVEEDOR
 
         [HttpPost]

@@ -53,7 +53,7 @@ namespace ProfitTM.Models
                 else
                 {
                     clients = db.saCliente.AsNoTracking().ToList();
-                }   
+                }
             }
             catch (Exception ex)
             {
@@ -136,6 +136,34 @@ namespace ProfitTM.Models
             return response;
         }
 
+        public List<saDocumentoVenta> GetPendingDocs(string client)
+        {
+            List<saDocumentoVenta> docs = new List<saDocumentoVenta>();
+
+            var sp = db.pSeleccionarDocumentosCliente(client, true, "");
+            var enumerator = sp.GetEnumerator();
+
+            while (enumerator.MoveNext())
+            {
+                saDocumentoVenta doc = new saDocumentoVenta();
+
+                doc.co_tipo_doc = enumerator.Current.co_tipo_doc;
+                doc.nro_doc = enumerator.Current.nro_doc;
+                doc.fec_emis = enumerator.Current.fec_emis;
+                doc.fec_venc = enumerator.Current.fec_venc;
+                doc.total_bruto = enumerator.Current.total_bruto;
+                doc.monto_imp = enumerator.Current.monto_imp;
+                doc.total_neto = enumerator.Current.total_neto;
+                doc.saldo = enumerator.Current.saldo;
+                doc.co_mone = enumerator.Current.co_mone;
+                doc.tasa = enumerator.Current.tasa;
+
+                docs.Add(doc);
+            }
+
+            return docs;
+        }
+        
         public saCliente Add(saCliente client)
         {
             saCliente newClient = new saCliente();

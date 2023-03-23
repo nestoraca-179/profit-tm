@@ -17904,6 +17904,22 @@
       <Parameter Name="sModulo" Mode="In" Type="String" />
       <Parameter Name="bPermiteSaldoNegativo" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <FunctionImport Name="pObtenerSaldoCliente" ReturnType="Collection(Decimal)">
+      <Parameter Name="sCodigo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="pObtenerSaldoProveedor" ReturnType="Collection(Decimal)">
+      <Parameter Name="sCodigo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="pSeleccionarDocumentosCliente" ReturnType="Collection(ProfitAdmContext.pSeleccionarDocumentosCliente_Result)">
+      <Parameter Name="sCodigo" Mode="In" Type="String" />
+      <Parameter Name="bPendiente" Mode="In" Type="Boolean" />
+      <Parameter Name="sMoneda" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="pSeleccionarDocumentosProveedor" ReturnType="Collection(ProfitAdmContext.pSeleccionarDocumentosProveedor_Result)">
+      <Parameter Name="sCodigo" Mode="In" Type="String" />
+      <Parameter Name="bPendiente" Mode="In" Type="Boolean" />
+      <Parameter Name="sMoneda" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -18264,5 +18280,88 @@
     <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
     <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
     <Property Type="Guid" Name="rowguid" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pSeleccionarDocumentosCliente_Result">
+    <Property Type="String" Name="co_tipo_doc" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="nro_doc" Nullable="false" MaxLength="20" />
+    <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+    <Property Type="DateTime" Name="fec_venc" Nullable="false" Precision="16" />
+    <Property Type="Decimal" Name="saldo" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="total_neto" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="total_bruto" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="monto_imp" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="co_cli" Nullable="false" MaxLength="16" />
+    <Property Type="String" Name="co_ven" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_mone" Nullable="false" MaxLength="6" />
+    <Property Type="Decimal" Name="tasa" Nullable="false" Precision="21" Scale="8" />
+  </ComplexType>
+  <ComplexType Name="pSeleccionarDocumentosProveedor_Result">
+    <Property Type="String" Name="co_tipo_doc" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="nro_doc" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="nro_fact" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="co_mone" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_prov" Nullable="false" MaxLength="16" />
+    <Property Type="String" Name="doc_orig" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="mov_ban" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="nro_orig" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="nro_che" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="porc_reca" Nullable="true" MaxLength="15" />
+    <Property Type="Decimal" Name="monto_reca" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="porc_desc_glob" Nullable="true" MaxLength="15" />
+    <Property Type="Decimal" Name="monto_desc_glob" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Boolean" Name="anulado" Nullable="false" />
+    <Property Type="Boolean" Name="aut" Nullable="false" />
+    <Property Type="Int32" Name="pagar" Nullable="false" />
+    <Property Type="String" Name="observa" Nullable="true" />
+    <Property Type="String" Name="tipo_imp" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="tipo_imp2" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="tipo_imp3" Nullable="true" MaxLength="1" />
+    <Property Type="DateTime" Name="fec_reg" Nullable="false" Precision="16" />
+    <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+    <Property Type="DateTime" Name="fec_venc" Nullable="false" Precision="16" />
+    <Property Type="Decimal" Name="porc_imp" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="porc_imp2" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="porc_imp3" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="monto_imp" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="monto_imp2" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="monto_imp3" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="tasa" Nullable="false" Precision="21" Scale="8" />
+    <Property Type="Decimal" Name="total_bruto" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="total_neto" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="saldo" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="adicional" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="otros1" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="otros2" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="otros3" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="pro_pago" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="salestax" Nullable="true" MaxLength="8" />
+    <Property Type="String" Name="prov_ter" Nullable="true" MaxLength="16" />
+    <Property Type="Int32" Name="reng_ter" Nullable="true" />
+    <Property Type="Int32" Name="tipo_origen" Nullable="true" />
+    <Property Type="String" Name="num_comprobante" Nullable="true" MaxLength="14" />
+    <Property Type="DateTime" Name="feccom" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="numcom" Nullable="true" />
+    <Property Type="String" Name="dis_cen" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="n_control" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="campo1" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo2" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo3" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo4" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo5" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo6" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo7" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo8" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="co_us_in" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_sucu_in" Nullable="true" MaxLength="6" />
+    <Property Type="DateTime" Name="fe_us_in" Nullable="false" Precision="23" />
+    <Property Type="String" Name="co_us_mo" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_sucu_mo" Nullable="true" MaxLength="6" />
+    <Property Type="DateTime" Name="fe_us_mo" Nullable="false" Precision="23" />
+    <Property Type="String" Name="revisado" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="trasnfe" Nullable="true" MaxLength="1" />
+    <Property Type="Guid" Name="rowguid" Nullable="false" />
+    <Property Type="Binary" Name="validador" Nullable="false" MaxLength="8" />
+    <Property Type="Boolean" Name="nac" Nullable="true" />
+    <Property Type="String" Name="co_cta_ingr_egr" Nullable="true" MaxLength="20" />
   </ComplexType>
 </Schema>
