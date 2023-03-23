@@ -50,7 +50,7 @@
         color: #208c01;
     }*/
     .modal-dialog {
-        min-width: 850px !important;
+        min-width: 650px !important;
     }
     .controls {
         display: flex;
@@ -63,6 +63,10 @@
     .modal-info .fas {
         font-size: 6em;
         padding: 5%;
+    }
+    #modal-eye {
+        z-index: 2000;
+        background: rgba(0, 0, 0, 0.8);
     }
     .container-card-boxes {
         display: flex;
@@ -88,11 +92,18 @@
         left: 0;
         right: 0;
     }
-    .card-box > p {
+    .card-box > p.card-box-header {
         position: absolute;
         top: 10px;
         left: 10px;
         font-size: 14px;
+    }
+    .card-box > p.card-box-total {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 14px;
+        margin: 0;
     }
     .card-box-stats {
         display: flex;
@@ -157,7 +168,7 @@
         <h5 class="my-3">Cajas abiertas</h5>
         <div class="container-card-boxes">
             <div ng-repeat="box in boxes | filter: { IsOpen: true } | orderBy:'-DateS'" class="card-box shadow-tm" ng-click="viewBoxDetails(box.ID)">
-                <p>{{ box.UserID }}</p>
+                <p class="card-box-header">{{ box.UserID }} - {{ formatDate(box.DateS).split(' ')[0] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
                     <i class="fas fa-circle text-success"></i>
@@ -167,12 +178,13 @@
                     <i class="fas fa-circle text-danger"></i>
                     <p>Cerrado</p>
                 </div>
+                <p class="card-box-total">${{ (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) }}</p>
             </div>
         </div>
         <h5 class="my-3">Cajas cerradas</h5>
         <div class="container-card-boxes">
             <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:'-DateS'" class="card-box shadow-tm" ng-click="viewBoxDetails(box.ID)">
-                <p>{{ box.UserID }}</p>
+                <p class="card-box-header">{{ box.UserID }} - {{ formatDate(box.DateS).split(' ')[0] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
                     <i class="fas fa-circle text-success"></i>
@@ -182,10 +194,12 @@
                     <i class="fas fa-circle text-danger"></i>
                     <p>Cerrado</p>
                 </div>
+                <p class="card-box-total">${{ (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) }}</p>
             </div>
         </div>
     </div>
-    @*<table class="table table-striped table-hover">
+    <!--
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>Usuario</th>
@@ -225,7 +239,8 @@
                 </td>
             </tr>
         </tbody>
-    </table>*@
+    </table>
+    -->
     <!-- Modal Nuevo -->
     <div class="modal fade" id="modal-new" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
@@ -348,7 +363,7 @@
     </div>
     <!-- Modal Detalles Caja -->
     <div class="modal fade" id="modalBoxDetails" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document" style="min-width: 650px !important;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Caja #{{ box.ID }} - {{ box.UserID }}</h5>
@@ -390,15 +405,15 @@
                     </div>
                     <hr />
                     <div class="card-box-actions">
-                        <button class="btn btn-success">
+                        <button ng-if="box.IsOpen" class="btn btn-success" data-toggle="modal" data-target="#modal-exchange" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
                             <i class="fas fa-exchange"></i>
                             <p class="mx-2 my-0">Generar Movimiento</p>
                         </button>
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" ng-click="viewMovs(box.ID)">
                             <i class="fas fa-eye"></i>
                             <p class="mx-2 my-0">Ver Transacciones</p>
                         </button>
-                        <button class="btn btn-danger">
+                        <button ng-if="box.IsOpen" class="btn btn-danger" data-dismiss="modal" ng-click="openModalClose(box.ID)">
                             <i class="fas fa-dollar-sign"></i>
                             <p class="mx-2 my-0">Cerrar Caja</p>
                         </button>
@@ -533,6 +548,7 @@
         $scope.setId = function (id, total) {
             $scope.boxId = id;
             $scope.totalBox = total;
+            $("#modalBoxDetails").modal("hide");
         }
 
         $scope.addBox = function (amount) {
