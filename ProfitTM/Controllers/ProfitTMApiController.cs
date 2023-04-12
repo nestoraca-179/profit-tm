@@ -243,7 +243,7 @@ namespace ProfitTM.Controllers
                 saCliente new_client = new Client().Add(client);
 
                 response.Status = "OK";
-                response.Result = new_client.co_cli;
+                response.Result = new_client;
             }
             catch (Exception ex)
             {

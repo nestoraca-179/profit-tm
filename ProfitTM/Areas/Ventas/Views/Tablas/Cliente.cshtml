@@ -497,9 +497,9 @@
                     </div>
                     <h2 class="text-center">¿Desea eliminar el cliente {{ client.co_cli }}?</h2>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-primary" ng-click="deleteClient(client.co_cli)">Sí</button>
+                <div class="modal-footer" style="justify-content: center">
+                    <button type="button" style="width: 70px;" class="btn btn-danger" data-dismiss="modal">No</button>
+                    <button type="button" style="width: 70px;" class="btn btn-success" ng-click="deleteClient(client.co_cli)">Sí</button>
                 </div>
             </div>
         </div>
@@ -531,7 +531,7 @@
                     <h2 class="text-center">{{ successMessage }}</h2>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href = '/Ventas/Tablas/Cliente'">Aceptar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -549,7 +549,7 @@
                     <p class="text-center">{{ errorMessage }}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -912,8 +912,6 @@
                         $scope.client[ind] = null;
                 }
 
-                console.log($scope.client);
-
                 var req = {
                     method: 'POST',
                     url: '/api/ProfitTMApi/AddClient/',
@@ -925,13 +923,18 @@
 
                 $http(req).then(function (response) {
 
-                    console.log(response.data);
                     var res = response.data;
-
-                    $("#modalWaiting").modal("hide");
                     if (res.Status == "OK") {
+
                         $("#modalSuccess").modal("show");
                         $scope.successMessage = "El cliente se ha agregado con éxito";
+                        res.Result.fecha_reg = new Date(res.Result.fecha_reg);
+
+                        $scope.clients.unshift(res.Result);
+                        $scope.client = $scope.clients[0];
+                        $scope.index = 0;
+                        $scope.adding = false;
+
                     } else {
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;
@@ -958,8 +961,6 @@
                     $scope.client[ind] = null;
             }
 
-            console.log($scope.client);
-
             var req = {
                 method: 'POST',
                 url: '/api/ProfitTMApi/EditClient/',
@@ -971,13 +972,14 @@
 
             $http(req).then(function (response) {
 
-                console.log(response.data);
                 var res = response.data;
-
-                $("#modalWaiting").modal("hide");
                 if (res.Status == "OK") {
+
+                    $scope.editing = false;
                     $("#modalSuccess").modal("show");
                     $scope.successMessage = "El cliente se ha modificado con éxito";
+                    $("#btn-general").trigger("click", event);
+
                 } else {
                     $("#modalError").modal("show");
                     $scope.errorMessage = res.Message;
@@ -994,13 +996,13 @@
             $http.get("/api/ProfitTMApi/DeleteClient/" + id)
                 .then(function (response) {
 
-                    console.log(response.data);
                     var res = response.data;
-
                     $("#modalWaiting").modal("hide");
+
                     if (res.Status == "OK") {
                         $("#modalSuccess").modal("show");
                         $scope.successMessage = "El cliente se ha eliminado con éxito";
+                        $scope.clients = $scope.clients.filter(c => c.co_cli.trim() != id.trim());
                     } else {
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;
@@ -1105,24 +1107,31 @@
             switch (input) {
                 case "type":
                     $("#des_type").val(searchType(value));
+                    search("modalTypes");
                     break;
                 case "segment":
                     $("#des_segment").val(searchSegment(value));
+                    search("modalSegments");
                     break;
                 case "seller":
                     $("#des_seller").val(searchSeller(value));
+                    search("modalSellers");
                     break;
                 case "account":
                     $("#des_account").val(searchAccount(value));
+                    search("modalAccounts");
                     break;
                 case "country":
                     $("#des_country").val(searchCountry(value));
+                    search("modalCountries");
                     break;
                 case "zone":
                     $("#des_zone").val(searchZone(value));
+                    search("modalZones");
                     break;
                 case "cond":
                     $("#des_cond").val(searchCond(value));
+                    search("modalConds");
                     break;
             }
 

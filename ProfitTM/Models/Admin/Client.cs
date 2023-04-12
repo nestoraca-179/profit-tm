@@ -13,7 +13,16 @@ namespace ProfitTM.Models
 
             try
             {
-                client = db.saCliente.AsNoTracking().SingleOrDefault(c => c.co_cli == id);
+                client = db.saCliente.AsNoTracking().Include("saTipoCliente").Include("saSegmento").Include("saVendedor").Include("saCuentaIngEgr")
+                    .Include("saPais").Include("saZona").Include("saCondicionPago").SingleOrDefault(c => c.co_cli == id);
+
+                client.saTipoCliente.saCliente = null;
+                client.saSegmento.saCliente = null;
+                client.saVendedor.saCliente = null;
+                client.saCuentaIngEgr.saCliente = null;
+                client.saPais.saCliente = null;
+                client.saZona.saCliente = null;
+                client.saCondicionPago.saCliente = null;
             }
             catch (Exception ex)
             {
@@ -166,28 +175,24 @@ namespace ProfitTM.Models
         
         public saCliente Add(saCliente client)
         {
-            saCliente newClient = new saCliente();
+            saCliente newClient;
 
             if (!client.sincredito)
             {
                 client.plaz_pag = new Cond().GetCondByID(client.cond_pag).dias_cred;
             }
 
-            var sp = db.pInsertarCliente(client.co_cli, client.login, client.password, client.salestax, client.cli_des, client.co_seg, client.co_zon, client.co_ven, client.estado,
-                                         client.inactivo, client.valido, client.sincredito, client.lunes, client.martes, client.miercoles, client.jueves, client.viernes, client.sabado,
-                                         client.domingo, client.direc1, client.direc2, client.dir_ent2, client.horar_caja, client.frecu_vist, client.telefonos, client.fax, client.respons,
-                                         client.fecha_reg, client.tip_cli, client.serialp, client.puntaje, client.Id, client.mont_cre, client.co_mone, client.cond_pag, client.plaz_pag,
-                                         client.desc_ppago, client.desc_glob, null, null, client.rif, client.contrib, client.dis_cen, client.nit, client.email, client.co_cta_ingr_egr,
-                                         client.comentario, client.campo1, client.campo2, client.campo3, client.campo4, client.campo5, client.campo6, client.campo7, client.campo8,
-                                         "PROFIT WEB", "SERVER PROFIT WEB", null, null, null, client.juridico, client.tipo_adi, client.matriz, client.co_tab, client.tipo_per, client.co_pais,
-                                         client.ciudad, client.zip, client.website, client.contribu_e, client.rete_regis_doc, client.porc_esp, null, null, null, client.email_alterno);
-            var enumerator = sp.GetEnumerator();
+            var sp = db.pInsertarCliente(client.co_cli, client.login, client.password, client.salestax, client.cli_des, client.co_seg, client.co_zon, client.co_ven, 
+                client.estado, client.inactivo, client.valido, client.sincredito, client.lunes, client.martes, client.miercoles, client.jueves, client.viernes, 
+                client.sabado, client.domingo, client.direc1, client.direc2, client.dir_ent2, client.horar_caja, client.frecu_vist, client.telefonos, client.fax, 
+                client.respons, client.fecha_reg, client.tip_cli, client.serialp, client.puntaje, client.Id, client.mont_cre, client.co_mone, client.cond_pag, 
+                client.plaz_pag, client.desc_ppago, client.desc_glob, null, null, client.rif, client.contrib, client.dis_cen, client.nit, client.email, client.co_cta_ingr_egr,
+                client.comentario, client.campo1, client.campo2, client.campo3, client.campo4, client.campo5, client.campo6, client.campo7, client.campo8,
+                "PROFIT WEB", "SERVER PROFIT WEB", null, null, null, client.juridico, client.tipo_adi, client.matriz, client.co_tab, client.tipo_per, client.co_pais,
+                client.ciudad, client.zip, client.website, client.contribu_e, client.rete_regis_doc, client.porc_esp, null, null, null, client.email_alterno);
 
-            if (enumerator.MoveNext())
-            {
-                Guid rowguid = enumerator.Current.rowguid.Value;
-                newClient = db.saCliente.SingleOrDefault(c => c.rowguid == rowguid);
-            }
+            sp.Dispose();
+            newClient = GetClientByID(client.co_cli);
 
             return newClient;
         }
