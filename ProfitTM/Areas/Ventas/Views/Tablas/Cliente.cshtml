@@ -569,15 +569,10 @@
                         <input type="text" class="form-control" placeholder="Buscar tipo..." onkeyup="search('modalTypes')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.types)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.tip_cli</td>
-                                    <td>@elem.des_tipo</td>
-                                </tr>
-                            }
-                        }
+                        <tr ng-repeat="type in types" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ type.tip_cli }}</td>
+                            <td>{{ type.des_tipo }}</td>
+                        </tr>
                     </table>
                     <input type="hidden" id="name-input" />
                 </div>
@@ -603,15 +598,10 @@
                         <input type="text" class="form-control" placeholder="Buscar zona..." onkeyup="search('modalZones')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.zones)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.co_zon</td>
-                                    <td>@elem.zon_des</td>
-                                </tr>
-                            }
-                        }
+                        <tr ng-repeat="zone in zones" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ zone.co_zon }}</td>
+                            <td>{{ zone.zon_des }}</td>
+                        </tr>
                     </table>
                     <input type="hidden" id="name-input" />
                 </div>
@@ -637,15 +627,10 @@
                         <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalAccounts')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.accounts)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.co_cta_ingr_egr</td>
-                                    <td>@elem.descrip</td>
-                                </tr>
-                            }
-                        }
+                        <tr ng-repeat="account in accounts" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ account.co_cta_ingr_egr }}</td>
+                            <td>{{ account.descrip }}</td>
+                        </tr>
                     </table>
                     <input type="hidden" id="name-input" />
                 </div>
@@ -671,15 +656,10 @@
                         <input type="text" class="form-control" placeholder="Buscar pais..." onkeyup="search('modalCountries')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.countries)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.co_pais</td>
-                                    <td>@elem.pais_des</td>
-                                </tr>
-                            }
-                        }
+                        <tr ng-repeat="country in countries" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ country.co_pais }}</td>
+                            <td>{{ country.pais_des }}</td>
+                        </tr>
                     </table>
                     <input type="hidden" id="name-input" />
                 </div>
@@ -705,15 +685,10 @@
                         <input type="text" class="form-control" placeholder="Buscar segmento..." onkeyup="search('modalSegments')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.segments)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.co_seg</td>
-                                    <td>@elem.seg_des</td>
-                                </tr>
-                            }
-                        }
+                        <tr ng-repeat="segment in segments" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ segment.co_seg }}</td>
+                            <td>{{ segment.seg_des }}</td>
+                        </tr>
                     </table>
                     <input type="hidden" id="name-input" />
                 </div>
@@ -739,15 +714,10 @@
                         <input type="text" class="form-control" placeholder="Buscar vendedor..." onkeyup="search('modalSellers')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.sellers)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.co_ven</td>
-                                    <td>@elem.ven_des</td>
-                                </tr>
-                            }
-                        }
+                        <tr ng-repeat="seller in sellers" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ seller.co_ven }}</td>
+                            <td>{{ seller.ven_des }}</td>
+                        </tr>
                     </table>
                     <input type="hidden" id="name-input" />
                 </div>
@@ -773,15 +743,10 @@
                         <input type="text" class="form-control" placeholder="Buscar cond. pago..." onkeyup="search('modalConds')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        @{
-                            foreach (var elem in ViewBag.conds)
-                            {
-                                <tr style="cursor: pointer" onclick="selectRow(this)">
-                                    <td>@elem.co_cond</td>
-                                    <td>@elem.cond_des</td>
-                                </tr>
-                            }
-                        }
+                        <tr ng-repeat="cond in conds" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ cond.co_cond }}</td>
+                            <td>{{ cond.cond_des }}</td>
+                        </tr>
                     </table>
                     <input type="hidden" id="name-input" />
                 </div>
@@ -799,13 +764,13 @@
 <script>
     var app = angular.module("Clients", []);
     var clients = @Html.Raw(ViewBag.clients);
-    var types = @Html.Raw(Json.Encode(ViewBag.types));
-    var segments = @Html.Raw(Json.Encode(ViewBag.segments));
-    var sellers = @Html.Raw(Json.Encode(ViewBag.sellers));
-    var accounts = @Html.Raw(Json.Encode(ViewBag.accounts));
-    var countries = @Html.Raw(Json.Encode(ViewBag.countries));
-    var zones = @Html.Raw(Json.Encode(ViewBag.zones));
-    var conds = @Html.Raw(Json.Encode(ViewBag.conds));
+    var types = @Html.Raw(ViewBag.types);
+    var segments = @Html.Raw(ViewBag.segments);
+    var sellers = @Html.Raw(ViewBag.sellers);
+    var accounts = @Html.Raw(ViewBag.accounts);
+    var countries = @Html.Raw(ViewBag.countries);
+    var zones = @Html.Raw(ViewBag.zones);
+    var conds = @Html.Raw(ViewBag.conds);
 
     for (var item of clients) {
         item.fecha_reg = new Date(parseInt(item.fecha_reg.substr(6)));
@@ -824,6 +789,13 @@
 
         $scope.index = 0;
         $scope.clients = clients;
+        $scope.types = types;
+        $scope.segments = segments;
+        $scope.sellers = sellers;
+        $scope.accounts = accounts;
+        $scope.countries = countries;
+        $scope.zones = zones;
+        $scope.conds = conds;
         $scope.adding = false;
         $scope.editing = false;
         $scope.numberC = 200;

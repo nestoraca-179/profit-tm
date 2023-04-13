@@ -40,7 +40,7 @@
     #results-table_paginate > a:not(.disabled):hover {
         background: #0b5ed7;
     }
-    #results-table_paginate a.paginate_button:not(.disabled).current, #results-table_paginate a.paginate_button:not(.disabled):hover {
+    #results-table_paginate > span a.paginate_button:not(.disabled).current, #results-table_paginate > span a.paginate_button:not(.disabled):hover {
         background: none;
         border: solid 2px #0d6efd;
         border-radius: 5px;
@@ -73,7 +73,7 @@
             <div class="controls">
                 <label>Cliente</label>
                 <div class="input-search">
-                    <input type="text" class="form-control" id="client" ng-model="client.co_cli" style="flex: 1;" onkeypress="return false;" />
+                    <input type="text" class="form-control" id="client" ng-model="client.co_cli" style="flex: 1;" onkeydown="event.preventDefault();" />
                     <input type="text" class="form-control" id="des_client" ng-model="client.cli_des" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="client"></i>
                 </div>
