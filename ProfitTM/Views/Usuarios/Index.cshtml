@@ -141,7 +141,8 @@
             <div class="container-fluid">
                 <div ng-if="show" class="{{ class }}">{{ message }}</div>
                 <h2 class="text-center mt-3">Usuarios</h2>
-                <a href="/Usuarios/Agregar" class="btn btn-success mt-5">
+                <hr />
+                <a href="/Usuarios/Agregar" class="btn btn-success mt-2">
                     <i class="fas fa-plus"></i> Agregar nuevo
                 </a>
                 <div class="table-info">
@@ -152,9 +153,7 @@
                                 <th>Usuario</th>
                                 <th>Nombre</th>
                                 <th>Fecha Registro</th>
-                                <th>C.I.</th>
                                 <th>Email</th>
-                                <th>Teléfono</th>
                                 <th class="text-center">Activo</th>
                                 <th class="text-center">Opciones</th>
                             </tr>
@@ -165,9 +164,7 @@
                                 <td>{{ user.Username }}</td>
                                 <td>{{ user.Descrip }}</td>
                                 <td>{{ formatDate(user.DateReg) }}</td>
-                                <td>{{ user.CI }}</td>
                                 <td>{{ user.Email }}</td>
-                                <td>{{ user.Phone }}</td>
                                 <td><input type="checkbox" onclick="return false" ng-model="user.Enabled" /></td>
                                 <td class="cell-buttons">
                                     <button type="button" class="btn btn-primary" ng-click="setLocation(user.ID)">
