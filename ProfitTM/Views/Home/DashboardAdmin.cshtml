@@ -64,7 +64,7 @@
         }
 
         .col-graph {
-            padding: 5px 15px;
+            padding: 5px /*15px*/;
         }
     }
     @@media (max-width: 767px) {
@@ -197,10 +197,83 @@
         </div>
         <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
             <div class="container-fluid mt-3">
-                <h4 class="text-center">Estadísticas generales del mes actual</h4>
+                <h4>Ventas</h4>
                 <hr />
                 <div class="row justify-content-between" style="margin: 0;">
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3  col-stat">
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-0 mt-3">
+                    <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                        <div class="container-chart shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                        <div class="container-chart shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <h4>Compras</h4>
+                <hr />
+                <div class="row justify-content-between" style="margin: 0;">
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                        <div class="direct shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-0 mt-3">
+                    <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                        <div class="container-chart shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                        <div class="container-chart shadow-tm">
+                            <i class="fas fa-spinner-third fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <!--
+                <div class="row justify-content-between" style="margin: 0;">
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
                         <div class="direct shadow-tm" style="border-bottom: solid 5px #1565C0;">
                             <h5>Total Facturas del Mes</h5>
                             <span ng-show="stats" class="stat-number">{{ stats.totalCount }}</span>
@@ -298,6 +371,7 @@
                     </div>
                 </div>
                 <hr />
+                -->
             </div>
         </div>
     </div>

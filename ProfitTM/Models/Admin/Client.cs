@@ -199,28 +199,24 @@ namespace ProfitTM.Models
 
         public saCliente Edit(saCliente client)
         {
-            saCliente editClient = new saCliente();
+            saCliente editClient;
 
             if (!client.sincredito)
             {
                 client.plaz_pag = new Cond().GetCondByID(client.cond_pag).dias_cred;
             }
 
-            var sp = db.pActualizarCliente(client.co_cli, client.co_cli, client.login, client.password, client.salestax, client.cli_des, client.co_seg, client.co_zon, client.co_ven, client.estado,
-                                           client.inactivo, client.valido, client.sincredito, client.lunes, client.martes, client.miercoles, client.jueves, client.viernes, client.sabado,
-                                           client.domingo, client.direc1, client.direc2, client.dir_ent2, client.horar_caja, client.frecu_vist, client.telefonos, client.fax, client.respons,
-                                           client.fecha_reg, client.tip_cli, client.serialp, client.puntaje, client.Id, client.mont_cre, client.co_mone, client.cond_pag, client.plaz_pag,
-                                           client.desc_ppago, client.desc_glob, client.rif, client.contrib, client.dis_cen, client.nit, client.email, client.co_cta_ingr_egr, client.comentario,
-                                           client.campo1, client.campo2, client.campo3, client.campo4, client.campo5, client.campo6, client.campo7, client.campo8, "PROFIT WEB", null, "SERVER PROFIT WEB",
-                                           null, null, null, client.juridico, client.tipo_adi, client.matriz, client.co_tab, client.tipo_per, client.co_pais, client.ciudad, client.zip, client.website,
-                                           client.contribu_e, client.rete_regis_doc, client.porc_esp, client.validador, client.rowguid, null, null, null, client.email_alterno);
-            var enumerator = sp.GetEnumerator();
+            var sp = db.pActualizarCliente(client.co_cli, client.co_cli, client.login, client.password, client.salestax, client.cli_des, client.co_seg, client.co_zon, 
+                client.co_ven, client.estado, client.inactivo, client.valido, client.sincredito, client.lunes, client.martes, client.miercoles, client.jueves, 
+                client.viernes, client.sabado, client.domingo, client.direc1, client.direc2, client.dir_ent2, client.horar_caja, client.frecu_vist, client.telefonos, 
+                client.fax, client.respons, client.fecha_reg, client.tip_cli, client.serialp, client.puntaje, client.Id, client.mont_cre, client.co_mone, client.cond_pag, 
+                client.plaz_pag, client.desc_ppago, client.desc_glob, client.rif, client.contrib, client.dis_cen, client.nit, client.email, client.co_cta_ingr_egr, 
+                client.comentario, client.campo1, client.campo2, client.campo3, client.campo4, client.campo5, client.campo6, client.campo7, client.campo8, "PROFIT WEB", 
+                null, "SERVER PROFIT WEB", null, null, null, client.juridico, client.tipo_adi, client.matriz, client.co_tab, client.tipo_per, client.co_pais, client.ciudad, 
+                client.zip, client.website, client.contribu_e, client.rete_regis_doc, client.porc_esp, client.validador, client.rowguid, null, null, null, client.email_alterno);
 
-            if (enumerator.MoveNext())
-            {
-                Guid rowguid = enumerator.Current.rowguid.Value;
-                editClient = db.saCliente.SingleOrDefault(c => c.rowguid == rowguid);
-            }
+            sp.Dispose();
+            editClient = GetClientByID(client.co_cli);
 
             return editClient;
         }
