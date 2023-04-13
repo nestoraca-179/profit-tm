@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using ProfitTM.Models;
 
@@ -53,6 +54,18 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
                 ViewBag.username = (Session["USER"] as Users).Username;
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                serializer.MaxJsonLength = 50000000;
+
+                if (Session["BENEFS"] == null)
+                    Session["BENEFS"] = serializer.Serialize(new Beneficiary().GetAllBeneficiaries());
+
+                if (Session["ACCOUNTS"] == null)
+                    Session["ACCOUNTS"] = serializer.Serialize(new Account().GetAllAccounts());
+
+                ViewBag.benefs = Session["BENEFS"];
+                ViewBag.accounts = Session["ACCOUNTS"];
 
                 return View();
             }

@@ -8994,5 +8994,24 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pInsertarOrdenPago" FunctionName="ProfitAdmContext.Store.pInsertarOrdenPago">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarOrdenPago_Result">
+          <ScalarProperty Name="validador" ColumnName="validador" />
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pInsertarRenglonesOrdenPago" FunctionName="ProfitAdmContext.Store.pInsertarRenglonesOrdenPago">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarRenglonesOrdenPago_Result">
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

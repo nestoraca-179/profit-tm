@@ -118,7 +118,30 @@ namespace ProfitTM.Models
 
             db.SaveChanges();
         }
-    
+
+        public static BoxMoves AddExpense(string ord, decimal amount, string user, string descrip)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+
+            Boxes box = GetBoxByID(GetBoxOpenByUser(user).ToString());
+            BoxMoves move = new BoxMoves()
+            {
+                BoxID = box.ID,
+                UserID = user,
+                Amount = amount,
+                Type = 2,
+                Date = DateTime.Now,
+                Comment = descrip
+            };
+
+            box.Expenses += amount;
+            db.Entry(box).State = EntityState.Modified;
+            move = db.BoxMoves.Add(move);
+
+            db.SaveChanges();
+            return move;
+        }
+
         public static void CloseBox(string id)
         {
             ProfitTMEntities db = new ProfitTMEntities();

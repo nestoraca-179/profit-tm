@@ -35,17 +35,17 @@ namespace ProfitTM
             ITrigger triggerCerrarCajas = TriggerBuilder.Create()
                 .WithIdentity("triggerCerrarCajas")
                 .StartNow()
-                .WithCronSchedule("0 55 23 ? * * *")
+                .WithCronSchedule("0 55 23 * * ?")
                 .Build();
 
             scheduler.ScheduleJob(jobCerrarCajas, triggerCerrarCajas);
             scheduler.Start();
         }
 
-        protected void Application_Error(object sender, EventArgs e) {
-            Exception ex = System.Web.HttpContext.Current.Server.GetLastError();
+        protected void Application_Error(object sender, EventArgs e) 
+        {
+            Exception ex = HttpContext.Current.Server.GetLastError();
             Incident.CreateIncident("APPLICATION ERROR", ex);
-            //TODO: Handle Exception
         }
 
         protected void Application_PostAuthorizeRequest()

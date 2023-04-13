@@ -14717,6 +14717,41 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sRevisado" Type="char" Mode="In" />
     <Parameter Name="sTrasnfe" Type="char" Mode="In" />
   </Function>
+  <Function Name="pInsertarOrdenPago" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sOrd_Num" Type="char" Mode="In" />
+    <Parameter Name="sStatus" Type="char" Mode="In" />
+    <Parameter Name="sdFecha" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sCod_Ben" Type="char" Mode="In" />
+    <Parameter Name="sDescrip" Type="varchar(max)" Mode="In" />
+    <Parameter Name="sForma_Pag" Type="char" Mode="In" />
+    <Parameter Name="sdFec_Pag" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sCod_Cta" Type="char" Mode="In" />
+    <Parameter Name="sDoc_Num" Type="char" Mode="In" />
+    <Parameter Name="sCod_Caja" Type="char" Mode="In" />
+    <Parameter Name="sMov_Num_C" Type="char" Mode="In" />
+    <Parameter Name="sMov_Num_B" Type="char" Mode="In" />
+    <Parameter Name="sDis_Cen" Type="varchar(max)" Mode="In" />
+    <Parameter Name="deTasa" Type="decimal" Mode="In" />
+    <Parameter Name="sCo_mone" Type="char" Mode="In" />
+    <Parameter Name="bAnulado" Type="bit" Mode="In" />
+    <Parameter Name="bSino_Reten" Type="bit" Mode="In" />
+    <Parameter Name="iPagar" Type="int" Mode="In" />
+    <Parameter Name="sOrigen" Type="char" Mode="In" />
+    <Parameter Name="sOrigen_D" Type="char" Mode="In" />
+    <Parameter Name="sCampo1" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo2" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo3" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo4" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo5" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo6" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo7" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo8" Type="varchar" Mode="In" />
+    <Parameter Name="sCo_Us_In" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
+    <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+    <Parameter Name="sRevisado" Type="char" Mode="In" />
+    <Parameter Name="sTrasnfe" Type="char" Mode="In" />
+  </Function>
   <Function Name="pInsertarProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sCo_Prov" Type="char" Mode="In" />
     <Parameter Name="sProv_des" Type="varchar" Mode="In" />
@@ -14841,6 +14876,26 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sDis_Cen" Type="varchar(max)" Mode="In" />
     <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
     <Parameter Name="sCo_Us_In" Type="char" Mode="In" />
+    <Parameter Name="sREVISADO" Type="char" Mode="In" />
+    <Parameter Name="sTRASNFE" Type="char" Mode="In" />
+    <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="pInsertarRenglonesOrdenPago" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="iRENG_NUM" Type="int" Mode="In" />
+    <Parameter Name="sOrd_Num" Type="char" Mode="In" />
+    <Parameter Name="sCo_Cta_Ingr_Egr" Type="char" Mode="In" />
+    <Parameter Name="sCo_Islr" Type="char" Mode="In" />
+    <Parameter Name="deMonto_D" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_H" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Iva" Type="decimal" Mode="In" />
+    <Parameter Name="dePorc_Retn" Type="decimal" Mode="In" />
+    <Parameter Name="deSustraendo" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Reten" Type="decimal" Mode="In" />
+    <Parameter Name="sTipo_Imp" Type="char" Mode="In" />
+    <Parameter Name="sDescrip" Type="varchar(max)" Mode="In" />
+    <Parameter Name="sDis_Cen" Type="varchar(max)" Mode="In" />
+    <Parameter Name="sco_sucu_in" Type="char" Mode="In" />
+    <Parameter Name="sco_us_in" Type="char" Mode="In" />
     <Parameter Name="sREVISADO" Type="char" Mode="In" />
     <Parameter Name="sTRASNFE" Type="char" Mode="In" />
     <Parameter Name="sMaquina" Type="varchar" Mode="In" />

@@ -17920,6 +17920,61 @@
       <Parameter Name="bPendiente" Mode="In" Type="Boolean" />
       <Parameter Name="sMoneda" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="pInsertarOrdenPago" ReturnType="Collection(ProfitAdmContext.pInsertarOrdenPago_Result)">
+      <Parameter Name="sOrd_Num" Mode="In" Type="String" />
+      <Parameter Name="sStatus" Mode="In" Type="String" />
+      <Parameter Name="sdFecha" Mode="In" Type="DateTime" />
+      <Parameter Name="sCod_Ben" Mode="In" Type="String" />
+      <Parameter Name="sDescrip" Mode="In" Type="String" />
+      <Parameter Name="sForma_Pag" Mode="In" Type="String" />
+      <Parameter Name="sdFec_Pag" Mode="In" Type="DateTime" />
+      <Parameter Name="sCod_Cta" Mode="In" Type="String" />
+      <Parameter Name="sDoc_Num" Mode="In" Type="String" />
+      <Parameter Name="sCod_Caja" Mode="In" Type="String" />
+      <Parameter Name="sMov_Num_C" Mode="In" Type="String" />
+      <Parameter Name="sMov_Num_B" Mode="In" Type="String" />
+      <Parameter Name="sDis_Cen" Mode="In" Type="String" />
+      <Parameter Name="deTasa" Mode="In" Type="Decimal" />
+      <Parameter Name="sCo_mone" Mode="In" Type="String" />
+      <Parameter Name="bAnulado" Mode="In" Type="Boolean" />
+      <Parameter Name="bSino_Reten" Mode="In" Type="Boolean" />
+      <Parameter Name="iPagar" Mode="In" Type="Int32" />
+      <Parameter Name="sOrigen" Mode="In" Type="String" />
+      <Parameter Name="sOrigen_D" Mode="In" Type="String" />
+      <Parameter Name="sCampo1" Mode="In" Type="String" />
+      <Parameter Name="sCampo2" Mode="In" Type="String" />
+      <Parameter Name="sCampo3" Mode="In" Type="String" />
+      <Parameter Name="sCampo4" Mode="In" Type="String" />
+      <Parameter Name="sCampo5" Mode="In" Type="String" />
+      <Parameter Name="sCampo6" Mode="In" Type="String" />
+      <Parameter Name="sCampo7" Mode="In" Type="String" />
+      <Parameter Name="sCampo8" Mode="In" Type="String" />
+      <Parameter Name="sCo_Us_In" Mode="In" Type="String" />
+      <Parameter Name="sCo_Sucu_In" Mode="In" Type="String" />
+      <Parameter Name="sMaquina" Mode="In" Type="String" />
+      <Parameter Name="sRevisado" Mode="In" Type="String" />
+      <Parameter Name="sTrasnfe" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="pInsertarRenglonesOrdenPago" ReturnType="Collection(ProfitAdmContext.pInsertarRenglonesOrdenPago_Result)">
+      <Parameter Name="iRENG_NUM" Mode="In" Type="Int32" />
+      <Parameter Name="sOrd_Num" Mode="In" Type="String" />
+      <Parameter Name="sCo_Cta_Ingr_Egr" Mode="In" Type="String" />
+      <Parameter Name="sCo_Islr" Mode="In" Type="String" />
+      <Parameter Name="deMonto_D" Mode="In" Type="Decimal" />
+      <Parameter Name="deMonto_H" Mode="In" Type="Decimal" />
+      <Parameter Name="deMonto_Iva" Mode="In" Type="Decimal" />
+      <Parameter Name="dePorc_Retn" Mode="In" Type="Decimal" />
+      <Parameter Name="deSustraendo" Mode="In" Type="Decimal" />
+      <Parameter Name="deMonto_Reten" Mode="In" Type="Decimal" />
+      <Parameter Name="sTipo_Imp" Mode="In" Type="String" />
+      <Parameter Name="sDescrip" Mode="In" Type="String" />
+      <Parameter Name="sDis_Cen" Mode="In" Type="String" />
+      <Parameter Name="sco_sucu_in" Mode="In" Type="String" />
+      <Parameter Name="sco_us_in" Mode="In" Type="String" />
+      <Parameter Name="sREVISADO" Mode="In" Type="String" />
+      <Parameter Name="sTRASNFE" Mode="In" Type="String" />
+      <Parameter Name="sMaquina" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -18363,5 +18418,16 @@
     <Property Type="Binary" Name="validador" Nullable="false" MaxLength="8" />
     <Property Type="Boolean" Name="nac" Nullable="true" />
     <Property Type="String" Name="co_cta_ingr_egr" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="pInsertarOrdenPago_Result">
+    <Property Type="Binary" Name="validador" Nullable="true" />
+    <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+    <Property Type="Guid" Name="rowguid" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pInsertarRenglonesOrdenPago_Result">
+    <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+    <Property Type="Guid" Name="rowguid" Nullable="true" />
   </ComplexType>
 </Schema>

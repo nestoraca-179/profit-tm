@@ -59,13 +59,34 @@ namespace ProfitTM.Areas.Ventas.Controllers
 
                 ViewBag.clients = serializer.Serialize(new Client().GetAllClients(true));
 
-                ViewBag.conds = new Cond().GetAllConds();
-                ViewBag.sellers = new Seller().GetAllSellers();
-                ViewBag.zones = new Zone().GetAllZones();
-                ViewBag.accounts = new Account().GetAllAccounts();
-                ViewBag.countries = new Country().GetAllCountries();
-                ViewBag.segments = new Segment().GetAllSegments();
-                ViewBag.types = new TypePerson().GetAllTypeClients();
+                if (Session["CONDS"] == null)
+                    Session["CONDS"] = serializer.Serialize(new Cond().GetAllConds());
+
+                if (Session["SELLERS"] == null)
+                    Session["SELLERS"] = serializer.Serialize(new Seller().GetAllSellers());
+
+                if (Session["ZONES"] == null)
+                    Session["ZONES"] = serializer.Serialize(new Zone().GetAllZones());
+
+                if (Session["ACCOUNTS"] == null)
+                    Session["ACCOUNTS"] = serializer.Serialize(new Account().GetAllAccounts());
+
+                if (Session["COUNTRIES"] == null)
+                    Session["COUNTRIES"] = serializer.Serialize(new Country().GetAllCountries());
+
+                if (Session["SEGMENTS"] == null)
+                    Session["SEGMENTS"] = serializer.Serialize(new Segment().GetAllSegments());
+
+                if (Session["TYPES"] == null)
+                    Session["TYPES"] = serializer.Serialize(new TypePerson().GetAllTypeClients());
+
+                ViewBag.conds = Session["CONDS"];
+                ViewBag.sellers = Session["SELLERS"];
+                ViewBag.zones = Session["ZONES"];
+                ViewBag.accounts = Session["ACCOUNTS"];
+                ViewBag.countries = Session["COUNTRIES"];
+                ViewBag.segments = Session["SEGMENTS"];
+                ViewBag.types = Session["TYPES"];
 
                 return View();
             }

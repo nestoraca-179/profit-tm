@@ -50,7 +50,7 @@
         color: #208c01;
     }*/
     .modal-dialog {
-        min-width: 650px !important;
+        min-width: 700px !important;
     }
     .controls {
         display: flex;
@@ -143,10 +143,20 @@
         justify-content: space-between;
     }
     .card-box-actions button {
+        height: 50px;
         display: flex;
         align-items: center;
         padding: 5px 10px;
         font-size: 14px;
+    }
+    #modal-expense .controls > * {
+        width: auto;
+    }
+    #modal-expense .controls > label {
+        width: 33.33%;
+    }
+    #modal-expense .controls > input, #modal-expense .controls > textarea, #modal-expense .controls > .input-search {
+        width: 66.66%;
     }
 </style>
 <script src="~/Scripts/angular-min.js"></script>
@@ -303,6 +313,53 @@
             </div>
         </form>
     </div>
+    <!-- Modal Generar Retiro -->
+    <div class="modal fade" id="modal-expense" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <form class="modal-dialog" id="form-expense" role="document" onsubmit="return false;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Generar Retiro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="controls">
+                        <label>Beneficiario</label>
+                        <div class="input-search">
+                            <input type="text" class="form-control" id="benef" ng-model="payOrder.cod_ben" ng-required="true" style="flex: 1;" onkeydown="prevDel(event);" />
+                            <input type="text" class="form-control" id="des_benef" ng-readonly="true" style="flex: 2; margin-left: 5px;" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalBenefs')" data-name="benef"></i>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <label>Cuenta Ingr/Egr</label>
+                        <div class="input-search">
+                            <input type="text" class="form-control" id="account" ng-model="payOrder.saOrdenPagoReng[0].co_cta_ingr_egr" ng-required="true" style="flex: 1;" onkeydown="prevDel(event);" />
+                            <input type="text" class="form-control" id="des_account" ng-readonly="true" style="flex: 2; margin-left: 5px;" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="account"></i>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <label>Monto $USD</label>
+                        <input type="text" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="payOrder.saOrdenPagoReng[0].monto_d" ng-required="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Tasa</label>
+                        <input type="text" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="payOrder.tasa" ng-required="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Comentario</label>
+                        <textarea style="font-size: 14px;" ng-model="payOrder.descrip" ng-required="true"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success" ng-click="sendExpense()">Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!-- Modal Ver Transacciones -->
     <div class="modal fade" id="modal-eye" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
@@ -409,13 +466,17 @@
                     <div class="card-box-actions">
                         <button ng-if="box.IsOpen" class="btn btn-success" data-toggle="modal" data-target="#modal-exchange" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
                             <i class="fas fa-exchange"></i>
-                            <p class="mx-2 my-0">Generar Movimiento</p>
+                            <p class="mx-2 my-0">Generar Deposito</p>
+                        </button>
+                        <button ng-if="box.IsOpen" class="btn btn-danger" data-toggle="modal" data-target="#modal-expense" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
+                            <i class="fas fa-minus"></i>
+                            <p class="mx-2 my-0">Generar Retiro</p>
                         </button>
                         <button class="btn btn-primary" ng-click="viewMovs(box.ID)">
                             <i class="fas fa-eye"></i>
                             <p class="mx-2 my-0">Ver Transacciones</p>
                         </button>
-                        <button ng-if="box.IsOpen" class="btn btn-danger" data-dismiss="modal" ng-click="openModalClose(box.ID)">
+                        <button ng-if="box.IsOpen" class="btn btn-warning" data-dismiss="modal" ng-click="openModalClose(box.ID)">
                             <i class="fas fa-dollar-sign"></i>
                             <p class="mx-2 my-0">Cerrar Caja</p>
                         </button>
@@ -494,6 +555,64 @@
             </div>
         </div>
     </div>
+    <!-- Modal 1 -->
+    <div class="modal fade" id="modalBenefs" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Beneficiario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar beneficiario..." onkeyup="search('modalBenefs')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="benef in benefs" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ benef.cod_ben }}</td>
+                            <td>{{ benef.ben_des }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalBenefs')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 2 -->
+    <div class="modal fade" id="modalAccounts" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Cuenta de Ingr/Egr</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalAccounts')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="account in accounts" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ account.co_cta_ingr_egr }}</td>
+                            <td>{{ account.descrip }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalAccounts');">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel-loading p-3">
     <h4>Cargando cajas...</h4>
@@ -501,6 +620,8 @@
 <script>
     var app = angular.module("Boxes", []);
     var user = '@ViewBag.username';
+    var benefs = @Html.Raw(ViewBag.benefs);
+    var accounts = @Html.Raw(ViewBag.accounts);
     var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
 
     app.controller("controller", function ($scope, $http) {
@@ -509,6 +630,19 @@
         $scope.move = { Type: "1" };
         $scope.boxId = "";
         $scope.totalBox = 0;
+        $scope.benefs = benefs;
+        $scope.accounts = accounts;
+        $scope.payOrder = {
+            status: 'S',
+            forma_pag: "EF",
+            cod_caja: user.toUpperCase(),
+            co_mone: "US$",
+            saOrdenPagoReng: [{
+                co_cta_ingr_egr: "",
+                monto_d: "",
+                tipo_imp: 7
+            }],
+        };
 
         $http.get("/api/ProfitTMApi/GetBoxes/")
             .then(function (response) {
@@ -692,12 +826,88 @@
         }
 
         $scope.showNoItems = function (open) {
-            var boxes = $scope.boxes.filter(b => b.IsOpen == open);
-            var count = boxes.length;
+            if ($scope.boxes != null) {
+                var boxes = $scope.boxes.filter(b => b.IsOpen == open);
+                var count = boxes.length;
 
-            return count == 0;
+                return count == 0;
+            }
+        }
+
+        $scope.sendExpense = function () {
+
+            if ($("#form-expense")[0].checkValidity()) {
+
+                $("#form-expense input").change();
+                $("#modal-expense").modal("hide");
+                $("#modalWaiting").modal("show");
+
+                var amount = parseFloat($scope.payOrder.saOrdenPagoReng[0].monto_d);
+                var total = parseFloat($scope.totalBox);
+
+                /*if (amount > total) {
+                    $("#modalError").modal("show");
+                    $scope.errorMessage = `Debes ingresar un monto menor al saldo disponible en caja (${total.toFixed(2)})`;
+                    return;
+                }*/
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/AddPayOrder/',
+                    data: $scope.payOrder,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    var res = response.data;
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = `El retiro se ha agregado con éxito bajo la Orden de Pago N° ${res.Result.ord_num}`;
+                        
+                        var move = {
+                            ID: res.Result.campo2,
+                            BoxID: res.Result.campo1,
+                            UserID: user,
+                            Amount: amount,
+                            Type: 2,
+                            Date: origDate(new Date(Date.now())),
+                            Comment: res.Result.descrip
+                        };
+
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Expenses += move.Amount;
+
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+                });
+            }
         }
     });
+
+    function origDate(value) {
+
+        var timeOffset = value.getTimezoneOffset() * 60000;
+        var date = new Date(value.getTime() - timeOffset).toUTCString();
+
+        return new Date(date);
+    }
+
+    function prevDel(e) {
+        e.preventDefault();
+    }
+
+    function searchBenef(value) {
+        return benefs.find(c => c.cod_ben.trim() == value.trim()).ben_des;
+    }
+
+    function searchAccount(value) {
+        return accounts.find(c => c.co_cta_ingr_egr.trim() == value.trim()).descrip;
+    }
 
     function compareDate(d1, d2) {
 
@@ -705,6 +915,73 @@
         d2 = new Date(d2);
 
         return d1.toLocaleDateString("en-US") == d2.toLocaleDateString("en-US");
+    }
+
+    function openModal(elem, modal) {
+
+        var previous = elem.previousElementSibling;
+
+        if (!previous.disabled) {
+
+            $("#" + modal).find("#name-input").val($(elem).data("name"));
+            $("#" + modal).modal("show");
+
+        }
+    }
+
+    function search(modal) {
+        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+            table = $("#" + modal).find("#results")[0];
+
+        for (var i = 0; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    function selectRow(elem) {
+        var previous = document.getElementsByClassName("selected-row")[0];
+
+        if (previous != null) {
+            previous.classList.remove("selected-row");
+        }
+
+        elem.classList.add("selected-row");
+    }
+
+    function saveRow(modal) {
+        var item = document.getElementsByClassName("selected-row")[0];
+
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val(),
+                rows = [...($("#" + modal).find("#results")[0].rows)];
+
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            if (input == "benef") {
+                $("#des_benef").val(searchBenef(value));
+            } else if (input == "account") {
+                $("#des_account").val(searchAccount(value));
+            }
+
+            rows.forEach(row => row.style.display = "");
+            $("#" + modal).modal("hide");
+        } else {
+            alert("Debes seleccionar un item");
+        }
     }
 
 </script>

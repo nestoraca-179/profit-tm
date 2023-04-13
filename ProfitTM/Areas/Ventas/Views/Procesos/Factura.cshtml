@@ -160,7 +160,7 @@
                         <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="user != 'ASAP' || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#modalCobrar" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="true" @*ng-disabled="invoice.anulado || invoice.status != 0 || invoice.co_cond.trim() != '002'"*@ onclick="focusField('#n_amount')">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#modalCobrar" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="invoice.anulado || invoice.status != 0 || invoice.co_cond.trim() != '002'" onclick="focusField('#n_amount')">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField('#n_preliq')">
@@ -722,7 +722,7 @@
                     </button>
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto">
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Forma de Cobro</label>
@@ -762,18 +762,18 @@
 
                             </div>
                         </div>
-                    </div>
-                    @*<div style="width: 90%; margin: 50px auto; display: flex; align-items: center;">
+                    </div>-->
+                    <div style="width: 90%; margin: 50px auto; display: flex; align-items: center;">
                         <label style="flex: 1;">Ingrese monto recibido en Efectivo USD ($)</label>
                         <div class="input-search" style="flex: 1; position: relative;">
                             <input type="text" class="form-control" id="n_amount" ng-model="amountUSD" ng-keypress="detectEnter($event.originalEvent, 2)" />
                             <label class="text-danger text-center w-100" id="text-fail" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
                         </div>
-                    </div>*@
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    @*<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-fail').text('');" ng-click="amountUSD =  ''">Cerrar</button>
-                    <button type="button" class="btn btn-primary" ng-click="validate(amountUSD)">Aceptar</button>*@
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-fail').text('');" ng-click="amountUSD =  ''">Cerrar</button>
+                    <button type="button" class="btn btn-primary" ng-click="validate(amountUSD)">Aceptar</button>
                 </div>
             </div>
         </form>
@@ -1323,7 +1323,6 @@
                 $http(req).then(function (response) {
 
                     var res = response.data;
-
                     if (res.Status == "OK") {
                         $("#modalSuccess").modal("show");
                         $scope.addingInvoice = true;
@@ -1342,11 +1341,9 @@
                     }
 
                 }, function (response) {
-
                     $("#modalError").modal("show");
                     console.log(response);
                     $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
-
                 });
 
             } else {

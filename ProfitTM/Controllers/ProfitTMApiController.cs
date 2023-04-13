@@ -207,6 +207,40 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddPayOrder")]
+        public ProfitTMResponse AddPayOrder(saOrdenPago payOrder)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+
+            try
+            {
+                saOrdenPago new_order = new PayOrder().AddPayOrder(payOrder, user, sucur);
+
+                if (new_order.descrip == "ERROR")
+                {
+                    response.Status = "ERROR";
+                    response.Message = new_order.campo1;
+                }
+                else
+                {
+                    response.Status = "OK";
+                    response.Result = new_order;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO ORDEN DE PAGO POR EGRESO DE CAJA", ex);
+            }
+
+            return response;
+        }
+
         [HttpGet]
         [Route("api/ProfitTMApi/CloseBox/{id}")]
         public ProfitTMResponse CloseBox(string id)
