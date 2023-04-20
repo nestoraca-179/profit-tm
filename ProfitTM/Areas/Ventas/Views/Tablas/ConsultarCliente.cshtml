@@ -253,7 +253,7 @@
             } else {
 
                 $("#modalWaiting").modal("show");
-                $http.get("/api/ProfitTMApi/GetPendingDocs/" + $scope.client.co_cli.trim())
+                $http.get("/api/ProfitTMApi/GetPendingClientDocs/" + $scope.client.co_cli.trim())
                     .then(function (response) {
 
                         var res = response.data;
@@ -359,16 +359,8 @@
             $("#" + modal).find("input[type=text]").val("");
             $("#" + modal).find("button[name=search-btn]").trigger("click");
 
-            if (input == "cond") {
-                $("#des_cond").val(searchCond(value));
-            } else if (input == "client") {
+            if (input == "client") {
                 $("#des_client").val(searchClient(value));
-            } else if (input == "seller") {
-                $("#des_seller").val(searchSeller(value));
-            } else if (input == "art") {
-                $("#des_art").val(searchArt(value));
-            } else if (input == "n_preliq") {
-                $("#n_preliq").change();
             }
 
             rows.forEach(row => row.style.display = "");

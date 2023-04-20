@@ -139,11 +139,18 @@
         </div>
         <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
             <div class="container-fluid">
-                <h2 class="text-center mt-3">Conexiones</h2>
+                <div class="row mt-3">
+                    <div class="col d-flex align-items-center">
+                        <a href="/Home/AgregarConexion?product=@ViewBag.prod" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Agregar nueva
+                        </a>
+                    </div>
+                    <div class="col">
+                        <h2 class="text-center">Conexiones</h2>
+                    </div>
+                    <div class="col"></div>
+                </div>
                 <hr />
-                <a href="/Home/AgregarConexion?product=@ViewBag.prod" class="btn btn-success mt-2">
-                    <i class="fas fa-plus"></i> Agregar nueva
-                </a>
                 <div class="table-info">
                     <table class="table table-striped mt-3">
                         <thead>

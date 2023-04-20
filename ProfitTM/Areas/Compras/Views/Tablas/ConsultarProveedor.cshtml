@@ -1,5 +1,374 @@
 ﻿@{
-    ViewBag.Title = "ConsultarProveedor";
+    ViewBag.Title = "Consultar Proveedor";
 }
+<style>
+    table thead {
+        background: #0277bd;
+        color: #FFF;
+    }
+    table#results-table {
+        border-top: solid 10px transparent !important;
+    }
+    table#results-table td {
+        vertical-align: middle;
+    }
+    table#results-table thead tr th {
+        padding: 15px 5px !important;
+    }
+    table#results-table tbody tr td {
+        font-size: 14px;
+        user-select: none;
+    }
+    select[name='results-table_length'] {
+        background: #FFF !important;
+        border: solid 1px #ced4da !important;
+        box-shadow: none;
+    }
+    #results-table_filter input {
+        background: #FFF;
+        border: solid 1px #ced4da;
+        border-radius: 5px;
+    }
+    #results-table_paginate {
+        user-select: none;
+    }
+    #results-table_paginate > a:not(.disabled) {
+        background: #0d6efd;
+        color: #FAFAFA !important;
+        border-radius: 5px;
+    }
+    #results-table_paginate > a:not(.disabled):hover {
+        background: #0b5ed7;
+    }
+    #results-table_paginate > span a.paginate_button:not(.disabled).current, #results-table_paginate > span a.paginate_button:not(.disabled):hover {
+        background: none;
+        border: solid 2px #0d6efd;
+        border-radius: 5px;
+        color: #333 !important;
+    }
+    .controls {
+        display: flex;
+        align-items: center;
+    }
+    .controls > label {
+        flex: 1;
+    }
+    .controls > .input-search {
+        flex: 7;
+    }
+    .modal-info .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
+    #modalWarning {
+        z-index: 10000;
+    }
+    table#results-table tbody tr td:nth-last-child(1):not(.dataTables_empty), table#results-table tbody tr td:nth-last-child(2) {
+        background: #7af4af;
+    }
+</style>
+<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+<script src="~/Scripts/angular-min.js"></script>
+<div class="container-fluid container-search my-3" style="display: none;" ng-app="SearchSupplier" ng-controller="controller">
+    <div class="row m-3">
+        <div class="col-md-8 d-flex align-items-center">
+            <div class="controls">
+                <label>Proveedor</label>
+                <div class="input-search">
+                    <input type="text" class="form-control" id="supplier" ng-model="supplier.co_prov" style="flex: 1;" onkeydown="event.preventDefault();" />
+                    <input type="text" class="form-control" id="des_supplier" ng-model="supplier.prov_des" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSuppliers')" data-name="supplier"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary d-flex justify-content-center align-items-center w-75" ng-click="searchDocs()">
+                <i class="fas fa-search"></i>
+                <p class="mx-3 my-0">Buscar</p>
+            </button>
+        </div>
+    </div>
+    <hr />
+    <table id="results-table" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Nro. Doc.</th>
+                <th>Fecha</th>
+                <th>Fecha Venc.</th>
+                <th>Total Bruto</th>
+                <th>Monto IVA</th>
+                <th>Total Neto</th>
+                <th>Saldo</th>
+                <th>Moneda</th>
+                <th>Tasa</th>
+                <th>Total Neto OM</th>
+                <th>Saldo OM</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <!-- Modal Warning -->
+    <div class="modal fade modal-info" id="modalWarning" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
+                    </div>
+                    <h2 class="text-center">{{ warningMessage }}</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Waiting -->
+    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="background: rgba(0, 0, 0, .7);">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-spinner fa-spin" style="color: #01579b;"></i>
+                    </div>
+                    <h2 class="text-center">Procesando...</h2>
+                </div>
+                @*<div class="modal-footer"></div>*@
+            </div>
+        </div>
+    </div>
+    <!-- Modal Success -->
+    <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-check-circle" style="color: var(--bs-green)"></i>
+                    </div>
+                    <h2 class="text-center">{{ successMessage }}</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Error -->
+    <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-red)"></i>
+                    </div>
+                    <h2 class="text-center">Ha ocurrido un error</h2>
+                    <p class="text-center">{{ errorMessage }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 1 -->
+    <div class="modal fade" id="modalSuppliers" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Proveedor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar proveedor..." onkeyup="search('modalSuppliers')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="supplier in suppliers" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ supplier.co_prov }}</td>
+                            <td>{{ supplier.prov_des }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalSuppliers')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-loading p-3">
+    <h4>Cargando módulo de consultas...</h4>
+</div>
+<script>
+    var app = angular.module("SearchSupplier", []);
+    var suppliers = @Html.Raw(ViewBag.suppliers);
+    var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    var rows = null;
 
-<h2>ConsultarProveedor</h2>
+    $(document).ready(function () {
+        $(".container-search").removeAttr("style");
+        $(".panel-loading").css("display", "none");
+
+        $('#results-table').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "processing": "Procesando...",
+                "search": "Buscar:   ",
+                "zeroRecords": "No se encontraron resultados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+            "lengthMenu": [10, 25, 50, 75, 100],
+        });
+    });
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.supplier = {};
+        $scope.suppliers = suppliers;
+
+        $scope.searchDocs = function () {
+
+            $("input").change();
+            if ($scope.supplier.co_prov == "") {
+                $scope.warningMessage = "Debes seleccionar un proveedor";
+                $("#modalWarning").modal("show");
+            } else {
+
+                $("#modalWaiting").modal("show");
+                $http.get("/api/ProfitTMApi/GetPendingSupplierDocs/" + $scope.supplier.co_prov.trim())
+                    .then(function (response) {
+
+                        var res = response.data;
+                        if (res.Status == "OK") {
+
+                            var t = $('#results-table').DataTable();
+                            var rows = res.Result;
+                            var new_rows = rows.map(x => [
+                                x.co_tipo_doc,
+                                x.nro_doc,
+                                $scope.formatDate(x.fec_emis).split(' ')[0],
+                                $scope.formatDate(x.fec_venc).split(' ')[0],
+                                $scope.setSeparator(x.total_bruto),
+                                $scope.setSeparator(x.monto_imp),
+                                $scope.setSeparator(x.total_neto),
+                                $scope.setSeparator(x.saldo),
+                                x.co_mone,
+                                $scope.setSeparator(x.tasa),
+                                $scope.setSeparator((x.total_neto / x.tasa).toFixed(2)),
+                                $scope.setSeparator((x.saldo / x.tasa).toFixed(2))
+                            ]);
+
+                            t.rows().remove().draw();
+                            t.rows.add(new_rows).draw();
+
+                            setTimeout(function () {
+                                $("#modalWaiting").modal("hide");
+                            }, 500);
+
+                            if (res.Result.length == 0) {
+                                $scope.warningMessage = "No hay documentos pendientes";
+                                $("#modalWarning").modal("show");
+                            }
+
+                        } else {
+                            $scope.errorMessage = res.Message;
+                            $("#modalError").modal("show");
+                        }
+                    });
+            }
+        }
+
+        $scope.formatDate = (date) => date != null ? new Date(date).toLocaleString("es-ES", options).replace(",", "") : "";
+
+        $scope.setSeparator = (number) => new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(number);
+
+    });
+
+    function searchSupplier(value) {
+        return suppliers.find(c => c.co_prov == value).prov_des;
+    }
+
+    function openModal(elem, modal) {
+
+        var previous = elem.previousElementSibling;
+
+        if (!previous.disabled) {
+
+            $("#" + modal).find("#name-input").val($(elem).data("name"));
+            $("#" + modal).modal("show");
+
+        }
+    }
+
+    function search(modal) {
+        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+            table = $("#" + modal).find("#results")[0];
+
+        for (var i = 0; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    function selectRow(elem) {
+        var previous = document.getElementsByClassName("selected-row")[0];
+
+        if (previous != null) {
+            previous.classList.remove("selected-row");
+        }
+
+        elem.classList.add("selected-row");
+    }
+
+    function saveRow(modal) {
+        var item = document.getElementsByClassName("selected-row")[0];
+
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val(),
+                rows = [...($("#" + modal).find("#results")[0].rows)];
+
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            if (input == "supplier") {
+                $("#des_supplier").val(searchSupplier(value));
+            }
+
+            rows.forEach(row => row.style.display = "");
+            $("#" + modal).modal("hide");
+        } else {
+            alert("Debes seleccionar un item");
+        }
+    }
+
+</script>

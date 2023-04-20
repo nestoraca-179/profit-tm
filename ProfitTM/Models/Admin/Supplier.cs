@@ -7,93 +7,7 @@ namespace ProfitTM.Models
 {
     public class Supplier : ProfitAdmManager
     {
-        #region CODIGO ANTERIOR
-        //public static Supplier GetSupplier(string connect, string ID)
-        //{
-        //    Supplier supplier;
-
-        //    string query = string.Format("SELECT * FROM saProveedor WHERE co_prov = '{0}'", ID);
-        //    string DBadmin = connect;
-
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(DBadmin))
-        //        {
-        //            conn.Open();
-        //            using (SqlCommand comm = new SqlCommand(query, conn))
-        //            {
-        //                using (SqlDataReader reader = comm.ExecuteReader())
-        //                {
-        //                    if (reader.Read())
-        //                    {
-        //                        supplier = new Supplier()
-        //                        {
-        //                            ID = reader["co_prov"].ToString().Trim(),
-        //                            Name = reader["prov_des"].ToString(),
-        //                            Type = TypePerson.GetTypeAdmin(connect, reader["tip_pro"].ToString(), "P"),
-        //                            Zone = Zone.GetZone(connect, reader["co_zon"].ToString()),
-        //                            Account = Account.GetAccount(connect, reader["co_cta_ingr_egr"].ToString()),
-        //                            Country = Country.GetCountry(connect, reader["co_pais"].ToString()),
-        //                            Segment = Segment.GetSegment(connect, reader["co_seg"].ToString()),
-        //                            RIF = reader["rif"].ToString(),
-        //                            Email = reader["telefonos"].ToString(),
-        //                            Phone = reader["email"].ToString(),
-        //                            Address1 = reader["direc1"].ToString(),
-        //                            Contrib = bool.Parse(reader["contribu_e"].ToString())
-        //                        };
-        //                    }
-        //                    else
-        //                    {
-        //                        supplier = null;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        supplier = null;
-        //    }
-
-        //    return supplier;
-        //}
-
-        //public static List<Supplier> GetAllSuppliers(string connect)
-        //{
-        //    List<Supplier> suppliers = new List<Supplier>();
-        //    string DBadmin = connect;
-
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(DBadmin))
-        //        {
-        //            conn.Open();
-        //            using (SqlCommand comm = new SqlCommand("select * from saProveedor", conn))
-        //            {
-        //                using (SqlDataReader reader = comm.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        suppliers.Add(new Supplier()
-        //                        {
-        //                            ID = reader["co_prov"].ToString(),
-        //                            Name = reader["prov_des"].ToString()
-        //                        });
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        suppliers = null;
-        //    }
-
-        //    return suppliers;
-        //}
-        #endregion
-
-        public static saProveedor GetSupplierByID(string id)
+        public saProveedor GetSupplierByID(string id)
         {
             saProveedor proveedor = new saProveedor();
 
@@ -109,7 +23,7 @@ namespace ProfitTM.Models
             return proveedor;
         }
 
-        public static List<saProveedor> GetAllSuppliers()
+        public List<saProveedor> GetAllSuppliers()
         {
             List<saProveedor> proveedores = new List<saProveedor>();
 
@@ -195,6 +109,34 @@ namespace ProfitTM.Models
             }
 
             return response;
+        }
+
+        public List<saDocumentoVenta> GetPendingDocs(string supplier)
+        {
+            List<saDocumentoVenta> docs = new List<saDocumentoVenta>();
+
+            var sp = db.pSeleccionarDocumentosProveedor(supplier, true, "");
+            var enumerator = sp.GetEnumerator();
+
+            while (enumerator.MoveNext())
+            {
+                saDocumentoVenta doc = new saDocumentoVenta();
+
+                doc.co_tipo_doc = enumerator.Current.co_tipo_doc;
+                doc.nro_doc = enumerator.Current.nro_doc;
+                doc.fec_emis = enumerator.Current.fec_emis;
+                doc.fec_venc = enumerator.Current.fec_venc;
+                doc.total_bruto = enumerator.Current.total_bruto;
+                doc.monto_imp = enumerator.Current.monto_imp;
+                doc.total_neto = enumerator.Current.total_neto;
+                doc.saldo = enumerator.Current.saldo;
+                doc.co_mone = enumerator.Current.co_mone;
+                doc.tasa = enumerator.Current.tasa;
+
+                docs.Add(doc);
+            }
+
+            return docs;
         }
 
         public saProveedor Add(saProveedor supplier)

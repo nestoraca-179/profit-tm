@@ -140,11 +140,18 @@
         <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
             <div class="container-fluid">
                 <div ng-if="show" class="{{ class }}">{{ message }}</div>
-                <h2 class="text-center mt-3">Usuarios</h2>
+                <div class="row mt-3">
+                    <div class="col d-flex align-items-center">
+                        <a href="/Usuarios/Agregar" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Agregar nuevo
+                        </a>                        
+                    </div>
+                    <div class="col">
+                        <h2 class="text-center">Usuarios</h2>
+                    </div>
+                    <div class="col"></div>
+                </div>
                 <hr />
-                <a href="/Usuarios/Agregar" class="btn btn-success mt-2">
-                    <i class="fas fa-plus"></i> Agregar nuevo
-                </a>
                 <div class="table-info">
                     <table class="table table-striped mt-3">
                         <thead>

@@ -336,8 +336,8 @@ namespace ProfitTM.Controllers
         }
 
         [HttpGet]
-        [Route("api/ProfitTMApi/GetPendingDocs/{client}")]
-        public ProfitTMResponse GetPendingDocs(string client)
+        [Route("api/ProfitTMApi/GetPendingClientDocs/{client}")]
+        public ProfitTMResponse GetPendingClientDocs(string client)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -423,6 +423,28 @@ namespace ProfitTM.Controllers
                 response.Status = "ERROR";
                 response.Message = ex.Message;
                 Incident.CreateIncident("ERROR ELIMINANDO PROVEEDOR " + id.ToString(), ex);
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetPendingSupplierDocs/{supplier}")]
+        public ProfitTMResponse GetPendingSupplierDocs(string supplier)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                List<saDocumentoVenta> docs = new Supplier().GetPendingDocs(supplier);
+
+                response.Status = "OK";
+                response.Result = docs;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
             }
 
             return response;
