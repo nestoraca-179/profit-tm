@@ -170,7 +170,7 @@
                     </div>
                     <div class="controls">
                         <label>Fecha de Registro</label>
-                        <input type="date" class="form-control" id="fechaReg" ng-model="client.fecha_reg" ng-disabled="!adding && !editing" />
+                        <input type="date" class="form-control" id="fechaReg" ng-model="client.fecha_reg" ng-disabled="true" />
                     </div>
                     <div class="controls">
                         <label class="label-check"><input type="checkbox" ng-model="client.contrib" ng-disabled="!adding && !editing" /> Contribuyente</label>
@@ -975,6 +975,8 @@
                         $("#modalSuccess").modal("show");
                         $scope.successMessage = "El cliente se ha eliminado con éxito";
                         $scope.clients = $scope.clients.filter(c => c.co_cli.trim() != id.trim());
+                        $scope.client = $scope.clients[0];
+                        $scope.index = 0;
                     } else {
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;

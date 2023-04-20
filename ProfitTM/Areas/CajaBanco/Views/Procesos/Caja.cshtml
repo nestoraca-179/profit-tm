@@ -696,7 +696,7 @@
             } else {
 
                 $("#modal-new").modal("hide");
-                $("modalWaiting").modal("show");
+                $("#modalWaiting").modal("show");
 
                 var box = {
                     UserID: user,
@@ -739,7 +739,7 @@
             if ($("#form")[0].checkValidity()) {
 
                 $("#modal-exchange").modal("hide");
-                $("modalWaiting").modal("show");
+                $("#modalWaiting").modal("show");
 
                 var amount = parseFloat($scope.move.Amount);
                 var total = parseFloat($scope.totalBox);
@@ -797,7 +797,7 @@
 
         $scope.closeBox = function () {
             $("#modal-dollar-sign").modal("hide");
-            $("modalWaiting").modal("show");
+            $("#modalWaiting").modal("show");
 
             $http.get("/api/ProfitTMApi/CloseBox/" + $scope.boxId)
                 .then(function (response) {
