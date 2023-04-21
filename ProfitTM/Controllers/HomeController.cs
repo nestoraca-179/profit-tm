@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
 using System.Data.SqlClient;
 using System.Collections.Generic;
@@ -12,6 +11,29 @@ namespace ProfitTM.Controllers
         // Vista principal del login
         public ActionResult Index(string message = "")
         {
+            if (Request.IsAuthenticated && Session["USER"] != null)
+            {
+                if (Session["PROD"] == null)
+                    return RedirectToAction("SeleccionProducto");
+
+                if (Session["CONNECT"] == null)
+                    return RedirectToAction("SeleccionEmpresa");
+
+                if (Session["BRANCH"] == null && Session["PROD"].ToString() == "ADM" && new Branch().UseBranchs())
+                    return RedirectToAction("SeleccionSucursal");
+
+                return RedirectToAction(Session["HOME"].ToString());
+            }
+            else
+            {
+                ViewBag.Message = message;
+                ViewBag.user = new Users() { Descrip = "null" };
+
+                return View();
+            }
+
+            #region CODIGO ANTERIOR
+            /*
             ViewBag.user = Session["USER"];
             ViewBag.home = Session["HOME"];
             ViewBag.Message = message;
@@ -25,21 +47,21 @@ namespace ProfitTM.Controllers
                 ViewBag.user = new Users(){ Descrip = "null" };
                 return View();
             }
+            */
+            #endregion
         }
 
         // Cambiar clave
         public ActionResult CambiarClave(string message = "")
         {
-            ViewBag.user = Session["USER"];
-            ViewBag.Message = message;
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else 
             {
+                ViewBag.Message = message;
                 return View();
             }
         }
@@ -48,15 +70,14 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult SeleccionProducto()
         {
-            ViewBag.user = Session["USER"];
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else
             {
+                ViewBag.user = Session["USER"];
                 return View();
             }
         }
@@ -65,17 +86,17 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult AgregarConexion(string product, string message = "")
         {
-            ViewBag.user = Session["USER"];
-            ViewBag.prod = product;
-            ViewBag.message = message;
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else
             {
+                ViewBag.prod = product;
+                ViewBag.message = message;
+                ViewBag.user = Session["USER"];
+
                 return View();
             }
         }
@@ -85,11 +106,9 @@ namespace ProfitTM.Controllers
         [HttpPost]
         public ActionResult GuardarConexion(string name, string server, string db, string username_conn, string password_conn, string prod)
         {
-            ViewBag.user = Session["USER"];
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else
@@ -152,29 +171,22 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult SeleccionEmpresa(string prod)
         {
-            ViewBag.prod = prod;
-            ViewBag.user = Session["USER"];
-            ViewBag.modules = Session["MODULES"];
-
-            Session["PROD"] = prod;
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
-            else if (ViewBag.modules != null)
+            else if (Session["MODULES"] != null)
             {
                 return RedirectToAction("Logout", "Account", new { msg = "Debes iniciar sesión nuevamente" });
             }
             else if (prod == null)
             {
-                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
+                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir un aplicativo" });
             }
             else
             {
                 List<Connections> connections = Connection.GetConnectionsByType(prod);
-
                 if (connections == null)
                 {
                     FormsAuthentication.SignOut();
@@ -186,7 +198,10 @@ namespace ProfitTM.Controllers
                 }
                 else
                 {
+                    Session["PROD"] = prod;
+                    ViewBag.user = Session["USER"];
                     ViewBag.connections = connections;
+
                     return View();
                 }
             }
@@ -196,17 +211,15 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult SeleccionSucursal()
         {
-            ViewBag.user = Session["USER"];
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else
             {
-                Branch braManager = new Branch();
-                ViewBag.branchs = braManager.GetAllBranchs();
+                ViewBag.user = Session["USER"];
+                ViewBag.branchs = new Branch().GetAllBranchs();
 
                 return View();
             }
@@ -217,9 +230,6 @@ namespace ProfitTM.Controllers
         [HttpPost]
         public ActionResult SelectDashboard(string connect = "", bool connected = false)
         {
-            ViewBag.user = Session["USER"];
-            string prod = Session["PROD"].ToString();
-
             if (!connected)
             {
                 Connections conn = Connection.GetConnByID(connect);
@@ -236,39 +246,36 @@ namespace ProfitTM.Controllers
                 Session["BRANCH"] = connect;
             }
 
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
             else
             {
                 bool useBranchs = false;
+                string prod = Session["PROD"].ToString();
 
                 if (prod == "ADM")
                     useBranchs = new Branch().UseBranchs();
 
                 if (useBranchs && Session["BRANCH"] == null)
-                {
                     return RedirectToAction("SeleccionSucursal");
-                }
-                else
-                {
-                    switch (prod)
-                    {
-                        case "ADM":
-                            Session["HOME"] = "DashboardAdmin";
-                            break;
-                        case "CON":
-                            Session["HOME"] = "DashboardCont";
-                            break;
-                        case "NOM":
-                            Session["HOME"] = "DashboardNomi";
-                            break;
-                    }
 
-                    return RedirectToAction(Session["HOME"].ToString());
+                switch (prod)
+                {
+                    case "ADM":
+                        Session["HOME"] = "DashboardAdmin";
+                        break;
+                    case "CON":
+                        Session["HOME"] = "DashboardCont";
+                        break;
+                    case "NOM":
+                        Session["HOME"] = "DashboardNomi";
+                        break;
                 }
+
+                return RedirectToAction(Session["HOME"].ToString());
             }
         }
 
@@ -276,28 +283,27 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult DashboardAdmin()
         {
-            ViewBag.user = Session["USER"];
-            ViewBag.connect = Session["CONNECT"];
-            ViewBag.product = "Administrativo";
+            System.Web.HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];//.ASPXAUTH
+            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
 
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
+                // FormsAuthentication.SignOut();
+                return RedirectToAction("Logout", "Account", new { message = "Debes iniciar sesión" });
             }
-            else if (ViewBag.connect == null)
+            else if (Session["CONNECT"] == null)
             {
                 return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
             }
             else
             {
-                DateTime today = DateTime.Now;
-                ViewBag.current_month = today.Month > 10 ? today.Month.ToString() : "0" + today.Month;
-                ViewBag.current_year = today.Year;
+                // DateTime today = DateTime.Now;
+                // ViewBag.current_month = today.Month > 10 ? today.Month.ToString() : "0" + today.Month;
+                // ViewBag.current_year = today.Year;
 
                 if (Session["MODULES"] == null)
                 {
-                    string userID = ((Users)ViewBag.user).ID.ToString();
+                    string userID = ((Users)Session["USER"]).ID.ToString();
                     Session["MODULES"] = Module.GetModulesByUser("ADM", userID);
                 }
 
@@ -307,8 +313,10 @@ namespace ProfitTM.Controllers
 
                 Session["DATA_CONN"] = Session["NAME_CONN"].ToString();
                 Session["BRAN_CONN"] = name_branch;
+                ViewBag.user = Session["USER"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
+                ViewBag.product = "Administrativo";
                 ViewBag.modules = Session["MODULES"];
 
                 return View();
@@ -319,16 +327,12 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult DashboardCont()
         {
-            ViewBag.user = Session["USER"];
-            ViewBag.connect = Session["CONNECT"];
-            ViewBag.product = "Contabilidad";
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
-            else if (ViewBag.connect == null)
+            else if (Session["CONNECT"] == null)
             {
                 return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
             }
@@ -336,12 +340,14 @@ namespace ProfitTM.Controllers
             {
                 if (Session["MODULES"] == null)
                 {
-                    string userID = ((Users)ViewBag.user).ID.ToString();
+                    string userID = ((Users)Session["USER"]).ID.ToString();
                     Session["MODULES"] = Module.GetModulesByUser("CON", userID);
                 }
 
                 Session["DATA_CONN"] = Session["NAME_CONN"].ToString();
+                ViewBag.user = Session["USER"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.product = "Contabilidad";
                 ViewBag.modules = Session["MODULES"];
 
                 return View();
@@ -352,16 +358,12 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult DashboardNomi()
         {
-            ViewBag.user = Session["USER"];
-            ViewBag.connect = Session["CONNECT"];
-            ViewBag.product = "Nómina";
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", new { message = "Debes iniciar sesión" });
             }
-            else if (ViewBag.connect == null)
+            else if (Session["CONNECT"] == null)
             {
                 return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
             }
@@ -369,12 +371,14 @@ namespace ProfitTM.Controllers
             {
                 if (Session["MODULES"] == null)
                 {
-                    string userID = ((Users)ViewBag.user).ID.ToString();
+                    string userID = ((Users)Session["USER"]).ID.ToString();
                     Session["MODULES"] = Module.GetModulesByUser("NOM", userID);
                 }
 
                 Session["DATA_CONN"] = Session["NAME_CONN"].ToString();
+                ViewBag.user = Session["USER"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.product = "Nómina";
                 ViewBag.modules = Session["MODULES"];
 
                 return View();

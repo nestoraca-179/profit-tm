@@ -2,22 +2,18 @@
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace ProfitTM.Controllers
 {
+    [Authorize]
     public class EmpresaController : Controller
     {
         public ActionResult Index(string message = "")
         {
-            ViewBag.user = Session["USER"];
             ViewBag.connect = Session["CONNECT"];
-            ViewBag.modules = Session["MODULES"];
-            ViewBag.product = "Administrativo";
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { message = "Debes iniciar sesión" });
             }
             else if (ViewBag.connect == null)
@@ -27,6 +23,9 @@ namespace ProfitTM.Controllers
             else
             {
                 ViewBag.message = message;
+                ViewBag.user = Session["USER"];
+                ViewBag.modules = Session["MODULES"];
+                ViewBag.product = "Administrativo";
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
                 ViewBag.conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
@@ -77,7 +76,7 @@ namespace ProfitTM.Controllers
             }
             else
             {
-                string msg = "Ha ocurrido un error al modificar la conexión => " + result.Message;
+                string msg = "Ha ocurrido un error al modificar los datos de empresa => " + result.Message;
                 return RedirectToAction("Index", new { message = msg });
             }
         }

@@ -30,7 +30,7 @@ namespace ProfitTM.Controllers
                         if (!user.Enabled)
                             return RedirectToAction("Index", "Home", new { message = "Usuario inactivo" });
 
-                        FormsAuthentication.SetAuthCookie(username, true);
+                        FormsAuthentication.SetAuthCookie(username, false);
                         Session["USER"] = user;
 
                         if (DateTime.Compare(user.NextChange, DateTime.Now) < 0)
@@ -86,6 +86,14 @@ namespace ProfitTM.Controllers
         {
             FormsAuthentication.SignOut();
             Session.Clear();
+            Session.Abandon();
+            Session.RemoveAll();
+
+            if (Request.Cookies["ASP.NET_SessionId"] != null)
+            {
+                Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies["ASP.NET_SessionId"].Value = string.Empty;
+            }
 
             if (msg != "")
                 return RedirectToAction("Index", "Home", new { message = msg });

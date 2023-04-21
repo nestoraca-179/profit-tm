@@ -318,8 +318,8 @@
 <script src="~/Scripts/angular-min.js"></script>
 <script>
     var app = angular.module("EditUser", []);
-    var user = @Html.Raw(Json.Encode(ViewBag.userEdit));
-    var modules = @Html.Raw(Json.Encode(ViewBag.allModules));
+    var user = @Html.Raw(Json.Encode(ViewBag.user_edit));
+    var modules = @Html.Raw(Json.Encode(ViewBag.all_mods));
     var btn = document.getElementById("icon-menu");
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");

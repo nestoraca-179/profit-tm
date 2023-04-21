@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using System.Web.Security;
 using ProfitTM.Models;
 
 namespace ProfitTM.Areas.CajaBanco.Controllers
@@ -10,24 +9,22 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.user = Session["USER"];
-            ViewBag.connect = Session["CONNECT"];
-            ViewBag.modules = Session["MODULES"];
-            ViewBag.product = "Administrativo";
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
             }
-            else if (ViewBag.connect == null)
+            else if (Session["CONNECT"] == null)
             {
                 return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
             }
             else
             {
+                ViewBag.user = Session["USER"];
+                ViewBag.modules = Session["MODULES"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
+                ViewBag.product = "Administrativo";
 
                 return View();
             }
@@ -35,24 +32,22 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
 
         public ActionResult Caja()
         {
-            ViewBag.user = Session["USER"];
-            ViewBag.connect = Session["CONNECT"];
-            ViewBag.modules = Session["MODULES"];
-            ViewBag.product = "Administrativo";
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
             }
-            else if (ViewBag.connect == null)
+            else if (Session["CONNECT"] == null)
             {
                 return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
             }
             else
             {
+                ViewBag.user = Session["USER"];
+                ViewBag.modules = Session["MODULES"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
+                ViewBag.product = "Administrativo";
                 ViewBag.username = (Session["USER"] as Users).Username;
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();

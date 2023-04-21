@@ -1,21 +1,18 @@
 ﻿using ProfitTM.Models;
 using System.Web.Mvc;
-using System.Web.Security;
 using MyUser = ProfitTM.Models.User;
 
 namespace ProfitTM.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
         public ActionResult Index()
         {
-            ViewBag.user = Session["USER"];
             ViewBag.connect = Session["CONNECT"];
-            ViewBag.modules = Session["MODULES"];
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { message = "Debes iniciar sesión" });
             }
             else if (ViewBag.connect == null)
@@ -37,9 +34,10 @@ namespace ProfitTM.Controllers
                         break;
                 }
 
+                ViewBag.user = Session["USER"];
+                ViewBag.modules = Session["MODULES"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
-                ViewBag.bran_conn = Session["BRAN_CONN"] != null ? Session["BRAN_CONN"].ToString() : null;
-
+                ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
                 ViewBag.users = MyUser.GetAllUsers();
 
                 return View();
@@ -48,13 +46,10 @@ namespace ProfitTM.Controllers
 
         public ActionResult Agregar()
         {
-            ViewBag.user = Session["USER"];
             ViewBag.connect = Session["CONNECT"];
-            ViewBag.modules = Session["MODULES"];
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { message = "Debes iniciar sesión" });
             }
             else if (ViewBag.connect == null)
@@ -76,10 +71,11 @@ namespace ProfitTM.Controllers
                         break;
                 }
 
+                ViewBag.user = Session["USER"];
+                ViewBag.modules = Session["MODULES"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
-                ViewBag.bran_conn = Session["BRAN_CONN"] != null ? Session["BRAN_CONN"].ToString() : null;
-
-                ViewBag.allModules = Module.GetAllModules();
+                ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
+                ViewBag.all_mods = Module.GetAllModules();
 
                 return View();
             }
@@ -87,13 +83,10 @@ namespace ProfitTM.Controllers
 
         public ActionResult Editar(string id)
         {
-            ViewBag.user = Session["USER"];
             ViewBag.connect = Session["CONNECT"];
-            ViewBag.modules = Session["MODULES"];
-
-            if (ViewBag.user == null)
+            if (!Request.IsAuthenticated)
             {
-                FormsAuthentication.SignOut();
+                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { message = "Debes iniciar sesión" });
             }
             else if (ViewBag.connect == null)
@@ -115,11 +108,12 @@ namespace ProfitTM.Controllers
                         break;
                 }
 
+                ViewBag.user = Session["USER"];
+                ViewBag.modules = Session["MODULES"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
-                ViewBag.bran_conn = Session["BRAN_CONN"] != null ? Session["BRAN_CONN"].ToString() : null;
-
-                ViewBag.userEdit = MyUser.GetUserByID(id);
-                ViewBag.allModules = Module.GetAllModules();
+                ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
+                ViewBag.user_edit = MyUser.GetUserByID(id);
+                ViewBag.all_mods = Module.GetAllModules();
 
                 return View();
             }
