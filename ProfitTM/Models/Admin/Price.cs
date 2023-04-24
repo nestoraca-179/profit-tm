@@ -8,15 +8,16 @@ namespace ProfitTM.Models
     {
         public saTipoPrecio GetPriceByID(string id)
         {
-            saTipoPrecio price = new saTipoPrecio();
+            saTipoPrecio price;
 
             try
             {
-                price = db.saTipoPrecio.SingleOrDefault(c => c.co_precio == id);
+                price = db.saTipoPrecio.AsNoTracking().SingleOrDefault(c => c.co_precio == id);
             }
             catch (Exception ex)
             {
                 price = null;
+                Incident.CreateIncident("ERROR BUSCANDO TIPO DE PRECIO " + id, ex);
             }
 
             return price;
@@ -24,15 +25,16 @@ namespace ProfitTM.Models
 
         public List<saTipoPrecio> GetAllPrices()
         {
-            List<saTipoPrecio> prices = new List<saTipoPrecio>();
+            List<saTipoPrecio> prices;
 
             try
             {
-                prices = db.saTipoPrecio.ToList();
+                prices = db.saTipoPrecio.AsNoTracking().ToList();
             }
             catch (Exception ex)
             {
                 prices = null;
+                Incident.CreateIncident("ERROR BUSCANDO TIPOS DE PRECIO", ex);
             }
 
             return prices;

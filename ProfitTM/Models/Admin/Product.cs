@@ -11,15 +11,16 @@ namespace ProfitTM.Models
 
         public saArticulo GetArtByID(string id)
         {
-            saArticulo art = new saArticulo();
+            saArticulo art;
 
             try
             {
-                art = db.saArticulo.SingleOrDefault(c => c.co_art == id);
+                art = db.saArticulo.AsNoTracking().SingleOrDefault(c => c.co_art == id);
             }
             catch (Exception ex)
             {
                 art = null;
+                Incident.CreateIncident("ERROR BUSCANDO ARTICULO " + id, ex);
             }
 
             return art;
@@ -44,7 +45,7 @@ namespace ProfitTM.Models
 
         public List<string> GetAllNameSellArts()
         {
-            List<string> prods = new List<string>();
+            List<string> prods;
 
             try
             {
@@ -55,6 +56,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 prods = null;
+                Incident.CreateIncident("ERROR BUSCANDO NOMBRES DE PRODUCTOS DE VENTA", ex);
             }
 
             return prods;
@@ -62,38 +64,7 @@ namespace ProfitTM.Models
 
         public List<saArticulo> GetMostProducts(DateTime fec_d, DateTime fec_h, int number, bool selling)
         {
-            List<saArticulo> articulos = new List<saArticulo>();
-
-            #region CODIGO ANTERIOR
-            //if (selling)
-            //{
-            //    articulos = (from r in rengsV
-            //                 join a in arts on r.co_art equals a.co_art
-            //                 where r.fe_us_in >= fec_d && r.fe_us_in <= fec_h
-            //                 group r.total_art by (r.co_art, a.art_des) into g
-            //                 select new saArticulo
-            //                 {
-            //                     co_art = g.Key.co_art,
-            //                     art_des = g.Key.art_des,
-            //                     campo1 = Math.Round(g.Sum(), 2).ToString()
-
-            //                 }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
-            //}
-            //else
-            //{
-            //    articulos = (from r in rengsC
-            //                 join a in arts on r.co_art equals a.co_art
-            //                 where r.fe_us_in >= fec_d && r.fe_us_in <= fec_h
-            //                 group r.total_art by (r.co_art, a.art_des) into g
-            //                 select new saArticulo
-            //                 {
-            //                     co_art = g.Key.co_art,
-            //                     art_des = g.Key.art_des,
-            //                     campo1 = Math.Round(g.Sum(), 2).ToString()
-
-            //                 }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
-            //}
-            #endregion
+            List<saArticulo> prods = new List<saArticulo>();
 
             if (selling) // ARTICULOS VENTAS
             {
@@ -108,7 +79,7 @@ namespace ProfitTM.Models
                     articulo.art_des = enumerator.Current.art_des.Trim();
                     articulo.campo1 = (enumerator.Current.total_art - enumerator.Current.total_dev).ToString();
 
-                    articulos.Add(articulo);
+                    prods.Add(articulo);
                 }
             }
             else // ARTICULOS COMPRAS
@@ -124,24 +95,24 @@ namespace ProfitTM.Models
                     articulo.art_des = enumerator.Current.art_des.Trim();
                     articulo.campo1 = (enumerator.Current.total_art - enumerator.Current.total_dev).ToString();
 
-                    articulos.Add(articulo);
+                    prods.Add(articulo);
                 }
             }
 
-            articulos = (from a in articulos
-                         group decimal.Parse(a.campo1) by (a.co_art, a.art_des) into g
-                         select new saArticulo
-                         {
-                             co_art = g.Key.co_art,
-                             art_des = g.Key.art_des,
-                             campo1 = Math.Round(g.Sum(), 2).ToString()
+            prods = (from a in prods
+                    group decimal.Parse(a.campo1) by (a.co_art, a.art_des) into g
+                    select new saArticulo
+                    {
+                        co_art = g.Key.co_art,
+                        art_des = g.Key.art_des,
+                        campo1 = Math.Round(g.Sum(), 2).ToString()
 
-                         }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
+                    }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
 
-            if (articulos.Count > number)
-                articulos.RemoveRange(number, articulos.Count - number);
+            if (prods.Count > number)
+                prods.RemoveRange(number, prods.Count - number);
 
-            return articulos;
+            return prods;
         }
     }
 }

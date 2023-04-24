@@ -8,7 +8,7 @@ namespace ProfitTM.Models
     {
         public saBeneficiario GetBeneficiaryByID(string id)
         {
-            saBeneficiario benef = new saBeneficiario();
+            saBeneficiario benef;
 
             try
             {

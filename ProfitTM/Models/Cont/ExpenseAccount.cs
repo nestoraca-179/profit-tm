@@ -38,6 +38,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 accounts = null;
+                Incident.CreateIncident("ERROR BUSCANDO CUENTAS DE GASTOS", ex);
             }
 
             return accounts;

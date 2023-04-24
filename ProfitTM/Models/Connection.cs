@@ -29,7 +29,7 @@ namespace ProfitTM.Models
 
         public static List<Connections> GetConnectionsByType(string type = "")
         {
-            List<Connections> connections = new List<Connections>();
+            List<Connections> connections;
 
             try
             {
@@ -53,10 +53,10 @@ namespace ProfitTM.Models
         public static ProfitTMResponse Add(Connections conn)
         {
             ProfitTMResponse response = new ProfitTMResponse();
-            Connections newConn;
 
             try
             {
+                Connections newConn;
                 using (ProfitTMEntities db = new ProfitTMEntities())
                 {
                     newConn = db.Connections.Add(conn);

@@ -8,11 +8,11 @@ namespace ProfitTM.Models
     {
         public static List<Modules> GetModulesByUser(string prod, string userID)
         {
-            ProfitTMEntities db = new ProfitTMEntities();
-            List<Modules> modules = new List<Modules>();
+            List<Modules> modules;
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 List<Modules> mods = db.Modules.AsNoTracking().Where(m => m.Product == prod).ToList();
                 List<UserModules> userModules = db.UserModules.AsNoTracking().Where(um => um.UserID.ToString() == userID).OrderBy(um => um.ModuleID).ToList();
 
@@ -39,11 +39,11 @@ namespace ProfitTM.Models
 
         public static List<Modules> GetAllModules()
         {
-            ProfitTMEntities db = new ProfitTMEntities();
             List<Modules> modules;
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 modules = db.Modules.AsNoTracking().ToList();
                 foreach (Modules mod in modules)
                 {

@@ -9,7 +9,7 @@ namespace ProfitTM.Models
     {
         public saCliente GetClientByID(string id)
         {
-            saCliente client = new saCliente();
+            saCliente client;
 
             try
             {
@@ -95,54 +95,41 @@ namespace ProfitTM.Models
             return clientes;
         }
 
-        public ProfitTMResponse GetMostMorousClients(int number)
+        public List<saCliente> GetMostMorousClients(int number)
         {
-            ProfitTMResponse response = new ProfitTMResponse();
-            List<saCliente> clientes = new List<saCliente>();
+            List<saCliente> clients = new List<saCliente>();
 
-            try
+            DateTime fec_h = DateTime.Now;
+            DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+
+            var sp = db.RepEstadoCuentaCli(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
+            var enumerator = sp.GetEnumerator();
+
+            while (enumerator.MoveNext())
             {
-                DateTime fec_h = DateTime.Now;
-                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+                saCliente client = new saCliente();
 
-                var sp = db.RepEstadoCuentaCli(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
-                var enumerator = sp.GetEnumerator();
+                client.co_cli = enumerator.Current.co_prov;
+                client.cli_des = enumerator.Current.prov_des;
+                client.campo1 = ((enumerator.Current.tot_debe ?? 0) - (enumerator.Current.tot_haber ?? 0)).ToString();
 
-                while (enumerator.MoveNext())
-                {
-                    saCliente cliente = new saCliente();
-
-                    cliente.co_cli = enumerator.Current.co_prov;
-                    cliente.cli_des = enumerator.Current.prov_des;
-                    cliente.campo1 = ((enumerator.Current.tot_debe ?? 0) - (enumerator.Current.tot_haber ?? 0)).ToString();
-
-                    clientes.Add(cliente);
-                }
-
-                clientes = (from c in clientes
-                            group c.campo1 by (c.co_cli, c.cli_des) into g
-                            select new saCliente
-                            {
-
-                                co_cli = g.Key.co_cli,
-                                cli_des = g.Key.co_cli + " - " + g.Key.cli_des,
-                                campo1 = Math.Round(g.Select(x => double.Parse(x)).Sum(), 2).ToString()
-
-                            }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
-
-                if (clientes.Count > number)
-                    clientes.RemoveRange(number, clientes.Count - number);
-
-                response.Status = "OK";
-                response.Result = clientes;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = "MMC - " + ex.Message;
+                clients.Add(client);
             }
 
-            return response;
+            clients = (from c in clients
+                       group c.campo1 by (c.co_cli, c.cli_des) into g
+                       select new saCliente
+                       {
+                           co_cli = g.Key.co_cli,
+                           cli_des = g.Key.co_cli + " - " + g.Key.cli_des,
+                           campo1 = Math.Round(g.Select(x => double.Parse(x)).Sum(), 2).ToString()
+
+                       }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
+
+            if (clients.Count > number)
+                clients.RemoveRange(number, clients.Count - number);
+
+            return clients;
         }
 
         public List<saDocumentoVenta> GetPendingDocs(string client)
@@ -175,7 +162,7 @@ namespace ProfitTM.Models
         
         public saCliente Add(saCliente client)
         {
-            saCliente newClient;
+            saCliente n_client;
 
             if (!client.sincredito)
             {
@@ -192,14 +179,14 @@ namespace ProfitTM.Models
                 client.ciudad, client.zip, client.website, client.contribu_e, client.rete_regis_doc, client.porc_esp, null, null, null, client.email_alterno);
 
             sp.Dispose();
-            newClient = GetClientByID(client.co_cli);
+            n_client = GetClientByID(client.co_cli);
 
-            return newClient;
+            return n_client;
         }
 
         public saCliente Edit(saCliente client)
         {
-            saCliente editClient;
+            saCliente e_client;
 
             if (!client.sincredito)
             {
@@ -216,9 +203,9 @@ namespace ProfitTM.Models
                 client.zip, client.website, client.contribu_e, client.rete_regis_doc, client.porc_esp, client.validador, client.rowguid, null, null, null, client.email_alterno);
 
             sp.Dispose();
-            editClient = GetClientByID(client.co_cli);
+            e_client = GetClientByID(client.co_cli);
 
-            return editClient;
+            return e_client;
         }
 
         public saCliente Delete(string id)

@@ -8,7 +8,7 @@ namespace ProfitTM.Models
     {
         public static saOrdenPago GetPayOrderByID(string id)
         {
-            saOrdenPago payOrder = new saOrdenPago();
+            saOrdenPago payOrder;
 
             try
             {
@@ -17,7 +17,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 payOrder = null;
-                Incident.CreateIncident("ERROR BUSCANDO COBRO " + id, ex);
+                Incident.CreateIncident("ERROR BUSCANDO ORDEN DE PAGO " + id, ex);
             }
 
             return payOrder;

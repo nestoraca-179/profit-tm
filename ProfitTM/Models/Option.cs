@@ -8,11 +8,11 @@ namespace ProfitTM.Models
     {
         public static List<Options> GetOptionsByUser(string moduleID, string userID)
         {
-            ProfitTMEntities db = new ProfitTMEntities();
-            List<Options> options = new List<Options>();
+            List<Options> options;
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 List<Options> opts = db.Options.AsNoTracking().Where(o => o.ModuleID.ToString() == moduleID).ToList();
                 List<UserOptions> userOptions = db.UserOptions.AsNoTracking().Where(uo => uo.UserID.ToString() == userID).OrderBy(uo => uo.OptionID).ToList();
 
@@ -40,11 +40,11 @@ namespace ProfitTM.Models
 
         public static List<Options> GetOptionsByModule(string moduleID)
         {
-            ProfitTMEntities db = new ProfitTMEntities();
-            List<Options> options = new List<Options>();
+            List<Options> options;
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 options = db.Options.AsNoTracking().Where(o => o.ModuleID.ToString() == moduleID).ToList();
             }
             catch (Exception ex)

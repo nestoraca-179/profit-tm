@@ -9,7 +9,7 @@ namespace ProfitTM.Models
     {
         public static saFacturaVenta GetSaleInvoiceByID(string id)
         {
-            saFacturaVenta invoice = new saFacturaVenta();
+            saFacturaVenta invoice;
 
             try
             {
@@ -35,7 +35,7 @@ namespace ProfitTM.Models
 
         public List<saFacturaVenta> GetAllSaleInvoices(int number, string sucur)
         {
-            List<saFacturaVenta> invoices = new List<saFacturaVenta>();
+            List<saFacturaVenta> invoices;
 
             try
             {
@@ -64,7 +64,7 @@ namespace ProfitTM.Models
 
         public static saDocumentoVenta GetDocFromSaleInvoice(string id)
         {
-            saDocumentoVenta doc = new saDocumentoVenta();
+            saDocumentoVenta doc;
 
             try
             {
@@ -81,7 +81,7 @@ namespace ProfitTM.Models
 
         public static saFacturaCompra GetBuyInvoiceByID(string id)
         {
-            saFacturaCompra invoice = new saFacturaCompra();
+            saFacturaCompra invoice;
 
             try
             {
@@ -106,7 +106,7 @@ namespace ProfitTM.Models
 
         public List<saFacturaCompra> GetAllBuyInvoices(int number, string sucur)
         {
-            List<saFacturaCompra> invoices = new List<saFacturaCompra>();
+            List<saFacturaCompra> invoices;
 
             try
             {
@@ -134,7 +134,7 @@ namespace ProfitTM.Models
 
         public static saDocumentoCompra GetDocFromBuyInvoice(string id)
         {
-            saDocumentoCompra doc = new saDocumentoCompra();
+            saDocumentoCompra doc;
 
             try
             {
@@ -151,7 +151,7 @@ namespace ProfitTM.Models
 
         public saPlantillaVenta GetTemplate()
         {
-            saPlantillaVenta template = new saPlantillaVenta();
+            saPlantillaVenta template;
 
             try
             {

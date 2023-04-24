@@ -9,106 +9,95 @@ namespace ProfitTM.Models
     {
         public saProveedor GetSupplierByID(string id)
         {
-            saProveedor proveedor = new saProveedor();
+            saProveedor supplier;
 
             try
             {
-                proveedor = db.saProveedor.SingleOrDefault(c => c.co_prov == id);
+                supplier = db.saProveedor.AsNoTracking().SingleOrDefault(c => c.co_prov == id);
             }
             catch (Exception ex)
             {
-                proveedor = null;
+                supplier = null;
+                Incident.CreateIncident("ERROR BUSCANDO PROVEEDOR " + id, ex);
             }
 
-            return proveedor;
+            return supplier;
         }
 
         public List<saProveedor> GetAllSuppliers()
         {
-            List<saProveedor> proveedores = new List<saProveedor>();
+            List<saProveedor> suppliers;
 
             try
             {
-                proveedores = db.saProveedor.ToList();
+                suppliers = db.saProveedor.AsNoTracking().ToList();
             }
             catch (Exception ex)
             {
-                proveedores = null;
+                suppliers = null;
+                Incident.CreateIncident("ERROR BUSCANDO PROVEEDORES", ex);
             }
 
-            return proveedores;
+            return suppliers;
         }
 
         public List<saProveedor> GetMostActiveSuppliers(DateTime fec_d, DateTime fec_h, int number)
         {
-            List<saProveedor> proveedores = new List<saProveedor>();
+            List<saProveedor> suppliers = new List<saProveedor>();
 
             var sp = db.RepProveedorMasCompra(fec_d, fec_h, null, null, number, null, null, null, null, null);
             var enumerator = sp.GetEnumerator();
 
             while (enumerator.MoveNext())
             {
-                saProveedor proveedor = new saProveedor();
+                saProveedor supplier = new saProveedor();
 
-                proveedor.co_prov = enumerator.Current.co_prov.Trim();
-                proveedor.prov_des = enumerator.Current.prov_des.Trim();
-                proveedor.campo1 = Convert.ToDouble(enumerator.Current.Compra).ToString("N2", CultureInfo.GetCultureInfo("es-ES"));
-                proveedor.campo2 = Math.Round(Convert.ToDouble((enumerator.Current.Compra * 100) / enumerator.Current.Compra_total), 2).ToString("N2", CultureInfo.GetCultureInfo("es-ES"));
+                supplier.co_prov = enumerator.Current.co_prov.Trim();
+                supplier.prov_des = enumerator.Current.prov_des.Trim();
+                supplier.campo1 = Convert.ToDouble(enumerator.Current.Compra).ToString("N2", CultureInfo.GetCultureInfo("es-ES"));
+                supplier.campo2 = Math.Round(Convert.ToDouble((enumerator.Current.Compra * 100) / enumerator.Current.Compra_total), 2).ToString("N2", CultureInfo.GetCultureInfo("es-ES"));
 
-                proveedores.Add(proveedor);
+                suppliers.Add(supplier);
             }
 
-            return proveedores;
+            return suppliers;
         }
 
-        public ProfitTMResponse GetMostMorousSuppliers(int number)
+        public List<saProveedor> GetMostMorousSuppliers(int number)
         {
-            ProfitTMResponse response = new ProfitTMResponse();
-            List<saProveedor> proveedores = new List<saProveedor>();
+            List<saProveedor> suppliers = new List<saProveedor>();
 
-            try
+            DateTime fec_h = DateTime.Now;
+            DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+
+            var sp = db.RepEstadoCuentaProv(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
+            var enumerator = sp.GetEnumerator();
+
+            while (enumerator.MoveNext())
             {
-                DateTime fec_h = DateTime.Now;
-                DateTime fec_d = fec_h.AddDays(-(fec_h.Day - 1));
+                saProveedor supplier = new saProveedor();
 
-                var sp = db.RepEstadoCuentaProv(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
-                var enumerator = sp.GetEnumerator();
+                supplier.co_prov = enumerator.Current.co_prov;
+                supplier.prov_des = enumerator.Current.prov_des;
+                supplier.campo1 = ((enumerator.Current.tot_debe ?? 0) - (enumerator.Current.tot_haber ?? 0)).ToString();
 
-                while (enumerator.MoveNext())
-                {
-                    saProveedor proveedor = new saProveedor();
-
-                    proveedor.co_prov = enumerator.Current.co_prov;
-                    proveedor.prov_des = enumerator.Current.prov_des;
-                    proveedor.campo1 = ((enumerator.Current.tot_debe ?? 0) - (enumerator.Current.tot_haber ?? 0)).ToString();
-
-                    proveedores.Add(proveedor);
-                }
-
-                proveedores = (from c in proveedores
-                               group c.campo1 by (c.co_prov, c.prov_des) into g
-                               select new saProveedor
-                               {
-
-                                   co_prov = g.Key.co_prov,
-                                   prov_des = g.Key.co_prov + " - " + g.Key.prov_des,
-                                   campo1 = Math.Round(g.Select(x => double.Parse(x)).Sum(), 2).ToString()
-
-                               }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
-
-                if (proveedores.Count > number)
-                    proveedores.RemoveRange(number, proveedores.Count - number);
-
-                response.Status = "OK";
-                response.Result = proveedores;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = "MMS - " + ex.Message;
+                suppliers.Add(supplier);
             }
 
-            return response;
+            suppliers = (from s in suppliers
+                        group s.campo1 by (s.co_prov, s.prov_des) into g
+                        select new saProveedor
+                        {
+                            co_prov = g.Key.co_prov,
+                            prov_des = g.Key.co_prov + " - " + g.Key.prov_des,
+                            campo1 = Math.Round(g.Select(x => double.Parse(x)).Sum(), 2).ToString()
+
+                        }).OrderByDescending(x => double.Parse(x.campo1)).ToList();
+
+            if (suppliers.Count > number)
+                suppliers.RemoveRange(number, suppliers.Count - number);
+
+            return suppliers;
         }
 
         public List<saDocumentoVenta> GetPendingDocs(string supplier)
@@ -141,7 +130,7 @@ namespace ProfitTM.Models
 
         public saProveedor Add(saProveedor supplier)
         {
-            saProveedor newSupplier = new saProveedor();
+            saProveedor n_supplier = new saProveedor();
             supplier.plaz_pag = new Cond().GetCondByID(supplier.cond_pag).dias_cred;
 
             var sp = db.pInsertarProveedor(supplier.co_prov, supplier.prov_des, supplier.co_seg, supplier.co_zon, supplier.inactivo, supplier.direc1, supplier.direc2, supplier.telefonos,
@@ -156,15 +145,15 @@ namespace ProfitTM.Models
             if (enumerator.MoveNext())
             {
                 Guid rowguid = enumerator.Current.rowguid.Value;
-                newSupplier = db.saProveedor.SingleOrDefault(c => c.rowguid == rowguid);
+                n_supplier = db.saProveedor.SingleOrDefault(c => c.rowguid == rowguid);
             }
 
-            return newSupplier;
+            return n_supplier;
         }
 
         public saProveedor Edit(saProveedor supplier)
         {
-            saProveedor editSupplier = new saProveedor();
+            saProveedor e_supplier = new saProveedor();
             supplier.plaz_pag = new Cond().GetCondByID(supplier.cond_pag).dias_cred;
 
             var sp = db.pActualizarProveedor(supplier.co_prov, supplier.co_prov, supplier.prov_des, supplier.co_seg, supplier.co_zon, supplier.inactivo, supplier.direc1, supplier.direc2,
@@ -179,10 +168,10 @@ namespace ProfitTM.Models
             if (enumerator.MoveNext())
             {
                 Guid rowguid = enumerator.Current.rowguid.Value;
-                editSupplier = db.saProveedor.SingleOrDefault(c => c.rowguid == rowguid);
+                e_supplier = db.saProveedor.SingleOrDefault(c => c.rowguid == rowguid);
             }
 
-            return editSupplier;
+            return e_supplier;
         }
 
         public saProveedor Delete(string id)

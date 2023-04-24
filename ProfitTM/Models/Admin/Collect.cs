@@ -8,7 +8,7 @@ namespace ProfitTM.Models
     {
         public static saCobro GetCollectByID(string id)
         {
-            saCobro invoice = new saCobro();
+            saCobro invoice;
 
             try
             {

@@ -9,11 +9,11 @@ namespace ProfitTM.Models
     {
         public static Boxes GetBoxByID(string id)
         {
-            ProfitTMEntities db = new ProfitTMEntities();
             Boxes box;
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 box = db.Boxes.AsNoTracking().First(b => b.ID.ToString() == id);
             }
             catch (Exception ex)
@@ -27,11 +27,11 @@ namespace ProfitTM.Models
 
         public static List<Boxes> GetAllBoxesAndMoves()
         {
-            ProfitTMEntities db = new ProfitTMEntities();
             List<Boxes> boxes;
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 boxes = db.Boxes.AsNoTracking().Include("BoxMoves").ToList();
                 foreach (Boxes box in boxes)
                 {

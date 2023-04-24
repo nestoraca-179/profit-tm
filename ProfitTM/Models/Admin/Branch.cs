@@ -8,15 +8,16 @@ namespace ProfitTM.Models
     {
         public saSucursal GetBranchByID(string id)
         {
-            saSucursal branch = new saSucursal();
+            saSucursal branch;
 
             try
             {
-                branch = db.saSucursal.SingleOrDefault(s => s.co_sucur == id);
+                branch = db.saSucursal.AsNoTracking().SingleOrDefault(s => s.co_sucur == id);
             }
             catch (Exception ex)
             {
                 branch = null;
+                Incident.CreateIncident("ERROR BUSCANDO SUCURSAL " + id, ex);
             }
 
             return branch;
@@ -24,15 +25,16 @@ namespace ProfitTM.Models
 
         public List<saSucursal> GetAllBranchs()
         {
-            List<saSucursal> branchs = new List<saSucursal>();
+            List<saSucursal> branchs;
 
             try
             {
-                branchs = db.saSucursal.ToList();
+                branchs = db.saSucursal.AsNoTracking().ToList();
             }
             catch (Exception ex)
             {
                 branchs = null;
+                Incident.CreateIncident("ERROR BUSCANDO SUCURSALES", ex);
             }
 
             return branchs;
@@ -40,7 +42,7 @@ namespace ProfitTM.Models
     
         public bool UseBranchs()
         {
-            return db.par_emp.First().v_maneja_sucursales;
+            return db.par_emp.AsNoTracking().First().v_maneja_sucursales;
         }
     }
 }

@@ -38,6 +38,7 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 centers = null;
+                Incident.CreateIncident("ERROR BUSCANDO CENTROS DE COSTOS", ex);
             }
 
             return centers;

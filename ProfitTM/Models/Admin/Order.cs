@@ -8,7 +8,7 @@ namespace ProfitTM.Models
     {
         public saPedidoVenta GetOrderByID(string id)
         {
-            saPedidoVenta order = new saPedidoVenta();
+            saPedidoVenta order;
 
             try
             {

@@ -1,6 +1,6 @@
-﻿using ProfitTM.Controllers;
+﻿using System.Web;
+using ProfitTM.Controllers;
 using System.Data.Entity.Core.EntityClient;
-using System.Web;
 
 namespace ProfitTM.Models
 {

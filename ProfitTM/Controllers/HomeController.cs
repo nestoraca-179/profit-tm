@@ -283,8 +283,8 @@ namespace ProfitTM.Controllers
         [Authorize]
         public ActionResult DashboardAdmin()
         {
-            System.Web.HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];//.ASPXAUTH
-            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+            // System.Web.HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];//.ASPXAUTH
+            // FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
 
             if (!Request.IsAuthenticated)
             {

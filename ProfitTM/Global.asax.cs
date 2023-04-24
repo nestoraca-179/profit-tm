@@ -1,12 +1,14 @@
 using System;
 using System.Web;
-using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Http;
 using System.Web.Routing;
+using System.Threading.Tasks;
 using System.Web.SessionState;
 using ProfitTM.Models;
 using Quartz;
-using Quartz.Impl;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ProfitTM
 {
@@ -15,7 +17,7 @@ namespace ProfitTM
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        protected void Application_Start()
+        protected async void Application_Start()
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             DevExpress.XtraReports.Web.WebDocumentViewer.Native.WebDocumentViewerBootstrapper.SessionState = System.Web.SessionState.SessionStateBehavior.Disabled;
@@ -30,16 +32,33 @@ namespace ProfitTM
             DevExpress.Web.ASPxWebControl.CallbackError += Application_Error;
             DevExpress.Web.Mvc.MVCxWebDocumentViewer.StaticInitialize();
 
-            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
-            IJobDetail jobCerrarCajas = JobBuilder.Create<CerrarCajas>().Build();
-            ITrigger triggerCerrarCajas = TriggerBuilder.Create()
-                .WithIdentity("triggerCerrarCajas")
-                .StartNow()
-                .WithCronSchedule("0 55 23 * * ?")
+            var builder = Host.CreateDefaultBuilder().ConfigureServices((cxt, services) =>
+            {
+                services.AddQuartz(q => {
+                    q.UseMicrosoftDependencyInjectionJobFactory();
+                });
+
+                services.AddQuartzHostedService(opt => {
+                    opt.WaitForJobsToComplete = true;
+                });
+
+            }).Build();
+
+            var schedulerFactory = builder.Services.GetRequiredService<ISchedulerFactory>();
+            var scheduler = await schedulerFactory.GetScheduler();
+
+            var job = JobBuilder.Create<CerrarCajas>()
+                .WithIdentity("myJob", "group1")
                 .Build();
 
-            scheduler.ScheduleJob(jobCerrarCajas, triggerCerrarCajas);
-            scheduler.Start();
+            var trigger = TriggerBuilder.Create()
+                .WithIdentity("myTrigger", "group1")
+                .StartNow()
+                .WithCronSchedule("0 45 15 * * ?")
+                .Build();
+
+            await scheduler.ScheduleJob(job, trigger);
+            await builder.RunAsync();
         }
 
         protected void Application_Error(object sender, EventArgs e) 
@@ -63,7 +82,7 @@ namespace ProfitTM
 
         public class CerrarCajas : IJob
         {
-            public void Execute(IJobExecutionContext context)
+            Task IJob.Execute(IJobExecutionContext context)
             {
                 try
                 {
@@ -73,6 +92,8 @@ namespace ProfitTM
                 {
                     Incident.CreateIncident("ERROR CERRANDO CAJAS", ex);
                 }
+
+                return Task.CompletedTask;
             }
         }
     }

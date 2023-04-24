@@ -10,11 +10,11 @@ namespace ProfitTM.Models
     {
         public static Users GetUserByID(string id)
         {
-            ProfitTMEntities db = new ProfitTMEntities();
             Users user;
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 user = db.Users.AsNoTracking().SingleOrDefault(u => u.ID.ToString() == id);
                 user.UserModules = GetUserModules(user.ID.ToString());
                 user.UserOptions = GetUserOptions(user.ID.ToString());
@@ -30,11 +30,11 @@ namespace ProfitTM.Models
 
         public static List<Users> GetAllUsers()
         {
-            ProfitTMEntities db = new ProfitTMEntities();
             List<Users> users;
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 users = db.Users.AsNoTracking().ToList();
             }
             catch (Exception ex)
@@ -121,11 +121,11 @@ namespace ProfitTM.Models
 
         private static List<UserModules> GetUserModules(string id)
         {
-            ProfitTMEntities db = new ProfitTMEntities();
             List<UserModules> modules = new List<UserModules>();
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 modules = db.UserModules.AsNoTracking().Where(um => um.UserID.ToString() == id).ToList();
             }
             catch (Exception ex)
@@ -139,11 +139,11 @@ namespace ProfitTM.Models
 
         private static List<UserOptions> GetUserOptions(string id)
         {
-            ProfitTMEntities db = new ProfitTMEntities();
             List<UserOptions> options = new List<UserOptions>();
 
             try
             {
+                ProfitTMEntities db = new ProfitTMEntities();
                 options = db.UserOptions.AsNoTracking().Where(uo => uo.UserID.ToString() == id).ToList();
             }
             catch (Exception ex)
