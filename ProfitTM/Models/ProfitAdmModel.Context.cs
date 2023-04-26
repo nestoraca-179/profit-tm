@@ -3468,5 +3468,34 @@ namespace ProfitTM.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pInsertarRenglonesOrdenPago_Result>("pInsertarRenglonesOrdenPago", iRENG_NUMParameter, sOrd_NumParameter, sCo_Cta_Ingr_EgrParameter, sCo_IslrParameter, deMonto_DParameter, deMonto_HParameter, deMonto_IvaParameter, dePorc_RetnParameter, deSustraendoParameter, deMonto_RetenParameter, sTipo_ImpParameter, sDescripParameter, sDis_CenParameter, sco_sucu_inParameter, sco_us_inParameter, sREVISADOParameter, sTRASNFEParameter, sMaquinaParameter);
         }
+    
+        public virtual int pActualizarSaldoCaja(string sCodigo, string sCodigoOri, string sTipo, string sTipoOri, Nullable<decimal> deSaldo, Nullable<System.Guid> gRowguid)
+        {
+            var sCodigoParameter = sCodigo != null ?
+                new ObjectParameter("sCodigo", sCodigo) :
+                new ObjectParameter("sCodigo", typeof(string));
+    
+            var sCodigoOriParameter = sCodigoOri != null ?
+                new ObjectParameter("sCodigoOri", sCodigoOri) :
+                new ObjectParameter("sCodigoOri", typeof(string));
+    
+            var sTipoParameter = sTipo != null ?
+                new ObjectParameter("sTipo", sTipo) :
+                new ObjectParameter("sTipo", typeof(string));
+    
+            var sTipoOriParameter = sTipoOri != null ?
+                new ObjectParameter("sTipoOri", sTipoOri) :
+                new ObjectParameter("sTipoOri", typeof(string));
+    
+            var deSaldoParameter = deSaldo.HasValue ?
+                new ObjectParameter("deSaldo", deSaldo) :
+                new ObjectParameter("deSaldo", typeof(decimal));
+    
+            var gRowguidParameter = gRowguid.HasValue ?
+                new ObjectParameter("gRowguid", gRowguid) :
+                new ObjectParameter("gRowguid", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("pActualizarSaldoCaja", sCodigoParameter, sCodigoOriParameter, sTipoParameter, sTipoOriParameter, deSaldoParameter, gRowguidParameter);
+        }
     }
 }

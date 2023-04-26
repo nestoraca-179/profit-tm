@@ -618,6 +618,7 @@
     <Compile Include="Models\Admin\Account.cs" />
     <Compile Include="Models\Admin\Bank.cs" />
     <Compile Include="Models\Admin\Beneficiary.cs" />
+    <Compile Include="Models\Admin\BoxMove.cs" />
     <Compile Include="Models\Admin\Branch.cs" />
     <Compile Include="Models\Admin\Collect.cs" />
     <Compile Include="Models\Admin\Currency.cs" />

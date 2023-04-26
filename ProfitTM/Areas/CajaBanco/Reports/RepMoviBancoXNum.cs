@@ -318,16 +318,16 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 6.00001F);
             this.pageInfo1.Name = "pageInfo1";
             this.pageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
-            this.pageInfo1.SizeF = new System.Drawing.SizeF(375.7917F, 23F);
+            this.pageInfo1.SizeF = new System.Drawing.SizeF(399.75F, 23F);
             this.pageInfo1.StyleName = "PageInfo";
             this.pageInfo1.StylePriority.UseFont = false;
             // 
             // pageInfo2
             // 
             this.pageInfo2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
-            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(375.7917F, 6.00001F);
+            this.pageInfo2.LocationFloat = new DevExpress.Utils.PointFloat(399.75F, 6.00001F);
             this.pageInfo2.Name = "pageInfo2";
-            this.pageInfo2.SizeF = new System.Drawing.SizeF(374.2083F, 23F);
+            this.pageInfo2.SizeF = new System.Drawing.SizeF(410.2501F, 23F);
             this.pageInfo2.StyleName = "PageInfo";
             this.pageInfo2.StylePriority.UseFont = false;
             this.pageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
@@ -364,7 +364,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.table2.OddStyleName = "DetailData3_Odd";
             this.table2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.tableRow2});
-            this.table2.SizeF = new System.Drawing.SizeF(750.0001F, 25F);
+            this.table2.SizeF = new System.Drawing.SizeF(810.0001F, 25F);
             // 
             // tableRow2
             // 
@@ -390,7 +390,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell17.Name = "tableCell17";
             this.tableCell17.StyleName = "DetailData1";
             this.tableCell17.StylePriority.UseFont = false;
-            this.tableCell17.Weight = 0.14508170452398556D;
+            this.tableCell17.Weight = 0.16751757943414336D;
             // 
             // tableCell12
             // 
@@ -402,7 +402,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell12.StyleName = "DetailData1";
             this.tableCell12.StylePriority.UseBorders = false;
             this.tableCell12.StylePriority.UseFont = false;
-            this.tableCell12.Weight = 0.093071336062588689D;
+            this.tableCell12.Weight = 0.091468787821719161D;
             // 
             // tableCell19
             // 
@@ -413,7 +413,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell19.StyleName = "DetailData1";
             this.tableCell19.StylePriority.UseFont = false;
             this.tableCell19.TextFormatString = "{0:dd/MM/yyyy}";
-            this.tableCell19.Weight = 0.13167881056471759D;
+            this.tableCell19.Weight = 0.12847370234545003D;
             // 
             // tableCell20
             // 
@@ -423,7 +423,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell20.Name = "tableCell20";
             this.tableCell20.StyleName = "DetailData1";
             this.tableCell20.StylePriority.UseFont = false;
-            this.tableCell20.Weight = 0.061257647429837206D;
+            this.tableCell20.Weight = 0.066065456477844758D;
             // 
             // tableCell21
             // 
@@ -433,7 +433,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell21.Name = "tableCell21";
             this.tableCell21.StyleName = "DetailData1";
             this.tableCell21.StylePriority.UseFont = false;
-            this.tableCell21.Weight = 0.14705152057529486D;
+            this.tableCell21.Weight = 0.18391008316517996D;
             // 
             // tableCell13
             // 
@@ -443,7 +443,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell13.Name = "tableCell13";
             this.tableCell13.StyleName = "DetailData1";
             this.tableCell13.StylePriority.UseFont = false;
-            this.tableCell13.Weight = 0.105416111714291D;
+            this.tableCell13.Weight = 0.11182648074069657D;
             // 
             // tableCell22
             // 
@@ -453,7 +453,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell22.Name = "tableCell22";
             this.tableCell22.StyleName = "DetailData1";
             this.tableCell22.StylePriority.UseFont = false;
-            this.tableCell22.Weight = 0.088628111249097419D;
+            this.tableCell22.Weight = 0.11266666351293825D;
             // 
             // tableCell15
             // 
@@ -466,7 +466,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell15.StylePriority.UseTextAlignment = false;
             this.tableCell15.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.tableCell15.TextFormatString = "{0:n}";
-            this.tableCell15.Weight = 0.13484445305248302D;
+            this.tableCell15.Weight = 0.12362669752909583D;
             // 
             // tableCell16
             // 
@@ -479,7 +479,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell16.StylePriority.UseTextAlignment = false;
             this.tableCell16.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.tableCell16.TextFormatString = "{0:n}";
-            this.tableCell16.Weight = 0.11472817406438021D;
+            this.tableCell16.Weight = 0.13075362126048995D;
             // 
             // tableCell14
             // 
@@ -492,7 +492,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell14.StylePriority.UseTextAlignment = false;
             this.tableCell14.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.tableCell14.TextFormatString = "{0:n}";
-            this.tableCell14.Weight = 0.13208832001719656D;
+            this.tableCell14.Weight = 0.12984470318235955D;
             // 
             // table1
             // 
@@ -500,7 +500,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.table1.Name = "table1";
             this.table1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.tableRow1});
-            this.table1.SizeF = new System.Drawing.SizeF(750.0001F, 28F);
+            this.table1.SizeF = new System.Drawing.SizeF(810.0001F, 28F);
             this.table1.StylePriority.UseTextAlignment = false;
             this.table1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
@@ -531,7 +531,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell6.StylePriority.UseTextAlignment = false;
             this.tableCell6.Text = "N° Movimiento";
             this.tableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell6.Weight = 0.12573745209131484D;
+            this.tableCell6.Weight = 0.14518190896682684D;
             // 
             // tableCell1
             // 
@@ -544,7 +544,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell1.StylePriority.UseTextAlignment = false;
             this.tableCell1.Text = "Cuenta";
             this.tableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell1.Weight = 0.08066181994707157D;
+            this.tableCell1.Weight = 0.0792728836672758D;
             // 
             // tableCell8
             // 
@@ -555,7 +555,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell8.StylePriority.UseTextAlignment = false;
             this.tableCell8.Text = "Fecha";
             this.tableCell8.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell8.Weight = 0.11412165793597301D;
+            this.tableCell8.Weight = 0.11134388710163598D;
             // 
             // tableCell9
             // 
@@ -566,7 +566,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell9.StylePriority.UseTextAlignment = false;
             this.tableCell9.Text = "Tipo";
             this.tableCell9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell9.Weight = 0.0530899627383634D;
+            this.tableCell9.Weight = 0.057256730887648911D;
             // 
             // tableCell10
             // 
@@ -577,7 +577,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell10.StylePriority.UseTextAlignment = false;
             this.tableCell10.Text = "N° Documento";
             this.tableCell10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell10.Weight = 0.12744465500047159D;
+            this.tableCell10.Weight = 0.15938897890524578D;
             // 
             // tableCell2
             // 
@@ -588,7 +588,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell2.StylePriority.UseTextAlignment = false;
             this.tableCell2.Text = "Moneda";
             this.tableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell2.Weight = 0.09136063347460141D;
+            this.tableCell2.Weight = 0.096916215833377284D;
             // 
             // tableCell11
             // 
@@ -599,7 +599,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell11.StylePriority.UseTextAlignment = false;
             this.tableCell11.Text = "Origen";
             this.tableCell11.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell11.Weight = 0.076811029219748583D;
+            this.tableCell11.Weight = 0.097644361339903646D;
             // 
             // tableCell5
             // 
@@ -610,7 +610,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell5.StylePriority.UseTextAlignment = false;
             this.tableCell5.Text = "Debe";
             this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell5.Weight = 0.11686532295623543D;
+            this.tableCell5.Weight = 0.10714314538110667D;
             // 
             // tableCell4
             // 
@@ -621,7 +621,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell4.StylePriority.UseTextAlignment = false;
             this.tableCell4.Text = "Haber";
             this.tableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell4.Weight = 0.099430982540817683D;
+            this.tableCell4.Weight = 0.11331981636745199D;
             // 
             // tableCell3
             // 
@@ -632,7 +632,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.tableCell3.StylePriority.UseTextAlignment = false;
             this.tableCell3.Text = "I.G.T.F.";
             this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell3.Weight = 0.11447658862325247D;
+            this.tableCell3.Weight = 0.11253209003856896D;
             // 
             // cueDesde
             // 
@@ -823,7 +823,7 @@ public class RepMoviBancoXNum : DevExpress.XtraReports.UI.XtraReport
             this.DataMember = "RepMoviBancoXNum";
             this.DataSource = this.DemoAdmin;
             this.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.Margins = new System.Drawing.Printing.Margins(50, 50, 70, 100);
+            this.Margins = new System.Drawing.Printing.Margins(20, 20, 70, 100);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.cueDesde,
             this.cueHasta,

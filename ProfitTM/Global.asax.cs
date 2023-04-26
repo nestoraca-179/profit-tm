@@ -54,7 +54,7 @@ namespace ProfitTM
             var trigger = TriggerBuilder.Create()
                 .WithIdentity("myTrigger", "group1")
                 .StartNow()
-                .WithCronSchedule("0 45 15 * * ?")
+                .WithCronSchedule("0 55 23 * * *")
                 .Build();
 
             await scheduler.ScheduleJob(job, trigger);

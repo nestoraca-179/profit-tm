@@ -184,6 +184,7 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        /*
         [HttpPost]
         [Route("api/ProfitTMApi/AddBoxMove/")]
         public ProfitTMResponse AddBoxMove(BoxMoves move)
@@ -202,6 +203,41 @@ namespace ProfitTM.Controllers
                 response.Status = "ERROR";
                 response.Message = ex.Message;
                 Incident.CreateIncident("ERROR AGREGANDO MOVIMIENTO DE CAJA", ex);
+            }
+
+            return response;
+        }
+        */
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddMove")]
+        public ProfitTMResponse AddMove(saMovimientoCaja move)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+
+            try
+            {
+                saMovimientoCaja new_move = new BoxMove().AddBoxMove(move, user, sucur);
+
+                if (new_move.descrip == "ERROR")
+                {
+                    response.Status = "ERROR";
+                    response.Message = new_move.campo1;
+                }
+                else
+                {
+                    response.Status = "OK";
+                    response.Result = new_move;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO MOVIMIENTO DE CAJA POR INGRESO DE CAJA", ex);
             }
 
             return response;

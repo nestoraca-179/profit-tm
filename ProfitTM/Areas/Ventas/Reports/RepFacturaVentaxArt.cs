@@ -1205,9 +1205,12 @@ public class RepFacturaVentaxArt : DevExpress.XtraReports.UI.XtraReport
 
         foreach (var param in parameters)
         {
-            if (param.Value.ToString() == "")
+            if (param.Value != null)
             {
-                param.Value = DBNull.Value;
+                if (param.Value.ToString() == "")
+                {
+                    param.Value = DBNull.Value;
+                }
             }
         }
     }
