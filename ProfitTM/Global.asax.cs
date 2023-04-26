@@ -32,6 +32,7 @@ namespace ProfitTM
             DevExpress.Web.ASPxWebControl.CallbackError += Application_Error;
             DevExpress.Web.Mvc.MVCxWebDocumentViewer.StaticInitialize();
 
+            Incident.CreateIncident("INICIANDO QUARTZ", new Exception());
             var builder = Host.CreateDefaultBuilder().ConfigureServices((cxt, services) =>
             {
                 services.AddQuartz(q => {
@@ -59,6 +60,7 @@ namespace ProfitTM
 
             await scheduler.ScheduleJob(job, trigger);
             await builder.RunAsync();
+            Incident.CreateIncident("FINALIZANDO QUARTZ", new Exception());
         }
 
         protected void Application_Error(object sender, EventArgs e) 
@@ -86,7 +88,9 @@ namespace ProfitTM
             {
                 try
                 {
+                    Incident.CreateIncident("INICIANDO CERRAR CAJAS", new Exception());
                     Box.CloseAllBox();
+                    Incident.CreateIncident("FINALIZANDO CERRAR CAJAS", new Exception());
                 }
                 catch (Exception ex)
                 {
