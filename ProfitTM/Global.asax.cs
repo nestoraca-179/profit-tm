@@ -54,13 +54,13 @@ namespace ProfitTM
 
             var trigger = TriggerBuilder.Create()
                 .WithIdentity("myTrigger", "group1")
-                .StartNow()
-                .WithCronSchedule("0 55 23 * * *")
+                .StartAt(DateTimeOffset.Now)
+                .WithCronSchedule("0 55 23 ? * * *")
                 .Build();
 
+            Incident.CreateIncident("FINALIZANDO QUARTZ", new Exception());
             await scheduler.ScheduleJob(job, trigger);
             await builder.RunAsync();
-            Incident.CreateIncident("FINALIZANDO QUARTZ", new Exception());
         }
 
         protected void Application_Error(object sender, EventArgs e) 
@@ -89,7 +89,7 @@ namespace ProfitTM
                 try
                 {
                     Incident.CreateIncident("INICIANDO CERRAR CAJAS", new Exception());
-                    Box.CloseAllBox();
+                    Box.CloseAllBoxes();
                     Incident.CreateIncident("FINALIZANDO CERRAR CAJAS", new Exception());
                 }
                 catch (Exception ex)

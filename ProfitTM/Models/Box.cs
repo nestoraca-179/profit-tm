@@ -177,7 +177,7 @@ namespace ProfitTM.Models
             db.SaveChanges();
         }
 
-        public static void CloseAllBox()
+        public static void CloseAllBoxes()
         {
             ProfitTMEntities db = new ProfitTMEntities();
 
