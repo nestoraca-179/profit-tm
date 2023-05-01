@@ -42,10 +42,24 @@ namespace ProfitTM.Models
 
                         sp_n_ord.Dispose();
 
+                        // AGREGAR MOVIMIENTO DE CAJA
+                        saMovimientoCaja move_c = new saMovimientoCaja()
+                        {
+                            descrip = string.Format("Orden Pago {0} de {1}", n_ord, po.cod_ben),
+                            tasa = po.tasa,
+                            tipo_mov = "E",
+                            forma_pag = "EF",
+                            co_cta_ingr_egr = reng.co_cta_ingr_egr,
+                            monto_d = reng.monto_d,
+                            origen = "OPA"
+                        };
+
+                        saMovimientoCaja new_move = new BoxMove().AddBoxMove(move_c, user, sucur, false);
+
                         // ORDEN PAGO
-                        var sp = context.pInsertarOrdenPago(n_ord, po.status, DateTime.Now, po.cod_ben, po.descrip, po.forma_pag, DateTime.Now, null, null, user.ToUpper(),
-                            null, null, null, po.tasa, po.co_mone, false, false, 0, null, null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB",
-                            null, null);
+                        var sp = context.pInsertarOrdenPago(n_ord, "C", DateTime.Now, po.cod_ben, po.descrip, po.forma_pag, DateTime.Now, null, null, user.ToUpper(),
+                            new_move.mov_num, null, null, po.tasa, po.co_mone, false, false, 0, null, null, null, null, null, null, null, null, null, null, user, sucur, 
+                            "SERVER PROFIT WEB", null, null);
 
                         // RENGLON
                         var sp_r = context.pInsertarRenglonesOrdenPago(1, n_ord, reng.co_cta_ingr_egr, null, reng.monto_d, 0, 0, 0, 0, 0, reng.tipo_imp, null, null, sucur,

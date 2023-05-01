@@ -220,7 +220,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saMovimientoCaja new_move = new BoxMove().AddBoxMove(move, user, sucur);
+                saMovimientoCaja new_move = new BoxMove().AddBoxMove(move, user, sucur, true);
 
                 if (new_move.descrip == "ERROR")
                 {

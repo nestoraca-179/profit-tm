@@ -23,7 +23,7 @@ namespace ProfitTM.Models
             return move;
         }
 
-        public saMovimientoCaja AddBoxMove(saMovimientoCaja mo, string user, string sucur)
+        public saMovimientoCaja AddBoxMove(saMovimientoCaja mo, string user, string sucur, bool isIncome)
         {
             saMovimientoCaja new_move = new saMovimientoCaja();
 
@@ -40,23 +40,27 @@ namespace ProfitTM.Models
 
                         sp_n_mov.Dispose();
 
+                        decimal amount = isIncome ? mo.monto_h : mo.monto_d * -1;
+
                         // ACTUALIZAR SALDO
-                        context.pActualizarSaldoCaja(user, user, "EF", "EF", mo.monto_h, Guid.NewGuid());
-                        context.pActualizarSaldoCaja(user, user, "TF", "TF", mo.monto_h, Guid.NewGuid());
+                        context.pActualizarSaldoCaja(user, user, "EF", "EF", amount, Guid.NewGuid());
+                        context.pActualizarSaldoCaja(user, user, "TF", "TF", amount, Guid.NewGuid());
 
                         // MOVIMIENTO DE CAJA
                         var sp = context.pInsertarMovimientoCaja(n_mov, DateTime.Now, mo.descrip, user, mo.tasa, mo.tipo_mov, mo.forma_pag, null, null, null, null,
-                            mo.co_cta_ingr_egr, mo.monto_h, false, mo.origen, null, null, false, false, false, false, null, DateTime.Now, null, null, null, null,
+                            mo.co_cta_ingr_egr, Math.Abs(amount), false, mo.origen, null, null, false, false, false, false, null, DateTime.Now, null, null, null, null,
                             null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
 
                         sp.Dispose();
-
-                        BoxMoves move = Box.AddIncome(n_mov, mo.monto_h, user, mo.descrip);
-
                         tran.Commit();
                         new_move = GetBoxMoveByID(n_mov);
-                        new_move.campo1 = move.BoxID.ToString();
-                        new_move.campo2 = move.ID.ToString();
+
+                        if (isIncome)
+                        {
+                            BoxMoves move = Box.AddIncome(n_mov, mo.monto_h, user, mo.descrip);
+                            new_move.campo1 = move.BoxID.ToString();
+                            new_move.campo2 = move.ID.ToString();
+                        }
                     }
                     catch (Exception ex)
                     {

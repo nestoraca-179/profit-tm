@@ -798,43 +798,43 @@
                 $("#form-income input").change();
                 $("#modal-income").modal("hide");
                 $("#modalWaiting").modal("show");
-            }
 
-            var req = {
-                method: 'POST',
-                url: '/api/ProfitTMApi/AddMove/',
-                data: $scope.move,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            }
-
-            var amount = parseFloat($scope.move.monto_h);
-            $http(req).then(function (response) {
-
-                var res = response.data;
-                if (res.Status == "OK") {
-                    $("#modalSuccess").modal("show");
-                    $scope.successMessage = `El depósito se ha agregado con éxito bajo el Movimiento de Caja N° ${res.Result.mov_num}`;
-
-                    var move = {
-                        ID: res.Result.campo2,
-                        BoxID: res.Result.campo1,
-                        UserID: user,
-                        Amount: amount,
-                        Type: 1,
-                        Date: origDate(new Date(Date.now())),
-                        Comment: res.Result.descrip
-                    };
-
-                    $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
-                    $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Incomes += move.Amount;
-
-                } else {
-                    $("#modalError").modal("show");
-                    $scope.errorMessage = res.Message;
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/AddMove/',
+                    data: $scope.move,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                 }
-            });
+
+                var amount = parseFloat($scope.move.monto_h);
+                $http(req).then(function (response) {
+
+                    var res = response.data;
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = `El depósito se ha agregado con éxito bajo el Movimiento de Caja N° ${res.Result.mov_num}`;
+
+                        var move = {
+                            ID: res.Result.campo2,
+                            BoxID: res.Result.campo1,
+                            UserID: user,
+                            Amount: amount,
+                            Type: 1,
+                            Date: origDate(new Date(Date.now())),
+                            Comment: res.Result.descrip
+                        };
+
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Incomes += move.Amount;
+
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+                });
+            }
         }
 
         $scope.sendExpense = function () {
