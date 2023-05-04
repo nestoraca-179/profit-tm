@@ -177,8 +177,11 @@ namespace ProfitTM.Models
         
         public object GetStatsInvoices(DateTime fec_d, DateTime fec_h)
         {
+            fec_d = new DateTime(2023, 2, 1);
+            fec_h = new DateTime(2023, 28, 1);
+
             int totalCount = 0;
-            decimal totalAmountSale = 0, totalAmountPurchase = 0, totalState;
+            decimal totalAmountSale = 0, totalAmountPurchase = 0, totalState, totalReimbExp = 0;
 
             // VENTAS
             var sp1 = db.RepFacturaVentaxFecha(null, null, fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
@@ -202,15 +205,27 @@ namespace ProfitTM.Models
             // ESTADO DE GANANCIA
             totalState = totalAmountSale - totalAmountPurchase;
 
+
+            // GASTOS REEMBOLSABLES - ISH
+            if (db.Database.Connection.Database == "PP2K12_ISH_ADM")
+            {
+                var rengs = db.saFacturaVentaReng.AsNoTracking().Where(r => r.fe_us_in >= fec_d && r.fe_us_in <= fec_h && r.co_art == "410190001-001").ToList();
+                foreach (saFacturaVentaReng r in rengs)
+                {
+                    totalReimbExp += Convert.ToDecimal(r.reng_neto);
+                }
+            }
+
             enumerator1.Dispose();
             enumerator2.Dispose();
 
             // OBJETO ESTADISTICAS
             var obj = new {
-                totalCount = totalCount,
-                totalAmountSale = totalAmountSale,
-                totalAmountPurchase = totalAmountPurchase,
-                totalState = totalState
+                totalCount,
+                totalAmountSale,
+                totalAmountPurchase,
+                totalState,
+                totalReimbExp
             };
 
             return obj;

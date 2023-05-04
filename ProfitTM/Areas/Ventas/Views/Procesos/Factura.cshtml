@@ -160,7 +160,7 @@
                         <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="user != 'ASAP' || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#modalCobrar" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="user != 'alpha' || invoice.anulado || invoice.status != 0 || invoice.co_cond.trim() != '002'" onclick="focusField('#n_amount')">
+                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="user != 'alpha' || invoice.anulado || invoice.status != 0 || invoice.co_cond.trim() != '002'" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField('#n_preliq')">
@@ -652,7 +652,7 @@
                                 <label>Articulo</label>
                                 <div class="input-search">
                                     <input type="text" class="form-control" id="art" ng-model="reng.co_art" ng-disabled="!new" ng-required="true" style="flex: 1;" onkeypress="return false;" />
-                                    <input type="text" class="form-control" id="des_art" ng-disabled="!new" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                    <input type="text" class="form-control" id="des_art" ng-disabled="!new" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalArts')" data-name="art"></i>
                                 </div>
                             </div>
@@ -713,7 +713,7 @@
     </div>
     <!-- Modal Collect -->
     <div class="modal fade" id="modalCobrar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
-        <form class="modal-dialog" role="document" style="max-width: 800px;" onsubmit="return false;">
+        <form id="form-collect" class="modal-dialog" role="document" style="max-width: 800px;" onsubmit="return false;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Cobrar de contado</h5>
@@ -722,47 +722,76 @@
                     </button>
                 </div>
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto">
-                    <!--<div class="row">
+                    <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Forma de Cobro</label>
-                                <select class="form-control" ng-model="rengTP.forma_pag" style="-webkit-appearance: button; -moz-appearance: button;">
+                                <select class="form-control" ng-model="rengTP.forma_pag" ng-change="resetData()" style="-webkit-appearance: button; -moz-appearance: button;">
                                     <option value="EF">Efectivo ($USD)</option>
-                                    <option value="TP">Transferencia (BSD)</option>
-                                    <option value="DP">Depósito (BSD)</option>
+                                    <option value="TP">Transferencia</option>
+                                    <option value="DP">Depósito</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Nro. Documento</label>
-                                <input type="text" class="form-control" id="num_doc" ng-model="rengTP.num_doc" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                                <input type="text" class="form-control" id="num_doc" ng-model="rengTP.num_doc" ng-disabled="rengTP.forma_pag == 'EF'" ng-required="rengTP.forma_pag != 'EF'" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Fecha</label>
-                                <input type="date" class="form-control" id="fecha_che" ng-model="rengTP.fecha_che" />
+                                <input type="date" class="form-control" id="fecha_che" ng-model="rengTP.fecha_che" required />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
+                                <label>Monto</label>
+                                <input type="text" class="form-control" id="mont_doc" ng-model="rengTP.mont_doc" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                            </div>
+                            <label ng-if="error != null && error != ''" class="text-danger text-center w-100" style="font-size: 14px;">{{ error }}</label>
+                        </div>
+                        <div class="col-sm-12 col-md-8">
+                            <div class="controls">
+                                <label>Cuenta Bancaria</label>
+                                <div class="input-search">
+                                    <input type="text" class="form-control" id="cod_cta" ng-model="rengTP.cod_cta" ng-change="calcIgtf(rengTP.cod_cta)" ng-disabled="rengTP.forma_pag == 'EF'" ng-required="rengTP.forma_pag != 'EF'" style="flex: 1;" onkeydown="prevDel(event);" />
+                                    <input type="text" class="form-control" id="des_cta" ng-disabled="rengTP.forma_pag == 'EF'" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalBankAccounts')" data-name="cod_cta"></i>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-sm-12 col-md-4">
+                            <div class="controls">
 
+                            </div>
+                        </div>*@
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4">
+                            <div class="controls">
+                                <label>Total Fact. BSD</label>
+                                <input type="text" class="form-control" ng-model="invoice.total_neto" disabled />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
-
+                                <label>Total Fact. $USD</label>
+                                <input type="text" class="form-control" ng-model="invoice.total_neto_om" disabled />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
-
+                                <label>3% IGTF</label>
+                                <input type="text" id="igtf" class="form-control" ng-model="invoice.igtf" disabled />
                             </div>
                         </div>
-                    </div>-->
+                    </div>
+                    <!--
                     <div style="width: 90%; margin: 50px auto; display: flex; align-items: center;">
                         <label style="flex: 1;">Ingrese monto recibido en Efectivo USD ($)</label>
                         <div class="input-search" style="flex: 1; position: relative;">
@@ -770,10 +799,11 @@
                             <label class="text-danger text-center w-100" id="text-fail" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
                         </div>
                     </div>
+                    -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-fail').text('');" ng-click="amountUSD =  ''">Cerrar</button>
-                    <button type="button" class="btn btn-primary" ng-click="validate(amountUSD)">Aceptar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#des_caja').val('')" ng-click="rengTP = { forma_pag: 'EF' }">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" ng-click="sendCollect()">Aceptar</button>
                 </div>
             </div>
         </form>
@@ -952,6 +982,35 @@
             </div>
         </div>
     </div>
+    <!-- Modal 7 -->
+    <div class="modal fade" id="modalBankAccounts" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Cuenta Bancaria</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cuenta bancaria..." onkeyup="search('modalBankAccounts')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="ba in bankAccounts" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ ba.cod_cta}}</td>
+                            <td>{{ ba.num_cta }} - {{ ba.co_mone }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalBankAccounts')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel-loading p-3">
     <h4>Cargando módulo de facturación...</h4>
@@ -970,6 +1029,8 @@
     var clients = @Html.Raw(ViewBag.clients);
     var currencies = @Html.Raw(ViewBag.currencies);
     var sellers = @Html.Raw(ViewBag.sellers);
+    var bankAccounts = @Html.Raw(ViewBag.bankAccounts);
+    var curr = "US$"
     var template = @Html.Raw(ViewBag.template);
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
@@ -1010,6 +1071,7 @@
         $scope.clients = clients;
         $scope.currencies = currencies;
         $scope.sellers = sellers;
+        $scope.bankAccounts = bankAccounts;
         $scope.arts = arts;
         $scope.adding = false;
         $scope.confirm = false;
@@ -1716,7 +1778,69 @@
         }
 
         $scope.initLoadCollect = function () {
+            $scope.invoice.igtf = ($scope.invoice.total_neto_om * 0.03).toFixed(2);
+            $scope.invoice.igtf_orig = ($scope.invoice.total_neto_om * 0.03).toFixed(2);
             $('#modalCobrar').modal('show')
+        }
+
+        $scope.resetData = function () {
+
+            if ($scope.rengTP.forma_pag != "EF")
+                $scope.invoice.igtf = "0.00";
+            else
+                $scope.invoice.igtf = $scope.invoice.igtf_orig;
+
+            $scope.rengTP.num_doc = "";
+            $scope.rengTP.cod_cta = "";
+            $("#cod_cta").val("");
+            $("#des_cta").val("");
+        }
+
+        $scope.calcIgtf = function (value) {
+            if (value != null) {
+                if (searchBankAccount(value).co_mone.trim() == "US$")
+                    $scope.invoice.igtf = $scope.invoice.igtf_orig;
+                else
+                    $scope.invoice.igtf = "0.00";
+            }
+        }
+
+        $scope.sendCollect = function () {
+
+            $scope.error = "";
+            if ($("#form-collect")[0].checkValidity()) {
+
+                $("#form-collect input").change();
+
+                var reng = $scope.rengTP;
+                var amount = parseFloat(reng.mont_doc);
+                var total_bs = parse($scope.invoice.total_neto);
+                var total_usd = parse($scope.invoice.total_neto_om);
+
+                if (reng.forma_pag == "EF")
+                    curr = "US$";
+
+                var total = curr.trim() == "US$" ? total_usd : total_bs;
+
+                if (amount == 0) {
+                    $scope.error = "Debes ingresar un monto mayor a 0";
+                    return;
+                }
+
+                if (curr.trim() == "US$" && amount > total_usd) {
+                    $scope.error = "El monto no debe exceder el total de la factura ($" + setSeparator(total_usd) + ")";
+                    return;
+                } else if (curr.trim() == "BSD" && amount > total_bs) {
+                    $scope.error = "El monto no debe exceder el total de la factura (Bs. D " + setSeparator(total_bs) + ")";
+                    return;
+                }
+
+                if (amount == total) {
+                    alert("monto completo");
+                } else {
+                    alert("tiene retenciones");
+                }
+            }
         }
     });
 
@@ -1730,6 +1854,10 @@
 
     function searchSeller(value) {
         return sellers.find(s => s.co_ven.trim() == value.trim()).ven_des;
+    }
+
+    function searchBankAccount(value) {
+        return bankAccounts.find(c => c.cod_cta.trim() == value.trim());
     }
 
     function searchArt(value) {
@@ -1873,6 +2001,10 @@
         return new Date(date);
     }
 
+    function prevDel(e) {
+        e.preventDefault();
+    }
+
     function openModal(elem, modal) {
 
         var previous = elem.previousElementSibling;
@@ -1937,6 +2069,10 @@
                 $("#des_art").val(searchArt(value));
             } else if (input == "n_preliq") {
                 $("#n_preliq").change();
+            } else if (input == "cod_cta") {
+                $("#des_cta").val(searchBankAccount(value).num_cta);
+                curr = searchBankAccount(value).co_mone;
+                $("#cod_cta").change();
             }
 
             rows.forEach(row => row.style.display = "");
