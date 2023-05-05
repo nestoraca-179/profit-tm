@@ -692,7 +692,7 @@ namespace ProfitTM.Controllers
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddCollect/{doc_num}")]
-        public ProfitTMResponse AddCollect(string doc_num, object amount)
+        public ProfitTMResponse AddCollect(string doc_num, saCobroTPReng reng)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -701,9 +701,9 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saCobro new_collect = new Collect().AddCollectFromInvoice(doc_num, decimal.Parse(amount.ToString()), user, sucur);
+                saCobro new_collect = new Collect().AddCollectFromInvoice(doc_num, reng, user, sucur);
 
-                if (new_collect.descrip == "ERROR")
+                /*if (new_collect.descrip == "ERROR")
                 {
                     response.Status = "ERROR";
                     response.Message = new_collect.campo1;
@@ -712,7 +712,7 @@ namespace ProfitTM.Controllers
                 {
                     response.Status = "OK";
                     response.Result = new_collect;
-                }
+                }*/
             }
             catch (Exception ex)
             {

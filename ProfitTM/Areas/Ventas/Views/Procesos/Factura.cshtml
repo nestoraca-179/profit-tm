@@ -1778,8 +1778,14 @@
         }
 
         $scope.initLoadCollect = function () {
-            $scope.invoice.igtf = ($scope.invoice.total_neto_om * 0.03).toFixed(2);
-            $scope.invoice.igtf_orig = ($scope.invoice.total_neto_om * 0.03).toFixed(2);
+            if ($scope.invoice.co_cond.trim() == "002" && !isNullOrEmpty($scope.invoice.comentario) && !isNaN($scope.invoice.comentario)) {
+                $scope.invoice.igtf = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
+                $scope.invoice.igtf_orig = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
+            } else {
+                $scope.invoice.igtf = 0;
+                $scope.invoice.igtf_orig = 0;
+            }
+            
             $('#modalCobrar').modal('show')
         }
 
@@ -1797,7 +1803,7 @@
         }
 
         $scope.calcIgtf = function (value) {
-            if (value != null) {
+            if (!isNullOrEmpty(value)) {
                 if (searchBankAccount(value).co_mone.trim() == "US$")
                     $scope.invoice.igtf = $scope.invoice.igtf_orig;
                 else
@@ -1816,9 +1822,13 @@
                 var amount = parseFloat(reng.mont_doc);
                 var total_bs = parse($scope.invoice.total_neto);
                 var total_usd = parse($scope.invoice.total_neto_om);
+                var igtf = parse($scope.invoice.igtf);
 
                 if (reng.forma_pag == "EF")
                     curr = "US$";
+
+                if (igtf > 0)
+                    total_usd += igtf;
 
                 var total = curr.trim() == "US$" ? total_usd : total_bs;
 
@@ -1835,11 +1845,29 @@
                     return;
                 }
 
-                if (amount == total) {
+                reng.fecha_che = origDate(reng.fecha_che);
+                reng.co_us_in = igtf;
+                
+                /*if (amount == total) {
                     alert("monto completo");
                 } else {
                     alert("tiene retenciones");
+                }*/
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/AddCollect/' + $scope.invoice.doc_num.trim(),
+                    data: reng,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                 }
+
+                $http(req).then(function (response) {
+                    console.log(response.data);
+                });
+
+                console.log(reng);
             }
         }
     });
@@ -2070,7 +2098,7 @@
             } else if (input == "n_preliq") {
                 $("#n_preliq").change();
             } else if (input == "cod_cta") {
-                $("#des_cta").val(searchBankAccount(value).num_cta);
+                $("#des_cta").val(searchBankAccount(value).num_cta + " - " + searchBankAccount(value).co_mone);
                 curr = searchBankAccount(value).co_mone;
                 $("#cod_cta").change();
             }

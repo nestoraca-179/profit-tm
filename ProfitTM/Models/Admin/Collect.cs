@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Data.Entity;
+using System.Globalization;
 
 namespace ProfitTM.Models
 {
@@ -23,7 +24,7 @@ namespace ProfitTM.Models
             return invoice;
         }
 
-        public saCobro AddCollectFromInvoice(string doc_num, decimal amount, string user, string sucur)
+        public saCobro AddCollectFromInvoice(string doc_num, saCobroTPReng reng, string user, string sucur)
         {
             saCobro new_collect = new saCobro();
 
@@ -34,13 +35,13 @@ namespace ProfitTM.Models
                     try
                     {
                         saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().FirstOrDefault(f => f.doc_num == doc_num);
-                        
-                        #region CODIGO NUEVO
-                        /*
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().FirstOrDefault(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
-                        decimal igtf = (amount * fact.tasa) * Convert.ToDecimal(0.03);
-                        string n_ajpm = "", n_coll = "", n_move = "", dis_cen = "<InformacionContable><Carpeta01><CuentaContable>7.1.01.01.001</CuentaContable></Carpeta01></InformacionContable>";
+                        decimal igtf = Convert.ToDecimal(reng.co_us_in, new CultureInfo("en-US"));
+                        decimal igtf_bs = 0;
+
+                        string n_coll = "", n_ajpm = "", n_move = "";
+                        string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>7.1.01.01.001</CuentaContable></Carpeta01></InformacionContable>";
 
                         // SERIE COBRO
                         var sp_n_coll = context.pConsecutivoProximo(sucur, "COBRO").GetEnumerator();
@@ -49,144 +50,264 @@ namespace ProfitTM.Models
 
                         sp_n_coll.Dispose();
 
-                        // ACTUALIZAR SALDO
-                        var sp_s = context.pSaldoActualizar("004", "EF", "EF", (amount + igtf) * fact.tasa, true, "COBRO", false);
-                        sp_s.Dispose();
+                        // MOVIMIENTO DE CAJA / BANCO
+                        if (reng.forma_pag == "EF") // EF (EFECTIVO)
+                        {
+                            // ACTUALIZAR SALDO
+                            var sp_s = context.pSaldoActualizar(user, "EF", "EF", (reng.mont_doc + igtf), true, "COBRO", false);
+                            sp_s.Dispose();
 
-                        // SERIE AJPM
-                        var sp_n_ajpm = context.pConsecutivoProximo(sucur, "DOC_VEN_AJPM").GetEnumerator();
-                        if (sp_n_ajpm.MoveNext())
-                            n_ajpm = sp_n_ajpm.Current;
+                            // SERIE MOVIMIENTO CAJA
+                            var sp_n_move = context.pConsecutivoProximo(sucur, "MOVC_NUM").GetEnumerator();
+                            if (sp_n_move.MoveNext())
+                                n_move = sp_n_move.Current;
 
-                        sp_n_ajpm.Dispose();
+                            sp_n_move.Dispose();
 
-                        // INSERTAR AJPM
-                        var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "RECARGO IGTF FACT N° " + fact.doc_num,
-                            DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, null, null, null, 0, 0, igtf, 0, null, null, 0, igtf, 0, 0, "7", 0, 0, 0, 
-                            0, null, null, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, 
-                            sucur, user, "SERVER PROFIT WEB");
+                            // INSERTAR MOVIMIENTO CAJA
+                            var sp_m = context.pInsertarMovimientoCaja(n_move, DateTime.Now, "MOVIMIENTO COBRO " + n_coll, user, fact.tasa, "I", "EF", null, null,
+                                null, null, "110301001", (reng.mont_doc + igtf), false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now, null, null, 
+                                null, null, null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
 
-                        // SERIE MOVIMIENTO CAJA
-                        var sp_n_move = context.pConsecutivoProximo(sucur, "MOVC_NUM").GetEnumerator();
-                        if (sp_n_move.MoveNext())
-                            n_move = sp_n_move.Current;
+                            sp_m.Dispose();
+                        }
+                        else // TP - DP (TRANSFERENCIA - DEPOSITO)
+                        {
+                            // ACTUALIZAR SALDO
+                            var sp_s = context.pSaldoActualizar(reng.cod_cta, reng.forma_pag, "TF", (reng.mont_doc + igtf), true, "COBRO", false);
+                            sp_s.Dispose();
 
-                        sp_n_move.Dispose();
+                            // SERIE MOVIMIENTO BANCO
+                            var sp_n_move = context.pConsecutivoProximo(sucur, "MOVB_NUM").GetEnumerator();
+                            if (sp_n_move.MoveNext())
+                                n_move = sp_n_move.Current;
 
-                        // INSERTAR MOVIMIENTO CAJA
-                        var sp_m = context.pInsertarMovimientoCaja(n_move, DateTime.Now, "MOVIMIENTO COBRO " + n_coll, "004", fact.tasa, "I", "EF", null, null,
-                            null, null, "110301001", amount, false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now, null, null, null, null,
-                            null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+                            sp_n_move.Dispose();
 
-                        // INSERTAR COBRO
-                        var sp_c = context.pInsertarCobro(n_coll, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, DateTime.Now, false, amount, null,
-                            "COBRO EN DOLARES FACT " + doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+                            // INSERTAR MOVIMIENTO BANCO
+                            decimal tasa = igtf > 0 ? fact.tasa : 1;
 
-                        // INSERTAR DOC COBRO
-                        var sp_d1 = context.pInsertarRenglonesDocCobro(1, n_coll, "AJPM", n_ajpm, igtf, 0, 0, 0, 0, null, null, null, null,
-                            Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+                            var sp_m = context.pInsertarMovimientoBanco(n_move, "MOVIMIENTO BANCO " + n_coll, reng.cod_cta, DateTime.Now, tasa, "TP", reng.num_doc, 
+                                reng.mont_doc, "110301001", "COBRO", n_coll, 0, null, false, false, false, false, 0, null, null, DateTime.Now, null, null, null, null,
+                                null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
 
-                        var sp_d2 = context.pInsertarRenglonesDocCobro(2, n_coll, "FACT", fact.doc_num, (amount * fact.tasa), 0, 0, 0, 0, null, null, null, null, 
-                            Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+                            sp_m.Dispose();
+                        }
 
-                        // INSERTAR TP COBRO
-                        var sp_t = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", n_move, null, null, false, (amount * fact.tasa) + igtf, null, null, null, null, "004", 
-                            DateTime.Now, sucur, user, null, null, "SERVER PROFIT WEB");
+                        // CREAR DOCUMENTO IGTF
+                        if (igtf > 0)
+                        {
+                            igtf_bs = igtf * fact.tasa;
+
+                            // SERIE AJPM
+                            var sp_n_ajpm = context.pConsecutivoProximo(sucur, "DOC_VEN_AJPM").GetEnumerator();
+                            if (sp_n_ajpm.MoveNext())
+                                n_ajpm = sp_n_ajpm.Current;
+
+                            sp_n_ajpm.Dispose();
+
+                            // INSERTAR AJPM
+                            var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "RECARGO IGTF FACT N° " + fact.doc_num,
+                                DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, null, null, null, 0, 0, igtf_bs, 0, null, null, 0, igtf_bs, 0, 0, "7", 0, 0, 0,
+                                0, null, null, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null, null, null, null, null,
+                                sucur, user, "SERVER PROFIT WEB");
+
+                            sp_i.Dispose();
+                        }
+
+                        decimal t_fact = (reng.mont_doc - igtf) * fact.tasa;
+                        decimal amount = igtf > 0 ? Math.Round(reng.mont_doc * fact.tasa, 2) : reng.mont_doc;
 
                         // ACTUALIZAR FACTURA
-                        fact.saldo -= Math.Round(amount * fact.tasa, 2);
+                        fact.saldo -= t_fact;
                         fact.status = fact.saldo > 0 ? "1" : "2";
                         context.Entry(fact).State = EntityState.Modified;
 
                         // ACTUALIZAR DOCUMENTO
-                        doc_v.saldo -= Math.Round(amount * fact.tasa, 2);
+                        doc_v.saldo -= t_fact;
                         context.Entry(doc_v).State = EntityState.Modified;
-
-                        sp_i.Dispose();
-                        sp_m.Dispose();
-                        sp_c.Dispose();
-                        sp_d1.Dispose();
-                        sp_d2.Dispose();
-                        sp_t.Dispose();
-
-                        tran.Commit();
-                        context.SaveChanges();
-                        new_collect = GetCollectByID(n_coll);
-                        */
-                        #endregion
-
-                        #region CODIGO ANTERIOR
-                        string n_coll = "", n_move = "", n_adel = "";
-
-                        // SERIE COBRO
-                        var sp_n_coll = context.pConsecutivoProximo(sucur, "COBRO").GetEnumerator();
-                        if (sp_n_coll.MoveNext())
-                            n_coll = sp_n_coll.Current;
-
-                        sp_n_coll.Dispose();
-
-                        // ACTUALIZAR SALDO
-                        // var sp_s = context.pSaldoActualizar(user.ToUpper(), "EF", "EF", amount * fact.tasa, true, "COBRO", false); // BOLIVARES
-                        var sp_s = context.pSaldoActualizar(user.ToUpper(), "EF", "EF", amount, true, "COBRO", false); // DOLARES
-                        sp_s.Dispose();
-
-                        // SERIE ADELANTO
-                        var sp_n_adel = context.pConsecutivoProximo(sucur, "DOC_VEN_ADEL").GetEnumerator();
-                        if (sp_n_adel.MoveNext())
-                            n_adel = sp_n_adel.Current;
-
-                        sp_n_adel.Dispose();
-
-                        // INSERTAR DOCUMENTO
-                        var sp_a = context.pInsertarDocumentoVenta("ADEL", n_adel, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "COBRO N° " + n_coll,
-                            DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_coll, null, 0, amount * fact.tasa, amount * fact.tasa, 0, null, null,
-                            0, amount * fact.tasa, 0, 0, "7", 0, 0, 0, 0, null, null, null, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null,
-                            null, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
-
-                        // ACTUALIZAR FACTURA
-                        // fact.saldo -= (amount * fact.tasa);
-                        fact.status = "1";
-                        context.Entry(fact).State = EntityState.Modified;
-
-                        // ACTUALIZAR DOCUMENTO
-                        /*doc_v.saldo -= (amount * fact.tasa);
-                        context.Entry(doc_v).State = EntityState.Modified;*/
-
-                        // SERIE MOVIMIENTO
-                        var sp_n_move = context.pConsecutivoProximo(sucur, "MOVC_NUM").GetEnumerator();
-                        if (sp_n_move.MoveNext())
-                            n_move = sp_n_move.Current;
-
-                        sp_n_move.Dispose();
-
-                        // INSERTAR MOVIMIENTO
-                        var sp_m = context.pInsertarMovimientoCaja(n_move, DateTime.Now, "MOVIMIENTO COBRO " + n_coll, user.ToUpper(), fact.tasa, "I", "EF", null, null,
-                            null, null, "110301001", amount, false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now, null, null, null, null,
-                            null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
 
                         // INSERTAR COBRO
                         var sp_c = context.pInsertarCobro(n_coll, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, DateTime.Now, false, amount, null,
-                            "COBRO EN DOLARES FACT " + doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+                            "COBRO FACT " + doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+
+                        sp_c.Dispose();
 
                         // INSERTAR DOC COBRO
-                        var sp_d = context.pInsertarRenglonesDocCobro(1, n_coll, "ADEL", n_adel, 0, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(),
-                            null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+                        if (igtf > 0)
+                        {
+                            var sp_d1 = context.pInsertarRenglonesDocCobro(1, n_coll, "AJPM", n_ajpm, igtf_bs, 0, 0, 0, 0, null, null, null, null,
+                                Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+
+                            sp_d1.Dispose();
+                        }
+
+                        int r = igtf > 0 ? 2 : 1;
+                        decimal mont_fact = Math.Round((reng.mont_doc - igtf) * fact.tasa);
+
+                        var sp_d2 = context.pInsertarRenglonesDocCobro(r, n_coll, "FACT", fact.doc_num, t_fact, 0, 0, 0, 0, null, null, null, null,
+                            Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+
+                        sp_d2.Dispose();
 
                         // INSERTAR TP COBRO
-                        var sp_t = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", n_move, null, null, false, amount * fact.tasa, null, null, null, null, user.ToUpper(), DateTime.Now,
-                            sucur, user, null, null, "SERVER PROFIT WEB");
+                        var sp_t = context.pInsertarRenglonesTPCobro(1, n_coll, reng.forma_pag, n_move, null, null, false, amount, null, null, null, null, user,
+                            DateTime.Now, sucur, user, null, null, "SERVER PROFIT WEB");
 
-                        sp_a.Dispose();
-                        sp_m.Dispose();
-                        sp_c.Dispose();
-                        sp_d.Dispose();
                         sp_t.Dispose();
-
-                        Box.AddSale(doc_num, amount, user);
 
                         tran.Commit();
                         context.SaveChanges();
                         new_collect = GetCollectByID(n_coll);
+
+                        #region CODIGO NUEVO
+                        //decimal igtf = (amount * fact.tasa) * Convert.ToDecimal(0.03);
+                        //
+
+                        //// SERIE COBRO
+                        //var sp_n_coll = context.pConsecutivoProximo(sucur, "COBRO").GetEnumerator();
+                        //if (sp_n_coll.MoveNext())
+                        //    n_coll = sp_n_coll.Current;
+
+                        //sp_n_coll.Dispose();
+
+                        //// ACTUALIZAR SALDO
+                        //var sp_s = context.pSaldoActualizar(user, "EF", "EF", (amount + igtf) * fact.tasa, true, "COBRO", false);
+                        //sp_s.Dispose();
+
+                        //// SERIE AJPM
+                        //var sp_n_ajpm = context.pConsecutivoProximo(sucur, "DOC_VEN_AJPM").GetEnumerator();
+                        //if (sp_n_ajpm.MoveNext())
+                        //    n_ajpm = sp_n_ajpm.Current;
+
+                        //sp_n_ajpm.Dispose();
+
+                        //// INSERTAR AJPM
+                        //var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "RECARGO IGTF FACT N° " + fact.doc_num,
+                        //    DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, null, null, null, 0, 0, igtf, 0, null, null, 0, igtf, 0, 0, "7", 0, 0, 0, 
+                        //    0, null, null, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, 
+                        //    sucur, user, "SERVER PROFIT WEB");
+
+                        //// SERIE MOVIMIENTO CAJA
+                        //var sp_n_move = context.pConsecutivoProximo(sucur, "MOVC_NUM").GetEnumerator();
+                        //if (sp_n_move.MoveNext())
+                        //    n_move = sp_n_move.Current;
+
+                        //sp_n_move.Dispose();
+
+                        //// INSERTAR MOVIMIENTO CAJA
+                        //var sp_m = context.pInsertarMovimientoCaja(n_move, DateTime.Now, "MOVIMIENTO COBRO " + n_coll, "004", fact.tasa, "I", "EF", null, null,
+                        //    null, null, "110301001", amount, false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now, null, null, null, null,
+                        //    null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+
+                        //// INSERTAR COBRO
+                        //var sp_c = context.pInsertarCobro(n_coll, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, DateTime.Now, false, amount, null,
+                        //    "COBRO EN DOLARES FACT " + doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+
+                        //// INSERTAR DOC COBRO
+                        //var sp_d1 = context.pInsertarRenglonesDocCobro(1, n_coll, "AJPM", n_ajpm, igtf, 0, 0, 0, 0, null, null, null, null,
+                        //    Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+
+                        //var sp_d2 = context.pInsertarRenglonesDocCobro(2, n_coll, "FACT", fact.doc_num, (amount * fact.tasa), 0, 0, 0, 0, null, null, null, null, 
+                        //    Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+
+                        //// INSERTAR TP COBRO
+                        //var sp_t = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", n_move, null, null, false, (amount * fact.tasa) + igtf, null, null, null, null, "004", 
+                        //    DateTime.Now, sucur, user, null, null, "SERVER PROFIT WEB");
+
+                        //// ACTUALIZAR FACTURA
+                        //fact.saldo -= Math.Round(amount * fact.tasa, 2);
+                        //fact.status = fact.saldo > 0 ? "1" : "2";
+                        //context.Entry(fact).State = EntityState.Modified;
+
+                        //// ACTUALIZAR DOCUMENTO
+                        //doc_v.saldo -= Math.Round(amount * fact.tasa, 2);
+                        //context.Entry(doc_v).State = EntityState.Modified;
+
+                        //sp_i.Dispose();
+                        //sp_m.Dispose();
+                        //sp_c.Dispose();
+                        //sp_d1.Dispose();
+                        //sp_d2.Dispose();
+                        //sp_t.Dispose();
+
+                        //tran.Commit();
+                        //context.SaveChanges();
+                        //new_collect = GetCollectByID(n_coll);
+                        #endregion
+
+                        #region CODIGO ANTERIOR
+                        //string n_coll = "", n_move = "", n_adel = "";
+
+                        //// SERIE COBRO
+                        //var sp_n_coll = context.pConsecutivoProximo(sucur, "COBRO").GetEnumerator();
+                        //if (sp_n_coll.MoveNext())
+                        //    n_coll = sp_n_coll.Current;
+
+                        //sp_n_coll.Dispose();
+
+                        //// ACTUALIZAR SALDO
+                        //// var sp_s = context.pSaldoActualizar(user.ToUpper(), "EF", "EF", amount * fact.tasa, true, "COBRO", false); // BOLIVARES
+                        //var sp_s = context.pSaldoActualizar(user.ToUpper(), "EF", "EF", amount, true, "COBRO", false); // DOLARES
+                        //sp_s.Dispose();
+
+                        //// SERIE ADELANTO
+                        //var sp_n_adel = context.pConsecutivoProximo(sucur, "DOC_VEN_ADEL").GetEnumerator();
+                        //if (sp_n_adel.MoveNext())
+                        //    n_adel = sp_n_adel.Current;
+
+                        //sp_n_adel.Dispose();
+
+                        //// INSERTAR DOCUMENTO
+                        //var sp_a = context.pInsertarDocumentoVenta("ADEL", n_adel, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "COBRO N° " + n_coll,
+                        //    DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_coll, null, 0, amount * fact.tasa, amount * fact.tasa, 0, null, null,
+                        //    0, amount * fact.tasa, 0, 0, "7", 0, 0, 0, 0, null, null, null, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null,
+                        //    null, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
+
+                        //// ACTUALIZAR FACTURA
+                        //// fact.saldo -= (amount * fact.tasa);
+                        //fact.status = "1";
+                        //context.Entry(fact).State = EntityState.Modified;
+
+                        //// ACTUALIZAR DOCUMENTO
+                        ///*doc_v.saldo -= (amount * fact.tasa);
+                        //context.Entry(doc_v).State = EntityState.Modified;*/
+
+                        //// SERIE MOVIMIENTO
+                        //var sp_n_move = context.pConsecutivoProximo(sucur, "MOVC_NUM").GetEnumerator();
+                        //if (sp_n_move.MoveNext())
+                        //    n_move = sp_n_move.Current;
+
+                        //sp_n_move.Dispose();
+
+                        //// INSERTAR MOVIMIENTO
+                        //var sp_m = context.pInsertarMovimientoCaja(n_move, DateTime.Now, "MOVIMIENTO COBRO " + n_coll, user.ToUpper(), fact.tasa, "I", "EF", null, null,
+                        //    null, null, "110301001", amount, false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now, null, null, null, null,
+                        //    null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+
+                        //// INSERTAR COBRO
+                        //var sp_c = context.pInsertarCobro(n_coll, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, DateTime.Now, false, amount, null,
+                        //    "COBRO EN DOLARES FACT " + doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+
+                        //// INSERTAR DOC COBRO
+                        //var sp_d = context.pInsertarRenglonesDocCobro(1, n_coll, "ADEL", n_adel, 0, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(),
+                        //    null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+
+                        //// INSERTAR TP COBRO
+                        //var sp_t = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", n_move, null, null, false, amount * fact.tasa, null, null, null, null, user.ToUpper(), DateTime.Now,
+                        //    sucur, user, null, null, "SERVER PROFIT WEB");
+
+                        //sp_a.Dispose();
+                        //sp_m.Dispose();
+                        //sp_c.Dispose();
+                        //sp_d.Dispose();
+                        //sp_t.Dispose();
+
+                        //Box.AddSale(doc_num, amount, user);
+
+                        //tran.Commit();
+                        //context.SaveChanges();
+                        //new_collect = GetCollectByID(n_coll);
                         #endregion
                     }
                     catch (Exception ex)

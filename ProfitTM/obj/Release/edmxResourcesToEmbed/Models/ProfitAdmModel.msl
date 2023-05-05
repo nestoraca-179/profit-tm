@@ -9014,5 +9014,15 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="pActualizarSaldoCaja" FunctionName="ProfitAdmContext.Store.pActualizarSaldoCaja" />
+    <FunctionImportMapping FunctionImportName="pInsertarMovimientoBanco" FunctionName="ProfitAdmContext.Store.pInsertarMovimientoBanco">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarMovimientoBanco_Result">
+          <ScalarProperty Name="validador" ColumnName="validador" />
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

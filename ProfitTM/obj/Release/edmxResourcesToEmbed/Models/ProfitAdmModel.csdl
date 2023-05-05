@@ -17983,6 +17983,44 @@
       <Parameter Name="deSaldo" Mode="In" Type="Decimal" />
       <Parameter Name="gRowguid" Mode="In" Type="Guid" />
     </FunctionImport>
+    <FunctionImport Name="pInsertarMovimientoBanco" ReturnType="Collection(ProfitAdmContext.pInsertarMovimientoBanco_Result)">
+      <Parameter Name="sMov_Num" Mode="In" Type="String" />
+      <Parameter Name="sDescrip" Mode="In" Type="String" />
+      <Parameter Name="sCod_Cta" Mode="In" Type="String" />
+      <Parameter Name="sdFecha" Mode="In" Type="DateTime" />
+      <Parameter Name="deTasa" Mode="In" Type="Decimal" />
+      <Parameter Name="sTipo_Op" Mode="In" Type="String" />
+      <Parameter Name="sDoc_Num" Mode="In" Type="String" />
+      <Parameter Name="deMonto" Mode="In" Type="Decimal" />
+      <Parameter Name="sCo_Cta_Ingr_Egr" Mode="In" Type="String" />
+      <Parameter Name="sOrigen" Mode="In" Type="String" />
+      <Parameter Name="sCob_Pag" Mode="In" Type="String" />
+      <Parameter Name="deIDB" Mode="In" Type="Decimal" />
+      <Parameter Name="sDep_Num" Mode="In" Type="String" />
+      <Parameter Name="bAnulado" Mode="In" Type="Boolean" />
+      <Parameter Name="bSaldo_Ini" Mode="In" Type="Boolean" />
+      <Parameter Name="bConciliado" Mode="In" Type="Boolean" />
+      <Parameter Name="bOri_Dep" Mode="In" Type="Boolean" />
+      <Parameter Name="iDep_Con" Mode="In" Type="Int32" />
+      <Parameter Name="sdFec_Con" Mode="In" Type="DateTime" />
+      <Parameter Name="sCod_IngBen" Mode="In" Type="String" />
+      <Parameter Name="sdFecha_Che" Mode="In" Type="DateTime" />
+      <Parameter Name="sDis_Cen" Mode="In" Type="String" />
+      <Parameter Name="iNro_Transf_Nomi" Mode="In" Type="Int32" />
+      <Parameter Name="sCampo1" Mode="In" Type="String" />
+      <Parameter Name="sCampo2" Mode="In" Type="String" />
+      <Parameter Name="sCampo3" Mode="In" Type="String" />
+      <Parameter Name="sCampo4" Mode="In" Type="String" />
+      <Parameter Name="sCampo5" Mode="In" Type="String" />
+      <Parameter Name="sCampo6" Mode="In" Type="String" />
+      <Parameter Name="sCampo7" Mode="In" Type="String" />
+      <Parameter Name="sCampo8" Mode="In" Type="String" />
+      <Parameter Name="sCo_Us_In" Mode="In" Type="String" />
+      <Parameter Name="sCo_Sucu_In" Mode="In" Type="String" />
+      <Parameter Name="sMaquina" Mode="In" Type="String" />
+      <Parameter Name="sRevisado" Mode="In" Type="String" />
+      <Parameter Name="sTrasnfe" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -18434,6 +18472,12 @@
     <Property Type="Guid" Name="rowguid" Nullable="true" />
   </ComplexType>
   <ComplexType Name="pInsertarRenglonesOrdenPago_Result">
+    <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+    <Property Type="Guid" Name="rowguid" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pInsertarMovimientoBanco_Result">
+    <Property Type="Binary" Name="validador" Nullable="true" />
     <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
     <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
     <Property Type="Guid" Name="rowguid" Nullable="true" />

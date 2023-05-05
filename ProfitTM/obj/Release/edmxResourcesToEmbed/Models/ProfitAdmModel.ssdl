@@ -14682,6 +14682,44 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sTrasnfe" Type="char" Mode="In" />
     <Parameter Name="sMaquina" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="pInsertarMovimientoBanco" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sMov_Num" Type="char" Mode="In" />
+    <Parameter Name="sDescrip" Type="varchar" Mode="In" />
+    <Parameter Name="sCod_Cta" Type="char" Mode="In" />
+    <Parameter Name="sdFecha" Type="smalldatetime" Mode="In" />
+    <Parameter Name="deTasa" Type="decimal" Mode="In" />
+    <Parameter Name="sTipo_Op" Type="char" Mode="In" />
+    <Parameter Name="sDoc_Num" Type="varchar" Mode="In" />
+    <Parameter Name="deMonto" Type="decimal" Mode="In" />
+    <Parameter Name="sCo_Cta_Ingr_Egr" Type="char" Mode="In" />
+    <Parameter Name="sOrigen" Type="char" Mode="In" />
+    <Parameter Name="sCob_Pag" Type="char" Mode="In" />
+    <Parameter Name="deIDB" Type="decimal" Mode="In" />
+    <Parameter Name="sDep_Num" Type="char" Mode="In" />
+    <Parameter Name="bAnulado" Type="bit" Mode="In" />
+    <Parameter Name="bSaldo_Ini" Type="bit" Mode="In" />
+    <Parameter Name="bConciliado" Type="bit" Mode="In" />
+    <Parameter Name="bOri_Dep" Type="bit" Mode="In" />
+    <Parameter Name="iDep_Con" Type="int" Mode="In" />
+    <Parameter Name="sdFec_Con" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sCod_IngBen" Type="char" Mode="In" />
+    <Parameter Name="sdFecha_Che" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sDis_Cen" Type="varchar(max)" Mode="In" />
+    <Parameter Name="iNro_Transf_Nomi" Type="int" Mode="In" />
+    <Parameter Name="sCampo1" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo2" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo3" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo4" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo5" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo6" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo7" Type="varchar" Mode="In" />
+    <Parameter Name="sCampo8" Type="varchar" Mode="In" />
+    <Parameter Name="sCo_Us_In" Type="char" Mode="In" />
+    <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
+    <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+    <Parameter Name="sRevisado" Type="char" Mode="In" />
+    <Parameter Name="sTrasnfe" Type="char" Mode="In" />
+  </Function>
   <Function Name="pInsertarMovimientoCaja" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sMov_Num" Type="char" Mode="In" />
     <Parameter Name="sdFecha" Type="smalldatetime" Mode="In" />
