@@ -65,8 +65,8 @@ namespace ProfitTM.Models
                             sp_n_move.Dispose();
 
                             // INSERTAR MOVIMIENTO CAJA
-                            var sp_m = context.pInsertarMovimientoCaja(n_move, DateTime.Now, "MOVIMIENTO COBRO " + n_coll, user, fact.tasa, "I", "EF", null, null,
-                                null, null, "110301001", (reng.mont_doc + igtf), false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now, null, null, 
+                            var sp_m = context.pInsertarMovimientoCaja(n_move, DateTime.Now, "MOVIMIENTO CAJA COBRO " + n_coll, user, fact.tasa, "I", "EF", null, null,
+                                null, null, "110301001", reng.mont_doc, false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now, null, null, 
                                 null, null, null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
 
                             sp_m.Dispose();
@@ -87,7 +87,7 @@ namespace ProfitTM.Models
                             // INSERTAR MOVIMIENTO BANCO
                             decimal tasa = igtf > 0 ? fact.tasa : 1;
 
-                            var sp_m = context.pInsertarMovimientoBanco(n_move, "MOVIMIENTO BANCO " + n_coll, reng.cod_cta, DateTime.Now, tasa, "TP", reng.num_doc, 
+                            var sp_m = context.pInsertarMovimientoBanco(n_move, "MOVIMIENTO BANCO COBRO " + n_coll, reng.cod_cta, DateTime.Now, tasa, "TP", reng.num_doc, 
                                 reng.mont_doc, "110301001", "COBRO", n_coll, 0, null, false, false, false, false, 0, null, null, DateTime.Now, null, null, null, null,
                                 null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
 
@@ -107,7 +107,7 @@ namespace ProfitTM.Models
                             sp_n_ajpm.Dispose();
 
                             // INSERTAR AJPM
-                            var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "RECARGO IGTF FACT N° " + fact.doc_num,
+                            var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
                                 DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, null, null, null, 0, 0, igtf_bs, 0, null, null, 0, igtf_bs, 0, 0, "7", 0, 0, 0,
                                 0, null, null, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null, null, null, null, null,
                                 sucur, user, "SERVER PROFIT WEB");
@@ -115,7 +115,7 @@ namespace ProfitTM.Models
                             sp_i.Dispose();
                         }
 
-                        decimal t_fact = (reng.mont_doc - igtf) * fact.tasa;
+                        decimal t_fact = Math.Round((reng.mont_doc - igtf) * fact.tasa, 2);
                         decimal amount = igtf > 0 ? Math.Round(reng.mont_doc * fact.tasa, 2) : reng.mont_doc;
 
                         // ACTUALIZAR FACTURA
@@ -143,7 +143,6 @@ namespace ProfitTM.Models
                         }
 
                         int r = igtf > 0 ? 2 : 1;
-                        decimal mont_fact = Math.Round((reng.mont_doc - igtf) * fact.tasa);
 
                         var sp_d2 = context.pInsertarRenglonesDocCobro(r, n_coll, "FACT", fact.doc_num, t_fact, 0, 0, 0, 0, null, null, null, null,
                             Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
