@@ -177,9 +177,6 @@ namespace ProfitTM.Models
         
         public object GetStatsInvoices(DateTime fec_d, DateTime fec_h)
         {
-            fec_d = new DateTime(2023, 2, 1);
-            fec_h = new DateTime(2023, 28, 1);
-
             int totalCount = 0;
             decimal totalAmountSale = 0, totalAmountPurchase = 0, totalState, totalReimbExp = 0;
 

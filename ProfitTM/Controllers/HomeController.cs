@@ -61,7 +61,9 @@ namespace ProfitTM.Controllers
             }
             else 
             {
+                ViewBag.user = Session["USER"];
                 ViewBag.Message = message;
+
                 return View();
             }
         }

@@ -134,15 +134,16 @@ namespace ProfitTM.Models
                         sp_c.Dispose();
 
                         // INSERTAR DOC COBRO
+                        int r = 1;
+
                         if (igtf > 0)
                         {
-                            var sp_d1 = context.pInsertarRenglonesDocCobro(1, n_coll, "AJPM", n_ajpm, igtf_bs, 0, 0, 0, 0, null, null, null, null,
+                            var sp_d1 = context.pInsertarRenglonesDocCobro(r, n_coll, "AJPM", n_ajpm, igtf_bs, 0, 0, 0, 0, null, null, null, null,
                                 Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
 
                             sp_d1.Dispose();
+                            r++;
                         }
-
-                        int r = igtf > 0 ? 2 : 1;
 
                         var sp_d2 = context.pInsertarRenglonesDocCobro(r, n_coll, "FACT", fact.doc_num, t_fact, 0, 0, 0, 0, null, null, null, null,
                             Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
