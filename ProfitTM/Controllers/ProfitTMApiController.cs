@@ -8,9 +8,6 @@ namespace ProfitTM.Controllers
 {
     public class ProfitTMApiController : ApiController
     {
-        // CADENA DE CONEXION
-        // private readonly string connect = HttpContext.Current.Session["CONNECT"].ToString();
-
         // UTILS
         private readonly UtilsController utils = new UtilsController();
 
@@ -703,7 +700,7 @@ namespace ProfitTM.Controllers
             {
                 saCobro new_collect = new Collect().AddCollectFromInvoice(doc_num, reng, user, sucur);
 
-                /*if (new_collect.descrip == "ERROR")
+                if (new_collect.descrip == "ERROR")
                 {
                     response.Status = "ERROR";
                     response.Message = new_collect.campo1;
@@ -712,7 +709,7 @@ namespace ProfitTM.Controllers
                 {
                     response.Status = "OK";
                     response.Result = new_collect;
-                }*/
+                }
             }
             catch (Exception ex)
             {

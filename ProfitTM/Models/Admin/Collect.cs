@@ -40,6 +40,7 @@ namespace ProfitTM.Models
                         decimal igtf = Convert.ToDecimal(reng.co_us_in, new CultureInfo("en-US"));
                         decimal igtf_bs = 0;
 
+                        bool isBox;
                         string n_coll = "", n_ajpm = "", n_move = "";
                         string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>7.1.01.01.001</CuentaContable></Carpeta01></InformacionContable>";
 
@@ -53,8 +54,10 @@ namespace ProfitTM.Models
                         // MOVIMIENTO DE CAJA / BANCO
                         if (reng.forma_pag == "EF") // EF (EFECTIVO)
                         {
+                            isBox = true;
+
                             // ACTUALIZAR SALDO
-                            var sp_s = context.pSaldoActualizar(user, "EF", "EF", (reng.mont_doc + igtf), true, "COBRO", false);
+                            var sp_s = context.pSaldoActualizar(user, "EF", "EF", reng.mont_doc, true, "COBRO", false);
                             sp_s.Dispose();
 
                             // SERIE MOVIMIENTO CAJA
@@ -65,16 +68,21 @@ namespace ProfitTM.Models
                             sp_n_move.Dispose();
 
                             // INSERTAR MOVIMIENTO CAJA
-                            var sp_m = context.pInsertarMovimientoCaja(n_move, DateTime.Now, "MOVIMIENTO CAJA COBRO " + n_coll, user, fact.tasa, "I", "EF", null, null,
-                                null, null, "110301001", reng.mont_doc, false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now, null, null, 
-                                null, null, null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+                            var sp_m = context.pInsertarMovimientoCaja(n_move, DateTime.Now, "MOVIMIENTO CAJA COBRO " + n_coll, user.ToUpper(), fact.tasa, "I", "EF",
+                                null, null, null, null, "110301001", reng.mont_doc, false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now, null, 
+                                null, null, null, null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
 
                             sp_m.Dispose();
+
+                            // AGREGAR VENTA A CAJA
+                            Box.AddSale(fact.doc_num, reng.mont_doc, user);
                         }
                         else // TP - DP (TRANSFERENCIA - DEPOSITO)
                         {
+                            isBox = false;
+
                             // ACTUALIZAR SALDO
-                            var sp_s = context.pSaldoActualizar(reng.cod_cta, reng.forma_pag, "TF", (reng.mont_doc + igtf), true, "COBRO", false);
+                            var sp_s = context.pSaldoActualizar(reng.cod_cta, reng.forma_pag, "TF", reng.mont_doc, true, "COBRO", false);
                             sp_s.Dispose();
 
                             // SERIE MOVIMIENTO BANCO
@@ -107,7 +115,7 @@ namespace ProfitTM.Models
                             sp_n_ajpm.Dispose();
 
                             // INSERTAR AJPM
-                            var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
+                            var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, "US$", null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
                                 DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, null, null, null, 0, 0, igtf_bs, 0, null, null, 0, igtf_bs, 0, 0, "7", 0, 0, 0,
                                 0, null, null, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null, null, null, null, null,
                                 sucur, user, "SERVER PROFIT WEB");
@@ -115,8 +123,11 @@ namespace ProfitTM.Models
                             sp_i.Dispose();
                         }
 
-                        decimal t_fact = Math.Round((reng.mont_doc - igtf) * fact.tasa, 2);
+                        decimal t_fact = reng.mont_doc;
                         decimal amount = igtf > 0 ? Math.Round(reng.mont_doc * fact.tasa, 2) : reng.mont_doc;
+
+                        if (igtf > 0)
+                            t_fact = Math.Round((t_fact - igtf) * fact.tasa, 2);
 
                         // ACTUALIZAR FACTURA
                         fact.saldo -= t_fact;
@@ -151,14 +162,24 @@ namespace ProfitTM.Models
                         sp_d2.Dispose();
 
                         // INSERTAR TP COBRO
-                        var sp_t = context.pInsertarRenglonesTPCobro(1, n_coll, reng.forma_pag, n_move, null, null, false, amount, null, null, null, null, user,
-                            DateTime.Now, sucur, user, null, null, "SERVER PROFIT WEB");
+                        string mov_c = isBox ? n_move : null;
+                        string mov_b = !isBox ? n_move : null;
+                        string n_doc = !isBox ? reng.num_doc : null;
+                        string c_caj = isBox ? user.ToUpper() : null;
+                        string c_cta = !isBox ? reng.cod_cta : null;
+                        string c_ban = !isBox ? new Account().GetBankAccountByID(reng.cod_cta).co_ban : null;
+
+                        var sp_t = context.pInsertarRenglonesTPCobro(1, n_coll, reng.forma_pag, mov_c, mov_b, n_doc, false, amount, c_cta, c_ban, null, null, 
+                            c_caj, DateTime.Now, sucur, user, null, null, "SERVER PROFIT WEB");
 
                         sp_t.Dispose();
 
                         tran.Commit();
                         context.SaveChanges();
                         new_collect = GetCollectByID(n_coll);
+                        new_collect.campo1 = fact.status;
+                        new_collect.campo2 = fact.saldo.ToString();
+                        new_collect.campo3 = Math.Round(fact.saldo / fact.tasa, 2).ToString();
 
                         #region CODIGO NUEVO
                         //decimal igtf = (amount * fact.tasa) * Convert.ToDecimal(0.03);
