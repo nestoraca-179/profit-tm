@@ -115,6 +115,7 @@
     <NavigationProperty Name="UserOptions" Relationship="Self.FK__UserOptions_Users" FromRole="Users" ToRole="UserOptions" />
     <Property Name="Admin" Type="Boolean" Nullable="false" />
     <Property Name="NextChange" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="UseBox" Type="Boolean" Nullable="false" />
   </EntityType>
   <Association Name="FK_GroupR_Reps">
     <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />

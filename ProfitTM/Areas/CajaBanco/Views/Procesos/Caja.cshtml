@@ -49,7 +49,7 @@
     table .fa-dollar-sign {
         color: #208c01;
     }*/
-    .modal-dialog {
+    .modal:not(#modalLoading) .modal-dialog {
         min-width: 700px !important;
     }
     .controls {
@@ -164,10 +164,15 @@
 <div class="container-fluid container-boxes my-3" style="display: none;" ng-app="Boxes" ng-controller="controller">
     <div class="row m-3">
         <div class="col d-flex align-items-center">
-            <button class="btn btn-success d-flex align-items-center" ng-click="initBox()">
-                <i class="fas fa-plus"></i>
-                <p class="mx-2 my-0">Abrir nueva caja</p>
-            </button>
+            @{
+                if (ViewBag.sucur == "002" && ViewBag.user.UseBox)
+                {
+                    <button class="btn btn-success d-flex align-items-center" ng-click="initBox()">
+                        <i class="fas fa-plus"></i>
+                        <p class="mx-2 my-0">Abrir nueva caja</p>
+                    </button>
+                }
+            }
         </div>
         <div class="col">
             <h2 class="text-center">Control de Cajas</h2>

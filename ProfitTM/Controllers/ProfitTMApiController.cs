@@ -137,13 +137,16 @@ namespace ProfitTM.Controllers
         {
             ProfitTMResponse response = new ProfitTMResponse();
             string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            bool useBox = ((HttpContext.Current.Session["USER"]) as Users).UseBox;
 
             try
             {
                 int id = 0;
-                
-                if (sucur == "002")
+
+                if (sucur == "002" && useBox)
                     id = Box.GetBoxOpenByUser(user);
+                else
+                    id = -1;
 
                 response.Status = "OK";
                 response.Result = id;

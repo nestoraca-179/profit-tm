@@ -591,6 +591,9 @@ p.title-opt {
     .container-list {
         height: 300px;
     }
+    body > div.container-fluid {
+        overflow-y: auto;
+    }
     body > .footer p, body > .footer .list-connection {
         font-size: 12px;
         text-align: center;

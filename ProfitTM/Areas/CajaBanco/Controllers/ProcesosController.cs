@@ -44,6 +44,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
             else
             {
                 ViewBag.user = Session["USER"];
+                ViewBag.sucur = Session["BRANCH"];
                 ViewBag.modules = Session["MODULES"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();

@@ -44,6 +44,11 @@
     tr.active td {
         color: #FFF !important;
     }
+    @@media (max-width: 538px) {
+        .buttons-next-prev, .buttons-actions {
+            justify-content: center !important;
+        }
+    }
     @@media (max-width: 1199px) {
         .container-clients, .container-clients > .row {
             height: auto !important;
@@ -782,7 +787,10 @@
     $(document).ready(function () {
         $(".container-clients").removeAttr("style");
         $(".panel-loading").css("display", "none");
-        $("#icon-menu").trigger("click");
+
+        if (!responsive) {
+            $("#icon-menu").trigger("click");
+        }
     });
 
     app.controller("controller", function ($scope, $http) {

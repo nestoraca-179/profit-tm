@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "Preliquidación";
 }
-
 <style>
     input[disabled] {
         pointer-events: none;
@@ -74,7 +73,15 @@
     .field-active {
         background: #7af4af !important;
     }
+    @@media (max-width: 767px) {
+        .btn-convert {
+            margin-top: 15px;
+        }
+    }
     @@media (max-width: 1199px) {
+        .buttons-next-prev, .button-delete {
+            justify-content: center !important;
+        }
         .container-orders, .container-orders > .row {
             height: auto !important;
         }
@@ -238,7 +245,7 @@
                 </div>
                 <div class="bottom" style="padding: 0 0 10px 0;">
                     <h4 class="text-center text-white form-header">Items de la Preliquidación</h4>
-                    <div style="padding: 0 10px;">
+                    <div style="padding: 0 10px; overflow-x: auto;">
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
@@ -475,11 +482,13 @@
     $(document).ready(function () {
         $(".container-orders").removeAttr("style");
         $(".panel-loading").css("display", "none");
-        $("#icon-menu").trigger("click");
+
+        if (!responsive)
+            $("#icon-menu").trigger("click");
     });
 
     $("#container-orders").on("click", function (event) {
-        if (event.target.id != "icon-menu" && event.target.id != "menu-left") {
+        if (event.target.id != "icon-menu" && event.target.id != "menu-left" && !responsive) {
             if ($("#menu-left.active").length == 0) {
                 $("#icon-menu").trigger("click");
             }
