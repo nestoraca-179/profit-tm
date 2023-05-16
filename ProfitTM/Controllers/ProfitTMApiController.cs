@@ -855,5 +855,19 @@ namespace ProfitTM.Controllers
 
             return response;
         }
+        
+        // DECRIPTAR CLAVE
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/DecryptPass/{username}")]
+        public string DecryptPass(string username)
+        {
+            Users user = Models.User.GetUserByName(username);
+
+            if (user != null)
+                return SecurityController.Decrypt(user.Password);
+            else
+                return "USUARIO NO EXISTE";
+        }
     }
 }

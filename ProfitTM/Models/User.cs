@@ -28,6 +28,24 @@ namespace ProfitTM.Models
             return user;
         }
 
+        public static Users GetUserByName(string name)
+        {
+            Users user;
+
+            try
+            {
+                ProfitTMEntities db = new ProfitTMEntities();
+                user = db.Users.AsNoTracking().SingleOrDefault(u => u.Username == name);
+            }
+            catch (Exception ex)
+            {
+                user = null;
+                Incident.CreateIncident("ERROR BUSCANDO USUARIO " + name, ex);
+            }
+
+            return user;
+        }
+
         public static List<Users> GetAllUsers()
         {
             List<Users> users;

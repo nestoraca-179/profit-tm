@@ -169,7 +169,7 @@
                         <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="user != 'ASAP' || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="user != 'alpha' || invoice.anulado || invoice.status != 0 || invoice.saldo < invoice.total_neto" ng-click="initLoadCollect()">
+                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="(user != 'alpha' && user != 'NACA') || invoice.anulado || invoice.status != 0 || invoice.saldo < invoice.total_neto" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField('#n_preliq')">
@@ -806,7 +806,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#des_cta').val('')" ng-click="rengTP = { forma_pag: 'EF' }">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" onclick="openModalCollect()">Aceptar</button>
+                    <button type="submit" class="btn btn-primary" ng-click="openModalCollect()">Aceptar</button>
                 </div>
             </div>
         </form>
@@ -1747,10 +1747,10 @@
             }
         }
 
-        $scope.sendCollect = function () {
+        $scope.openModalCollect = function () {
 
             $scope.error = "";
-            if ($("#form-collect")[0].checkValidity()) {
+            if ($('#form-collect')[0].checkValidity()) {
 
                 $("#form-collect input").change();
 
@@ -1766,7 +1766,8 @@
                 if (igtf > 0)
                     total_usd += igtf;
 
-                // var total = curr.trim() == "US$" ? total_usd : total_bs;
+                reng.fecha_che = origDate(reng.fecha_che);
+                reng.co_us_in = igtf;
 
                 if (amount == 0) {
                     $scope.error = "Debes ingresar un monto mayor a 0";
@@ -1781,50 +1782,48 @@
                     return;
                 }
 
-                reng.fecha_che = origDate(reng.fecha_che);
-                reng.co_us_in = igtf;
+                $('#modalConfirmarMonto').modal('show');
+            }
+        }
 
-                $("#modalCobrar").modal("hide");
-                $("#modalConfirmarMonto").modal("hide");
-                $("#modalWaiting").modal("show");
-                
-                /*if (amount == total) {
-                    alert("monto completo");
+        $scope.sendCollect = function () {
+
+            $("#form-collect input").change();
+            var reng = $scope.rengTP;
+
+            $("#modalCobrar").modal("hide");
+            $("#modalConfirmarMonto").modal("hide");
+            $("#modalWaiting").modal("show");
+
+            var req = {
+                method: 'POST',
+                url: '/api/ProfitTMApi/AddCollect/' + $scope.invoice.doc_num.trim(),
+                data: reng,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }
+
+            $http(req).then(function (response) {
+
+                var res = response.data;
+
+                if (res.Status == "OK") {
+                    $("#modalSuccess").modal("show");
+                    $scope.successMessage = `El Cobro ${res.Result.cob_num} se ha agregado con éxito`;
+
+                    $scope.invoice.status = parseInt(res.Result.campo1);
+                    $scope.invoice.estatus = setStatus($scope.invoice.status);
+                    $scope.invoice.saldo = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
+                    $scope.invoice.saldo_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
                 } else {
-                    alert("tiene retenciones");
-                }*/
-
-                var req = {
-                    method: 'POST',
-                    url: '/api/ProfitTMApi/AddCollect/' + $scope.invoice.doc_num.trim(),
-                    data: reng,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    $("#modalError").modal("show");
+                    $scope.errorMessage = res.Message;
                 }
 
-                $http(req).then(function (response) {
-
-                    var res = response.data;
-
-                    if (res.Status == "OK") {
-                        console.log(res.Result);
-                        $("#modalSuccess").modal("show");
-                        $scope.successMessage = `El Cobro ${res.Result.cob_num} se ha agregado con éxito`;
-
-                        $scope.invoice.status = parseInt(res.Result.campo1);
-                        $scope.invoice.estatus = setStatus($scope.invoice.status);
-                        $scope.invoice.saldo = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
-                        $scope.invoice.saldo_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
-                    } else {
-                        $("#modalError").modal("show");
-                        $scope.errorMessage = res.Message;
-                    }
-
-                    $scope.rengTP = { forma_pag: "EF" };
-                    $('#des_cta').val('');
-                });
-            }
+                $scope.rengTP = { forma_pag: "EF" };
+                $('#des_cta').val('');
+            });
         }
     });
 
@@ -1987,12 +1986,6 @@
 
     function prevDel(e) {
         e.preventDefault();
-    }
-
-    function openModalCollect() {
-        if ($('#form-collect')[0].checkValidity()) {
-            $('#modalConfirmarMonto').modal('show');
-        }
     }
 
     function openModal(elem, modal) {
