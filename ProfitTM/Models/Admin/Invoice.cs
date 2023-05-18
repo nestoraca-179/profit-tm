@@ -175,10 +175,11 @@ namespace ProfitTM.Models
             return template;
         }
         
-        public object GetStatsInvoices(DateTime fec_d, DateTime fec_h)
+        public object GetStatsInvoices(DateTime fec_d, DateTime fec_h, string sucur)
         {
-            int totalCount = 0;
-            decimal totalAmountSale = 0, totalAmountPurchase = 0, totalState, totalReimbExp = 0;
+            int totalCountSale = 0, totalCountBuy = 0, totalCountSaleSuc = 0, totalCountBuySuc = 0;
+            decimal totalAmountSale = 0, totalAmountBuy = 0, totalState, totalReimbExp = 0, totalReimbExpSuc = 0;
+            decimal totalAmountSaleSuc = 0, totalAmountBuySuc = 0, totalStateSuc;
 
             // VENTAS
             var sp1 = db.RepFacturaVentaxFecha(null, null, fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
@@ -186,8 +187,14 @@ namespace ProfitTM.Models
 
             while (enumerator1.MoveNext())
             {
-                totalCount++;
+                totalCountSale++;
                 totalAmountSale += Math.Round(decimal.Parse(enumerator1.Current.total_neto.ToString()), 2);
+
+                if (enumerator1.Current.co_sucu_in.Trim() == sucur)
+                {
+                    totalCountSaleSuc++;
+                    totalAmountSaleSuc += Math.Round(decimal.Parse(enumerator1.Current.total_neto.ToString()), 2);
+                }
             }
 
             // COMPRAS
@@ -196,33 +203,74 @@ namespace ProfitTM.Models
 
             while (enumerator2.MoveNext())
             {
-                totalAmountPurchase += Math.Round(decimal.Parse(enumerator2.Current.total_neto.ToString()), 2);
+                totalCountBuy++;
+                totalAmountBuy += Math.Round(decimal.Parse(enumerator2.Current.total_neto.ToString()), 2);
+
+                if (enumerator2.Current.co_sucu_in.Trim() == sucur)
+                {
+                    totalCountBuySuc++;
+                    totalAmountBuySuc += Math.Round(decimal.Parse(enumerator2.Current.total_neto.ToString()), 2);
+                }
             }
 
             // ESTADO DE GANANCIA
-            totalState = totalAmountSale - totalAmountPurchase;
-
+            totalState = totalAmountSale - totalAmountBuy;
+            totalStateSuc = totalAmountSaleSuc - totalAmountBuySuc;
 
             // GASTOS REEMBOLSABLES - ISH
             if (db.Database.Connection.Database == "PP2K12_ISH_ADM")
             {
-                var rengs = db.saFacturaVentaReng.AsNoTracking().Where(r => r.fe_us_in >= fec_d && r.fe_us_in <= fec_h && r.co_art == "410190001-001").ToList();
-                foreach (saFacturaVentaReng r in rengs)
+                var sp3 = db.RepFacturaVentaxArt2("410190001-001", "410190001-001", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
+                    null, null, null, null, null, null, null, null, null, null);
+                var enumerator3 = sp3.GetEnumerator();
+
+                while (enumerator3.MoveNext())
                 {
-                    totalReimbExp += Convert.ToDecimal(r.reng_neto);
+                    if (enumerator3.Current.anulado)
+                        totalReimbExp += 0;
+                    else
+                        totalReimbExp += Convert.ToDecimal(enumerator3.Current.neto);
                 }
+
+                var sp4 = db.RepFacturaVentaxArt2("410190001-001", "410190001-001", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
+                    null, null, null, null, null, null, sucur, null, null, null);
+                var enumerator4 = sp4.GetEnumerator();
+
+                while (enumerator4.MoveNext())
+                {
+                    if (enumerator4.Current.anulado)
+                        totalReimbExpSuc += 0;
+                    else
+                        totalReimbExpSuc += Convert.ToDecimal(enumerator4.Current.neto);
+                }
+
+                enumerator3.Dispose();
+                enumerator4.Dispose();
             }
 
             enumerator1.Dispose();
             enumerator2.Dispose();
 
             // OBJETO ESTADISTICAS
-            var obj = new {
-                totalCount,
-                totalAmountSale,
-                totalAmountPurchase,
-                totalState,
-                totalReimbExp
+            var obj = new 
+            {
+                all = new {
+                    totalCountSale,
+                    totalCountBuy,
+                    totalAmountSale,
+                    totalAmountBuy,
+                    totalState,
+                    totalReimbExp
+                },
+                suc = new
+                {
+                    totalCountSale = totalCountSaleSuc,
+                    totalCountBuy = totalCountBuySuc,
+                    totalAmountSale = totalAmountSaleSuc,
+                    totalAmountBuy = totalAmountBuySuc,
+                    totalState = totalStateSuc,
+                    totalReimbExp = totalReimbExpSuc
+                },
             };
 
             return obj;

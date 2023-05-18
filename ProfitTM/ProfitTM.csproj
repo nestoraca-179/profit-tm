@@ -818,6 +818,12 @@
     <Compile Include="Models\RepEstadoCuentaProv_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RepFacturaVentaxArt2_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepFacturaVentaxArt_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RepFacturaVentaxFecha_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>

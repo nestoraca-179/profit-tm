@@ -18021,6 +18021,60 @@
       <Parameter Name="sRevisado" Mode="In" Type="String" />
       <Parameter Name="sTrasnfe" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="RepFacturaVentaxArt" ReturnType="Collection(ProfitAdmContext.RepFacturaVentaxArt_Result)">
+      <Parameter Name="cCo_Articulo_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Articulo_h" Mode="In" Type="String" />
+      <Parameter Name="sCo_fecha_d" Mode="In" Type="DateTime" />
+      <Parameter Name="sCo_fecha_h" Mode="In" Type="DateTime" />
+      <Parameter Name="cCo_cliente_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_cliente_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Vendedor_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Vendedor_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Linea_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Linea_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_SubLinea_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_SubLinea_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Categoria_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Categoria_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Alamcen_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Alamcen_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Transporte_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Transporte_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Moneda" Mode="In" Type="String" />
+      <Parameter Name="cStatus" Mode="In" Type="String" />
+      <Parameter Name="cAnulado" Mode="In" Type="String" />
+      <Parameter Name="cCo_Sucursal" Mode="In" Type="String" />
+      <Parameter Name="sCampOrderBy" Mode="In" Type="String" />
+      <Parameter Name="sDir" Mode="In" Type="String" />
+      <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="RepFacturaVentaxArt2" ReturnType="Collection(ProfitAdmContext.RepFacturaVentaxArt2_Result)">
+      <Parameter Name="cCo_Articulo_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Articulo_h" Mode="In" Type="String" />
+      <Parameter Name="dCo_fecha_d" Mode="In" Type="DateTime" />
+      <Parameter Name="dCo_fecha_h" Mode="In" Type="DateTime" />
+      <Parameter Name="cCo_cliente_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_cliente_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Vendedor_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Vendedor_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Linea_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Linea_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_SubLinea_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_SubLinea_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Categoria_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Categoria_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Almacen_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Almacen_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Transporte_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Transporte_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Moneda" Mode="In" Type="String" />
+      <Parameter Name="cStatus" Mode="In" Type="String" />
+      <Parameter Name="cAnulado" Mode="In" Type="String" />
+      <Parameter Name="cCo_Sucursal" Mode="In" Type="String" />
+      <Parameter Name="sCampOrderBy" Mode="In" Type="String" />
+      <Parameter Name="sDir" Mode="In" Type="String" />
+      <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -18481,5 +18535,135 @@
     <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
     <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
     <Property Type="Guid" Name="rowguid" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="RepFacturaVentaxArt_Result">
+    <Property Type="String" Name="Filtro_anulado" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="art_des" Nullable="false" MaxLength="120" />
+    <Property Type="String" Name="modelo" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="co_lin" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_subl" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_cat" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="doc_num" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="descrip" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="co_cli" Nullable="false" MaxLength="16" />
+    <Property Type="String" Name="co_tran" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_mone" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_ven" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_cond" Nullable="true" MaxLength="6" />
+    <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+    <Property Type="DateTime" Name="fec_venc" Nullable="false" Precision="16" />
+    <Property Type="DateTime" Name="fec_reg" Nullable="false" Precision="16" />
+    <Property Type="Boolean" Name="anulado" Nullable="false" />
+    <Property Type="String" Name="status" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="n_control" Nullable="true" MaxLength="20" />
+    <Property Type="Boolean" Name="ven_ter" Nullable="false" />
+    <Property Type="Decimal" Name="tasa" Nullable="false" Precision="21" Scale="8" />
+    <Property Type="String" Name="porc_desc_glob" Nullable="true" MaxLength="15" />
+    <Property Type="Decimal" Name="monto_desc_glob" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="porc_reca" Nullable="true" MaxLength="15" />
+    <Property Type="Decimal" Name="monto_reca" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="total_bruto" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="monto_imp" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="monto_imp2" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="monto_imp3" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="otros1" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="otros2" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="otros3" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="total_neto" Nullable="true" Precision="38" Scale="14" />
+    <Property Type="Decimal" Name="saldo" Nullable="true" Precision="38" Scale="14" />
+    <Property Type="String" Name="dir_ent" Nullable="true" />
+    <Property Type="String" Name="comentario" Nullable="true" />
+    <Property Type="String" Name="dis_cen" Nullable="true" MaxLength="Max" />
+    <Property Type="DateTime" Name="feccom" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="numcom" Nullable="true" />
+    <Property Type="Boolean" Name="contrib" Nullable="false" />
+    <Property Type="Boolean" Name="impresa" Nullable="false" />
+    <Property Type="Int32" Name="seriales_s" Nullable="true" />
+    <Property Type="String" Name="salestax" Nullable="true" MaxLength="8" />
+    <Property Type="String" Name="impfis" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="impfisfac" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="campo1" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo2" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo3" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo4" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo5" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo6" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo7" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo8" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="co_us_in" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_sucu_in" Nullable="true" MaxLength="6" />
+    <Property Type="DateTime" Name="fe_us_in" Nullable="false" Precision="23" />
+    <Property Type="String" Name="co_us_mo" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_sucu_mo" Nullable="true" MaxLength="6" />
+    <Property Type="DateTime" Name="fe_us_mo" Nullable="false" Precision="23" />
+    <Property Type="String" Name="revisado" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="trasnfe" Nullable="true" MaxLength="1" />
+    <Property Type="Binary" Name="validador" Nullable="false" MaxLength="8" />
+    <Property Type="Guid" Name="rowguid" Nullable="false" />
+    <Property Type="Int32" Name="reng_num" Nullable="false" />
+    <Property Type="String" Name="doc_num1" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="co_art" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="des_art" Nullable="true" MaxLength="120" />
+    <Property Type="String" Name="co_alma" Nullable="false" MaxLength="6" />
+    <Property Type="Decimal" Name="stotal_art" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="String" Name="co_uni" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="sco_uni" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="co_precio" Nullable="true" MaxLength="6" />
+    <Property Type="Decimal" Name="prec_vta" Nullable="true" Precision="38" Scale="12" />
+    <Property Type="Decimal" Name="prec_vta_om" Nullable="true" Precision="18" Scale="5" />
+    <Property Type="String" Name="porc_desc" Nullable="true" MaxLength="15" />
+    <Property Type="Decimal" Name="monto_desc" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="String" Name="tipo_imp" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="tipo_imp2" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="tipo_imp3" Nullable="true" MaxLength="1" />
+    <Property Type="Decimal" Name="porc_imp" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="porc_imp2" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="porc_imp3" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="monto_imp1" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="monto_imp21" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="monto_imp31" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="reng_neto" Nullable="true" Precision="38" Scale="14" />
+    <Property Type="Decimal" Name="pendiente" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="pendiente2" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="String" Name="tipo_doc" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="num_doc" Nullable="true" MaxLength="20" />
+    <Property Type="Guid" Name="rowguid_doc" Nullable="true" />
+    <Property Type="Decimal" Name="total_dev" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="monto_dev" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="otros" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="String" Name="comentario1" Nullable="true" />
+    <Property Type="Boolean" Name="lote_asignado" Nullable="false" />
+    <Property Type="String" Name="dis_cen1" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="co_us_in1" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_sucu_in1" Nullable="true" MaxLength="6" />
+    <Property Type="DateTime" Name="fe_us_in1" Nullable="false" Precision="23" />
+    <Property Type="String" Name="co_us_mo1" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_sucu_mo1" Nullable="true" MaxLength="6" />
+    <Property Type="DateTime" Name="fe_us_mo1" Nullable="false" Precision="23" />
+    <Property Type="String" Name="revisado1" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="trasnfe1" Nullable="true" MaxLength="1" />
+    <Property Type="Guid" Name="rowguid1" Nullable="false" />
+    <Property Type="Decimal" Name="total_art" Nullable="true" Precision="38" Scale="20" />
+  </ComplexType>
+  <ComplexType Name="RepFacturaVentaxArt2_Result">
+    <Property Type="String" Name="Filtro_anulado" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="tip_rep" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="co_cli" Nullable="false" MaxLength="16" />
+    <Property Type="String" Name="co_ven" Nullable="false" MaxLength="6" />
+    <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+    <Property Type="Boolean" Name="anulado" Nullable="false" />
+    <Property Type="Int32" Name="reng_num" Nullable="false" />
+    <Property Type="String" Name="doc_num" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="co_art" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="co_uni" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_alma" Nullable="false" MaxLength="6" />
+    <Property Type="Decimal" Name="prec_vta" Nullable="true" Precision="37" Scale="10" />
+    <Property Type="Decimal" Name="iva" Nullable="true" Precision="19" Scale="5" />
+    <Property Type="Decimal" Name="total_art" Nullable="true" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="otros" Nullable="true" Precision="20" Scale="5" />
+    <Property Type="Decimal" Name="monto_base" Nullable="true" Precision="38" Scale="10" />
+    <Property Type="String" Name="art_des" Nullable="false" MaxLength="120" />
+    <Property Type="String" Name="modelo" Nullable="true" MaxLength="20" />
+    <Property Type="Decimal" Name="neto" Nullable="true" Precision="38" Scale="10" />
   </ComplexType>
 </Schema>

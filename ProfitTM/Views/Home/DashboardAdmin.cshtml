@@ -41,15 +41,23 @@
     .row.mt-3 {
         align-items: center;
     }
+    .table.borderless {
+        border-collapse: collapse;
+        border-radius: 1em;
+        overflow: hidden;
+    }
     .table.borderless thead {
         background: #01579b;
         color: #FFF;
     }
     .table.borderless td {
         border: none;
+        padding: 10px;
+        font-size: 14px;
     }
     .table.borderless th {
         border-top: none;
+        padding: 10px;
     }
     #cont-mac {
         flex: 1;
@@ -198,87 +206,96 @@
         <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
             <div class="container-fluid mt-3">
                 <!--
-                <h4>Ventas</h4>
-                <hr />
-                <div class="row justify-content-between" style="margin: 0;">
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
+        <h4>Ventas</h4>
+        <hr />
+        <div class="row justify-content-between" style="margin: 0;">
+            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                <div class="direct shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
                 </div>
-                <div class="row m-0 mt-3">
-                    <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
-                        <div class="container-chart shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
-                        <div class="container-chart shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                <div class="direct shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
                 </div>
-                <hr />
-                <h4>Compras</h4>
-                <hr />
-                <div class="row justify-content-between" style="margin: 0;">
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                <div class="direct shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
                 </div>
-                <div class="row m-0 mt-3">
-                    <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
-                        <div class="container-chart shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
-                        <div class="container-chart shadow-tm">
-                            <i class="fas fa-spinner-third fa-spin"></i>
-                        </div>
-                    </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                <div class="direct shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
                 </div>
-                <hr />
-                -->
+            </div>
+        </div>
+        <div class="row m-0 mt-3">
+            <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                <div class="container-chart shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                <div class="container-chart shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <h4>Compras</h4>
+        <hr />
+        <div class="row justify-content-between" style="margin: 0;">
+            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                <div class="direct shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                <div class="direct shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                <div class="direct shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                <div class="direct shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row m-0 mt-3">
+            <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                <div class="container-chart shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                <div class="container-chart shadow-tm">
+                    <i class="fas fa-spinner-third fa-spin"></i>
+                </div>
+            </div>
+        </div>
+        <hr />
+    -->
                 
+                <div class="d-flex justify-content-end">
+                    <label class="d-flex align-items-center mx-3">Mostrar info. Sucursal actual</label>
+                    <!-- Rounded switch -->
+                    <label class="switch">
+                        <input type="checkbox" ng-model="bySucur" ng-change="changeSuc(bySucur)">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <hr />
                 <div class="row justify-content-between" style="margin: 0;">
                     <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
                         <div class="direct shadow-tm" style="border-bottom: solid 5px #1565C0;">
                             <h5>Total Facturas del Mes</h5>
-                            <span ng-show="stats" class="stat-number">{{ stats.totalCount }}</span>
+                            <span ng-show="stats" class="stat-number">{{ stats.totalCountSale }}</span>
                             <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
                             <i class="fas fa-file-invoice" style="color: #1565C0;"></i>
                         </div>
@@ -294,7 +311,7 @@
                     <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
                         <div class="direct shadow-tm" style="border-bottom: solid 5px #EF6C00;">
                             <h5>Total Compras del Mes</h5>
-                            <span ng-show="stats" class="stat-number">{{ stats.totalAmountPurchase.toLocaleString('es-ES') }}</span>
+                            <span ng-show="stats" class="stat-number">{{ stats.totalAmountBuy.toLocaleString('es-ES') }}</span>
                             <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
                             <i class="fas fa-dollar-sign" style="color: #EF6C00;"></i>
                         </div>
@@ -344,12 +361,12 @@
                                             <th></th>
                                             <th>Cliente</th>
                                             <th>Total</th>
-                                            <th>Porcentaje</th>
+                                            <th style="text-align: right;">Porcentaje</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="client in mac">
-                                            <td style="vertical-align: middle;"><i class="fas fa-user-alt" style="color: #333;"></i></td>
+                                            <td style="vertical-align: middle;"><i class="fas fa-user-alt" style="color: #5e5d5d;"></i></td>
                                             <td>{{ client.cli_des }}</td>
                                             <td>{{ client.campo1 }}</td>
                                             <td style="text-align: right;">{{ client.campo2 }} %</td>
@@ -373,7 +390,7 @@
                     </div>
                 </div>
                 <hr />
-                
+
             </div>
         </div>
     </div>
@@ -430,6 +447,7 @@
             $(".menu-item.border-top").attr('style', 'display: none;');
         }
 
+        $scope.bySucur = false;
         $scope.show_all = false;
 
         window.addEventListener("resize", function () {
@@ -453,7 +471,8 @@
         $http.get(`../../api/ProfitTMApi/GetStatsInvoices/${fecha_d}/${fecha_h}`)
             .then(function (response) {
 
-                $scope.stats = response.data.Result;
+                $scope.allStats = response.data.Result;
+                $scope.stats = $scope.allStats.all;
                 $("span.stat-number").css('opacity', '1');
 
             }, function (error) { console.log("Ha ocurrido un error (STATS) -> " + error.statusText); });
@@ -477,7 +496,7 @@
             }, function (error) { console.log("Ha ocurrido un error (MPP) -> " + error.statusText); });
 
         // CLIENTES CON MAS VENTAS
-        $http.get(`../../api/ProfitTMApi/GetMostActiveClients/${fecha_d}/${fecha_h}/5`)
+        $http.get(`../../api/ProfitTMApi/GetMostActiveClients/${fecha_d}/${fecha_h}/7`)
             .then(function (response) {
 
                 $scope.mac = response.data.Result;
@@ -521,6 +540,14 @@
                     }
 
                 }, 0.05);
+            }
+        }
+
+        $scope.changeSuc = function (value) {
+            if (value) {
+                $scope.stats = $scope.allStats.suc;
+            } else {
+                $scope.stats = $scope.allStats.all;
             }
         }
     });

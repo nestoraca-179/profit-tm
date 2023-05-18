@@ -58,7 +58,7 @@ namespace ProfitTM
                 .WithCronSchedule("0 55 23 ? * * *")
                 .Build();
 
-            Incident.CreateIncident("FINALIZANDO QUARTZ", new Exception());
+            Incident.CreateIncident("FINALIZANDO QUARTZ " + trigger.StartTimeUtc.DateTime.ToString("dd/MM/yyyy HH:mm:ss"), new Exception());
             await scheduler.ScheduleJob(job, trigger);
             await builder.RunAsync();
         }

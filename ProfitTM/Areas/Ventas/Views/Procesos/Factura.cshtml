@@ -99,8 +99,6 @@
         .button-import .btn {
             margin: 2px;
         }
-    }
-    @@media (max-width: 1399px) {
         .buttons-next-prev {
             justify-content: center !important;
             margin: 5px 0;
@@ -140,10 +138,11 @@
             </div>
             <div class="form-buttons">
                 <div class="row">
-                    <div class="col-sm-12 col-xxl-4 buttons-next-prev" ng-show="!new && !adding">
-                        <button type="button" class="btn text-white" style="background: #810be3; margin: 0 10px 0 0; padding: 0 7px;" ng-click="initAddInvoice()" ng-disabled="template == null">
+                    <div class="col-sm-12 col-xl-4 buttons-next-prev" ng-show="!new && !adding">
+                        <button type="button" class="btn text-white" style="background: #810be3; min-width: auto; padding: 0 7px;" ng-click="initAddInvoice()" ng-disabled="template == null">
                             <i class="fas fa-plus"></i> Nuevo
                         </button>
+                        <div style="width: 10px;"></div>
                         <button type="button" class="btn btn-primary" ng-click="margin('s')">
                             <i class="fas fa-chevron-double-left"></i>
                         </button>
@@ -160,7 +159,7 @@
                             <i class="fas fa-chevron-double-right"></i>
                         </button>
                     </div>
-                    <div class="col-sm-12 col-xxl-8 d-flex justify-content-end button-import p-0 col-auto" ng-show="!new && !adding">
+                    <div class="col-sm-12 col-xl-8 d-flex justify-content-end button-import p-0 col-auto" ng-show="!new && !adding">
                         <p ng-if="invoice.impresa" class="my-0 d-flex align-items-center text-center" style="margin-right: 5px;"><b>Doc. Impreso</b></p>
                         <button type="button" class="btn" style="background: #ec9d0b; color: #FFF; margin-right: 5px;" ng-disabled="invoice.anulado" ng-click="print(invoice.doc_num)">
                             <i class="fas fa-print"></i> Imprimir
