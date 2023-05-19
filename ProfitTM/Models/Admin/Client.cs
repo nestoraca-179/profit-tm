@@ -73,11 +73,11 @@ namespace ProfitTM.Models
             return clients;
         }
 
-        public List<saCliente> GetMostActiveClients(DateTime fec_d, DateTime fec_h, int number)
+        public List<saCliente> GetMostActiveClients(DateTime fec_d, DateTime fec_h, int number, string sucur)
         {
             List<saCliente> clientes = new List<saCliente>();
 
-            var sp = db.RepClienteMasVenta(fec_d, fec_h, null, null, null, null, null, null, null, number, null, null, null, null);
+            var sp = db.RepClienteMasVenta(fec_d, fec_h, null, null, null, null, null, null, null, number, sucur, null, null, null);
             var enumerator = sp.GetEnumerator();
 
             while (enumerator.MoveNext())

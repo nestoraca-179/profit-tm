@@ -39,7 +39,7 @@
         display: none;
     }
     .row.mt-3 {
-        align-items: center;
+        /*align-items: center;*/
     }
     .table.borderless {
         border-collapse: collapse;
@@ -59,6 +59,11 @@
         border-top: none;
         padding: 10px;
     }
+    #cont-msp, #cont-mpp, #cont-mac, #cont-mas {
+        height: 100%;
+        position: relative;
+        min-height: 40px;
+    }
     #cont-mac {
         flex: 1;
         display: flex;
@@ -66,11 +71,28 @@
         justify-content: space-around;
         padding: 0 10px;
     }
+    h5.no-data {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    @@media (max-width: 575px) {
+        .table.borderless th {
+            font-size: 13px;
+        }
+        .table.borderless td {
+            font-size: 12px;
+        }
+    }
     @@media (min-width: 576px) {
         .col-stat {
             padding: 5px;
         }
-
         .col-graph {
             padding: 5px /*15px*/;
         }
@@ -101,6 +123,9 @@
         .col-graph {
             margin: 5px 0;
         }
+        .first-item {
+            display: none;
+        }
     }
     @@media (min-width: 768px) and (max-width: 991px) {
         .col-stat {
@@ -119,6 +144,12 @@
         }
         .col-graph {
             margin: 5px 0;
+        }
+    }
+    @@media (max-width: 1199px) {
+        h5.no-data {
+            position: relative;
+            padding: 20px 0;
         }
     }
     @@media (min-width: 992px) and (max-width: 1399px) {
@@ -286,7 +317,7 @@
                     <label class="d-flex align-items-center mx-3">Mostrar info. Sucursal actual</label>
                     <!-- Rounded switch -->
                     <label class="switch">
-                        <input type="checkbox" ng-model="bySucur" ng-change="changeSuc(bySucur)">
+                        <input type="checkbox" ng-disabled="!show_all" ng-model="bySucur" ng-change="changeSuc(bySucur)">
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -333,7 +364,7 @@
                                 <figure ng-if="msp.length > 0" class="highcharts-figure">
                                     <div id="container-msp"></div>
                                 </figure>
-                                <h5 ng-if="msp.length == 0" class="text-center mt-5 mb-5">Servicios más vendidos (Sin datos)</h5>
+                                <h5 ng-if="msp.length == 0" class="text-center no-data">Servicios más vendidos (Sin datos)</h5>
                             </div>
                         </div>
                     </div>
@@ -344,7 +375,7 @@
                                 <figure ng-if="mpp.length > 0" class="highcharts-figure">
                                     <div id="container-mpp"></div>
                                 </figure>
-                                <h5 ng-if="mpp.length == 0" class="text-center mt-5 mb-5">Servicios más comprados (Sin datos)</h5>
+                                <h5 ng-if="mpp.length == 0" class="text-center no-data">Servicios más comprados (Sin datos)</h5>
                             </div>
                         </div>
                     </div>
@@ -358,7 +389,7 @@
                                 <table ng-if="mac.length > 0" class="table table-hover borderless">
                                     <thead>
                                         <tr>
-                                            <th></th>
+                                            <th class="first-item"></th>
                                             <th>Cliente</th>
                                             <th>Total</th>
                                             <th style="text-align: right;">Porcentaje</th>
@@ -366,14 +397,14 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="client in mac">
-                                            <td style="vertical-align: middle;"><i class="fas fa-user-alt" style="color: #5e5d5d;"></i></td>
+                                            <td class="first-item" style="vertical-align: middle;"><i class="fas fa-user-alt" style="color: #5e5d5d;"></i></td>
                                             <td>{{ client.cli_des }}</td>
                                             <td>{{ client.campo1 }}</td>
                                             <td style="text-align: right;">{{ client.campo2 }} %</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <h5 ng-if="mac.length == 0" class="text-center mt-5 mb-5">Clientes más activos (Sin datos)</h5>
+                                <h5 ng-if="mac.length == 0" class="text-center no-data">Clientes más activos (Sin datos)</h5>
                             </div>
                         </div>
                     </div>
@@ -384,7 +415,7 @@
                                 <figure ng-if="mas.length > 0" class="highcharts-figure">
                                     <div id="container-mas"></div>
                                 </figure>
-                                <h5 ng-if="mas.length == 0" class="text-center mt-5 mb-5">Proveedores más activos (Sin datos)</h5>
+                                <h5 ng-if="mas.length == 0" class="text-center no-data">Proveedores más activos (Sin datos)</h5>
                             </div>
                         </div>
                     </div>
@@ -459,11 +490,13 @@
                 $(".menu-item.border-top").removeAttr('style', 'display: none;');
                 $("#header-left.active").removeClass("active");
                 $("#menu-left.active").removeClass("active");
+                $("table.borderless").addClass("table-sm");
             } else {
                 btn.removeEventListener("click", slide);
                 btn.addEventListener("click", hide);
                 $("ul.list-menu").removeAttr('style');
                 $(".menu-item.border-top").attr('style', 'display: none;');
+                $("table.borderless").removeClass("table-sm");
             }
         });
 
@@ -478,38 +511,74 @@
             }, function (error) { console.log("Ha ocurrido un error (STATS) -> " + error.statusText); });
 
         // SERVICIOS MAS VENDIDOS
-        $http.get(`../../api/ProfitTMApi/GetMostSaleProducts/${fecha_d}/${fecha_h}/5`)
+        $http.get(`../../api/ProfitTMApi/GetMostSaleProducts/${fecha_d}/${fecha_h}/5/0`)
             .then(function (response) {
 
-                $scope.msp = response.data.Result;
+                $scope.all_msp = response.data.Result;
+                $scope.msp = $scope.all_msp;
                 $scope.validate('msp');
 
             }, function (error) { console.log("Ha ocurrido un error (MSP) -> " + error.statusText); });
 
-        // SERVICIOS MAS COMPRADOS
-        $http.get(`../../api/ProfitTMApi/GetMostPurchaseProducts/${fecha_d}/${fecha_h}/5`)
+            // SUCURSAL
+        $http.get(`../../api/ProfitTMApi/GetMostSaleProducts/${fecha_d}/${fecha_h}/5/1`)
             .then(function (response) {
 
-                $scope.mpp = response.data.Result;
+                $scope.suc_msp = response.data.Result;
+
+            }, function (error) { console.log("Ha ocurrido un error (MSP-S) -> " + error.statusText); });
+
+        // SERVICIOS MAS COMPRADOS
+        $http.get(`../../api/ProfitTMApi/GetMostPurchaseProducts/${fecha_d}/${fecha_h}/5/0`)
+            .then(function (response) {
+
+                $scope.all_mpp = response.data.Result;
+                $scope.mpp = $scope.all_mpp;
                 $scope.validate('mpp');
 
             }, function (error) { console.log("Ha ocurrido un error (MPP) -> " + error.statusText); });
 
-        // CLIENTES CON MAS VENTAS
-        $http.get(`../../api/ProfitTMApi/GetMostActiveClients/${fecha_d}/${fecha_h}/7`)
+            // SUCURSAL
+        $http.get(`../../api/ProfitTMApi/GetMostPurchaseProducts/${fecha_d}/${fecha_h}/5/1`)
             .then(function (response) {
 
-                $scope.mac = response.data.Result;
+                $scope.suc_mpp = response.data.Result;
+
+            }, function (error) { console.log("Ha ocurrido un error (MPP) -> " + error.statusText); });
+
+        // CLIENTES CON MAS VENTAS
+        $http.get(`../../api/ProfitTMApi/GetMostActiveClients/${fecha_d}/${fecha_h}/7/0`)
+            .then(function (response) {
+
+                $scope.all_mac = response.data.Result;
+                $scope.mac = $scope.all_mac;
                 $scope.validate('mac');
 
             }, function (error) { console.log("Ha ocurrido un error (MAC) -> " + error.statusText); });
 
-        // PROVEEDORES CON MAS COMPRAS
-        $http.get(`../../api/ProfitTMApi/GetMostActiveSuppliers/${fecha_d}/${fecha_h}/5`)
+            // SUCURSAL
+        $http.get(`../../api/ProfitTMApi/GetMostActiveClients/${fecha_d}/${fecha_h}/7/1`)
             .then(function (response) {
 
-                $scope.mas = response.data.Result;
+                $scope.suc_mac = response.data.Result;
+
+            }, function (error) { console.log("Ha ocurrido un error (MAC) -> " + error.statusText); });
+
+        // PROVEEDORES CON MAS COMPRAS
+        $http.get(`../../api/ProfitTMApi/GetMostActiveSuppliers/${fecha_d}/${fecha_h}/5/0`)
+            .then(function (response) {
+
+                $scope.all_mas = response.data.Result;
+                $scope.mas = $scope.all_mas;
                 $scope.validate('mas');
+
+            }, function (error) { console.log("Ha ocurrido un error (MAS) -> " + error.statusText); });
+
+            // SUCURSAL
+        $http.get(`../../api/ProfitTMApi/GetMostActiveSuppliers/${fecha_d}/${fecha_h}/5/1`)
+            .then(function (response) {
+
+                $scope.suc_mas = response.data.Result;
 
             }, function (error) { console.log("Ha ocurrido un error (MAS) -> " + error.statusText); });
 
@@ -533,10 +602,10 @@
 
                     if (responsive) {
                         $("table.borderless").addClass("table-sm");
-                        $("table.borderless th").first().remove();
+                        /*$("table.borderless th").first().remove();
                         $("table.borderless tr").each(function () {
                             $(this).find("td").first().remove();
-                        });
+                        });*/
                     }
 
                 }, 0.05);
@@ -544,11 +613,26 @@
         }
 
         $scope.changeSuc = function (value) {
+
             if (value) {
                 $scope.stats = $scope.allStats.suc;
+                $scope.msp = $scope.suc_msp;
+                $scope.mpp = $scope.suc_mpp;
+                $scope.mac = $scope.suc_mac;
+                $scope.mas = $scope.suc_mas;
             } else {
                 $scope.stats = $scope.allStats.all;
+                $scope.msp = $scope.all_msp;
+                $scope.mpp = $scope.all_mpp;
+                $scope.mac = $scope.all_mac;
+                $scope.mas = $scope.all_mas;
             }
+
+            setTimeout(function () {
+                initMSP($scope.msp);
+                initMPP($scope.mpp);
+                initMAS($scope.mas);
+            }, 0.05);
         }
     });
 

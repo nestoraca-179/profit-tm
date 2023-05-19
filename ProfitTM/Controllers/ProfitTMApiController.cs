@@ -184,31 +184,6 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        /*
-        [HttpPost]
-        [Route("api/ProfitTMApi/AddBoxMove/")]
-        public ProfitTMResponse AddBoxMove(BoxMoves move)
-        {
-            ProfitTMResponse response = new ProfitTMResponse();
-
-            try
-            {
-                BoxMoves new_move = Box.AddBoxMove(move);
-
-                response.Status = "OK";
-                response.Result = new_move;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = ex.Message;
-                Incident.CreateIncident("ERROR AGREGANDO MOVIMIENTO DE CAJA", ex);
-            }
-
-            return response;
-        }
-        */
-
         [HttpPost]
         [Route("api/ProfitTMApi/AddMove")]
         public ProfitTMResponse AddMove(saMovimientoCaja move)
@@ -754,8 +729,8 @@ namespace ProfitTM.Controllers
         }
 
         [HttpGet]
-        [Route("api/ProfitTMApi/GetMostSaleProducts/{fec_d}/{fec_h}/{number}")]
-        public ProfitTMResponse GetMostSaleProducts(string fec_d, string fec_h, int number)
+        [Route("api/ProfitTMApi/GetMostSaleProducts/{fec_d}/{fec_h}/{number}/{suc}")]
+        public ProfitTMResponse GetMostSaleProducts(string fec_d, string fec_h, int number, int suc)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -763,8 +738,9 @@ namespace ProfitTM.Controllers
             {
                 DateTime fecha_d = utils.FormatDate(fec_d);
                 DateTime fecha_h = utils.FormatDate(fec_h);
+                string sucur = HttpContext.Current.Session["BRANCH"].ToString();
 
-                List<saArticulo> arts = new Product().GetMostProducts(fecha_d, fecha_h, number, true);
+                List<saArticulo> arts = new Product().GetMostProducts(fecha_d, fecha_h, number, true, suc == 1 ? sucur : null);
 
                 response.Status = "OK";
                 response.Result = arts;
@@ -780,8 +756,8 @@ namespace ProfitTM.Controllers
         }
 
         [HttpGet]
-        [Route("api/ProfitTMApi/GetMostPurchaseProducts/{fec_d}/{fec_h}/{number}")]
-        public ProfitTMResponse GetMostPurchaseProducts(string fec_d, string fec_h, int number)
+        [Route("api/ProfitTMApi/GetMostPurchaseProducts/{fec_d}/{fec_h}/{number}/{suc}")]
+        public ProfitTMResponse GetMostPurchaseProducts(string fec_d, string fec_h, int number, int suc)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -789,8 +765,9 @@ namespace ProfitTM.Controllers
             {
                 DateTime fecha_d = utils.FormatDate(fec_d);
                 DateTime fecha_h = utils.FormatDate(fec_h);
+                string sucur = HttpContext.Current.Session["BRANCH"].ToString();
 
-                List<saArticulo> arts = new Product().GetMostProducts(fecha_d, fecha_h, number, false);
+                List<saArticulo> arts = new Product().GetMostProducts(fecha_d, fecha_h, number, false, suc == 1 ? sucur : null);
 
                 response.Status = "OK";
                 response.Result = arts;
@@ -806,8 +783,8 @@ namespace ProfitTM.Controllers
         }
 
         [HttpGet]
-        [Route("api/ProfitTMApi/GetMostActiveClients/{fec_d}/{fec_h}/{number}")]
-        public ProfitTMResponse GetMostActiveClients(string fec_d, string fec_h, int number)
+        [Route("api/ProfitTMApi/GetMostActiveClients/{fec_d}/{fec_h}/{number}/{suc}")]
+        public ProfitTMResponse GetMostActiveClients(string fec_d, string fec_h, int number, int suc)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -815,8 +792,9 @@ namespace ProfitTM.Controllers
             {
                 DateTime fecha_d = utils.FormatDate(fec_d);
                 DateTime fecha_h = utils.FormatDate(fec_h);
+                string sucur = HttpContext.Current.Session["BRANCH"].ToString();
 
-                List<saCliente> clients = new Client().GetMostActiveClients(fecha_d, fecha_h, number);
+                List<saCliente> clients = new Client().GetMostActiveClients(fecha_d, fecha_h, number, suc == 1 ? sucur : null);
 
                 response.Status = "OK";
                 response.Result = clients;
@@ -832,8 +810,8 @@ namespace ProfitTM.Controllers
         }
 
         [HttpGet]
-        [Route("api/ProfitTMApi/GetMostActiveSuppliers/{fec_d}/{fec_h}/{number}")]
-        public ProfitTMResponse GetMostActiveSuppliers(string fec_d, string fec_h, int number)
+        [Route("api/ProfitTMApi/GetMostActiveSuppliers/{fec_d}/{fec_h}/{number}/{suc}")]
+        public ProfitTMResponse GetMostActiveSuppliers(string fec_d, string fec_h, int number, int suc)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -841,8 +819,9 @@ namespace ProfitTM.Controllers
             {
                 DateTime fecha_d = utils.FormatDate(fec_d);
                 DateTime fecha_h = utils.FormatDate(fec_h);
+                string sucur = HttpContext.Current.Session["BRANCH"].ToString();
 
-                List<saProveedor> suppliers = new Supplier().GetMostActiveSuppliers(fecha_d, fecha_h, number);
+                List<saProveedor> suppliers = new Supplier().GetMostActiveSuppliers(fecha_d, fecha_h, number, suc == 1 ? sucur : null);
 
                 response.Status = "OK";
                 response.Result = suppliers;

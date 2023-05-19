@@ -41,11 +41,11 @@ namespace ProfitTM.Models
             return suppliers;
         }
 
-        public List<saProveedor> GetMostActiveSuppliers(DateTime fec_d, DateTime fec_h, int number)
+        public List<saProveedor> GetMostActiveSuppliers(DateTime fec_d, DateTime fec_h, int number, string sucur)
         {
             List<saProveedor> suppliers = new List<saProveedor>();
 
-            var sp = db.RepProveedorMasCompra(fec_d, fec_h, null, null, number, null, null, null, null, null);
+            var sp = db.RepProveedorMasCompra(fec_d, fec_h, null, null, number, null, sucur, null, null, null);
             var enumerator = sp.GetEnumerator();
 
             while (enumerator.MoveNext())

@@ -62,13 +62,13 @@ namespace ProfitTM.Models
             return prods;
         }
 
-        public List<saArticulo> GetMostProducts(DateTime fec_d, DateTime fec_h, int number, bool selling)
+        public List<saArticulo> GetMostProducts(DateTime fec_d, DateTime fec_h, int number, bool selling, string sucur)
         {
             List<saArticulo> prods = new List<saArticulo>();
 
             if (selling) // ARTICULOS VENTAS
             {
-                var sp = db.RepTotalVentaxArticulo(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                var sp = db.RepTotalVentaxArticulo(fec_d, fec_h, null, null, null, null, null, null, null, null, null, sucur, null, null, null);
                 var enumerator = sp.GetEnumerator();
 
                 while (enumerator.MoveNext())
@@ -84,7 +84,7 @@ namespace ProfitTM.Models
             }
             else // ARTICULOS COMPRAS
             {
-                var sp = db.RepTotalCompraxArticulo(fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                var sp = db.RepTotalCompraxArticulo(fec_d, fec_h, null, null, null, null, null, null, null, null, null, sucur, null, null, null);
                 var enumerator = sp.GetEnumerator();
 
                 while (enumerator.MoveNext())
