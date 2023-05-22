@@ -54,8 +54,9 @@ namespace ProfitTM
 
             var trigger = TriggerBuilder.Create()
                 .WithIdentity("myTrigger", "group1")
+                .ForJob("myJob", "group1")
                 .StartAt(DateTimeOffset.Now)
-                .WithCronSchedule("0 0 0 ? * * *")
+                .WithCronSchedule("0 0 10 ? * * *")
                 .Build();
 
             Incident.CreateIncident("FINALIZANDO QUARTZ " + trigger.StartTimeUtc.DateTime.ToString("dd/MM/yyyy HH:mm:ss"), new Exception());
