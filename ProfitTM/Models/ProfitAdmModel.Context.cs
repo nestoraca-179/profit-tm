@@ -3856,5 +3856,14 @@ namespace ProfitTM.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RepFacturaVentaxArt2_Result>("RepFacturaVentaxArt2", cCo_Articulo_dParameter, cCo_Articulo_hParameter, dCo_fecha_dParameter, dCo_fecha_hParameter, cCo_cliente_dParameter, cCo_cliente_hParameter, cCo_Vendedor_dParameter, cCo_Vendedor_hParameter, cCo_Linea_dParameter, cCo_Linea_hParameter, cCo_SubLinea_dParameter, cCo_SubLinea_hParameter, cCo_Categoria_dParameter, cCo_Categoria_hParameter, cCo_Almacen_dParameter, cCo_Almacen_hParameter, cCo_Transporte_dParameter, cCo_Transporte_hParameter, cCo_MonedaParameter, cStatusParameter, cAnuladoParameter, cCo_SucursalParameter, sCampOrderByParameter, sDirParameter, bHeaderRepParameter);
         }
+    
+        public virtual ObjectResult<pObtenerDocumentosVenta_Result> pObtenerDocumentosVenta(string sCliente)
+        {
+            var sClienteParameter = sCliente != null ?
+                new ObjectParameter("sCliente", sCliente) :
+                new ObjectParameter("sCliente", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pObtenerDocumentosVenta_Result>("pObtenerDocumentosVenta", sClienteParameter);
+        }
     }
 }

@@ -9162,5 +9162,106 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pObtenerDocumentosVenta" FunctionName="ProfitAdmContext.Store.pObtenerDocumentosVenta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pObtenerDocumentosVenta_Result">
+          <ScalarProperty Name="co_tipo_doc" ColumnName="co_tipo_doc" />
+          <ScalarProperty Name="nro_doc" ColumnName="nro_doc" />
+          <ScalarProperty Name="co_cli" ColumnName="co_cli" />
+          <ScalarProperty Name="co_ven" ColumnName="co_ven" />
+          <ScalarProperty Name="co_mone" ColumnName="co_mone" />
+          <ScalarProperty Name="mov_ban" ColumnName="mov_ban" />
+          <ScalarProperty Name="tasa" ColumnName="tasa" />
+          <ScalarProperty Name="observa" ColumnName="observa" />
+          <ScalarProperty Name="fec_reg" ColumnName="fec_reg" />
+          <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+          <ScalarProperty Name="fec_venc" ColumnName="fec_venc" />
+          <ScalarProperty Name="anulado" ColumnName="anulado" />
+          <ScalarProperty Name="aut" ColumnName="aut" />
+          <ScalarProperty Name="contrib" ColumnName="contrib" />
+          <ScalarProperty Name="doc_orig" ColumnName="doc_orig" />
+          <ScalarProperty Name="tipo_origen" ColumnName="tipo_origen" />
+          <ScalarProperty Name="nro_orig" ColumnName="nro_orig" />
+          <ScalarProperty Name="nro_che" ColumnName="nro_che" />
+          <ScalarProperty Name="saldo" ColumnName="saldo" />
+          <ScalarProperty Name="total_bruto" ColumnName="total_bruto" />
+          <ScalarProperty Name="porc_desc_glob" ColumnName="porc_desc_glob" />
+          <ScalarProperty Name="monto_desc_glob" ColumnName="monto_desc_glob" />
+          <ScalarProperty Name="porc_reca" ColumnName="porc_reca" />
+          <ScalarProperty Name="monto_reca" ColumnName="monto_reca" />
+          <ScalarProperty Name="total_neto" ColumnName="total_neto" />
+          <ScalarProperty Name="monto_imp" ColumnName="monto_imp" />
+          <ScalarProperty Name="monto_imp2" ColumnName="monto_imp2" />
+          <ScalarProperty Name="monto_imp3" ColumnName="monto_imp3" />
+          <ScalarProperty Name="tipo_imp" ColumnName="tipo_imp" />
+          <ScalarProperty Name="tipo_imp2" ColumnName="tipo_imp2" />
+          <ScalarProperty Name="tipo_imp3" ColumnName="tipo_imp3" />
+          <ScalarProperty Name="porc_imp" ColumnName="porc_imp" />
+          <ScalarProperty Name="porc_imp2" ColumnName="porc_imp2" />
+          <ScalarProperty Name="porc_imp3" ColumnName="porc_imp3" />
+          <ScalarProperty Name="num_comprobante" ColumnName="num_comprobante" />
+          <ScalarProperty Name="feccom" ColumnName="feccom" />
+          <ScalarProperty Name="numcom" ColumnName="numcom" />
+          <ScalarProperty Name="n_control" ColumnName="n_control" />
+          <ScalarProperty Name="dis_cen" ColumnName="dis_cen" />
+          <ScalarProperty Name="comis1" ColumnName="comis1" />
+          <ScalarProperty Name="comis2" ColumnName="comis2" />
+          <ScalarProperty Name="comis3" ColumnName="comis3" />
+          <ScalarProperty Name="comis4" ColumnName="comis4" />
+          <ScalarProperty Name="comis5" ColumnName="comis5" />
+          <ScalarProperty Name="comis6" ColumnName="comis6" />
+          <ScalarProperty Name="adicional" ColumnName="adicional" />
+          <ScalarProperty Name="salestax" ColumnName="salestax" />
+          <ScalarProperty Name="ven_ter" ColumnName="ven_ter" />
+          <ScalarProperty Name="impfis" ColumnName="impfis" />
+          <ScalarProperty Name="impfisfac" ColumnName="impfisfac" />
+          <ScalarProperty Name="imp_nro_z" ColumnName="imp_nro_z" />
+          <ScalarProperty Name="otros1" ColumnName="otros1" />
+          <ScalarProperty Name="otros2" ColumnName="otros2" />
+          <ScalarProperty Name="otros3" ColumnName="otros3" />
+          <ScalarProperty Name="campo1" ColumnName="campo1" />
+          <ScalarProperty Name="campo2" ColumnName="campo2" />
+          <ScalarProperty Name="campo3" ColumnName="campo3" />
+          <ScalarProperty Name="campo4" ColumnName="campo4" />
+          <ScalarProperty Name="campo5" ColumnName="campo5" />
+          <ScalarProperty Name="campo6" ColumnName="campo6" />
+          <ScalarProperty Name="campo7" ColumnName="campo7" />
+          <ScalarProperty Name="campo8" ColumnName="campo8" />
+          <ScalarProperty Name="co_us_in" ColumnName="co_us_in" />
+          <ScalarProperty Name="co_sucu_in" ColumnName="co_sucu_in" />
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="co_us_mo" ColumnName="co_us_mo" />
+          <ScalarProperty Name="co_sucu_mo" ColumnName="co_sucu_mo" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="revisado" ColumnName="revisado" />
+          <ScalarProperty Name="trasnfe" ColumnName="trasnfe" />
+          <ScalarProperty Name="validador" ColumnName="validador" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+          <ScalarProperty Name="co_cta_ingr_egr" ColumnName="co_cta_ingr_egr" />
+          <ScalarProperty Name="Hasta1" ColumnName="Hasta1" />
+          <ScalarProperty Name="Hasta2" ColumnName="Hasta2" />
+          <ScalarProperty Name="Hasta3" ColumnName="Hasta3" />
+          <ScalarProperty Name="Hasta4" ColumnName="Hasta4" />
+          <ScalarProperty Name="Hasta5" ColumnName="Hasta5" />
+          <ScalarProperty Name="Porc1" ColumnName="Porc1" />
+          <ScalarProperty Name="porc2" ColumnName="porc2" />
+          <ScalarProperty Name="porc3" ColumnName="porc3" />
+          <ScalarProperty Name="porc4" ColumnName="porc4" />
+          <ScalarProperty Name="porc5" ColumnName="porc5" />
+          <ScalarProperty Name="porc6" ColumnName="porc6" />
+          <ScalarProperty Name="TipoCliente" ColumnName="TipoCliente" />
+          <ScalarProperty Name="signoVsTipo" ColumnName="signoVsTipo" />
+          <ScalarProperty Name="esCasaMatriz" ColumnName="esCasaMatriz" />
+          <ScalarProperty Name="Monto_Obj" ColumnName="Monto_Obj" />
+          <ScalarProperty Name="esPersistente" ColumnName="esPersistente" />
+          <ScalarProperty Name="cobrarParEmp" ColumnName="cobrarParEmp" />
+          <ScalarProperty Name="existeDocReng" ColumnName="existeDocReng" />
+          <ScalarProperty Name="aplica_dxpp_venta" ColumnName="aplica_dxpp_venta" />
+          <ScalarProperty Name="aplica_riva_venta" ColumnName="aplica_riva_venta" />
+          <ScalarProperty Name="ExisteCobroRetenIva" ColumnName="ExisteCobroRetenIva" />
+          <ScalarProperty Name="ExistePagoRetenIslr" ColumnName="ExistePagoRetenIslr" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

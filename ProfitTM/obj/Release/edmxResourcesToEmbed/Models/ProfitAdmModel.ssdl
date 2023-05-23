@@ -14967,6 +14967,9 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sRevisado" Type="char" Mode="In" />
     <Parameter Name="sMaquina" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="pObtenerDocumentosVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sCliente" Type="char" Mode="In" />
+  </Function>
   <Function Name="pObtenerSaldoCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sCodigo" Type="char" Mode="In" />
   </Function>

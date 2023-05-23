@@ -428,6 +428,7 @@
     <Content Include="Areas\CajaBanco\Views\Procesos\Caja.cshtml" />
     <Content Include="Areas\Ventas\Views\Tablas\ConsultarCliente.cshtml" />
     <Content Include="Areas\Compras\Views\Tablas\ConsultarProveedor.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\Cobro.cshtml" />
     <None Include="Properties\PublishProfiles\Publicacion Local.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
@@ -704,6 +705,9 @@
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pInsertarRenglonesTPCobro_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\pObtenerDocumentosVenta_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProfitAdmModel.Context.cs">

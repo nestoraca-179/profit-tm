@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Data.Entity;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace ProfitTM.Models
 {
@@ -22,6 +23,68 @@ namespace ProfitTM.Models
             }
 
             return invoice;
+        }
+
+        public List<saCobro> GetAllCollects(int number, string sucur)
+        {
+            List<saCobro> collects;
+
+            try
+            {
+                collects = db.saCobro.AsNoTracking().Where(c => c.co_sucu_in == sucur).Include("saCobroDocReng").Include("saCobroTPReng").Include("saCliente")
+                    .Include("saVendedor").Include("saMoneda").OrderByDescending(c => c.fe_us_in).ThenBy(c => c.cob_num).Take(number).ToList();
+
+                foreach (saCobro collect in collects)
+                {
+                    collect.saCliente.saCobro = null;
+                    collect.saVendedor.saCobro = null;
+                    collect.saMoneda.saCobro = null;
+                    foreach (saCobroDocReng reng in collect.saCobroDocReng)
+                    {
+                        reng.saCobro = null;
+                        reng.saDocumentoVenta = db.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == reng.co_tipo_doc && d.nro_doc == reng.nro_doc);
+                        reng.saDocumentoVenta.saTipoDocumento = db.saTipoDocumento.AsNoTracking().Single(t => t.co_tipo_doc == reng.co_tipo_doc);
+                    }
+                    foreach (saCobroTPReng reng in collect.saCobroTPReng)
+                    {
+                        reng.saCobro = null;
+                        reng.saCaja = db.saCaja.AsNoTracking().SingleOrDefault(c => c.cod_caja == reng.cod_caja);
+                        reng.saCuentaBancaria = db.saCuentaBancaria.AsNoTracking().SingleOrDefault(c => c.cod_cta == reng.cod_cta);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                collects = null;
+                Incident.CreateIncident("ERROR BUSCANDO COBROS", ex);
+            }
+
+            return collects;
+        }
+
+        public List<saCobroDocReng> GetCollectDocs(string co_cli)
+        {
+            List<saCobroDocReng> rengs = new List<saCobroDocReng>();
+            saCobroDocReng reng = new saCobroDocReng();
+
+            var sp = db.pObtenerDocumentosVenta(co_cli);
+            var enumerator = sp.GetEnumerator();
+
+            int i = 1;
+            while (enumerator.MoveNext())
+            {
+                reng.reng_num = i;
+                reng.co_tipo_doc = enumerator.Current.co_tipo_doc;
+                reng.nro_doc = enumerator.Current.nro_doc;
+                reng.mont_cob = 0;
+                reng.saDocumentoVenta = db.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == reng.co_tipo_doc && d.nro_doc == reng.nro_doc);
+
+                i++;
+                rengs.Add(reng);
+            }
+
+            reng = null;
+            return rengs;
         }
 
         public saCobro AddCollectFromInvoice(string doc_num, saCobroTPReng reng, string user, string sucur)

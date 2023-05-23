@@ -93,6 +93,51 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 return View();
             }
         }
+
+        public ActionResult Cobro()
+        {
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
+            ViewBag.modules = Session["MODULES"];
+            ViewBag.product = "Administrativo";
+
+            if (ViewBag.user == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
+            }
+            else
+            {
+                string sucur = Session["BRANCH"].ToString();
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
+                ViewBag.username = (Session["USER"] as Users).Username;
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                serializer.MaxJsonLength = 50000000;
+
+                ViewBag.collects = serializer.Serialize(new Collect().GetAllCollects(200, sucur));
+
+                if (Session["CLIENTS"] == null)
+                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllClients(false));
+
+                if (Session["CURRENCIES"] == null)
+                    Session["CURRENCIES"] = serializer.Serialize(new Currency().GetAllCurrencies());
+
+                if (Session["SELLERS"] == null)
+                    Session["SELLERS"] = serializer.Serialize(new Seller().GetAllSellers());
+
+                ViewBag.clients = Session["CLIENTS"];
+                ViewBag.currencies = Session["CURRENCIES"];
+                ViewBag.sellers = Session["SELLERS"];
+
+                return View();
+            }
+        }
     
         public ActionResult Preliquidacion()
         {

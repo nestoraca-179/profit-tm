@@ -130,7 +130,7 @@ namespace ProfitTM.Controllers
 
             return response;
         }
-        
+
         [HttpGet]
         [Route("api/ProfitTMApi/GetBoxOpen/{user}/")]
         public ProfitTMResponse GetBoxOpen(string user)
@@ -157,10 +157,10 @@ namespace ProfitTM.Controllers
                 response.Message = ex.Message;
                 Incident.CreateIncident("ERROR BUSCANDO CAJA ABIERTA", ex);
             }
-            
+
             return response;
         }
-        
+
         [HttpPost]
         [Route("api/ProfitTMApi/AddBox/")]
         public ProfitTMResponse AddBox(Boxes box)
@@ -170,7 +170,7 @@ namespace ProfitTM.Controllers
             try
             {
                 Boxes new_box = Box.AddBox(box);
-                
+
                 response.Status = "OK";
                 response.Result = new_box;
             }
@@ -367,7 +367,7 @@ namespace ProfitTM.Controllers
 
             return response;
         }
-        
+
         // PROVEEDOR
 
         [HttpPost]
@@ -695,7 +695,30 @@ namespace ProfitTM.Controllers
                 response.Message = ex.Message;
                 Incident.CreateIncident("ERROR AGREGANDO COBRO", ex);
             }
-            
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetCollectDocs/{co_cli}")]
+        public ProfitTMResponse GetCollectDocs(string co_cli)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                List<saCobroDocReng> rengs = new Collect().GetCollectDocs(co_cli);
+
+                response.Status = "OK";
+                response.Result = rengs;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO DOCUMENTOS EN MODULO DE COBROS", ex);
+            }
+
             return response;
         }
         

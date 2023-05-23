@@ -18075,6 +18075,9 @@
       <Parameter Name="sDir" Mode="In" Type="String" />
       <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <FunctionImport Name="pObtenerDocumentosVenta" ReturnType="Collection(ProfitAdmContext.pObtenerDocumentosVenta_Result)">
+      <Parameter Name="sCliente" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -18665,5 +18668,102 @@
     <Property Type="String" Name="art_des" Nullable="false" MaxLength="120" />
     <Property Type="String" Name="modelo" Nullable="true" MaxLength="20" />
     <Property Type="Decimal" Name="neto" Nullable="true" Precision="38" Scale="10" />
+  </ComplexType>
+  <ComplexType Name="pObtenerDocumentosVenta_Result">
+    <Property Type="String" Name="co_tipo_doc" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="nro_doc" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="co_cli" Nullable="false" MaxLength="16" />
+    <Property Type="String" Name="co_ven" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_mone" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="mov_ban" Nullable="true" MaxLength="20" />
+    <Property Type="Decimal" Name="tasa" Nullable="false" Precision="21" Scale="8" />
+    <Property Type="String" Name="observa" Nullable="true" />
+    <Property Type="DateTime" Name="fec_reg" Nullable="false" Precision="16" />
+    <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+    <Property Type="DateTime" Name="fec_venc" Nullable="false" Precision="16" />
+    <Property Type="Boolean" Name="anulado" Nullable="false" />
+    <Property Type="Boolean" Name="aut" Nullable="false" />
+    <Property Type="Boolean" Name="contrib" Nullable="false" />
+    <Property Type="String" Name="doc_orig" Nullable="true" MaxLength="6" />
+    <Property Type="Int32" Name="tipo_origen" Nullable="true" />
+    <Property Type="String" Name="nro_orig" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="nro_che" Nullable="true" MaxLength="20" />
+    <Property Type="Decimal" Name="saldo" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="total_bruto" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="porc_desc_glob" Nullable="true" MaxLength="15" />
+    <Property Type="Decimal" Name="monto_desc_glob" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="porc_reca" Nullable="true" MaxLength="15" />
+    <Property Type="Decimal" Name="monto_reca" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="total_neto" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="monto_imp" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="monto_imp2" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="monto_imp3" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="tipo_imp" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="tipo_imp2" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="tipo_imp3" Nullable="true" MaxLength="1" />
+    <Property Type="Decimal" Name="porc_imp" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="porc_imp2" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="porc_imp3" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="String" Name="num_comprobante" Nullable="true" MaxLength="14" />
+    <Property Type="DateTime" Name="feccom" Nullable="true" Precision="16" />
+    <Property Type="Int32" Name="numcom" Nullable="true" />
+    <Property Type="String" Name="n_control" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="dis_cen" Nullable="true" MaxLength="Max" />
+    <Property Type="Decimal" Name="comis1" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="comis2" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="comis3" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="comis4" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="comis5" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="comis6" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="adicional" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="salestax" Nullable="true" MaxLength="8" />
+    <Property Type="Boolean" Name="ven_ter" Nullable="false" />
+    <Property Type="String" Name="impfis" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="impfisfac" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="imp_nro_z" Nullable="true" MaxLength="15" />
+    <Property Type="Decimal" Name="otros1" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="otros2" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="otros3" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="campo1" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo2" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo3" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo4" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo5" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo6" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo7" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="campo8" Nullable="true" MaxLength="60" />
+    <Property Type="String" Name="co_us_in" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_sucu_in" Nullable="true" MaxLength="6" />
+    <Property Type="DateTime" Name="fe_us_in" Nullable="false" Precision="23" />
+    <Property Type="String" Name="co_us_mo" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_sucu_mo" Nullable="true" MaxLength="6" />
+    <Property Type="DateTime" Name="fe_us_mo" Nullable="false" Precision="23" />
+    <Property Type="String" Name="revisado" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="trasnfe" Nullable="true" MaxLength="1" />
+    <Property Type="Binary" Name="validador" Nullable="false" MaxLength="8" />
+    <Property Type="Guid" Name="rowguid" Nullable="false" />
+    <Property Type="String" Name="co_cta_ingr_egr" Nullable="true" MaxLength="20" />
+    <Property Type="Decimal" Name="Hasta1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Hasta2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Hasta3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Hasta4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Hasta5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="Porc1" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="porc2" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="porc3" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="porc4" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="porc5" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="porc6" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="TipoCliente" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="signoVsTipo" Nullable="false" MaxLength="1" />
+    <Property Type="Boolean" Name="esCasaMatriz" Nullable="true" />
+    <Property Type="Decimal" Name="Monto_Obj" Nullable="false" Precision="19" Scale="2" />
+    <Property Type="Boolean" Name="esPersistente" Nullable="true" />
+    <Property Type="Boolean" Name="cobrarParEmp" Nullable="true" />
+    <Property Type="Boolean" Name="existeDocReng" Nullable="true" />
+    <Property Type="Boolean" Name="aplica_dxpp_venta" Nullable="false" />
+    <Property Type="Boolean" Name="aplica_riva_venta" Nullable="false" />
+    <Property Type="Boolean" Name="ExisteCobroRetenIva" Nullable="true" />
+    <Property Type="Boolean" Name="ExistePagoRetenIslr" Nullable="true" />
   </ComplexType>
 </Schema>

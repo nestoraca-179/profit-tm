@@ -378,7 +378,8 @@ p.title-opt {
 .container-list .table thead {
     background: #13568a;
 }
-.container-list .list-table-clients, .container-list .list-table-invoices, .container-list .list-table-orders {
+.container-list .list-table-clients, .container-list .list-table-invoices, 
+.container-list .list-table-orders, .container-list .list-table-collects {
     height: 100%;
     margin-top: 5px;
     overflow-y: auto;

@@ -1,0 +1,848 @@
+﻿@{
+    ViewBag.Title = "Cobro";
+}
+<style>
+    input, select, textarea {
+        border: solid 1px #d7d7d7;
+        border-radius: 5px;
+        box-shadow: none;
+    }
+    input[disabled] {
+        pointer-events: none;
+    }
+    .container-collects {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+    .container-collects > .row {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .container-collects > .row hr {
+        display: none;
+    }
+    .container-form .controls {
+        margin: 0;
+    }
+    .col-sm-12.col-md-4.controls {
+        width: auto;
+    }
+    .form-body .row {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .form-body .row .controls {
+        margin: 0;
+        padding: 0;
+    }
+    .cont-checks {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .cont-checks .label-check {
+        width: 140px;
+    }
+    .cont-radios {
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .btn-convert {
+        display: flex;
+        justify-content: center;
+        align-items: end;
+    }
+    .btn-convert button {
+        width: 100%;
+    }
+    .bottom {
+        margin-top: 15px;
+    }
+    .modal-info .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
+    tr.active {
+        background: #0277bd !important;
+    }
+    tr.active td {
+        color: #FFF !important;
+    }
+    .field-active {
+        background: #7af4af !important;
+    }
+    .d-flex.justify-content-evenly > button {
+        width: 25px;
+        height: 25px;
+        padding: 0;
+        font-size: 10px;
+    }
+    @@media (max-width: 767px) {
+        .btn-convert {
+            margin-top: 15px;
+        }
+    }
+    @@media (max-width: 1199px) {
+        .container-collects, .container-collects > .row {
+            height: auto !important;
+        }
+        hr:not(.divider) {
+            display: block !important;
+        }
+        .button-import .btn {
+            margin: 2px;
+        }
+        .buttons-next-prev {
+            justify-content: center !important;
+            margin: 5px 0;
+        }
+        .button-import {
+            flex-wrap: wrap;
+            justify-content: center !important;
+            margin: 5px 0;
+        }
+    }
+</style>
+<script src="~/Scripts/angular-min.js"></script>
+<div class="container-fluid container-collects" id="container-collects" style="display: none;" ng-app="Collects" ng-controller="controller">
+    <div class="row">
+        <div class="col-md-12 col-xl-3 container-list">
+            <input type="text" id="input-collects" class="form-control" placeholder="Buscar cobro..." style="border: solid 1px #ced4da;" onkeyup="searchCollect()" />
+            <div class="list-table-collects">
+                <table class="table table-hover table-striped" id="table-collects">
+                    <thead>
+                        <tr>
+                            <th class="text-white">Código</th>
+                            <th class="text-white">Cliente</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="collect in collects" ng-class="{ active: collects[index].cob_num == collect.cob_num }" ng-click="selectCollect(collect.cob_num)" style="cursor: pointer;">
+                        <td><i class="fas fa-caret-right mx-1" ng-show="collects[index].cob_num == collect.cob_num"></i>{{ collect.cob_num }}</td>
+                        <td>{{ collect.co_cli }}</td>
+                    </tr>
+                </table>
+            </div>
+            <button type="button" class="btn btn-primary mt-2" ng-click="loadCollects()">Cargar más cobros</button>
+        </div>
+        <hr class="divider" />
+        <form action="" method="post" id="form" class="col-md-12 col-xl-9 container-form" onsubmit="return false;">
+            <div class="form-header">
+                <h3 class="text-center text-white"><i class="fas fa-hand-holding-usd"></i> Cobro</h3>
+            </div>
+            <div class="form-buttons">
+                <div class="row">
+                    <div class="col-sm-12 col-xl-4 buttons-next-prev" ng-show="!new">
+                        <button type="button" class="btn text-white" style="background: #810be3; min-width: auto; padding: 0 7px;" ng-click="initAddCollect()">
+                            <i class="fas fa-plus"></i> Nuevo
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="margin('s')">
+                            <i class="fas fa-chevron-double-left"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="prev()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="next()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="margin('e')">
+                            <i class="fas fa-chevron-double-right"></i>
+                        </button>
+                    </div>
+                    <div class="col buttons-save-cancel" ng-show="new">
+                        <button type="button" class="btn btn-danger" ng-click="new = false; collect = collects[index];">
+                            <i class="fas fa-times"></i>
+                            Cancelar
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="submit" class="btn btn-success" ng-click="addNewCollect()">
+                            <i class="fas fa-save"></i>
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-tabs">
+                <div class="row">
+                    <button type="button" id="btn-general" class="col tablinks active" onclick="openTab(event, 'general')">General</button>
+                    <button type="button" id="btn-adicionales" class="col tablinks" onclick="openTab(event, 'adicionales')">Adicionales</button>
+                </div>
+            </div>
+            <div id="general" class="form-body" style="display: flex;">
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="controls">
+                            <label>Número</label>
+                            <input type="text" class="form-control" id="id" ng-model="collect.cob_num" ng-disabled="true" ng-required="true" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-7">
+                        <div class="controls">
+                            <label>Descripción</label>
+                            <input type="text" class="form-control" id="recibo" ng-model="collect.descrip" ng-disabled="!new" ng-required="false" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="controls">
+                            <label>Cliente</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="client" ng-model="collect.co_cli" ng-disabled="!new" ng-required="true" style="flex: 1;" onkeypress="return false;" />
+                                <input type="text" class="form-control" id="des_client" ng-model="collect.saCliente.cli_des" ng-disabled="!new" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalClients')" data-name="client"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="controls">
+                            <label>Moneda</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="currency" ng-model="collect.co_mone" ng-disabled="!new" ng-required="true" ng-readonly="true" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="currency"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Tasa</label>
+                            <input type="text" class="form-control" id="tasa" ng-model="collect.tasa" ng-disabled="!new" ng-required="true" ng-change="update(collect.tasa)" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="controls">
+                            <label>Cobrador</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="seller" ng-model="collect.co_ven" ng-disabled="!new" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_seller" ng-model="collect.saVendedor.ven_des" ng-disabled="!new" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSellers')" data-name="seller"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <div class="controls">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="status" ng-model="collect.fecha" ng-disabled="true" ng-required="true" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 btn-convert">
+                        <button type="button" class="btn btn-primary" ng-click="convert()">Conversión</button>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div ng-if="new" class="row">
+                        <div class="col-sm-12 col-md-3 offset-md-9" style="padding: 0 0 10px 20px;">
+                            <button type="submit" class="btn btn-success w-100" ng-click="getDocs()">Documentos</button>
+                        </div>
+                    </div>
+                    <h4 class="text-center text-white form-header"><i class="fas fa-file"></i> Detalles</h4>
+                    <div style="padding: 0 10px; overflow-x: auto;">
+                        <table class="table table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Tipo</th>
+                                    <th>N° Doc.</th>
+                                    <th>Moneda</th>
+                                    <th>Monto Doc.</th>
+                                    <th>Saldo Pend. Doc.</th>
+                                    <th>Monto Abon.</th>
+                                    <th>+/-</th>
+                                    <th>Fec. Emis.</th>
+                                    <th>Fec. Venc.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="reng in collect.saCobroDocReng | orderBy: 'reng_num'" style="cursor: pointer;">
+                                    <td>{{ reng.reng_num }}</td>
+                                    <td>{{ reng.co_tipo_doc }}</td>
+                                    <td>{{ reng.nro_doc }}</td>
+                                    <td>{{ reng.saDocumentoVenta.co_mone }}</td>
+                                    <td ng-if="!converted">{{ reng.saDocumentoVenta.total_neto }}</td>
+                                    <td ng-if="converted" class="field-active">{{ reng.saDocumentoVenta.total_neto_om }}</td>
+                                    <td ng-if="!converted">{{ reng.saDocumentoVenta.saldo }}</td>
+                                    <td ng-if="converted" class="field-active">{{ reng.saDocumentoVenta.saldo_om }}</td>
+                                    <td ng-if="!converted">{{ reng.mont_cob }}</td>
+                                    <td ng-if="converted" class="field-active">{{ reng.mont_cob_om }}</td>
+                                    <td>{{ reng.signo }}</td>
+                                    <td>{{ formatDate(reng.saDocumentoVenta.fec_emis) }}</td>
+                                    <td>{{ formatDate(reng.saDocumentoVenta.fec_venc) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h4 class="text-center text-white form-header"><i class="fas fa-dollar-sign"></i> Formas de Cobro</h4>
+                    <div style="padding: 0 10px; overflow-x: auto;">
+                        <table class="table table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Tipo</th>
+                                    <th>N° Doc.</th>
+                                    <th>Banco</th>
+                                    <th>Fecha</th>
+                                    <th>Mov. Caja</th>
+                                    <th>Mov. Banco</th>
+                                    <th>Caja</th>
+                                    <th>Cuenta</th>
+                                    <th>Moneda</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="reng in collect.saCobroTPReng | orderBy: 'reng_num'" style="cursor: pointer;">
+                                    <td>{{ reng.reng_num }}</td>
+                                    <td>{{ selectPayType(reng.forma_pag) }}</td>
+                                    <td>{{ reng.num_doc }}</td>
+                                    <td>{{ reng.co_ban }}</td>
+                                    <td>{{ formatDate(reng.fecha_che) }}</td>
+                                    <td>{{ reng.mov_num_c }}</td>
+                                    <td>{{ reng.mov_num_b }}</td>
+                                    <td>{{ reng.cod_caja }}</td>
+                                    <td>{{ reng.cod_cta }}</td>
+                                    <td>{{ reng.co_mone }}</td>
+                                    <td ng-if="!converted">{{ reng.mont_doc }}</td>
+                                    <td ng-if="converted" class="field-active">{{ reng.mont_doc_om }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 offset-md-6">
+                            <div class="controls">
+                                <label>Total</label>
+                                <input type="text" class="form-control" id="total" ng-model="collect.total_neto" ng-show="!converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="total_om" ng-model="collect.total_neto_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="adicionales" class="form-body">
+                <div class="left">
+                    <div class="controls">
+                        <label>Campo 1</label>
+                        <input type="text" class="form-control" ng-model="collect.campo1" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 3</label>
+                        <input type="text" class="form-control" ng-model="collect.campo3" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 5</label>
+                        <input type="text" class="form-control" ng-model="collect.campo5" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 7</label>
+                        <input type="text" class="form-control" ng-model="collect.campo7" ng-disabled="true" />
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="controls">
+                        <label>Campo 2</label>
+                        <input type="text" class="form-control" ng-model="collect.campo2" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 4</label>
+                        <input type="text" class="form-control" ng-model="collect.campo4" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 6</label>
+                        <input type="text" class="form-control" ng-model="collect.campo6" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Campo 8</label>
+                        <input type="text" class="form-control" ng-model="collect.campo8" ng-disabled="true" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal 1 -->
+    <div class="modal fade" id="modalClients" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cliente..." onkeyup="search('modalClients')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="client in clients" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ client.co_cli }}</td>
+                            <td>{{ client.cli_des }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalClients')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 2 -->
+    <div class="modal fade" id="modalCurrencies" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Moneda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar moneda..." onkeyup="search('modalCurrencies')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="currency in currencies" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ currency.co_mone }}</td>
+                            <td>{{ currency.mone_des }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalCurrencies')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 3 -->
+    <div class="modal fade" id="modalSellers" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Moneda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar moneda..." onkeyup="search('modalSellers')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="seller in sellers" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ seller.co_ven }}</td>
+                            <td>{{ seller.ven_des }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalSellers')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-loading p-3">
+    <h4>Cargando módulo de cobros...</h4>
+</div>
+<script>
+    var app = angular.module("Collects", []);
+    var user = '@ViewBag.username';
+    var sucur = '@Session["BRANCH"]';
+    var isNullOrEmpty = (str) => str == null || str == "";
+    var collects = @Html.Raw(ViewBag.collects);
+    var clients = @Html.Raw(ViewBag.clients);
+    var currencies = @Html.Raw(ViewBag.currencies);
+    var sellers = @Html.Raw(ViewBag.sellers);
+    var header = document.getElementById("header-left");
+    var menu = document.getElementById("menu-left");
+
+    collects = parseItems(collects);
+
+    $(document).ready(function () {
+        $(".container-collects").removeAttr("style");
+        $(".panel-loading").css("display", "none");
+
+        if (!responsive)
+            $("#icon-menu").trigger("click");
+    });
+
+    $("#container-collects").on("click", function (event) {
+        if (event.target.id != "icon-menu" && event.target.id != "menu-left" && !responsive) {
+            if ($("#menu-left.active").length == 0) {
+                $("#icon-menu").trigger("click");
+            }
+        }
+    });
+
+    $(document).on("contextmenu", function (event) {
+        event.preventDefault();
+    });
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.index = 0;
+        $scope.numberI = 200;
+        $scope.collects = collects;
+        $scope.collect = collects[$scope.index];
+        $scope.clients = clients;
+        $scope.currencies = currencies;
+        $scope.sellers = sellers;
+        $scope.converted = false;
+
+        $scope.next = function () {
+            if ($scope.index == (collects.length - 1)) {
+                $scope.index = 0;
+            } else {
+                $scope.index++;
+            }
+
+            $scope.collect = collects[$scope.index];
+        }
+
+        $scope.prev = function () {
+            if ($scope.index == 0) {
+                $scope.index = collects.length - 1;
+            } else {
+                $scope.index--;
+            }
+
+            $scope.collect = collects[$scope.index];
+        }
+
+        $scope.selectCollect = function (id) {
+            if ($scope.new || $scope.adding) {
+                alert("Debes terminar de agregar el cobro");
+            } else if ($scope.editing) {
+                alert("Debes terminar de modificar el cobro " + $scope.collect.cob_num);
+            } else {
+                $scope.collect = collects.find(c => c.cob_num == id);
+                $scope.index = collects.indexOf($scope.collect);
+                $scope.collects = collects;
+                $("#input-collects").val("");
+                searchCollect();
+            }
+        }
+
+        $scope.margin = function (p) {
+            if (p == "s") {
+                $scope.index = 0;
+                $scope.collect = collects[0];
+            } else if (p == "e") {
+                $scope.index = collects.length - 1;
+                $scope.collect = collects[invoices.length - 1];
+            }
+        }
+
+        $scope.loadCollects = function () {
+
+            $scope.numberI += 200;
+            console.log($scope.numberI);
+
+            /*
+            $("#modalWaiting").modal("show");
+
+            $http.get("/api/ProfitTMApi/GetInvoices/" + $scope.numberI)
+                .then(function (response) {
+
+                    var res = response.data;
+
+                    if (res.Status == "OK") {
+
+                        invoices = res.Result;
+
+                        for (var i in invoices) {
+                            invoices[i] = convert(invoices[i]);
+                        }
+
+                        $scope.invoices = invoices;
+                        $scope.invoice = invoices[0];
+                        $scope.index = 0;
+                        $scope.successMessage = "Facturas cargadas con éxito";
+                        $("#modalSuccess").modal("show");
+
+                    } else {
+
+                        $scope.errorMessage = res.Message;
+                        $("#modalError").modal("show");
+
+                    }
+                });
+            */
+        }
+
+        $scope.formatDate = function (date) {
+
+            var day = date.getDate(), month = date.getMonth() + 1, year = date.getFullYear();
+
+            if (day < 10)
+                day = "0" + day;
+
+            if (month < 10)
+                month = "0" + month;
+
+            return day + "/" + month + "/" + year;
+        }
+
+        $scope.selectPayType = function (type) {
+
+            var t;
+
+            switch (type) {
+                case "EF":
+                    t = "Efectivo";
+                    break;
+                case "TP":
+                    t = "Transferencia";
+                    break;
+                case "DP":
+                    t = "Depósito";
+                    break;
+            }
+
+            return t;
+        }
+
+        $scope.convert = function () {
+            $scope.converted = !$scope.converted;
+        }
+
+        $scope.update = function (tasa) {
+
+            if ($scope.new && $scope.saCobroDocReng != null) {
+                tasa = tasa == null || parseFloat(tasa) == 0 ? 1 : parseFloat(tasa);
+
+                if ($scope.converted) {
+                    $scope.collect.total_neto = setSeparator((parse($scope.collect.total_neto_om) * tasa).toFixed(2));
+
+                    for (var r of $scope.collect.saCobroDocReng) {
+                        r.saDocumentoVenta.total_neto = setSeparator((parse(r.saDocumentoVenta.total_neto_om) * tasa).toFixed(2));
+                        r.saDocumentoVenta.saldo = setSeparator((parse(r.saDocumentoVenta.saldo_om) * tasa).toFixed(2));
+                        r.mont_cob = setSeparator((parse(r.mont_cob_om) * tasa).toFixed(2));
+                    }
+
+                    for (var r of $scope.collect.saCobroTPReng) {
+                        r.mont_doc = setSeparator((parse(r.mont_doc) * tasa).toFixed(2));
+                    }
+                } else {
+                    $scope.collect.total_neto_om = setSeparator((parse($scope.collect.total_neto) / tasa).toFixed(2));
+
+                    for (var r of $scope.collect.saCobroDocReng) {
+                        r.saDocumentoVenta.total_neto_om = setSeparator((parse(r.saDocumentoVenta.total_neto) / tasa).toFixed(2));
+                        r.saDocumentoVenta.saldo_om = setSeparator((parse(r.saDocumentoVenta.saldo) / tasa).toFixed(2));
+                        r.mont_cob_om = setSeparator((parse(r.mont_cob) / tasa).toFixed(2));
+                    }
+
+                    for (var r of $scope.collect.saCobroTPReng) {
+                        r.mont_doc_om = setSeparator((parse(r.mont_doc) / tasa).toFixed(2));
+                    }
+                }
+            }
+        }
+
+        $scope.initAddCollect = function () {
+
+            $scope.new = true;
+            $scope.collect = {
+                co_mone: "US$",
+                fecha: new Date(Date.now())
+            };
+        }
+
+        $scope.addNewCollect = function () {
+
+        }
+
+        $scope.getDocs = function () {
+
+            if ($("#form")[0].checkValidity()) {
+
+                $("#form input").change();
+
+                $http.get("/api/ProfitTMApi/GetCollectDocs/" + $scope.collect.co_cli)
+                    .then(function (response) {
+
+                        console.log(response.data);
+
+                    });
+            }
+        }
+    });
+
+    function searchClient(value) {
+        return clients.find(c => c.co_cli == value).cli_des;
+    }
+
+    function searchSeller(value) {
+        return sellers.find(s => s.co_ven.trim() == value.trim()).ven_des;
+    }
+
+    function parseItems(items_c) {
+
+        var items = items_c;
+
+        for (var item of items) {
+
+            item.total_neto = 0;
+
+            for (var r of item.saCobroDocReng) {
+                r.saDocumentoVenta.total_neto_om = setSeparator((r.saDocumentoVenta.total_neto / item.tasa).toFixed(2));
+                r.saDocumentoVenta.total_neto = setSeparator(r.saDocumentoVenta.total_neto.toFixed(2));
+                r.saDocumentoVenta.saldo_om = setSeparator((r.saDocumentoVenta.saldo / item.tasa).toFixed(2));
+                r.saDocumentoVenta.saldo = setSeparator(r.saDocumentoVenta.saldo.toFixed(2));
+                r.mont_cob_om = setSeparator((r.mont_cob / item.tasa).toFixed(2));
+                r.mont_cob = setSeparator(r.mont_cob.toFixed(2));
+                r.saDocumentoVenta.fec_emis = new Date(parseInt(r.saDocumentoVenta.fec_emis.substr(6)));
+                r.saDocumentoVenta.fec_venc = new Date(parseInt(r.saDocumentoVenta.fec_venc.substr(6)));
+                r.signo = r.saDocumentoVenta.saTipoDocumento.tipo_mov == 'DE' ? "+" : "-";
+            }
+
+            for (var r of item.saCobroTPReng) {
+                item.total_neto += parseFloat(r.mont_doc);
+                r.fecha_che = new Date(parseInt(r.fecha_che.substr(6)));
+                r.co_mone = r.saCaja != null ? r.saCaja.co_mone : r.saCuentaBancaria.co_mone;
+                r.mont_doc_om = setSeparator((r.mont_doc / item.tasa).toFixed(2));
+                r.mont_doc = setSeparator(r.mont_doc.toFixed(2));
+            }
+
+            // MONTOS
+            item.total_neto_om = setSeparator((item.total_neto / item.tasa).toFixed(2));
+            item.total_neto = setSeparator(item.total_neto);
+
+            // FECHAS
+            item.fecha = new Date(parseInt(item.fecha.substr(6)));
+            item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
+            item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
+        }
+
+        return items;
+    }
+
+    function setSeparator(value) {
+        return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
+    }
+
+    function parse(value) {
+        return parseFloat(value.replaceAll(',', ''));
+    }
+
+    function openModal(elem, modal) {
+
+        var previous = elem.previousElementSibling;
+
+        if (!previous.disabled) {
+
+            $("#" + modal).find("#name-input").val($(elem).data("name"));
+            $("#" + modal).modal("show");
+
+        }
+    }
+
+    function search(modal) {
+        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+            table = $("#" + modal).find("#results")[0];
+
+        for (var i = 0; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    function selectRow(elem) {
+        var previous = document.getElementsByClassName("selected-row")[0];
+
+        if (previous != null) {
+            previous.classList.remove("selected-row");
+        }
+
+        elem.classList.add("selected-row");
+    }
+
+    function saveRow(modal) {
+        var item = document.getElementsByClassName("selected-row")[0];
+
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val(),
+                rows = [...($("#" + modal).find("#results")[0].rows)];
+
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            if (input == "client") {
+                $("#des_client").val(searchClient(value));
+            } else if (input == "seller") {
+                $("#des_seller").val(searchSeller(value));
+            }
+
+            rows.forEach(row => row.style.display = "");
+            $("#" + modal).modal("hide");
+        } else {
+            alert("Debes seleccionar un item");
+        }
+    }
+
+    function openTab(e, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("form-body");
+
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(tabName).style.display = "flex";
+        e.target.className += " active";
+    }
+
+    function searchCollect() {
+        var value = $("#input-collects").val().toLowerCase(),
+            table = $("#table-collects")[0];
+
+        for (var i = 1; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+</script>
