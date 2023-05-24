@@ -174,8 +174,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-4">Superior de Caja</label>
                                 <div class="col-sm-8">
-                                    <select ng-model="user.SupID" ng-disabled="!user.UseBox || !user.BoxType || !sups" ng-options="sup.Descrip for sup in sups track by sup.ID" ng-required="user.UseBox" class="form-control" style="-webkit-appearance: button; -moz-appearance: button; box-shadow: none;">
+                                    <select ng-model="user.SupID" ng-disabled="!user.UseBox || !user.BoxType || !sups" ng-required="user.UseBox" class="form-control" style="-webkit-appearance: button; -moz-appearance: button; box-shadow: none;">
                                         <option></option>
+                                        <option ng-repeat="sup in sups" value="{{ sup.ID }}">{{ sup.Descrip }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -481,18 +482,6 @@
                         });
 
                         console.log($scope.user);
-
-                        //$("#modalWaiting").modal("show");
-
-                        //if ($scope.user.CI == "")
-                        //    $scope.user.CI = null;
-                        //if ($scope.user.Phone == "")
-                        //    $scope.user.Phone = null;
-
-                        //$scope.user.Modules = $scope.modsChecked.map(m => m.ID);
-                        //$scope.user.Options = $scope.optsChecked.map(o => o.ID);
-
-                        //console.log($scope.user);
 
                         var req = {
                             method: 'POST',
