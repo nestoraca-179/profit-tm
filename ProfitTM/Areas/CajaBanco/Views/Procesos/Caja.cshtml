@@ -780,6 +780,8 @@
                     if (res.Status == "OK") {
 
                         var new_box = res.Result;
+                        new_box.Descrip = us.Descrip;
+                        new_box.Level = us.BoxType;
                         $scope.boxes.push(new_box);
 
                         $("#modalSuccess").modal("show");
