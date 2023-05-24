@@ -165,10 +165,10 @@
                             <i class="fas fa-print"></i> Imprimir
                         </button>
                         <p ng-if="invoice.anulado" class="my-0 d-flex align-items-center text-center" style="margin-right: 5px;"><b>Anulado</b></p>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="user != 'ASAP' || invoice.anulado || invoice.status != 0">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="(user != 'ALPHA' && user != 'NACA' && user != 'ASAP') || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="(user != 'alpha' && user != 'NACA') || invoice.anulado || invoice.status != 0 || invoice.saldo < invoice.total_neto" ng-click="initLoadCollect()">
+                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="(user != 'ALPHA' && user != 'NACA') || invoice.anulado || invoice.status != 0 || invoice.saldo < invoice.total_neto" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField('#n_preliq')">
@@ -734,9 +734,9 @@
                             <div class="controls">
                                 <label>Forma de Cobro</label>
                                 <select class="form-control" ng-model="rengTP.forma_pag" ng-change="resetData()" style="-webkit-appearance: button; -moz-appearance: button;">
-                                    <option value="EF">Efectivo ($USD)</option>
-                                    <option value="TP">Transferencia</option>
-                                    <option value="DP">Depósito</option>
+                                    <option ng-if="invoice.co_cond.trim() == '002'" value="EF">Efectivo ($USD)</option>
+                                    <option ng-if="invoice.co_cond.trim() == '001'" value="TP">Transferencia</option>
+                                    <option ng-if="invoice.co_cond.trim() == '001'" value="DP">Depósito</option>
                                 </select>
                             </div>
                         </div>
@@ -1713,12 +1713,23 @@
         }
 
         $scope.initLoadCollect = function () {
+
+            if ($scope.invoice.co_cond.trim() == "001") {
+                $scope.rengTP = {
+                    forma_pag: "TP"
+                };
+            } else {
+                $scope.rengTP = {
+                    forma_pag: "EF"
+                };
+            }
+
             if ($scope.invoice.co_cond.trim() == "002" && !isNullOrEmpty($scope.invoice.comentario) && !isNaN($scope.invoice.comentario)) {
                 $scope.invoice.igtf = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
                 $scope.invoice.igtf_orig = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
             } else {
-                $scope.invoice.igtf = 0;
-                $scope.invoice.igtf_orig = 0;
+                $scope.invoice.igtf = "0.00";
+                $scope.invoice.igtf_orig = "0.00";
             }
             
             $('#modalCobrar').modal('show')

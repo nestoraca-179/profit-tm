@@ -116,7 +116,8 @@ namespace ProfitTM.Controllers
 
             try
             {
-                List<Boxes> boxes = Box.GetAllBoxesAndMoves();
+                Users user = (HttpContext.Current.Session["USER"] as Users);
+                List<Box> boxes = Box.GetAllBoxesAndMoves();
 
                 response.Status = "OK";
                 response.Result = boxes;

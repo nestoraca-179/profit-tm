@@ -141,6 +141,8 @@
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="Admin" Type="bit" Nullable="false" />
           <Property Name="UseBox" Type="bit" Nullable="false" />
+          <Property Name="SupID" Type="int" />
+          <Property Name="BoxType" Type="int" />
           <Property Name="NextChange" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <Association Name="FK__Options__ModuleI__123EB7A3">
@@ -415,6 +417,8 @@
           <Property Name="Admin" Type="Boolean" Nullable="false" />
           <Property Name="NextChange" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="UseBox" Type="Boolean" Nullable="false" />
+          <Property Name="SupID" Type="Int32" />
+          <Property Name="BoxType" Type="Int32" />
         </EntityType>
         <Association Name="FK_GroupR_Reps">
           <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />
@@ -701,6 +705,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ProfitTMContext.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="BoxType" ColumnName="BoxType" />
+                <ScalarProperty Name="SupID" ColumnName="SupID" />
                 <ScalarProperty Name="UseBox" ColumnName="UseBox" />
                 <ScalarProperty Name="NextChange" ColumnName="NextChange" />
                 <ScalarProperty Name="Admin" ColumnName="Admin" />

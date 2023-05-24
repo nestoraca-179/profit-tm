@@ -15,7 +15,7 @@ namespace ProfitTM.Models
             try
             {
                 ProfitTMEntities db = new ProfitTMEntities();
-                user = db.Users.AsNoTracking().SingleOrDefault(u => u.ID.ToString() == id);
+                user = db.Users.AsNoTracking().Single(u => u.ID.ToString() == id);
                 user.UserModules = GetUserModules(user.ID.ToString());
                 user.UserOptions = GetUserOptions(user.ID.ToString());
             }
@@ -46,7 +46,7 @@ namespace ProfitTM.Models
             return user;
         }
 
-        public static List<Users> GetAllUsers()
+        public static List<Users> GetAllUsers(bool sups)
         {
             List<Users> users;
 
@@ -54,6 +54,9 @@ namespace ProfitTM.Models
             {
                 ProfitTMEntities db = new ProfitTMEntities();
                 users = db.Users.AsNoTracking().ToList();
+
+                if (sups)
+                    users = users.FindAll(u => u.BoxType == 2 || u.BoxType == 3);
             }
             catch (Exception ex)
             {

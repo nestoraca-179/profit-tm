@@ -5,8 +5,11 @@ using System.Data.Entity;
 
 namespace ProfitTM.Models
 {
-    public class Box
+    public class Box : Boxes
     {
+        public string Descrip { get; set; }
+        public string Sup { get; set; }
+
         public static Boxes GetBoxByID(string id)
         {
             Boxes box;
@@ -25,16 +28,35 @@ namespace ProfitTM.Models
             return box;
         }
 
-        public static List<Boxes> GetAllBoxesAndMoves()
+        public static List<Box> GetAllBoxesAndMoves()
         {
-            List<Boxes> boxes;
+            List<Box> boxes;
 
             try
             {
                 ProfitTMEntities db = new ProfitTMEntities();
-                boxes = db.Boxes.AsNoTracking().Include("BoxMoves").ToList();
-                foreach (Boxes box in boxes)
+
+                boxes = (from b in db.Boxes.AsNoTracking()
+                         join u in db.Users.AsNoTracking() on b.UserID equals u.Username
+                         select new Box()
+                         {
+                             ID = b.ID,
+                             UserID = b.UserID,
+                             Descrip = u.Descrip,
+                             DateS = b.DateS,
+                             DateE = b.DateE,
+                             AmountInit = b.AmountInit,
+                             Incomes = b.Incomes,
+                             Expenses = b.Expenses,
+                             Sales = b.Sales,
+                             IsOpen = b.IsOpen,
+                             Sup = u.SupID.ToString()
+
+                         }).ToList();
+
+                foreach (Box box in boxes)
                 {
+                    box.Sup = box.Sup != "" ? User.GetUserByID(box.Sup).Username : null;
                     box.BoxMoves.ToList().ForEach(delegate(BoxMoves m) {
                         m.Boxes = null;
                     });

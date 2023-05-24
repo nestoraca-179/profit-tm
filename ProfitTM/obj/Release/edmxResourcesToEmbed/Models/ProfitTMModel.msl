@@ -95,6 +95,8 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="ProfitTMContext.Users">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="BoxType" ColumnName="BoxType" />
+          <ScalarProperty Name="SupID" ColumnName="SupID" />
           <ScalarProperty Name="UseBox" ColumnName="UseBox" />
           <ScalarProperty Name="NextChange" ColumnName="NextChange" />
           <ScalarProperty Name="Admin" ColumnName="Admin" />

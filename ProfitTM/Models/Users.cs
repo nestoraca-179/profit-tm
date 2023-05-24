@@ -36,6 +36,8 @@ namespace ProfitTM.Models
         public bool Admin { get; set; }
         public System.DateTime NextChange { get; set; }
         public bool UseBox { get; set; }
+        public Nullable<int> SupID { get; set; }
+        public Nullable<int> BoxType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserModules> UserModules { get; set; }

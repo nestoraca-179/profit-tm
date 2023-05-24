@@ -136,6 +136,8 @@
     <Property Name="Enabled" Type="bit" Nullable="false" />
     <Property Name="Admin" Type="bit" Nullable="false" />
     <Property Name="UseBox" Type="bit" Nullable="false" />
+    <Property Name="SupID" Type="int" />
+    <Property Name="BoxType" Type="int" />
     <Property Name="NextChange" Type="smalldatetime" Nullable="false" />
   </EntityType>
   <Association Name="FK__Options__ModuleI__123EB7A3">

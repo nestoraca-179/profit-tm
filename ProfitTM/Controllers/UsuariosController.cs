@@ -38,7 +38,7 @@ namespace ProfitTM.Controllers
                 ViewBag.modules = Session["MODULES"];
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
-                ViewBag.users = MyUser.GetAllUsers();
+                ViewBag.users = MyUser.GetAllUsers(false);
 
                 return View();
             }
@@ -76,6 +76,7 @@ namespace ProfitTM.Controllers
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
                 ViewBag.all_mods = Module.GetAllModules();
+                ViewBag.sups = MyUser.GetAllUsers(true);
 
                 return View();
             }

@@ -157,9 +157,27 @@
                                     <input type="password" class="form-control" autocomplete="false" ng-model="user.Password" required />
                                 </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" ng-model="user.Enabled">
-                                <label class="form-check-label ml-3">Activo</label>
+                            <div class="form-check row mt-4 p-0" style="display: flex;">
+                                <label class="form-check-label col-sm-4 ml-3">
+                                    <input class="form-check-input" type="checkbox" ng-model="user.UseBox" ng-change="reset(user.UseBox)" style="margin-left: 0;" />
+                                    <span class="mx-2">Usa Caja</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <select ng-model="user.BoxType" ng-change="setSups(user.BoxType)" ng-required="user.UseBox" ng-disabled="!user.UseBox" class="form-control" style="-webkit-appearance: button; -moz-appearance: button; box-shadow: none;">
+                                        <option></option>
+                                        <option value="1">Cajero</option>
+                                        <option value="2">Supervisor</option>
+                                        <option value="3">Gerente</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4">Superior de Caja</label>
+                                <div class="col-sm-8">
+                                    <select ng-model="user.SupID" ng-disabled="!user.UseBox || !user.BoxType || !sups" ng-options="sup.Descrip for sup in sups track by sup.ID" ng-required="user.UseBox" class="form-control" style="-webkit-appearance: button; -moz-appearance: button; box-shadow: none;">
+                                        <option></option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -181,9 +199,15 @@
                                     <input type="text" class="form-control" autocomplete="false" ng-model="user.Phone" />
                                 </div>
                             </div>
+                            <div class="form-check row mt-4">
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" ng-model="user.Enabled">
+                                    <label class="form-check-label ml-3">Activo</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row mt-5">
+                    <div class="row mt-3">
                         <div class="col-sm-6">
                             <fieldset class="form-group">
                                 <div class="row">
@@ -319,6 +343,7 @@
 <script>
     var app = angular.module("AddUser", []);
     var modules = @Html.Raw(Json.Encode(ViewBag.all_mods));
+    var sups = @Html.Raw(Json.Encode(ViewBag.sups));
     var btn = document.getElementById("icon-menu");
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
@@ -331,9 +356,12 @@
             IsAdm: false,
             IsCon: false,
             IsNom: false,
-            Enabled: true
+            Enabled: true,
+            BoxType: null,
+            SupID: null
         };
         $scope.modules = modules;
+        $scope.sups = sups;
         $scope.modsChecked = [];
         $scope.optsChecked = [];
 
@@ -395,6 +423,24 @@
                     var ind = $scope.optsChecked.indexOf(mod);
                     $scope.optsChecked.splice(ind, 1);
                 }
+            }
+        }
+
+        $scope.reset = function (value) {
+            if (!value) {
+                $scope.user.BoxType = null;
+                $scope.user.SupID = null;
+            }
+        }
+
+        $scope.setSups = function (value) {
+            if (value == "1") {
+                $scope.sups = sups.filter(s => s.BoxType == 2);
+            } else if (value == "2") {
+                $scope.sups = sups.filter(s => s.BoxType == 3);
+            } else if (value == "3") {
+                $scope.sups = null;
+                $scope.user.SupID = null;
             }
         }
 
