@@ -14975,6 +14975,10 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
         <Function Name="pObtenerDocumentosVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sCliente" Type="char" Mode="In" />
         </Function>
+        <Function Name="pObtenerFechaTasa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sCo_Mone" Type="char" Mode="In" />
+          <Parameter Name="dtFecha" Type="smalldatetime" Mode="In" />
+        </Function>
         <Function Name="pObtenerSaldoCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sCodigo" Type="char" Mode="In" />
         </Function>
@@ -15017,6 +15021,29 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sCo_Seg_h" Type="char" Mode="In" />
           <Parameter Name="iCantidad" Type="int" Mode="In" />
           <Parameter Name="sCo_Sucursal" Type="char" Mode="In" />
+          <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+          <Parameter Name="sDir" Type="varchar" Mode="In" />
+          <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="RepCompraxArt2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cCo_Articulo_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Articulo_h" Type="char" Mode="In" />
+          <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+          <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+          <Parameter Name="cCo_Prov_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Prov_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Linea_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Linea_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_SubLinea_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_SubLinea_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Categoria_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Categoria_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Almacen_d" Type="char" Mode="In" />
+          <Parameter Name="cCo_Almacen_h" Type="char" Mode="In" />
+          <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+          <Parameter Name="cStatus" Type="char" Mode="In" />
+          <Parameter Name="cAnulado" Type="char" Mode="In" />
+          <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
           <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
           <Parameter Name="sDir" Type="varchar" Mode="In" />
           <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
@@ -35496,7 +35523,34 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="pObtenerDocumentosVenta" ReturnType="Collection(ProfitAdmContext.pObtenerDocumentosVenta_Result)">
-            <Parameter Name="sCliente" Mode="In" Type="String" />
+          <Parameter Name="sCliente" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pObtenerFechaTasa" ReturnType="Collection(ProfitAdmContext.pObtenerFechaTasa_Result)">
+            <Parameter Name="sCo_Mone" Mode="In" Type="String" />
+            <Parameter Name="dtFecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="RepCompraxArt2" ReturnType="Collection(ProfitAdmContext.RepCompraxArt2_Result)">
+            <Parameter Name="cCo_Articulo_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Articulo_h" Mode="In" Type="String" />
+            <Parameter Name="dCo_fecha_d" Mode="In" Type="DateTime" />
+            <Parameter Name="dCo_fecha_h" Mode="In" Type="DateTime" />
+            <Parameter Name="cCo_Prov_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Prov_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Linea_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Linea_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_SubLinea_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_SubLinea_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Categoria_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Categoria_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Almacen_d" Mode="In" Type="String" />
+            <Parameter Name="cCo_Almacen_h" Mode="In" Type="String" />
+            <Parameter Name="cCo_Moneda" Mode="In" Type="String" />
+            <Parameter Name="cStatus" Mode="In" Type="String" />
+            <Parameter Name="cAnulado" Mode="In" Type="String" />
+            <Parameter Name="cCo_Sucursal" Mode="In" Type="String" />
+            <Parameter Name="sCampOrderBy" Mode="In" Type="String" />
+            <Parameter Name="sDir" Mode="In" Type="String" />
+            <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="RepEstadoCuentaCli_Result">
@@ -36185,6 +36239,31 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Property Type="Boolean" Name="aplica_riva_venta" Nullable="false" />
           <Property Type="Boolean" Name="ExisteCobroRetenIva" Nullable="true" />
           <Property Type="Boolean" Name="ExistePagoRetenIslr" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pObtenerFechaTasa_Result">
+          <Property Type="DateTime" Name="FECHA" Nullable="true" Precision="16" />
+          <Property Type="Decimal" Name="TASA_C" Nullable="true" Precision="21" Scale="8" />
+          <Property Type="Decimal" Name="TASA_V" Nullable="true" Precision="21" Scale="8" />
+        </ComplexType>
+        <ComplexType Name="RepCompraxArt2_Result">
+          <Property Type="String" Name="Filtro_anulado" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="tip_rep" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_prov" Nullable="false" MaxLength="16" />
+          <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+          <Property Type="Boolean" Name="anulado" Nullable="false" />
+          <Property Type="Int32" Name="reng_num" Nullable="false" />
+          <Property Type="String" Name="doc_num" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="co_art" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="co_uni" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="co_alma" Nullable="false" MaxLength="6" />
+          <Property Type="Decimal" Name="cost_unit" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="iva" Nullable="true" Precision="19" Scale="5" />
+          <Property Type="Decimal" Name="total_art" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="otros" Nullable="true" Precision="20" Scale="5" />
+          <Property Type="Decimal" Name="monto_base" Nullable="true" Precision="38" Scale="10" />
+          <Property Type="String" Name="art_des" Nullable="false" MaxLength="120" />
+          <Property Type="String" Name="modelo" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="neto" Nullable="true" Precision="38" Scale="10" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -45451,6 +45530,39 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
                 <ScalarProperty Name="aplica_riva_venta" ColumnName="aplica_riva_venta" />
                 <ScalarProperty Name="ExisteCobroRetenIva" ColumnName="ExisteCobroRetenIva" />
                 <ScalarProperty Name="ExistePagoRetenIslr" ColumnName="ExistePagoRetenIslr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pObtenerFechaTasa" FunctionName="ProfitAdmContext.Store.pObtenerFechaTasa">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.pObtenerFechaTasa_Result">
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="TASA_C" ColumnName="TASA_C" />
+                <ScalarProperty Name="TASA_V" ColumnName="TASA_V" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RepCompraxArt2" FunctionName="ProfitAdmContext.Store.RepCompraxArt2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.RepCompraxArt2_Result">
+                <ScalarProperty Name="Filtro_anulado" ColumnName="Filtro_anulado" />
+                <ScalarProperty Name="tip_rep" ColumnName="tip_rep" />
+                <ScalarProperty Name="co_prov" ColumnName="co_prov" />
+                <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+                <ScalarProperty Name="anulado" ColumnName="anulado" />
+                <ScalarProperty Name="reng_num" ColumnName="reng_num" />
+                <ScalarProperty Name="doc_num" ColumnName="doc_num" />
+                <ScalarProperty Name="co_art" ColumnName="co_art" />
+                <ScalarProperty Name="co_uni" ColumnName="co_uni" />
+                <ScalarProperty Name="co_alma" ColumnName="co_alma" />
+                <ScalarProperty Name="cost_unit" ColumnName="cost_unit" />
+                <ScalarProperty Name="iva" ColumnName="iva" />
+                <ScalarProperty Name="total_art" ColumnName="total_art" />
+                <ScalarProperty Name="otros" ColumnName="otros" />
+                <ScalarProperty Name="monto_base" ColumnName="monto_base" />
+                <ScalarProperty Name="art_des" ColumnName="art_des" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="neto" ColumnName="neto" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

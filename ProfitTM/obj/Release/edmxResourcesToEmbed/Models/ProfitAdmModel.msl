@@ -9263,5 +9263,38 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pObtenerFechaTasa" FunctionName="ProfitAdmContext.Store.pObtenerFechaTasa">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pObtenerFechaTasa_Result">
+          <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+          <ScalarProperty Name="TASA_C" ColumnName="TASA_C" />
+          <ScalarProperty Name="TASA_V" ColumnName="TASA_V" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="RepCompraxArt2" FunctionName="ProfitAdmContext.Store.RepCompraxArt2">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.RepCompraxArt2_Result">
+          <ScalarProperty Name="Filtro_anulado" ColumnName="Filtro_anulado" />
+          <ScalarProperty Name="tip_rep" ColumnName="tip_rep" />
+          <ScalarProperty Name="co_prov" ColumnName="co_prov" />
+          <ScalarProperty Name="fec_emis" ColumnName="fec_emis" />
+          <ScalarProperty Name="anulado" ColumnName="anulado" />
+          <ScalarProperty Name="reng_num" ColumnName="reng_num" />
+          <ScalarProperty Name="doc_num" ColumnName="doc_num" />
+          <ScalarProperty Name="co_art" ColumnName="co_art" />
+          <ScalarProperty Name="co_uni" ColumnName="co_uni" />
+          <ScalarProperty Name="co_alma" ColumnName="co_alma" />
+          <ScalarProperty Name="cost_unit" ColumnName="cost_unit" />
+          <ScalarProperty Name="iva" ColumnName="iva" />
+          <ScalarProperty Name="total_art" ColumnName="total_art" />
+          <ScalarProperty Name="otros" ColumnName="otros" />
+          <ScalarProperty Name="monto_base" ColumnName="monto_base" />
+          <ScalarProperty Name="art_des" ColumnName="art_des" />
+          <ScalarProperty Name="modelo" ColumnName="modelo" />
+          <ScalarProperty Name="neto" ColumnName="neto" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

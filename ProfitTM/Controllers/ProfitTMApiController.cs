@@ -136,6 +136,7 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse GetBoxOpen(string user)
         {
             ProfitTMResponse response = new ProfitTMResponse();
+
             string sucur = HttpContext.Current.Session["BRANCH"].ToString();
             bool useBox = ((HttpContext.Current.Session["USER"]) as Users).UseBox;
 
@@ -167,9 +168,12 @@ namespace ProfitTM.Controllers
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+
             try
             {
-                Boxes new_box = Box.AddBox(box);
+                Boxes new_box = Box.AddBox(box, user, sucur);
 
                 response.Status = "OK";
                 response.Result = new_box;
@@ -195,24 +199,16 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saMovimientoCaja new_move = new BoxMove().AddBoxMove(move, user, sucur, true);
+                saMovimientoCaja new_move = new BoxMove().AddBoxMove(move, user, sucur, move.tipo_mov == "I", false, true);
 
-                if (new_move.descrip == "ERROR")
-                {
-                    response.Status = "ERROR";
-                    response.Message = new_move.campo1;
-                }
-                else
-                {
-                    response.Status = "OK";
-                    response.Result = new_move;
-                }
+                response.Status = "OK";
+                response.Result = new_move;
             }
             catch (Exception ex)
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
-                Incident.CreateIncident("ERROR AGREGANDO MOVIMIENTO DE CAJA POR INGRESO DE CAJA", ex);
+                Incident.CreateIncident("ERROR AGREGANDO MOVIMIENTO DE CAJA", ex);
             }
 
             return response;
@@ -231,22 +227,14 @@ namespace ProfitTM.Controllers
             {
                 saOrdenPago new_order = new PayOrder().AddPayOrder(payOrder, user, sucur);
 
-                if (new_order.descrip == "ERROR")
-                {
-                    response.Status = "ERROR";
-                    response.Message = new_order.campo1;
-                }
-                else
-                {
-                    response.Status = "OK";
-                    response.Result = new_order;
-                }
+                response.Status = "OK";
+                response.Result = new_order;
             }
             catch (Exception ex)
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
-                Incident.CreateIncident("ERROR AGREGANDO ORDEN DE PAGO POR EGRESO DE CAJA", ex);
+                Incident.CreateIncident("ERROR AGREGANDO ORDEN DE PAGO", ex);
             }
 
             return response;

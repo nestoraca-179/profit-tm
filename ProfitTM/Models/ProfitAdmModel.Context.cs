@@ -3865,5 +3865,107 @@ namespace ProfitTM.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pObtenerDocumentosVenta_Result>("pObtenerDocumentosVenta", sClienteParameter);
         }
+    
+        public virtual ObjectResult<pObtenerFechaTasa_Result> pObtenerFechaTasa(string sCo_Mone, Nullable<System.DateTime> dtFecha)
+        {
+            var sCo_MoneParameter = sCo_Mone != null ?
+                new ObjectParameter("sCo_Mone", sCo_Mone) :
+                new ObjectParameter("sCo_Mone", typeof(string));
+    
+            var dtFechaParameter = dtFecha.HasValue ?
+                new ObjectParameter("dtFecha", dtFecha) :
+                new ObjectParameter("dtFecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pObtenerFechaTasa_Result>("pObtenerFechaTasa", sCo_MoneParameter, dtFechaParameter);
+        }
+    
+        public virtual ObjectResult<RepCompraxArt2_Result> RepCompraxArt2(string cCo_Articulo_d, string cCo_Articulo_h, Nullable<System.DateTime> dCo_fecha_d, Nullable<System.DateTime> dCo_fecha_h, string cCo_Prov_d, string cCo_Prov_h, string cCo_Linea_d, string cCo_Linea_h, string cCo_SubLinea_d, string cCo_SubLinea_h, string cCo_Categoria_d, string cCo_Categoria_h, string cCo_Almacen_d, string cCo_Almacen_h, string cCo_Moneda, string cStatus, string cAnulado, string cCo_Sucursal, string sCampOrderBy, string sDir, Nullable<bool> bHeaderRep)
+        {
+            var cCo_Articulo_dParameter = cCo_Articulo_d != null ?
+                new ObjectParameter("cCo_Articulo_d", cCo_Articulo_d) :
+                new ObjectParameter("cCo_Articulo_d", typeof(string));
+    
+            var cCo_Articulo_hParameter = cCo_Articulo_h != null ?
+                new ObjectParameter("cCo_Articulo_h", cCo_Articulo_h) :
+                new ObjectParameter("cCo_Articulo_h", typeof(string));
+    
+            var dCo_fecha_dParameter = dCo_fecha_d.HasValue ?
+                new ObjectParameter("dCo_fecha_d", dCo_fecha_d) :
+                new ObjectParameter("dCo_fecha_d", typeof(System.DateTime));
+    
+            var dCo_fecha_hParameter = dCo_fecha_h.HasValue ?
+                new ObjectParameter("dCo_fecha_h", dCo_fecha_h) :
+                new ObjectParameter("dCo_fecha_h", typeof(System.DateTime));
+    
+            var cCo_Prov_dParameter = cCo_Prov_d != null ?
+                new ObjectParameter("cCo_Prov_d", cCo_Prov_d) :
+                new ObjectParameter("cCo_Prov_d", typeof(string));
+    
+            var cCo_Prov_hParameter = cCo_Prov_h != null ?
+                new ObjectParameter("cCo_Prov_h", cCo_Prov_h) :
+                new ObjectParameter("cCo_Prov_h", typeof(string));
+    
+            var cCo_Linea_dParameter = cCo_Linea_d != null ?
+                new ObjectParameter("cCo_Linea_d", cCo_Linea_d) :
+                new ObjectParameter("cCo_Linea_d", typeof(string));
+    
+            var cCo_Linea_hParameter = cCo_Linea_h != null ?
+                new ObjectParameter("cCo_Linea_h", cCo_Linea_h) :
+                new ObjectParameter("cCo_Linea_h", typeof(string));
+    
+            var cCo_SubLinea_dParameter = cCo_SubLinea_d != null ?
+                new ObjectParameter("cCo_SubLinea_d", cCo_SubLinea_d) :
+                new ObjectParameter("cCo_SubLinea_d", typeof(string));
+    
+            var cCo_SubLinea_hParameter = cCo_SubLinea_h != null ?
+                new ObjectParameter("cCo_SubLinea_h", cCo_SubLinea_h) :
+                new ObjectParameter("cCo_SubLinea_h", typeof(string));
+    
+            var cCo_Categoria_dParameter = cCo_Categoria_d != null ?
+                new ObjectParameter("cCo_Categoria_d", cCo_Categoria_d) :
+                new ObjectParameter("cCo_Categoria_d", typeof(string));
+    
+            var cCo_Categoria_hParameter = cCo_Categoria_h != null ?
+                new ObjectParameter("cCo_Categoria_h", cCo_Categoria_h) :
+                new ObjectParameter("cCo_Categoria_h", typeof(string));
+    
+            var cCo_Almacen_dParameter = cCo_Almacen_d != null ?
+                new ObjectParameter("cCo_Almacen_d", cCo_Almacen_d) :
+                new ObjectParameter("cCo_Almacen_d", typeof(string));
+    
+            var cCo_Almacen_hParameter = cCo_Almacen_h != null ?
+                new ObjectParameter("cCo_Almacen_h", cCo_Almacen_h) :
+                new ObjectParameter("cCo_Almacen_h", typeof(string));
+    
+            var cCo_MonedaParameter = cCo_Moneda != null ?
+                new ObjectParameter("cCo_Moneda", cCo_Moneda) :
+                new ObjectParameter("cCo_Moneda", typeof(string));
+    
+            var cStatusParameter = cStatus != null ?
+                new ObjectParameter("cStatus", cStatus) :
+                new ObjectParameter("cStatus", typeof(string));
+    
+            var cAnuladoParameter = cAnulado != null ?
+                new ObjectParameter("cAnulado", cAnulado) :
+                new ObjectParameter("cAnulado", typeof(string));
+    
+            var cCo_SucursalParameter = cCo_Sucursal != null ?
+                new ObjectParameter("cCo_Sucursal", cCo_Sucursal) :
+                new ObjectParameter("cCo_Sucursal", typeof(string));
+    
+            var sCampOrderByParameter = sCampOrderBy != null ?
+                new ObjectParameter("sCampOrderBy", sCampOrderBy) :
+                new ObjectParameter("sCampOrderBy", typeof(string));
+    
+            var sDirParameter = sDir != null ?
+                new ObjectParameter("sDir", sDir) :
+                new ObjectParameter("sDir", typeof(string));
+    
+            var bHeaderRepParameter = bHeaderRep.HasValue ?
+                new ObjectParameter("bHeaderRep", bHeaderRep) :
+                new ObjectParameter("bHeaderRep", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RepCompraxArt2_Result>("RepCompraxArt2", cCo_Articulo_dParameter, cCo_Articulo_hParameter, dCo_fecha_dParameter, dCo_fecha_hParameter, cCo_Prov_dParameter, cCo_Prov_hParameter, cCo_Linea_dParameter, cCo_Linea_hParameter, cCo_SubLinea_dParameter, cCo_SubLinea_hParameter, cCo_Categoria_dParameter, cCo_Categoria_hParameter, cCo_Almacen_dParameter, cCo_Almacen_hParameter, cCo_MonedaParameter, cStatusParameter, cAnuladoParameter, cCo_SucursalParameter, sCampOrderByParameter, sDirParameter, bHeaderRepParameter);
+        }
     }
 }

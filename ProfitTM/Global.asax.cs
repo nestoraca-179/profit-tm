@@ -56,7 +56,7 @@ namespace ProfitTM
                 .WithIdentity("myTrigger", "group1")
                 .ForJob("myJob", "group1")
                 .StartAt(DateTimeOffset.Now)
-                .WithCronSchedule("0 55 23 ? * * *")
+                .WithCronSchedule("0 55 0,1,2,3,4,23 ? * * *", x => x.WithMisfireHandlingInstructionFireAndProceed())
                 .Build();
 
             Incident.CreateIncident("FINALIZANDO QUARTZ " + trigger.StartTimeUtc.DateTime.ToString("dd/MM/yyyy HH:mm:ss"), new Exception());

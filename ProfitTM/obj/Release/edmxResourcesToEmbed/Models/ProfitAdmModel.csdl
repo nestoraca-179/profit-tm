@@ -18078,6 +18078,33 @@
     <FunctionImport Name="pObtenerDocumentosVenta" ReturnType="Collection(ProfitAdmContext.pObtenerDocumentosVenta_Result)">
       <Parameter Name="sCliente" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="pObtenerFechaTasa" ReturnType="Collection(ProfitAdmContext.pObtenerFechaTasa_Result)">
+      <Parameter Name="sCo_Mone" Mode="In" Type="String" />
+      <Parameter Name="dtFecha" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="RepCompraxArt2" ReturnType="Collection(ProfitAdmContext.RepCompraxArt2_Result)">
+      <Parameter Name="cCo_Articulo_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Articulo_h" Mode="In" Type="String" />
+      <Parameter Name="dCo_fecha_d" Mode="In" Type="DateTime" />
+      <Parameter Name="dCo_fecha_h" Mode="In" Type="DateTime" />
+      <Parameter Name="cCo_Prov_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Prov_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Linea_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Linea_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_SubLinea_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_SubLinea_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Categoria_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Categoria_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Almacen_d" Mode="In" Type="String" />
+      <Parameter Name="cCo_Almacen_h" Mode="In" Type="String" />
+      <Parameter Name="cCo_Moneda" Mode="In" Type="String" />
+      <Parameter Name="cStatus" Mode="In" Type="String" />
+      <Parameter Name="cAnulado" Mode="In" Type="String" />
+      <Parameter Name="cCo_Sucursal" Mode="In" Type="String" />
+      <Parameter Name="sCampOrderBy" Mode="In" Type="String" />
+      <Parameter Name="sDir" Mode="In" Type="String" />
+      <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -18765,5 +18792,30 @@
     <Property Type="Boolean" Name="aplica_riva_venta" Nullable="false" />
     <Property Type="Boolean" Name="ExisteCobroRetenIva" Nullable="true" />
     <Property Type="Boolean" Name="ExistePagoRetenIslr" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pObtenerFechaTasa_Result">
+    <Property Type="DateTime" Name="FECHA" Nullable="true" Precision="16" />
+    <Property Type="Decimal" Name="TASA_C" Nullable="true" Precision="21" Scale="8" />
+    <Property Type="Decimal" Name="TASA_V" Nullable="true" Precision="21" Scale="8" />
+  </ComplexType>
+  <ComplexType Name="RepCompraxArt2_Result">
+    <Property Type="String" Name="Filtro_anulado" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="tip_rep" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_prov" Nullable="false" MaxLength="16" />
+    <Property Type="DateTime" Name="fec_emis" Nullable="false" Precision="16" />
+    <Property Type="Boolean" Name="anulado" Nullable="false" />
+    <Property Type="Int32" Name="reng_num" Nullable="false" />
+    <Property Type="String" Name="doc_num" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="co_art" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="co_uni" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="co_alma" Nullable="false" MaxLength="6" />
+    <Property Type="Decimal" Name="cost_unit" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="iva" Nullable="true" Precision="19" Scale="5" />
+    <Property Type="Decimal" Name="total_art" Nullable="true" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="otros" Nullable="true" Precision="20" Scale="5" />
+    <Property Type="Decimal" Name="monto_base" Nullable="true" Precision="38" Scale="10" />
+    <Property Type="String" Name="art_des" Nullable="false" MaxLength="120" />
+    <Property Type="String" Name="modelo" Nullable="true" MaxLength="20" />
+    <Property Type="Decimal" Name="neto" Nullable="true" Precision="38" Scale="10" />
   </ComplexType>
 </Schema>

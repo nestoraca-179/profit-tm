@@ -201,7 +201,7 @@
         <h5 class="my-3">Cajas cerradas</h5>
         <div class="container-card-boxes">
             <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:'-DateS'" ng-class="{ first: box.Level == 1, second: box.Level == 2, third: box.Level == 3 }" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
-                <p class="card-box-header">{{ box.Descrip }} <br /> {{ formatDate(box.DateS).split(' ')[0] }}</p>
+                <p class="card-box-header">{{ box.Descrip }} <br /> {{ formatDate(box.DateS).split(' ')[0] }} {{ formatDate(box.DateS).split(' ')[1] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
                     <i class="fas fa-circle text-success"></i>
@@ -216,49 +216,6 @@
             <p ng-if="showNoItems(false)" class="w-100 my-0 text-center">No hay cajas cerradas</p>
         </div>
     </div>
-    <!--
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th>Usuario</th>
-                <th>Fecha Apertura</th>
-                <th>Fecha Cierre</th>
-                <th>Saldo Inicial</th>
-                <th>Depósitos</th>
-                <th>Retiros</th>
-                <th>Ventas Contado</th>
-                <th>Saldo en Caja</th>
-                <th class="text-center">Estado</th>
-                <th class="text-center">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="box in boxes | orderBy:'-DateS'">
-                <td>{{ box.UserID }}</td>
-                <td>{{ formatDate(box.DateS) }}</td>
-                <td>{{ formatDate(box.DateE) }}</td>
-                <td>{{ box.AmountInit.toFixed(2) }}</td>
-                <td>{{ box.Incomes.toFixed(2) }}</td>
-                <td>{{ box.Expenses.toFixed(2) }}</td>
-                <td>{{ box.Sales.toFixed(2) }}</td>
-                <td>{{ (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) }}</td>
-                <td ng-if="box.IsOpen">
-                    <p class="status bg-success m-0">ABIERTO</p>
-                </td>
-                <td ng-if="!box.IsOpen">
-                    <p class="status bg-danger m-0">CERRADO</p>
-                </td>
-                <td>
-                    <div class="buttons-actions">
-                        <i ng-show="box.IsOpen" class="fas fa-exchange" title="Generar Movimiento" data-toggle="modal" data-target="#modal-income" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)"></i>
-                        <i class="fas fa-eye mx-2" title="Ver Transacciones" ng-click="viewMovs(box.ID)"></i>
-                        <i ng-show="box.IsOpen" class="fas fa-dollar-sign" title="Cerrar Caja" ng-click="openModalClose(box.ID)"></i>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    -->
     <!-- Modal Nuevo -->
     <div class="modal fade" id="modal-new" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
@@ -306,9 +263,9 @@
                     <div class="controls">
                         <label>Caja {{ sub_mov }}</label>
                         <div class="input-search">
-                            <input type="text" class="form-control" id="account_i" ng-model="move.co_cta_ingr_egr" ng-required="true" style="flex: 1;" onkeydown="prevDel(event);" />
-                            <input type="text" class="form-control" id="des_account_i" ng-readonly="true" style="flex: 2; margin-left: 5px;" />
-                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="account_i"></i>
+                            <input type="text" class="form-control" id="box" ng-model="move.cod_caja" ng-required="true" style="flex: 1;" onkeydown="prevDel(event);" />
+                            <input type="text" class="form-control" id="des_box" ng-readonly="true" style="flex: 2; margin-left: 5px;" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalBoxes')" data-name="box"></i>
                         </div>
                     </div>
                     <div class="controls">
@@ -326,7 +283,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-success" ng-click="sendIncome()">Aceptar</button>
+                    <button type="submit" class="btn btn-success" ng-click="sendMove()">Aceptar</button>
                 </div>
             </div>
         </form>
@@ -336,7 +293,7 @@
         <form class="modal-dialog" id="form-expense" role="document" onsubmit="return false;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Generar Retiro</h5>
+                    <h5 class="modal-title">Generar Orden de Pago</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -353,9 +310,9 @@
                     <div class="controls">
                         <label>Cuenta Ingr/Egr</label>
                         <div class="input-search">
-                            <input type="text" class="form-control" id="account_e" ng-model="payOrder.saOrdenPagoReng[0].co_cta_ingr_egr" ng-required="true" style="flex: 1;" onkeydown="prevDel(event);" />
-                            <input type="text" class="form-control" id="des_account_e" ng-readonly="true" style="flex: 2; margin-left: 5px;" />
-                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="account_e"></i>
+                            <input type="text" class="form-control" id="account" ng-model="payOrder.saOrdenPagoReng[0].co_cta_ingr_egr" ng-required="true" style="flex: 1;" onkeydown="prevDel(event);" />
+                            <input type="text" class="form-control" id="des_account" ng-readonly="true" style="flex: 2; margin-left: 5px;" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalAccounts')" data-name="account"></i>
                         </div>
                     </div>
                     <div class="controls">
@@ -373,7 +330,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-success" ng-click="sendExpense()">Aceptar</button>
+                    <button type="submit" class="btn btn-success" ng-click="sendPayOrder()">Aceptar</button>
                 </div>
             </div>
         </form>
@@ -388,7 +345,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
                     <table ng-if="movs.length > 0" class="table table-striped">
                         <thead>
                             <tr>
@@ -482,11 +439,11 @@
                     </div>
                     <hr />
                     <div class="card-box-actions">
-                        <button ng-disabled="!box.IsOpen || (user.BoxType == 1 && box.UserID == user.Username)" class="btn btn-success" data-toggle="modal" data-target="#modal-income" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
+                        <button ng-disabled="!box.IsOpen || user.BoxType == 1" class="btn btn-success" data-toggle="modal" data-target="#modal-income" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
                             <i class="fas fa-exchange"></i>
                             <p class="mx-2 my-0">Generar Mov. Caja</p>
                         </button>
-                        <button ng-disabled="!box.IsOpen || user.BoxType == 1 || (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) <= 0" class="btn btn-danger" data-toggle="modal" data-target="#modal-expense" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
+                        <button ng-disabled="!box.IsOpen || user.BoxType == 1 || box.BoxType == 1 || (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) <= 0" class="btn btn-danger" data-toggle="modal" data-target="#modal-expense" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
                             <i class="fas fa-file-invoice"></i>
                             <p class="mx-2 my-0">Generar Ord. Pago</p>
                         </button>
@@ -494,7 +451,7 @@
                             <i class="fas fa-eye"></i>
                             <p class="mx-2 my-0">Ver Transacciones</p>
                         </button>
-                        <button ng-disabled="!box.IsOpen || box.UserID == user.Username" class="btn btn-warning" data-dismiss="modal" ng-click="openModalClose(box.ID)">
+                        <button ng-disabled="!box.IsOpen || ((user.BoxType == 1 || user.BoxType == 2) && box.UserID == user.Username)" class="btn btn-warning" data-dismiss="modal" ng-click="openModalClose(box.ID)">
                             <i class="fas fa-dollar-sign"></i>
                             <p class="mx-2 my-0">Cerrar Caja</p>
                         </button>
@@ -556,7 +513,7 @@
         </div>
     </div>
     <!-- Modal Error -->
-    <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="background: rgba(0, 0, 0, .7);">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
                 @*<div class="modal-header"></div>*@
@@ -631,6 +588,36 @@
             </div>
         </div>
     </div>
+    <!-- Modal 3 -->
+    <div class="modal fade" id="modalBoxes" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Seleccionar Caja</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div ng-if="showBoxes(box.UserID)" class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cuenta..." onkeyup="search('modalBoxes')" />
+                    </div>
+                    <table ng-if="showBoxes(box.UserID)" class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="b in boxes | filter: { IsOpen: true }" ng-if="b.UserID != box.UserID" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ b.UserID }}</td>
+                            <td>{{ b.Descrip }}</td>
+                        </tr>
+                    </table>
+                    <p ng-if="!showBoxes(box.UserID)" class="text-center m-0">No hay cajas disponibles</p>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalBoxes');">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel-loading p-3">
     <h4>Cargando cajas...</h4>
@@ -640,8 +627,10 @@
     var user = '@ViewBag.username';
     var benefs = @Html.Raw(ViewBag.benefs);
     var accounts = @Html.Raw(ViewBag.accounts);
+    var boxes = null;
     var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
     var us = @Html.Raw(Json.Encode(ViewBag.user));
+    var validating = false;
 
     app.controller("controller", function ($scope, $http) {
 
@@ -661,7 +650,6 @@
         $scope.payOrder = {
             status: 'S',
             forma_pag: "EF",
-            cod_caja: user.toUpperCase(),
             co_mone: "US$",
             saOrdenPagoReng: [{
                 co_cta_ingr_egr: "",
@@ -670,6 +658,40 @@
             }],
         };
 
+        $('#modal-income').on('hide.bs.modal', function () {
+            if (!validating) {
+                $("#box").val("");
+                $("#des_box").val("");
+
+                $scope.sub_mov = "origen";
+                $scope.move = {
+                    tipo_mov: "I",
+                    forma_pag: "EF",
+                    origen: "CAJ",
+                };
+            }
+        });
+
+        $('#modal-expense').on('hide.bs.modal', function () {
+            if (!validating) {
+                $("#benef").val("");
+                $("#account").val("");
+                $("#des_benef").val("");
+                $("#des_account").val("");
+
+                $scope.payOrder = {
+                    status: 'S',
+                    forma_pag: "EF",
+                    co_mone: "US$",
+                    saOrdenPagoReng: [{
+                        co_cta_ingr_egr: "",
+                        monto_d: "",
+                        tipo_imp: 7,
+                    }],
+                };
+            }
+        });
+
         $http.get("/api/ProfitTMApi/GetBoxes/")
             .then(function (response) {
 
@@ -677,14 +699,15 @@
                 if (res.Status = "OK") {
 
                     if (us.BoxType == 1) {
-                        $scope.boxes = res.Result.filter(b => b.UserID == us.Username);
 
+                        $scope.boxes = res.Result.filter(b => b.UserID == us.Username);
                         for (var b of $scope.boxes) {
                             b.Level = 1;
                         }
-                    } else if (us.BoxType == 2) {
-                        $scope.boxes = res.Result.filter(b => b.UserID == us.Username || b.Sup == us.Username);
 
+                    } else if (us.BoxType == 2) {
+
+                        $scope.boxes = res.Result.filter(b => b.UserID == us.Username || b.Sup == us.Username);
                         for (var b of $scope.boxes) {
                             if (b.UserID == us.Username) {
                                 b.Level = 2;
@@ -692,8 +715,11 @@
                                 b.Level = 1;
                             }
                         }
+
                     } else if (us.BoxType == 3) {
+
                         var list = res.Result.filter(b => b.Sup == us.Username).map(b => b.UserID);
+                        list = list.filter(onlyUnique);
                         $scope.boxes = res.Result.filter(b => b.UserID == us.Username || b.Sup == us.Username);
 
                         for (var b of $scope.boxes) {
@@ -703,7 +729,6 @@
                                 b.Level = 2;
                             }
                         }
-
                         for (var id of list) {
                             for (var box of res.Result.filter(b => b.Sup == id)) {
                                 box.Level = 1;
@@ -712,6 +737,7 @@
                         }
                     }
 
+                    boxes = $scope.boxes;
                     $(".container-boxes").removeAttr("style");
                     $(".panel-loading").css("display", "none");
 
@@ -844,6 +870,17 @@
         }
 
         $scope.changeSubMov = function (value) {
+
+            $("#box").val("");
+            $("#des_box").val("");
+
+            $scope.move = {
+                cod_caja: "",
+                tipo_mov: value,
+                forma_pag: "EF",
+                origen: "CAJ",
+            };
+
             if (value == "I") {
                 $scope.sub_mov = "origen";
             } else if (value == "E") {
@@ -851,13 +888,43 @@
             }
         }
 
-        $scope.sendIncome = function () {
+        $scope.showBoxes = function (value) {
+            if (value != null) {
+                return $scope.boxes.filter(b => b.IsOpen && b.UserID != value).length > 0;
+            }
+        }
+
+        $scope.sendMove = function () {
 
             if ($("#form-income")[0].checkValidity()) {
 
                 $("#form-income input").change();
+                $scope.move.campo8 = $scope.box.UserID;
+
+                var amount = parseFloat($scope.move.monto_h);
+                var total = parseFloat($scope.totalBox);
+
+                if ($scope.move.tipo_mov == "I") {
+                    var b_orig = $scope.boxes.find(b => b.IsOpen && b.UserID == $scope.move.cod_caja);
+                    total = b_orig.AmountInit + b_orig.Incomes - b_orig.Expenses + b_orig.Sales;
+
+                    if (amount > total) {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = `Debes ingresar un monto menor al saldo disponible en la caja ${$scope.move.cod_caja} (${total.toFixed(2)})`;
+                        return;
+                    }
+                }
+
+                if ($scope.move.tipo_mov == "E" && amount > total) {
+                    $("#modalError").modal("show");
+                    $scope.errorMessage = `Debes ingresar un monto menor al saldo disponible en caja (${total.toFixed(2)})`;
+                    return;
+                }
+
+                validating = true;
                 $("#modal-income").modal("hide");
                 $("#modalWaiting").modal("show");
+                validating = false;
 
                 var req = {
                     method: 'POST',
@@ -867,37 +934,52 @@
                         'Content-Type': 'application/json'
                     },
                 }
-
-                var amount = parseFloat($scope.move.monto_h);
-                var total = parseFloat($scope.totalBox);
-
-                if ($scope.move.tipo_mov == "E" && amount > total) {
-                    $("#modalError").modal("show");
-                    $scope.errorMessage = `Debes ingresar un monto menor al saldo disponible en caja (${total.toFixed(2)})`;
-                    return;
-                }
-
+                
                 $http(req).then(function (response) {
 
                     var res = response.data;
                     if (res.Status == "OK") {
                         $("#modalSuccess").modal("show");
-                        $scope.successMessage = `El depósito se ha agregado con éxito bajo el Movimiento de Caja N° ${res.Result.mov_num}`;
+                        $scope.successMessage = `El movimiento se ha agregado con éxito bajo el Movimiento de Caja N° ${res.Result.mov_num}`;
 
+                        /* PRIMER MOVIMIENTO */
                         var move = {
                             ID: res.Result.campo2,
                             BoxID: res.Result.campo1,
                             UserID: user,
                             Amount: amount,
-                            Type: 1,
-                            Date: origDate(new Date(Date.now())),
+                            Type: $scope.move.tipo_mov == "I" ? 1 : 2,
+                            Date: new Date(Date.now()),
                             Comment: res.Result.descrip
                         };
 
                         $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
-                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Incomes += move.Amount;
 
-                        $("#des_account_i").val("");
+                        if ($scope.move.tipo_mov == "I")
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Incomes += move.Amount;
+                        else
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Expenses += move.Amount;
+
+                        /* SEGUNDO MOVIMIENTO */
+                        var move2 = {
+                            ID: res.Result.campo4,
+                            BoxID: res.Result.campo3,
+                            UserID: user,
+                            Amount: amount,
+                            Type: $scope.move.tipo_mov == "I" ? 2 : 1,
+                            Date: new Date(Date.now()),
+                            Comment: $scope.move.tipo_mov == "I" ? res.Result.descrip + " (EGRESO)" : res.Result.descrip + " (INGRESO)"
+                        };
+
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).BoxMoves.push(move2);
+
+                        if ($scope.move.tipo_mov == "I")
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Expenses += move.Amount;
+                        else
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Incomes += move.Amount;
+
+                        $("#des_box").val("");
+                        $scope.sub_mov = "origen";
                         $scope.move = {
                             tipo_mov: "I",
                             forma_pag: "EF",
@@ -912,13 +994,12 @@
             }
         }
 
-        $scope.sendExpense = function () {
+        $scope.sendPayOrder = function () {
 
             if ($("#form-expense")[0].checkValidity()) {
 
                 $("#form-expense input").change();
-                $("#modal-expense").modal("hide");
-                $("#modalWaiting").modal("show");
+                $scope.payOrder.cod_caja = $scope.box.UserID;
 
                 var amount = parseFloat($scope.payOrder.saOrdenPagoReng[0].monto_d);
                 var total = parseFloat($scope.totalBox);
@@ -928,6 +1009,11 @@
                     $scope.errorMessage = `Debes ingresar un monto menor al saldo disponible en caja (${total.toFixed(2)})`;
                     return;
                 }
+
+                validating = true;
+                $("#modal-expense").modal("hide");
+                $("#modalWaiting").modal("show");
+                validating = false;
 
                 var req = {
                     method: 'POST',
@@ -952,7 +1038,7 @@
                             Amount: amount,
                             Type: 2,
                             Date: origDate(new Date(Date.now())),
-                            Comment: res.Result.descrip
+                            Comment: res.Result.descrip + " (OP)"
                         };
 
                         $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
@@ -999,6 +1085,10 @@
 
     function searchAccount(value) {
         return accounts.find(c => c.co_cta_ingr_egr.trim() == value.trim()).descrip;
+    }
+
+    function searchBox(value) {
+        return boxes.find(b => b.IsOpen && b.UserID == value).Descrip;
     }
 
     function compareDate(d1, d2) {
@@ -1065,10 +1155,10 @@
 
             if (input == "benef") {
                 $("#des_benef").val(searchBenef(value));
-            } else if (input == "account_i") {
-                $("#des_account_i").val(searchAccount(value));
-            } else if (input == "account_e") {
-                $("#des_account_e").val(searchAccount(value));
+            } else if (input == "box") {
+                $("#des_box").val(searchBox(value));
+            } else if (input == "account") {
+                $("#des_account").val(searchAccount(value));
             }
 
             rows.forEach(row => row.style.display = "");
@@ -1076,6 +1166,10 @@
         } else {
             alert("Debes seleccionar un item");
         }
+    }
+
+    function onlyUnique(value, index, array) {
+        return array.indexOf(value) === index;
     }
 
 </script>

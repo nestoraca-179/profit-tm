@@ -14970,6 +14970,10 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
   <Function Name="pObtenerDocumentosVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sCliente" Type="char" Mode="In" />
   </Function>
+  <Function Name="pObtenerFechaTasa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sCo_Mone" Type="char" Mode="In" />
+    <Parameter Name="dtFecha" Type="smalldatetime" Mode="In" />
+  </Function>
   <Function Name="pObtenerSaldoCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sCodigo" Type="char" Mode="In" />
   </Function>
@@ -15012,6 +15016,29 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sCo_Seg_h" Type="char" Mode="In" />
     <Parameter Name="iCantidad" Type="int" Mode="In" />
     <Parameter Name="sCo_Sucursal" Type="char" Mode="In" />
+    <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
+    <Parameter Name="sDir" Type="varchar" Mode="In" />
+    <Parameter Name="bHeaderRep" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="RepCompraxArt2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cCo_Articulo_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Articulo_h" Type="char" Mode="In" />
+    <Parameter Name="dCo_fecha_d" Type="smalldatetime" Mode="In" />
+    <Parameter Name="dCo_fecha_h" Type="smalldatetime" Mode="In" />
+    <Parameter Name="cCo_Prov_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Prov_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Linea_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Linea_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_SubLinea_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_SubLinea_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Categoria_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Categoria_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Almacen_d" Type="char" Mode="In" />
+    <Parameter Name="cCo_Almacen_h" Type="char" Mode="In" />
+    <Parameter Name="cCo_Moneda" Type="char" Mode="In" />
+    <Parameter Name="cStatus" Type="char" Mode="In" />
+    <Parameter Name="cAnulado" Type="char" Mode="In" />
+    <Parameter Name="cCo_Sucursal" Type="char" Mode="In" />
     <Parameter Name="sCampOrderBy" Type="varchar" Mode="In" />
     <Parameter Name="sDir" Type="varchar" Mode="In" />
     <Parameter Name="bHeaderRep" Type="bit" Mode="In" />

@@ -235,194 +235,199 @@
             </ul>
         </div>
         <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
-            <div class="container-fluid mt-3">
-                <!--
-        <h4>Ventas</h4>
-        <hr />
-        <div class="row justify-content-between" style="margin: 0;">
-            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                <div class="direct shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                <div class="direct shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                <div class="direct shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                <div class="direct shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-        </div>
-        <div class="row m-0 mt-3">
-            <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
-                <div class="container-chart shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-            <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
-                <div class="container-chart shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-        </div>
-        <hr />
-        <h4>Compras</h4>
-        <hr />
-        <div class="row justify-content-between" style="margin: 0;">
-            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                <div class="direct shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                <div class="direct shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                <div class="direct shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                <div class="direct shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-        </div>
-        <div class="row m-0 mt-3">
-            <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
-                <div class="container-chart shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-            <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
-                <div class="container-chart shadow-tm">
-                    <i class="fas fa-spinner-third fa-spin"></i>
-                </div>
-            </div>
-        </div>
-        <hr />
-    -->
-                
-                <div class="d-flex justify-content-end">
-                    <label class="d-flex align-items-center mx-3">Mostrar info. Sucursal actual</label>
-                    <!-- Rounded switch -->
-                    <label class="switch">
-                        <input type="checkbox" ng-disabled="!show_all" ng-model="bySucur" ng-change="changeSuc(bySucur)">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-                <hr />
-                <div class="row justify-content-between" style="margin: 0;">
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm" style="border-bottom: solid 5px #1565C0;">
-                            <h5>Total Facturas del Mes</h5>
-                            <span ng-show="stats" class="stat-number">{{ stats.totalCountSale }}</span>
-                            <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
-                            <i class="fas fa-file-invoice" style="color: #1565C0;"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm" style="border-bottom: solid 5px #2E7D32;">
-                            <h5>Total Ventas del Mes</h5>
-                            <span ng-show="stats" class="stat-number">{{ stats.totalAmountSale.toLocaleString('es-ES') }}</span>
-                            <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
-                            <i class="fas fa-dollar-sign" style="color: #2E7D32;"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm" style="border-bottom: solid 5px #EF6C00;">
-                            <h5>Total Compras del Mes</h5>
-                            <span ng-show="stats" class="stat-number">{{ stats.totalAmountBuy.toLocaleString('es-ES') }}</span>
-                            <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
-                            <i class="fas fa-dollar-sign" style="color: #EF6C00;"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
-                        <div class="direct shadow-tm" style="border-bottom: solid 5px #D84315;">
-                            <h5>Total Estado de Ganancia del Mes</h5>
-                            <span ng-show="stats" class="stat-number">{{ stats.totalState.toLocaleString('es-ES') }}</span>
-                            <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
-                            <i class="fas fa-sort-alt" style="color: #D84315;"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3" style="margin: 0;">
-                    <div class="col-md-12 col-xl-6 col-xxl-8 col-graph">
-                        <div class="container-chart shadow-tm">
-                            <i ng-if="!msp || !show_all" class="fas fa-spinner-third fa-spin"></i>
-                            <div id="cont-msp" style="display: none;">
-                                <figure ng-if="msp.length > 0" class="highcharts-figure">
-                                    <div id="container-msp"></div>
-                                </figure>
-                                <h5 ng-if="msp.length == 0" class="text-center no-data">Servicios más vendidos (Sin datos)</h5>
+            @{
+                if (ViewBag.user.BoxType != 1)
+                {
+                    <div class="container-fluid mt-3">
+                        <!--
+                            <h4>Ventas</h4>
+                            <hr />
+                            <div class="row justify-content-between" style="margin: 0;">
+                                <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                    <div class="direct shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                    <div class="direct shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                    <div class="direct shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                    <div class="direct shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-xl-6 col-xxl-4 col-graph">
-                        <div class="container-chart shadow-tm">
-                            <i ng-if="!mpp || !show_all" class="fas fa-spinner-third fa-spin"></i>
-                            <div id="cont-mpp" style="display: none;">
-                                <figure ng-if="mpp.length > 0" class="highcharts-figure">
-                                    <div id="container-mpp"></div>
-                                </figure>
-                                <h5 ng-if="mpp.length == 0" class="text-center no-data">Servicios más comprados (Sin datos)</h5>
+                            <div class="row m-0 mt-3">
+                                <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                                    <div class="container-chart shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                                    <div class="container-chart shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3" style="margin: 0; align-items: stretch;">
-                    <div class="col-md-12 col-xl-7 col-graph">
-                        <div class="container-chart shadow-tm pl-3 pr-3 d-flex" style="height: 100%;">
-                            <i ng-if="!mac || !show_all" class="fas fa-spinner-third fa-spin"></i>
-                            <div id="cont-mac" style="display: none;">
-                                <h5 ng-if="mac.length > 0" class="text-center mt-3 mb-3">Clientes más activos</h5>
-                                <table ng-if="mac.length > 0" class="table table-hover borderless">
-                                    <thead>
-                                        <tr>
-                                            <th class="first-item"></th>
-                                            <th>Cliente</th>
-                                            <th>Total</th>
-                                            <th style="text-align: right;">Porcentaje</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="client in mac">
-                                            <td class="first-item" style="vertical-align: middle;"><i class="fas fa-user-alt" style="color: #5e5d5d;"></i></td>
-                                            <td>{{ client.cli_des }}</td>
-                                            <td>{{ client.campo1 }}</td>
-                                            <td style="text-align: right;">{{ client.campo2 }} %</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <h5 ng-if="mac.length == 0" class="text-center no-data">Clientes más activos (Sin datos)</h5>
+                            <hr />
+                            <h4>Compras</h4>
+                            <hr />
+                            <div class="row justify-content-between" style="margin: 0;">
+                                <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                    <div class="direct shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                    <div class="direct shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                    <div class="direct shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                    <div class="direct shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-xl-5 col-graph">
-                        <div class="container-chart shadow-tm">
-                            <i ng-if="!mas || !show_all" class="fas fa-spinner-third fa-spin"></i>
-                            <div id="cont-mas" style="display: none;">
-                                <figure ng-if="mas.length > 0" class="highcharts-figure">
-                                    <div id="container-mas"></div>
-                                </figure>
-                                <h5 ng-if="mas.length == 0" class="text-center no-data">Proveedores más activos (Sin datos)</h5>
+                            <div class="row m-0 mt-3">
+                                <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                                    <div class="container-chart shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xl-6 col-xxl-6 col-graph">
+                                    <div class="container-chart shadow-tm">
+                                        <i class="fas fa-spinner-third fa-spin"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <hr />
+                            <hr />
+                        -->
 
-            </div>
+                        <div class="d-flex justify-content-end">
+                            <label class="d-flex align-items-center mx-3">Mostrar info. Sucursal actual</label>
+                            <!-- Rounded switch -->
+                            <label class="switch">
+                                <input type="checkbox" ng-disabled="!show_all" ng-model="bySucur" ng-change="changeSuc(bySucur)">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <hr />
+                        <div class="row justify-content-between" style="margin: 0;">
+                            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                <div class="direct shadow-tm" style="border-bottom: solid 5px #1565C0;">
+                                    <h5>Total Facturas del Mes</h5>
+                                    <span ng-show="stats" class="stat-number">{{ stats.totalCountSale }}</span>
+                                    <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
+                                    <i class="fas fa-file-invoice" style="color: #1565C0;"></i>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                <div class="direct shadow-tm" style="border-bottom: solid 5px #2E7D32;">
+                                    <h5>Total Ventas del Mes</h5>
+                                    <span ng-show="stats" class="stat-number">{{ stats.totalAmountSale.toLocaleString('es-ES') }}</span>
+                                    <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
+                                    <i class="fas fa-dollar-sign" style="color: #2E7D32;"></i>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                <div class="direct shadow-tm" style="border-bottom: solid 5px #EF6C00;">
+                                    <h5>Total Compras del Mes</h5>
+                                    <span ng-show="stats" class="stat-number">{{ stats.totalAmountBuy.toLocaleString('es-ES') }}</span>
+                                    <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
+                                    <i class="fas fa-dollar-sign" style="color: #EF6C00;"></i>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
+                                <div class="direct shadow-tm" style="border-bottom: solid 5px #D84315;">
+                                    <h5>Total Estado de Ganancia del Mes</h5>
+                                    <span ng-show="stats" class="stat-number">{{ stats.totalState.toLocaleString('es-ES') }}</span>
+                                    <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
+                                    <i class="fas fa-sort-alt" style="color: #D84315;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3" style="margin: 0;">
+                            <div class="col-md-12 col-xl-6 col-xxl-8 col-graph">
+                                <div class="container-chart shadow-tm">
+                                    <i ng-if="!msp || !show_all" class="fas fa-spinner-third fa-spin"></i>
+                                    <div id="cont-msp" style="display: none;">
+                                        <figure ng-if="msp.length > 0" class="highcharts-figure">
+                                            <div id="container-msp"></div>
+                                        </figure>
+                                        <h5 ng-if="msp.length == 0" class="text-center no-data">Servicios más vendidos (Sin datos)</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-xl-6 col-xxl-4 col-graph">
+                                <div class="container-chart shadow-tm">
+                                    <i ng-if="!mpp || !show_all" class="fas fa-spinner-third fa-spin"></i>
+                                    <div id="cont-mpp" style="display: none;">
+                                        <figure ng-if="mpp.length > 0" class="highcharts-figure">
+                                            <div id="container-mpp"></div>
+                                        </figure>
+                                        <h5 ng-if="mpp.length == 0" class="text-center no-data">Servicios más comprados (Sin datos)</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3" style="margin: 0; align-items: stretch;">
+                            <div class="col-md-12 col-xl-7 col-graph">
+                                <div class="container-chart shadow-tm pl-3 pr-3 d-flex" style="height: 100%;">
+                                    <i ng-if="!mac || !show_all" class="fas fa-spinner-third fa-spin"></i>
+                                    <div id="cont-mac" style="display: none;">
+                                        <h5 ng-if="mac.length > 0" class="text-center mt-3 mb-3">Clientes más activos</h5>
+                                        <table ng-if="mac.length > 0" class="table table-hover borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th class="first-item"></th>
+                                                    <th>Cliente</th>
+                                                    <th>Total</th>
+                                                    <th style="text-align: right;">Porcentaje</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="client in mac">
+                                                    <td class="first-item" style="vertical-align: middle;"><i class="fas fa-user-alt" style="color: #5e5d5d;"></i></td>
+                                                    <td>{{ client.cli_des }}</td>
+                                                    <td>{{ client.campo1 }}</td>
+                                                    <td style="text-align: right;">{{ client.campo2 }} %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <h5 ng-if="mac.length == 0" class="text-center no-data">Clientes más activos (Sin datos)</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-xl-5 col-graph">
+                                <div class="container-chart shadow-tm">
+                                    <i ng-if="!mas || !show_all" class="fas fa-spinner-third fa-spin"></i>
+                                    <div id="cont-mas" style="display: none;">
+                                        <figure ng-if="mas.length > 0" class="highcharts-figure">
+                                            <div id="container-mas"></div>
+                                        </figure>
+                                        <h5 ng-if="mas.length == 0" class="text-center no-data">Proveedores más activos (Sin datos)</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>
@@ -504,6 +509,7 @@
         $http.get(`../../api/ProfitTMApi/GetStatsInvoices/${fecha_d}/${fecha_h}`)
             .then(function (response) {
 
+                console.log(response.data.Result);
                 $scope.allStats = response.data.Result;
                 $scope.stats = $scope.allStats.all;
                 $("span.stat-number").css('opacity', '1');

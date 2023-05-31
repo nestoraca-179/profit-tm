@@ -178,8 +178,9 @@ namespace ProfitTM.Models
         public object GetStatsInvoices(DateTime fec_d, DateTime fec_h, string sucur)
         {
             int totalCountSale = 0, totalCountBuy = 0, totalCountSaleSuc = 0, totalCountBuySuc = 0;
-            decimal totalAmountSale = 0, totalAmountBuy = 0, totalState, totalReimbExp = 0, totalReimbExpSuc = 0;
+            decimal totalAmountSale = 0, totalAmountBuy = 0, totalState;
             decimal totalAmountSaleSuc = 0, totalAmountBuySuc = 0, totalStateSuc;
+            decimal totalReimbExpSale = 0, totalReimbExpSaleSuc = 0, totalReimbExpBuy = 0, totalReimbExpBuySuc = 0;
 
             // VENTAS
             var sp1 = db.RepFacturaVentaxFecha(null, null, fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
@@ -220,32 +221,66 @@ namespace ProfitTM.Models
             // GASTOS REEMBOLSABLES - ISH
             if (db.Database.Connection.Database == "PP2K12_ISH_ADM")
             {
-                var sp3 = db.RepFacturaVentaxArt2("410190001-001", "410190001-001", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
+                // totalReimbExpSale
+                var sp3 = db.RepFacturaVentaxArt2("410190001-001", "410190001-004", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
                     null, null, null, null, null, null, null, null, null, null);
                 var enumerator3 = sp3.GetEnumerator();
 
                 while (enumerator3.MoveNext())
                 {
                     if (enumerator3.Current.anulado)
-                        totalReimbExp += 0;
+                        totalReimbExpSale += 0;
                     else
-                        totalReimbExp += Convert.ToDecimal(enumerator3.Current.neto);
+                        totalReimbExpSale += Convert.ToDecimal(enumerator3.Current.neto);
                 }
+                // totalReimbExpSale
 
-                var sp4 = db.RepFacturaVentaxArt2("410190001-001", "410190001-001", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
+                // totalReimbExpSaleSuc
+                var sp4 = db.RepFacturaVentaxArt2("410190001-001", "410190001-004", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
                     null, null, null, null, null, null, sucur, null, null, null);
                 var enumerator4 = sp4.GetEnumerator();
 
                 while (enumerator4.MoveNext())
                 {
                     if (enumerator4.Current.anulado)
-                        totalReimbExpSuc += 0;
+                        totalReimbExpSaleSuc += 0;
                     else
-                        totalReimbExpSuc += Convert.ToDecimal(enumerator4.Current.neto);
+                        totalReimbExpSaleSuc += Convert.ToDecimal(enumerator4.Current.neto);
                 }
+                // totalReimbExpSaleSuc
+
+                // totalReimbExpBuy
+                var sp5 = db.RepCompraxArt2("920101001-001", "920101004-001", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
+                    null, null, null, null, null, null);
+                var enumerator5 = sp5.GetEnumerator();
+
+                while (enumerator5.MoveNext())
+                {
+                    if (enumerator5.Current.anulado)
+                        totalReimbExpBuy += 0;
+                    else
+                        totalReimbExpBuy += Convert.ToDecimal(enumerator5.Current.neto);
+                }
+                // totalReimbExpBuy
+
+                // totalReimbExpBuySuc
+                var sp6 = db.RepCompraxArt2("920101001-001", "920101004-001", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
+                    null, null, sucur, null, null, null);
+                var enumerator6 = sp6.GetEnumerator();
+
+                while (enumerator6.MoveNext())
+                {
+                    if (enumerator6.Current.anulado)
+                        totalReimbExpBuySuc += 0;
+                    else
+                        totalReimbExpBuySuc += Convert.ToDecimal(enumerator6.Current.neto);
+                }
+                // totalReimbExpBuySuc
 
                 enumerator3.Dispose();
                 enumerator4.Dispose();
+                enumerator5.Dispose();
+                enumerator6.Dispose();
             }
 
             enumerator1.Dispose();
@@ -260,7 +295,8 @@ namespace ProfitTM.Models
                     totalAmountSale,
                     totalAmountBuy,
                     totalState,
-                    totalReimbExp
+                    totalReimbExpSale,
+                    totalReimbExpBuy
                 },
                 suc = new
                 {
@@ -269,7 +305,8 @@ namespace ProfitTM.Models
                     totalAmountSale = totalAmountSaleSuc,
                     totalAmountBuy = totalAmountBuySuc,
                     totalState = totalStateSuc,
-                    totalReimbExp = totalReimbExpSuc
+                    totalReimbExpSale = totalReimbExpSaleSuc,
+                    totalReimbExpBuy = totalReimbExpBuySuc
                 },
             };
 

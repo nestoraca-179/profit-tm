@@ -45,19 +45,20 @@ namespace ProfitTM.Models
                         // AGREGAR MOVIMIENTO DE CAJA
                         saMovimientoCaja move_c = new saMovimientoCaja()
                         {
-                            descrip = string.Format("Orden Pago {0} de {1}", n_ord, po.cod_ben),
+                            cod_caja = po.cod_caja,
+                            descrip = string.Format("{0} ({1})", po.descrip, n_ord.Trim()),
                             tasa = po.tasa,
                             tipo_mov = "E",
                             forma_pag = "EF",
                             co_cta_ingr_egr = reng.co_cta_ingr_egr,
-                            monto_d = reng.monto_d,
+                            monto_h = reng.monto_d,
                             origen = "OPA"
                         };
 
-                        saMovimientoCaja new_move = new BoxMove().AddBoxMove(move_c, user, sucur, false);
+                        saMovimientoCaja new_move = new BoxMove().AddBoxMove(move_c, user, sucur, false, false, false);
 
                         // ORDEN PAGO
-                        var sp = context.pInsertarOrdenPago(n_ord, "C", DateTime.Now, po.cod_ben, po.descrip, po.forma_pag, DateTime.Now, null, null, user.ToUpper(),
+                        var sp = context.pInsertarOrdenPago(n_ord, "C", DateTime.Now, po.cod_ben, po.descrip, po.forma_pag, DateTime.Now, null, null, po.cod_caja,
                             new_move.mov_num, null, null, po.tasa, po.co_mone, false, false, 0, null, null, null, null, null, null, null, null, null, null, user, sucur, 
                             "SERVER PROFIT WEB", null, null);
 
@@ -67,10 +68,10 @@ namespace ProfitTM.Models
 
                         sp.Dispose();
                         sp_r.Dispose();
-
-                        BoxMoves move = Box.AddExpense(n_ord, reng.monto_d, user, po.descrip);
-
                         tran.Commit();
+
+                        BoxMoves move = Box.AddMove(user, po.cod_caja, reng.monto_d, false, po.descrip + " (OP)");
+
                         new_order = GetPayOrderByID(n_ord);
                         new_order.campo1 = move.BoxID.ToString();
                         new_order.campo2 = move.ID.ToString();
@@ -78,9 +79,9 @@ namespace ProfitTM.Models
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        new_order.descrip = "ERROR";
-                        new_order.campo1 = ex.Message;
                         Incident.CreateIncident("ERROR INTERNO AGREGANDO ORDEN DE PAGO", ex);
+
+                        throw ex;
                     }
                 }
             }

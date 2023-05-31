@@ -9,6 +9,7 @@ namespace ProfitTM.Models
     {
         public string Descrip { get; set; }
         public string Sup { get; set; }
+        public int BoxType { get; set; }
 
         public static Boxes GetBoxByID(string id)
         {
@@ -50,16 +51,15 @@ namespace ProfitTM.Models
                              Expenses = b.Expenses,
                              Sales = b.Sales,
                              IsOpen = b.IsOpen,
-                             Sup = u.SupID.ToString()
+                             Sup = u.SupID.ToString(),
+                             BoxType = u.BoxType ?? 0
 
                          }).ToList();
 
                 foreach (Box box in boxes)
                 {
                     box.Sup = box.Sup != "" ? User.GetUserByID(box.Sup).Username : null;
-                    box.BoxMoves.ToList().ForEach(delegate(BoxMoves m) {
-                        m.Boxes = null;
-                    });
+                    box.BoxMoves = db.BoxMoves.AsNoTracking().Where(m => m.BoxID == box.ID).ToList();
                 }
             }
             catch (Exception ex)
@@ -87,37 +87,95 @@ namespace ProfitTM.Models
                 return 0;
         }
 
-        public static Boxes AddBox(Boxes box)
+        public static Boxes AddBox(Boxes box, string user, string sucur)
         {
+            Boxes new_box;
             ProfitTMEntities db = new ProfitTMEntities();
-            box.DateS = DateTime.Now;
 
-            Boxes new_box = db.Boxes.Add(box);
-            db.SaveChanges();
+            using (DbContextTransaction tran = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    box.DateS = DateTime.Now;
+                    new_box = db.Boxes.Add(box);
+
+                    if (new_box.AmountInit > 0)
+                    {
+                        saMovimientoCaja move = new saMovimientoCaja()
+                        {
+                            descrip = string.Format("SALDO INICIAL CAJA {0} EN FECHA {1}", box.UserID, box.DateS.ToString("dd/MM/yyyy")),
+                            tipo_mov = "I",
+                            forma_pag = "EF",
+                            monto_h = box.AmountInit,
+                            origen = "CAJ"
+                        };
+
+                        new BoxMove().AddBoxMove(move, user, sucur, true, true, false);
+
+                        BoxMoves mov = new BoxMoves()
+                        {
+                            BoxID = new_box.ID,
+                            UserID = user,
+                            Amount = new_box.AmountInit,
+                            Type = 1,
+                            Date = DateTime.Now,
+                            Comment = "SALDO INICIAL EN CAJA " + user
+                        };
+
+                        BoxMoves new_mov = db.BoxMoves.Add(mov);
+                        new_box.BoxMoves.Add(new_mov);
+                    }
+
+                    db.SaveChanges();
+                    tran.Commit();
+
+                    new_box.BoxMoves.ToList().ForEach(delegate (BoxMoves m) {
+                        m.Boxes = null;
+                    });
+                }
+                catch (Exception ex)
+                {
+                    new_box = null;
+                    tran.Rollback();
+                    Incident.CreateIncident("ERROR INTERNO AGREGANDO CAJA", ex);
+
+                    throw ex;
+                }
+            }
 
             return new_box;
         }
 
-        public static BoxMoves AddBoxMove(BoxMoves move)
+        public static BoxMoves AddMove(string user, string box_m, decimal amount, bool isIncome, string descrip)
         {
             ProfitTMEntities db = new ProfitTMEntities();
-            Boxes box = GetBoxByID(move.BoxID.ToString());
 
-            if (move.Type == 1)
-                box.Incomes += move.Amount;
-            else if (move.Type == 2)
-                box.Expenses += move.Amount;
+            Boxes box = GetBoxByID(GetBoxOpenByUser(box_m).ToString());
+            BoxMoves move = new BoxMoves()
+            {
+                BoxID = box.ID,
+                UserID = user,
+                Amount = amount,
+                Date = DateTime.Now,
+                Comment = descrip
+            };
+
+            if (isIncome)
+            {
+                move.Type = 1;
+                box.Incomes += amount;
+            }
+            else
+            {
+                move.Type = 2;
+                box.Expenses += amount;
+            }
 
             db.Entry(box).State = EntityState.Modified;
+            move = db.BoxMoves.Add(move);
 
-            move.Date = DateTime.Now;
-            BoxMoves new_move = db.BoxMoves.Add(move);
             db.SaveChanges();
-
-            new_move.BoxID = move.BoxID;
-            new_move.Boxes = null;
-
-            return new_move;
+            return move;
         }
 
         public static void AddSale(string fact, decimal amount, string user)
@@ -139,52 +197,6 @@ namespace ProfitTM.Models
             db.BoxMoves.Add(move);
 
             db.SaveChanges();
-        }
-
-        public static BoxMoves AddIncome(string mov, decimal amount, string user, string descrip)
-        {
-            ProfitTMEntities db = new ProfitTMEntities();
-
-            Boxes box = GetBoxByID(GetBoxOpenByUser(user).ToString());
-            BoxMoves move = new BoxMoves()
-            {
-                BoxID = box.ID,
-                UserID = user,
-                Amount = amount,
-                Type = 1,
-                Date = DateTime.Now,
-                Comment = descrip
-            };
-
-            box.Incomes += amount;
-            db.Entry(box).State = EntityState.Modified;
-            move = db.BoxMoves.Add(move);
-
-            db.SaveChanges();
-            return move;
-        }
-
-        public static BoxMoves AddExpense(string ord, decimal amount, string user, string descrip)
-        {
-            ProfitTMEntities db = new ProfitTMEntities();
-
-            Boxes box = GetBoxByID(GetBoxOpenByUser(user).ToString());
-            BoxMoves move = new BoxMoves()
-            {
-                BoxID = box.ID,
-                UserID = user,
-                Amount = amount,
-                Type = 2,
-                Date = DateTime.Now,
-                Comment = descrip
-            };
-
-            box.Expenses += amount;
-            db.Entry(box).State = EntityState.Modified;
-            move = db.BoxMoves.Add(move);
-
-            db.SaveChanges();
-            return move;
         }
 
         public static void CloseBox(string id)
