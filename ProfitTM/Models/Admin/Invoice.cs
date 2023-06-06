@@ -44,9 +44,13 @@ namespace ProfitTM.Models
 
                 foreach (saFacturaVenta invoice in invoices)
                 {
+                    List<bool> rets = HasRet(invoice.doc_num);
+
                     invoice.saCliente.saFacturaVenta = null;
                     invoice.saVendedor.saFacturaVenta = null;
                     invoice.saCondicionPago.saFacturaVenta = null;
+                    invoice.co_us_in = rets[0].ToString();
+                    invoice.co_us_mo = rets[1].ToString();
                     foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
                     {
                         reng.saFacturaVenta = null;
@@ -222,7 +226,7 @@ namespace ProfitTM.Models
             if (db.Database.Connection.Database == "PP2K12_ISH_ADM")
             {
                 // totalReimbExpSale
-                var sp3 = db.RepFacturaVentaxArt2("410190001-001", "410190001-004", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
+                var sp3 = db.RepFacturaVentaxArt2("910101001-001", "910101004-001", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
                     null, null, null, null, null, null, null, null, null, null);
                 var enumerator3 = sp3.GetEnumerator();
 
@@ -236,7 +240,7 @@ namespace ProfitTM.Models
                 // totalReimbExpSale
 
                 // totalReimbExpSaleSuc
-                var sp4 = db.RepFacturaVentaxArt2("410190001-001", "410190001-004", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
+                var sp4 = db.RepFacturaVentaxArt2("910101001-001", "910101004-001", fec_d, fec_h, null, null, null, null, null, null, null, null, null, null, null,
                     null, null, null, null, null, null, sucur, null, null, null);
                 var enumerator4 = sp4.GetEnumerator();
 
@@ -443,6 +447,43 @@ namespace ProfitTM.Models
             Step.CreateStep("saDocumentoVenta", doc.rowguid, user, "M", "ANULACION - " + id);
 
             db.SaveChanges();
+        }
+
+        private static List<bool> HasRet(string doc_num)
+        {
+            List<bool> result = new List<bool>();
+
+            var results = db.Database.SqlQuery<string>(string.Format(@"select top 1 (
+                select CDR2.nro_doc
+                from saCobroDocReng CDR2
+                where CDR2.co_tipo_doc = 'IVAN' and CDR2.rowguid_reng_ori = CDR.rowguid
+            ) doc_iva
+            from saFacturaVenta FV
+            left join saCobroDocReng CDR on CDR.nro_doc = FV.doc_num
+            where CDR.cob_num is not null and FV.doc_num = '{0}'
+            order by FV.doc_num", doc_num)).ToList();
+
+            if (results.Count > 0)
+                result.Add(results[0] != null);
+            else
+                result.Add(false);
+
+            results = db.Database.SqlQuery<string>(string.Format(@"select top 1 (
+                select CDR2.nro_doc
+                from saCobroDocReng CDR2
+                where CDR2.co_tipo_doc = 'ISLR' and CDR2.rowguid_reng_ori = CDR.rowguid
+            ) doc_iva
+            from saFacturaVenta FV
+            left join saCobroDocReng CDR on CDR.nro_doc = FV.doc_num
+            where CDR.cob_num is not null and FV.doc_num = '{0}'
+            order by FV.doc_num", doc_num)).ToList();
+
+            if (results.Count > 0)
+                result.Add(results[0] != null);
+            else
+                result.Add(false);
+
+            return result;
         }
     }
 }

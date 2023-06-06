@@ -276,6 +276,7 @@
     <Property Name="Sales" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="IsOpen" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="BoxMoves" Relationship="ProfitTMContext.FK_Boxes_BoxMoves" FromRole="Boxes" ToRole="BoxMoves" />
+    <Property Name="ConnID" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="BoxMoves">
     <Key>

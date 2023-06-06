@@ -9,6 +9,7 @@ using ProfitTM.Models;
 using Quartz;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz.Impl;
 
 namespace ProfitTM
 {
@@ -33,20 +34,21 @@ namespace ProfitTM
             DevExpress.Web.Mvc.MVCxWebDocumentViewer.StaticInitialize();
 
             Incident.CreateIncident("INICIANDO QUARTZ", new Exception());
-            var builder = Host.CreateDefaultBuilder().ConfigureServices((cxt, services) =>
-            {
-                services.AddQuartz(q => {
-                    q.UseMicrosoftDependencyInjectionJobFactory();
-                });
+            //var builder = Host.CreateDefaultBuilder().ConfigureServices((cxt, services) =>
+            //{
+            //    services.AddQuartz(q => {
+            //        q.UseMicrosoftDependencyInjectionJobFactory();
+            //    });
 
-                services.AddQuartzHostedService(opt => {
-                    opt.WaitForJobsToComplete = true;
-                });
+            //    services.AddQuartzHostedService(opt => {
+            //        opt.WaitForJobsToComplete = true;
+            //    });
 
-            }).Build();
+            //}).Build();
 
-            var schedulerFactory = builder.Services.GetRequiredService<ISchedulerFactory>();
-            var scheduler = await schedulerFactory.GetScheduler();
+            //var schedulerFactory = builder.Services.GetRequiredService<ISchedulerFactory>();
+            StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
+            IScheduler scheduler = await schedulerFactory.GetScheduler();
 
             var job = JobBuilder.Create<CerrarCajas>()
                 .WithIdentity("myJob", "group1")
@@ -56,12 +58,18 @@ namespace ProfitTM
                 .WithIdentity("myTrigger", "group1")
                 .ForJob("myJob", "group1")
                 .StartAt(DateTimeOffset.Now)
-                .WithCronSchedule("0 55 0,1,2,3,4,23 ? * * *", x => x.WithMisfireHandlingInstructionFireAndProceed())
+                .WithCronSchedule("0 55 0,1,2,3,4,17,18,19,20,23 ? * * *", x => x.WithMisfireHandlingInstructionIgnoreMisfires())
+                //.WithCronSchedule("0 40 15 ? * * *", x => x.WithMisfireHandlingInstructionIgnoreMisfires())
                 .Build();
 
-            Incident.CreateIncident("FINALIZANDO QUARTZ " + trigger.StartTimeUtc.DateTime.ToString("dd/MM/yyyy HH:mm:ss"), new Exception());
             await scheduler.ScheduleJob(job, trigger);
-            await builder.RunAsync();
+            await scheduler.Start();
+            //await builder.RunAsync();
+
+            Incident.CreateIncident("QUARTZ ACTIVADO " + scheduler.IsStarted, new Exception());
+            Incident.CreateIncident("QUARTZ APAGADO " + scheduler.IsShutdown, new Exception());
+            Incident.CreateIncident("QUARTZ EN STAND BY " + scheduler.InStandbyMode, new Exception());
+            Incident.CreateIncident("FINALIZANDO QUARTZ " + trigger.StartTimeUtc.DateTime.ToString("dd/MM/yyyy HH:mm:ss"), new Exception());
         }
 
         protected void Application_Error(object sender, EventArgs e) 
@@ -78,6 +86,15 @@ namespace ProfitTM
             }
         }
 
+        protected void Application_End()
+        {
+            HttpContext.Current.Session.Clear();
+            HttpContext.Current.Session.Abandon();
+            HttpContext.Current.Session.RemoveAll();
+
+            Incident.CreateIncident("DISPOSED", new Exception());
+        }
+        
         private bool IsWebApiRequest()
         {
             return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(WebApiConfig.UrlPrefixRelative);

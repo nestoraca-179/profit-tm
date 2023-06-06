@@ -29,7 +29,7 @@ namespace ProfitTM.Models
             return box;
         }
 
-        public static List<Box> GetAllBoxesAndMoves()
+        public static List<Box> GetAllBoxesAndMoves(int conn)
         {
             List<Box> boxes;
 
@@ -37,7 +37,8 @@ namespace ProfitTM.Models
             {
                 ProfitTMEntities db = new ProfitTMEntities();
 
-                boxes = (from b in db.Boxes.AsNoTracking()
+                DateTime fec_d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                boxes = (from b in db.Boxes.AsNoTracking().Where(b => b.DateS >= fec_d && b.DateS <= DateTime.Now && b.ConnID == conn)
                          join u in db.Users.AsNoTracking() on b.UserID equals u.Username
                          select new Box()
                          {
@@ -71,10 +72,10 @@ namespace ProfitTM.Models
             return boxes;
         }
 
-        public static int GetBoxOpenByUser(string user)
+        public static int GetBoxOpenByUser(string user, int conn)
         {
             ProfitTMEntities db = new ProfitTMEntities();
-            Boxes box = db.Boxes.AsNoTracking().OrderByDescending(b => b.DateS).FirstOrDefault(b => b.UserID == user && b.IsOpen);
+            Boxes box = db.Boxes.AsNoTracking().OrderByDescending(b => b.DateS).FirstOrDefault(b => b.UserID == user && b.IsOpen && b.ConnID == conn);
 
             if (box != null)
             {
@@ -87,7 +88,7 @@ namespace ProfitTM.Models
                 return 0;
         }
 
-        public static Boxes AddBox(Boxes box, string user, string sucur)
+        public static Boxes AddBox(Boxes box, string user, string sucur, int conn)
         {
             Boxes new_box;
             ProfitTMEntities db = new ProfitTMEntities();
@@ -96,6 +97,7 @@ namespace ProfitTM.Models
             {
                 try
                 {
+                    box.ConnID = conn;
                     box.DateS = DateTime.Now;
                     new_box = db.Boxes.Add(box);
 
@@ -110,7 +112,7 @@ namespace ProfitTM.Models
                             origen = "CAJ"
                         };
 
-                        new BoxMove().AddBoxMove(move, user, sucur, true, true, false);
+                        new BoxMove().AddBoxMove(move, user, sucur, true, true, false, conn);
 
                         BoxMoves mov = new BoxMoves()
                         {
@@ -146,11 +148,11 @@ namespace ProfitTM.Models
             return new_box;
         }
 
-        public static BoxMoves AddMove(string user, string box_m, decimal amount, bool isIncome, string descrip)
+        public static BoxMoves AddMove(string user, string box_m, decimal amount, bool isIncome, string descrip, int conn)
         {
             ProfitTMEntities db = new ProfitTMEntities();
 
-            Boxes box = GetBoxByID(GetBoxOpenByUser(box_m).ToString());
+            Boxes box = GetBoxByID(GetBoxOpenByUser(box_m, conn).ToString());
             BoxMoves move = new BoxMoves()
             {
                 BoxID = box.ID,
@@ -178,11 +180,11 @@ namespace ProfitTM.Models
             return move;
         }
 
-        public static void AddSale(string fact, decimal amount, string user)
+        public static void AddSale(string fact, decimal amount, string user, int conn)
         {
             ProfitTMEntities db = new ProfitTMEntities();
 
-            Boxes box = GetBoxByID(GetBoxOpenByUser(user).ToString());
+            Boxes box = GetBoxByID(GetBoxOpenByUser(user, conn).ToString());
             BoxMoves move = new BoxMoves() { 
                 BoxID = box.ID,
                 UserID = user,

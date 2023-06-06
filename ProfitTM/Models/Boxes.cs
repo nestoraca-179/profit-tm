@@ -29,6 +29,7 @@ namespace ProfitTM.Models
         public decimal Expenses { get; set; }
         public decimal Sales { get; set; }
         public bool IsOpen { get; set; }
+        public int ConnID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoxMoves> BoxMoves { get; set; }

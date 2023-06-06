@@ -3,6 +3,8 @@ using System.Web;
 using System.Web.Http;
 using System.Collections.Generic;
 using ProfitTM.Models;
+using System.Collections;
+using Newtonsoft.Json;
 
 namespace ProfitTM.Controllers
 {
@@ -113,10 +115,11 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse GetBoxes()
         {
             ProfitTMResponse response = new ProfitTMResponse();
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
             try
             {
-                List<Box> boxes = Box.GetAllBoxesAndMoves();
+                List<Box> boxes = Box.GetAllBoxesAndMoves(conn);
 
                 response.Status = "OK";
                 response.Result = boxes;
@@ -139,13 +142,14 @@ namespace ProfitTM.Controllers
 
             string sucur = HttpContext.Current.Session["BRANCH"].ToString();
             bool useBox = ((HttpContext.Current.Session["USER"]) as Users).UseBox;
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
             try
             {
                 int id = 0;
 
                 if (sucur == "002" && useBox)
-                    id = Box.GetBoxOpenByUser(user);
+                    id = Box.GetBoxOpenByUser(user, conn);
                 else
                     id = -1;
 
@@ -170,10 +174,11 @@ namespace ProfitTM.Controllers
 
             string user = (HttpContext.Current.Session["USER"] as Users).Username;
             string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
             try
             {
-                Boxes new_box = Box.AddBox(box, user, sucur);
+                Boxes new_box = Box.AddBox(box, user, sucur, conn);
 
                 response.Status = "OK";
                 response.Result = new_box;
@@ -196,10 +201,11 @@ namespace ProfitTM.Controllers
 
             string user = (HttpContext.Current.Session["USER"] as Users).Username;
             string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
             try
             {
-                saMovimientoCaja new_move = new BoxMove().AddBoxMove(move, user, sucur, move.tipo_mov == "I", false, true);
+                saMovimientoCaja new_move = new BoxMove().AddBoxMove(move, user, sucur, move.tipo_mov == "I", false, true, conn);
 
                 response.Status = "OK";
                 response.Result = new_move;
@@ -222,10 +228,11 @@ namespace ProfitTM.Controllers
 
             string user = (HttpContext.Current.Session["USER"] as Users).Username;
             string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
             try
             {
-                saOrdenPago new_order = new PayOrder().AddPayOrder(payOrder, user, sucur);
+                saOrdenPago new_order = new PayOrder().AddPayOrder(payOrder, user, sucur, conn);
 
                 response.Status = "OK";
                 response.Result = new_order;
@@ -655,34 +662,39 @@ namespace ProfitTM.Controllers
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddCollect/{doc_num}")]
-        public ProfitTMResponse AddCollect(string doc_num, saCobroTPReng reng)
+        public ProfitTMResponse AddCollect(string doc_num, ArrayList obj)
         {
+            saCobroTPReng reng = JsonConvert.DeserializeObject<saCobroTPReng>(obj[0].ToString());
+            saCobroRetenIvaReng r_iva = obj[1] != null ? JsonConvert.DeserializeObject<saCobroRetenIvaReng>(obj[1].ToString()) : null;
+            saCobroRentenReng r_islr = obj[2] != null ? JsonConvert.DeserializeObject<saCobroRentenReng>(obj[2].ToString()) : null;
+
             ProfitTMResponse response = new ProfitTMResponse();
 
-            string user = (HttpContext.Current.Session["USER"] as Users).Username;
-            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            //string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            //string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            //int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
-            try
-            {
-                saCobro new_collect = new Collect().AddCollectFromInvoice(doc_num, reng, user, sucur);
+            //try
+            //{
+            //    saCobro new_collect = new Collect().AddCollectFromInvoice(doc_num, reng, user, sucur, conn);
 
-                if (new_collect.descrip == "ERROR")
-                {
-                    response.Status = "ERROR";
-                    response.Message = new_collect.campo1;
-                }
-                else
-                {
-                    response.Status = "OK";
-                    response.Result = new_collect;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = ex.Message;
-                Incident.CreateIncident("ERROR AGREGANDO COBRO", ex);
-            }
+            //    if (new_collect.descrip == "ERROR")
+            //    {
+            //        response.Status = "ERROR";
+            //        response.Message = new_collect.campo1;
+            //    }
+            //    else
+            //    {
+            //        response.Status = "OK";
+            //        response.Result = new_collect;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    response.Status = "ERROR";
+            //    response.Message = ex.Message;
+            //    Incident.CreateIncident("ERROR AGREGANDO COBRO", ex);
+            //}
 
             return response;
         }

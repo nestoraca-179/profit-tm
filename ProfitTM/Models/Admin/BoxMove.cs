@@ -23,7 +23,7 @@ namespace ProfitTM.Models
             return move;
         }
 
-        public saMovimientoCaja AddBoxMove(saMovimientoCaja mo, string user, string sucur, bool isIncome, bool newBox, bool transfer)
+        public saMovimientoCaja AddBoxMove(saMovimientoCaja mo, string user, string sucur, bool isIncome, bool newBox, bool transfer, int conn)
         {
             saMovimientoCaja new_move = new saMovimientoCaja();
 
@@ -99,8 +99,8 @@ namespace ProfitTM.Models
                             sp2.Dispose();
 
                             // MOVIMIENTOS PROFIT TM
-                            BoxMoves move = Box.AddMove(user, cod_caja, mo.monto_h, isIncome, mo.descrip);
-                            BoxMoves move2 = Box.AddMove(user, mo.cod_caja, Math.Abs(isIncome ? mo.monto_h * -1 : mo.monto_h), !isIncome, mo.campo1);
+                            BoxMoves move = Box.AddMove(user, cod_caja, mo.monto_h, isIncome, mo.descrip, conn);
+                            BoxMoves move2 = Box.AddMove(user, mo.cod_caja, Math.Abs(isIncome ? mo.monto_h * -1 : mo.monto_h), !isIncome, mo.campo1, conn);
 
                             new_move = context.saMovimientoCaja.AsNoTracking().Single(m => m.mov_num == n_mov);
                             new_move.campo1 = move.BoxID.ToString();

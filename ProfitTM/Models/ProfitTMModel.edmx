@@ -10,6 +10,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConnID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="DateS" Type="smalldatetime" Nullable="false" />
           <Property Name="DateE" Type="smalldatetime" />
@@ -141,8 +142,8 @@
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="Admin" Type="bit" Nullable="false" />
           <Property Name="UseBox" Type="bit" Nullable="false" />
-          <Property Name="SupID" Type="int" />
           <Property Name="BoxType" Type="int" />
+          <Property Name="SupID" Type="int" />
           <Property Name="NextChange" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <Association Name="FK__Options__ModuleI__123EB7A3">
@@ -577,6 +578,7 @@
           <Property Name="Sales" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="IsOpen" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="BoxMoves" Relationship="ProfitTMContext.FK_Boxes_BoxMoves" FromRole="Boxes" ToRole="BoxMoves" />
+          <Property Name="ConnID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="BoxMoves">
           <Key>
@@ -738,6 +740,7 @@
           <EntitySetMapping Name="Boxes">
             <EntityTypeMapping TypeName="ProfitTMContext.Boxes">
               <MappingFragment StoreEntitySet="Boxes">
+                <ScalarProperty Name="ConnID" ColumnName="ConnID" />
                 <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
                 <ScalarProperty Name="Sales" ColumnName="Sales" />
                 <ScalarProperty Name="Expenses" ColumnName="Expenses" />

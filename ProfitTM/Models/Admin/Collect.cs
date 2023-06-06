@@ -87,7 +87,7 @@ namespace ProfitTM.Models
             return rengs;
         }
 
-        public saCobro AddCollectFromInvoice(string doc_num, saCobroTPReng reng, string user, string sucur)
+        public saCobro AddCollectFromInvoice(string doc_num, saCobroTPReng reng, string user, string sucur, int conn)
         {
             saCobro new_collect = new saCobro();
 
@@ -138,7 +138,7 @@ namespace ProfitTM.Models
                             sp_m.Dispose();
 
                             // AGREGAR VENTA A CAJA
-                            Box.AddSale(fact.doc_num, reng.mont_doc, user);
+                            Box.AddSale(fact.doc_num, reng.mont_doc, user, conn);
                         }
                         else // TP - DP (TRANSFERENCIA - DEPOSITO)
                         {

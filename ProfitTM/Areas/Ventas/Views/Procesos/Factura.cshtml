@@ -168,7 +168,7 @@
                         <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="(user != 'ALPHA' && user != 'NACA' && user != 'ASAP') || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="(user != 'ALPHA' && user != 'NACA') || invoice.anulado || invoice.status != 0 || invoice.saldo < invoice.total_neto" ng-click="initLoadCollect()">
+                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.UseBox || invoice.anulado || invoice.status != 0 || invoice.saldo < invoice.total_neto" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField('#n_preliq')">
@@ -773,6 +773,79 @@
                         </div>
                     </div>
                     <hr />
+                    <div class="row" ng-if="invoice.saCliente.contribu_e">
+                        <div class="col-sm-12">
+                            <label><input type="checkbox" name="i_ret_iva" class="mx-2" ng-model="rengTP.isRetIVA" ng-disabled="invoice.ret_iva" onclick="$('.field-iva').slideToggle()" /> Incluir Ret. IVA</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 field-iva" style="display: none;">
+                        <div class="col-sm-12 col-md-4">
+                            <div class="controls">
+                                <label>IVA del Documento</label>
+                                <input type="text" class="form-control" id="iva_doc" ng-model="invoice.monto_imp" ng-disabled="true" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <div class="controls">
+                                <label>Porc. de Retencion</label>
+                                <input type="text" class="form-control" id="porc_esp" ng-model="invoice.saCliente.porc_esp" ng-disabled="true" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <div class="controls">
+                                <label>IVA Retenido</label>
+                                <input type="text" class="form-control" id="monto_ret_imp" ng-model="invoice.monto_ret_imp" ng-disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row field-iva" style="display: none;">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="controls">
+                                <label>Fecha de Comprobante</label>
+                                <input type="date" class="form-control" id="fecha_documento" ng-model="rengIVA.fecha_documento" ng-disabled="!rengTP.isRetIVA" ng-required="rengTP.isRetIVA" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="controls">
+                                <label>Num. de Comprobante (últimos 8 dígitos)</label>
+                                <input type="text" class="form-control" id="num_comprobante" ng-model="rengIVA.num_comprobante" ng-disabled="!rengTP.isRetIVA" ng-required="rengTP.isRetIVA" minlength="8" maxlength="8" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-12">
+                            <label><input type="checkbox" name="i_ret_islr" class="mx-2" ng-model="rengTP.isRetISLR" ng-disabled="invoice.ret_islr" onclick="$('.field-islr').slideToggle()" /> Incluir Ret. ISLR</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 field-islr" style="display: none;">
+                        <div class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Base Imp.</label>
+                                <input type="text" class="form-control" id="islr_doc" ng-model="invoice.total_bruto" ng-disabled="true" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Concepto ISLR</label>
+                                <select class="form-control" ng-model="rengISLR.co_islr" ng-change="changePorc(rengISLR.co_islr)" style="-webkit-appearance: button; -moz-appearance: button;">
+                                    <option ng-repeat="conc in conceps" value="{{ conc.co_conce }}">{{ conc.co_conce }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Porc. de Retencion</label>
+                                <input type="text" class="form-control" id="porc_ret" ng-model="rengISLR.porc_retn" ng-disabled="true" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Monto Retenido</label>
+                                <input type="text" class="form-control" id="monto_ret_islr" ng-model="invoice.monto_reten" ng-disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
@@ -793,18 +866,9 @@
                             </div>
                         </div>
                     </div>
-                    <!--
-                    <div style="width: 90%; margin: 50px auto; display: flex; align-items: center;">
-                        <label style="flex: 1;">Ingrese monto recibido en Efectivo USD ($)</label>
-                        <div class="input-search" style="flex: 1; position: relative;">
-                            <input type="text" class="form-control" id="n_amount" ng-model="amountUSD" ng-keypress="detectEnter($event.originalEvent, 2)" />
-                            <label class="text-danger text-center w-100" id="text-fail" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
-                        </div>
-                    </div>
-                    -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#des_cta').val('')" ng-click="rengTP = { forma_pag: 'EF' }">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary" ng-click="openModalCollect()">Aceptar</button>
                 </div>
             </div>
@@ -999,7 +1063,7 @@
                         <input type="text" class="form-control" placeholder="Buscar cuenta bancaria..." onkeyup="search('modalBankAccounts')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        <tr ng-repeat="ba in bankAccounts" style="cursor: pointer" onclick="selectRow(this)">
+                        <tr ng-repeat="ba in bankAccounts" ng-if="ba.co_mone.trim() == 'BSD'" style="cursor: pointer" onclick="selectRow(this)">
                             <td>{{ ba.cod_cta}}</td>
                             <td>{{ ba.num_cta }} - {{ ba.co_mone }}</td>
                         </tr>
@@ -1032,10 +1096,12 @@
     var currencies = @Html.Raw(ViewBag.currencies);
     var sellers = @Html.Raw(ViewBag.sellers);
     var bankAccounts = @Html.Raw(ViewBag.bankAccounts);
+    var us = @Html.Raw(Json.Encode(ViewBag.user));
     var curr = "US$"
     var template = @Html.Raw(ViewBag.template);
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
+    var validating = false;
 
     invoices = parseItems(invoices);
 
@@ -1082,6 +1148,7 @@
         $scope.editItem = false;
         $scope.template = template;
         $scope.user = user.trim();
+        $scope.us = us;
         $scope.reng = {
             total_art: 1,
             reng_neto_om: (0).toFixed(2),
@@ -1090,9 +1157,34 @@
             reng_neto_om: "25.00",
             monto_imp_om: "4.00"
         };
-        $scope.rengTP = {
-            forma_pag: "EF"
-        };
+        $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
+        $scope.rengIVA = {};
+        $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
+        $scope.conceps = [
+            { co_conce: "055", porc_ret: "2.00" },
+            { co_conce: "059", porc_ret: "5.00" },
+            { co_conce: "063", porc_ret: "5.00" },
+            { co_conce: "072", porc_ret: "3.00" },
+            { co_conce: "004", porc_ret: "5.00" },
+        ];
+
+        $('#modalCobrar').on('hide.bs.modal', function () {
+            if (!validating) {
+
+                if ($scope.invoice.co_cond.trim() == "001") {
+                    $scope.rengTP = { forma_pag: "TP", fecha_che: new Date(Date.now()) };
+                } else {
+                    $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
+                }
+
+                $scope.rengIVA = {};
+                $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
+                $scope.error = "";
+                $('#des_cta').val('');
+                $('.field-iva').slideUp();
+                $('.field-islr').slideUp();
+            }
+        });
 
         $http.get("/api/ProfitTMApi/GetBoxOpen/" + user)
             .then(function (response) {
@@ -1551,7 +1643,7 @@
                     reng_neto_om: "25.00",
                     monto_imp_om: "4.00"
                 };
-                
+
                 $("#art").val("");
                 $("#des_art").val("");
             }
@@ -1698,7 +1790,7 @@
                         $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
 
                     });
-                    
+
                 } else {
                     alert("Debes agregar items a la factura");
                 }
@@ -1715,13 +1807,9 @@
         $scope.initLoadCollect = function () {
 
             if ($scope.invoice.co_cond.trim() == "001") {
-                $scope.rengTP = {
-                    forma_pag: "TP"
-                };
+                $scope.rengTP = { forma_pag: "TP", fecha_che: new Date(Date.now()) };
             } else {
-                $scope.rengTP = {
-                    forma_pag: "EF"
-                };
+                $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
             }
 
             if ($scope.invoice.co_cond.trim() == "002" && !isNullOrEmpty($scope.invoice.comentario) && !isNaN($scope.invoice.comentario)) {
@@ -1731,7 +1819,7 @@
                 $scope.invoice.igtf = "0.00";
                 $scope.invoice.igtf_orig = "0.00";
             }
-            
+
             $('#modalCobrar').modal('show')
         }
 
@@ -1796,19 +1884,36 @@
             }
         }
 
+        $scope.changePorc = function (value) {
+            $scope.rengISLR.porc_retn = $scope.conceps.find(c => c.co_conce == value).porc_ret;
+            $scope.invoice.monto_reten = (parse($scope.invoice.total_bruto) * (parseFloat($scope.rengISLR.porc_retn) / 100)).toFixed(2);
+        }
+
         $scope.sendCollect = function () {
 
             $("#form-collect input").change();
-            var reng = $scope.rengTP;
+            var reng = $scope.rengTP, rengIVA = null, rengISLR = null;
 
+            if (reng.isRetIVA) {
+                rengIVA = $scope.rengIVA;
+                rengIVA.monto_ret_imp = $scope.invoice.monto_ret_imp;
+            }
+
+            if (reng.isRetISLR) {
+                rengISLR = $scope.rengISLR;
+                rengISLR.monto_reten = $scope.invoice.monto_reten;
+            }
+
+            validating = true;
             $("#modalCobrar").modal("hide");
             $("#modalConfirmarMonto").modal("hide");
             $("#modalWaiting").modal("show");
+            validating = false;
 
             var req = {
                 method: 'POST',
                 url: '/api/ProfitTMApi/AddCollect/' + $scope.invoice.doc_num.trim(),
-                data: reng,
+                data: [ reng, rengIVA, rengISLR ],
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -1831,8 +1936,12 @@
                     $scope.errorMessage = res.Message;
                 }
 
-                $scope.rengTP = { forma_pag: "EF" };
+                $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
+                $scope.rengIVA = {};
+                $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
                 $('#des_cta').val('');
+                $('.field-iva').slideUp();
+                $('.field-islr').slideUp();
             });
         }
     });
@@ -1906,6 +2015,11 @@
 
             // DATOS
             item.estatus = setStatus(item.status);
+            item.saCliente.porc_esp += ".00";
+            item.monto_ret_imp = setSeparator((parse(item.monto_imp) * (parseFloat(item.saCliente.porc_esp) / 100)).toFixed(2));
+            item.monto_reten = setSeparator((parse(item.total_bruto) * 0.02).toFixed(2));
+            item.ret_iva = item.co_us_in == "True";
+            item.ret_islr = item.co_us_mo == "True";
         }
 
         return items;
@@ -1953,6 +2067,11 @@
         i.fe_us_in = new Date(i.fe_us_in);
         i.fe_us_mo = new Date(i.fe_us_mo);
         i.estatus = setStatus(i.status);
+        i.saCliente.porc_esp += ".00";
+        i.monto_ret_imp = setSeparator((parse(i.monto_imp) * (parseFloat(i.saCliente.porc_esp) / 100)).toFixed(2));
+        i.monto_reten = setSeparator((parse(i.total_bruto) * 0.02).toFixed(2));
+        i.ret_iva = i.co_us_in == "True";
+        i.ret_islr = i.co_us_mo == "True";
 
         return i;
     }

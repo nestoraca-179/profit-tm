@@ -23,7 +23,7 @@ namespace ProfitTM.Models
             return payOrder;
         }
 
-        public saOrdenPago AddPayOrder(saOrdenPago po, string user, string sucur)
+        public saOrdenPago AddPayOrder(saOrdenPago po, string user, string sucur, int conn)
         {
             saOrdenPago new_order = new saOrdenPago();
 
@@ -55,7 +55,7 @@ namespace ProfitTM.Models
                             origen = "OPA"
                         };
 
-                        saMovimientoCaja new_move = new BoxMove().AddBoxMove(move_c, user, sucur, false, false, false);
+                        saMovimientoCaja new_move = new BoxMove().AddBoxMove(move_c, user, sucur, false, false, false, conn);
 
                         // ORDEN PAGO
                         var sp = context.pInsertarOrdenPago(n_ord, "C", DateTime.Now, po.cod_ben, po.descrip, po.forma_pag, DateTime.Now, null, null, po.cod_caja,
@@ -70,7 +70,7 @@ namespace ProfitTM.Models
                         sp_r.Dispose();
                         tran.Commit();
 
-                        BoxMoves move = Box.AddMove(user, po.cod_caja, reng.monto_d, false, po.descrip + " (OP)");
+                        BoxMoves move = Box.AddMove(user, po.cod_caja, reng.monto_d, false, po.descrip + " (OP)", conn);
 
                         new_order = GetPayOrderByID(n_ord);
                         new_order.campo1 = move.BoxID.ToString();

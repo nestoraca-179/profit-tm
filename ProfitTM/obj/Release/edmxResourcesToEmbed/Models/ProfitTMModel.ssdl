@@ -5,6 +5,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ConnID" Type="int" Nullable="false" />
     <Property Name="UserID" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="DateS" Type="smalldatetime" Nullable="false" />
     <Property Name="DateE" Type="smalldatetime" />
@@ -136,8 +137,8 @@
     <Property Name="Enabled" Type="bit" Nullable="false" />
     <Property Name="Admin" Type="bit" Nullable="false" />
     <Property Name="UseBox" Type="bit" Nullable="false" />
-    <Property Name="SupID" Type="int" />
     <Property Name="BoxType" Type="int" />
+    <Property Name="SupID" Type="int" />
     <Property Name="NextChange" Type="smalldatetime" Nullable="false" />
   </EntityType>
   <Association Name="FK__Options__ModuleI__123EB7A3">

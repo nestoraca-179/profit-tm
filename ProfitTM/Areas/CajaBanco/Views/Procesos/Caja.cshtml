@@ -65,7 +65,7 @@
         flex-wrap: wrap;
     }
     .card-box {
-        background: #e8e8eb;
+        background: #a6a6a6;
         width: 250px;
         height: 200px;
         position: relative;
@@ -200,7 +200,7 @@
         </div>
         <h5 class="my-3">Cajas cerradas</h5>
         <div class="container-card-boxes">
-            <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:'-DateS'" ng-class="{ first: box.Level == 1, second: box.Level == 2, third: box.Level == 3 }" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
+            <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:'-DateS'" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
                 <p class="card-box-header">{{ box.Descrip }} <br /> {{ formatDate(box.DateS).split(' ')[0] }} {{ formatDate(box.DateS).split(' ')[1] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
@@ -758,8 +758,12 @@
             if (box != null)
                 $("#modalWarning").modal("show");
             else {
-                setTimeout(() => $('#initAmount').focus(), 1000);
-                $("#modal-new").modal("show");
+                if (us.BoxType == 1) {
+                    $scope.addBox("0");
+                } else {
+                    setTimeout(() => $('#initAmount').focus(), 1000);
+                    $("#modal-new").modal("show");
+                }
             }
         }
 
@@ -1037,7 +1041,7 @@
                             UserID: user,
                             Amount: amount,
                             Type: 2,
-                            Date: origDate(new Date(Date.now())),
+                            Date: new Date(Date.now()),
                             Comment: res.Result.descrip + " (OP)"
                         };
 
@@ -1045,7 +1049,7 @@
                         $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Expenses += move.Amount;
 
                         $("#des_benef").val("");
-                        $("#des_account_e").val("");
+                        $("#des_account").val("");
                         $scope.payOrder = {
                             status: 'S',
                             forma_pag: "EF",
