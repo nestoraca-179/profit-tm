@@ -3,13 +3,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Http;
 using System.Web.Routing;
-using System.Threading.Tasks;
 using System.Web.SessionState;
 using ProfitTM.Models;
-using Quartz;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Quartz.Impl;
 
 namespace ProfitTM
 {
@@ -18,7 +13,12 @@ namespace ProfitTM
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        protected async void Application_Start()
+        protected void Application_Init()
+        {
+            Incident.CreateIncident("APPLICATION INIT", new Exception());
+        }
+
+        protected void Application_Start()
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             DevExpress.XtraReports.Web.WebDocumentViewer.Native.WebDocumentViewerBootstrapper.SessionState = System.Web.SessionState.SessionStateBehavior.Disabled;
@@ -32,44 +32,47 @@ namespace ProfitTM
 
             DevExpress.Web.ASPxWebControl.CallbackError += Application_Error;
             DevExpress.Web.Mvc.MVCxWebDocumentViewer.StaticInitialize();
+            Incident.CreateIncident("APPLICATION START", new Exception());
 
-            Incident.CreateIncident("INICIANDO QUARTZ", new Exception());
-            //var builder = Host.CreateDefaultBuilder().ConfigureServices((cxt, services) =>
-            //{
-            //    services.AddQuartz(q => {
-            //        q.UseMicrosoftDependencyInjectionJobFactory();
-            //    });
+            #region QUARTZ
+            //Incident.CreateIncident("INICIANDO QUARTZ", new Exception());
+            ////var builder = Host.CreateDefaultBuilder().ConfigureServices((cxt, services) =>
+            ////{
+            ////    services.AddQuartz(q => {
+            ////        q.UseMicrosoftDependencyInjectionJobFactory();
+            ////    });
 
-            //    services.AddQuartzHostedService(opt => {
-            //        opt.WaitForJobsToComplete = true;
-            //    });
+            ////    services.AddQuartzHostedService(opt => {
+            ////        opt.WaitForJobsToComplete = true;
+            ////    });
 
-            //}).Build();
+            ////}).Build();
 
-            //var schedulerFactory = builder.Services.GetRequiredService<ISchedulerFactory>();
-            StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
-            IScheduler scheduler = await schedulerFactory.GetScheduler();
+            ////var schedulerFactory = builder.Services.GetRequiredService<ISchedulerFactory>();
+            //StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
+            //IScheduler scheduler = await schedulerFactory.GetScheduler();
 
-            var job = JobBuilder.Create<CerrarCajas>()
-                .WithIdentity("myJob", "group1")
-                .Build();
+            //var job = JobBuilder.Create<CerrarCajas>()
+            //    .WithIdentity("myJob", "group1")
+            //    .Build();
 
-            var trigger = TriggerBuilder.Create()
-                .WithIdentity("myTrigger", "group1")
-                .ForJob("myJob", "group1")
-                .StartAt(DateTimeOffset.Now)
-                .WithCronSchedule("0 55 0,1,2,3,4,17,18,19,20,23 ? * * *", x => x.WithMisfireHandlingInstructionIgnoreMisfires())
-                //.WithCronSchedule("0 40 15 ? * * *", x => x.WithMisfireHandlingInstructionIgnoreMisfires())
-                .Build();
+            //var trigger = TriggerBuilder.Create()
+            //    .WithIdentity("myTrigger", "group1")
+            //    .ForJob("myJob", "group1")
+            //    .StartAt(DateTimeOffset.Now)
+            //    .WithCronSchedule("0 55 0,1,2,3,4,17,18,19,20,23 ? * * *", x => x.WithMisfireHandlingInstructionIgnoreMisfires())
+            //    //.WithCronSchedule("0 40 15 ? * * *", x => x.WithMisfireHandlingInstructionIgnoreMisfires())
+            //    .Build();
 
-            await scheduler.ScheduleJob(job, trigger);
-            await scheduler.Start();
-            //await builder.RunAsync();
+            //await scheduler.ScheduleJob(job, trigger);
+            //await scheduler.Start();
+            ////await builder.RunAsync();
 
-            Incident.CreateIncident("QUARTZ ACTIVADO " + scheduler.IsStarted, new Exception());
-            Incident.CreateIncident("QUARTZ APAGADO " + scheduler.IsShutdown, new Exception());
-            Incident.CreateIncident("QUARTZ EN STAND BY " + scheduler.InStandbyMode, new Exception());
-            Incident.CreateIncident("FINALIZANDO QUARTZ " + trigger.StartTimeUtc.DateTime.ToString("dd/MM/yyyy HH:mm:ss"), new Exception());
+            //Incident.CreateIncident("QUARTZ ACTIVADO " + scheduler.IsStarted, new Exception());
+            //Incident.CreateIncident("QUARTZ APAGADO " + scheduler.IsShutdown, new Exception());
+            //Incident.CreateIncident("QUARTZ EN STAND BY " + scheduler.InStandbyMode, new Exception());
+            //Incident.CreateIncident("FINALIZANDO QUARTZ " + trigger.StartTimeUtc.DateTime.ToString("dd/MM/yyyy HH:mm:ss"), new Exception());
+            #endregion
         }
 
         protected void Application_Error(object sender, EventArgs e) 
@@ -86,37 +89,54 @@ namespace ProfitTM
             }
         }
 
+        protected void Application_Disposed()
+        {
+            Incident.CreateIncident("APPLICATION DISPOSED", new Exception());
+        }
+
         protected void Application_End()
         {
             HttpContext.Current.Session.Clear();
             HttpContext.Current.Session.Abandon();
             HttpContext.Current.Session.RemoveAll();
 
-            Incident.CreateIncident("DISPOSED", new Exception());
+            Incident.CreateIncident("APPLICATION END", new Exception());
         }
-        
+
+        protected void Session_Start()
+        {
+            Incident.CreateIncident("SESSION START", new Exception());
+        }
+
+        protected void Session_End()
+        {
+            Incident.CreateIncident("SESSION END", new Exception());
+        }
+
         private bool IsWebApiRequest()
         {
             return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(WebApiConfig.UrlPrefixRelative);
         }
 
-        public class CerrarCajas : IJob
-        {
-            Task IJob.Execute(IJobExecutionContext context)
-            {
-                try
-                {
-                    Incident.CreateIncident("INICIANDO CERRAR CAJAS", new Exception());
-                    Box.CloseAllBoxes();
-                    Incident.CreateIncident("FINALIZANDO CERRAR CAJAS", new Exception());
-                }
-                catch (Exception ex)
-                {
-                    Incident.CreateIncident("ERROR CERRANDO CAJAS", ex);
-                }
+        #region QUARTZ
+        //public class CerrarCajas : IJob
+        //{
+        //    Task IJob.Execute(IJobExecutionContext context)
+        //    {
+        //        try
+        //        {
+        //            Incident.CreateIncident("INICIANDO CERRAR CAJAS", new Exception());
+        //            Box.CloseAllBoxes();
+        //            Incident.CreateIncident("FINALIZANDO CERRAR CAJAS", new Exception());
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Incident.CreateIncident("ERROR CERRANDO CAJAS", ex);
+        //        }
 
-                return Task.CompletedTask;
-            }
-        }
+        //        return Task.CompletedTask;
+        //    }
+        //}
+        #endregion
     }
 }

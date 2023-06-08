@@ -403,9 +403,9 @@ namespace ProfitTM.Models
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        new_invoice.descrip = "ERROR";
-                        new_invoice.comentario = ex.Message;
                         Incident.CreateIncident("ERROR INTERNO AGREGANDO FACTURA CON PRELIQUIDACION", ex);
+
+                        throw ex;
                     }
                 }
             }

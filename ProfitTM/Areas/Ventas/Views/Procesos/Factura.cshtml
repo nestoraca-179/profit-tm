@@ -168,7 +168,7 @@
                         <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="(user != 'ALPHA' && user != 'NACA' && user != 'ASAP') || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.UseBox || invoice.anulado || invoice.status != 0 || invoice.saldo < invoice.total_neto" ng-click="initLoadCollect()">
+                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.UseBox || invoice.anulado || invoice.status == 2 || invoice.saldo == 0" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField('#n_preliq')">
@@ -775,14 +775,23 @@
                     <hr />
                     <div class="row" ng-if="invoice.saCliente.contribu_e">
                         <div class="col-sm-12">
-                            <label><input type="checkbox" name="i_ret_iva" class="mx-2" ng-model="rengTP.isRetIVA" ng-disabled="invoice.ret_iva" onclick="$('.field-iva').slideToggle()" /> Incluir Ret. IVA</label>
+                            <label>
+                                <input type="checkbox" name="i_ret_iva" class="mx-2" ng-model="rengTP.isRetIVA" ng-disabled="invoice.ret_iva" ng-change="updateBalance(rengTP.isRetIVA, 'IVAN')" onclick="$('.field-iva').slideToggle()" /> Incluir Ret. IVA
+                                <span ng-if="invoice.ret_iva" style="font-size: 14px;"><b> - Ya se ha aplicado Ret. IVA a esta factura</b></span>
+                            </label>
                         </div>
                     </div>
                     <div class="row mt-2 field-iva" style="display: none;">
-                        <div class="col-sm-12 col-md-4">
+                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>IVA del Documento</label>
                                 <input type="text" class="form-control" id="iva_doc" ng-model="invoice.monto_imp" ng-disabled="true" />
+                            </div>
+                        </div>
+                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-4">
+                            <div class="controls">
+                                <label>IVA del Documento</label>
+                                <input type="text" class="form-control" id="iva_doc" ng-model="invoice.monto_imp_om" ng-disabled="true" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
@@ -791,10 +800,16 @@
                                 <input type="text" class="form-control" id="porc_esp" ng-model="invoice.saCliente.porc_esp" ng-disabled="true" />
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-4">
+                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>IVA Retenido</label>
                                 <input type="text" class="form-control" id="monto_ret_imp" ng-model="invoice.monto_ret_imp" ng-disabled="true" />
+                            </div>
+                        </div>
+                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-4">
+                            <div class="controls">
+                                <label>IVA Retenido</label>
+                                <input type="text" class="form-control" id="monto_ret_imp" ng-model="invoice.monto_ret_imp_om" ng-disabled="true" />
                             </div>
                         </div>
                     </div>
@@ -814,14 +829,23 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-sm-12">
-                            <label><input type="checkbox" name="i_ret_islr" class="mx-2" ng-model="rengTP.isRetISLR" ng-disabled="invoice.ret_islr" onclick="$('.field-islr').slideToggle()" /> Incluir Ret. ISLR</label>
+                            <label>
+                                <input type="checkbox" name="i_ret_islr" class="mx-2" ng-model="rengTP.isRetISLR" ng-disabled="invoice.ret_islr" ng-change="updateBalance(rengTP.isRetISLR, 'ISLR')" onclick="$('.field-islr').slideToggle()" /> Incluir Ret. ISLR
+                                <span ng-if="invoice.ret_islr" style="font-size: 14px;"><b> - Ya se ha aplicado Ret. ISLR a esta factura</b></span>
+                            </label>
                         </div>
                     </div>
                     <div class="row mt-2 field-islr" style="display: none;">
-                        <div class="col-sm-12 col-md-3">
+                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-3">
                             <div class="controls">
                                 <label>Base Imp.</label>
                                 <input type="text" class="form-control" id="islr_doc" ng-model="invoice.total_bruto" ng-disabled="true" />
+                            </div>
+                        </div>
+                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Base Imp.</label>
+                                <input type="text" class="form-control" id="islr_doc" ng-model="invoice.total_bruto_om" ng-disabled="true" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-3">
@@ -838,31 +862,55 @@
                                 <input type="text" class="form-control" id="porc_ret" ng-model="rengISLR.porc_retn" ng-disabled="true" />
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-3">
+                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-3">
                             <div class="controls">
                                 <label>Monto Retenido</label>
                                 <input type="text" class="form-control" id="monto_ret_islr" ng-model="invoice.monto_reten" ng-disabled="true" />
                             </div>
                         </div>
+                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Monto Retenido</label>
+                                <input type="text" class="form-control" id="monto_ret_islr" ng-model="invoice.monto_reten_om" ng-disabled="true" />
+                            </div>
+                        </div>
                     </div>
                     <hr />
                     <div class="row">
-                        <div class="col-sm-12 col-md-4">
+                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-3">
                             <div class="controls">
                                 <label>Total Fact. BSD</label>
                                 <input type="text" class="form-control" ng-model="invoice.total_neto" disabled />
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-4">
+                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-3">
                             <div class="controls">
                                 <label>Total Fact. $USD</label>
                                 <input type="text" class="form-control" ng-model="invoice.total_neto_om" disabled />
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-4">
+                        <div class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Base IGTF</label>
+                                <input type="text" id="b_igtf" class="form-control" ng-model="invoice.b_igtf" disabled />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
                             <div class="controls">
                                 <label>3% IGTF</label>
                                 <input type="text" id="igtf" class="form-control" ng-model="invoice.igtf" disabled />
+                            </div>
+                        </div>
+                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Saldo Pendiente BSD</label>
+                                <input type="text" class="form-control" ng-model="invoice.saldo_f" disabled />
+                            </div>
+                        </div>
+                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-3">
+                            <div class="controls">
+                                <label>Saldo Pendiente $USD</label>
+                                <input type="text" class="form-control" ng-model="invoice.saldo_f_om" disabled />
                             </div>
                         </div>
                     </div>
@@ -1097,11 +1145,12 @@
     var sellers = @Html.Raw(ViewBag.sellers);
     var bankAccounts = @Html.Raw(ViewBag.bankAccounts);
     var us = @Html.Raw(Json.Encode(ViewBag.user));
-    var curr = "US$"
+    var curr = "US$";
     var template = @Html.Raw(ViewBag.template);
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
     var validating = false;
+    var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
 
     invoices = parseItems(invoices);
 
@@ -1169,6 +1218,14 @@
         ];
 
         $('#modalCobrar').on('hide.bs.modal', function () {
+
+            $('#des_cta').val('');
+            $('.field-iva').slideUp();
+            $('.field-islr').slideUp();
+            $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo));
+            $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_om));
+            $scope.error = "";
+
             if (!validating) {
 
                 if ($scope.invoice.co_cond.trim() == "001") {
@@ -1179,10 +1236,8 @@
 
                 $scope.rengIVA = {};
                 $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
-                $scope.error = "";
-                $('#des_cta').val('');
-                $('.field-iva').slideUp();
-                $('.field-islr').slideUp();
+                $scope.invoice.monto_reten_om = setSeparator((parse($scope.invoice.total_bruto_om) * 0.02).toFixed(2));
+                $scope.invoice.monto_reten = setSeparator((parse($scope.invoice.total_bruto) * 0.02).toFixed(2));
             }
         });
 
@@ -1813,14 +1868,17 @@
             }
 
             if ($scope.invoice.co_cond.trim() == "002" && !isNullOrEmpty($scope.invoice.comentario) && !isNaN($scope.invoice.comentario)) {
+                $scope.invoice.b_igtf = setSeparator(parseFloat($scope.invoice.comentario).toFixed(2));
                 $scope.invoice.igtf = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
                 $scope.invoice.igtf_orig = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
+                $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) + parse($scope.invoice.igtf));
             } else {
+                $scope.invoice.b_igtf = "0.00";
                 $scope.invoice.igtf = "0.00";
                 $scope.invoice.igtf_orig = "0.00";
             }
 
-            $('#modalCobrar').modal('show')
+            $('#modalCobrar').modal('show');
         }
 
         $scope.resetData = function () {
@@ -1854,15 +1912,17 @@
 
                 var reng = $scope.rengTP;
                 var amount = parseFloat(reng.mont_doc);
-                var total_bs = parse($scope.invoice.total_neto);
-                var total_usd = parse($scope.invoice.total_neto_om);
+                var total_bs = parse($scope.invoice.saldo_f);
+                var total_usd = parse($scope.invoice.saldo_f_om);
                 var igtf = parse($scope.invoice.igtf);
 
                 if (reng.forma_pag == "EF")
                     curr = "US$";
+                else
+                    curr = "BSD";
 
-                if (igtf > 0)
-                    total_usd += igtf;
+                //if (igtf > 0)
+                //    total_usd += igtf;
 
                 reng.fecha_che = origDate(reng.fecha_che);
                 reng.co_us_in = igtf;
@@ -1873,10 +1933,12 @@
                 }
 
                 if (curr.trim() == "US$" && amount > total_usd) {
-                    $scope.error = "El monto no debe exceder el total de la factura ($" + setSeparator(total_usd) + ")";
+                    $("#mont_doc").focus();
+                    $scope.error = "El monto no debe exceder el saldo pendiente de la factura ($" + setSeparator(total_usd) + ")";
                     return;
                 } else if (curr.trim() == "BSD" && amount > total_bs) {
-                    $scope.error = "El monto no debe exceder el total de la factura (Bs. D " + setSeparator(total_bs) + ")";
+                    $("#mont_doc").focus();
+                    $scope.error = "El monto no debe exceder el saldo pendiente de la factura (Bs. D " + setSeparator(total_bs) + ")";
                     return;
                 }
 
@@ -1887,6 +1949,39 @@
         $scope.changePorc = function (value) {
             $scope.rengISLR.porc_retn = $scope.conceps.find(c => c.co_conce == value).porc_ret;
             $scope.invoice.monto_reten = (parse($scope.invoice.total_bruto) * (parseFloat($scope.rengISLR.porc_retn) / 100)).toFixed(2);
+            $scope.invoice.monto_reten_om = (parse($scope.invoice.total_bruto_om) * (parseFloat($scope.rengISLR.porc_retn) / 100)).toFixed(2);
+            $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo) - parse($scope.invoice.monto_reten));
+            $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_om) - parse($scope.invoice.monto_reten_om) + parse($scope.invoice.igtf));
+
+            if ($scope.rengTP.isRetIVA) {
+                $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) - parse($scope.invoice.monto_ret_imp));
+                $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) - parse($scope.invoice.monto_ret_imp_om));
+            }
+        }
+
+        $scope.updateBalance = function (value, imp) {
+            if (value) {
+                if (imp == "IVAN") {
+                    $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) - parse($scope.invoice.monto_ret_imp));
+                    $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) - parse($scope.invoice.monto_ret_imp_om));
+                } else if (imp == "ISLR") {
+                    $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) - parse($scope.invoice.monto_reten));
+                    $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) - parse($scope.invoice.monto_reten_om));
+                }
+            } else {
+                if (imp == "IVAN") {
+                    $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) + parse($scope.invoice.monto_ret_imp));
+                    $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) + parse($scope.invoice.monto_ret_imp_om));
+                } else if (imp == "ISLR") {
+                    $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) + parse($scope.invoice.monto_reten));
+                    $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) + parse($scope.invoice.monto_reten_om));
+                }
+            }
+        }
+
+        $scope.getImpPeriod = function (date) {
+            date = date.toLocaleString("es-ES", options).replace(",", "").split(" ")[0].split("/");
+            return date[2] + date[1];
         }
 
         $scope.sendCollect = function () {
@@ -1897,10 +1992,14 @@
             if (reng.isRetIVA) {
                 rengIVA = $scope.rengIVA;
                 rengIVA.monto_ret_imp = $scope.invoice.monto_ret_imp;
+                rengIVA.periodo_impositivo = $scope.getImpPeriod(rengIVA.fecha_documento);
+                rengIVA.tipo_operacion = "C";
             }
 
             if (reng.isRetISLR) {
                 rengISLR = $scope.rengISLR;
+                rengISLR.monto = $scope.invoice.total_bruto;
+                rengISLR.monto_obj = $scope.invoice.total_bruto;
                 rengISLR.monto_reten = $scope.invoice.monto_reten;
             }
 
@@ -1936,9 +2035,11 @@
                     $scope.errorMessage = res.Message;
                 }
 
-                $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
                 $scope.rengIVA = {};
                 $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
+                $scope.invoice.monto_reten_om = setSeparator((parse($scope.invoice.total_bruto_om) * 0.02).toFixed(2));
+                $scope.invoice.monto_reten = setSeparator((parse($scope.invoice.total_bruto) * 0.02).toFixed(2));
+
                 $('#des_cta').val('');
                 $('.field-iva').slideUp();
                 $('.field-islr').slideUp();
@@ -1997,6 +2098,8 @@
 
             item.saldo_om = setSeparator((item.saldo / item.tasa).toFixed(2));
             item.saldo = setSeparator(item.saldo.toFixed(2));
+            item.saldo_f_om = item.saldo_om;
+            item.saldo_f = item.saldo;
 
             for (var r of item.saFacturaVentaReng) {
                 r.monto_imp_om = setSeparator((r.monto_imp / item.tasa).toFixed(2));
@@ -2016,7 +2119,9 @@
             // DATOS
             item.estatus = setStatus(item.status);
             item.saCliente.porc_esp += ".00";
+            item.monto_ret_imp_om = setSeparator((parse(item.monto_imp_om) * (parseFloat(item.saCliente.porc_esp) / 100)).toFixed(2));
             item.monto_ret_imp = setSeparator((parse(item.monto_imp) * (parseFloat(item.saCliente.porc_esp) / 100)).toFixed(2));
+            item.monto_reten_om = setSeparator((parse(item.total_bruto_om) * 0.02).toFixed(2));
             item.monto_reten = setSeparator((parse(item.total_bruto) * 0.02).toFixed(2));
             item.ret_iva = item.co_us_in == "True";
             item.ret_islr = item.co_us_mo == "True";
@@ -2048,6 +2153,8 @@
 
         i.saldo_om = setSeparator((i.saldo / i.tasa).toFixed(2));
         i.saldo = setSeparator(i.saldo.toFixed(2));
+        i.saldo_f_om = i.saldo_om;
+        i.saldo_f = i.saldo;
 
         for (var reng of i.saFacturaVentaReng) {
 
@@ -2068,7 +2175,9 @@
         i.fe_us_mo = new Date(i.fe_us_mo);
         i.estatus = setStatus(i.status);
         i.saCliente.porc_esp += ".00";
+        i.monto_ret_imp_om = setSeparator((parse(i.monto_imp_om) * (parseFloat(i.saCliente.porc_esp) / 100)).toFixed(2));
         i.monto_ret_imp = setSeparator((parse(i.monto_imp) * (parseFloat(i.saCliente.porc_esp) / 100)).toFixed(2));
+        i.monto_reten_om = setSeparator((parse(i.total_bruto_om) * 0.02).toFixed(2));
         i.monto_reten = setSeparator((parse(i.total_bruto) * 0.02).toFixed(2));
         i.ret_iva = i.co_us_in == "True";
         i.ret_islr = i.co_us_mo == "True";

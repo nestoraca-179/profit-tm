@@ -90,8 +90,8 @@ namespace ProfitTM.Models
 
         public static Boxes AddBox(Boxes box, string user, string sucur, int conn)
         {
-            Boxes new_box;
             ProfitTMEntities db = new ProfitTMEntities();
+            Boxes new_box;
 
             using (DbContextTransaction tran = db.Database.BeginTransaction())
             {
@@ -137,7 +137,6 @@ namespace ProfitTM.Models
                 }
                 catch (Exception ex)
                 {
-                    new_box = null;
                     tran.Rollback();
                     Incident.CreateIncident("ERROR INTERNO AGREGANDO CAJA", ex);
 

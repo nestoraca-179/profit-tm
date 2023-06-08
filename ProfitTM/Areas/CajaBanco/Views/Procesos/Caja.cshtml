@@ -467,12 +467,11 @@
     <div class="modal fade modal-info" id="modalWarning" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
                     </div>
-                    <h2 class="text-center">Ya tienes una caja abierta</h2>
+                    <h2 class="text-center">{{ warnMessage }}</h2>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -751,13 +750,18 @@
 
             let box = $scope.boxes.find(b =>
                 b.UserID == user &&                 // busca caja que sea del mismo usuario
-                compareDate(b.DateS, Date.now()) && // busca caja que sea del dia actual
+                // compareDate(b.DateS, Date.now()) && // busca caja que sea del dia actual
                 b.IsOpen                            // busca caja que este abierta
             );
 
-            if (box != null)
+            if (box != null) {
+                if (compareDate(box.DateS, Date.now()))
+                    $scope.warnMessage = "Ya tienes una caja abierta";
+                else
+                    $scope.warnMessage = "Debes cerrar las cajas de días anteriores";
+
                 $("#modalWarning").modal("show");
-            else {
+            } else {
                 if (us.BoxType == 1) {
                     $scope.addBox("0");
                 } else {

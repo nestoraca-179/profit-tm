@@ -566,16 +566,8 @@ namespace ProfitTM.Controllers
             {
                 saFacturaVenta new_invoice = new Invoice().AddInvoice(invoice, user, sucur, Convert.ToBoolean(fromOrder));
 
-                if (new_invoice.descrip == "ERROR")
-                {
-                    response.Status = "ERROR";
-                    response.Message = new_invoice.comentario;
-                }
-                else
-                {
-                    response.Status = "OK";
-                    response.Result = new_invoice;
-                }
+                response.Status = "OK";
+                response.Result = new_invoice;
             }
             catch (Exception ex)
             {
@@ -664,37 +656,29 @@ namespace ProfitTM.Controllers
         [Route("api/ProfitTMApi/AddCollect/{doc_num}")]
         public ProfitTMResponse AddCollect(string doc_num, ArrayList obj)
         {
-            saCobroTPReng reng = JsonConvert.DeserializeObject<saCobroTPReng>(obj[0].ToString());
-            saCobroRetenIvaReng r_iva = obj[1] != null ? JsonConvert.DeserializeObject<saCobroRetenIvaReng>(obj[1].ToString()) : null;
-            saCobroRentenReng r_islr = obj[2] != null ? JsonConvert.DeserializeObject<saCobroRentenReng>(obj[2].ToString()) : null;
-
             ProfitTMResponse response = new ProfitTMResponse();
 
-            //string user = (HttpContext.Current.Session["USER"] as Users).Username;
-            //string sucur = HttpContext.Current.Session["BRANCH"].ToString();
-            //int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
-            //try
-            //{
-            //    saCobro new_collect = new Collect().AddCollectFromInvoice(doc_num, reng, user, sucur, conn);
+            try
+            {
+                saCobroTPReng reng = JsonConvert.DeserializeObject<saCobroTPReng>(obj[0].ToString());
+                saCobroRetenIvaReng r_iva = obj[1] != null ? JsonConvert.DeserializeObject<saCobroRetenIvaReng>(obj[1].ToString()) : null;
+                saCobroRentenReng r_islr = obj[2] != null ? JsonConvert.DeserializeObject<saCobroRentenReng>(obj[2].ToString()) : null;
 
-            //    if (new_collect.descrip == "ERROR")
-            //    {
-            //        response.Status = "ERROR";
-            //        response.Message = new_collect.campo1;
-            //    }
-            //    else
-            //    {
-            //        response.Status = "OK";
-            //        response.Result = new_collect;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    response.Status = "ERROR";
-            //    response.Message = ex.Message;
-            //    Incident.CreateIncident("ERROR AGREGANDO COBRO", ex);
-            //}
+                saCobro new_collect = new Collect().AddCollectFromInvoice(doc_num, reng, r_iva, r_islr, user, sucur, conn);
+
+                response.Status = "OK";
+                response.Result = new_collect;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO COBRO", ex);
+            }
 
             return response;
         }
