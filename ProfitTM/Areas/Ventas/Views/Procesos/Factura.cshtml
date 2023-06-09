@@ -1140,7 +1140,7 @@
     var invoices = @Html.Raw(ViewBag.invoices);
     var arts = @Html.Raw(ViewBag.arts);
     var conds = @Html.Raw(ViewBag.conds);
-    var clients = @Html.Raw(ViewBag.clients);
+    @*var clients = @Html.Raw(ViewBag.clients);*@
     var currencies = @Html.Raw(ViewBag.currencies);
     var sellers = @Html.Raw(ViewBag.sellers);
     var bankAccounts = @Html.Raw(ViewBag.bankAccounts);
@@ -1185,7 +1185,7 @@
         $scope.invoices = invoices;
         $scope.invoice = invoices[$scope.index];
         $scope.conds = conds;
-        $scope.clients = clients;
+        // $scope.clients = clients;
         $scope.currencies = currencies;
         $scope.sellers = sellers;
         $scope.bankAccounts = bankAccounts;
@@ -1256,6 +1256,11 @@
                 } else {
                     alert("Ha ocurrido un error " + res.Message);
                 }
+            });
+
+        $http.get("/api/ProfitTMApi/GetClients")
+            .then(function (response) {
+                $scope.clients = response.data.Result;
             });
 
         $scope.next = function () {

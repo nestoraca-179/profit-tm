@@ -342,7 +342,7 @@ namespace ProfitTM.Controllers
         }
 
         [HttpGet]
-        [Route("api/ProfitTMApi/GetPendingClientDocs/{client}")]
+        [Route("api/ProfitTMApi/GetPendingClientDocs/{client}/")]
         public ProfitTMResponse GetPendingClientDocs(string client)
         {
             ProfitTMResponse response = new ProfitTMResponse();
@@ -358,6 +358,29 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetClients/")]
+        public ProfitTMResponse GetClients()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                List<saCliente> clients = new Client().GetAllClients(false);
+
+                response.Status = "OK";
+                response.Result = clients;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO PRELIQUIDACIONES", ex);
             }
 
             return response;
