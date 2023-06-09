@@ -134,37 +134,37 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("api/ProfitTMApi/GetBoxOpen/{user}/")]
-        public ProfitTMResponse GetBoxOpen(string user)
-        {
-            ProfitTMResponse response = new ProfitTMResponse();
+        // [HttpGet]
+        // [Route("api/ProfitTMApi/GetBoxOpen/{user}/")]
+        // public ProfitTMResponse GetBoxOpen(string user)
+        // {
+            // ProfitTMResponse response = new ProfitTMResponse();
 
-            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
-            bool useBox = ((HttpContext.Current.Session["USER"]) as Users).UseBox;
-            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
+            // string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            // bool useBox = ((HttpContext.Current.Session["USER"]) as Users).UseBox;
+            // int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
-            try
-            {
-                int id = 0;
+            // try
+            // {
+            //     int id = 0;
 
-                if (sucur == "002" && useBox)
-                    id = Box.GetBoxOpenByUser(user, conn);
-                else
-                    id = -1;
+            //     if (sucur == "002" && useBox)
+            //         id = Box.GetBoxOpenByUser(user, conn);
+            //     else
+            //         id = -1;
 
-                response.Status = "OK";
-                response.Result = id;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = ex.Message;
-                Incident.CreateIncident("ERROR BUSCANDO CAJA ABIERTA", ex);
-            }
+            //     response.Status = "OK";
+            //     response.Result = id;
+            // }
+            // catch (Exception ex)
+            // {
+            //     response.Status = "ERROR";
+            //     response.Message = ex.Message;
+            //     Incident.CreateIncident("ERROR BUSCANDO CAJA ABIERTA", ex);
+            // }
 
-            return response;
-        }
+            // return response;
+        // }
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddBox/")]

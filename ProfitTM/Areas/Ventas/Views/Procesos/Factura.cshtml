@@ -1151,6 +1151,7 @@
     var menu = document.getElementById("menu-left");
     var validating = false;
     var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+    var box = '@ViewBag.id_box';
 
     invoices = parseItems(invoices);
 
@@ -1193,7 +1194,7 @@
         $scope.adding = false;
         $scope.confirm = false;
         $scope.converted = false;
-        $scope.boxOpen = '@ViewBag.id_box' != '0';
+        $scope.boxOpen = box != '0';
         $scope.editItem = false;
         $scope.template = template;
         $scope.user = user.trim();
@@ -1216,6 +1217,11 @@
             { co_conce: "072", porc_ret: "3.00" },
             { co_conce: "004", porc_ret: "5.00" },
         ];
+
+        if (!$scope.boxOpen) {
+            $(".panel-not-access").removeAttr("style");
+            $(".container-invoices").css("display", "none");
+        }
 
         $('#modalCobrar').on('hide.bs.modal', function () {
 
@@ -1240,23 +1246,6 @@
                 $scope.invoice.monto_reten = setSeparator((parse($scope.invoice.total_bruto) * 0.02).toFixed(2));
             }
         });
-
-        //$http.get("/api/ProfitTMApi/GetBoxOpen/" + user)
-        //    .then(function (response) {
-
-        //        var res = response.data;
-        //        if (res.Status = "OK") {
-
-        //            $scope.boxOpen = res.Result != 0;
-        //            if (!$scope.boxOpen) {
-        //                $(".panel-not-access").removeAttr("style");
-        //                $(".container-invoices").css("display", "none");
-        //            }
-
-        //        } else {
-        //            alert("Ha ocurrido un error " + res.Message);
-        //        }
-        //    });
 
         $http.get("/api/ProfitTMApi/GetClients")
             .then(function (response) {
