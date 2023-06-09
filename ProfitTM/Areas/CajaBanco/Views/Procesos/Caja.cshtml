@@ -762,12 +762,7 @@
 
                 $("#modalWarning").modal("show");
             } else {
-                if (us.BoxType == 1) {
-                    $scope.addBox("0");
-                } else {
-                    setTimeout(() => $('#initAmount').focus(), 1000);
-                    $("#modal-new").modal("show");
-                }
+                $scope.addBox("0");
             }
         }
 

@@ -240,7 +240,7 @@ namespace ProfitTM.Models
                         // AGREGANDO RETENCIONES
                         if (r_iva != null || r_islr != null)
                         {
-
+                            
                         }
 
                         tran.Commit();
