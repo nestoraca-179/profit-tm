@@ -1193,7 +1193,7 @@
         $scope.adding = false;
         $scope.confirm = false;
         $scope.converted = false;
-        $scope.boxOpen = true;
+        $scope.boxOpen = '@ViewBag.id_box' != '0';
         $scope.editItem = false;
         $scope.template = template;
         $scope.user = user.trim();
@@ -1241,22 +1241,22 @@
             }
         });
 
-        $http.get("/api/ProfitTMApi/GetBoxOpen/" + user)
-            .then(function (response) {
+        //$http.get("/api/ProfitTMApi/GetBoxOpen/" + user)
+        //    .then(function (response) {
 
-                var res = response.data;
-                if (res.Status = "OK") {
+        //        var res = response.data;
+        //        if (res.Status = "OK") {
 
-                    $scope.boxOpen = res.Result != 0;
-                    if (!$scope.boxOpen) {
-                        $(".panel-not-access").removeAttr("style");
-                        $(".container-invoices").css("display", "none");
-                    }
+        //            $scope.boxOpen = res.Result != 0;
+        //            if (!$scope.boxOpen) {
+        //                $(".panel-not-access").removeAttr("style");
+        //                $(".container-invoices").css("display", "none");
+        //            }
 
-                } else {
-                    alert("Ha ocurrido un error " + res.Message);
-                }
-            });
+        //        } else {
+        //            alert("Ha ocurrido un error " + res.Message);
+        //        }
+        //    });
 
         $http.get("/api/ProfitTMApi/GetClients")
             .then(function (response) {

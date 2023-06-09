@@ -51,10 +51,20 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
+                Users user = Session["USER"] as Users;
                 string sucur = Session["BRANCH"].ToString();
+                int conn = int.Parse(Session["ID_CONN"].ToString());
+
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
-                ViewBag.username = (Session["USER"] as Users).Username;
+                ViewBag.username = user.Username;
+
+                int id;
+
+                if (sucur == "002" && user.UseBox)
+                    id = Box.GetBoxOpenByUser(user.Username, conn);
+                else
+                    id = -1;
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 50000000;
@@ -82,6 +92,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 if (Session["TEMPLATE"] == null)
                     Session["TEMPLATE"] = serializer.Serialize(new Invoice().GetTemplate());
 
+                ViewBag.id_box = id;
                 ViewBag.arts = Session["ARTS"];
                 ViewBag.conds = Session["CONDS"];
                 // ViewBag.clients = Session["CLIENTS"];

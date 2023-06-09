@@ -380,7 +380,7 @@ namespace ProfitTM.Controllers
             {
                 response.Status = "ERROR";
                 response.Message = ex.Message;
-                Incident.CreateIncident("ERROR BUSCANDO PRELIQUIDACIONES", ex);
+                Incident.CreateIncident("ERROR BUSCANDO CLIENTES", ex);
             }
 
             return response;
