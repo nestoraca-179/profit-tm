@@ -240,11 +240,119 @@ namespace ProfitTM.Models
                         // AGREGANDO RETENCIONES
                         if (r_iva != null || r_islr != null)
                         {
-                            
+                            int nr = 1;
+                            Guid f_guid = Guid.NewGuid();
+                            string n_ret = "", n_ivan = "", n_islr = "";
+                            decimal mont_cob = (r_iva != null ? r_iva.monto_ret_imp : 0) + (r_islr != null ? r_islr.monto_reten : 0);
+
+                            // SERIE COBRO RET
+                            var sp_n_ret = context.pConsecutivoProximo(sucur, "COBRO").GetEnumerator();
+                            if (sp_n_ret.MoveNext())
+                                n_ret = sp_n_ret.Current;
+
+                            sp_n_ret.Dispose();
+
+                            // INSERTAR COBRO RET
+                            var sp_c_ret = context.pInsertarCobro(n_ret, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, DateTime.Now, false, 0, null,
+                                "RET IVA-ISLR FACT " + fact.doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+
+                            sp_c_ret.Dispose();
+
+                            // INSERTAR DOC FACT COBRO RET
+                            var sp_d_ret_1 = context.pInsertarRenglonesDocCobro(nr, n_ret, "FACT", fact.doc_num, mont_cob, 0, 0, r_iva != null ? r_iva.monto_ret_imp : 0,
+                                r_islr != null ? r_islr.monto_reten : 0, null, null, null, null, f_guid, null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+
+                            sp_d_ret_1.Dispose();
+
+                            // RETENCION DE IVA
+                            if (r_iva != null)
+                            {
+                                string rif_c = new Client().GetClientByID(fact.co_cli).rif;
+                                Guid iva_guid = Guid.NewGuid();
+                                nr++;
+
+                                // SERIE DOC IVAN
+                                var sp_n_ivan = context.pConsecutivoProximo(sucur, "DOC_VEN_IVAN").GetEnumerator();
+                                if (sp_n_ivan.MoveNext())
+                                    n_ivan = sp_n_ivan.Current;
+
+                                sp_n_ivan.Dispose();
+
+                                // INSERTAR DOC IVAN
+                                var sp_d_ivan = context.pInsertarDocumentoVenta("IVAN", n_ivan, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa,
+                                    "RET IVA FACT " + fact.doc_num, DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_coll, null, 0, 0,
+                                    r_iva.monto_ret_imp, 0, null, null, 0, r_iva.monto_ret_imp, 0, 0, "7", 0, 0, 0, 0, r_iva.num_comprobante, null, null, 0, 0, 0,
+                                    0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, sucur, user,
+                                    "SERVER PROFIT WEB");
+
+                                sp_d_ivan.Dispose();
+
+                                // INSERTAR DOC IVAN COBRO RET
+                                var sp_d_ret_2 = context.pInsertarRenglonesDocCobro(nr, n_ret, "IVAN", n_ivan, r_iva.monto_ret_imp, 0, 0, 0, 0, null, null, f_guid, null,
+                                    iva_guid, null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+
+                                sp_d_ret_2.Dispose();
+
+                                // INSERTAR RENG IVA COBRO RET
+                                var sp_r_iva = context.pInsertarRenglonesRetenIvaCobro(iva_guid, 1, Connection.GetConnByID(conn.ToString()).RIF.Replace("-", ""), r_iva.periodo_impositivo,
+                                    r_iva.fecha_documento, "C", "FACT", rif_c, fact.doc_num, fact.n_control, fact.total_neto, fact.total_bruto, r_iva.monto_ret_imp, "0", r_iva.num_comprobante,
+                                    0, 16, "0", false, null, null, sucur, user, "SERVER PROFIT WEB");
+
+                                sp_r_iva.Dispose();
+                            }
+
+                            // RETENCION DE ISLR
+                            if (r_islr != null)
+                            {
+                                Guid islr_guid = Guid.NewGuid();
+                                nr++;
+
+                                // SERIE DOC ISLR
+                                var sp_n_islr = context.pConsecutivoProximo(sucur, "DOC_VEN_ISLR").GetEnumerator();
+                                if (sp_n_islr.MoveNext())
+                                    n_islr = sp_n_islr.Current;
+
+                                sp_n_islr.Dispose();
+
+                                // INSERTAR DOC ISLR
+                                var sp_d_islr = context.pInsertarDocumentoVenta("ISLR", n_islr, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa,
+                                    "RET IVA FACT " + fact.doc_num, DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_coll, null, 0, 0,
+                                    r_islr.monto_reten, 0, null, null, 0, r_islr.monto_reten, 0, 0, "7", 0, 0, 0, 0, null, null, null, 0, 0, 0, 0, 0, 0, 0, null,
+                                    false, null, null, null, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
+
+                                sp_d_islr.Dispose();
+
+                                // INSERTAR DOC ISLR COBRO RET
+                                var sp_d_ret_3 = context.pInsertarRenglonesDocCobro(nr, n_ret, "ISLR", n_islr, r_islr.monto_reten, 0, 0, 0, 0, null, null, f_guid, null,
+                                    islr_guid, null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+
+                                sp_d_ret_3.Dispose();
+
+                                // INSERTAR RENG IVA COBRO RET
+                                var sp_r_islr = context.pInsertarRenglonesRetenCobro(islr_guid, fact.total_bruto, r_islr.monto_reten, 0, r_islr.porc_retn, fact.total_bruto,
+                                    false, r_islr.co_islr, 1, null, null, sucur, user, "SERVER PROFIT WEB", null);
+
+                                sp_r_islr.Dispose();
+                            }
+
+                            var sp_t_ret = context.pInsertarRenglonesTPCobro(1, n_ret, "EF", null, null, null, false, 0, null, null, null, null, "001", DateTime.Now, sucur,
+                                user, null, null, "SERVER PROFIT WEB");
+
+                            sp_t_ret.Dispose();
+
+                            // ACTUALIZAR FACTURA
+                            fact.saldo -= mont_cob;
+                            fact.status = fact.saldo > 0 ? "1" : "2";
+                            context.Entry(fact).State = EntityState.Modified;
+
+                            // ACTUALIZAR DOCUMENTO
+                            doc_v.saldo -= mont_cob;
+                            context.Entry(doc_v).State = EntityState.Modified;
                         }
 
-                        tran.Commit();
                         context.SaveChanges();
+                        tran.Commit();
+
                         new_collect = GetCollectByID(n_coll);
                         new_collect.campo1 = fact.status; // STATUS DE FACTURA
                         new_collect.campo2 = fact.saldo.ToString(); // SALDO RESTANTE EN BSD

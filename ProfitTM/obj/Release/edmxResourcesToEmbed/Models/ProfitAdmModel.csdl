@@ -18105,6 +18105,49 @@
       <Parameter Name="sDir" Mode="In" Type="String" />
       <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <FunctionImport Name="pInsertarRenglonesRetenCobro" ReturnType="Collection(ProfitAdmContext.pInsertarRenglonesRetenCobro_Result)">
+      <Parameter Name="gRowguid_Reng_Cob" Mode="In" Type="Guid" />
+      <Parameter Name="deMonto" Mode="In" Type="Decimal" />
+      <Parameter Name="deMonto_Reten" Mode="In" Type="Decimal" />
+      <Parameter Name="deSustraendo" Mode="In" Type="Decimal" />
+      <Parameter Name="dePorc_Retn" Mode="In" Type="Decimal" />
+      <Parameter Name="deMonto_Obj" Mode="In" Type="Decimal" />
+      <Parameter Name="bAutomatica" Mode="In" Type="Boolean" />
+      <Parameter Name="sCo_Islr" Mode="In" Type="String" />
+      <Parameter Name="iRENG_NUM" Mode="In" Type="Int32" />
+      <Parameter Name="sREVISADO" Mode="In" Type="String" />
+      <Parameter Name="sTRASNFE" Mode="In" Type="String" />
+      <Parameter Name="sco_sucu_in" Mode="In" Type="String" />
+      <Parameter Name="sco_us_in" Mode="In" Type="String" />
+      <Parameter Name="sMaquina" Mode="In" Type="String" />
+      <Parameter Name="gRowguid_fact" Mode="In" Type="Guid" />
+    </FunctionImport>
+    <FunctionImport Name="pInsertarRenglonesRetenIvaCobro" ReturnType="Collection(ProfitAdmContext.pInsertarRenglonesRetenIvaCobro_Result)">
+      <Parameter Name="gRowguid_Reng_Cob" Mode="In" Type="Guid" />
+      <Parameter Name="iRENG_NUM" Mode="In" Type="Int32" />
+      <Parameter Name="sRif_Contribuyente" Mode="In" Type="String" />
+      <Parameter Name="dePeriodo_Impositivo" Mode="In" Type="Decimal" />
+      <Parameter Name="sdFecha_Documento" Mode="In" Type="DateTime" />
+      <Parameter Name="sTipo_Operacion" Mode="In" Type="String" />
+      <Parameter Name="sTipo_Documento" Mode="In" Type="String" />
+      <Parameter Name="sRif_Comprador" Mode="In" Type="String" />
+      <Parameter Name="sNumero_Documento" Mode="In" Type="String" />
+      <Parameter Name="sNumero_Control_Documento" Mode="In" Type="String" />
+      <Parameter Name="deMonto_Documento" Mode="In" Type="Decimal" />
+      <Parameter Name="deBase_Imponible" Mode="In" Type="Decimal" />
+      <Parameter Name="deMonto_Ret_Imp" Mode="In" Type="Decimal" />
+      <Parameter Name="sNumero_Documento_Afectado" Mode="In" Type="String" />
+      <Parameter Name="sNum_Comprobante" Mode="In" Type="String" />
+      <Parameter Name="deMonto_Excento" Mode="In" Type="Decimal" />
+      <Parameter Name="deAlicuota" Mode="In" Type="Decimal" />
+      <Parameter Name="sNumero_Expediente" Mode="In" Type="String" />
+      <Parameter Name="bReten_Tercero" Mode="In" Type="Boolean" />
+      <Parameter Name="sREVISADO" Mode="In" Type="String" />
+      <Parameter Name="sTRASNFE" Mode="In" Type="String" />
+      <Parameter Name="sco_sucu_in" Mode="In" Type="String" />
+      <Parameter Name="sco_us_in" Mode="In" Type="String" />
+      <Parameter Name="sMaquina" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -18817,5 +18860,15 @@
     <Property Type="String" Name="art_des" Nullable="false" MaxLength="120" />
     <Property Type="String" Name="modelo" Nullable="true" MaxLength="20" />
     <Property Type="Decimal" Name="neto" Nullable="true" Precision="38" Scale="10" />
+  </ComplexType>
+  <ComplexType Name="pInsertarRenglonesRetenCobro_Result">
+    <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+    <Property Type="Guid" Name="rowguid" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pInsertarRenglonesRetenIvaCobro_Result">
+    <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+    <Property Type="Guid" Name="rowguid" Nullable="true" />
   </ComplexType>
 </Schema>

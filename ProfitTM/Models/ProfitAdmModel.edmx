@@ -14951,6 +14951,49 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sTRASNFE" Type="char" Mode="In" />
           <Parameter Name="sMaquina" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="pInsertarRenglonesRetenCobro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="gRowguid_Reng_Cob" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="deMonto" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Reten" Type="decimal" Mode="In" />
+          <Parameter Name="deSustraendo" Type="decimal" Mode="In" />
+          <Parameter Name="dePorc_Retn" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Obj" Type="decimal" Mode="In" />
+          <Parameter Name="bAutomatica" Type="bit" Mode="In" />
+          <Parameter Name="sCo_Islr" Type="char" Mode="In" />
+          <Parameter Name="iRENG_NUM" Type="int" Mode="In" />
+          <Parameter Name="sREVISADO" Type="char" Mode="In" />
+          <Parameter Name="sTRASNFE" Type="char" Mode="In" />
+          <Parameter Name="sco_sucu_in" Type="char" Mode="In" />
+          <Parameter Name="sco_us_in" Type="char" Mode="In" />
+          <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+          <Parameter Name="gRowguid_fact" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="pInsertarRenglonesRetenIvaCobro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="gRowguid_Reng_Cob" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="iRENG_NUM" Type="int" Mode="In" />
+          <Parameter Name="sRif_Contribuyente" Type="char" Mode="In" />
+          <Parameter Name="dePeriodo_Impositivo" Type="decimal" Mode="In" />
+          <Parameter Name="sdFecha_Documento" Type="smalldatetime" Mode="In" />
+          <Parameter Name="sTipo_Operacion" Type="char" Mode="In" />
+          <Parameter Name="sTipo_Documento" Type="char" Mode="In" />
+          <Parameter Name="sRif_Comprador" Type="char" Mode="In" />
+          <Parameter Name="sNumero_Documento" Type="char" Mode="In" />
+          <Parameter Name="sNumero_Control_Documento" Type="char" Mode="In" />
+          <Parameter Name="deMonto_Documento" Type="decimal" Mode="In" />
+          <Parameter Name="deBase_Imponible" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Ret_Imp" Type="decimal" Mode="In" />
+          <Parameter Name="sNumero_Documento_Afectado" Type="char" Mode="In" />
+          <Parameter Name="sNum_Comprobante" Type="char" Mode="In" />
+          <Parameter Name="deMonto_Excento" Type="decimal" Mode="In" />
+          <Parameter Name="deAlicuota" Type="decimal" Mode="In" />
+          <Parameter Name="sNumero_Expediente" Type="char" Mode="In" />
+          <Parameter Name="bReten_Tercero" Type="bit" Mode="In" />
+          <Parameter Name="sREVISADO" Type="char" Mode="In" />
+          <Parameter Name="sTRASNFE" Type="char" Mode="In" />
+          <Parameter Name="sco_sucu_in" Type="char" Mode="In" />
+          <Parameter Name="sco_us_in" Type="char" Mode="In" />
+          <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="pInsertarRenglonesTPCobro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="iReng_Num" Type="int" Mode="In" />
           <Parameter Name="sCob_Num" Type="char" Mode="In" />
@@ -35552,6 +35595,49 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <Parameter Name="sDir" Mode="In" Type="String" />
             <Parameter Name="bHeaderRep" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="pInsertarRenglonesRetenCobro" ReturnType="Collection(ProfitAdmContext.pInsertarRenglonesRetenCobro_Result)">
+            <Parameter Name="gRowguid_Reng_Cob" Mode="In" Type="Guid" />
+            <Parameter Name="deMonto" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Reten" Mode="In" Type="Decimal" />
+            <Parameter Name="deSustraendo" Mode="In" Type="Decimal" />
+            <Parameter Name="dePorc_Retn" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Obj" Mode="In" Type="Decimal" />
+            <Parameter Name="bAutomatica" Mode="In" Type="Boolean" />
+            <Parameter Name="sCo_Islr" Mode="In" Type="String" />
+            <Parameter Name="iRENG_NUM" Mode="In" Type="Int32" />
+            <Parameter Name="sREVISADO" Mode="In" Type="String" />
+            <Parameter Name="sTRASNFE" Mode="In" Type="String" />
+            <Parameter Name="sco_sucu_in" Mode="In" Type="String" />
+            <Parameter Name="sco_us_in" Mode="In" Type="String" />
+            <Parameter Name="sMaquina" Mode="In" Type="String" />
+            <Parameter Name="gRowguid_fact" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="pInsertarRenglonesRetenIvaCobro" ReturnType="Collection(ProfitAdmContext.pInsertarRenglonesRetenIvaCobro_Result)">
+            <Parameter Name="gRowguid_Reng_Cob" Mode="In" Type="Guid" />
+            <Parameter Name="iRENG_NUM" Mode="In" Type="Int32" />
+            <Parameter Name="sRif_Contribuyente" Mode="In" Type="String" />
+            <Parameter Name="dePeriodo_Impositivo" Mode="In" Type="Decimal" />
+            <Parameter Name="sdFecha_Documento" Mode="In" Type="DateTime" />
+            <Parameter Name="sTipo_Operacion" Mode="In" Type="String" />
+            <Parameter Name="sTipo_Documento" Mode="In" Type="String" />
+            <Parameter Name="sRif_Comprador" Mode="In" Type="String" />
+            <Parameter Name="sNumero_Documento" Mode="In" Type="String" />
+            <Parameter Name="sNumero_Control_Documento" Mode="In" Type="String" />
+            <Parameter Name="deMonto_Documento" Mode="In" Type="Decimal" />
+            <Parameter Name="deBase_Imponible" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Ret_Imp" Mode="In" Type="Decimal" />
+            <Parameter Name="sNumero_Documento_Afectado" Mode="In" Type="String" />
+            <Parameter Name="sNum_Comprobante" Mode="In" Type="String" />
+            <Parameter Name="deMonto_Excento" Mode="In" Type="Decimal" />
+            <Parameter Name="deAlicuota" Mode="In" Type="Decimal" />
+            <Parameter Name="sNumero_Expediente" Mode="In" Type="String" />
+            <Parameter Name="bReten_Tercero" Mode="In" Type="Boolean" />
+            <Parameter Name="sREVISADO" Mode="In" Type="String" />
+            <Parameter Name="sTRASNFE" Mode="In" Type="String" />
+            <Parameter Name="sco_sucu_in" Mode="In" Type="String" />
+            <Parameter Name="sco_us_in" Mode="In" Type="String" />
+            <Parameter Name="sMaquina" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="RepEstadoCuentaCli_Result">
           <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -36264,6 +36350,16 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Property Type="String" Name="art_des" Nullable="false" MaxLength="120" />
           <Property Type="String" Name="modelo" Nullable="true" MaxLength="20" />
           <Property Type="Decimal" Name="neto" Nullable="true" Precision="38" Scale="10" />
+        </ComplexType>
+        <ComplexType Name="pInsertarRenglonesRetenCobro_Result">
+          <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+          <Property Type="Guid" Name="rowguid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pInsertarRenglonesRetenIvaCobro_Result">
+          <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+          <Property Type="Guid" Name="rowguid" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -45563,6 +45659,24 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
                 <ScalarProperty Name="art_des" ColumnName="art_des" />
                 <ScalarProperty Name="modelo" ColumnName="modelo" />
                 <ScalarProperty Name="neto" ColumnName="neto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pInsertarRenglonesRetenCobro" FunctionName="ProfitAdmContext.Store.pInsertarRenglonesRetenCobro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarRenglonesRetenCobro_Result">
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pInsertarRenglonesRetenIvaCobro" FunctionName="ProfitAdmContext.Store.pInsertarRenglonesRetenIvaCobro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarRenglonesRetenIvaCobro_Result">
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

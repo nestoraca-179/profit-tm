@@ -14946,6 +14946,49 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
     <Parameter Name="sTRASNFE" Type="char" Mode="In" />
     <Parameter Name="sMaquina" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="pInsertarRenglonesRetenCobro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="gRowguid_Reng_Cob" Type="uniqueidentifier" Mode="In" />
+    <Parameter Name="deMonto" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Reten" Type="decimal" Mode="In" />
+    <Parameter Name="deSustraendo" Type="decimal" Mode="In" />
+    <Parameter Name="dePorc_Retn" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Obj" Type="decimal" Mode="In" />
+    <Parameter Name="bAutomatica" Type="bit" Mode="In" />
+    <Parameter Name="sCo_Islr" Type="char" Mode="In" />
+    <Parameter Name="iRENG_NUM" Type="int" Mode="In" />
+    <Parameter Name="sREVISADO" Type="char" Mode="In" />
+    <Parameter Name="sTRASNFE" Type="char" Mode="In" />
+    <Parameter Name="sco_sucu_in" Type="char" Mode="In" />
+    <Parameter Name="sco_us_in" Type="char" Mode="In" />
+    <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+    <Parameter Name="gRowguid_fact" Type="uniqueidentifier" Mode="In" />
+  </Function>
+  <Function Name="pInsertarRenglonesRetenIvaCobro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="gRowguid_Reng_Cob" Type="uniqueidentifier" Mode="In" />
+    <Parameter Name="iRENG_NUM" Type="int" Mode="In" />
+    <Parameter Name="sRif_Contribuyente" Type="char" Mode="In" />
+    <Parameter Name="dePeriodo_Impositivo" Type="decimal" Mode="In" />
+    <Parameter Name="sdFecha_Documento" Type="smalldatetime" Mode="In" />
+    <Parameter Name="sTipo_Operacion" Type="char" Mode="In" />
+    <Parameter Name="sTipo_Documento" Type="char" Mode="In" />
+    <Parameter Name="sRif_Comprador" Type="char" Mode="In" />
+    <Parameter Name="sNumero_Documento" Type="char" Mode="In" />
+    <Parameter Name="sNumero_Control_Documento" Type="char" Mode="In" />
+    <Parameter Name="deMonto_Documento" Type="decimal" Mode="In" />
+    <Parameter Name="deBase_Imponible" Type="decimal" Mode="In" />
+    <Parameter Name="deMonto_Ret_Imp" Type="decimal" Mode="In" />
+    <Parameter Name="sNumero_Documento_Afectado" Type="char" Mode="In" />
+    <Parameter Name="sNum_Comprobante" Type="char" Mode="In" />
+    <Parameter Name="deMonto_Excento" Type="decimal" Mode="In" />
+    <Parameter Name="deAlicuota" Type="decimal" Mode="In" />
+    <Parameter Name="sNumero_Expediente" Type="char" Mode="In" />
+    <Parameter Name="bReten_Tercero" Type="bit" Mode="In" />
+    <Parameter Name="sREVISADO" Type="char" Mode="In" />
+    <Parameter Name="sTRASNFE" Type="char" Mode="In" />
+    <Parameter Name="sco_sucu_in" Type="char" Mode="In" />
+    <Parameter Name="sco_us_in" Type="char" Mode="In" />
+    <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="pInsertarRenglonesTPCobro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="iReng_Num" Type="int" Mode="In" />
     <Parameter Name="sCob_Num" Type="char" Mode="In" />

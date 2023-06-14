@@ -757,7 +757,7 @@
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Monto</label>
-                                <input type="text" class="form-control" id="mont_doc" ng-model="rengTP.mont_doc" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                                <input type="text" class="form-control" id="mont_doc" ng-model="rengTP.mont_doc" ng-change="recalcIgtf(rengTP.mont_doc)" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
                             </div>
                             <label ng-if="error != null && error != ''" class="text-danger text-center w-100" style="font-size: 14px;">{{ error }}</label>
                         </div>
@@ -1897,6 +1897,28 @@
             }
         }
 
+        $scope.recalcIgtf = function (value) {
+            if (!isNullOrEmpty(value) && value != "0") {
+                $scope.invoice.b_igtf = setSeparator(parseFloat(value).toFixed(2));
+                $scope.invoice.igtf = (parseFloat(value) * 0.03).toFixed(2);
+                $scope.invoice.igtf_orig = (parseFloat(value) * 0.03).toFixed(2);
+            } else {
+                $scope.invoice.b_igtf = setSeparator(parseFloat($scope.invoice.comentario).toFixed(2));
+                $scope.invoice.igtf = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
+                $scope.invoice.igtf_orig = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
+            }
+
+            $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_om) + parse($scope.invoice.igtf));
+
+            if ($scope.rengTP.isRetIVA) {
+                $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) - parse($scope.invoice.monto_ret_imp_om));
+            }
+
+            if ($scope.rengTP.isRetISLR) {
+                $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) - parse($scope.invoice.monto_reten_om));
+            }
+        }
+
         $scope.openModalCollect = function () {
 
             $scope.error = "";
@@ -1987,7 +2009,7 @@
                 rengIVA = $scope.rengIVA;
                 rengIVA.monto_ret_imp = $scope.invoice.monto_ret_imp;
                 rengIVA.periodo_impositivo = $scope.getImpPeriod(rengIVA.fecha_documento);
-                rengIVA.tipo_operacion = "C";
+                rengIVA.num_comprobante = rengIVA.periodo_impositivo + rengIVA.num_comprobante;
             }
 
             if (reng.isRetISLR) {

@@ -3967,5 +3967,171 @@ namespace ProfitTM.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RepCompraxArt2_Result>("RepCompraxArt2", cCo_Articulo_dParameter, cCo_Articulo_hParameter, dCo_fecha_dParameter, dCo_fecha_hParameter, cCo_Prov_dParameter, cCo_Prov_hParameter, cCo_Linea_dParameter, cCo_Linea_hParameter, cCo_SubLinea_dParameter, cCo_SubLinea_hParameter, cCo_Categoria_dParameter, cCo_Categoria_hParameter, cCo_Almacen_dParameter, cCo_Almacen_hParameter, cCo_MonedaParameter, cStatusParameter, cAnuladoParameter, cCo_SucursalParameter, sCampOrderByParameter, sDirParameter, bHeaderRepParameter);
         }
+    
+        public virtual ObjectResult<pInsertarRenglonesRetenCobro_Result> pInsertarRenglonesRetenCobro(Nullable<System.Guid> gRowguid_Reng_Cob, Nullable<decimal> deMonto, Nullable<decimal> deMonto_Reten, Nullable<decimal> deSustraendo, Nullable<decimal> dePorc_Retn, Nullable<decimal> deMonto_Obj, Nullable<bool> bAutomatica, string sCo_Islr, Nullable<int> iRENG_NUM, string sREVISADO, string sTRASNFE, string sco_sucu_in, string sco_us_in, string sMaquina, Nullable<System.Guid> gRowguid_fact)
+        {
+            var gRowguid_Reng_CobParameter = gRowguid_Reng_Cob.HasValue ?
+                new ObjectParameter("gRowguid_Reng_Cob", gRowguid_Reng_Cob) :
+                new ObjectParameter("gRowguid_Reng_Cob", typeof(System.Guid));
+    
+            var deMontoParameter = deMonto.HasValue ?
+                new ObjectParameter("deMonto", deMonto) :
+                new ObjectParameter("deMonto", typeof(decimal));
+    
+            var deMonto_RetenParameter = deMonto_Reten.HasValue ?
+                new ObjectParameter("deMonto_Reten", deMonto_Reten) :
+                new ObjectParameter("deMonto_Reten", typeof(decimal));
+    
+            var deSustraendoParameter = deSustraendo.HasValue ?
+                new ObjectParameter("deSustraendo", deSustraendo) :
+                new ObjectParameter("deSustraendo", typeof(decimal));
+    
+            var dePorc_RetnParameter = dePorc_Retn.HasValue ?
+                new ObjectParameter("dePorc_Retn", dePorc_Retn) :
+                new ObjectParameter("dePorc_Retn", typeof(decimal));
+    
+            var deMonto_ObjParameter = deMonto_Obj.HasValue ?
+                new ObjectParameter("deMonto_Obj", deMonto_Obj) :
+                new ObjectParameter("deMonto_Obj", typeof(decimal));
+    
+            var bAutomaticaParameter = bAutomatica.HasValue ?
+                new ObjectParameter("bAutomatica", bAutomatica) :
+                new ObjectParameter("bAutomatica", typeof(bool));
+    
+            var sCo_IslrParameter = sCo_Islr != null ?
+                new ObjectParameter("sCo_Islr", sCo_Islr) :
+                new ObjectParameter("sCo_Islr", typeof(string));
+    
+            var iRENG_NUMParameter = iRENG_NUM.HasValue ?
+                new ObjectParameter("iRENG_NUM", iRENG_NUM) :
+                new ObjectParameter("iRENG_NUM", typeof(int));
+    
+            var sREVISADOParameter = sREVISADO != null ?
+                new ObjectParameter("sREVISADO", sREVISADO) :
+                new ObjectParameter("sREVISADO", typeof(string));
+    
+            var sTRASNFEParameter = sTRASNFE != null ?
+                new ObjectParameter("sTRASNFE", sTRASNFE) :
+                new ObjectParameter("sTRASNFE", typeof(string));
+    
+            var sco_sucu_inParameter = sco_sucu_in != null ?
+                new ObjectParameter("sco_sucu_in", sco_sucu_in) :
+                new ObjectParameter("sco_sucu_in", typeof(string));
+    
+            var sco_us_inParameter = sco_us_in != null ?
+                new ObjectParameter("sco_us_in", sco_us_in) :
+                new ObjectParameter("sco_us_in", typeof(string));
+    
+            var sMaquinaParameter = sMaquina != null ?
+                new ObjectParameter("sMaquina", sMaquina) :
+                new ObjectParameter("sMaquina", typeof(string));
+    
+            var gRowguid_factParameter = gRowguid_fact.HasValue ?
+                new ObjectParameter("gRowguid_fact", gRowguid_fact) :
+                new ObjectParameter("gRowguid_fact", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pInsertarRenglonesRetenCobro_Result>("pInsertarRenglonesRetenCobro", gRowguid_Reng_CobParameter, deMontoParameter, deMonto_RetenParameter, deSustraendoParameter, dePorc_RetnParameter, deMonto_ObjParameter, bAutomaticaParameter, sCo_IslrParameter, iRENG_NUMParameter, sREVISADOParameter, sTRASNFEParameter, sco_sucu_inParameter, sco_us_inParameter, sMaquinaParameter, gRowguid_factParameter);
+        }
+    
+        public virtual ObjectResult<pInsertarRenglonesRetenIvaCobro_Result> pInsertarRenglonesRetenIvaCobro(Nullable<System.Guid> gRowguid_Reng_Cob, Nullable<int> iRENG_NUM, string sRif_Contribuyente, Nullable<decimal> dePeriodo_Impositivo, Nullable<System.DateTime> sdFecha_Documento, string sTipo_Operacion, string sTipo_Documento, string sRif_Comprador, string sNumero_Documento, string sNumero_Control_Documento, Nullable<decimal> deMonto_Documento, Nullable<decimal> deBase_Imponible, Nullable<decimal> deMonto_Ret_Imp, string sNumero_Documento_Afectado, string sNum_Comprobante, Nullable<decimal> deMonto_Excento, Nullable<decimal> deAlicuota, string sNumero_Expediente, Nullable<bool> bReten_Tercero, string sREVISADO, string sTRASNFE, string sco_sucu_in, string sco_us_in, string sMaquina)
+        {
+            var gRowguid_Reng_CobParameter = gRowguid_Reng_Cob.HasValue ?
+                new ObjectParameter("gRowguid_Reng_Cob", gRowguid_Reng_Cob) :
+                new ObjectParameter("gRowguid_Reng_Cob", typeof(System.Guid));
+    
+            var iRENG_NUMParameter = iRENG_NUM.HasValue ?
+                new ObjectParameter("iRENG_NUM", iRENG_NUM) :
+                new ObjectParameter("iRENG_NUM", typeof(int));
+    
+            var sRif_ContribuyenteParameter = sRif_Contribuyente != null ?
+                new ObjectParameter("sRif_Contribuyente", sRif_Contribuyente) :
+                new ObjectParameter("sRif_Contribuyente", typeof(string));
+    
+            var dePeriodo_ImpositivoParameter = dePeriodo_Impositivo.HasValue ?
+                new ObjectParameter("dePeriodo_Impositivo", dePeriodo_Impositivo) :
+                new ObjectParameter("dePeriodo_Impositivo", typeof(decimal));
+    
+            var sdFecha_DocumentoParameter = sdFecha_Documento.HasValue ?
+                new ObjectParameter("sdFecha_Documento", sdFecha_Documento) :
+                new ObjectParameter("sdFecha_Documento", typeof(System.DateTime));
+    
+            var sTipo_OperacionParameter = sTipo_Operacion != null ?
+                new ObjectParameter("sTipo_Operacion", sTipo_Operacion) :
+                new ObjectParameter("sTipo_Operacion", typeof(string));
+    
+            var sTipo_DocumentoParameter = sTipo_Documento != null ?
+                new ObjectParameter("sTipo_Documento", sTipo_Documento) :
+                new ObjectParameter("sTipo_Documento", typeof(string));
+    
+            var sRif_CompradorParameter = sRif_Comprador != null ?
+                new ObjectParameter("sRif_Comprador", sRif_Comprador) :
+                new ObjectParameter("sRif_Comprador", typeof(string));
+    
+            var sNumero_DocumentoParameter = sNumero_Documento != null ?
+                new ObjectParameter("sNumero_Documento", sNumero_Documento) :
+                new ObjectParameter("sNumero_Documento", typeof(string));
+    
+            var sNumero_Control_DocumentoParameter = sNumero_Control_Documento != null ?
+                new ObjectParameter("sNumero_Control_Documento", sNumero_Control_Documento) :
+                new ObjectParameter("sNumero_Control_Documento", typeof(string));
+    
+            var deMonto_DocumentoParameter = deMonto_Documento.HasValue ?
+                new ObjectParameter("deMonto_Documento", deMonto_Documento) :
+                new ObjectParameter("deMonto_Documento", typeof(decimal));
+    
+            var deBase_ImponibleParameter = deBase_Imponible.HasValue ?
+                new ObjectParameter("deBase_Imponible", deBase_Imponible) :
+                new ObjectParameter("deBase_Imponible", typeof(decimal));
+    
+            var deMonto_Ret_ImpParameter = deMonto_Ret_Imp.HasValue ?
+                new ObjectParameter("deMonto_Ret_Imp", deMonto_Ret_Imp) :
+                new ObjectParameter("deMonto_Ret_Imp", typeof(decimal));
+    
+            var sNumero_Documento_AfectadoParameter = sNumero_Documento_Afectado != null ?
+                new ObjectParameter("sNumero_Documento_Afectado", sNumero_Documento_Afectado) :
+                new ObjectParameter("sNumero_Documento_Afectado", typeof(string));
+    
+            var sNum_ComprobanteParameter = sNum_Comprobante != null ?
+                new ObjectParameter("sNum_Comprobante", sNum_Comprobante) :
+                new ObjectParameter("sNum_Comprobante", typeof(string));
+    
+            var deMonto_ExcentoParameter = deMonto_Excento.HasValue ?
+                new ObjectParameter("deMonto_Excento", deMonto_Excento) :
+                new ObjectParameter("deMonto_Excento", typeof(decimal));
+    
+            var deAlicuotaParameter = deAlicuota.HasValue ?
+                new ObjectParameter("deAlicuota", deAlicuota) :
+                new ObjectParameter("deAlicuota", typeof(decimal));
+    
+            var sNumero_ExpedienteParameter = sNumero_Expediente != null ?
+                new ObjectParameter("sNumero_Expediente", sNumero_Expediente) :
+                new ObjectParameter("sNumero_Expediente", typeof(string));
+    
+            var bReten_TerceroParameter = bReten_Tercero.HasValue ?
+                new ObjectParameter("bReten_Tercero", bReten_Tercero) :
+                new ObjectParameter("bReten_Tercero", typeof(bool));
+    
+            var sREVISADOParameter = sREVISADO != null ?
+                new ObjectParameter("sREVISADO", sREVISADO) :
+                new ObjectParameter("sREVISADO", typeof(string));
+    
+            var sTRASNFEParameter = sTRASNFE != null ?
+                new ObjectParameter("sTRASNFE", sTRASNFE) :
+                new ObjectParameter("sTRASNFE", typeof(string));
+    
+            var sco_sucu_inParameter = sco_sucu_in != null ?
+                new ObjectParameter("sco_sucu_in", sco_sucu_in) :
+                new ObjectParameter("sco_sucu_in", typeof(string));
+    
+            var sco_us_inParameter = sco_us_in != null ?
+                new ObjectParameter("sco_us_in", sco_us_in) :
+                new ObjectParameter("sco_us_in", typeof(string));
+    
+            var sMaquinaParameter = sMaquina != null ?
+                new ObjectParameter("sMaquina", sMaquina) :
+                new ObjectParameter("sMaquina", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pInsertarRenglonesRetenIvaCobro_Result>("pInsertarRenglonesRetenIvaCobro", gRowguid_Reng_CobParameter, iRENG_NUMParameter, sRif_ContribuyenteParameter, dePeriodo_ImpositivoParameter, sdFecha_DocumentoParameter, sTipo_OperacionParameter, sTipo_DocumentoParameter, sRif_CompradorParameter, sNumero_DocumentoParameter, sNumero_Control_DocumentoParameter, deMonto_DocumentoParameter, deBase_ImponibleParameter, deMonto_Ret_ImpParameter, sNumero_Documento_AfectadoParameter, sNum_ComprobanteParameter, deMonto_ExcentoParameter, deAlicuotaParameter, sNumero_ExpedienteParameter, bReten_TerceroParameter, sREVISADOParameter, sTRASNFEParameter, sco_sucu_inParameter, sco_us_inParameter, sMaquinaParameter);
+        }
     }
 }
