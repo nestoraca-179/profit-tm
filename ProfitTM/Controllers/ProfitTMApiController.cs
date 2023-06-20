@@ -371,7 +371,17 @@ namespace ProfitTM.Controllers
 
             try
             {
-                List<saCliente> clients = new Client().GetAllClients(false);
+                List<saCliente> clients;
+
+                if (HttpContext.Current.Session["CLIENTS"] == null)
+                {
+                    clients = new Client().GetAllClients(false);
+                    HttpContext.Current.Session["CLIENTS"] = clients;
+                }
+                else
+                {
+                    clients = HttpContext.Current.Session["CLIENTS"] as List<saCliente>;
+                }
 
                 response.Status = "OK";
                 response.Result = clients;
