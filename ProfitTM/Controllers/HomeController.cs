@@ -320,6 +320,7 @@ namespace ProfitTM.Controllers
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
                 ViewBag.product = "Administrativo";
                 ViewBag.modules = Session["MODULES"];
+                ViewBag.db = Session["DB"];
 
                 return View();
             }
