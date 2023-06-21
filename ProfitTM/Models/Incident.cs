@@ -7,10 +7,18 @@ namespace ProfitTM.Models
         public static void CreateIncident(string titulo, Exception ex)
         {
             Incidents error = new Incidents();
-
             error.Titulo = titulo;
-            error.Descripcion = string.Format("{0} -> {1} -> {2}", ex.Message, ex.StackTrace, ex.Source);
             error.Fecha = DateTime.Now;
+
+            if (ex.InnerException != null)
+            {
+                Exception e = ex.InnerException;
+                error.Descripcion = string.Format("{0} -> {1} -> {2}", e.Message, e.StackTrace, e.Source);
+            }
+            else
+            {
+                error.Descripcion = string.Format("{0} -> {1} -> {2}", ex.Message, ex.StackTrace, ex.Source);
+            }
 
             using (ProfitTMEntities context = new ProfitTMEntities())
             {

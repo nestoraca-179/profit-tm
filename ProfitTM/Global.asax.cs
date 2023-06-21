@@ -96,18 +96,18 @@ namespace ProfitTM
 
         protected void Application_End()
         {
-            //try
-            //{
-            //    HttpContext.Current.Session.Clear();
-            //    HttpContext.Current.Session.Abandon();
-            //    HttpContext.Current.Session.RemoveAll();
+            try
+            {
+                HttpContext.Current.Session.Clear();
+                HttpContext.Current.Session.Abandon();
+                HttpContext.Current.Session.RemoveAll();
 
-            //    Incident.CreateIncident("APPLICATION END", new Exception());
-            //}
-            //catch (Exception ex)
-            //{
-            //    Incident.CreateIncident("ERROR EN APPLICATION END", ex);
-            //}
+                Incident.CreateIncident("APPLICATION END", new Exception());
+            }
+            catch (Exception ex)
+            {
+                Incident.CreateIncident("ERROR EN APPLICATION END", ex);
+            }
         }
 
         protected void Session_Start()

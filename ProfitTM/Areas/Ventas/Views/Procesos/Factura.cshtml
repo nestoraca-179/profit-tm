@@ -557,7 +557,7 @@
                     <div style="width: 80%; margin: 50px auto; display: flex; align-items: center;">
                         <label style="flex: 1;">Ingrese Nro. de Preliquidación</label>
                         <div class="input-search" style="flex: 1; position: relative;">
-                            <input type="text" class="form-control" id="n_preliq" ng-model="idOrder" ng-keypress="detectEnter($event.originalEvent, 1)" />
+                            <input type="text" class="form-control" id="n_preliq" ng-model="idOrder" ng-keypress="detectEnter($event.originalEvent)" />
                             <i class="fas fa-search" role="button" id="btn-preliq" ng-click="getOrders()" data-name="n_preliq"></i>
                             <label class="text-danger text-center w-100" id="text-error" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
                             <label class="text-primary text-center w-100" id="text-search" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
@@ -733,7 +733,7 @@
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Forma de Cobro</label>
-                                <select class="form-control" ng-model="rengTP.forma_pag" ng-change="resetData()" style="-webkit-appearance: button; -moz-appearance: button;">
+                                <select class="form-control" ng-model="rengTP.forma_pag" style="-webkit-appearance: button; -moz-appearance: button;">
                                     <option ng-if="invoice.co_cond.trim() == '002'" value="EF">Efectivo ($USD)</option>
                                     <option ng-if="invoice.co_cond.trim() == '001'" value="TP">Transferencia</option>
                                     <option ng-if="invoice.co_cond.trim() == '001'" value="DP">Depósito</option>
@@ -757,7 +757,7 @@
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Monto</label>
-                                <input type="text" class="form-control" id="mont_doc" ng-model="rengTP.mont_doc" ng-change="recalcIgtf(rengTP.mont_doc)" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                                <input type="text" class="form-control" id="mont_doc" ng-model="rengTP.mont_doc" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
                             </div>
                             <label ng-if="error != null && error != ''" class="text-danger text-center w-100" style="font-size: 14px;">{{ error }}</label>
                         </div>
@@ -765,7 +765,7 @@
                             <div class="controls">
                                 <label>Cuenta Bancaria</label>
                                 <div class="input-search">
-                                    <input type="text" class="form-control" id="cod_cta" ng-model="rengTP.cod_cta" ng-change="calcIgtf(rengTP.cod_cta)" ng-disabled="rengTP.forma_pag == 'EF'" ng-required="rengTP.forma_pag != 'EF'" style="flex: 1;" onkeydown="prevDel(event);" />
+                                    <input type="text" class="form-control" id="cod_cta" ng-model="rengTP.cod_cta" ng-disabled="rengTP.forma_pag == 'EF'" ng-required="rengTP.forma_pag != 'EF'" style="flex: 1;" onkeydown="prevDel(event);" />
                                     <input type="text" class="form-control" id="des_cta" ng-disabled="rengTP.forma_pag == 'EF'" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                     <i class="fas fa-search" role="button" onclick="openModal(this, 'modalBankAccounts')" data-name="cod_cta"></i>
                                 </div>
@@ -817,7 +817,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="controls">
                                 <label>Fecha de Comprobante</label>
-                                <input type="date" class="form-control" id="fecha_documento" ng-model="rengIVA.fecha_documento" ng-disabled="!rengTP.isRetIVA" ng-required="rengTP.isRetIVA" />
+                                <input type="date" class="form-control" id="fecha_documento" ng-model="rengIVA.fecha_documento" ng-disabled="true" ng-required="rengTP.isRetIVA" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
@@ -851,7 +851,7 @@
                         <div class="col-sm-12 col-md-3">
                             <div class="controls">
                                 <label>Concepto ISLR</label>
-                                <select class="form-control" ng-model="rengISLR.co_islr" ng-change="changePorc(rengISLR.co_islr)" style="-webkit-appearance: button; -moz-appearance: button;">
+                                <select class="form-control" ng-model="rengISLR.co_islr" ng-change="changePorc(rengISLR.co_islr)" ng-disabled="true" style="-webkit-appearance: button; -moz-appearance: button;">
                                     <option ng-repeat="conc in conceps" value="{{ conc.co_conce }}">{{ conc.co_conce }}</option>
                                 </select>
                             </div>
@@ -892,7 +892,7 @@
                         <div class="col-sm-12 col-md-3">
                             <div class="controls">
                                 <label>Base IGTF</label>
-                                <input type="text" id="b_igtf" class="form-control" ng-model="invoice.b_igtf" disabled />
+                                <input type="text" id="b_igtf" class="form-control" ng-model="invoice.b_igtf" ng-change="recalcIgtf(invoice.b_igtf)" ng-disabled="invoice.co_cond.trim() != '002'" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-3">
@@ -1208,7 +1208,7 @@
             monto_imp_om: "4.00"
         };
         $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
-        $scope.rengIVA = {};
+        $scope.rengIVA = { fecha_documento: new Date(Date.now()) };
         $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
         $scope.conceps = [
             { co_conce: "055", porc_ret: "2.00" },
@@ -1240,7 +1240,7 @@
                     $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
                 }
 
-                $scope.rengIVA = {};
+                $scope.rengIVA = { fecha_documento: new Date(Date.now()) };
                 $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
                 $scope.invoice.monto_reten_om = setSeparator((parse($scope.invoice.total_bruto_om) * 0.02).toFixed(2));
                 $scope.invoice.monto_reten = setSeparator((parse($scope.invoice.total_bruto) * 0.02).toFixed(2));
@@ -1400,13 +1400,9 @@
             }
         }
 
-        $scope.detectEnter = function (e, n) {
+        $scope.detectEnter = function (e) {
             if (e.which == 13) {
-                if (n == 1) {
-                    $scope.searchOrder($scope.idOrder);
-                } else if (n == 2) {
-                    $scope.validate($scope.amountUSD);
-                }
+                $scope.searchOrder($scope.idOrder);
             } else {
                 $("#text-error").text("");
                 $("#text-fail").text("");
@@ -1681,8 +1677,7 @@
             if (edit) {
                 $scope.reng = r;
                 $("#des_art").val(searchArt(r.co_art));
-            }
-            else {
+            } else {
                 $scope.reng = {
                     co_art: "",
                     total_art: 1,
@@ -1708,9 +1703,7 @@
 
             $("#modalItem form input").change();
             if ($("#modalItem form")[0].checkValidity()) {
-
                 $scope.updateAmounts($scope.invoice, reng, $scope.invoice.saFacturaVentaReng, action);
-
                 $("#des_art").val("");
                 $("#modalItem").modal("hide");
             }
@@ -1815,9 +1808,7 @@
                     }
 
                     $http(req).then(function (response) {
-
                         var res = response.data;
-
                         if (res.Status == "OK") {
                             $("#modalSuccess").modal("show");
                             $scope.successMessage = `La Factura ${res.Result.doc_num} se ha agregado con éxito`;
@@ -1832,12 +1823,9 @@
                             $("#modalError").modal("show");
                             $scope.errorMessage = res.Message;
                         }
-
                     }, function (response) {
-
                         $("#modalError").modal("show");
                         $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
-
                     });
 
                 } else {
@@ -1865,7 +1853,7 @@
                 $scope.invoice.b_igtf = setSeparator(parseFloat($scope.invoice.comentario).toFixed(2));
                 $scope.invoice.igtf = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
                 $scope.invoice.igtf_orig = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
-                $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) + parse($scope.invoice.igtf));
+                $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) + parse($scope.invoice.igtf)); // AQUI
             } else {
                 $scope.invoice.b_igtf = "0.00";
                 $scope.invoice.igtf = "0.00";
@@ -1875,40 +1863,18 @@
             $('#modalCobrar').modal('show');
         }
 
-        $scope.resetData = function () {
-
-            if ($scope.rengTP.forma_pag != "EF")
-                $scope.invoice.igtf = "0.00";
-            else
-                $scope.invoice.igtf = $scope.invoice.igtf_orig;
-
-            $scope.rengTP.num_doc = "";
-            $scope.rengTP.cod_cta = "";
-            $("#cod_cta").val("");
-            $("#des_cta").val("");
-        }
-
-        $scope.calcIgtf = function (value) {
-            if (!isNullOrEmpty(value)) {
-                if (searchBankAccount(value).co_mone.trim() == "US$")
-                    $scope.invoice.igtf = $scope.invoice.igtf_orig;
-                else
-                    $scope.invoice.igtf = "0.00";
-            }
-        }
-
         $scope.recalcIgtf = function (value) {
-            if (!isNullOrEmpty(value) && value != "0") {
-                $scope.invoice.b_igtf = setSeparator(parseFloat(value).toFixed(2));
+            if (!isNullOrEmpty(value)) {
+                // $scope.invoice.b_igtf = setSeparator(parseFloat(value).toFixed(2));
                 $scope.invoice.igtf = (parseFloat(value) * 0.03).toFixed(2);
                 $scope.invoice.igtf_orig = (parseFloat(value) * 0.03).toFixed(2);
             } else {
-                $scope.invoice.b_igtf = setSeparator(parseFloat($scope.invoice.comentario).toFixed(2));
+                // $scope.invoice.b_igtf = setSeparator(parseFloat($scope.invoice.comentario).toFixed(2));
                 $scope.invoice.igtf = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
                 $scope.invoice.igtf_orig = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
             }
 
-            $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_om) + parse($scope.invoice.igtf));
+            $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_om) + parse($scope.invoice.igtf)); // AQUI
 
             if ($scope.rengTP.isRetIVA) {
                 $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) - parse($scope.invoice.monto_ret_imp_om));
@@ -1937,9 +1903,6 @@
                 else
                     curr = "BSD";
 
-                //if (igtf > 0)
-                //    total_usd += igtf;
-
                 reng.fecha_che = origDate(reng.fecha_che);
                 reng.co_us_in = igtf;
 
@@ -1963,16 +1926,16 @@
         }
 
         $scope.changePorc = function (value) {
-            $scope.rengISLR.porc_retn = $scope.conceps.find(c => c.co_conce == value).porc_ret;
-            $scope.invoice.monto_reten = (parse($scope.invoice.total_bruto) * (parseFloat($scope.rengISLR.porc_retn) / 100)).toFixed(2);
-            $scope.invoice.monto_reten_om = (parse($scope.invoice.total_bruto_om) * (parseFloat($scope.rengISLR.porc_retn) / 100)).toFixed(2);
-            $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo) - parse($scope.invoice.monto_reten));
-            $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_om) - parse($scope.invoice.monto_reten_om) + parse($scope.invoice.igtf));
+            //$scope.rengISLR.porc_retn = $scope.conceps.find(c => c.co_conce == value).porc_ret;
+            //$scope.invoice.monto_reten = (parse($scope.invoice.total_bruto) * (parseFloat($scope.rengISLR.porc_retn) / 100)).toFixed(2);
+            //$scope.invoice.monto_reten_om = (parse($scope.invoice.total_bruto_om) * (parseFloat($scope.rengISLR.porc_retn) / 100)).toFixed(2);
+            //$scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo) - parse($scope.invoice.monto_reten));
+            //$scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_om) - parse($scope.invoice.monto_reten_om) + parse($scope.invoice.igtf)); // AQUI
 
-            if ($scope.rengTP.isRetIVA) {
-                $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) - parse($scope.invoice.monto_ret_imp));
-                $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) - parse($scope.invoice.monto_ret_imp_om));
-            }
+            //if ($scope.rengTP.isRetIVA) {
+            //    $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) - parse($scope.invoice.monto_ret_imp));
+            //    $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) - parse($scope.invoice.monto_ret_imp_om));
+            //}
         }
 
         $scope.updateBalance = function (value, imp) {
@@ -2045,13 +2008,17 @@
                     $scope.invoice.status = parseInt(res.Result.campo1);
                     $scope.invoice.estatus = setStatus($scope.invoice.status);
                     $scope.invoice.saldo = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
+                    $scope.invoice.saldo_f = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
                     $scope.invoice.saldo_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
+                    $scope.invoice.saldo_f_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
+                    $scope.invoice.ret_iva = reng.isRetIVA;
+                    $scope.invoice.ret_islr = reng.isRetISLR;
                 } else {
                     $("#modalError").modal("show");
                     $scope.errorMessage = res.Message;
                 }
 
-                $scope.rengIVA = {};
+                $scope.rengIVA = { fecha_documento: new Date(Date.now()) };
                 $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
                 $scope.invoice.monto_reten_om = setSeparator((parse($scope.invoice.total_bruto_om) * 0.02).toFixed(2));
                 $scope.invoice.monto_reten = setSeparator((parse($scope.invoice.total_bruto) * 0.02).toFixed(2));
@@ -2146,14 +2113,6 @@
         return items;
     }
 
-    function setSeparator(value) {
-        return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
-    }
-
-    function parse(value) {
-        return parseFloat(value.replaceAll(',', ''));
-    }
-
     function convert(invoice) {
 
         var i = invoice;
@@ -2199,6 +2158,14 @@
         i.ret_islr = i.co_us_mo == "True";
 
         return i;
+    }
+
+    function setSeparator(value) {
+        return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
+    }
+
+    function parse(value) {
+        return parseFloat(value.replaceAll(',', ''));
     }
 
     function setStatus(status) {
@@ -2247,10 +2214,8 @@
         var previous = elem.previousElementSibling;
 
         if (!previous.disabled) {
-
             $("#" + modal).find("#name-input").val($(elem).data("name"));
             $("#" + modal).modal("show");
-
         }
     }
 
