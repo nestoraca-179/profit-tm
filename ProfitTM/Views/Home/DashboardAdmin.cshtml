@@ -3,6 +3,9 @@
     ViewData["HOME"] = Session["HOME"];
 }
 <style>
+    .fa-sync-alt {
+        font-size: 30px !important;
+    }
     .highcharts-figure, .highcharts-data-table table {
         min-width: 320px;
         max-width: 800px;
@@ -339,7 +342,7 @@
                                     <h5>Total Ventas del Mes</h5>
                                     <span ng-show="stats" class="stat-number">{{ stats.totalAmountSale.toLocaleString('es-ES') }}</span>
                                     <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
-                                    <i class="fas fa-dollar-sign" style="color: #2E7D32;"></i>
+                                    <i style="color: #2E7D32; font-size: 28px; font-weight: bold; font-style: normal;">Bs. D</i>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
@@ -355,7 +358,7 @@
                                     <h5>Total Compras del Mes</h5>
                                     <span ng-show="stats" class="stat-number">{{ stats.totalAmountBuy.toLocaleString('es-ES') }}</span>
                                     <i ng-if="!stats" class="fas fa-spinner-third fa-spin"></i>
-                                    <i class="fas fa-dollar-sign" style="color: #D84315;"></i>
+                                    <i style="color: #D84315; font-size: 28px; font-weight: bold; font-style: normal;">Bs. D</i>
                                 </div>
                             </div>
                         </div>
@@ -532,7 +535,6 @@
         $http.get(`../../api/ProfitTMApi/GetStatsInvoices/${fecha_d}/${fecha_h}`)
             .then(function (response) {
 
-                console.log(response.data.Result);
                 $scope.allStats = response.data.Result;
                 $scope.stats = $scope.allStats.all;
                 $("span.stat-number").css('opacity', '1');

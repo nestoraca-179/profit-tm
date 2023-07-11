@@ -168,7 +168,7 @@
                         <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="(user != 'ALPHA' && user != 'NACA' && user != 'ASAP') || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.UseBox || invoice.anulado || invoice.status == 2 || invoice.saldo == 0" ng-click="initLoadCollect()">
+                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.UseBox || (invoice.co_cond.trim() == '002' && sucur != '002') || invoice.anulado || invoice.status == 2 || invoice.saldo == 0" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField('#n_preliq')">
@@ -1199,6 +1199,7 @@
         $scope.template = template;
         $scope.user = user.trim();
         $scope.us = us;
+        $scope.sucur = sucur;
         $scope.reng = {
             total_art: 1,
             reng_neto_om: (0).toFixed(2),
@@ -1870,7 +1871,7 @@
                 $scope.invoice.igtf_orig = (parseFloat(value) * 0.03).toFixed(2);
             } else {
                 // $scope.invoice.b_igtf = setSeparator(parseFloat($scope.invoice.comentario).toFixed(2));
-                $scope.invoice.igtf = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
+                $scope.invoice.igtf = (0 * 0.03).toFixed(2);
                 $scope.invoice.igtf_orig = (parseFloat($scope.invoice.comentario) * 0.03).toFixed(2);
             }
 

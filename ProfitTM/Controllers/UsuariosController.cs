@@ -115,6 +115,7 @@ namespace ProfitTM.Controllers
                 ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
                 ViewBag.user_edit = MyUser.GetUserByID(id);
                 ViewBag.all_mods = Module.GetAllModules();
+                ViewBag.sups = MyUser.GetAllUsers(true);
 
                 return View();
             }
