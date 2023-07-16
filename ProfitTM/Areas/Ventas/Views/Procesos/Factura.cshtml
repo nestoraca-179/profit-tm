@@ -185,6 +185,9 @@
                             <i class="fas fa-save"></i>
                             Guardar
                         </button>
+                        <div class="d-flex align-items-center px-2">
+                            <label><input type="checkbox" ng-model="manual" /> No mostrar en Libro de Ventas</label>
+                        </div>
                     </div>
                     <div class="col buttons-save-cancel" ng-show="adding">
                         <button type="submit" class="btn btn-success" ng-click="confirmAdd()">
@@ -221,7 +224,7 @@
                     <div class="col-sm-12 col-md-4">
                         <div class="controls">
                             <label>Nro. Control</label>
-                            <input type="text" class="form-control" id="n_control" ng-model="invoice.n_control" ng-disabled="!confirm" ng-required="false" onkeypress="$('#n_control').removeAttr('style');" />
+                            <input type="text" class="form-control" id="n_control" ng-model="invoice.n_control" ng-disabled="!confirm && !manual" ng-required="manual" onkeypress="$('#n_control').removeAttr('style');" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-4">
@@ -1147,6 +1150,7 @@
     var us = @Html.Raw(Json.Encode(ViewBag.user));
     var curr = "US$";
     var template = @Html.Raw(ViewBag.template);
+    var template_orig = @Html.Raw(ViewBag.template);
     var header = document.getElementById("header-left");
     var menu = document.getElementById("menu-left");
     var validating = false;
@@ -1194,6 +1198,7 @@
         $scope.adding = false;
         $scope.confirm = false;
         $scope.converted = false;
+        $scope.manual = false;
         $scope.boxOpen = box != '0';
         $scope.editItem = false;
         $scope.template = template;
@@ -1324,6 +1329,7 @@
             $scope.invoice.saldo = $scope.invoice.total_neto;
             $scope.invoice.saldo_om = $scope.invoice.total_neto_om;
             $scope.invoice.typePay = "1";
+            $scope.converted = true;
 
             for (var r of $scope.invoice.saFacturaVentaReng) {
                 r.monto_imp_om = setSeparator((r.monto_imp / $scope.invoice.tasa).toFixed(2));
@@ -1820,6 +1826,8 @@
 
                             $scope.index = 0;
                             $scope.new = false;
+                            $scope.manual = false;
+                            template = template_orig;
                         } else {
                             $("#modalError").modal("show");
                             $scope.errorMessage = res.Message;

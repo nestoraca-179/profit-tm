@@ -318,15 +318,21 @@
                             </div>
                             <hr />
                         -->
-                        
-                        <!-- Rounded switch -->
+                        <!-- Start Rounded switch -->
                         <div class="d-flex justify-content-end">
-                            <label class="d-flex align-items-center mx-3">Mostrar info. Sucursal actual</label>
-                            <label class="switch">
-                                <input type="checkbox" ng-disabled="!show_all" ng-model="bySucur" ng-change="changeSuc(bySucur)">
-                                <span class="slider round"></span>
-                            </label>
+                            <!--<div>
+                                <input type="date" id="fec_d" ng-disabled="true" ng-readonly="true" ng-model="fec_d" />
+                                <input type="date" id="fec_h" ng-disabled="true" ng-readonly="true" ng-model="fec_h" />
+                            </div>-->
+                            <div class="d-flex">
+                                <label class="d-flex align-items-center mx-3">Mostrar info. Sucursal actual</label>
+                                <label class="switch">
+                                    <input type="checkbox" ng-disabled="!show_all" ng-model="bySucur" ng-change="changeSuc(bySucur)">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
                         </div>
+                        <!-- End Rounded switch -->
                         <hr />
                         <div class="row justify-content-between" style="margin: 0;">
                             <div class="col-sm-6 col-md-6 col-xl-6 col-xxl-3 col-stat">
@@ -449,8 +455,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-3" style="margin: 0; display: none;">
+                            <div class="col col-graph">
+                                <figure class="highcharts-figure">
+                                    <div id="container-demo"></div>
+                                </figure>
+                            </div>
+                        </div>
                         <hr />
-
                     </div>
                 }
             }
@@ -461,14 +473,12 @@
 <div class="modal fade modal-info" id="modalLoading" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
         <div class="modal-content">
-            @*<div class="modal-header"></div>*@
             <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                 <div style="display: flex; justify-content: center;">
                     <i class="fas fa-spinner fa-spin" style="color: #01579b; font-size: 7em;"></i>
                 </div>
                 <h1 class="text-center mt-5">Cargando módulo...</h1>
             </div>
-            @*<div class="modal-footer"></div>*@
         </div>
     </div>
 </div>
@@ -484,6 +494,7 @@
     var node = null;
 
     var fec_d = new Date(), fec_h = new Date();
+    // fec_d.setMonth(3);
     fec_d.setDate(1);
     fec_d.setHours(0);
     fec_d.setMinutes(0);
@@ -718,6 +729,39 @@
     function slide() {
         $(".list-menu").slideToggle()
     }
+
+    Highcharts.chart('container-demo', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'Facturas de venta de los ult. dias del mes'
+        },
+        legend: {
+            enabled: false
+        },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: responsive ? null : '<b style="font-family: \'Raleway\', sans-serif;">Cantidad</b>'
+            },
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [{
+            name: 'Reggane',
+            data: [16.0, 18.2, 23.1, 27.9, 32.2, 36.4, 39.8, 38.4, 35.5, 29.2,
+                22.0, 17.8]
+        }]
+    });
 
 </script>
 

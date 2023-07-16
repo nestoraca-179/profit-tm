@@ -98,9 +98,9 @@ namespace ProfitTM
         {
             try
             {
-                HttpContext.Current.Session.Clear();
-                HttpContext.Current.Session.Abandon();
-                HttpContext.Current.Session.RemoveAll();
+                // HttpContext.Current.Session.Clear();
+                // HttpContext.Current.Session.Abandon();
+                // HttpContext.Current.Session.RemoveAll();
 
                 Incident.CreateIncident("APPLICATION END", new Exception());
             }
