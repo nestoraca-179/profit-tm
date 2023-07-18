@@ -3,6 +3,9 @@
     ViewData["HOME"] = Session["HOME"];
 }
 <style>
+    table#table-conn {
+        border-top: solid 10px transparent !important;
+    }
     .table-info {
         overflow-x: auto;
     }
@@ -11,10 +14,16 @@
         color: #FFF;
     }
     table thead th {
-        padding: 10px;
+        padding: 15px 5px !important;
     }
-    table td {
+    table tbody td {
+        font-size: 14px;
+        user-select: none;
         vertical-align: middle !important;
+    }
+    table tbody, table tbody tr, table tbody td {
+        border: 0;
+        border-style: none;
     }
     .btn.btn-success {
         color: #FFF;
@@ -35,6 +44,33 @@
     .modal-delete .fas {
         font-size: 6em;
         padding: 5%;
+    }
+    select[name="table-conn_length"] {
+        background: #FFF !important;
+        border: solid 1px #ced4da !important;
+        box-shadow: none;
+    }
+    #table-conn_filter input {
+        background: #FFF;
+        border: solid 1px #ced4da;
+        border-radius: 5px;
+    }
+    #table-conn_paginate {
+        user-select: none;
+    }
+    #table-conn_paginate > a:not(.disabled) {
+        background: #0d6efd;
+        color: #FAFAFA !important;
+        border-radius: 5px;
+    }
+    #table-conn_paginate > a:not(.disabled):hover {
+        background: #0b5ed7;
+    }
+    #table-conn_paginate > span a.paginate_button:not(.disabled).current, #table-conn_paginate > span a.paginate_button:not(.disabled):hover {
+        background: none;
+        border: solid 2px #0d6efd;
+        border-radius: 5px;
+        color: #333 !important;
     }
     @@media (max-width: 767px) {
         .header-right-side {
@@ -61,6 +97,8 @@
         }
     }
 </style>
+<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
 <div class="container-fluid p-0" ng-app="Connections" ng-controller="controller">
     <div class="dash-container" id="dash-container">
         <div class="col-md-4 col-xl-3 col-xxl-2 dash-left-side border-right p-0" id="menu-left">
@@ -152,7 +190,7 @@
                 </div>
                 <hr />
                 <div class="table-info">
-                    <table class="table table-striped mt-3">
+                    <table class="table table-striped mt-3" id="table-conn">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -201,6 +239,27 @@
     var menu = document.getElementById("menu-left");
     var responsive = screen.availWidth <= 767 ? true : false;
     var node = null;
+
+    $(document).ready(function () {
+        $('#table-conn').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "processing": "Procesando...",
+                "search": "Buscar:   ",
+                "zeroRecords": "No se encontraron resultados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+            "lengthMenu": [10, 25, 50, 75, 100],
+        });
+    });
 
     app.controller("controller", function ($scope, $http) {
 

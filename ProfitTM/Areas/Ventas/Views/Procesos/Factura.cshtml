@@ -176,7 +176,7 @@
                         </button>
                     </div>
                     <div class="col buttons-save-cancel" ng-show="new">
-                        <button type="button" class="btn btn-danger" ng-click="new = false; confirm = false; invoice = invoices[index];">
+                        <button type="button" class="btn btn-danger" ng-click="new = false; confirm = false; manual = false; invoice = invoices[index];">
                             <i class="fas fa-times"></i>
                             Cancelar
                         </button>
@@ -218,7 +218,7 @@
                     <div class="col-sm-12 col-md-4">
                         <div class="controls">
                             <label>Número</label>
-                            <input type="text" class="form-control" id="id" ng-model="invoice.doc_num" ng-disabled="true" ng-required="true" />
+                            <input type="text" class="form-control" id="id" ng-model="invoice.doc_num" ng-disabled="!manual" ng-required="manual" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-4">
@@ -248,7 +248,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Emis</label>
-                            <input type="date" class="form-control" id="fec_emis" ng-model="invoice.fec_emis" ng-disabled="true" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_emis" ng-model="invoice.fec_emis" ng-disabled="!manual" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -275,7 +275,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Venc</label>
-                            <input type="date" class="form-control" id="fec_venc" ng-model="invoice.fec_venc" ng-disabled="true" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_venc" ng-model="invoice.fec_venc" ng-disabled="!manual" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -302,7 +302,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Reg</label>
-                            <input type="date" class="form-control" id="fec_reg" ng-model="invoice.fec_reg" ng-disabled="true" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_reg" ng-model="invoice.fec_reg" ng-disabled="!manual" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -1311,9 +1311,9 @@
             $scope.invoice.n_control = "";
             $scope.invoice.status = 0;
             $scope.invoice.estatus = "NO PROCESADA";
-            $scope.invoice.co_cli = "J411174556";
+            $scope.invoice.co_cli = template.co_cli;
             $scope.invoice.saCliente = {
-                cli_des: "COSCO LOGISTICS, C.A"
+                cli_des: template.saCliente.cli_des
             },
             $scope.invoice.fec_emis = new Date(Date.now()),
             $scope.invoice.fec_venc = new Date(Date.now()),
@@ -1794,8 +1794,20 @@
                 if ($scope.invoice.saFacturaVentaReng.length > 0) {
 
                     $("#form input, #form textarea").change();
-                    $("#modalWaiting").modal("show");
 
+                    if ($scope.manual) {
+                        if ($scope.invoice.doc_num.toString()[0] != 'D') {
+                            alert("El numero de factura debe iniciar con D");
+                            return;
+                        }
+
+                        if ($scope.invoice.n_control.toString()[0] != 'D') {
+                            alert("El numero de control de la factura debe iniciar con D");
+                            return;
+                        }
+                    }
+
+                    $("#modalWaiting").modal("show");
                     $scope.invoice.fec_emis = origDate($scope.invoice.fec_emis);
                     $scope.invoice.fec_venc = origDate($scope.invoice.fec_venc);
                     $scope.invoice.fec_reg = origDate($scope.invoice.fec_reg);
@@ -1815,6 +1827,7 @@
                     }
 
                     $http(req).then(function (response) {
+
                         var res = response.data;
                         if (res.Status == "OK") {
                             $("#modalSuccess").modal("show");

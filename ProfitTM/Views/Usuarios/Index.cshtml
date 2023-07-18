@@ -3,6 +3,9 @@
     ViewData["HOME"] = Session["HOME"];
 }
 <style>
+    table#table-users {
+        border-top: solid 10px transparent !important;
+    }
     .table-info {
         overflow-x: auto;
     }
@@ -13,8 +16,14 @@
     table thead th {
         padding: 10px;
     }
-    table td {
+    table tbody td {
+        font-size: 14px;
+        user-select: none;
         vertical-align: middle !important;
+    }
+    table tbody, table tbody tr, table tbody td {
+        border: 0;
+        border-style: none;
     }
     .btn.btn-success {
         color: #FFF;
@@ -35,6 +44,33 @@
     .modal-delete .fas {
         font-size: 6em;
         padding: 5%;
+    }
+    select[name="table-users_length"] {
+        background: #FFF !important;
+        border: solid 1px #ced4da !important;
+        box-shadow: none;
+    }
+    #table-users_filter input {
+        background: #FFF;
+        border: solid 1px #ced4da;
+        border-radius: 5px;
+    }
+    #table-users_paginate {
+        user-select: none;
+    }
+    #table-users_paginate > a:not(.disabled) {
+        background: #0d6efd;
+        color: #FAFAFA !important;
+        border-radius: 5px;
+    }
+    #table-users_paginate > a:not(.disabled):hover {
+        background: #0b5ed7;
+    }
+    #table-users_paginate > span a.paginate_button:not(.disabled).current, #table-users_paginate > span a.paginate_button:not(.disabled):hover {
+        background: none;
+        border: solid 2px #0d6efd;
+        border-radius: 5px;
+        color: #333 !important;
     }
     @@media (max-width: 767px) {
         .header-right-side {
@@ -61,6 +97,8 @@
         }
     }
 </style>
+<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
 <div class="container-fluid p-0" ng-app="Users" ng-controller="controller">
     <div class="dash-container" id="dash-container">
         <div class="col-md-4 col-xl-3 col-xxl-2 dash-left-side border-right p-0" id="menu-left">
@@ -144,7 +182,7 @@
                     <div class="col d-flex align-items-center">
                         <a href="/Usuarios/Agregar" class="btn btn-success">
                             <i class="fas fa-plus"></i> Agregar nuevo
-                        </a>                        
+                        </a>
                     </div>
                     <div class="col">
                         <h2 class="text-center">Usuarios</h2>
@@ -152,8 +190,8 @@
                     <div class="col"></div>
                 </div>
                 <hr />
-                <div class="table-info">
-                    <table class="table table-striped mt-3">
+                <div class="table-info mb-3">
+                    <table class="table table-striped mt-3" id="table-users">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -237,6 +275,27 @@
     for (var item of users) {
         item.DateReg = new Date(parseInt(item.DateReg.substr(6)));
     }
+
+    $(document).ready(function () {
+        $('#table-users').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "processing": "Procesando...",
+                "search": "Buscar:   ",
+                "zeroRecords": "No se encontraron resultados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+            "lengthMenu": [5, 10, 25, 50, 75, 100],
+        });
+    });
 
     app.controller("controller", function ($scope, $http) {
 

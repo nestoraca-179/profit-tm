@@ -337,11 +337,18 @@ namespace ProfitTM.Models
                             }
                         }
 
-                        var sp_n_fact = context.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();
-                        if (sp_n_fact.MoveNext())
-                            n_fact = sp_n_fact.Current;
+                        if (string.IsNullOrEmpty(invoice.doc_num))
+                        {
+                            var sp_n_fact = context.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();
+                            if (sp_n_fact.MoveNext())
+                                n_fact = sp_n_fact.Current;
 
-                        sp_n_fact.Dispose();
+                            sp_n_fact.Dispose();
+                        }
+                        else
+                        {
+                            n_fact = invoice.doc_num;
+                        }
 
                         if (string.IsNullOrEmpty(invoice.n_control))
                         {
