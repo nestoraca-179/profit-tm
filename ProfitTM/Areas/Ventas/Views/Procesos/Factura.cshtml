@@ -171,7 +171,7 @@
                         <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.UseBox || (invoice.co_cond.trim() == '002' && sucur != '002') || invoice.anulado || invoice.status == 2 || invoice.saldo == 0" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalImportarPedido" onclick="focusField('#n_preliq')">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalSearchOrder" onclick="focusField('#n_preliq')">
                             <i class="fas fa-file-search"></i> Importar Preliquidación
                         </button>
                     </div>
@@ -477,26 +477,23 @@
             </div>
         </form>
     </div>
-    <!-- Modal Waiting -->
+    <!-- Modal Procesando -->
     <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="background: rgba(0, 0, 0, .7);">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-spinner fa-spin" style="color: #01579b;"></i>
                     </div>
                     <h2 class="text-center">Procesando...</h2>
                 </div>
-                @*<div class="modal-footer"></div>*@
             </div>
         </div>
     </div>
-    <!-- Modal Confirm -->
+    <!-- Modal Confirmacion Num. Control Automatico -->
     <div class="modal fade modal-info" id="modalConfirm" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
@@ -510,11 +507,10 @@
             </div>
         </div>
     </div>
-    <!-- Modal Send -->
+    <!-- Modal Confirmacion Num. Control Manual -->
     <div class="modal fade modal-info" id="modalSend" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
@@ -528,11 +524,10 @@
             </div>
         </div>
     </div>
-    <!-- Modal Cancel Invoice -->
+    <!-- Modal Anular Factura -->
     <div class="modal fade modal-info" id="modalAnularFactura" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
@@ -546,8 +541,8 @@
             </div>
         </div>
     </div>
-    <!-- Modal Search Order -->
-    <div class="modal fade" id="modalImportarPedido" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
+    <!-- Modal Buscar Preliquidacion -->
+    <div class="modal fade" id="modalSearchOrder" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -574,7 +569,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal Confirm Amount -->
+    <!-- Modal Confirmar Monto Cobro -->
     <div class="modal fade modal-info" id="modalConfirmarMonto" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="background: rgba(0, 0, 0, 0.7)">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
@@ -595,7 +590,6 @@
     <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-check-circle" style="color: var(--bs-green)"></i>
@@ -612,7 +606,6 @@
     <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--bs-red)"></i>
@@ -626,11 +619,10 @@
             </div>
         </div>
     </div>
-    <!-- Modal Delete -->
+    <!-- Modal Eliminar Preliquidacion -->
     <div class="modal fade modal-info" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
@@ -644,7 +636,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal Add Item -->
+    <!-- Modal Agregar Item Factura -->
     <div class="modal fade" id="modalItem" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
         <form class="modal-dialog" role="document" style="max-width: 800px;" onsubmit="return false;">
             <div class="modal-content">
@@ -670,7 +662,7 @@
                         <div class="col-sm-12 col-md-3">
                             <div class="controls">
                                 <label>Cantidad</label>
-                                <input type="number" class="form-control" id="quantity" ng-model="reng.total_art" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePrice()" />
+                                <input type="number" class="form-control" id="quantity" ng-model="reng.total_art" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePriceItem()" />
                             </div>
                         </div>
                     </div>
@@ -678,7 +670,7 @@
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Precio Unit. $USD</label>
-                                <input type="text" class="form-control" id="price_usd" ng-model="reng.prec_vta_om" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePrice()" />
+                                <input type="text" class="form-control" id="price_usd" ng-model="reng.prec_vta_om" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePriceItem()" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
@@ -690,7 +682,7 @@
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Monto IVA $USD</label>
-                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="true" />
+                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="!manual" />
                             </div>
                         </div>
                     </div>
@@ -703,11 +695,10 @@
             </div>
         </form>
     </div>
-    <!-- Modal With Collect -->
+    <!-- Modal Agregar Cobro -->
     <div class="modal fade modal-info" id="modalWithCollect" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
@@ -721,7 +712,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal Collect -->
+    <!-- Modal Cobro -->
     <div class="modal fade" id="modalCobrar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
         <form id="form-collect" class="modal-dialog" role="document" style="max-width: 800px;" onsubmit="return false;">
             <div class="modal-content">
@@ -1143,7 +1134,6 @@
     var invoices = @Html.Raw(ViewBag.invoices);
     var arts = @Html.Raw(ViewBag.arts);
     var conds = @Html.Raw(ViewBag.conds);
-    @*var clients = @Html.Raw(ViewBag.clients);*@
     var currencies = @Html.Raw(ViewBag.currencies);
     var sellers = @Html.Raw(ViewBag.sellers);
     var bankAccounts = @Html.Raw(ViewBag.bankAccounts);
@@ -1190,7 +1180,6 @@
         $scope.invoices = invoices;
         $scope.invoice = invoices[$scope.index];
         $scope.conds = conds;
-        // $scope.clients = clients;
         $scope.currencies = currencies;
         $scope.sellers = sellers;
         $scope.bankAccounts = bankAccounts;
@@ -1258,6 +1247,7 @@
                 $scope.clients = response.data.Result;
             });
 
+        // FUNCIONES DE BOTONES
         $scope.next = function () {
             if ($scope.index == (invoices.length - 1)) {
                 $scope.index = 0;
@@ -1278,20 +1268,6 @@
             $scope.invoice = invoices[$scope.index];
         }
 
-        $scope.selectInvoice = function (id) {
-            if ($scope.new || $scope.adding) {
-                alert("Debes terminar de agregar la factura");
-            } else if ($scope.editing) {
-                alert("Debes terminar de modificar la factura " + $scope.invoice.doc_num);
-            } else {
-                $scope.invoice = invoices.find(i => i.doc_num == id);
-                $scope.index = invoices.indexOf($scope.invoice);
-                $scope.invoices = invoices;
-                $("#input-invoices").val("");
-                searchInvoice();
-            }
-        }
-
         $scope.margin = function (p) {
             if (p == "s") {
                 $scope.index = 0;
@@ -1302,109 +1278,31 @@
             }
         }
 
-        $scope.initAddInvoice = function () {
-
-            $scope.new = true;
-
-            $scope.invoice = template;
-            $scope.invoice.doc_num = "";
-            $scope.invoice.n_control = "";
-            $scope.invoice.status = 0;
-            $scope.invoice.estatus = "NO PROCESADA";
-            $scope.invoice.co_cli = template.co_cli;
-            $scope.invoice.saCliente = {
-                cli_des: template.saCliente.cli_des
-            },
-            $scope.invoice.fec_emis = new Date(Date.now()),
-            $scope.invoice.fec_venc = new Date(Date.now()),
-            $scope.invoice.fec_reg = new Date(Date.now()),
-            $scope.invoice.saFacturaVentaReng = template.saPlantillaVentaReng;
-            $scope.invoice.total_bruto = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.reng_neto).reduce((acc, act) => acc + act, 0));
-            $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
-            $scope.invoice.monto_imp = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.monto_imp).reduce((acc, act) => acc + act, 0));
-            $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
-            $scope.invoice.total_neto = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.reng_neto + r.monto_imp).reduce((acc, act) => acc + act, 0));
-            $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
-            $scope.invoice.comentario = $scope.invoice.total_neto_om;
-            $scope.invoice.saldo = $scope.invoice.total_neto;
-            $scope.invoice.saldo_om = $scope.invoice.total_neto_om;
-            $scope.invoice.typePay = "1";
-            $scope.converted = true;
-
-            for (var r of $scope.invoice.saFacturaVentaReng) {
-                r.monto_imp_om = setSeparator((r.monto_imp / $scope.invoice.tasa).toFixed(2));
-                r.monto_imp = setSeparator(r.monto_imp.toFixed(2));
-
-                r.reng_neto_om = setSeparator((r.reng_neto / $scope.invoice.tasa).toFixed(2));
-                r.reng_neto = setSeparator(r.reng_neto.toFixed(2));
-            }
-
-            /*
-            $scope.invoice = {
-                status: 0,
-                estatus: "NO PROCESADA",
-                fec_emis: new Date(Date.now()),
-                fec_venc: new Date(Date.now()),
-                fec_reg: new Date(Date.now()),
-                co_tran: "NA",
-                co_mone: "US$",
-                co_cond: "002",
-                saCondicionPago: {
-                    cond_des: searchCond("002"),
-                },
-                co_ven: "001",
-                saVendedor: {
-                    ven_des: searchSeller("001"),
-                },
-                total_bruto: setSeparator((0).toFixed(2)),
-                total_bruto_om: setSeparator((0).toFixed(2)),
-                monto_imp: setSeparator((0).toFixed(2)),
-                monto_imp_om: setSeparator((0).toFixed(2)),
-                total_neto: setSeparator((0).toFixed(2)),
-                total_neto_om: setSeparator((0).toFixed(2)),
-                saldo: setSeparator((0).toFixed(2)),
-                saldo_om: setSeparator((0).toFixed(2)),
-                typePay: "1",
-                saFacturaVentaReng: [],
-            };
-            */
-        }
-
-        $scope.searchArt = (id) => searchArt(id);
-
         $scope.convert = function () {
             $scope.converted = !$scope.converted;
         }
 
-        $scope.update = function (tasa) {
+        // FUNCIONES VARIAS
+        $scope.searchArt = (id) => searchArt(id);
 
-            tasa = tasa == null || parseFloat(tasa) == 0 ? 1 : parseFloat(tasa);
+        $scope.setSeparator = (value) => setSeparator(value);
 
-            if ($scope.converted) {
-                $scope.invoice.total_bruto = setSeparator((parse($scope.invoice.total_bruto_om) * tasa).toFixed(2));
-                $scope.invoice.monto_imp = setSeparator((parse($scope.invoice.monto_imp_om) * tasa).toFixed(2));
-                $scope.invoice.total_neto = setSeparator((parse($scope.invoice.total_neto_om) * tasa).toFixed(2));
-                $scope.invoice.saldo = setSeparator((parse($scope.invoice.saldo_om) * tasa).toFixed(2));
+        // FUNCIONES DE FACTURAS CON PRELIQUIDACION
+        $scope.getOrders = function () {
 
-                if ($scope.invoice.saFacturaVentaReng) {
-                    for (var reng of $scope.invoice.saFacturaVentaReng) {
-                        reng.monto_imp = setSeparator((parse(reng.monto_imp_om) * tasa).toFixed(2));
-                        reng.reng_neto = setSeparator((parse(reng.reng_neto_om) * tasa).toFixed(2));
+            $("#modalWaiting").modal("show");
+            $http.get("/api/ProfitTMApi/GetOrders/" + 20)
+                .then(function (response) {
+                    var res = response.data;
+
+                    if (res.Status == "OK") {
+                        $scope.orders = res.Result;
+                        openModal($("#btn-preliq")[0], "modalOrders");
+                    } else {
+                        $scope.errorMessage = res.Message;
+                        $("#modalError").modal("show");
                     }
-                }
-            } else {
-                $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / tasa).toFixed(2));
-                $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / tasa).toFixed(2));
-                $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / tasa).toFixed(2));
-                $scope.invoice.saldo_om = setSeparator((parse($scope.invoice.saldo) / tasa).toFixed(2));
-
-                if ($scope.invoice.saFacturaVentaReng) {
-                    for (var reng of $scope.invoice.saFacturaVentaReng) {
-                        reng.monto_imp_om = setSeparator((parse(reng.monto_imp) / tasa).toFixed(2));
-                        reng.reng_neto_om = setSeparator((parse(reng.reng_neto) / tasa).toFixed(2));
-                    }
-                }
-            }
+                });
         }
 
         $scope.detectEnter = function (e) {
@@ -1429,10 +1327,9 @@
                     .then(function (response) {
 
                         var res = response.data;
-
                         if (res.Status == "OK") {
 
-                            $("#modalImportarPedido").modal("hide");
+                            $("#modalSearchOrder").modal("hide");
 
                             $scope.invoice = res.Result;
                             $scope.invoice.saFacturaVentaReng = res.Result.saPedidoVentaReng;
@@ -1482,6 +1379,35 @@
                 $("#text-search").text("");
             }
 
+        }
+
+        $scope.deleteOrder = function (id) {
+
+            $("#modalDelete").modal("hide");
+            $("#modalWaiting").modal("show");
+
+            $http.get("/api/ProfitTMApi/DeleteOrder/" + id)
+                .then(function (response) {
+
+                    console.log(response.data);
+                    var res = response.data;
+
+                    $("#modalWaiting").modal("hide");
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = "La preliquidación " + res.Result + " se ha eliminado con éxito";
+                        $scope.invoice = $scope.invoices[0];
+                        $scope.index = 0;
+
+                        $scope.adding = false;
+                        $scope.confirm = false;
+                        $scope.converted = false;
+                        $scope.idOrder = "";
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+                });
         }
 
         $scope.confirmAdd = function () {
@@ -1558,39 +1484,7 @@
             }
         }
 
-        $scope.deleteOrder = function (id) {
-
-            $("#modalDelete").modal("hide");
-            $("#modalWaiting").modal("show");
-
-            $http.get("/api/ProfitTMApi/DeleteOrder/" + id)
-                .then(function (response) {
-
-                    console.log(response.data);
-                    var res = response.data;
-
-                    $("#modalWaiting").modal("hide");
-                    if (res.Status == "OK") {
-                        $("#modalSuccess").modal("show");
-                        $scope.successMessage = "La preliquidación " + res.Result + " se ha eliminado con éxito";
-                        $scope.invoice = $scope.invoices[0];
-                        $scope.index = 0;
-
-                        $scope.adding = false;
-                        $scope.confirm = false;
-                        $scope.converted = false;
-                        $scope.idOrder = "";
-                    } else {
-                        $("#modalError").modal("show");
-                        $scope.errorMessage = res.Message;
-                    }
-                });
-        }
-
-        $scope.print = function (id) {
-            location.href = '/Ventas/Procesos/ImprimirFactura?id=' + id.trim() + '&type=' + $scope.invoice.co_cond;
-        }
-
+        // FUNCIONES DE FACTURAS MOSTRADAS
         $scope.loadInvoices = function () {
 
             $scope.numberI += 200;
@@ -1624,22 +1518,22 @@
                 });
         }
 
-        $scope.getOrders = function () {
+        $scope.selectInvoice = function (id) {
+            if ($scope.new || $scope.adding) {
+                alert("Debes terminar de agregar la factura");
+            } else if ($scope.editing) {
+                alert("Debes terminar de modificar la factura " + $scope.invoice.doc_num);
+            } else {
+                $scope.invoice = invoices.find(i => i.doc_num == id);
+                $scope.index = invoices.indexOf($scope.invoice);
+                $scope.invoices = invoices;
+                $("#input-invoices").val("");
+                searchInvoice();
+            }
+        }
 
-            $("#modalWaiting").modal("show");
-
-            $http.get("/api/ProfitTMApi/GetOrders/" + 20)
-                .then(function (response) {
-                    var res = response.data;
-
-                    if (res.Status == "OK") {
-                        $scope.orders = res.Result;
-                        openModal($("#btn-preliq")[0], "modalOrders");
-                    } else {
-                        $scope.errorMessage = res.Message;
-                        $("#modalError").modal("show");
-                    }
-                });
+        $scope.print = function (id) {
+            location.href = '/Ventas/Procesos/ImprimirFactura?id=' + id.trim() + '&type=' + $scope.invoice.co_cond;
         }
 
         $scope.cancelInvoice = function (id) {
@@ -1666,15 +1560,74 @@
                 });
         }
 
-        $scope.setSeparator = (value) => setSeparator(value);
+        // FUNCIONES DE FACTURA MANUAL
+        $scope.initAddInvoice = function () {
 
-        $scope.updatePrice = function () {
+            $scope.new = true;
 
-            var cant = parseFloat($scope.reng.total_art ?? 0);
-            var price = parseFloat($scope.reng.prec_vta_om ?? 0);
+            $scope.invoice = template;
+            $scope.invoice.doc_num = "";
+            $scope.invoice.n_control = "";
+            $scope.invoice.status = 0;
+            $scope.invoice.estatus = "NO PROCESADA";
+            $scope.invoice.co_cli = template.co_cli;
+            $scope.invoice.saCliente = {
+                cli_des: template.saCliente.cli_des
+            },
+                $scope.invoice.fec_emis = new Date(Date.now()),
+                $scope.invoice.fec_venc = new Date(Date.now()),
+                $scope.invoice.fec_reg = new Date(Date.now()),
+                $scope.invoice.saFacturaVentaReng = template.saPlantillaVentaReng;
+            $scope.invoice.total_bruto = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.reng_neto).reduce((acc, act) => acc + act, 0));
+            $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+            $scope.invoice.monto_imp = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.monto_imp).reduce((acc, act) => acc + act, 0));
+            $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+            $scope.invoice.total_neto = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.reng_neto + r.monto_imp).reduce((acc, act) => acc + act, 0));
+            $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
+            $scope.invoice.comentario = $scope.invoice.total_neto_om;
+            $scope.invoice.saldo = $scope.invoice.total_neto;
+            $scope.invoice.saldo_om = $scope.invoice.total_neto_om;
+            $scope.invoice.typePay = "1";
+            $scope.converted = true;
 
-            $scope.reng.reng_neto_om = (cant * price).toFixed(2);
-            $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(2);
+            for (var r of $scope.invoice.saFacturaVentaReng) {
+                r.monto_imp_om = setSeparator((r.monto_imp / $scope.invoice.tasa).toFixed(2));
+                r.monto_imp = setSeparator(r.monto_imp.toFixed(2));
+
+                r.reng_neto_om = setSeparator((r.reng_neto / $scope.invoice.tasa).toFixed(2));
+                r.reng_neto = setSeparator(r.reng_neto.toFixed(2));
+            }
+        }
+
+        $scope.update = function (tasa) {
+
+            tasa = tasa == null || parseFloat(tasa) == 0 ? 1 : parseFloat(tasa);
+
+            if ($scope.converted) {
+                $scope.invoice.total_bruto = setSeparator((parse($scope.invoice.total_bruto_om) * tasa).toFixed(2));
+                $scope.invoice.monto_imp = setSeparator((parse($scope.invoice.monto_imp_om) * tasa).toFixed(2));
+                $scope.invoice.total_neto = setSeparator((parse($scope.invoice.total_neto_om) * tasa).toFixed(2));
+                $scope.invoice.saldo = setSeparator((parse($scope.invoice.saldo_om) * tasa).toFixed(2));
+
+                if ($scope.invoice.saFacturaVentaReng) {
+                    for (var reng of $scope.invoice.saFacturaVentaReng) {
+                        reng.monto_imp = setSeparator((parse(reng.monto_imp_om) * tasa).toFixed(2));
+                        reng.reng_neto = setSeparator((parse(reng.reng_neto_om) * tasa).toFixed(2));
+                    }
+                }
+            } else {
+                $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / tasa).toFixed(2));
+                $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / tasa).toFixed(2));
+                $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / tasa).toFixed(2));
+                $scope.invoice.saldo_om = setSeparator((parse($scope.invoice.saldo) / tasa).toFixed(2));
+
+                if ($scope.invoice.saFacturaVentaReng) {
+                    for (var reng of $scope.invoice.saFacturaVentaReng) {
+                        reng.monto_imp_om = setSeparator((parse(reng.monto_imp) / tasa).toFixed(2));
+                        reng.reng_neto_om = setSeparator((parse(reng.reng_neto) / tasa).toFixed(2));
+                    }
+                }
+            }
         }
 
         $scope.initItem = function (edit, r) {
@@ -1714,6 +1667,15 @@
                 $("#des_art").val("");
                 $("#modalItem").modal("hide");
             }
+        }
+
+        $scope.updatePriceItem = function () {
+
+            var cant = parseFloat($scope.reng.total_art ?? 0);
+            var price = parseFloat($scope.reng.prec_vta_om ?? 0);
+
+            $scope.reng.reng_neto_om = (cant * price).toFixed(2);
+            $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(2);
         }
 
         $scope.updateAmounts = function (i, r, rengs, action) {
@@ -1856,6 +1818,7 @@
             }
         }
 
+        // FUNCIONES DE MODULO DE COBROS
         $scope.loadCollect = function () {
             if ($scope.addingInvoice) {
                 $scope.addingInvoice = false;
@@ -2052,6 +2015,7 @@
         }
     });
 
+    // BUSQUEDAS
     function searchCond(value) {
         return conds.find(c => c.co_cond.trim() == value.trim()).cond_des;
     }
@@ -2085,6 +2049,25 @@
         return name;
     }
 
+    function searchInvoice() {
+        var value = $("#input-invoices").val().toLowerCase(),
+            table = $("#table-invoices")[0];
+
+        for (var i = 1; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    // FORMATO DE DATOS DE FACTURAS
     function parseItems(items_c) {
 
         var items = items_c;
@@ -2182,14 +2165,6 @@
         return i;
     }
 
-    function setSeparator(value) {
-        return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
-    }
-
-    function parse(value) {
-        return parseFloat(value.replaceAll(',', ''));
-    }
-
     function setStatus(status) {
 
         var value;
@@ -2202,6 +2177,23 @@
             value = "PROCESADA";
 
         return value;
+    }
+
+    function origDate(value) {
+
+        var timeOffset = value.getTimezoneOffset() * 60000;
+        var date = new Date(value.getTime() - timeOffset).toUTCString();
+
+        return new Date(date);
+    }
+
+    // FORMATO Y CAMPOS
+    function parse(value) {
+        return parseFloat(value.replaceAll(',', ''));
+    }
+
+    function setSeparator(value) {
+        return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
     }
 
     function focusField(field) {
@@ -2219,18 +2211,11 @@
         }, 1000);
     }
 
-    function origDate(value) {
-
-        var timeOffset = value.getTimezoneOffset() * 60000;
-        var date = new Date(value.getTime() - timeOffset).toUTCString();
-
-        return new Date(date);
-    }
-
     function prevDel(e) {
         e.preventDefault();
     }
 
+    // MODALES
     function openModal(elem, modal) {
 
         var previous = elem.previousElementSibling;
@@ -2306,6 +2291,7 @@
         }
     }
 
+    // PESTAÑAS
     function openTab(e, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("form-body");
@@ -2322,24 +2308,6 @@
 
         document.getElementById(tabName).style.display = "flex";
         e.target.className += " active";
-    }
-
-    function searchInvoice() {
-        var value = $("#input-invoices").val().toLowerCase(),
-            table = $("#table-invoices")[0];
-
-        for (var i = 1; i < table.rows.length; i++) {
-
-            var row = table.rows[i];
-            var elems = row.getElementsByTagName("td");
-
-            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
-
-            if (!val1.includes(value) && !val2.includes(value))
-                row.style.display = "none";
-            else
-                row.style.display = "";
-        }
     }
 
 </script>

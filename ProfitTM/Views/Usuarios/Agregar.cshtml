@@ -135,7 +135,15 @@
         </div>
         <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
             <div class="container-fluid">
-                <h2 class="text-center mt-4">Agregar Usuario</h2>
+                <div class="row mt-4">
+                    <div class="col"></div>
+                    <div class="col">
+                        <h2 class="text-center">Agregar Usuario</h2>
+                    </div>
+                    <div class="col d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary" ng-click="sendUser()">Agregar usuario</button>
+                    </div>
+                </div>
                 <form action="" method="post" id="form" class="mt-5" onsubmit="return false;">
                     <div class="row">
                         <div class="col-sm-6">
@@ -263,11 +271,6 @@
                                     </div>
                                 </div>
                             </fieldset>
-                        </div>
-                    </div>
-                    <div class="row mt-3 mb-3">
-                        <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary" ng-click="sendUser()">Agregar usuario</button>
                         </div>
                     </div>
                 </form>

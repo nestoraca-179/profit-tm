@@ -135,14 +135,22 @@
         </div>
         <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
             <div class="container-fluid">
-                <h2 class="text-center mt-4">Editar Usuario</h2>
+                <div class="row mt-4">
+                    <div class="col"></div>
+                    <div class="col">
+                        <h2 class="text-center">Editar Usuario</h2>
+                    </div>
+                    <div class="col d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary" ng-click="sendUser()">Actualizar usuario</button>
+                    </div>
+                </div>
                 <form action="" method="post" id="form" class="mt-5" onsubmit="return false;">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group row">
                                 <label class="col-sm-4">Nombre</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" autocomplete="false" ng-model="user.Descrip" required />
+                                    <input type="text" class="form-control" autocomplete="false" autofocus ng-model="user.Descrip" required />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -191,7 +199,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4">Email</label>
                                 <div class="col-sm-8">
-                                    <input type="email" class="form-control" autocomplete="false" autofocus ng-model="user.Email" required />
+                                    <input type="email" class="form-control" autocomplete="false" ng-model="user.Email" required />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -263,11 +271,6 @@
                                     </div>
                                 </div>
                             </fieldset>
-                        </div>
-                    </div>
-                    <div class="row mt-3 mb-3">
-                        <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary" ng-click="sendUser()">Actualizar usuario</button>
                         </div>
                     </div>
                 </form>

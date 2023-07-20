@@ -31,24 +31,6 @@ namespace ProfitTM.Controllers
 
                 return View();
             }
-
-            #region CODIGO ANTERIOR
-            /*
-            ViewBag.user = Session["USER"];
-            ViewBag.home = Session["HOME"];
-            ViewBag.Message = message;
-
-            if (ViewBag.user != null && ViewBag.home != null)
-            {
-                return RedirectToAction(Session["HOME"].ToString());
-            }
-            else
-            {
-                ViewBag.user = new Users(){ Descrip = "null" };
-                return View();
-            }
-            */
-            #endregion
         }
 
         // Cambiar clave
