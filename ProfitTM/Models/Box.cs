@@ -72,17 +72,24 @@ namespace ProfitTM.Models
             return boxes;
         }
 
-        public static int GetBoxOpenByUser(string user, int conn)
+        public static int GetBoxOpenByUser(string user, int conn, int type)
         {
             ProfitTMEntities db = new ProfitTMEntities();
             Boxes box = db.Boxes.AsNoTracking().OrderByDescending(b => b.DateS).FirstOrDefault(b => b.UserID == user && b.IsOpen && b.ConnID == conn);
 
             if (box != null)
             {
-                if (box.DateS.ToShortDateString() == DateTime.Now.ToShortDateString())
-                    return box.ID;
+                if (type == 1)
+                {
+                    if (box.DateS.ToShortDateString() == DateTime.Now.ToShortDateString())
+                        return box.ID;
+                    else
+                        return 0;
+                }
                 else
-                    return 0;
+                {
+                    return box.ID;
+                }
             }
             else
                 return 0;
@@ -151,7 +158,8 @@ namespace ProfitTM.Models
         {
             ProfitTMEntities db = new ProfitTMEntities();
 
-            Boxes box = GetBoxByID(GetBoxOpenByUser(box_m, conn).ToString());
+            Users us = User.GetUserByName(box_m);
+            Boxes box = GetBoxByID(GetBoxOpenByUser(box_m, conn, us.BoxType.Value).ToString());
             BoxMoves move = new BoxMoves()
             {
                 BoxID = box.ID,
@@ -183,7 +191,8 @@ namespace ProfitTM.Models
         {
             ProfitTMEntities db = new ProfitTMEntities();
 
-            Boxes box = GetBoxByID(GetBoxOpenByUser(user, conn).ToString());
+            Users us = User.GetUserByName(user);
+            Boxes box = GetBoxByID(GetBoxOpenByUser(user, conn, us.BoxType.Value).ToString());
             BoxMoves move = new BoxMoves() { 
                 BoxID = box.ID,
                 UserID = user,

@@ -145,6 +145,8 @@
           <Property Name="BoxType" Type="int" />
           <Property Name="SupID" Type="int" />
           <Property Name="NextChange" Type="smalldatetime" Nullable="false" />
+          <Property Name="AllowCollect" Type="bit" Nullable="false" />
+          <Property Name="AllowCancel" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK__Options__ModuleI__123EB7A3">
           <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />
@@ -420,6 +422,8 @@
           <Property Name="UseBox" Type="Boolean" Nullable="false" />
           <Property Name="SupID" Type="Int32" />
           <Property Name="BoxType" Type="Int32" />
+          <Property Name="AllowCollect" Type="Boolean" Nullable="false" />
+          <Property Name="AllowCancel" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_GroupR_Reps">
           <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />
@@ -707,6 +711,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ProfitTMContext.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="AllowCancel" ColumnName="AllowCancel" />
+                <ScalarProperty Name="AllowCollect" ColumnName="AllowCollect" />
                 <ScalarProperty Name="BoxType" ColumnName="BoxType" />
                 <ScalarProperty Name="SupID" ColumnName="SupID" />
                 <ScalarProperty Name="UseBox" ColumnName="UseBox" />

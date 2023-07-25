@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3f6b336bcda54bea97631ae2ce5a8230" Name="Diagram1">
-        <EntityTypeShape EntityType="ProfitTMContext.Connections" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProfitTMContext.Connections" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ProfitTMContext.GroupReports" Width="1.5" PointX="8.5" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ProfitTMContext.Modules" Width="1.5" PointX="6.5" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ProfitTMContext.Options" Width="1.5" PointX="10.125" PointY="3.5" IsExpanded="true" />
@@ -21,7 +21,7 @@
         <AssociationConnector Association="ProfitTMContext.FK__UserOptions_Options" ManuallyRouted="false" />
         <AssociationConnector Association="ProfitTMContext.FK__UserModules_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ProfitTMContext.FK__UserOptions_Users" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ProfitTMContext.Incidents" Width="1.5" PointX="3" PointY="6.75" />
+        <EntityTypeShape EntityType="ProfitTMContext.Incidents" Width="1.5" PointX="3" PointY="7.25" />
         <EntityTypeShape EntityType="ProfitTMContext.Boxes" Width="1.5" PointX="5.375" PointY="7.25" />
         <EntityTypeShape EntityType="ProfitTMContext.BoxMoves" Width="1.5" PointX="7.875" PointY="7.25" />
         <AssociationConnector Association="ProfitTMContext.FK_Boxes_BoxMoves" />

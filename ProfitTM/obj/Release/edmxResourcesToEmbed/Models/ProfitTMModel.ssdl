@@ -140,6 +140,8 @@
     <Property Name="BoxType" Type="int" />
     <Property Name="SupID" Type="int" />
     <Property Name="NextChange" Type="smalldatetime" Nullable="false" />
+    <Property Name="AllowCollect" Type="bit" Nullable="false" />
+    <Property Name="AllowCancel" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK__Options__ModuleI__123EB7A3">
     <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />

@@ -716,6 +716,33 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddCollect2/")]
+        public ProfitTMResponse AddCollect2(saCobro cob)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
+
+            try
+            {
+                saCobro new_collect = new Collect().AddCollectFromInvoice2(cob, user, sucur, conn);
+
+                response.Status = "OK";
+                response.Result = new_collect;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO COBRO", ex);
+            }
+
+            return response;
+        }
+
         [HttpGet]
         [Route("api/ProfitTMApi/GetCollectDocs/{co_cli}")]
         public ProfitTMResponse GetCollectDocs(string co_cli)

@@ -118,6 +118,8 @@
     <Property Name="UseBox" Type="Boolean" Nullable="false" />
     <Property Name="SupID" Type="Int32" />
     <Property Name="BoxType" Type="Int32" />
+    <Property Name="AllowCollect" Type="Boolean" Nullable="false" />
+    <Property Name="AllowCancel" Type="Boolean" Nullable="false" />
   </EntityType>
   <Association Name="FK_GroupR_Reps">
     <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />

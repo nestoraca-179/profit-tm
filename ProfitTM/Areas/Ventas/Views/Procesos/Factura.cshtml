@@ -84,6 +84,69 @@
         padding: 0;
         font-size: 10px;
     }
+    /* ESTILOS MODAL NUEVO */
+    .invoice-totals {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 10px 0;
+    }
+    .invoice-totals p {
+        margin: 0;
+    }
+    .invoice-totals p:not(.total-usd) {
+        flex: 1;
+        font-size: 16px;
+    }
+    .invoice-totals p.total-bs, .invoice-totals p.total-usd{
+        text-align: right;
+    }
+    .invoice-totals p.total-usd {
+        width: 100%;
+        flex: auto;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    #details-table thead {
+        background: #0277bd;
+        color: #FFF;
+    }
+    #details-table thead tr th {
+        padding: 10px;
+    }
+    #details-table tbody tr td {
+        font-size: 12px;
+    }
+    .header-totals {
+        background: #0277bd;
+    }
+    .buttons-totals {
+        display: flex;
+    }
+    .buttons-totals button, .buttons-totals button:active, .buttons-totals button:focus, .buttons-totals button:disabled {
+        background: #19549f;
+        color: #FFF;
+        border: 0;
+        border-radius: 0;
+    }
+    .buttons-totals button:hover {
+        background: #052042;
+        color: #FFF;
+        border: 0;
+    }
+    #modalEfectivo .controls, #modalTransf .controls,
+    #modalRetenIva .controls, #modalRetenIslr .controls {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+    #modalEfectivo .controls > *, #modalTransf .controls > *,
+    #modalRetenIva .controls > *, #modalRetenIslr .controls > * {
+        width: 50%;
+    }
+    #modalEfectivo .controls input, #modalTransf .controls input, 
+    #modalRetenIva .controls input, #modalRetenIslr .controls input {
+        padding: 5px;
+    }
     @@media (max-width: 767px) {
         .btn-convert {
             margin-top: 15px;
@@ -165,10 +228,10 @@
                             <i class="fas fa-print"></i> Imprimir
                         </button>
                         <p ng-if="invoice.anulado" class="my-0 d-flex align-items-center text-center" style="margin-right: 5px;"><b>Anulado</b></p>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="(user != 'ALPHA' && user != 'NACA' && user != 'ASAP') || invoice.anulado || invoice.status != 0">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCancel || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.UseBox || (invoice.co_cond.trim() == '002' && sucur != '002') || invoice.anulado || invoice.status == 2 || invoice.saldo == 0" ng-click="initLoadCollect()">
+                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCollect || (invoice.co_cond.trim() == '002' && sucur != '002') || invoice.anulado || invoice.saldo == 0" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalSearchOrder" onclick="focusField('#n_preliq')">
@@ -586,7 +649,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal Success -->
+    <!-- Modal OK -->
     <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
@@ -759,9 +822,9 @@
                             <div class="controls">
                                 <label>Cuenta Bancaria</label>
                                 <div class="input-search">
-                                    <input type="text" class="form-control" id="cod_cta" ng-model="rengTP.cod_cta" ng-disabled="rengTP.forma_pag == 'EF'" ng-required="rengTP.forma_pag != 'EF'" style="flex: 1;" onkeydown="prevDel(event);" />
-                                    <input type="text" class="form-control" id="des_cta" ng-disabled="rengTP.forma_pag == 'EF'" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
-                                    <i class="fas fa-search" role="button" onclick="openModal(this, 'modalBankAccounts')" data-name="cod_cta"></i>
+                                    @*<input type="text" class="form-control" id="cod_cta" ng-model="rengTP.cod_cta" ng-disabled="rengTP.forma_pag == 'EF'" ng-required="rengTP.forma_pag != 'EF'" style="flex: 1;" onkeydown="prevDel(event);" />
+                                        <input type="text" class="form-control" id="des_cta" ng-disabled="rengTP.forma_pag == 'EF'" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalBankAccounts')" data-name="cod_cta"></i>*@
                                 </div>
                             </div>
                         </div>
@@ -916,6 +979,320 @@
             </div>
         </form>
     </div>
+    <!-- Modal Cobro Nuevo -->
+    <div class="modal fade" id="modalCobrarNuevo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
+        <form id="form-collect" class="modal-dialog" role="document" style="max-width: 1000px;" onsubmit="return false;">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center" style="padding: 10px 20px;">
+                    <h5 class="text-center fw-bold" style="margin: 10px 0">Factura N° {{ invoice.doc_num }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-collect">
+                        <div class="row">
+                            <div class="col-md-8 p-1">
+                                <div class="border" style="height: 350px;">
+                                    <table id="details-table" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>N°</th>
+                                                <th>Tipo</th>
+                                                <th>Nro Doc.</th>
+                                                <th>Banco</th>
+                                                <th>Fecha</th>
+                                                <th>Caja</th>
+                                                <th>Cuenta</th>
+                                                <th>Moneda</th>
+                                                <th>Monto</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="rengsTP.length > 0" ng-repeat="reng in rengsTP">
+                                                <td>{{ reng.reng_num }}</td>
+                                                <td>{{ reng.forma_pag }}</td>
+                                                <td>{{ reng.num_doc }}</td>
+                                                <td>{{ reng.co_ban }}</td>
+                                                <td>{{ reng.fecha_che }}</td>
+                                                <td>{{ reng.cod_caja }}</td>
+                                                <td>{{ reng.cod_cta }}</td>
+                                                <td>{{ reng.co_mone }}</td>
+                                                <td ng-if="!convertedDetails">{{ setSeparator(reng.mont_doc) }}</td>
+                                                <td ng-if="convertedDetails" class="field-active">{{ setSeparator((reng.mont_doc / invoice.tasa).toFixed(2)) }}</td>
+                                                <td style="width: 35px;">
+                                                    <i class="fas fa-times w-100 text-center" style="font-size: 12px; color: #dc3545; cursor: pointer;" ng-click="deleteDetail(reng)"></i>
+                                                </td>
+                                            </tr>
+                                            <tr ng-if="rengsTP.length == 0">
+                                                <td colspan="10">
+                                                    <p class="text-center m-0" style="font-size: 14px;">No has agregado métodos de pago</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="d-flex flex-column py-2" style="border-top: solid 1px #e8e8e8;">
+                                        <p ng-if="!convertedDetails" class="m-0 px-2" style="flex: 1; font-size: 14px; text-align: right;">
+                                            Total Abonado: {{ setSeparator(accumulate) }}
+                                        </p>
+                                        <p ng-if="convertedDetails" class="m-0 px-2 field-active" style="flex: 1; font-size: 14px; text-align: right;">
+                                            Total Abonado: {{ setSeparator((accumulate / invoice.tasa).toFixed(2)) }}
+                                        </p>
+                                        <p ng-if="!convertedDetails" class="m-0 px-2" style="flex: 1; font-size: 14px; text-align: right;">
+                                            Saldo Pendiente: {{ setSeparator(remaining) }}
+                                        </p>
+                                        <p ng-if="convertedDetails" class="m-0 px-2 field-active" style="flex: 1; font-size: 14px; text-align: right;">
+                                            Saldo Pendiente: {{ setSeparator((remaining / invoice.tasa).toFixed(2)) }}
+                                        </p>
+                                        <p ng-if="!convertedDetails && change > 0" class="m-0 px-2" style="flex: 1; font-size: 14px; text-align: right;">
+                                            Cambio: {{ setSeparator(change) }}
+                                        </p>
+                                        <p ng-if="convertedDetails && change > 0" class="m-0 px-2 field-active" style="flex: 1; font-size: 14px; text-align: right;">
+                                            Cambio: {{ setSeparator((change / invoice.tasa).toFixed(2)) }}
+                                        </p>
+                                        <label ng-if="change > 0" class="d-flex flex-row-reverse mt-3 px-2">
+                                            <input class="px-2" type="checkbox" ng-model="advance" ng-click="isAdvanced()" ng-disabled="rengsTP.length == 1 && rengsTP[0].forma_pag == 'TP' && change > 0" />
+                                            <span class="my-0 mx-2" style="font-size: 14px;">Registrar cambio como adelanto</span>
+                                        </label>
+                                        <label ng-if="invoice.saCliente.contribu_e && !rengIV" class="d-flex flex-row-reverse mt-3 px-2">
+                                            <input class="px-2" type="checkbox" ng-model="calcRetIva" ng-click="isCalcRetIva()" />
+                                            <span class="my-0 mx-2" style="font-size: 14px;">Aplicar diferencia de Ret. IVA</span>
+                                        </label>
+                                        <label ng-if="!rengIS" class="d-flex flex-row-reverse mt-3 px-2">
+                                            <input class="px-2" type="checkbox" ng-model="calcRetIslr" ng-click="isCalcRetIslr()" />
+                                            <span class="my-0 mx-2" style="font-size: 14px;">Aplicar diferencia de Ret. ISLR</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 p-1">
+                                <div class="border" style="height: 350px;">
+                                    <div class="header-totals">
+                                        <h5 class="text-center fw-bold text-white py-2">Detalles</h5>
+                                    </div>
+                                    <div class="invoice-totals px-3">
+                                        <p style="font-size: 14px;">Sub-Total</p>
+                                        <p class="total-bs">{{ invoice.total_bruto }} Bs. D</p>
+                                        <p class="total-usd">{{ invoice.total_bruto_om }} USD$</p>
+                                    </div>
+                                    <div class="invoice-totals px-3">
+                                        <p style="font-size: 14px;">IVA</p>
+                                        <p class="total-bs">{{ invoice.monto_imp }} Bs. D</p>
+                                        <p class="total-usd">{{ invoice.monto_imp_om }} USD$</p>
+                                    </div>
+                                    <div class="invoice-totals px-3">
+                                        <p style="font-size: 14px;">Total</p>
+                                        <p class="total-bs">{{ invoice.total_neto }} Bs. D</p>
+                                        <p class="total-usd">{{ invoice.total_neto_om }} USD$</p>
+                                    </div>
+                                    <div ng-if="parse(invoice.igtf_bs) > 0" class="invoice-totals px-3">
+                                        <p style="font-size: 14px;">I.G.T.F</p>
+                                        <p class="total-bs">{{ invoice.igtf_bs }} Bs. D</p>
+                                        <p class="total-usd">{{ invoice.igtf }} USD$</p>
+                                    </div>
+                                    <div ng-if="parse(invoice.total_neto) > parse(invoice.saldo_f)" class="invoice-totals px-3">
+                                        <p style="font-size: 14px;">Saldo Abonado</p>
+                                        <p class="total-bs">-{{ setSeparator(parse(invoice.total_neto) - parse(invoice.saldo_f)) }} Bs. D</p>
+                                        <p class="total-usd">-{{ setSeparator(parse(invoice.total_neto_om) - parse(invoice.saldo_f_om)) }} USD$</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 p-1">
+                                <div class="buttons-totals" style="height: 75px;">
+                                    <button class="btn" data-toggle="modal" data-target="#modalEfectivo" ng-disabled="rengCash || remaining == 0">
+                                        <i class="fas fa-money-bill-alt"></i>
+                                        <p class="mx-1 my-0">Efectivo USD$</p>
+                                    </button>
+                                    <button class="btn mx-2" data-toggle="modal" data-target="#modalTransf" ng-disabled="rengTransf || remaining == 0">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                        <p class="mx-1 my-0">Transferencia</p>
+                                    </button>
+                                    <button class="btn" data-toggle="modal" data-target="#modalRetenIva" ng-disabled="!invoice.saCliente.contribu_e || rengIV || remaining == 0">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <p class="mx-1 my-0">Reten. IVA</p>
+                                    </button>
+                                    <button class="btn mx-2" data-toggle="modal" data-target="#modalRetenIslr" ng-disabled="rengIS || remaining == 0">
+                                        <i class="fas fa-file-invoice"></i>
+                                        <p class="mx-1 my-0">Reten. ISLR</p>
+                                    </button>
+                                    <button class="btn" style="background: #198754; flex: auto;" ng-click="convertDetails()">
+                                        <i class="fas fa-exchange"></i>
+                                        <p class="mx-1 my-0">Conversion</p>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 p-1">
+                                <div class="d-flex align-items-center" style="height: 75px; background: #0277bd;">
+                                    <div class="invoice-totals m-0 px-3">
+                                        <p class="d-flex align-items-center" style="font-size: 15px; color: #FFF;">Total a pagar</p>
+                                        <p class="d-flex align-items-center justify-content-end total-bs" style="font-size: 18px; color: #FFF;">{{ invoice.saldo_f }} Bs. D</p>
+                                        <p class="total-usd" style="font-size: 16px; color: #FFF;">{{ invoice.saldo_f_om }} USD$</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div ng-if="invoice.ret_iva || invoice.ret_islr" class="m-0" style="flex: 1; font-size: 14px;">
+                        <p ng-if="invoice.ret_iva" class="m-0 fw-bold">- Ya se ha aplicado Ret. IVA</p>
+                        <p ng-if="invoice.ret_islr" class="m-0 fw-bold">- Ya se ha aplicado Ret. ISLR</p>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" ng-click="addCollect()">
+                        <i class="fas fa-hand-holding-usd" style="margin: 0 10px 0 0;"></i>Cobrar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal Agregar Efectivo -->
+    <div class="modal fade" id="modalEfectivo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051; background: rgba(0, 0, 0, 0.9);">
+        <form id="formAddCash" class="modal-dialog" role="document" style="max-width: 600px;" onsubmit="return false;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Efectivo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" ng-click="resetDataCash(false)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="controls">
+                        <label>Monto Recibido $USD</label>
+                        <input type="text" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="amount_cash" ng-change="invoice.b_igtf = amount_cash; updateIgtf(amount_cash, amount_cash)" />
+                    </div>
+                    <div class="controls">
+                        <label>Base IGTF</label>
+                        <input type="text" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="invoice.b_igtf" ng-change="updateIgtf(amount_cash, invoice.b_igtf)" />
+                    </div>
+                    <div class="controls">
+                        <label>3% IGTF</label>
+                        <input type="text" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="invoice.igtf" ng-readonly="true" ng-disabled="true" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="resetDataCash(false)">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" ng-click="addCash(amount_cash)">Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal Agregar Transferencia -->
+    <div class="modal fade" id="modalTransf" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051; background: rgba(0, 0, 0, 0.9);">
+        <form id="formAddTransf" class="modal-dialog" role="document" style="max-width: 600px;" onsubmit="return false;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Transferencia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" ng-click="resetDataTransf()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="controls">
+                        <label>Monto Recibido Bs. D</label>
+                        <input type="text" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="amount_transf" />
+                    </div>
+                    <div class="controls">
+                        <label>Nro. Documento</label>
+                        <input type="text" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="num_transf" />
+                    </div>
+                    <div class="controls">
+                        <label>Fecha</label>
+                        <input type="date" required ng-model="date_transf" ng-change="console.log(date_transf)" />
+                    </div>
+                    <div class="controls">
+                        <label>Cuenta Bancaria</label>
+                        <div class="input-search">
+                            <input type="text" id="cod_cta" required ng-model="cod_cta" style="flex: 1;" onkeydown="prevDel(event);" />
+                            <input type="text" id="des_cta" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalBankAccounts')" data-name="cod_cta"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="resetDataTransf()">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" ng-click="addTransf()">Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal Agregar Reten IVA -->
+    <div class="modal fade" id="modalRetenIva" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051; background: rgba(0, 0, 0, 0.9);">
+        <form id="formAddRetenIva" class="modal-dialog" role="document" style="max-width: 600px;" onsubmit="return false;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reten. IVA</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" ng-click="rengIVA.num_comprobante = ''">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="controls">
+                        <label>IVA del Documento</label>
+                        <input type="text" ng-model="invoice.monto_imp" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Porc. de Retencion</label>
+                        <input type="text" ng-model="invoice.saCliente.porc_esp" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>IVA Retenido</label>
+                        <input type="text" ng-model="invoice.monto_ret_imp" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Fecha de Comprobante</label>
+                        <input type="date" required ng-model="rengIVA.fecha_documento" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Num. de Comprobante (últimos 8 dígitos)</label>
+                        <input type="text" required ng-model="rengIVA.num_comprobante" minlength="8" maxlength="8" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="rengIVA.num_comprobante = ''">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" ng-click="addRetenIva()">Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal Agregar Reten ISLR -->
+    <div class="modal fade" id="modalRetenIslr" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051; background: rgba(0, 0, 0, 0.9);">
+        <form id="formAddRetenIslr" class="modal-dialog" role="document" style="max-width: 600px;" onsubmit="return false;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reten. ISLR</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="controls">
+                        <label>Base Imp.</label>
+                        <input type="text" ng-model="invoice.total_bruto" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Concepto ISLR</label>
+                        <input type="text" ng-model="rengISLR.co_islr" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Porc. de Retencion</label>
+                        <input type="text" ng-model="rengISLR.porc_retn" ng-disabled="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Monto Retenido</label>
+                        <input type="text" ng-model="invoice.monto_reten" ng-disabled="true" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" ng-click="addRetenIslr()">Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!-- Modal 1 -->
     <div class="modal fade" id="modalConds" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
@@ -946,7 +1323,7 @@
         </div>
     </div>
     <!-- Modal 2 -->
-    <div class="modal fade" id="modalOrders" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modalOrders" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1187,6 +1564,7 @@
         $scope.adding = false;
         $scope.confirm = false;
         $scope.converted = false;
+        $scope.convertedDetails = false; // NUEVO
         $scope.manual = false;
         $scope.boxOpen = box != '0';
         $scope.editItem = false;
@@ -1202,7 +1580,7 @@
             reng_neto_om: "25.00",
             monto_imp_om: "4.00"
         };
-        $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
+        // $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
         $scope.rengIVA = { fecha_documento: new Date(Date.now()) };
         $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
         $scope.conceps = [
@@ -1211,6 +1589,20 @@
             { co_conce: "063", porc_ret: "5.00" },
             { co_conce: "072", porc_ret: "3.00" },
             { co_conce: "004", porc_ret: "5.00" },
+        ];
+        // NUEVOS
+        $scope.rengsTP = [
+            //{
+            //    reng_num: 1,
+            //    forma_pag: "EF",
+            //    num_doc: null,
+            //    co_ban: null,
+            //    fecha_che: new Date(Date.now()).toLocaleString("es-ES", options).replace(",", "").split(" ")[0],
+            //    cod_caja: "ALPHA",
+            //    cod_cta: null,
+            //    co_mone: "US$",
+            //    mont_doc: 210
+            //}
         ];
 
         if (!$scope.boxOpen) {
@@ -1240,6 +1632,18 @@
                 $scope.invoice.monto_reten_om = setSeparator((parse($scope.invoice.total_bruto_om) * 0.02).toFixed(2));
                 $scope.invoice.monto_reten = setSeparator((parse($scope.invoice.total_bruto) * 0.02).toFixed(2));
             }
+        });
+
+        $('#modalCobrarNuevo').on('hide.bs.modal', function () {
+
+            $scope.rengsTP = [];
+            $scope.rengCash = false;
+            $scope.rengTransf = false;
+            $scope.rengIV = false;
+            $scope.rengIS = false;
+            $scope.calcRetIva = false;
+            $scope.calcRetIslr = false;
+            $scope.convertedDetails = false;
         });
 
         $http.get("/api/ProfitTMApi/GetClients")
@@ -1286,6 +1690,8 @@
         $scope.searchArt = (id) => searchArt(id);
 
         $scope.setSeparator = (value) => setSeparator(value);
+
+        $scope.parse = (value) => parse(value ?? "0.00");
 
         // FUNCIONES DE FACTURAS CON PRELIQUIDACION
         $scope.getOrders = function () {
@@ -1352,6 +1758,7 @@
                             $("#text-error").text("");
                             $("#text-search").text("");
                             $scope.adding = true;
+                            $scope.converted = true;
 
                         } else {
                             $scope.idOrder = "";
@@ -1828,7 +2235,7 @@
 
         $scope.initLoadCollect = function () {
 
-            if ($scope.invoice.co_cond.trim() == "001") {
+            /*if ($scope.invoice.co_cond.trim() == "001") {
                 $scope.rengTP = { forma_pag: "TP", fecha_che: new Date(Date.now()) };
             } else {
                 $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
@@ -1843,9 +2250,25 @@
                 $scope.invoice.b_igtf = "0.00";
                 $scope.invoice.igtf = "0.00";
                 $scope.invoice.igtf_orig = "0.00";
-            }
+            }*/
 
-            $('#modalCobrar').modal('show');
+            $scope.invoice.b_igtf = "";
+            $scope.invoice.igtf = "0.00";
+            $scope.invoice.igtf_bs = "0.00";
+            $scope.invoice.saldo_f = $scope.invoice.saldo;
+            $scope.invoice.saldo_f_om = $scope.invoice.saldo_om;
+            $scope.date_transf = new Date(Date.now());
+            $scope.rengIVA.num_comprobante = "";
+            $scope.rengIV = $scope.invoice.ret_iva;
+            $scope.rengIS = $scope.invoice.ret_islr;
+            $scope.accumulate = 0;
+            $scope.remaining = parse($scope.invoice.saldo_f);
+            $scope.change = 0;
+            $scope.advance = false;
+            $scope.calcRetIva = false;
+            $scope.calcRetIslr = false;
+
+            $('#modalCobrarNuevo').modal('show');
         }
 
         $scope.recalcIgtf = function (value) {
@@ -1976,7 +2399,7 @@
             var req = {
                 method: 'POST',
                 url: '/api/ProfitTMApi/AddCollect/' + $scope.invoice.doc_num.trim(),
-                data: [ reng, rengIVA, rengISLR ],
+                data: [reng, rengIVA, rengISLR],
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -1985,7 +2408,6 @@
             $http(req).then(function (response) {
 
                 var res = response.data;
-
                 if (res.Status == "OK") {
                     $("#modalSuccess").modal("show");
                     $scope.successMessage = `El Cobro ${res.Result.cob_num} se ha agregado con éxito`;
@@ -2012,6 +2434,341 @@
                 $('.field-iva').slideUp();
                 $('.field-islr').slideUp();
             });
+        }
+
+        // FUNCIONES NUEVAS
+        $scope.updateIgtf = function (amount, base) {
+            if (parseFloat(base) <= 0 || parseFloat(base) > parseFloat(amount)) {
+                alert("La base de IGTF debe ser mayor a 0 y menor o igual al monto recibido en USD$");
+                $scope.invoice.b_igtf = "";
+                $scope.invoice.igtf = "0.00";
+                return;
+            } else {
+                $scope.invoice.igtf = setSeparator(parse(((base ?? 0) * 0.03).toFixed(2)));
+            }
+        }
+
+        $scope.resetDataCash = function (add) {
+            $scope.amount_cash = '';
+            $scope.invoice.b_igtf = '';
+
+            if (!add)
+                $scope.invoice.igtf = '0.00'
+        }
+
+        $scope.resetDataTransf = function () {
+            $scope.amount_transf = '';
+            $scope.num_transf = '';
+            $scope.cod_cta = '';
+            $("#cod_cta").val("");
+            $("#des_cta").val("");
+        }
+
+        $scope.addCash = function (amount) {
+            if ($("#formAddCash")[0].checkValidity()) {
+
+                // CALCULOS Y DESPLIEGUE DE IGTF
+                $scope.invoice.igtf_bs = parse((parse($scope.invoice.igtf) * parseFloat($scope.invoice.tasa)).toFixed(2));
+                $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) + $scope.invoice.igtf_bs);
+                $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) + parse($scope.invoice.igtf));
+                $scope.invoice.igtf_bs = setSeparator($scope.invoice.igtf_bs);
+
+                // CREACION DE RENGLON
+                var r = {
+                    reng_num: $scope.rengsTP.length + 1,
+                    forma_pag: "EF",
+                    num_doc: null,
+                    co_ban: null,
+                    fecha_che: new Date(Date.now()).toLocaleString("es-ES", options).replace(",", "").split(" ")[0],
+                    cod_caja: $scope.user,
+                    cod_cta: null,
+                    co_mone: "US$",
+                    mont_doc: parse((amount * parseFloat($scope.invoice.tasa)).toFixed(2)),
+                    mov_num_c: $scope.invoice.igtf_bs // MONTO IGTF EN BOLIVARES
+                };
+
+                // INSERCION DE RENGLON EN FORMAS DE PAGO
+                $scope.rengsTP.push(r);
+                $scope.accumulate = $scope.rengsTP.map((r) => r.mont_doc).reduce((acc, act) => acc + act, 0);
+                $scope.remaining = parse($scope.invoice.saldo_f) - $scope.accumulate;
+
+                if ($scope.calcRetIva)
+                    $scope.remaining -= parse($scope.invoice.monto_ret_imp);
+
+                if ($scope.calcRetIslr)
+                    $scope.remaining -= parse($scope.invoice.monto_reten);
+
+                if ($scope.remaining < 0) {
+                    $scope.change = $scope.remaining * -1;
+                    $scope.remaining = 0;
+                }
+
+                $scope.rengCash = true;
+                $scope.convertedDetails = true;
+                $scope.resetDataCash(true);
+                $("#modalEfectivo").modal("hide");
+            }
+        }
+
+        $scope.addTransf = function () {
+            if ($("#formAddTransf")[0].checkValidity()) {
+                $("#formAddTransf input").change();
+
+                // CREACION DE RENGLON
+                var r = {
+                    reng_num: $scope.rengsTP.length + 1,
+                    forma_pag: "TP",
+                    num_doc: $scope.num_transf,
+                    co_ban: searchBankAccount($scope.cod_cta).co_ban,
+                    fecha_che: $scope.date_transf.toLocaleString("es-ES", options).replace(",", "").split(" ")[0],
+                    cod_caja: null,
+                    cod_cta: $scope.cod_cta,
+                    co_mone: "BSD",
+                    mont_doc: parse(parseFloat($scope.amount_transf).toFixed(2))
+                };
+
+                // INSERCION DE RENGLON EN FORMAS DE PAGO
+                $scope.rengsTP.push(r);
+                $scope.accumulate = $scope.rengsTP.map((r) => r.mont_doc).reduce((acc, act) => acc + act, 0);
+                $scope.remaining = parse($scope.invoice.saldo_f) - $scope.accumulate;
+
+                if ($scope.calcRetIva)
+                    $scope.remaining -= parse($scope.invoice.monto_ret_imp);
+
+                if ($scope.calcRetIslr)
+                    $scope.remaining -= parse($scope.invoice.monto_reten);
+
+                if ($scope.remaining < 0) {
+                    $scope.change = $scope.remaining * -1;
+                    $scope.remaining = 0;
+                }
+
+                $scope.rengTransf = true;
+                $scope.convertedDetails = false;
+                $scope.resetDataTransf();
+
+                if ($scope.rengsTP.length == 1 && $scope.rengsTP[0].forma_pag == "TP" && $scope.change > 0) {
+                    $scope.advance = true;
+                }
+                
+                $("#modalTransf").modal("hide");
+            }
+        }
+
+        $scope.addRetenIva = function () {
+            if ($("#formAddRetenIva")[0].checkValidity()) {
+
+                // CREACION DE RENGLON
+                var r = {
+                    reng_num: $scope.rengsTP.length + 1,
+                    forma_pag: "IVAN",
+                    num_doc: $scope.rengIVA.num_comprobante,
+                    co_ban: null,
+                    fecha_che: $scope.rengIVA.fecha_documento.toLocaleString("es-ES", options).replace(",", "").split(" ")[0],
+                    cod_caja: null,
+                    cod_cta: null,
+                    co_mone: "BSD",
+                    mont_doc: parse($scope.invoice.monto_ret_imp),
+                    mov_num_c: $scope.getImpPeriod($scope.rengIVA.fecha_documento) // PERIODO IMPOSITIVO DE COMP. DE RETENCION
+                };
+
+                // INSERCION DE RENGLON EN FORMAS DE PAGO
+                $scope.rengsTP.push(r);
+                $scope.accumulate = $scope.rengsTP.map((r) => r.mont_doc).reduce((acc, act) => acc + act, 0);
+                $scope.remaining = parse($scope.invoice.saldo_f) - $scope.accumulate;
+
+                if ($scope.remaining < 0) {
+                    $scope.change = $scope.remaining * -1;
+                    $scope.remaining = 0;
+                }
+
+                $scope.rengIV = true;
+                $scope.calcRetIva = false;
+                $scope.convertedDetails = false;
+                $("#modalRetenIva").modal("hide");
+            }
+        }
+
+        $scope.addRetenIslr = function () {
+
+            // CREACION DE RENGLON
+            var r = {
+                reng_num: $scope.rengsTP.length + 1,
+                forma_pag: "ISLR",
+                num_doc: $scope.rengISLR.co_islr,
+                co_ban: null,
+                fecha_che: new Date(Date.now()).toLocaleString("es-ES", options).replace(",", "").split(" ")[0],
+                cod_caja: null,
+                cod_cta: null,
+                co_mone: "BSD",
+                mont_doc: parse($scope.invoice.monto_reten)
+            };
+
+            // INSERCION DE RENGLON EN FORMAS DE PAGO
+            $scope.rengsTP.push(r);
+            $scope.accumulate = $scope.rengsTP.map((r) => r.mont_doc).reduce((acc, act) => acc + act, 0);
+            $scope.remaining = parse($scope.invoice.saldo_f) - $scope.accumulate;
+
+            if ($scope.remaining < 0) {
+                $scope.change = $scope.remaining * -1;
+                $scope.remaining = 0;
+            }
+
+            $scope.rengIS = true;
+            $scope.calcRetIslr = false;
+            $scope.convertedDetails = false;
+            $("#modalRetenIslr").modal("hide");
+        }
+
+        $scope.convertDetails = function () {
+            $scope.convertedDetails = !$scope.convertedDetails;
+        }
+
+        $scope.deleteDetail = function (reng) {
+
+            let i = $scope.rengsTP.indexOf(reng);
+            $scope.rengsTP.splice(i, 1);
+
+            $scope.accumulate = $scope.rengsTP.map((r) => r.mont_doc).reduce((acc, act) => acc + act, 0);
+            if (reng.forma_pag == "EF") {
+                $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) - parse($scope.invoice.igtf_bs));
+                $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) - parse($scope.invoice.igtf));
+                $scope.invoice.b_igtf = "";
+                $scope.invoice.igtf = "0.00";
+                $scope.invoice.igtf_bs = "0.00";
+                $scope.rengCash = false;
+            } else if (reng.forma_pag == "TP") {
+                $scope.rengTransf = false;
+            } else if (reng.forma_pag == "IVAN") {
+                $scope.rengIVA.num_comprobante = "";
+                $scope.rengIV = false;
+            } else if (reng.forma_pag == "ISLR") {
+                $scope.rengIS = false;
+            }
+
+            $scope.remaining = parse($scope.invoice.saldo_f) - $scope.accumulate;
+            if ($scope.calcRetIva)
+                $scope.remaining -= parse($scope.invoice.monto_ret_imp);
+
+            if ($scope.calcRetIslr)
+                $scope.remaining -= parse($scope.invoice.monto_reten);
+
+            if ($scope.remaining < 0) {
+                $scope.change = $scope.remaining * -1;
+                $scope.remaining = 0;
+            } else {
+                $scope.change = 0;
+            }
+
+            $scope.convertedDetails = false;
+        }
+
+        $scope.isAdvanced = function () {
+            $scope.advance = !$scope.advance;
+        }
+
+        $scope.isCalcRetIva = function () {
+            $scope.calcRetIva = !$scope.calcRetIva;
+
+            if ($scope.calcRetIva)
+                $scope.remaining -= parse($scope.invoice.monto_ret_imp) + $scope.change;
+            else
+                $scope.remaining += parse($scope.invoice.monto_ret_imp) - $scope.change;
+
+            if ($scope.remaining >= 0)
+                $scope.change = 0;
+            else {
+                $scope.change = $scope.remaining * - 1;
+                $scope.remaining = 0;
+            }
+        }
+
+        $scope.isCalcRetIslr = function () {
+            $scope.calcRetIslr = !$scope.calcRetIslr;
+
+            if ($scope.calcRetIslr)
+                $scope.remaining -= parse($scope.invoice.monto_reten) + $scope.change;
+            else
+                $scope.remaining += parse($scope.invoice.monto_reten) - $scope.change;
+
+            if ($scope.remaining >= 0)
+                $scope.change = 0;
+            else {
+                $scope.change = $scope.remaining * - 1;
+                $scope.remaining = 0;
+            }
+        }
+
+        $scope.addCollect = function () {
+
+            var rengs = $scope.rengsTP;
+            if (rengs.length > 0) {
+                var r_ivan = rengs.find(r => r.forma_pag == "IVAN");
+                var r_islr = rengs.find(r => r.forma_pag == "ISLR");
+
+                //if (r_ivan != null)
+                //    alert("hay retencion de iva");
+
+                //if (r_islr != null)
+                //    alert("hay retencion de islr");
+
+                //if ($scope.change > 0) {
+                //    alert("hay cambio");
+
+                //    if ($scope.advance == true)
+                //        alert("cambio se registra como adelanto");
+                //    else
+                //        alert("cambio se devuelve");
+                //}
+
+                var cob = {
+                    campo1: $scope.invoice.doc_num.trim(), // NRO.FACTURA
+                    campo2: $scope.remaining,              // SALDO RESTANTE
+                    campo3: $scope.change,                 // CAMBIO
+                    campo4: $scope.advance,                // ADELANTO O VUELTO
+                    campo5: $scope.calcRetIva,             // APLICAR DIFERENCIA DE RET IVA
+                    campo6: $scope.calcRetIslr,            // APLICAR DIFERENCIA DE RET ISLR
+                    saCobroTPReng: rengs                   // RENGLONES DE COBRO
+                };
+
+                $("#modalCobrarNuevo").modal("hide");
+                $("#modalWaiting").modal("show");
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/AddCollect2/',
+                    data: cob,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    var res = response.data;
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = `El Cobro ${res.Result.cob_num} se ha agregado con éxito`;
+                        $scope.invoice.status = parseInt(res.Result.campo1);
+                        $scope.invoice.estatus = setStatus($scope.invoice.status);
+                        $scope.invoice.saldo = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
+                        $scope.invoice.saldo_f = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
+                        $scope.invoice.saldo_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
+                        $scope.invoice.saldo_f_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
+                        $scope.invoice.ret_iva = r_ivan != null;
+                        $scope.invoice.ret_islr = r_islr != null;
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+
+                    $('#des_cta').val('');
+                    $('.field-iva').slideUp();
+                    $('.field-islr').slideUp();
+                });
+            } else {
+                alert("Debes agregar al menos una forma de cobro");
+            }
         }
     });
 
