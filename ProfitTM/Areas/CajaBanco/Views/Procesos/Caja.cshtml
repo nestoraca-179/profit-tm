@@ -365,7 +365,7 @@
                                 <td ng-if="m.Type == 2" style="font-weight: bold;" class="text-danger">EGRESO (-)</td>
                                 <td>{{ m.Amount.toFixed(2) }}</td>
                                 <td>{{ formatDate(m.Date) }}</td>
-                                <td>{{ m.Comment }}</td>
+                                <td>{{ m.Comment.toUpperCase() }}</td>
                             </tr>
                         </tbody>
                     </table>

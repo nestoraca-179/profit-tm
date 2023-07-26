@@ -732,19 +732,22 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
-                                <label>Precio Unit. $USD</label>
+                                <label ng-if="!manual">Precio Unit. $USD</label>
+                                <label ng-if="manual">Precio Unit. Bs. D</label>
                                 <input type="text" class="form-control" id="price_usd" ng-model="reng.prec_vta_om" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePriceItem()" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
-                                <label>Total $USD (Sin IVA)</label>
+                                <label ng-if="!manual">Total $USD (Sin IVA)</label>
+                                <label ng-if="manual">Total Bs. D (Sin IVA)</label>
                                 <input type="text" class="form-control" id="total_usd" ng-model="reng.reng_neto_om" ng-disabled="!new" ng-required="true" ng-readonly="true" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
-                                <label>Monto IVA $USD</label>
+                                <label ng-if="!manual">Monto IVA $USD</label>
+                                <label ng-if="manual">Monto IVA Bs. D</label>
                                 <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="!manual" />
                             </div>
                         </div>
@@ -1055,7 +1058,7 @@
                                             <input class="px-2" type="checkbox" ng-model="advance" ng-click="isAdvanced()" ng-disabled="rengsTP.length == 1 && rengsTP[0].forma_pag == 'TP' && change > 0" />
                                             <span class="my-0 mx-2" style="font-size: 14px;">Registrar cambio como adelanto</span>
                                         </label>
-                                        <label ng-if="invoice.saCliente.contribu_e && !rengIV" class="d-flex flex-row-reverse mt-3 px-2">
+                                        <label ng-if="!rengIV" class="d-flex flex-row-reverse mt-3 px-2">
                                             <input class="px-2" type="checkbox" ng-model="calcRetIva" ng-click="isCalcRetIva()" />
                                             <span class="my-0 mx-2" style="font-size: 14px;">Aplicar diferencia de Ret. IVA</span>
                                         </label>
@@ -1067,7 +1070,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 p-1">
-                                <div class="border" style="height: 350px;">
+                                <div class="border" style="height: 350px; background: #f2f2f2;">
                                     <div class="header-totals">
                                         <h5 class="text-center fw-bold text-white py-2">Detalles</h5>
                                     </div>
@@ -1086,15 +1089,15 @@
                                         <p class="total-bs">{{ invoice.total_neto }} Bs. D</p>
                                         <p class="total-usd">{{ invoice.total_neto_om }} USD$</p>
                                     </div>
-                                    <div ng-if="parse(invoice.igtf_bs) > 0" class="invoice-totals px-3">
+                                    <div class="invoice-totals px-3">
                                         <p style="font-size: 14px;">I.G.T.F</p>
                                         <p class="total-bs">{{ invoice.igtf_bs }} Bs. D</p>
                                         <p class="total-usd">{{ invoice.igtf }} USD$</p>
                                     </div>
                                     <div ng-if="parse(invoice.total_neto) > parse(invoice.saldo_f)" class="invoice-totals px-3">
                                         <p style="font-size: 14px;">Saldo Abonado</p>
-                                        <p class="total-bs">-{{ setSeparator(parse(invoice.total_neto) - parse(invoice.saldo_f)) }} Bs. D</p>
-                                        <p class="total-usd">-{{ setSeparator(parse(invoice.total_neto_om) - parse(invoice.saldo_f_om)) }} USD$</p>
+                                        <p class="total-bs">-{{ setSeparator(parse(invoice.total_neto) - parse(invoice.saldo_f) + parse(invoice.igtf_bs)) }} Bs. D</p>
+                                        <p class="total-usd">-{{ setSeparator(parse(invoice.total_neto_om) - parse(invoice.saldo_f_om) + parse(invoice.igtf)) }} USD$</p>
                                     </div>
                                 </div>
                             </div>
@@ -1110,7 +1113,7 @@
                                         <i class="fas fa-file-invoice-dollar"></i>
                                         <p class="mx-1 my-0">Transferencia</p>
                                     </button>
-                                    <button class="btn" data-toggle="modal" data-target="#modalRetenIva" ng-disabled="!invoice.saCliente.contribu_e || rengIV || remaining == 0">
+                                    <button class="btn" data-toggle="modal" data-target="#modalRetenIva" ng-disabled="rengIV || remaining == 0">
                                         <i class="fas fa-file-invoice"></i>
                                         <p class="mx-1 my-0">Reten. IVA</p>
                                     </button>
@@ -2070,6 +2073,13 @@
 
             $("#modalItem form input").change();
             if ($("#modalItem form")[0].checkValidity()) {
+
+                if ($scope.manual) {
+                    reng.prec_vta_om = (parseFloat(reng.prec_vta_om) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2);
+                    reng.reng_neto_om = (parseFloat(reng.reng_neto_om) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2);
+                    reng.monto_imp_om = (parseFloat(reng.monto_imp_om) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2);
+                }
+
                 $scope.updateAmounts($scope.invoice, reng, $scope.invoice.saFacturaVentaReng, action);
                 $("#des_art").val("");
                 $("#modalItem").modal("hide");
@@ -2468,10 +2478,17 @@
             if ($("#formAddCash")[0].checkValidity()) {
 
                 // CALCULOS Y DESPLIEGUE DE IGTF
+
+                console.log($scope.invoice.saldo_f);
+                console.log($scope.invoice.saldo_f_om);
+                console.log($scope.invoice.igtf_bs);
                 $scope.invoice.igtf_bs = parse((parse($scope.invoice.igtf) * parseFloat($scope.invoice.tasa)).toFixed(2));
                 $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo_f) + $scope.invoice.igtf_bs);
                 $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_f_om) + parse($scope.invoice.igtf));
                 $scope.invoice.igtf_bs = setSeparator($scope.invoice.igtf_bs);
+                console.log($scope.invoice.saldo_f);
+                console.log($scope.invoice.saldo_f_om);
+                console.log($scope.invoice.igtf_bs);
 
                 // CREACION DE RENGLON
                 var r = {
@@ -2854,6 +2871,9 @@
                 r.reng_neto = setSeparator(r.reng_neto.toFixed(2));
             }
 
+            if (!item.contribu_e)
+                item.saCliente.porc_esp = 75;
+
             // FECHAS
             item.fec_emis = new Date(parseInt(item.fec_emis.substr(6)));
             item.fec_venc = new Date(parseInt(item.fec_venc.substr(6)));
@@ -2864,8 +2884,8 @@
             // DATOS
             item.estatus = setStatus(item.status);
             item.saCliente.porc_esp += ".00";
-            item.monto_ret_imp_om = setSeparator((parse(item.monto_imp_om) * (parseFloat(item.saCliente.porc_esp) / 100)).toFixed(2));
-            item.monto_ret_imp = setSeparator((parse(item.monto_imp) * (parseFloat(item.saCliente.porc_esp) / 100)).toFixed(2));
+            item.monto_ret_imp_om = setSeparator((parse(item.monto_imp_om) * (parseFloat(item.saCliente.porc_esp ?? 75) / 100)).toFixed(2));
+            item.monto_ret_imp = setSeparator((parse(item.monto_imp) * (parseFloat(item.saCliente.porc_esp ?? 75) / 100)).toFixed(2));
             item.monto_reten_om = setSeparator((parse(item.total_bruto_om) * 0.02).toFixed(2));
             item.monto_reten = setSeparator((parse(item.total_bruto) * 0.02).toFixed(2));
             item.ret_iva = item.co_us_in == "True";
@@ -2904,6 +2924,9 @@
             reng.reng_neto_om = setSeparator((reng.reng_neto / i.tasa).toFixed(2));
             reng.reng_neto = setSeparator(reng.reng_neto.toFixed(2));
         }
+
+        if (!i.contribu_e)
+            i.saCliente.porc_esp = 75;
 
         i.fec_emis = new Date(i.fec_emis);
         i.fec_venc = new Date(i.fec_venc);
