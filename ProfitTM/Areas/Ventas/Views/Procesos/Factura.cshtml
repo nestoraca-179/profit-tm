@@ -2073,13 +2073,6 @@
 
             $("#modalItem form input").change();
             if ($("#modalItem form")[0].checkValidity()) {
-
-                if ($scope.manual) {
-                    reng.prec_vta_om = (parseFloat(reng.prec_vta_om) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2);
-                    reng.reng_neto_om = (parseFloat(reng.reng_neto_om) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2);
-                    reng.monto_imp_om = (parseFloat(reng.monto_imp_om) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2);
-                }
-
                 $scope.updateAmounts($scope.invoice, reng, $scope.invoice.saFacturaVentaReng, action);
                 $("#des_art").val("");
                 $("#modalItem").modal("hide");
@@ -2093,6 +2086,7 @@
 
             $scope.reng.reng_neto_om = (cant * price).toFixed(2);
             $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(2);
+            console.log($scope.reng.reng_neto_om, $scope.reng.monto_imp_om);
         }
 
         $scope.updateAmounts = function (i, r, rengs, action) {
@@ -2110,12 +2104,22 @@
 
                 r.total_art = parseInt(r.total_art);
                 r.pendiente = parseInt(r.total_art);
-                r.prec_vta = setSeparator((parseFloat(r.prec_vta_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                r.reng_neto = setSeparator((parseFloat(r.reng_neto_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                r.monto_imp = setSeparator((parseFloat(r.monto_imp_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                r.prec_vta_om = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
-                r.reng_neto_om = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
-                r.monto_imp_om = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
+
+                if ($scope.manual) {
+                    r.prec_vta = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
+                    r.reng_neto = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
+                    r.monto_imp = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
+                    r.prec_vta_om = setSeparator((parse(r.prec_vta) / parseFloat(i.tasa ?? 1)).toFixed(2));
+                    r.reng_neto_om = setSeparator((parse(r.reng_neto) / parseFloat(i.tasa ?? 1)).toFixed(2));
+                    r.monto_imp_om = setSeparator((parse(r.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(2));
+                } else {
+                    r.prec_vta = setSeparator((parseFloat(r.prec_vta_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
+                    r.reng_neto = setSeparator((parseFloat(r.reng_neto_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
+                    r.monto_imp = setSeparator((parseFloat(r.monto_imp_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
+                    r.prec_vta_om = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
+                    r.reng_neto_om = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
+                    r.monto_imp_om = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
+                }
             }
 
             let ind = rengs.indexOf(rengs.find(i => i.reng_num == r.reng_num));
