@@ -1373,6 +1373,9 @@
                             <td>{{ client.co_cli }}</td>
                             <td>{{ client.cli_des }}</td>
                         </tr>
+                        <tr ng-if="clients.length == 0">
+                            <td colspan="2">Cargando clientes...</td>
+                        </tr>
                     </table>
                     <input type="hidden" id="name-input" />
                 </div>
