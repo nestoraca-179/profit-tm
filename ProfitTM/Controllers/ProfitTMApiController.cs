@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using ProfitTM.Models;
 using System.Collections;
 using Newtonsoft.Json;
-using System.Web.Script.Serialization;
 
 namespace ProfitTM.Controllers
 {
@@ -372,20 +371,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                List<saCliente> clients;
-
-                if (HttpContext.Current.Session["CLIENTS"] == null)
-                {
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    serializer.MaxJsonLength = 50000000;
-
-                    clients = new Client().GetAllClients(false);
-                    HttpContext.Current.Session["CLIENTS"] = serializer.Serialize(clients);
-                }
-                else
-                {
-                    clients = HttpContext.Current.Session["CLIENTS"] as List<saCliente>;
-                }
+                List<saCliente> clients = new Client().GetAllClients(false);
 
                 response.Status = "OK";
                 response.Result = clients;
