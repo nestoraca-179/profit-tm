@@ -1373,7 +1373,7 @@
                             <td>{{ client.co_cli }}</td>
                             <td>{{ client.cli_des }}</td>
                         </tr>
-                        <tr ng-if="clients.length == 0">
+                        <tr ng-if="!clients">
                             <td colspan="2">Cargando clientes...</td>
                         </tr>
                     </table>
@@ -2109,6 +2109,12 @@
                 r.pendiente = parseInt(r.total_art);
 
                 if ($scope.manual) {
+
+                    if (parseFloat(r.monto_imp_om) == 0) {
+                        r.tipo_imp = 7;
+                        r.porc_imp = 0.00;
+                    }
+
                     r.prec_vta = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
                     r.reng_neto = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
                     r.monto_imp = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
