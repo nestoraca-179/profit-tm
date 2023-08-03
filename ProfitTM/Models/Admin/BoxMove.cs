@@ -42,14 +42,8 @@ namespace ProfitTM.Models
 
                         if (newBox) // COLOCAR TASA Y CUENTA A MOV. DE SALDO INICIAL DE CAJA NUEVA
                         {
-                            var sp_t = context.pObtenerFechaTasa("US$", DateTime.Now);
-                            var enumerator = sp_t.GetEnumerator();
-
-                            while (enumerator.MoveNext())
-                                mo.tasa = enumerator.Current.TASA_V.Value;
-
+                            mo.tasa = new Currency().GetRateUSD();
                             mo.co_cta_ingr_egr = context.saCaja.AsNoTracking().Single(c => c.cod_caja.Trim() == cod_caja).campo1;
-                            sp_t.Dispose();
                         }
 
                         if (transfer) // COLOCAR CUENTA A MOV. DE INGRESO O EGRESO
@@ -60,6 +54,9 @@ namespace ProfitTM.Models
                                 mo.co_cta_ingr_egr = context.saCaja.AsNoTracking().Single(c => c.cod_caja.Trim() == mo.campo8).campo1;
                             else
                                 mo.co_cta_ingr_egr = context.saCaja.AsNoTracking().Single(c => c.cod_caja.Trim() == mo.cod_caja.Trim()).campo1;
+
+                            if (mo.tasa == 0)
+                                mo.tasa = new Currency().GetRateUSD();
                         }
 
                         decimal amount = isIncome ? mo.monto_h : mo.monto_h * -1;

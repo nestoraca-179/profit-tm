@@ -1507,6 +1507,10 @@
     <Compile Include="Models\stgFacturaVentaExt.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Transfer.cs" />
+    <Compile Include="Models\Transfers.cs">
+      <DependentUpon>ProfitTMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TreeReports.cs">
       <DependentUpon>ProfitTMModel.tt</DependentUpon>
     </Compile>

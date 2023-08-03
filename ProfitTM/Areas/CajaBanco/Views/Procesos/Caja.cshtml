@@ -55,7 +55,7 @@
         font-size: 6em;
         padding: 5%;
     }
-    #modal-eye {
+    #modal-eye, #modal-trans {
         z-index: 2000;
         background: rgba(0, 0, 0, 0.8);
     }
@@ -132,11 +132,12 @@
     .card-box-actions {
         display: flex;
         justify-content: space-between;
+        /*flex-wrap: wrap;*/
     }
     .card-box-actions button {
-        height: 50px;
+        /*height: 50px;
         display: flex;
-        align-items: center;
+        align-items: center;*/
         padding: 5px 10px;
         font-size: 14px;
     }
@@ -194,7 +195,7 @@
                     <i class="fas fa-circle text-danger"></i>
                     <p>Cerrado</p>
                 </div>
-                <p class="card-box-total">${{ (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) }}</p>
+                <p class="card-box-total">${{ setSeparator((box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2)) }}</p>
             </div>
             <p ng-if="showNoItems(true)" class="w-100 my-0 text-center">No hay cajas abiertas</p>
         </div>
@@ -211,7 +212,7 @@
                     <i class="fas fa-circle text-danger"></i>
                     <p>Cerrado</p>
                 </div>
-                <p class="card-box-total">${{ (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) }}</p>
+                <p class="card-box-total">${{ setSeparator((box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2)) }}</p>
             </div>
             <p ng-if="showNoItems(false)" class="w-100 my-0 text-center">No hay cajas cerradas</p>
         </div>
@@ -335,41 +336,86 @@
             </div>
         </form>
     </div>
-    <!-- Modal Ver Transacciones -->
+    <!-- Modal Ver Movimientos -->
     <div class="modal fade" id="modal-eye" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Ver Transacciones</h5>
+                    <h5 class="modal-title">Ver Movimientos</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
-                    <table ng-if="movs.length > 0" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Usuario</th>
-                                <th>Tipo</th>
-                                <th>Monto</th>
-                                <th>Fecha</th>
-                                <th>Comentario</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="m in movs" style="font-size: 14px;">
-                                <td>{{ m.ID }}</td>
-                                <td>{{ m.UserID }}</td>
-                                <td ng-if="m.Type == 1" style="font-weight: bold;" class="text-success">INGRESO (+)</td>
-                                <td ng-if="m.Type == 2" style="font-weight: bold;" class="text-danger">EGRESO (-)</td>
-                                <td>{{ m.Amount.toFixed(2) }}</td>
-                                <td>{{ formatDate(m.Date) }}</td>
-                                <td>{{ m.Comment.toUpperCase() }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p ng-if="movs.length == 0" class="text-center">No hay transacciones</p>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <p ng-if="movs.length == 0" class="text-center">No hay movimientos</p>
+                        <table ng-if="movs.length > 0" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Tipo</th>
+                                    <th>Monto</th>
+                                    <th>Fecha</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="m in movs" style="font-size: 14px;">
+                                    <td>{{ m.ID }}</td>
+                                    <td>{{ m.UserID }}</td>
+                                    <td ng-if="m.Type == 1" style="font-weight: bold;" class="text-success">INGRESO (+)</td>
+                                    <td ng-if="m.Type == 2" style="font-weight: bold;" class="text-danger">EGRESO (-)</td>
+                                    <td>{{ setSeparator(m.Amount.toFixed(2)) }}</td>
+                                    <td>{{ formatDate(m.Date) }}</td>
+                                    <td>{{ m.Comment.toUpperCase() }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Ver Transferencias -->
+    <div class="modal fade" id="modal-trans" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ver Transferencias</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <p ng-if="trans.length == 0" class="text-center">No hay transferencias</p>
+                        <table ng-if="trans.length > 0" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nro. Doc.</th>
+                                    <th>Cuenta</th>
+                                    <th>Monto</th>
+                                    <th>Fecha</th>
+                                    <th>Comentario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="t in trans" style="font-size: 14px;">
+                                    <td>{{ t.ID }}</td>
+                                    <td>{{ t.DocNum }}</td>
+                                    <td>{{ t.AccountID }}</td>
+                                    <td>{{ setSeparator(t.Amount.toFixed(2)) }}</td>
+                                    <td>{{ formatDate(t.Date) }}</td>
+                                    <td>{{ t.Comment.toUpperCase() }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -419,45 +465,45 @@
                     <hr style="margin: 0.5rem 0;" />
                     <div class="card-box-stats">
                         <p>Saldo Inicial</p>
-                        <p>${{ box.AmountInit.toFixed(2) }}</p>
+                        <p>${{ setSeparator(box.AmountInit.toFixed(2)) }}</p>
                     </div>
                     <div class="card-box-stats">
                         <p>Depósitos</p>
-                        <p>${{ box.Incomes.toFixed(2) }}</p>
+                        <p>${{ setSeparator(box.Incomes.toFixed(2)) }}</p>
                     </div>
                     <div class="card-box-stats">
                         <p>Retiros</p>
-                        <p>${{ box.Expenses.toFixed(2) }}</p>
+                        <p>${{ setSeparator(box.Expenses.toFixed(2)) }}</p>
                     </div>
                     <div class="card-box-stats">
                         <p>Ventas Contado</p>
-                        <p>${{ box.Sales.toFixed(2) }}</p>
+                        <p>${{ setSeparator(box.Sales.toFixed(2)) }}</p>
                     </div>
                     <div class="card-box-stats">
                         <p>Saldo en Caja</p>
-                        <p><b>${{ (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) }}</b></p>
+                        <p><b>${{ setSeparator((box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2)) }}</b></p>
                     </div>
                     <hr />
                     <div class="card-box-actions">
                         <button ng-disabled="!box.IsOpen || user.BoxType == 1" class="btn btn-success" data-toggle="modal" data-target="#modal-income" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
-                            <i class="fas fa-exchange"></i>
-                            <p class="mx-2 my-0">Generar Mov. Caja</p>
+                            <p class="mx-2 my-0"><i class="fas fa-exchange"></i> Generar Mov. Caja</p>
                         </button>
-                        <button ng-disabled="!box.IsOpen || user.BoxType == 1 || box.BoxType == 1 || (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) <= 0" class="btn btn-danger" data-toggle="modal" data-target="#modal-expense" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
-                            <i class="fas fa-file-invoice"></i>
-                            <p class="mx-2 my-0">Generar Ord. Pago</p>
+                        <button ng-disabled="!box.IsOpen || user.BoxType == 1 || box.BoxType == 1 || (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) <= 0" class="btn btn-danger mx-1" data-toggle="modal" data-target="#modal-expense" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
+                            <p class="mx-2 my-0"><i class="fas fa-file-invoice"></i> Generar Ord. Pago</p>
                         </button>
                         <button class="btn btn-primary" ng-click="viewMovs(box.ID)">
-                            <i class="fas fa-eye"></i>
-                            <p class="mx-2 my-0">Ver Transacciones</p>
+                            <p class="mx-2 my-0"><i class="fas fa-eye"></i> Ver Movimientos</p>
                         </button>
-                        <button ng-disabled="!box.IsOpen || ((user.BoxType == 1 || user.BoxType == 2) && box.UserID == user.Username)" class="btn btn-warning" data-dismiss="modal" ng-click="openModalClose(box.ID)">
-                            <i class="fas fa-dollar-sign"></i>
-                            <p class="mx-2 my-0">Cerrar Caja</p>
+                        <button class="btn btn-secondary mx-1" ng-click="viewTrans(box.ID)">
+                            <p class="mx-2 my-0"><i class="fas fa-eye"></i> Ver Transferencias</p>
+                        </button>
+                        <button ng-disabled="!box.IsOpen || box.UserID == user.Username" class="btn btn-warning justify-content-center" data-dismiss="modal" ng-click="openModalClose(box.ID)">
+                            <p class="mx-2 my-0"><i class="fas fa-dollar-sign"></i> Cerrar Caja</p>
                         </button>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <p ng-if="!box.IsOpen" style="flex: auto; font-weight: bold;">Caja cerrada por {{ box.ClosedBy }}</p>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -588,7 +634,7 @@
         </div>
     </div>
     <!-- Modal 3 -->
-    <div class="modal fade" id="modalBoxes" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modalBoxes" tabindex="-1" role="dialog" aria-hidden="true" style="background: rgba(0, 0, 0, 0.9);">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -746,6 +792,8 @@
 
             });
 
+        $scope.setSeparator = (value) => setSeparator(value);
+
         $scope.initBox = function () {
 
             let box = $scope.boxes.find(b =>
@@ -769,6 +817,11 @@
         $scope.viewMovs = function (id) {
             $scope.movs = $scope.boxes.find(b => b.ID == id).BoxMoves;
             $("#modal-eye").modal("show");
+        }
+
+        $scope.viewTrans = function (id) {
+            $scope.trans = $scope.boxes.find(b => b.ID == id).Transfers;
+            $("#modal-trans").modal("show");
         }
 
         $scope.setId = function (id, total) {
@@ -844,11 +897,41 @@
                     if (res.Status == "OK") {
 
                         var box = $scope.boxes.find(b => b.ID == $scope.boxId);
+                        var amount = box.AmountInit + box.Incomes - box.Expenses + box.Sales;
                         box.DateE = new Date(Date.now());
                         box.IsOpen = false;
+                        box.ClosedBy = user;
 
                         $("#modalSuccess").modal("show");
                         $scope.successMessage = "Caja cerrada con éxito";
+
+                        /* PRIMER MOVIMIENTO */
+                        var move = {
+                            ID: res.Result.campo2,
+                            BoxID: res.Result.campo1,
+                            UserID: user,
+                            Amount: amount,
+                            Type: 2,
+                            Date: new Date(Date.now()),
+                            Comment: res.Result.descrip
+                        };
+                        
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Expenses += move.Amount;
+
+                        /* SEGUNDO MOVIMIENTO */
+                        var move2 = {
+                            ID: res.Result.campo4,
+                            BoxID: res.Result.campo3,
+                            UserID: user,
+                            Amount: amount,
+                            Type: 1,
+                            Date: new Date(Date.now()),
+                            Comment: res.Result.descrip + " (INGRESO)"
+                        };
+
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).BoxMoves.push(move2);
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Incomes += move2.Amount;
 
                     } else {
                         $("#modalError").modal("show");
@@ -977,9 +1060,9 @@
                         $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).BoxMoves.push(move2);
 
                         if ($scope.move.tipo_mov == "I")
-                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Expenses += move.Amount;
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Expenses += move2.Amount;
                         else
-                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Incomes += move.Amount;
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Incomes += move2.Amount;
 
                         $("#des_box").val("");
                         $scope.sub_mov = "origen";
@@ -1100,6 +1183,10 @@
         d2 = new Date(d2);
 
         return d1.toLocaleDateString("en-US") == d2.toLocaleDateString("en-US");
+    }
+
+    function setSeparator(value) {
+        return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
     }
 
     function openModal(elem, modal) {

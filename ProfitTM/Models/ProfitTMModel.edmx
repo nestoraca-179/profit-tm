@@ -19,6 +19,7 @@
           <Property Name="Expenses" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Sales" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="IsOpen" Type="bit" Nullable="false" />
+          <Property Name="ClosedBy" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="BoxMoves">
           <Key>
@@ -98,6 +99,20 @@
           <Property Name="FormatReport" Type="varchar" MaxLength="50" />
           <Property Name="IsEnabled" Type="bit" Nullable="false" />
           <Property Name="GroupID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transfers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BoxID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="AccountID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DocNum" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Comment" Type="varchar(max)" Nullable="false" />
+          <Property Name="Concilied" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TreeReports">
           <Key>
@@ -230,6 +245,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Boxes_Transfers">
+          <End Role="Boxes" Type="Self.Boxes" Multiplicity="1" />
+          <End Role="Transfers" Type="Self.Transfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boxes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transfers">
+              <PropertyRef Name="BoxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GroupR_Reps">
           <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />
           <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
@@ -263,6 +290,7 @@
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transfers" EntityType="Self.Transfers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TreeReports" EntityType="Self.TreeReports" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserModules" EntityType="Self.UserModules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserOptions" EntityType="Self.UserOptions" Schema="dbo" store:Type="Tables" />
@@ -290,6 +318,10 @@
           <AssociationSet Name="FK_Boxes_BoxMoves" Association="Self.FK_Boxes_BoxMoves">
             <End Role="Boxes" EntitySet="Boxes" />
             <End Role="BoxMoves" EntitySet="BoxMoves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Boxes_Transfers" Association="Self.FK_Boxes_Transfers">
+            <End Role="Boxes" EntitySet="Boxes" />
+            <End Role="Transfers" EntitySet="Transfers" />
           </AssociationSet>
           <AssociationSet Name="FK_GroupR_Reps" Association="Self.FK_GroupR_Reps">
             <End Role="GroupReports" EntitySet="GroupReports" />
@@ -552,11 +584,16 @@
             <End Role="UserOptions" EntitySet="UserOptions" />
           </AssociationSet>
           <EntitySet Name="Incidents" EntityType="ProfitTMContext.Incidents" />
-          <EntitySet Name="Boxes" EntityType="ProfitTMContext.Boxes" />
           <EntitySet Name="BoxMoves" EntityType="ProfitTMContext.BoxMoves" />
+          <EntitySet Name="Transfers" EntityType="ProfitTMContext.Transfers" />
+          <EntitySet Name="Boxes" EntityType="ProfitTMContext.Boxes" />
           <AssociationSet Name="FK_Boxes_BoxMoves" Association="ProfitTMContext.FK_Boxes_BoxMoves">
             <End Role="Boxes" EntitySet="Boxes" />
             <End Role="BoxMoves" EntitySet="BoxMoves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Boxes_Transfers" Association="ProfitTMContext.FK_Boxes_Transfers">
+            <End Role="Boxes" EntitySet="Boxes" />
+            <End Role="Transfers" EntitySet="Transfers" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Incidents">
@@ -567,22 +604,6 @@
           <Property Name="Titulo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
-        <EntityType Name="Boxes">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="DateS" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DateE" Type="DateTime" Precision="0" />
-          <Property Name="AmountInit" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Incomes" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Expenses" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Sales" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="IsOpen" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="BoxMoves" Relationship="ProfitTMContext.FK_Boxes_BoxMoves" FromRole="Boxes" ToRole="BoxMoves" />
-          <Property Name="ConnID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="BoxMoves">
           <Key>
@@ -597,6 +618,39 @@
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK_Boxes_BoxMoves" FromRole="BoxMoves" ToRole="Boxes" />
         </EntityType>
+        <EntityType Name="Transfers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DocNum" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Concilied" Type="Boolean" Nullable="false" />
+          <Property Name="BoxID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK_Boxes_Transfers" FromRole="Transfers" ToRole="Boxes" />
+        </EntityType>
+        <EntityType Name="Boxes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConnID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DateS" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateE" Type="DateTime" Precision="0" />
+          <Property Name="AmountInit" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Incomes" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Expenses" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Sales" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IsOpen" Type="Boolean" Nullable="false" />
+          <Property Name="ClosedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BoxMoves" Relationship="ProfitTMContext.FK_Boxes_BoxMoves" FromRole="Boxes" ToRole="BoxMoves" />
+          <NavigationProperty Name="Transfers" Relationship="ProfitTMContext.FK_Boxes_Transfers" FromRole="Boxes" ToRole="Transfers" />
+        </EntityType>
         <Association Name="FK_Boxes_BoxMoves">
           <End Type="ProfitTMContext.Boxes" Role="Boxes" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -607,6 +661,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="BoxMoves">
+              <PropertyRef Name="BoxID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Boxes_Transfers">
+          <End Type="ProfitTMContext.Boxes" Role="Boxes" Multiplicity="1" />
+          <End Type="ProfitTMContext.Transfers" Role="Transfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boxes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transfers">
               <PropertyRef Name="BoxID" />
             </Dependent>
           </ReferentialConstraint>
@@ -743,22 +809,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Boxes">
-            <EntityTypeMapping TypeName="ProfitTMContext.Boxes">
-              <MappingFragment StoreEntitySet="Boxes">
-                <ScalarProperty Name="ConnID" ColumnName="ConnID" />
-                <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
-                <ScalarProperty Name="Sales" ColumnName="Sales" />
-                <ScalarProperty Name="Expenses" ColumnName="Expenses" />
-                <ScalarProperty Name="Incomes" ColumnName="Incomes" />
-                <ScalarProperty Name="AmountInit" ColumnName="AmountInit" />
-                <ScalarProperty Name="DateE" ColumnName="DateE" />
-                <ScalarProperty Name="DateS" ColumnName="DateS" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BoxMoves">
             <EntityTypeMapping TypeName="ProfitTMContext.BoxMoves">
               <MappingFragment StoreEntitySet="BoxMoves">
@@ -768,6 +818,38 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="BoxID" ColumnName="BoxID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transfers">
+            <EntityTypeMapping TypeName="ProfitTMContext.Transfers">
+              <MappingFragment StoreEntitySet="Transfers">
+                <ScalarProperty Name="BoxID" ColumnName="BoxID" />
+                <ScalarProperty Name="Concilied" ColumnName="Concilied" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="DocNum" ColumnName="DocNum" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Boxes">
+            <EntityTypeMapping TypeName="ProfitTMContext.Boxes">
+              <MappingFragment StoreEntitySet="Boxes">
+                <ScalarProperty Name="ClosedBy" ColumnName="ClosedBy" />
+                <ScalarProperty Name="IsOpen" ColumnName="IsOpen" />
+                <ScalarProperty Name="Sales" ColumnName="Sales" />
+                <ScalarProperty Name="Expenses" ColumnName="Expenses" />
+                <ScalarProperty Name="Incomes" ColumnName="Incomes" />
+                <ScalarProperty Name="AmountInit" ColumnName="AmountInit" />
+                <ScalarProperty Name="DateE" ColumnName="DateE" />
+                <ScalarProperty Name="DateS" ColumnName="DateS" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ConnID" ColumnName="ConnID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

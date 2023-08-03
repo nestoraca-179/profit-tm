@@ -39,5 +39,18 @@ namespace ProfitTM.Models
 
             return currencies;
         }
+    
+        public decimal GetRateUSD()
+        {
+            decimal rate = 0;
+
+            var sp_t = db.pObtenerFechaTasa("US$", DateTime.Now);
+            var enumerator = sp_t.GetEnumerator();
+
+            while (enumerator.MoveNext())
+                rate = enumerator.Current.TASA_V.Value;
+
+            return rate;
+        }
     }
 }

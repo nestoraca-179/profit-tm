@@ -18,9 +18,11 @@ namespace ProfitTM.Models
         public Boxes()
         {
             this.BoxMoves = new HashSet<BoxMoves>();
+            this.Transfers = new HashSet<Transfers>();
         }
     
         public int ID { get; set; }
+        public int ConnID { get; set; }
         public string UserID { get; set; }
         public System.DateTime DateS { get; set; }
         public Nullable<System.DateTime> DateE { get; set; }
@@ -29,9 +31,11 @@ namespace ProfitTM.Models
         public decimal Expenses { get; set; }
         public decimal Sales { get; set; }
         public bool IsOpen { get; set; }
-        public int ConnID { get; set; }
+        public string ClosedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BoxMoves> BoxMoves { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transfers> Transfers { get; set; }
     }
 }

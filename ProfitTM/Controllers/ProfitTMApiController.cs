@@ -253,12 +253,16 @@ namespace ProfitTM.Controllers
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
+
             try
             {
-                Box.CloseBox(id);
+                saMovimientoCaja move = Box.CloseBox(id, user, sucur, conn);
 
                 response.Status = "OK";
-                response.Result = id;
+                response.Result = move;
             }
             catch (Exception ex)
             {

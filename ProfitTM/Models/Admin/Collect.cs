@@ -466,6 +466,9 @@ namespace ProfitTM.Models
                                         reng.mont_doc, "110301001", "COBRO", n_coll, 0, null, false, false, false, false, 0, null, null, DateTime.Now, null, null, null, null,
                                         null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
                                     sp_m.Dispose();
+
+                                    // AGREGAR TRANSFERENCIA A CAJA
+                                    Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, "TRANSFERENCIA FACTURA " + fact.doc_num, conn);
                                 }
                             }
 

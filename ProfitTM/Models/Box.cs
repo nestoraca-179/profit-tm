@@ -38,7 +38,7 @@ namespace ProfitTM.Models
                 ProfitTMEntities db = new ProfitTMEntities();
 
                 DateTime fec_d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-                boxes = (from b in db.Boxes.AsNoTracking().Where(b => b.DateS >= fec_d && b.DateS <= DateTime.Now && b.ConnID == conn)
+                boxes = (from b in db.Boxes.AsNoTracking().Where(b => b.ConnID == conn)
                          join u in db.Users.AsNoTracking() on b.UserID equals u.Username
                          select new Box()
                          {
@@ -52,6 +52,7 @@ namespace ProfitTM.Models
                              Expenses = b.Expenses,
                              Sales = b.Sales,
                              IsOpen = b.IsOpen,
+                             ClosedBy = b.ClosedBy,
                              Sup = u.SupID.ToString(),
                              BoxType = u.BoxType ?? 0
 
@@ -61,6 +62,7 @@ namespace ProfitTM.Models
                 {
                     box.Sup = box.Sup != "" ? User.GetUserByID(box.Sup).Username : null;
                     box.BoxMoves = db.BoxMoves.AsNoTracking().Where(m => m.BoxID == box.ID).ToList();
+                    box.Transfers = db.Transfers.AsNoTracking().Where(t => t.BoxID == box.ID).ToList();
                 }
             }
             catch (Exception ex)
@@ -72,24 +74,27 @@ namespace ProfitTM.Models
             return boxes;
         }
 
-        public static int GetBoxOpenByUser(string user, int conn, int type)
+        public static int GetBoxOpenByUser(string user, int conn, int type, bool closing)
         {
             ProfitTMEntities db = new ProfitTMEntities();
-            Boxes box = db.Boxes.AsNoTracking().OrderByDescending(b => b.DateS).FirstOrDefault(b => b.UserID == user && b.IsOpen && b.ConnID == conn);
+            Boxes box = db.Boxes.AsNoTracking().OrderByDescending(b => b.DateS).Single(b => b.UserID == user && b.IsOpen && b.ConnID == conn);
 
             if (box != null)
             {
                 if (type == 1)
                 {
-                    if (box.DateS.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    if (closing)
                         return box.ID;
                     else
-                        return 0;
+                    {
+                        if (box.DateS.ToShortDateString() == DateTime.Now.ToShortDateString())
+                            return box.ID;
+                        else
+                            return 0;
+                    }
                 }
                 else
-                {
                     return box.ID;
-                }
             }
             else
                 return 0;
@@ -159,7 +164,7 @@ namespace ProfitTM.Models
             ProfitTMEntities db = new ProfitTMEntities();
 
             Users us = User.GetUserByName(box_m);
-            Boxes box = GetBoxByID(GetBoxOpenByUser(box_m, conn, us.BoxType.Value).ToString());
+            Boxes box = GetBoxByID(GetBoxOpenByUser(box_m, conn, us.BoxType.Value, descrip.Contains("CIERRE DE CAJA")).ToString());
             BoxMoves move = new BoxMoves()
             {
                 BoxID = box.ID,
@@ -192,7 +197,7 @@ namespace ProfitTM.Models
             ProfitTMEntities db = new ProfitTMEntities();
 
             Users us = User.GetUserByName(user);
-            Boxes box = GetBoxByID(GetBoxOpenByUser(user, conn, us.BoxType.Value).ToString());
+            Boxes box = GetBoxByID(GetBoxOpenByUser(user, conn, us.BoxType.Value, false).ToString());
             BoxMoves move = new BoxMoves() { 
                 BoxID = box.ID,
                 UserID = user,
@@ -209,16 +214,34 @@ namespace ProfitTM.Models
             db.SaveChanges();
         }
 
-        public static void CloseBox(string id)
+        public static saMovimientoCaja CloseBox(string id, string user, string sucur, int conn)
         {
             ProfitTMEntities db = new ProfitTMEntities();
 
             Boxes box = GetBoxByID(id);
             box.DateE = DateTime.Now;
             box.IsOpen = false;
-            db.Entry(box).State = EntityState.Modified;
+            box.ClosedBy = user;
 
+            saMovimientoCaja move = new saMovimientoCaja()
+            {
+                descrip = string.Format("CIERRE DE CAJA {0} HACIA CAJA {1}", box.UserID, user),
+                tipo_mov = "E",
+                cod_caja = user,
+                forma_pag = "EF",
+                tasa = 0,
+                monto_h = box.AmountInit + box.Incomes - box.Expenses + box.Sales,
+                origen = "CAJ",
+                campo8 = box.UserID
+            };
+
+            saMovimientoCaja new_move = new BoxMove().AddBoxMove(move, user, sucur, false, false, true, conn);
+
+            box.Expenses += (box.AmountInit + box.Incomes - box.Expenses + box.Sales);
+            db.Entry(box).State = EntityState.Modified;
             db.SaveChanges();
+
+            return new_move;
         }
 
         public static void CloseAllBoxes()

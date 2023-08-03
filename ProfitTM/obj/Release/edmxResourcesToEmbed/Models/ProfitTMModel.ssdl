@@ -14,6 +14,7 @@
     <Property Name="Expenses" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Sales" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="IsOpen" Type="bit" Nullable="false" />
+    <Property Name="ClosedBy" Type="varchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="BoxMoves">
     <Key>
@@ -93,6 +94,20 @@
     <Property Name="FormatReport" Type="varchar" MaxLength="50" />
     <Property Name="IsEnabled" Type="bit" Nullable="false" />
     <Property Name="GroupID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Transfers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BoxID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="AccountID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="DocNum" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Comment" Type="varchar(max)" Nullable="false" />
+    <Property Name="Concilied" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TreeReports">
     <Key>
@@ -225,6 +240,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Boxes_Transfers">
+    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1" />
+    <End Role="Transfers" Type="Self.Transfers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Boxes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Transfers">
+        <PropertyRef Name="BoxID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_GroupR_Reps">
     <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />
     <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
@@ -258,6 +285,7 @@
     <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transfers" EntityType="Self.Transfers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TreeReports" EntityType="Self.TreeReports" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserModules" EntityType="Self.UserModules" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserOptions" EntityType="Self.UserOptions" Schema="dbo" store:Type="Tables" />
@@ -285,6 +313,10 @@
     <AssociationSet Name="FK_Boxes_BoxMoves" Association="Self.FK_Boxes_BoxMoves">
       <End Role="Boxes" EntitySet="Boxes" />
       <End Role="BoxMoves" EntitySet="BoxMoves" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Boxes_Transfers" Association="Self.FK_Boxes_Transfers">
+      <End Role="Boxes" EntitySet="Boxes" />
+      <End Role="Transfers" EntitySet="Transfers" />
     </AssociationSet>
     <AssociationSet Name="FK_GroupR_Reps" Association="Self.FK_GroupR_Reps">
       <End Role="GroupReports" EntitySet="GroupReports" />
