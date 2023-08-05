@@ -77,7 +77,7 @@ namespace ProfitTM.Models
         public static int GetBoxOpenByUser(string user, int conn, int type, bool closing)
         {
             ProfitTMEntities db = new ProfitTMEntities();
-            Boxes box = db.Boxes.AsNoTracking().OrderByDescending(b => b.DateS).Single(b => b.UserID == user && b.IsOpen && b.ConnID == conn);
+            Boxes box = db.Boxes.AsNoTracking().OrderByDescending(b => b.DateS).SingleOrDefault(b => b.UserID == user && b.IsOpen && b.ConnID == conn);
 
             if (box != null)
             {

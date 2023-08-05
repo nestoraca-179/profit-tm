@@ -2753,7 +2753,7 @@
 
                 var cob = {
                     campo1: $scope.invoice.doc_num.trim(), // NRO.FACTURA
-                    campo2: $scope.remaining,              // SALDO RESTANTE
+                    campo2: $scope.remaining.toFixed(2),   // SALDO RESTANTE
                     campo3: $scope.change,                 // CAMBIO
                     campo4: $scope.advance,                // ADELANTO O VUELTO
                     campo5: $scope.calcRetIva,             // APLICAR DIFERENCIA DE RET IVA
