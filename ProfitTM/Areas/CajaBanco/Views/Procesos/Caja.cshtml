@@ -810,7 +810,13 @@
 
                 $("#modalWarning").modal("show");
             } else {
-                $scope.addBox("0");
+                if (us.BoxType == 1) {
+                    $scope.addBox("0");
+                } else {
+                    setTimeout(() => $('#initAmount').focus(), 1000);
+                    $("#modal-new").modal("show");
+                }
+                // $scope.addBox("0");
             }
         }
 
@@ -887,58 +893,69 @@
         }
 
         $scope.closeBox = function () {
+
+            let box = $scope.boxes.find(b =>
+                b.UserID == user &&                 // busca caja que sea del mismo usuario
+                b.IsOpen                            // busca caja que este abierta
+            );
+
             $("#modal-dollar-sign").modal("hide");
-            $("#modalWaiting").modal("show");
+            if (box != null) {
+                $("#modalWaiting").modal("show");
 
-            $http.get("/api/ProfitTMApi/CloseBox/" + $scope.boxId)
-                .then(function (response) {
+                $http.get("/api/ProfitTMApi/CloseBox/" + $scope.boxId)
+                    .then(function (response) {
 
-                    var res = response.data;
-                    if (res.Status == "OK") {
+                        var res = response.data;
+                        if (res.Status == "OK") {
 
-                        var box = $scope.boxes.find(b => b.ID == $scope.boxId);
-                        var amount = box.AmountInit + box.Incomes - box.Expenses + box.Sales;
-                        box.DateE = new Date(Date.now());
-                        box.IsOpen = false;
-                        box.ClosedBy = user;
+                            var box = $scope.boxes.find(b => b.ID == $scope.boxId);
+                            var amount = box.AmountInit + box.Incomes - box.Expenses + box.Sales;
+                            box.DateE = new Date(Date.now());
+                            box.IsOpen = false;
+                            box.ClosedBy = user;
 
-                        $("#modalSuccess").modal("show");
-                        $scope.successMessage = "Caja cerrada con éxito";
+                            $("#modalSuccess").modal("show");
+                            $scope.successMessage = "Caja cerrada con éxito";
 
-                        /* PRIMER MOVIMIENTO */
-                        var move = {
-                            ID: res.Result.campo2,
-                            BoxID: res.Result.campo1,
-                            UserID: user,
-                            Amount: amount,
-                            Type: 2,
-                            Date: new Date(Date.now()),
-                            Comment: res.Result.descrip
-                        };
-                        
-                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
-                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Expenses += move.Amount;
+                            /* PRIMER MOVIMIENTO */
+                            var move = {
+                                ID: res.Result.campo2,
+                                BoxID: res.Result.campo1,
+                                UserID: user,
+                                Amount: amount,
+                                Type: 2,
+                                Date: new Date(Date.now()),
+                                Comment: res.Result.descrip
+                            };
 
-                        /* SEGUNDO MOVIMIENTO */
-                        var move2 = {
-                            ID: res.Result.campo4,
-                            BoxID: res.Result.campo3,
-                            UserID: user,
-                            Amount: amount,
-                            Type: 1,
-                            Date: new Date(Date.now()),
-                            Comment: res.Result.descrip + " (INGRESO)"
-                        };
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Expenses += move.Amount;
 
-                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).BoxMoves.push(move2);
-                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Incomes += move2.Amount;
+                            /* SEGUNDO MOVIMIENTO */
+                            var move2 = {
+                                ID: res.Result.campo4,
+                                BoxID: res.Result.campo3,
+                                UserID: user,
+                                Amount: amount,
+                                Type: 1,
+                                Date: new Date(Date.now()),
+                                Comment: res.Result.descrip + " (INGRESO)"
+                            };
 
-                    } else {
-                        $("#modalError").modal("show");
-                        $scope.errorMessage = res.Message;
-                    }
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).BoxMoves.push(move2);
+                            $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Incomes += move2.Amount;
 
-                });
+                        } else {
+                            $("#modalError").modal("show");
+                            $scope.errorMessage = res.Message;
+                        }
+
+                    });
+            } else {
+                $("#modalError").modal("show");
+                $scope.errorMessage = "Debes abrir caja para proceder con el cierre";
+            }
         }
 
         $scope.viewBoxDetails = function (id) {
