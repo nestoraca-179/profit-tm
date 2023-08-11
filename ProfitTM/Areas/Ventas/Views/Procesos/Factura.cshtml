@@ -193,6 +193,7 @@
                 </table>
             </div>
             <button type="button" class="btn btn-primary mt-2" ng-click="loadInvoices()">Cargar más facturas</button>
+            <button type="button" class="btn btn-success mt-1" data-toggle="modal" data-target="#modalSearchInvoice" onclick="focusField('#n_fact')">Buscar factura anterior</button>
         </div>
         <hr class="divider" />
         <form action="" method="post" id="form" class="col-md-12 col-xl-9 container-form" onsubmit="return false;">
@@ -618,7 +619,7 @@
                     <div style="width: 80%; margin: 50px auto; display: flex; align-items: center;">
                         <label style="flex: 1;">Ingrese Nro. de Preliquidación</label>
                         <div class="input-search" style="flex: 1; position: relative;">
-                            <input type="text" class="form-control" id="n_preliq" ng-model="idOrder" ng-keypress="detectEnter($event.originalEvent)" />
+                            <input type="text" class="form-control" id="n_preliq" ng-model="idOrder" ng-keypress="detectEnter($event.originalEvent, 'P')" />
                             <i class="fas fa-search" role="button" id="btn-preliq" ng-click="getOrders()" data-name="n_preliq"></i>
                             <label class="text-danger text-center w-100" id="text-error" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
                             <label class="text-primary text-center w-100" id="text-search" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
@@ -628,6 +629,33 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-error').text('');">Cerrar</button>
                     <button type="button" class="btn btn-primary" ng-click="searchOrder(idOrder)">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Buscar Factura -->
+    <div class="modal fade" id="modalSearchInvoice" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Factura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$('#text-error-f').text('');">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div style="width: 80%; margin: 50px auto; display: flex; align-items: center;">
+                        <label style="flex: 1;">Ingrese Nro. de Factura</label>
+                        <div class="input-search" style="flex: 1; position: relative;">
+                            <input type="text" class="form-control" id="n_fact" ng-model="idInvoice" ng-keypress="detectEnter($event.originalEvent, 'F')" />
+                            <label class="text-danger text-center w-100" id="text-error-f" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
+                            <label class="text-primary text-center w-100" id="text-search-f" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-error-f').text('');">Cerrar</button>
+                    <button type="button" class="btn btn-primary" ng-click="searchSingleInvoice(idInvoice)">Seleccionar</button>
                 </div>
             </div>
         </div>
@@ -1717,12 +1745,19 @@
                 });
         }
 
-        $scope.detectEnter = function (e) {
-            if (e.which == 13) {
-                $scope.searchOrder($scope.idOrder);
-            } else {
-                $("#text-error").text("");
-                $("#text-fail").text("");
+        $scope.detectEnter = function (e, i) {
+            if (i == 'P') {
+                if (e.which == 13) {
+                    $scope.searchOrder($scope.idOrder);
+                } else {
+                    $("#text-error").text("");
+                }
+            } else if (i == 'F') {
+                if (e.which == 13) {
+                    $scope.searchSingleInvoice($scope.idInvoice);
+                } else {
+                    $("#text-error-f").text("");
+                }
             }
         }
 
@@ -1791,7 +1826,6 @@
                 $("#text-error").text("**DEBES INGRESAR UN NÚMERO DE PRELIQUIDACIÓN**");
                 $("#text-search").text("");
             }
-
         }
 
         $scope.deleteOrder = function (id) {
@@ -1971,6 +2005,55 @@
                     }
 
                 });
+        }
+
+        $scope.searchSingleInvoice = function (id) {
+
+            $("#text-error-f").text("");
+            if (!isNullOrEmpty(id)) {
+
+                $("#text-search-f").text("BUSCANDO FACTURA...");
+                $http.get("/api/ProfitTMApi/GetInvoice/" + id)
+                    .then(function (response) {
+
+                        var res = response.data;
+                        if (res.Status == "OK") {
+
+                            $("#modalSearchInvoice").modal("hide");
+
+                            $scope.invoices.unshift(res.Result);
+                            $scope.invoice = $scope.invoices[0];
+                            $scope.invoice = convert($scope.invoice); // AGREGAR PRECIOS OM, DESCRIPCIONES Y FECHAS
+
+                            $("#n_fact").val("");
+                            $("#text-error-f").text("");
+                            $("#text-search-f").text("");
+
+                        } else {
+                            $scope.idInvoice = "";
+                            $("#n_fact").focus();
+                            $("#text-search-f").text("");
+
+                            if (res.Message == "0")
+                                $("#text-error-f").text("**FACTURA NO ENCONTRADA**");
+                            else if (res.Message == "1")
+                                $("#text-error-f").text("**FACTURA DE OTRA SUCURSAL**");
+                            else
+                                $("#text-error-f").text("**HA OCURRIDO UN ERROR**");
+                        }
+
+                    }, function () {
+                        $scope.idInvoice = "";
+                        $("#n_fact").val("");
+                        $("#n_fact").focus();
+                        $("#text-search-f").text("");
+                        $("#text-error-f").text("**HA OCURRIDO UN ERROR**");
+                    });
+
+            } else {
+                $("#text-error-f").text("**DEBES INGRESAR UN NÚMERO DE FACTURA**");
+                $("#text-search-f").text("");
+            }
         }
 
         // FUNCIONES DE FACTURA MANUAL
@@ -2754,7 +2837,7 @@
                 var cob = {
                     campo1: $scope.invoice.doc_num.trim(), // NRO.FACTURA
                     campo2: $scope.remaining.toFixed(2),   // SALDO RESTANTE
-                    campo3: $scope.change,                 // CAMBIO
+                    campo3: $scope.change.toFixed(2),      // CAMBIO
                     campo4: $scope.advance,                // ADELANTO O VUELTO
                     campo5: $scope.calcRetIva,             // APLICAR DIFERENCIA DE RET IVA
                     campo6: $scope.calcRetIslr,            // APLICAR DIFERENCIA DE RET ISLR

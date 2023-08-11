@@ -631,6 +631,46 @@ namespace ProfitTM.Controllers
         }
 
         [HttpGet]
+        [Route("api/ProfitTMApi/GetInvoice/{id}")]
+        public ProfitTMResponse GetInvoice(string id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+
+            try
+            {
+                saFacturaVenta invoice = Invoice.GetSaleInvoiceByID(id);
+
+                if (invoice != null)
+                {
+                    if (invoice.co_sucu_in.Trim() == sucur)
+                    {
+                        response.Status = "OK";
+                        response.Result = invoice;
+                    }
+                    else
+                    {
+                        response.Status = "ERROR";
+                        response.Message = "1"; // FACTURA DE OTRA SUCURSAL
+                    }
+                }
+                else
+                {
+                    response.Status = "ERROR";
+                    response.Message = "0"; // FACTURA NO EXISTE
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message; // HA OCURRIDO UN ERROR
+                Incident.CreateIncident("ERROR BUSCANDO FACTURA " + id, ex);
+            }
+
+            return response;
+        }
+        
+        [HttpGet]
         [Route("api/ProfitTMApi/SetPrintedInvoice/{id}")]
         public ProfitTMResponse SetPrintedInvoice(string id)
         {
