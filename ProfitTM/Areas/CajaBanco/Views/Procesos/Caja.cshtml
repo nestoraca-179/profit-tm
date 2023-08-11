@@ -184,7 +184,7 @@
     <div>
         <h5 class="my-3">Cajas abiertas</h5>
         <div class="container-card-boxes">
-            <div ng-repeat="box in boxes | filter: { IsOpen: true } | orderBy:'-DateS'" ng-class="{ first: box.Level == 1, second: box.Level == 2, third: box.Level == 3 }" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
+            <div ng-repeat="box in boxes | filter: { IsOpen: true } | orderBy:['-Level', '-DateS']" ng-class="{ first: box.Level == 1, second: box.Level == 2, third: box.Level == 3 }" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
                 <p class="card-box-header">{{ box.Descrip }} <br /> {{ formatDate(box.DateS).split(' ')[0] }} {{ formatDate(box.DateS).split(' ')[1] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
@@ -201,7 +201,7 @@
         </div>
         <h5 class="my-3">Cajas cerradas</h5>
         <div class="container-card-boxes">
-            <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:'-DateS'" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
+            <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:['-Level', '-DateS']" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
                 <p class="card-box-header">{{ box.Descrip }} <br /> {{ formatDate(box.DateS).split(' ')[0] }} {{ formatDate(box.DateS).split(' ')[1] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
