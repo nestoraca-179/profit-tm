@@ -475,6 +475,8 @@
     <Content Include="Scripts\module-exportdata.js" />
     <Content Include="Scripts\module-exporting.js" />
     <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\table2excel.js" />
+    <Content Include="Scripts\tableToExcel.js" />
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
