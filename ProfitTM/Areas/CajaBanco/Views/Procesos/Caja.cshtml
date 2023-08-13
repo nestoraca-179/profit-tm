@@ -61,7 +61,7 @@
     }
     .container-card-boxes {
         display: flex;
-        justify-content: space-between;
+        /*justify-content: space-between;*/
         flex-wrap: wrap;
     }
     .card-box {
@@ -70,6 +70,13 @@
         height: 200px;
         position: relative;
         cursor: pointer;
+        margin: 5px 5px 5px 0;
+    }
+    .container-card-boxes > .card-box:first-of-type {
+        /*margin-left: 0 !important;*/
+    }
+    .container-card-boxes > .card-box:last-of-type {
+        /*margin-right: 0 !important;*/
     }
     .card-box i.fa-desktop {
         width: 50px;
@@ -162,6 +169,7 @@
     }
 </style>
 <script src="~/Scripts/angular-min.js"></script>
+<script src="~/Scripts/table2excel.js"></script>
 <div class="container-fluid container-boxes my-3" style="display: none;" ng-app="Boxes" ng-controller="controller">
     <div class="row m-3">
         <div class="col d-flex align-items-center">
@@ -184,7 +192,7 @@
     <div>
         <h5 class="my-3">Cajas abiertas</h5>
         <div class="container-card-boxes">
-            <div ng-repeat="box in boxes | filter: { IsOpen: true } | orderBy:['-Level', '-DateS']" ng-class="{ first: box.Level == 1, second: box.Level == 2, third: box.Level == 3 }" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
+            <div ng-repeat="box in boxes | filter: { IsOpen: true } | orderBy:['-Level', '-DateS']" class="card-box shadow-tm" ng-class="{ first: box.Level == 1, second: box.Level == 2, third: box.Level == 3 }" ng-click="viewBoxDetails(box.ID)">
                 <p class="card-box-header">{{ box.Descrip }} <br /> {{ formatDate(box.DateS).split(' ')[0] }} {{ formatDate(box.DateS).split(' ')[1] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
@@ -200,8 +208,9 @@
             <p ng-if="showNoItems(true)" class="w-100 my-0 text-center">No hay cajas abiertas</p>
         </div>
         <h5 class="my-3">Cajas cerradas</h5>
-        <div class="container-card-boxes">
-            <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:['-Level', '-DateS']" class="card-box shadow-tm my-2" ng-click="viewBoxDetails(box.ID)">
+        <div ng-repeat="date in uniqueDates" class="container-card-boxes">
+            <p class="w-100 my-2">{{ date }}</p>
+            <div ng-repeat="box in boxes | filter: { IsOpen: false } | orderBy:['-Level', '-DateS']" class="card-box shadow-tm" ng-if="viewCloseBox(box.DateS, date)" ng-click="viewBoxDetails(box.ID)">
                 <p class="card-box-header">{{ box.Descrip }} <br /> {{ formatDate(box.DateS).split(' ')[0] }} {{ formatDate(box.DateS).split(' ')[1] }}</p>
                 <i class="fas fa-desktop"></i>
                 <div ng-if="box.IsOpen" class="card-box-status">
@@ -349,7 +358,7 @@
                 <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
                     <div style="max-height: 300px; overflow-y: auto;">
                         <p ng-if="movs.length == 0" class="text-center">No hay movimientos</p>
-                        <table ng-if="movs.length > 0" class="table table-striped">
+                        <table ng-if="movs.length > 0" class="table table-striped" id="table-movs-{{ box.ID }}">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -375,6 +384,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button ng-if="movs.length > 0" type="button" class="btn btn-success" ng-click="exportExcel('xlsx', 'table-movs-' + box.ID, 'MovimientosCaja' + box.ID + '.xlsx')">
+                        <i class="fas fa-file-excel"></i> Exportar a Excel
+                    </button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -393,7 +405,7 @@
                 <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
                     <div style="max-height: 300px; overflow-y: auto;">
                         <p ng-if="trans.length == 0" class="text-center">No hay transferencias</p>
-                        <table ng-if="trans.length > 0" class="table table-striped">
+                        <table ng-if="trans.length > 0" class="table table-striped" id="table-trans-{{ box.ID }}">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -418,6 +430,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button ng-if="trans.length > 0" type="button" class="btn btn-success" ng-click="exportExcel('xlsx', 'table-trans-' + box.ID, 'TransferenciasCaja' + box.ID + '.xlsx')">
+                        <i class="fas fa-file-excel"></i> Exportar a Excel
+                    </button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -783,6 +798,8 @@
                     }
 
                     boxes = $scope.boxes;
+                    $scope.updateDates();
+
                     $(".container-boxes").removeAttr("style");
                     $(".panel-loading").css("display", "none");
 
@@ -791,6 +808,8 @@
                 }
 
             });
+
+        $scope.viewCloseBox = (value, date) => new Date(value).toLocaleString("es-ES", options).split(", ")[0] == date;
 
         $scope.setSeparator = (value) => setSeparator(value);
 
@@ -828,6 +847,13 @@
         $scope.viewTrans = function (id) {
             $scope.trans = $scope.boxes.find(b => b.ID == id).Transfers;
             $("#modal-trans").modal("show");
+        }
+
+        $scope.exportExcel = function (type, table, fn, dl) {
+            var elt = document.getElementById(table);
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "Movimientos", raw: true });
+            XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' });
+            XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
         }
 
         $scope.setId = function (id, total) {
@@ -945,6 +971,7 @@
 
                             $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).BoxMoves.push(move2);
                             $scope.boxes.find(b => b.ID == parseInt(res.Result.campo3)).Incomes += move2.Amount;
+                            $scope.updateDates();
 
                         } else {
                             $("#modalError").modal("show");
@@ -1037,7 +1064,7 @@
                         'Content-Type': 'application/json'
                     },
                 }
-                
+
                 $http(req).then(function (response) {
 
                     var res = response.data;
@@ -1133,7 +1160,7 @@
                     if (res.Status == "OK") {
                         $("#modalSuccess").modal("show");
                         $scope.successMessage = `El retiro se ha agregado con éxito bajo la Orden de Pago N° ${res.Result.ord_num}`;
-                        
+
                         var move = {
                             ID: res.Result.campo2,
                             BoxID: res.Result.campo1,
@@ -1168,7 +1195,15 @@
                 });
             }
         }
+
+        $scope.updateDates = function () {
+            $scope.uniqueDates = $scope.boxes.filter(b => !b.IsOpen).map(b => new Date(b.DateS).toLocaleString("es-ES", options).split(", ")[0]).filter(filterBoxes).reverse();
+        }
     });
+
+    function filterBoxes(value, index, array) {
+        return array.indexOf(value) === index;
+    }
 
     function origDate(value) {
 
