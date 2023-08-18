@@ -204,7 +204,7 @@ namespace ProfitTM.Models
                 Amount = amount,
                 Type = 1,
                 Date = DateTime.Now,
-                Comment = "COBRO EN DOLARES FACT " + fact
+                Comment = fact
             };
 
             box.Sales += amount;

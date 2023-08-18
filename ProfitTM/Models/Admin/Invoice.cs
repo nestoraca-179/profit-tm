@@ -356,7 +356,7 @@ namespace ProfitTM.Models
                             {
                                 string consec = "FACT_VTA_N_CON";
 
-                                if (user == "KKCC" || user == "LMMS" || user == "FJPN")
+                                if (user == "KKCC" || user == "GSSP" || user == "FJPN")
                                     consec = "FACT_VTA_N_CON_2";
 
                                 var sp_n_cont = context.pConsecutivoProximo(sucur, consec).GetEnumerator();

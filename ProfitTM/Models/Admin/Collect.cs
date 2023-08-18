@@ -462,13 +462,13 @@ namespace ProfitTM.Models
                                     n_mov_b = GetNextConsec(sucur, "MOVB_NUM");
 
                                     // INSERTAR MOVIMIENTO BANCO
-                                    var sp_m = context.pInsertarMovimientoBanco(n_mov_b, "MOVIMIENTO BANCO COBRO " + n_coll, reng.cod_cta, DateTime.Now, 1, "TP", reng.num_doc,
-                                        reng.mont_doc, "110301001", "COBRO", n_coll, 0, null, false, false, false, false, 0, null, null, DateTime.Now, null, null, null, null,
+                                    var sp_m = context.pInsertarMovimientoBanco(n_mov_b, "MOVIMIENTO BANCO COBRO " + n_coll, reng.cod_cta, reng.fecha_che, 1, "TP", reng.num_doc,
+                                        reng.mont_doc, "110301001", "COBRO", n_coll, 0, null, false, false, false, false, 0, null, null, reng.fecha_che, null, null, null, null,
                                         null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
                                     sp_m.Dispose();
 
                                     // AGREGAR TRANSFERENCIA A CAJA
-                                    Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, "TRANSFERENCIA FACTURA " + fact.doc_num, conn);
+                                    Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, fact.doc_num, conn);
                                 }
                             }
 
@@ -532,9 +532,10 @@ namespace ProfitTM.Models
                                 string c_cta = !isBox ? reng.cod_cta : null;
                                 string c_ban = !isBox ? new Account().GetBankAccountByID(reng.cod_cta).co_ban : null;
                                 decimal mont_doc = isBox && change > 0 && !isAdvance ? reng.mont_doc - change : reng.mont_doc;
+                                DateTime fecha = isBox ? DateTime.Now : reng.fecha_che;
 
                                 var sp_t = context.pInsertarRenglonesTPCobro(r, n_coll, reng.forma_pag, mov_c, mov_b, n_doc, false, mont_doc, c_cta, c_ban, null, null,
-                                    c_caj, DateTime.Now, sucur, user, null, null, "SERVER PROFIT WEB");
+                                    c_caj, fecha, sucur, user, null, null, "SERVER PROFIT WEB");
                                 sp_t.Dispose();
 
                                 r++;
@@ -587,7 +588,7 @@ namespace ProfitTM.Models
 
                             // INSERTAR COBRO CRUCE
                             var sp_cc = context.pInsertarCobro(n_coll, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, DateTime.Now, false, 0, null,
-                                "COBRO FACT " + fact.doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+                                "CRUCE FACT " + fact.doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
                             sp_cc.Dispose();
 
                             // INSERTAR DOC COBRO CRUCE

@@ -1046,7 +1046,7 @@
                                                 <td>{{ reng.forma_pag }}</td>
                                                 <td>{{ reng.num_doc }}</td>
                                                 <td>{{ reng.co_ban }}</td>
-                                                <td>{{ reng.fecha_che }}</td>
+                                                <td>{{ reng.fecha_che.toLocaleDateString('es-ES', options).split(',')[0] }}</td>
                                                 <td>{{ reng.cod_caja }}</td>
                                                 <td>{{ reng.cod_cta }}</td>
                                                 <td>{{ reng.co_mone }}</td>
@@ -1606,6 +1606,7 @@
         $scope.user = user.trim();
         $scope.us = us;
         $scope.sucur = sucur;
+        $scope.options = options;
         $scope.reng = {
             total_art: 1,
             reng_neto_om: (0).toFixed(2),
@@ -2564,6 +2565,7 @@
 
         $scope.resetDataTransf = function () {
             $scope.amount_transf = '';
+            $scope.date_transf = new Date(Date.now());
             $scope.num_transf = '';
             $scope.cod_cta = '';
             $("#cod_cta").val("");
@@ -2633,7 +2635,7 @@
                     forma_pag: "TP",
                     num_doc: $scope.num_transf,
                     co_ban: searchBankAccount($scope.cod_cta).co_ban,
-                    fecha_che: $scope.date_transf.toLocaleString("es-ES", options).replace(",", "").split(" ")[0],
+                    fecha_che: $scope.date_transf,
                     cod_caja: null,
                     cod_cta: $scope.cod_cta,
                     co_mone: "BSD",
