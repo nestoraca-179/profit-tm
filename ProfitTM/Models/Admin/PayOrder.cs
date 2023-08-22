@@ -70,7 +70,7 @@ namespace ProfitTM.Models
                         sp_r.Dispose();
                         tran.Commit();
 
-                        BoxMoves move = Box.AddMove(user, po.cod_caja, reng.monto_d, false, po.descrip + " (OP)", conn);
+                        BoxMoves move = Box.AddMove(user, po.cod_caja, reng.monto_d, false, string.Format("{0} (OP. {1})", po.descrip, n_ord.Trim()), conn);
 
                         new_order = GetPayOrderByID(n_ord);
                         new_order.campo1 = move.BoxID.ToString();

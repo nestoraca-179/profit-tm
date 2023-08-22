@@ -1168,7 +1168,7 @@
                             Amount: amount,
                             Type: 2,
                             Date: new Date(Date.now()),
-                            Comment: res.Result.descrip + " (OP)"
+                            Comment: res.Result.descrip + " (OP. " + res.Result.ord_num.trim() + ")"
                         };
 
                         $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);

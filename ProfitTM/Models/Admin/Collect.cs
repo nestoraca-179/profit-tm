@@ -437,7 +437,7 @@ namespace ProfitTM.Models
                                     sp_m.Dispose();
 
                                     // AGREGAR VENTA A CAJA
-                                    Box.AddSale(fact.doc_num, mont_doc_usd, user, conn);
+                                    Box.AddSale(string.Format("{0} (COB. {1})", fact.doc_num.Trim(), n_coll.Trim()), mont_doc_usd, user, conn);
 
                                     // MONTO AJPM DE 3% IGTF
                                     igtf = Convert.ToDecimal(reng.mov_num_c, new CultureInfo("en-US"));
@@ -468,7 +468,7 @@ namespace ProfitTM.Models
                                     sp_m.Dispose();
 
                                     // AGREGAR TRANSFERENCIA A CAJA
-                                    Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, fact.doc_num, conn);
+                                    Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, string.Format("{0} (COB. {1})", fact.doc_num.Trim(), n_coll.Trim()), conn);
                                 }
                             }
 
