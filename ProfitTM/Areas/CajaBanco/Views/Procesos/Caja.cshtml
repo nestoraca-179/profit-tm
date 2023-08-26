@@ -370,7 +370,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="m in movs" style="font-size: 14px;">
+                                <tr ng-repeat="m in movs | orderBy:'-Date'" style="font-size: 14px;">
                                     <td>{{ m.ID }}</td>
                                     <td>{{ m.UserID }}</td>
                                     <td ng-if="m.Type == 1" style="font-weight: bold;" class="text-success">INGRESO (+)</td>
@@ -417,7 +417,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="t in trans" style="font-size: 14px;">
+                                <tr ng-repeat="t in trans | orderBy:'-Date'" style="font-size: 14px;">
                                     <td>{{ t.ID }}</td>
                                     <td>{{ t.DocNum }}</td>
                                     <td>{{ t.AccountID }}</td>
