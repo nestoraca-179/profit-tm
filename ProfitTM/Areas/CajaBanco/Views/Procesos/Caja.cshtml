@@ -174,7 +174,7 @@
     <div class="row m-3">
         <div class="col d-flex align-items-center">
             @{
-                if (ViewBag.sucur == "002" && ViewBag.user.UseBox)
+                if ((ViewBag.sucur == "002" || ViewBag.sucur == "004" || ViewBag.sucur == "005") && ViewBag.user.UseBox)
                 {
                     <button class="btn btn-success d-flex align-items-center" ng-click="initBox()">
                         <i class="fas fa-plus"></i>

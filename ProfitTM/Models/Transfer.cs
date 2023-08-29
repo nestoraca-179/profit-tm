@@ -57,7 +57,8 @@ namespace ProfitTM.Models
                 DocNum = num,
                 Date = DateTime.Now,
                 Comment = descrip,
-                Concilied = false
+                Concilied = false,
+                Cancelled = false
             };
 
             db.Transfers.Add(transfer);

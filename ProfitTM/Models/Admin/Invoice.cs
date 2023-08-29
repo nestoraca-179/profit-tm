@@ -39,21 +39,24 @@ namespace ProfitTM.Models
 
             try
             {
-                invoices = db.saFacturaVenta.AsNoTracking().Where(i => i.co_sucu_in == sucur).Include("saFacturaVentaReng").Include("saCliente")
-                    .Include("saVendedor").Include("saCondicionPago").OrderByDescending(i => i.fe_us_in).ThenBy(i => i.doc_num).Take(number).ToList();
-
-                foreach (saFacturaVenta invoice in invoices)
+                using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
                 {
-                    List<bool> rets = HasRet(invoice.doc_num);
+                    invoices = context.saFacturaVenta.AsNoTracking().Where(i => i.co_sucu_in == sucur).Include("saFacturaVentaReng").Include("saCliente")
+                        .Include("saVendedor").Include("saCondicionPago").OrderByDescending(i => i.fe_us_in).ThenBy(i => i.doc_num).Take(number).ToList();
 
-                    invoice.saCliente.saFacturaVenta = null;
-                    invoice.saVendedor.saFacturaVenta = null;
-                    invoice.saCondicionPago.saFacturaVenta = null;
-                    invoice.co_us_in = rets[0].ToString();
-                    invoice.co_us_mo = rets[1].ToString();
-                    foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
+                    foreach (saFacturaVenta invoice in invoices)
                     {
-                        reng.saFacturaVenta = null;
+                        List<bool> rets = HasRet(invoice.doc_num);
+
+                        invoice.saCliente.saFacturaVenta = null;
+                        invoice.saVendedor.saFacturaVenta = null;
+                        invoice.saCondicionPago.saFacturaVenta = null;
+                        invoice.co_us_in = rets[0].ToString();
+                        invoice.co_us_mo = rets[1].ToString();
+                        foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
+                        {
+                            reng.saFacturaVenta = null;
+                        }
                     }
                 }
             }
@@ -460,35 +463,38 @@ namespace ProfitTM.Models
         {
             List<bool> result = new List<bool>();
 
-            var results = db.Database.SqlQuery<string>(string.Format(@"select top 1 (
-                select CDR2.nro_doc
-                from saCobroDocReng CDR2
-                where CDR2.co_tipo_doc = 'IVAN' and CDR2.rowguid_reng_ori = CDR.rowguid
-            ) doc_iva
-            from saFacturaVenta FV
-            left join saCobroDocReng CDR on CDR.nro_doc = FV.doc_num
-            where CDR.cob_num is not null and FV.doc_num = '{0}'
-            order by FV.doc_num", doc_num)).ToList();
+            using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
+            {
+                var results = context.Database.SqlQuery<string>(string.Format(@"select top 1 (
+                    select CDR2.nro_doc
+                    from saCobroDocReng CDR2
+                    where CDR2.co_tipo_doc = 'IVAN' and CDR2.rowguid_reng_ori = CDR.rowguid
+                ) doc_iva
+                from saFacturaVenta FV
+                left join saCobroDocReng CDR on CDR.nro_doc = FV.doc_num
+                where CDR.cob_num is not null and FV.doc_num = '{0}'
+                order by FV.doc_num", doc_num)).ToList();
 
-            if (results.Count > 0)
-                result.Add(results[0] != null);
-            else
-                result.Add(false);
+                if (results.Count > 0)
+                    result.Add(results[0] != null);
+                else
+                    result.Add(false);
 
-            results = db.Database.SqlQuery<string>(string.Format(@"select top 1 (
-                select CDR2.nro_doc
-                from saCobroDocReng CDR2
-                where CDR2.co_tipo_doc = 'ISLR' and CDR2.rowguid_reng_ori = CDR.rowguid
-            ) doc_iva
-            from saFacturaVenta FV
-            left join saCobroDocReng CDR on CDR.nro_doc = FV.doc_num
-            where CDR.cob_num is not null and FV.doc_num = '{0}'
-            order by FV.doc_num", doc_num)).ToList();
+                results = context.Database.SqlQuery<string>(string.Format(@"select top 1 (
+                    select CDR2.nro_doc
+                    from saCobroDocReng CDR2
+                    where CDR2.co_tipo_doc = 'ISLR' and CDR2.rowguid_reng_ori = CDR.rowguid
+                ) doc_iva
+                from saFacturaVenta FV
+                left join saCobroDocReng CDR on CDR.nro_doc = FV.doc_num
+                where CDR.cob_num is not null and FV.doc_num = '{0}'
+                order by FV.doc_num", doc_num)).ToList();
 
-            if (results.Count > 0)
-                result.Add(results[0] != null);
-            else
-                result.Add(false);
+                if (results.Count > 0)
+                    result.Add(results[0] != null);
+                else
+                    result.Add(false);
+            }
 
             return result;
         }

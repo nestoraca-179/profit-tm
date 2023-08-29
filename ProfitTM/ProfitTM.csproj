@@ -429,6 +429,7 @@
     <Content Include="Areas\Ventas\Views\Tablas\ConsultarCliente.cshtml" />
     <Content Include="Areas\Compras\Views\Tablas\ConsultarProveedor.cshtml" />
     <Content Include="Areas\Ventas\Views\Procesos\Cobro.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Procesos\ConciliacionM.cshtml" />
     <None Include="Properties\PublishProfiles\Publicacion Local.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />

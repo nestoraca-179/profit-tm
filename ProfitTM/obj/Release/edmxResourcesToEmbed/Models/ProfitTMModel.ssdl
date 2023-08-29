@@ -108,6 +108,7 @@
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="Comment" Type="varchar(max)" Nullable="false" />
     <Property Name="Concilied" Type="bit" Nullable="false" />
+    <Property Name="Cancelled" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TreeReports">
     <Key>

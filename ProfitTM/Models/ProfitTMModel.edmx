@@ -113,6 +113,7 @@
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Comment" Type="varchar(max)" Nullable="false" />
           <Property Name="Concilied" Type="bit" Nullable="false" />
+          <Property Name="Cancelled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TreeReports">
           <Key>
@@ -632,6 +633,7 @@
           <Property Name="Concilied" Type="Boolean" Nullable="false" />
           <Property Name="BoxID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK_Boxes_Transfers" FromRole="Transfers" ToRole="Boxes" />
+          <Property Name="Cancelled" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Boxes">
           <Key>
@@ -825,6 +827,7 @@
           <EntitySetMapping Name="Transfers">
             <EntityTypeMapping TypeName="ProfitTMContext.Transfers">
               <MappingFragment StoreEntitySet="Transfers">
+                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
                 <ScalarProperty Name="BoxID" ColumnName="BoxID" />
                 <ScalarProperty Name="Concilied" ColumnName="Concilied" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />

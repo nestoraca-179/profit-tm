@@ -143,6 +143,7 @@
     <EntitySetMapping Name="Transfers">
       <EntityTypeMapping TypeName="ProfitTMContext.Transfers">
         <MappingFragment StoreEntitySet="Transfers">
+          <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
           <ScalarProperty Name="BoxID" ColumnName="BoxID" />
           <ScalarProperty Name="Concilied" ColumnName="Concilied" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />

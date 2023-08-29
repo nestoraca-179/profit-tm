@@ -296,6 +296,7 @@
     <Property Name="Concilied" Type="Boolean" Nullable="false" />
     <Property Name="BoxID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK_Boxes_Transfers" FromRole="Transfers" ToRole="Boxes" />
+    <Property Name="Cancelled" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Boxes">
     <Key>

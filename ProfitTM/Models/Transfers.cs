@@ -23,6 +23,7 @@ namespace ProfitTM.Models
         public string Comment { get; set; }
         public bool Concilied { get; set; }
         public int BoxID { get; set; }
+        public bool Cancelled { get; set; }
     
         public virtual Boxes Boxes { get; set; }
     }
