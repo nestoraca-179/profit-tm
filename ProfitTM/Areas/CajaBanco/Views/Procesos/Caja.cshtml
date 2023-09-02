@@ -1197,9 +1197,11 @@
         }
 
         $scope.updateDates = function () {
-            $scope.uniqueDates = $scope.uniqueDates = $scope.boxes.filter(b => !b.IsOpen).sort(function (a, b) {
-                return new Date(b.DateS) - new Date(a.DateS);
-            }).map(b => new Date(b.DateS).toLocaleString("es-ES", options).split(", ")[0]).filter(filterBoxes);
+            if ($scope.boxes != null) {
+                $scope.uniqueDates = $scope.boxes.filter(b => !b.IsOpen).sort(function (a, b) {
+                    return new Date(b.DateS) - new Date(a.DateS);
+                }).map(b => new Date(b.DateS).toLocaleString("es-ES", options).split(", ")[0]).filter(filterBoxes);
+            }
         }
     });
 

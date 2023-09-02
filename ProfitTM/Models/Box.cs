@@ -37,8 +37,8 @@ namespace ProfitTM.Models
             {
                 ProfitTMEntities db = new ProfitTMEntities();
 
-                DateTime fec_d = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-                boxes = (from b in db.Boxes.AsNoTracking().Where(b => b.ConnID == conn)
+                DateTime fec_d = DateTime.Now.AddDays(-7);
+                boxes = (from b in db.Boxes.AsNoTracking().Where(b => b.ConnID == conn && b.DateS >= fec_d)
                          join u in db.Users.AsNoTracking() on b.UserID equals u.Username
                          select new Box()
                          {

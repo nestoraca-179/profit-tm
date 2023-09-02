@@ -15,7 +15,7 @@ namespace ProfitTM
     {
         protected void Application_Init()
         {
-            Incident.CreateIncident("APPLICATION INIT", new Exception());
+            // Incident.CreateIncident("APPLICATION INIT", new Exception());
         }
 
         protected void Application_Start()
@@ -91,7 +91,7 @@ namespace ProfitTM
 
         protected void Application_Disposed()
         {
-            Incident.CreateIncident("APPLICATION DISPOSED", new Exception());
+            // Incident.CreateIncident("APPLICATION DISPOSED", new Exception());
         }
 
         protected void Application_End()
@@ -102,7 +102,7 @@ namespace ProfitTM
                 // HttpContext.Current.Session.Abandon();
                 // HttpContext.Current.Session.RemoveAll();
 
-                Incident.CreateIncident("APPLICATION END", new Exception());
+                // Incident.CreateIncident("APPLICATION END", new Exception());
             }
             catch (Exception ex)
             {
@@ -112,12 +112,12 @@ namespace ProfitTM
 
         protected void Session_Start()
         {
-            Incident.CreateIncident("SESSION START", new Exception());
+            // Incident.CreateIncident("SESSION START", new Exception());
         }
 
         protected void Session_End()
         {
-            Incident.CreateIncident("SESSION END", new Exception());
+            // Incident.CreateIncident("SESSION END", new Exception());
         }
 
         private bool IsWebApiRequest()

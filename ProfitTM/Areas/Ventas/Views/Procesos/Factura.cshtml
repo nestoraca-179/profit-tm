@@ -232,7 +232,7 @@
                         <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCancel || invoice.anulado || invoice.status != 0">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCollect || (invoice.co_cond.trim() == '002' && sucur != '002') || invoice.anulado || invoice.saldo == 0" ng-click="initLoadCollect()">
+                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCollect || invoice.anulado || invoice.saldo == 0" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalSearchOrder" onclick="focusField('#n_preliq')">
