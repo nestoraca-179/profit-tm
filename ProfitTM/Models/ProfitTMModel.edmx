@@ -111,6 +111,7 @@
           <Property Name="AccountID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="DocNum" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="DateReg" Type="datetime" Nullable="false" />
           <Property Name="Comment" Type="varchar(max)" Nullable="false" />
           <Property Name="Concilied" Type="bit" Nullable="false" />
           <Property Name="Cancelled" Type="bit" Nullable="false" />
@@ -634,6 +635,7 @@
           <Property Name="BoxID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK_Boxes_Transfers" FromRole="Transfers" ToRole="Boxes" />
           <Property Name="Cancelled" Type="Boolean" Nullable="false" />
+          <Property Name="DateReg" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Boxes">
           <Key>
@@ -827,6 +829,7 @@
           <EntitySetMapping Name="Transfers">
             <EntityTypeMapping TypeName="ProfitTMContext.Transfers">
               <MappingFragment StoreEntitySet="Transfers">
+                <ScalarProperty Name="DateReg" ColumnName="DateReg" />
                 <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
                 <ScalarProperty Name="BoxID" ColumnName="BoxID" />
                 <ScalarProperty Name="Concilied" ColumnName="Concilied" />

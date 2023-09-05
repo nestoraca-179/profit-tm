@@ -42,7 +42,7 @@ namespace ProfitTM.Models
             return transfers;
         }
 
-        public static Transfers AddTransfer(string user, decimal amount, string account, string num, string descrip, int conn)
+        public static Transfers AddTransfer(string user, decimal amount, string account, string num, DateTime date, string descrip, int conn)
         {
             ProfitTMEntities db = new ProfitTMEntities();
 
@@ -55,7 +55,8 @@ namespace ProfitTM.Models
                 Amount = amount,
                 AccountID = account,
                 DocNum = num,
-                Date = DateTime.Now,
+                Date = date,
+                DateReg = DateTime.Now,
                 Comment = descrip,
                 Concilied = false,
                 Cancelled = false

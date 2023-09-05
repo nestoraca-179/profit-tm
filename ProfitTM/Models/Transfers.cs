@@ -24,6 +24,7 @@ namespace ProfitTM.Models
         public bool Concilied { get; set; }
         public int BoxID { get; set; }
         public bool Cancelled { get; set; }
+        public System.DateTime DateReg { get; set; }
     
         public virtual Boxes Boxes { get; set; }
     }

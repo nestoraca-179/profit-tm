@@ -106,6 +106,7 @@
     <Property Name="AccountID" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="DocNum" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="DateReg" Type="datetime" Nullable="false" />
     <Property Name="Comment" Type="varchar(max)" Nullable="false" />
     <Property Name="Concilied" Type="bit" Nullable="false" />
     <Property Name="Cancelled" Type="bit" Nullable="false" />

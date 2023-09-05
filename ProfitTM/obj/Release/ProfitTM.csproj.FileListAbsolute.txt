@@ -410,12 +410,6 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpreadshe
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.xml
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.xml
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\Humanizer.resources.dll
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Helpers.resources.dll
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Mvc.resources.dll
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Razor.resources.dll
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.WebPages.resources.dll
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.WebPages.Deployment.resources.dll
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.WebPages.Razor.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Data.v18.2.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Data.v18.2.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Data.v18.2.resources.dll
@@ -536,3 +530,4 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.Copy
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.pdb
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.AssemblyReference.cache
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepFormatoOrdenPago.resources

@@ -468,7 +468,8 @@ namespace ProfitTM.Models
                                     sp_m.Dispose();
 
                                     // AGREGAR TRANSFERENCIA A CAJA
-                                    Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, string.Format("{0} (COB. {1})", fact.doc_num.Trim(), n_coll.Trim()), conn);
+                                    string descrip = string.Format("{0} (COB. {1})", fact.doc_num.Trim(), n_coll.Trim());
+                                    Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, reng.fecha_che, descrip, conn);
                                 }
                             }
 

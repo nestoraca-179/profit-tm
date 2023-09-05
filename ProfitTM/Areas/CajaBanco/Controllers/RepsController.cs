@@ -101,5 +101,29 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
         {
             return DocumentViewerExtension.ExportTo(report3, Request);
         }
+
+        // RepFormatoOrdenPago
+        RepFormatoOrdenPago report4 = new RepFormatoOrdenPago();
+        public ActionResult RepFormatoOrdenPagoPartial(string id)
+        {
+            string connect = Session["CONNECT"].ToString();
+            Connections conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
+
+            report4.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + conn.Image;
+            report4.LBL_DescEmpresa.Text = conn.Name;
+            report4.LBL_RIF.Text = conn.RIF;
+            report4.LBL_Telf.Text = conn.Phone;
+            report4.LBL_Direc.Text = conn.Address;
+
+            SqlDataSource ds = report4.DataSource as SqlDataSource;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
+            report4.Parameters["nroOrd"].Value = id;
+
+            return PartialView("~/Areas/CajaBanco/Views/Reportes/_RepFormatoOrdenPagoPartial.cshtml", report4);
+        }
+        public ActionResult RepFormatoOrdenPagoPartialExport()
+        {
+            return DocumentViewerExtension.ExportTo(report4, Request);
+        }
     }
 }

@@ -1227,11 +1227,11 @@
                         <input type="text" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="amount_transf" />
                     </div>
                     <div class="controls">
-                        <label>Nro. Documento</label>
+                        <label>Nro. Referencia</label>
                         <input type="text" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="num_transf" />
                     </div>
                     <div class="controls">
-                        <label>Fecha</label>
+                        <label>Fecha Transferencia</label>
                         <input type="date" required ng-model="date_transf" ng-change="console.log(date_transf)" />
                     </div>
                     <div class="controls">
@@ -2618,6 +2618,7 @@
                     $scope.remaining = 0;
                 }
 
+                $scope.remaining = parseFloat($scope.remaining.toFixed(2));
                 $scope.rengCash = true;
                 $scope.convertedDetails = true;
                 $scope.resetDataCash(true);
@@ -2658,6 +2659,7 @@
                     $scope.remaining = 0;
                 }
 
+                $scope.remaining = parseFloat($scope.remaining.toFixed(2));
                 $scope.rengTransf = true;
                 $scope.convertedDetails = false;
                 $scope.resetDataTransf();
@@ -2697,6 +2699,7 @@
                     $scope.remaining = 0;
                 }
 
+                $scope.remaining = parseFloat($scope.remaining.toFixed(2));
                 $scope.rengIV = true;
                 $scope.calcRetIva = false;
                 $scope.convertedDetails = false;
@@ -2729,6 +2732,7 @@
                 $scope.remaining = 0;
             }
 
+            $scope.remaining = parseFloat($scope.remaining.toFixed(2));
             $scope.rengIS = true;
             $scope.calcRetIslr = false;
             $scope.convertedDetails = false;
@@ -2790,12 +2794,14 @@
             else
                 $scope.remaining += parse($scope.invoice.monto_ret_imp) - $scope.change;
 
-            if ($scope.remaining >= 0)
+            if ($scope.remaining >= 0) {
                 $scope.change = 0;
-            else {
+            } else {
                 $scope.change = $scope.remaining * - 1;
                 $scope.remaining = 0;
             }
+
+            $scope.remaining = parseFloat($scope.remaining.toFixed(2));
         }
 
         $scope.isCalcRetIslr = function () {
@@ -2806,12 +2812,14 @@
             else
                 $scope.remaining += parse($scope.invoice.monto_reten) - $scope.change;
 
-            if ($scope.remaining >= 0)
+            if ($scope.remaining >= 0) {
                 $scope.change = 0;
-            else {
+            } else {
                 $scope.change = $scope.remaining * - 1;
                 $scope.remaining = 0;
             }
+
+            $scope.remaining = parseFloat($scope.remaining.toFixed(2));
         }
 
         $scope.addCollect = function () {

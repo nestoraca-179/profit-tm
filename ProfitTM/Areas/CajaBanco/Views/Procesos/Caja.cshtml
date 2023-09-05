@@ -51,7 +51,7 @@
     .controls > * {
         width: 50%;
     }
-    .modal-info .fas {
+    .modal-info .fas:not(.fa-print) {
         font-size: 6em;
         padding: 5%;
     }
@@ -367,6 +367,7 @@
                                     <th>Monto</th>
                                     <th>Fecha</th>
                                     <th>Comentario</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -377,7 +378,10 @@
                                     <td ng-if="m.Type == 2" style="font-weight: bold;" class="text-danger">EGRESO (-)</td>
                                     <td>{{ setSeparator(m.Amount.toFixed(2)) }}</td>
                                     <td>{{ formatDate(m.Date) }}</td>
-                                    <td>{{ m.Comment.toUpperCase() }}</td>
+                                    <td style="user-select: text;">{{ m.Comment.toUpperCase() }}</td>
+                                    <td>
+                                        <i ng-if="m.PayOrder" class="fas fa-print mx-2" style="font-size: 16px; color: #606060; cursor: pointer;" ng-click="printPayOrder(m.PayOrder)"></i>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -409,10 +413,11 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Nro. Doc.</th>
+                                    <th>Nro. Ref.</th>
                                     <th>Cuenta</th>
                                     <th>Monto</th>
-                                    <th>Fecha</th>
+                                    <th>Fecha Transf.</th>
+                                    <th>Fecha Reg.</th>
                                     <th>Comentario</th>
                                 </tr>
                             </thead>
@@ -422,8 +427,9 @@
                                     <td>{{ t.DocNum }}</td>
                                     <td>{{ t.AccountID }}</td>
                                     <td>{{ setSeparator(t.Amount.toFixed(2)) }}</td>
-                                    <td>{{ formatDate(t.Date) }}</td>
-                                    <td>{{ t.Comment.toUpperCase() }}</td>
+                                    <td>{{ formatDate(t.Date).split(' ')[0] }}</td>
+                                    <td>{{ formatDate(t.DateReg) }}</td>
+                                    <td style="user-select: text;">{{ t.Comment.toUpperCase() }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -567,6 +573,9 @@
                     <h2 class="text-center">{{ successMessage }}</h2>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-if="successMessage.includes('Orden de Pago')" ng-click="printPayOrder2(successMessage)">
+                        <i class="fas fa-print"></i> Imprimir Orden de Pago
+                    </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
                 </div>
             </div>
@@ -799,6 +808,16 @@
 
                     boxes = $scope.boxes;
                     $scope.updateDates();
+
+                    for (var b of $scope.boxes) {
+                        for (m of b.BoxMoves) {
+                            try {
+                                m.PayOrder = m.Comment.split("(OP.")[1].replace(/\D/g, "");
+                            } catch (e) {
+                                m.PayOrder = null;
+                            }
+                        }
+                    }
 
                     $(".container-boxes").removeAttr("style");
                     $(".panel-loading").css("display", "none");
@@ -1202,6 +1221,15 @@
                     return new Date(b.DateS) - new Date(a.DateS);
                 }).map(b => new Date(b.DateS).toLocaleString("es-ES", options).split(", ")[0]).filter(filterBoxes);
             }
+        }
+
+        $scope.printPayOrder = function (id) {
+            location.href = '/CajaBanco/Procesos/ImprimirOrdenPago?id=' + id.trim();
+        }
+
+        $scope.printPayOrder2 = function (msg) {
+            var id = msg.replace(/\D/g, "");
+            $scope.printPayOrder(id);
         }
     });
 

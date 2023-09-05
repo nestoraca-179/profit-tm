@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "ImprimirOrdenPago";
+}
+
+@Html.DevExpress().GetStyleSheets(
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Report }
+)
+@Html.DevExpress().GetScripts(
+    //new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    //new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.Report }
+)
+
+<script src="~/Scripts/angular-min.js"></script>
+<div class="page-report container-fluid py-3">
+    <a href="/CajaBanco/Procesos/Caja" class="btn btn-primary my-2"><i class="fas fa-arrow-left"></i> Volver al módulo de cajas</a>
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.ord))
+        {
+            string orden = ViewBag.ord;
+
+            @Html.Action("RepFormatoOrdenPagoPartial", "Reps", new { id = orden })
+        }
+        else
+        {
+            <h2 class="text-center mt-3">No has seleccionado ninguna orden de pago</h2>
+        }
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $(".dxrd-image-print-page").css("display", "none");
+    });
+</script>
