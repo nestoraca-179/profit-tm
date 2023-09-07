@@ -2801,6 +2801,10 @@
                 $scope.remaining = 0;
             }
 
+            if ($scope.rengsTP.length == 1 && $scope.rengsTP[0].forma_pag == "TP" && $scope.change > 0) {
+                $scope.advance = true;
+            }
+
             $scope.remaining = parseFloat($scope.remaining.toFixed(2));
         }
 
@@ -2817,6 +2821,10 @@
             } else {
                 $scope.change = $scope.remaining * - 1;
                 $scope.remaining = 0;
+            }
+
+            if ($scope.rengsTP.length == 1 && $scope.rengsTP[0].forma_pag == "TP" && $scope.change > 0) {
+                $scope.advance = true;
             }
 
             $scope.remaining = parseFloat($scope.remaining.toFixed(2));
