@@ -195,13 +195,15 @@ namespace ProfitTM.Models
 
             while (enumerator1.MoveNext())
             {
+                decimal total_neto_v = enumerator1.Current.anulado ? 0 : enumerator1.Current.total_neto.Value;
+
                 totalCountSale++;
-                totalAmountSale += Math.Round(decimal.Parse(enumerator1.Current.total_neto.ToString()), 2);
+                totalAmountSale += Math.Round(decimal.Parse(total_neto_v.ToString()), 2);
 
                 if (enumerator1.Current.co_sucu_in.Trim() == sucur)
                 {
                     totalCountSaleSuc++;
-                    totalAmountSaleSuc += Math.Round(decimal.Parse(enumerator1.Current.total_neto.ToString()), 2);
+                    totalAmountSaleSuc += Math.Round(decimal.Parse(total_neto_v.ToString()), 2);
                 }
             }
 
@@ -211,13 +213,15 @@ namespace ProfitTM.Models
 
             while (enumerator2.MoveNext())
             {
+                decimal total_neto_c = enumerator2.Current.anulado ? 0 : enumerator2.Current.total_neto.Value;
+
                 totalCountBuy++;
-                totalAmountBuy += Math.Round(decimal.Parse(enumerator2.Current.total_neto.ToString()), 2);
+                totalAmountBuy += Math.Round(decimal.Parse(total_neto_c.ToString()), 2);
 
                 if (enumerator2.Current.co_sucu_in.Trim() == sucur)
                 {
                     totalCountBuySuc++;
-                    totalAmountBuySuc += Math.Round(decimal.Parse(enumerator2.Current.total_neto.ToString()), 2);
+                    totalAmountBuySuc += Math.Round(decimal.Parse(total_neto_c.ToString()), 2);
                 }
             }
 
