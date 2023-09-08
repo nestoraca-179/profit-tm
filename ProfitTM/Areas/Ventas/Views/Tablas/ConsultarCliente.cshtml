@@ -63,7 +63,8 @@
     #modalWarning {
         z-index: 10000;
     }
-    table#results-table tbody tr td:nth-last-child(1):not(.dataTables_empty), table#results-table tbody tr td:nth-last-child(2) {
+    table#results-table tbody tr td:nth-last-child(2), 
+    table#results-table tbody tr td:nth-last-child(3) {
         background: #7af4af;
     }
 </style>
@@ -105,6 +106,7 @@
                 <th>Tasa</th>
                 <th>Total Neto OM</th>
                 <th>Saldo OM</th>
+                <th>Ajustar</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -138,6 +140,23 @@
                     <h2 class="text-center">Procesando...</h2>
                 </div>
                 @*<div class="modal-footer"></div>*@
+            </div>
+        </div>
+    </div>
+    <!-- Modal Confirm -->
+    <div class="modal fade modal-info" id="modalConfirm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
+                    </div>
+                    <h3 class="text-center">¿Desea ajustar la Factura Nro. <span id="nro_adj"></span> por un monto de <span id="mont_adj"></span>?</h3>
+                </div>
+                <div class="modal-footer" style="justify-content: center">
+                    <button type="button" style="width: 70px;" class="btn btn-danger" data-dismiss="modal">No</button>
+                    <button type="button" style="width: 70px;" class="btn btn-success" ng-click="addInvoice()">Sí</button>
+                </div>
             </div>
         </div>
     </div>
@@ -260,7 +279,7 @@
                         if (res.Status == "OK") {
 
                             var t = $('#results-table').DataTable();
-                            var rows = res.Result;
+                            var rows = res.Result.filter(x => x.co_tipo_doc.trim() == "FACT");
                             var new_rows = rows.map(x => [
                                 x.co_tipo_doc,
                                 x.nro_doc,
@@ -273,7 +292,8 @@
                                 x.co_mone,
                                 $scope.setSeparator(x.tasa),
                                 $scope.setSeparator((x.total_neto / x.tasa).toFixed(2)),
-                                $scope.setSeparator((x.saldo / x.tasa).toFixed(2))
+                                $scope.setSeparator((x.saldo / x.tasa).toFixed(2)),
+                                "<button class='btn btn-primary' onclick='adjustFact(" + x.nro_doc.trim() + ", " + x.saldo + ")'>Ajustar</button>"
                             ]);
 
                             t.rows().remove().draw();
@@ -299,7 +319,17 @@
         $scope.formatDate = (date) => date != null ? new Date(date).toLocaleString("es-ES", options).replace(",", "") : "";
 
         $scope.setSeparator = (number) => new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(number);
+
+        $scope.adjustFact = function () {
+
+        }
     });
+
+    function adjustFact(fact, amount) {
+        $("#nro_adj").text(fact);
+        $("#mont_adj").text(new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(amount));
+        $("#modalConfirm").modal("show");
+    }
 
     function searchClient(value) {
         return clients.find(c => c.co_cli == value).cli_des;

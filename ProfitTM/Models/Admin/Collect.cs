@@ -492,7 +492,7 @@ namespace ProfitTM.Models
 
                             // INSERTAR ADELANTO
                             var sp_a = context.pInsertarDocumentoVenta("ADEL", n_adel, fact.co_cli, fact.co_ven, "US$", null, null, fact.tasa, "ADELANTO DE FACTURA " + fact.doc_num,
-                                DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, null, null, null, 0, total_cob, total_cob, 0, null, null, 0, total_cob, 0, 0, "7",
+                                DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_coll, null, 0, total_cob, total_cob, 0, null, null, 0, total_cob, 0, 0, "7",
                                 0, 0, 0, 0, null, null, null, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null,
                                 null, null, null, null, sucur, user, "SERVER PROFIT WEB");
                             sp_a.Dispose();
