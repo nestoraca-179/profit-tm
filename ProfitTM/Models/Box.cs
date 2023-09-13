@@ -58,6 +58,8 @@ namespace ProfitTM.Models
 
                          }).ToList();
 
+                boxes = boxes.Where(b => b.IsOpen || (!b.IsOpen && b.DateE.Value >= fec_d)).ToList();
+
                 foreach (Box box in boxes)
                 {
                     box.Sup = box.Sup != "" ? User.GetUserByID(box.Sup).Username : null;
@@ -210,6 +212,22 @@ namespace ProfitTM.Models
             box.Sales += amount;
             db.Entry(box).State = EntityState.Modified;
             db.BoxMoves.Add(move);
+
+            db.SaveChanges();
+        }
+
+        public static void CancelMoveByCollect(string cob_num)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+
+            BoxMoves mov = db.BoxMoves.AsNoTracking().Single(m => m.Comment.Contains(cob_num));
+            Boxes box = db.Boxes.AsNoTracking().Single(b => b.ID == mov.BoxID);
+            box.Incomes -= mov.Amount;
+            mov.Amount = 0;
+            mov.Comment = mov.Comment + " (ANULADO)";
+
+            db.Entry(mov).State = EntityState.Modified;
+            db.Entry(box).State = EntityState.Modified;
 
             db.SaveChanges();
         }

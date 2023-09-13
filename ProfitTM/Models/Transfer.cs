@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace ProfitTM.Models
 {
@@ -66,6 +67,20 @@ namespace ProfitTM.Models
             db.SaveChanges();
 
             return transfer;
+        }
+
+        public static void CancelTransf(string id, string user)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+
+            int n_transf = int.Parse(id);
+            Transfers tr = db.Transfers.AsNoTracking().Single(t => t.ID == n_transf);
+            tr.Cancelled = true;
+            tr.CancelledBy = user;
+            tr.Comment += " (ANULADO)";
+
+            db.Entry(tr).State = EntityState.Modified;
+            db.SaveChanges();
         }
     }
 }

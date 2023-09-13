@@ -143,6 +143,8 @@
     <EntitySetMapping Name="Transfers">
       <EntityTypeMapping TypeName="ProfitTMContext.Transfers">
         <MappingFragment StoreEntitySet="Transfers">
+          <ScalarProperty Name="CancelledBy" ColumnName="CancelledBy" />
+          <ScalarProperty Name="ConciliedBy" ColumnName="ConciliedBy" />
           <ScalarProperty Name="DateReg" ColumnName="DateReg" />
           <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
           <ScalarProperty Name="BoxID" ColumnName="BoxID" />

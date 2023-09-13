@@ -114,7 +114,9 @@
           <Property Name="DateReg" Type="datetime" Nullable="false" />
           <Property Name="Comment" Type="varchar(max)" Nullable="false" />
           <Property Name="Concilied" Type="bit" Nullable="false" />
+          <Property Name="ConciliedBy" Type="varchar" MaxLength="10" />
           <Property Name="Cancelled" Type="bit" Nullable="false" />
+          <Property Name="CancelledBy" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="TreeReports">
           <Key>
@@ -636,6 +638,8 @@
           <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK_Boxes_Transfers" FromRole="Transfers" ToRole="Boxes" />
           <Property Name="Cancelled" Type="Boolean" Nullable="false" />
           <Property Name="DateReg" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ConciliedBy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CancelledBy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Boxes">
           <Key>
@@ -829,6 +833,8 @@
           <EntitySetMapping Name="Transfers">
             <EntityTypeMapping TypeName="ProfitTMContext.Transfers">
               <MappingFragment StoreEntitySet="Transfers">
+                <ScalarProperty Name="CancelledBy" ColumnName="CancelledBy" />
+                <ScalarProperty Name="ConciliedBy" ColumnName="ConciliedBy" />
                 <ScalarProperty Name="DateReg" ColumnName="DateReg" />
                 <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
                 <ScalarProperty Name="BoxID" ColumnName="BoxID" />

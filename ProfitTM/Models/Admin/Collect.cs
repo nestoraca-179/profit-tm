@@ -743,6 +743,199 @@ namespace ProfitTM.Models
             return collect;
         }
 
+        public int CancelCollect(string id, string cob_num, string user)
+        {
+            int result = 0;
+
+            using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
+            {
+                using (DbContextTransaction tran = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        // ADELANTO
+                        saDocumentoVenta doc_a = new saDocumentoVenta();
+
+                        // RENGLON DE ADELANTO DE COBRO ORIGINAL
+                        saCobroDocReng reng_adel = context.saCobroDocReng.AsNoTracking().Single(r => r.cob_num == cob_num && r.co_tipo_doc == "ADEL");
+
+                        // BUSQUEDA DE CRUCE
+                        List<saCobroDocReng> rengs_c = context.saCobroDocReng.AsNoTracking()
+                            .Where(r => r.co_tipo_doc == "ADEL" && r.nro_doc == reng_adel.nro_doc && r.mont_cob > 0).ToList();
+
+                        // ANULACION DE CRUCE
+                        if (rengs_c.Count == 1)
+                        {
+                            string cob_num_c = rengs_c[0].cob_num; // NRO. COBRO CRUCE
+                            saCobro cob_orig = context.saCobro.AsNoTracking().Single(c => c.cob_num == cob_num_c);
+                            
+                            if (!cob_orig.anulado)
+                            {
+                                List<saCobroDocReng> rengs_doc_c = context.saCobroDocReng.AsNoTracking().Where(r => r.cob_num == cob_num_c).ToList(); // RENGS. COBRO CRUCE
+
+                                if (rengs_doc_c.Count == 2) // ADEL-FACT
+                                {
+                                    // VALIDAR SI SOLO HAY DOCS ADEL Y FACT
+                                    if (rengs_doc_c.Exists(r => r.co_tipo_doc.Trim() == "ADEL") && rengs_doc_c.Exists(r => r.co_tipo_doc.Trim() == "FACT"))
+                                    {
+                                        // FACTURA
+                                        saCobroDocReng r_fact = rengs_doc_c.Single(r => r.co_tipo_doc.Trim() == "FACT");
+                                        saDocumentoVenta doc_f = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == r_fact.nro_doc);
+                                        saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().Single(f => f.doc_num == r_fact.nro_doc);
+
+                                        // ADELANTO
+                                        saCobroDocReng r_adel = rengs_doc_c.Single(r => r.co_tipo_doc.Trim() == "ADEL");
+                                        doc_a = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "ADEL" && d.nro_doc == reng_adel.nro_doc);
+
+                                        // MODIFICANDO SALDOS
+                                        doc_f.saldo += r_fact.mont_cob;
+                                        context.Entry(doc_f).State = EntityState.Modified;
+
+                                        fact.saldo += r_fact.mont_cob;
+                                        fact.status = fact.saldo < fact.total_neto ? "1" : "0";
+                                        context.Entry(fact).State = EntityState.Modified;
+
+                                        doc_a.saldo += r_adel.mont_cob;
+                                        // context.Entry(doc_a).State = EntityState.Modified;
+
+                                        // MODIFICANDO COBRO
+                                        saCobro cob = context.saCobro.AsNoTracking().Single(c => c.cob_num == cob_num_c);
+                                        cob.anulado = true;
+                                        context.Entry(cob).State = EntityState.Modified;
+                                    }
+                                    else
+                                    {
+                                        result = 2; // CRUCE CON OTROS TIPOS DE DOCUMENTOS
+                                    }
+                                }
+                                else if (rengs_doc_c.Count == 3) // ADEL-FACT-AJPM
+                                {
+                                    // VALIDAR SI SOLO HAY DOCS ADEL FACT Y AJPM
+                                    if (rengs_doc_c.Exists(r => r.co_tipo_doc.Trim() == "ADEL") && rengs_doc_c.Exists(r => r.co_tipo_doc.Trim() == "FACT") && 
+                                        rengs_doc_c.Exists(r => r.co_tipo_doc.Trim() == "AJPM"))
+                                    {
+                                        // FACTURA
+                                        saCobroDocReng r_fact = rengs_doc_c.Single(r => r.co_tipo_doc.Trim() == "FACT");
+                                        saDocumentoVenta doc_f = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == r_fact.nro_doc);
+                                        saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().Single(f => f.doc_num == r_fact.nro_doc);
+
+                                        // ADELANTO
+                                        saCobroDocReng r_adel = rengs_doc_c.Single(r => r.co_tipo_doc.Trim() == "ADEL");
+                                        doc_a = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "ADEL" && d.nro_doc == r_adel.nro_doc);
+
+                                        // IGTF
+                                        saCobroDocReng r_igtf = rengs_doc_c.Single(r => r.co_tipo_doc.Trim() == "AJPM");
+                                        saDocumentoVenta doc_i = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "AJPM" && d.nro_doc == r_igtf.nro_doc);
+
+                                        // MODIFICANDO SALDOS
+                                        doc_i.saldo += r_igtf.mont_cob;
+                                        context.Entry(doc_i).State = EntityState.Modified;
+
+                                        doc_f.saldo += r_fact.mont_cob;
+                                        context.Entry(doc_f).State = EntityState.Modified;
+
+                                        fact.saldo += r_fact.mont_cob;
+                                        fact.status = fact.saldo < fact.total_neto ? "1" : "0";
+                                        context.Entry(fact).State = EntityState.Modified;
+
+                                        doc_a.saldo += r_adel.mont_cob;
+                                        // context.Entry(doc_a).State = EntityState.Modified;
+
+                                        // MODIFICANDO COBRO
+                                        saCobro cob = context.saCobro.AsNoTracking().Single(c => c.cob_num == cob_num_c);
+                                        cob.anulado = true;
+                                        context.Entry(cob).State = EntityState.Modified;
+                                    }
+                                    else
+                                    {
+                                        result = 2; // CRUCE CON OTROS TIPOS DE DOCUMENTOS
+                                    }
+                                }
+                            } else
+                            {
+                                result = 4; // COBRO CRUCE YA ANULADO
+                            }
+                        }
+                        else
+                        {
+                            result = 1; // ADELANTO ASOCIADO A MAS DE UN CRUCE (COBRO)
+                        }
+
+                        // ANULACION DE COBRO ORIGINAL
+                        if (result == 0)
+                        {
+                            // COBRO ORIGINAL
+                            saCobro cob = context.saCobro.AsNoTracking().Single(c => c.cob_num == cob_num);
+                            
+                            if (!cob.anulado)
+                            {
+                                saCobroDocReng cob_doc = context.saCobroDocReng.AsNoTracking().Single(c => c.cob_num == cob_num);
+                                // saDocumentoVenta d_adel = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "ADEL" && d.nro_doc == cob_doc.nro_doc);
+                                List<saCobroTPReng> cob_tp = context.saCobroTPReng.AsNoTracking().Where(c => c.cob_num == cob_num).ToList();
+
+                                doc_a.saldo = 0;
+                                doc_a.anulado = true;
+                                context.Entry(doc_a).State = EntityState.Modified;
+
+                                cob.anulado = true;
+                                context.Entry(cob).State = EntityState.Modified;
+
+                                if (cob_tp.Count == 1) // SOLO TRANSF.
+                                {
+                                    saCobroTPReng reng_tp = cob_tp.Single(t => t.forma_pag == "TP");
+
+                                    // ACTUALIZANDO SALDO
+                                    var sp_s = context.pSaldoActualizar(reng_tp.cod_cta, reng_tp.forma_pag, "TF", reng_tp.mont_doc, false, "COBRO", false);
+                                    sp_s.Dispose();
+                                }
+                                else if (cob_tp.Count == 2) // TRANSF. Y EFECTIVO
+                                {
+                                    saCobroTPReng reng_tp_e = cob_tp.Single(t => t.forma_pag == "EF");
+                                    saCobroTPReng reng_tp_t = cob_tp.Single(t => t.forma_pag == "TP");
+
+                                    // ACTUALIZANDO SALDO
+                                    var sp_s_e = context.pSaldoActualizar(reng_tp_e.cod_caja, "EF", "EF", Math.Round(reng_tp_e.mont_doc / cob.tasa), false, "COBRO", false);
+                                    sp_s_e.Dispose();
+
+                                    var sp_s_t = context.pSaldoActualizar(reng_tp_t.cod_cta, reng_tp_t.forma_pag, "TF", reng_tp_t.mont_doc, false, "COBRO", false);
+                                    sp_s_t.Dispose();
+
+                                    // ANULANDO MOVIMIENTO
+                                    Box.CancelMoveByCollect(cob_num);
+                                }
+                                else
+                                {
+                                    result = 3; // ADELANTO CON MAS DE UNA TRANSFERENCIA
+                                }
+                            }
+                            else
+                            {
+                                result = 5; // COBRO ADELANTO YA ANULADO
+                            }
+                        }
+
+                        if (result == 0)
+                        {
+                            Transfer.CancelTransf(id, user);
+
+                            context.SaveChanges();
+                            tran.Commit();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        result = -1;
+                        tran.Rollback();
+                        Incident.CreateIncident("ERROR ANULANDO COBRO " + cob_num, ex);
+
+                        throw ex;
+                    }
+                }
+            }
+
+            return result;
+        }
+
         private decimal GetAmountRets(saFacturaVenta fact, bool calcRetIva, bool calcRetIslr)
         {
             decimal amount = 0;

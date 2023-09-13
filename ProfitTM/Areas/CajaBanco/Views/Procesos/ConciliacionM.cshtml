@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "ConciliacionM";
+    ViewBag.Title = "Conciliacion Manual";
 }
 <style>
     table#table-transfers {
@@ -120,9 +120,11 @@
         try {
             t.Collect = t.Comment.split("(")[1].replace(/\D/g, "");
         } catch (e) {
-            t.Collect = "N/A";
+            t.Collect = null;
         }
     }
+
+    transfers = transfers.filter(t => t.Collect != null);
 
     $(document).ready(function () {
         $('#table-transfers').DataTable({
@@ -154,7 +156,16 @@
         $scope.formatDate = (date) => date != null ? new Date(date).toLocaleString("es-ES", options).replace(",", "") : "";
 
         $scope.cancelTransf = function (t) {
-            alert(t.Collect);
+
+            if (t.Collect != null) {
+                $http.get("/api/ProfitTMApi/CancelTransf/" + t.ID + "/" + t.Collect)
+                    .then(function (response) {
+                        var res = response.data;
+                        console.log(res);
+                    });
+            } else {
+                alert("no tiene");
+            }
         }
 
     });

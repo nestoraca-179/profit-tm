@@ -274,6 +274,32 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        // BANCO
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/CancelTransf/{id}/{cob_num}")]
+        public ProfitTMResponse CancelTransf(string id, string cob_num)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+
+            try
+            {
+                int result = new Collect().CancelCollect(id, cob_num, user);
+
+                response.Status = "OK";
+                response.Result = result;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR ANULANDO TRANSFERENCIA", ex);
+            }
+
+            return response;
+        }
+        
         // CLIENTE
 
         [HttpPost]
