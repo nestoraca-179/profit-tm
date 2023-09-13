@@ -58,7 +58,7 @@ namespace ProfitTM.Models
 
                          }).ToList();
 
-                boxes = boxes.Where(b => b.IsOpen || (!b.IsOpen && b.DateE.Value >= fec_d)).ToList();
+                boxes = boxes.Where(b => b.IsOpen || (!b.IsOpen && b.DateE >= fec_d)).ToList();
 
                 foreach (Box box in boxes)
                 {
@@ -173,7 +173,8 @@ namespace ProfitTM.Models
                 UserID = user,
                 Amount = amount,
                 Date = DateTime.Now,
-                Comment = descrip
+                Comment = descrip,
+                Cancelled = false
             };
 
             if (isIncome)
@@ -206,7 +207,8 @@ namespace ProfitTM.Models
                 Amount = amount,
                 Type = 1,
                 Date = DateTime.Now,
-                Comment = fact
+                Comment = fact,
+                Cancelled = false
             };
 
             box.Sales += amount;
@@ -216,7 +218,7 @@ namespace ProfitTM.Models
             db.SaveChanges();
         }
 
-        public static void CancelMoveByCollect(string cob_num)
+        public static void CancelMoveByCollect(string cob_num, string user)
         {
             ProfitTMEntities db = new ProfitTMEntities();
 
@@ -224,7 +226,8 @@ namespace ProfitTM.Models
             Boxes box = db.Boxes.AsNoTracking().Single(b => b.ID == mov.BoxID);
             box.Incomes -= mov.Amount;
             mov.Amount = 0;
-            mov.Comment = mov.Comment + " (ANULADO)";
+            mov.Cancelled = true;
+            mov.CancelledBy = user;
 
             db.Entry(mov).State = EntityState.Modified;
             db.Entry(box).State = EntityState.Modified;

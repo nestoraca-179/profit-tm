@@ -130,6 +130,8 @@
     <EntitySetMapping Name="BoxMoves">
       <EntityTypeMapping TypeName="ProfitTMContext.BoxMoves">
         <MappingFragment StoreEntitySet="BoxMoves">
+          <ScalarProperty Name="CancelledBy" ColumnName="CancelledBy" />
+          <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Type" ColumnName="Type" />

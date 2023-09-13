@@ -27,6 +27,8 @@
     <Property Name="Type" Type="tinyint" Nullable="false" />
     <Property Name="Date" Type="smalldatetime" Nullable="false" />
     <Property Name="Comment" Type="varchar(max)" Nullable="false" />
+    <Property Name="Cancelled" Type="bit" Nullable="false" />
+    <Property Name="CancelledBy" Type="varchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="Connections">
     <Key>

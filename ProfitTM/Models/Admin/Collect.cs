@@ -851,7 +851,8 @@ namespace ProfitTM.Models
                                         result = 2; // CRUCE CON OTROS TIPOS DE DOCUMENTOS
                                     }
                                 }
-                            } else
+                            } 
+                            else
                             {
                                 result = 4; // COBRO CRUCE YA ANULADO
                             }
@@ -862,16 +863,21 @@ namespace ProfitTM.Models
                         }
 
                         // ANULACION DE COBRO ORIGINAL
-                        if (result == 0)
+                        if (result == 0 || result == 4)
                         {
                             // COBRO ORIGINAL
                             saCobro cob = context.saCobro.AsNoTracking().Single(c => c.cob_num == cob_num);
                             
                             if (!cob.anulado)
                             {
+                                result = 0;
+
                                 saCobroDocReng cob_doc = context.saCobroDocReng.AsNoTracking().Single(c => c.cob_num == cob_num);
                                 // saDocumentoVenta d_adel = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "ADEL" && d.nro_doc == cob_doc.nro_doc);
                                 List<saCobroTPReng> cob_tp = context.saCobroTPReng.AsNoTracking().Where(c => c.cob_num == cob_num).ToList();
+
+                                if (doc_a.co_tipo_doc == null)
+                                    doc_a = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "ADEL" && d.nro_doc == cob_doc.nro_doc);
 
                                 doc_a.saldo = 0;
                                 doc_a.anulado = true;
@@ -901,7 +907,7 @@ namespace ProfitTM.Models
                                     sp_s_t.Dispose();
 
                                     // ANULANDO MOVIMIENTO
-                                    Box.CancelMoveByCollect(cob_num);
+                                    Box.CancelMoveByCollect(cob_num, user);
                                 }
                                 else
                                 {
@@ -911,6 +917,7 @@ namespace ProfitTM.Models
                             else
                             {
                                 result = 5; // COBRO ADELANTO YA ANULADO
+                                Transfer.CancelTransf(id, user);
                             }
                         }
 

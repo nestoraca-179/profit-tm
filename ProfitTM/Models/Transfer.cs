@@ -77,7 +77,6 @@ namespace ProfitTM.Models
             Transfers tr = db.Transfers.AsNoTracking().Single(t => t.ID == n_transf);
             tr.Cancelled = true;
             tr.CancelledBy = user;
-            tr.Comment += " (ANULADO)";
 
             db.Entry(tr).State = EntityState.Modified;
             db.SaveChanges();

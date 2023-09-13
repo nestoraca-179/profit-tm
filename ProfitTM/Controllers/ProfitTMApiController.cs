@@ -287,8 +287,33 @@ namespace ProfitTM.Controllers
             {
                 int result = new Collect().CancelCollect(id, cob_num, user);
 
-                response.Status = "OK";
-                response.Result = result;
+                if (result == 0) 
+                {
+                    response.Status = "OK";
+                    response.Result = result;
+                }
+                else
+                {
+                    response.Status = "ERROR";
+                    switch (result)
+                    {
+                        case 1:
+                            response.Message = "ADELANTO ASOCIADO A MAS DE UN CRUCE (COBRO)";
+                            break;
+                        case 2:
+                            response.Message = "CRUCE CON OTROS TIPOS DE DOCUMENTOS";
+                            break;
+                        case 3:
+                            response.Message = "ADELANTO CON MAS DE UNA TRANSFERENCIA";
+                            break;
+                        case 4:
+                            response.Message = "COBRO CRUCE YA ANULADO";
+                            break;
+                        case 5:
+                            response.Message = "COBRO ADELANTO YA ANULADO";
+                            break;
+                    }
+                }
             }
             catch (Exception ex)
             {

@@ -32,6 +32,8 @@
           <Property Name="Type" Type="tinyint" Nullable="false" />
           <Property Name="Date" Type="smalldatetime" Nullable="false" />
           <Property Name="Comment" Type="varchar(max)" Nullable="false" />
+          <Property Name="Cancelled" Type="bit" Nullable="false" />
+          <Property Name="CancelledBy" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Connections">
           <Key>
@@ -621,6 +623,8 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK_Boxes_BoxMoves" FromRole="BoxMoves" ToRole="Boxes" />
+          <Property Name="Cancelled" Type="Boolean" Nullable="false" />
+          <Property Name="CancelledBy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Transfers">
           <Key>
@@ -820,6 +824,8 @@
           <EntitySetMapping Name="BoxMoves">
             <EntityTypeMapping TypeName="ProfitTMContext.BoxMoves">
               <MappingFragment StoreEntitySet="BoxMoves">
+                <ScalarProperty Name="CancelledBy" ColumnName="CancelledBy" />
+                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Type" ColumnName="Type" />

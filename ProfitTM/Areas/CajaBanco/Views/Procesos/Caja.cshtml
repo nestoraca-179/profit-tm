@@ -174,7 +174,7 @@
     <div class="row m-3">
         <div class="col d-flex align-items-center">
             @{
-                if ((ViewBag.sucur == "002" || ViewBag.sucur == "004" || ViewBag.sucur == "005") && ViewBag.user.UseBox)
+                if ((ViewBag.sucur == "002" || ViewBag.sucur == "003" || ViewBag.sucur == "004" || ViewBag.sucur == "005") && ViewBag.user.UseBox)
                 {
                     <button class="btn btn-success d-flex align-items-center" ng-click="initBox()">
                         <i class="fas fa-plus"></i>
@@ -348,7 +348,7 @@
     </div>
     <!-- Modal Ver Movimientos -->
     <div class="modal fade" id="modal-eye" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" style="min-width: 850px !important;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Ver Movimientos</h5>
@@ -379,7 +379,7 @@
                                     <td ng-if="m.Type == 2" style="font-weight: bold;" class="text-danger">EGRESO (-)</td>
                                     <td>{{ setSeparator(m.Amount.toFixed(2)) }}</td>
                                     <td>{{ formatDate(m.Date) }}</td>
-                                    <td style="user-select: text;">{{ m.Comment.toUpperCase() }}</td>
+                                    <td style="user-select: text;">{{ m.Comment.toUpperCase() }} <span ng-if="m.Cancelled">(ANULADO)</span></td>
                                     <td>
                                         <i ng-if="m.PayOrder" class="fas fa-print mx-2" style="font-size: 16px; color: #606060; cursor: pointer;" ng-click="printPayOrder(m.PayOrder)"></i>
                                     </td>
@@ -399,7 +399,7 @@
     </div>
     <!-- Modal Ver Transferencias -->
     <div class="modal fade" id="modal-trans" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" style="min-width: 850px !important;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Ver Transferencias</h5>
@@ -430,7 +430,7 @@
                                     <td>{{ setSeparator(t.Amount.toFixed(2)) }}</td>
                                     <td>{{ formatDate(t.Date).split(' ')[0] }}</td>
                                     <td>{{ formatDate(t.DateReg) }}</td>
-                                    <td style="user-select: text;">{{ t.Comment.toUpperCase() }}</td>
+                                    <td style="user-select: text;">{{ t.Comment.toUpperCase() }} <span ng-if="t.Cancelled">(ANULADO)</span></td>
                                 </tr>
                             </tbody>
                         </table>

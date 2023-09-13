@@ -21,6 +21,8 @@ namespace ProfitTM.Models
         public byte Type { get; set; }
         public System.DateTime Date { get; set; }
         public string Comment { get; set; }
+        public bool Cancelled { get; set; }
+        public string CancelledBy { get; set; }
     
         public virtual Boxes Boxes { get; set; }
     }

@@ -281,6 +281,8 @@
     <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Boxes" Relationship="ProfitTMContext.FK_Boxes_BoxMoves" FromRole="BoxMoves" ToRole="Boxes" />
+    <Property Name="Cancelled" Type="Boolean" Nullable="false" />
+    <Property Name="CancelledBy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Transfers">
     <Key>
