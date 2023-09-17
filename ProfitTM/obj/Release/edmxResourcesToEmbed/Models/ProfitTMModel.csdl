@@ -302,6 +302,8 @@
     <Property Name="DateReg" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ConciliedBy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="CancelledBy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DateConcilied" Type="DateTime" Precision="0" />
+    <Property Name="DateCancelled" Type="DateTime" Precision="0" />
   </EntityType>
   <EntityType Name="Boxes">
     <Key>

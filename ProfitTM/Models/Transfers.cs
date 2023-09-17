@@ -27,6 +27,8 @@ namespace ProfitTM.Models
         public System.DateTime DateReg { get; set; }
         public string ConciliedBy { get; set; }
         public string CancelledBy { get; set; }
+        public Nullable<System.DateTime> DateConcilied { get; set; }
+        public Nullable<System.DateTime> DateCancelled { get; set; }
     
         public virtual Boxes Boxes { get; set; }
     }

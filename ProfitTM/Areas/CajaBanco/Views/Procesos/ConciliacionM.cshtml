@@ -2,7 +2,7 @@
     ViewBag.Title = "Conciliacion Manual";
 }
 <style>
-    table#table-transfers {
+    table#table-transfers, table#table-transfers-cancelled, table#table-transfers-concilied {
         border-top: solid 10px transparent !important;
     }
     table thead {
@@ -23,28 +23,40 @@
         font-size: 14px;
         user-select: none;
     }
-    select[name="table-transfers_length"] {
+    select[name="table-transfers_length"],
+    select[name="table-transfers-cancelled_length"],
+    select[name="table-transfers-concilied_length"] {
         background: #FFF !important;
         border: solid 1px #ced4da !important;
         box-shadow: none;
     }
-    #table-transfers_filter input {
+    #table-transfers_filter input,
+    #table-transfers-cancelled_filter input,
+    #table-transfers-concilied_filter input {
         background: #FFF;
         border: solid 1px #ced4da;
         border-radius: 5px;
     }
-    #table-transfers_paginate {
+    #table-transfers_paginate,
+    #table-transfers-cancelled_paginate,
+    #table-transfers-concilied_paginate {
         user-select: none;
     }
-    #table-transfers_paginate > a:not(.disabled) {
+    #table-transfers_paginate > a:not(.disabled),
+    #table-transfers-cancelled_paginate > a:not(.disabled),
+    #table-transfers-concilied_paginate > a:not(.disabled) {
         background: #0d6efd;
         color: #FAFAFA !important;
         border-radius: 5px;
     }
-    #table-transfers_paginate > a:not(.disabled):hover {
+    #table-transfers_paginate > a:not(.disabled):hover,
+    #table-transfers-cancelled_paginate > a:not(.disabled):hover,
+    #table-transfers-concilied_paginate > a:not(.disabled):hover {
         background: #0b5ed7;
     }
-    #table-transfers_paginate > span a.paginate_button:not(.disabled).current, #table-transfers_paginate > span a.paginate_button:not(.disabled):hover {
+    #table-transfers_paginate > span a.paginate_button:not(.disabled).current, #table-transfers_paginate > span a.paginate_button:not(.disabled):hover,
+    #table-transfers-cancelled_paginate > span a.paginate_button:not(.disabled).current, #table-transfers-cancelled_paginate > span a.paginate_button:not(.disabled):hover,
+    #table-transfers-concilied_paginate > span a.paginate_button:not(.disabled).current, #table-transfers-concilied_paginate > span a.paginate_button:not(.disabled):hover {
         background: none;
         border: solid 2px #0d6efd;
         border-radius: 5px;
@@ -72,12 +84,14 @@
     </div>
     <hr />
     <div>
+        <h4 class="mb-4">Por Revisar</h4>
         <table class="table table-sm table-striped table-hover" id="table-transfers">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Usuario</th>
-                    <th>Fecha</th>
+                    <th>Fecha Transf.</th>
+                    <th>Fecha Registro</th>
                     <th>Monto</th>
                     <th>Cuenta</th>
                     <th>Nro. Transf.</th>
@@ -87,26 +101,117 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="t in transfers | orderBy:'-Date'">
+                <tr ng-repeat="t in transfers | filter: { Cancelled: false, Concilied: false } | orderBy:'-DateReg'">
                     <td>{{ t.ID }}</td>
                     <td>{{ t.UserID }}</td>
-                    <td>{{ formatDate(t.Date) }}</td>
+                    <td>{{ formatDate(t.Date).split(' ')[0] }}</td>
+                    <td>{{ formatDate(t.DateReg) }}</td>
                     <td>{{ setSeparator(t.Amount.toFixed(2)) }}</td>
                     <td>{{ t.AccountID }}</td>
                     <td>{{ t.DocNum }}</td>
-                    <td>{{ t.Comment.toUpperCase() }} <span ng-if="t.Cancelled">(ANULADO)</span></td>
+                    <td>{{ t.Comment.toUpperCase() }}</td>
                     <td style="user-select: text;">{{ t.Collect }}</td>
                     <td class="transf-buttons" style="padding-left: 0;">
-                        <button ng-if="!t.Cancelled" type="button" class="btn btn-danger" ng-click="loadTransf(t)">
+                        <button ng-if="!t.Cancelled" type="button" class="btn btn-danger" ng-click="loadTransf(t, 1)">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button ng-if="!t.Cancelled" type="button" class="btn btn-success mx-2" ng-click="concilTransf(t)">
+                        <button ng-if="!t.Cancelled" type="button" class="btn btn-success mx-2" ng-click="loadTransf(t, 2)">
                             <i class="fas fa-check"></i> Conciliar
                         </button>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+    <hr />
+    <div>
+        <h4 class="mb-4">Anulados</h4>
+        <table class="table table-sm table-striped table-hover" id="table-transfers-cancelled">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Fecha Transf.</th>
+                    <th>Fecha Registro</th>
+                    <th>Monto</th>
+                    <th>Cuenta</th>
+                    <th>Nro. Transf.</th>
+                    <th>Descripcion</th>
+                    <th>Nro. Cobro</th>
+                    <th>Anulado Por</th>
+                    <th>Fecha Anulación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="t in transfers | filter: { Cancelled: true } | orderBy:'-DateReg'">
+                    <td>{{ t.ID }}</td>
+                    <td>{{ t.UserID }}</td>
+                    <td>{{ formatDate(t.Date).split(' ')[0] }}</td>
+                    <td>{{ formatDate(t.DateReg) }}</td>
+                    <td>{{ setSeparator(t.Amount.toFixed(2)) }}</td>
+                    <td>{{ t.AccountID }}</td>
+                    <td>{{ t.DocNum }}</td>
+                    <td>{{ t.Comment.toUpperCase() }} (ANULADO)</td>
+                    <td style="user-select: text;">{{ t.Collect }}</td>
+                    <td>{{ t.CancelledBy }}</td>
+                    <td>{{ formatDate(t.DateCancelled) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <div>
+        <h4 class="mb-4">Conciliados</h4>
+        <table class="table table-sm table-striped table-hover" id="table-transfers-concilied">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Fecha Transf.</th>
+                    <th>Fecha Registro</th>
+                    <th>Monto</th>
+                    <th>Cuenta</th>
+                    <th>Nro. Transf.</th>
+                    <th>Descripcion</th>
+                    <th>Nro. Cobro</th>
+                    <th>Conciliado Por</th>
+                    <th>Fecha Conciliación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="t in transfers | filter: { Concilied: true } | orderBy:'-Date'">
+                    <td>{{ t.ID }}</td>
+                    <td>{{ t.UserID }}</td>
+                    <td>{{ formatDate(t.Date).split(' ')[0] }}</td>
+                    <td>{{ formatDate(t.DateReg) }}</td>
+                    <td>{{ setSeparator(t.Amount.toFixed(2)) }}</td>
+                    <td>{{ t.AccountID }}</td>
+                    <td>{{ t.DocNum }}</td>
+                    <td>{{ t.Comment.toUpperCase() }} (CONCILIADO)</td>
+                    <td style="user-select: text;">{{ t.Collect }}</td>
+                    <td>{{ t.ConciliedBy }}</td>
+                    <td>{{ formatDate(t.DateConcilied) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal Conciliar Transferencia -->
+    <div class="modal fade modal-info" id="modalConcilTransf" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
+                    </div>
+                    <h3 class="text-center">¿Desea conciliar la transferencia {{ currT.DocNum }} del cobro {{ currT.Collect }}?</h3>
+                </div>
+                <div class="modal-footer" style="justify-content: center">
+                    <button type="button" style="width: 70px;" class="btn btn-danger" data-dismiss="modal">No</button>
+                    <button type="button" style="width: 70px;" class="btn btn-success" ng-click="concilTransf(currT)">Sí</button>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Modal Anular Transferencia -->
     <div class="modal fade modal-info" id="modalCancelTransf" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -186,6 +291,13 @@
 
     for (var t of transfers) {
         t.Date = new Date(parseInt(t.Date.substr(6)));
+        t.DateReg = new Date(parseInt(t.DateReg.substr(6)));
+
+        if (t.DateConcilied != null)
+            t.DateConcilied = new Date(parseInt(t.DateConcilied.substr(6)));
+
+        if (t.DateCancelled != null)
+            t.DateCancelled = new Date(parseInt(t.DateCancelled.substr(6)));
 
         try {
             t.Collect = t.Comment.split("(")[1].replace(/\D/g, "");
@@ -197,7 +309,7 @@
     transfers = transfers.filter(t => t.Collect != null);
 
     $(document).ready(function () {
-        $('#table-transfers').DataTable({
+        $('#table-transfers, #table-transfers-cancelled, #table-transfers-concilied').DataTable({
             "language": {
                 "lengthMenu": "Mostrar _MENU_ registros por página",
                 "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
@@ -225,9 +337,44 @@
 
         $scope.formatDate = (date) => date != null ? new Date(date).toLocaleString("es-ES", options).replace(",", "") : "";
 
-        $scope.loadTransf = function (t) {
+        $scope.loadTransf = function (t, m) {
             $scope.currT = t;
-            $("#modalCancelTransf").modal("show");
+
+            if (m == 1)
+                $("#modalCancelTransf").modal("show");
+            else if (m == 2)
+                $("#modalConcilTransf").modal("show");
+        }
+
+        $scope.concilTransf = function (t) {
+
+            $("#modalConcilTransf").modal("hide");
+            $("#modalWaiting").modal("show");
+
+            $http.get("/api/ProfitTMApi/ConcilTransf/" + t.ID + "/" + t.Collect)
+                .then(function (response) {
+
+                    var res = response.data;
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = "Transferencia conciliada con éxito";
+
+                        $scope.transfers.find(tr => tr.ID == t.ID).Concilied = true;
+                        $scope.transfers.find(tr => tr.ID == t.ID).ConciliedBy = user;
+                        $scope.transfers.find(tr => tr.ID == t.ID).DateConcilied = new Date(Date.now());
+
+                        if ($scope.transfers.filter(tr => !tr.Concilied && !tr.Cancelled).length == 0) {
+                            var table = $('#table-transfers').DataTable();
+                            table.rows().remove().draw();
+                            table.rows.add([]).draw();
+                        }
+
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+
+                });
         }
 
         $scope.cancelTransf = function (t) {
@@ -242,7 +389,17 @@
                     if (res.Status == "OK") {
                         $("#modalSuccess").modal("show");
                         $scope.successMessage = "Transferencia anulada con éxito";
+
                         $scope.transfers.find(tr => tr.ID == t.ID).Cancelled = true;
+                        $scope.transfers.find(tr => tr.ID == t.ID).CancelledBy = user;
+                        $scope.transfers.find(tr => tr.ID == t.ID).DateCancelled = new Date(Date.now());
+
+                        if ($scope.transfers.filter(tr => !tr.Concilied && !tr.Cancelled).length == 0) {
+                            var table = $('#table-transfers').DataTable();
+                            table.rows().remove().draw();
+                            table.rows.add([]).draw();
+                        }
+
                     } else {
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;

@@ -117,8 +117,10 @@
           <Property Name="Comment" Type="varchar(max)" Nullable="false" />
           <Property Name="Concilied" Type="bit" Nullable="false" />
           <Property Name="ConciliedBy" Type="varchar" MaxLength="10" />
+          <Property Name="DateConcilied" Type="smalldatetime" />
           <Property Name="Cancelled" Type="bit" Nullable="false" />
           <Property Name="CancelledBy" Type="varchar" MaxLength="10" />
+          <Property Name="DateCancelled" Type="smalldatetime" />
         </EntityType>
         <EntityType Name="TreeReports">
           <Key>
@@ -644,6 +646,8 @@
           <Property Name="DateReg" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ConciliedBy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="CancelledBy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DateConcilied" Type="DateTime" Precision="0" />
+          <Property Name="DateCancelled" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Boxes">
           <Key>
@@ -839,6 +843,8 @@
           <EntitySetMapping Name="Transfers">
             <EntityTypeMapping TypeName="ProfitTMContext.Transfers">
               <MappingFragment StoreEntitySet="Transfers">
+                <ScalarProperty Name="DateCancelled" ColumnName="DateCancelled" />
+                <ScalarProperty Name="DateConcilied" ColumnName="DateConcilied" />
                 <ScalarProperty Name="CancelledBy" ColumnName="CancelledBy" />
                 <ScalarProperty Name="ConciliedBy" ColumnName="ConciliedBy" />
                 <ScalarProperty Name="DateReg" ColumnName="DateReg" />

@@ -81,6 +81,8 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
             }
             else
             {
+                int conn = int.Parse(Session["ID_CONN"].ToString());
+
                 ViewBag.user = Session["USER"];
                 ViewBag.sucur = Session["BRANCH"];
                 ViewBag.modules = Session["MODULES"];
@@ -89,7 +91,7 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
                 ViewBag.product = "Administrativo";
                 ViewBag.username = (Session["USER"] as Users).Username;
 
-                ViewBag.transfers = Transfer.GetAllTransfers();
+                ViewBag.transfers = Transfer.GetAllTransfers(conn);
 
                 return View();
             }

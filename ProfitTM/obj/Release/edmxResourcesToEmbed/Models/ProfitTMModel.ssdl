@@ -112,8 +112,10 @@
     <Property Name="Comment" Type="varchar(max)" Nullable="false" />
     <Property Name="Concilied" Type="bit" Nullable="false" />
     <Property Name="ConciliedBy" Type="varchar" MaxLength="10" />
+    <Property Name="DateConcilied" Type="smalldatetime" />
     <Property Name="Cancelled" Type="bit" Nullable="false" />
     <Property Name="CancelledBy" Type="varchar" MaxLength="10" />
+    <Property Name="DateCancelled" Type="smalldatetime" />
   </EntityType>
   <EntityType Name="TreeReports">
     <Key>

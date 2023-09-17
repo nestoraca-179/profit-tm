@@ -9314,5 +9314,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pActualizarSaldoBanco" FunctionName="ProfitAdmContext.Store.pActualizarSaldoBanco" />
   </EntityContainerMapping>
 </Mapping>

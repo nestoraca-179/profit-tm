@@ -25,14 +25,17 @@ namespace ProfitTM.Models
             return trans;
         }
 
-        public static List<Transfers> GetAllTransfers()
+        public static List<Transfers> GetAllTransfers(int conn)
         {
             List<Transfers> transfers;
 
             try
             {
                 ProfitTMEntities db = new ProfitTMEntities();
-                transfers = db.Transfers.AsNoTracking().ToList();
+                transfers = (from t in db.Transfers.AsNoTracking()
+                             join b in db.Boxes.AsNoTracking() on t.BoxID equals b.ID
+                             where b.ConnID == conn
+                             select t).ToList();
             }
             catch (Exception ex)
             {
@@ -69,6 +72,20 @@ namespace ProfitTM.Models
             return transfer;
         }
 
+        public static void ConcilTransf(string id, string user)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+
+            int n_transf = int.Parse(id);
+            Transfers tr = db.Transfers.AsNoTracking().Single(t => t.ID == n_transf);
+            tr.Concilied = true;
+            tr.ConciliedBy = user;
+            tr.DateConcilied = DateTime.Now;
+
+            db.Entry(tr).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
         public static void CancelTransf(string id, string user)
         {
             ProfitTMEntities db = new ProfitTMEntities();
@@ -77,6 +94,7 @@ namespace ProfitTM.Models
             Transfers tr = db.Transfers.AsNoTracking().Single(t => t.ID == n_transf);
             tr.Cancelled = true;
             tr.CancelledBy = user;
+            tr.DateCancelled = DateTime.Now;
 
             db.Entry(tr).State = EntityState.Modified;
             db.SaveChanges();

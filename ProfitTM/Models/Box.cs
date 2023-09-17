@@ -224,7 +224,7 @@ namespace ProfitTM.Models
 
             BoxMoves mov = db.BoxMoves.AsNoTracking().Single(m => m.Comment.Contains(cob_num));
             Boxes box = db.Boxes.AsNoTracking().Single(b => b.ID == mov.BoxID);
-            box.Incomes -= mov.Amount;
+            box.Sales -= mov.Amount;
             mov.Amount = 0;
             mov.Cancelled = true;
             mov.CancelledBy = user;

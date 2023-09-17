@@ -18148,6 +18148,14 @@
       <Parameter Name="sco_us_in" Mode="In" Type="String" />
       <Parameter Name="sMaquina" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="pActualizarSaldoBanco">
+      <Parameter Name="sCodigo" Mode="In" Type="String" />
+      <Parameter Name="sCodigoOri" Mode="In" Type="String" />
+      <Parameter Name="sTipo" Mode="In" Type="String" />
+      <Parameter Name="sTipoOri" Mode="In" Type="String" />
+      <Parameter Name="deSaldo" Mode="In" Type="Decimal" />
+      <Parameter Name="gRowguid" Mode="In" Type="Guid" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />

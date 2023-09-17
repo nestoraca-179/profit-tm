@@ -4133,5 +4133,34 @@ namespace ProfitTM.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pInsertarRenglonesRetenIvaCobro_Result>("pInsertarRenglonesRetenIvaCobro", gRowguid_Reng_CobParameter, iRENG_NUMParameter, sRif_ContribuyenteParameter, dePeriodo_ImpositivoParameter, sdFecha_DocumentoParameter, sTipo_OperacionParameter, sTipo_DocumentoParameter, sRif_CompradorParameter, sNumero_DocumentoParameter, sNumero_Control_DocumentoParameter, deMonto_DocumentoParameter, deBase_ImponibleParameter, deMonto_Ret_ImpParameter, sNumero_Documento_AfectadoParameter, sNum_ComprobanteParameter, deMonto_ExcentoParameter, deAlicuotaParameter, sNumero_ExpedienteParameter, bReten_TerceroParameter, sREVISADOParameter, sTRASNFEParameter, sco_sucu_inParameter, sco_us_inParameter, sMaquinaParameter);
         }
+    
+        public virtual int pActualizarSaldoBanco(string sCodigo, string sCodigoOri, string sTipo, string sTipoOri, Nullable<decimal> deSaldo, Nullable<System.Guid> gRowguid)
+        {
+            var sCodigoParameter = sCodigo != null ?
+                new ObjectParameter("sCodigo", sCodigo) :
+                new ObjectParameter("sCodigo", typeof(string));
+    
+            var sCodigoOriParameter = sCodigoOri != null ?
+                new ObjectParameter("sCodigoOri", sCodigoOri) :
+                new ObjectParameter("sCodigoOri", typeof(string));
+    
+            var sTipoParameter = sTipo != null ?
+                new ObjectParameter("sTipo", sTipo) :
+                new ObjectParameter("sTipo", typeof(string));
+    
+            var sTipoOriParameter = sTipoOri != null ?
+                new ObjectParameter("sTipoOri", sTipoOri) :
+                new ObjectParameter("sTipoOri", typeof(string));
+    
+            var deSaldoParameter = deSaldo.HasValue ?
+                new ObjectParameter("deSaldo", deSaldo) :
+                new ObjectParameter("deSaldo", typeof(decimal));
+    
+            var gRowguidParameter = gRowguid.HasValue ?
+                new ObjectParameter("gRowguid", gRowguid) :
+                new ObjectParameter("gRowguid", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("pActualizarSaldoBanco", sCodigoParameter, sCodigoOriParameter, sTipoParameter, sTipoOriParameter, deSaldoParameter, gRowguidParameter);
+        }
     }
 }

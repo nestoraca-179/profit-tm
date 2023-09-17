@@ -14429,6 +14429,14 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sEmail_alterno" Type="varchar" Mode="In" />
           <Parameter Name="bSujeto_Obj_RetenISLR_Auto" Type="bit" Mode="In" />
         </Function>
+        <Function Name="pActualizarSaldoBanco" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sCodigo" Type="char" Mode="In" />
+          <Parameter Name="sCodigoOri" Type="char" Mode="In" />
+          <Parameter Name="sTipo" Type="char" Mode="In" />
+          <Parameter Name="sTipoOri" Type="char" Mode="In" />
+          <Parameter Name="deSaldo" Type="decimal" Mode="In" />
+          <Parameter Name="gRowguid" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="pActualizarSaldoCaja" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sCodigo" Type="char" Mode="In" />
           <Parameter Name="sCodigoOri" Type="char" Mode="In" />
@@ -35638,6 +35646,14 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <Parameter Name="sco_us_in" Mode="In" Type="String" />
             <Parameter Name="sMaquina" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="pActualizarSaldoBanco">
+            <Parameter Name="sCodigo" Mode="In" Type="String" />
+            <Parameter Name="sCodigoOri" Mode="In" Type="String" />
+            <Parameter Name="sTipo" Mode="In" Type="String" />
+            <Parameter Name="sTipoOri" Mode="In" Type="String" />
+            <Parameter Name="deSaldo" Mode="In" Type="Decimal" />
+            <Parameter Name="gRowguid" Mode="In" Type="Guid" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="RepEstadoCuentaCli_Result">
           <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -45680,6 +45696,7 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pActualizarSaldoBanco" FunctionName="ProfitAdmContext.Store.pActualizarSaldoBanco" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

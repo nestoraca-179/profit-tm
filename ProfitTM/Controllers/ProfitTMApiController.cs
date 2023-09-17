@@ -3,8 +3,6 @@ using System.Web;
 using System.Web.Http;
 using System.Collections.Generic;
 using ProfitTM.Models;
-using System.Collections;
-using Newtonsoft.Json;
 
 namespace ProfitTM.Controllers
 {
@@ -134,38 +132,6 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // [HttpGet]
-        // [Route("api/ProfitTMApi/GetBoxOpen/{user}/")]
-        // public ProfitTMResponse GetBoxOpen(string user)
-        // {
-            // ProfitTMResponse response = new ProfitTMResponse();
-
-            // string sucur = HttpContext.Current.Session["BRANCH"].ToString();
-            // bool useBox = ((HttpContext.Current.Session["USER"]) as Users).UseBox;
-            // int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
-
-            // try
-            // {
-            //     int id = 0;
-
-            //     if (sucur == "002" && useBox)
-            //         id = Box.GetBoxOpenByUser(user, conn);
-            //     else
-            //         id = -1;
-
-            //     response.Status = "OK";
-            //     response.Result = id;
-            // }
-            // catch (Exception ex)
-            // {
-            //     response.Status = "ERROR";
-            //     response.Message = ex.Message;
-            //     Incident.CreateIncident("ERROR BUSCANDO CAJA ABIERTA", ex);
-            // }
-
-            // return response;
-        // }
-
         [HttpPost]
         [Route("api/ProfitTMApi/AddBox/")]
         public ProfitTMResponse AddBox(Boxes box)
@@ -275,6 +241,30 @@ namespace ProfitTM.Controllers
         }
 
         // BANCO
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/ConcilTransf/{id}/{cob_num}")]
+        public ProfitTMResponse ConcilTransf(string id, string cob_num)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+
+            try
+            {
+                new Collect().ConcilCollect(id, cob_num, user);
+
+                response.Status = "OK";
+                response.Result = cob_num;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR CONCILIANDO TRANSFERENCIA", ex);
+            }
+
+            return response;
+        }
 
         [HttpGet]
         [Route("api/ProfitTMApi/CancelTransf/{id}/{cob_num}")]
@@ -771,8 +761,8 @@ namespace ProfitTM.Controllers
         // COBRO
 
         [HttpPost]
-        [Route("api/ProfitTMApi/AddCollect/{doc_num}")]
-        public ProfitTMResponse AddCollect(string doc_num, ArrayList obj)
+        [Route("api/ProfitTMApi/AddCollect/")]
+        public ProfitTMResponse AddCollect(saCobro cob)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -782,38 +772,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saCobroTPReng reng = JsonConvert.DeserializeObject<saCobroTPReng>(obj[0].ToString());
-                saCobroRetenIvaReng r_iva = obj[1] != null ? JsonConvert.DeserializeObject<saCobroRetenIvaReng>(obj[1].ToString()) : null;
-                saCobroRentenReng r_islr = obj[2] != null ? JsonConvert.DeserializeObject<saCobroRentenReng>(obj[2].ToString()) : null;
-
-                saCobro new_collect = new Collect().AddCollectFromInvoice(doc_num, reng, r_iva, r_islr, user, sucur, conn);
-
-                response.Status = "OK";
-                response.Result = new_collect;
-            }
-            catch (Exception ex)
-            {
-                response.Status = "ERROR";
-                response.Message = ex.Message;
-                Incident.CreateIncident("ERROR AGREGANDO COBRO", ex);
-            }
-
-            return response;
-        }
-
-        [HttpPost]
-        [Route("api/ProfitTMApi/AddCollect2/")]
-        public ProfitTMResponse AddCollect2(saCobro cob)
-        {
-            ProfitTMResponse response = new ProfitTMResponse();
-
-            string user = (HttpContext.Current.Session["USER"] as Users).Username;
-            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
-            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
-
-            try
-            {
-                saCobro new_collect = new Collect().AddCollectFromInvoice2(cob, user, sucur, conn);
+                saCobro new_collect = new Collect().AddCollectFromInvoice(cob, user, sucur, conn);
 
                 response.Status = "OK";
                 response.Result = new_collect;
