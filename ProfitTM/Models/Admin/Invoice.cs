@@ -7,7 +7,7 @@ namespace ProfitTM.Models
 {
     public class Invoice : ProfitAdmManager
     {
-        public static saFacturaVenta GetSaleInvoiceByID(string id)
+        public saFacturaVenta GetSaleInvoiceByID(string id)
         {
             saFacturaVenta invoice;
 
@@ -16,9 +16,13 @@ namespace ProfitTM.Models
                 invoice = db.saFacturaVenta.AsNoTracking().Include("saFacturaVentaReng").Include("saCliente")
                     .Include("saCondicionPago").Include("saVendedor").Single(i => i.doc_num == id);
 
+                List<bool> rets = HasRet(invoice.doc_num);
+
                 invoice.saCliente.saFacturaVenta = null;
                 invoice.saVendedor.saFacturaVenta = null;
                 invoice.saCondicionPago.saFacturaVenta = null;
+                invoice.co_us_in = rets[0].ToString();
+                invoice.co_us_mo = rets[1].ToString();
                 foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
                 {
                     reng.saFacturaVenta = null;

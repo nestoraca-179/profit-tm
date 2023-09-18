@@ -2013,43 +2013,55 @@
             $("#text-error-f").text("");
             if (!isNullOrEmpty(id)) {
 
-                $("#text-search-f").text("BUSCANDO FACTURA...");
-                $http.get("/api/ProfitTMApi/GetInvoice/" + id)
-                    .then(function (response) {
+                var inv = invoices.find(i => i.doc_num.trim() == id.trim());
+                if (inv != null) {
+                    $("#modalSearchInvoice").modal("hide");
+                    $scope.index = invoices.indexOf(inv);
+                    $scope.invoice = invoices[$scope.index];
 
-                        var res = response.data;
-                        if (res.Status == "OK") {
+                    $("#n_fact").val("");
+                    $("#text-error-f").text("");
+                    $("#text-search-f").text("");
+                } else {
 
-                            $("#modalSearchInvoice").modal("hide");
+                    $("#text-search-f").text("BUSCANDO FACTURA...");
+                    $http.get("/api/ProfitTMApi/GetInvoice/" + id)
+                        .then(function (response) {
 
-                            $scope.invoices.unshift(res.Result);
-                            $scope.invoice = $scope.invoices[0];
-                            $scope.invoice = convert($scope.invoice); // AGREGAR PRECIOS OM, DESCRIPCIONES Y FECHAS
+                            var res = response.data;
+                            if (res.Status == "OK") {
 
-                            $("#n_fact").val("");
-                            $("#text-error-f").text("");
-                            $("#text-search-f").text("");
+                                $("#modalSearchInvoice").modal("hide");
 
-                        } else {
+                                $scope.invoices.unshift(res.Result);
+                                $scope.invoice = $scope.invoices[0];
+                                $scope.invoice = convert($scope.invoice); // AGREGAR PRECIOS OM, DESCRIPCIONES Y FECHAS
+
+                                $("#n_fact").val("");
+                                $("#text-error-f").text("");
+                                $("#text-search-f").text("");
+
+                            } else {
+                                $scope.idInvoice = "";
+                                $("#n_fact").focus();
+                                $("#text-search-f").text("");
+
+                                if (res.Message == "0")
+                                    $("#text-error-f").text("**FACTURA NO ENCONTRADA**");
+                                else if (res.Message == "1")
+                                    $("#text-error-f").text("**FACTURA DE OTRA SUCURSAL**");
+                                else
+                                    $("#text-error-f").text("**HA OCURRIDO UN ERROR**");
+                            }
+
+                        }, function () {
                             $scope.idInvoice = "";
+                            $("#n_fact").val("");
                             $("#n_fact").focus();
                             $("#text-search-f").text("");
-
-                            if (res.Message == "0")
-                                $("#text-error-f").text("**FACTURA NO ENCONTRADA**");
-                            else if (res.Message == "1")
-                                $("#text-error-f").text("**FACTURA DE OTRA SUCURSAL**");
-                            else
-                                $("#text-error-f").text("**HA OCURRIDO UN ERROR**");
-                        }
-
-                    }, function () {
-                        $scope.idInvoice = "";
-                        $("#n_fact").val("");
-                        $("#n_fact").focus();
-                        $("#text-search-f").text("");
-                        $("#text-error-f").text("**HA OCURRIDO UN ERROR**");
-                    });
+                            $("#text-error-f").text("**HA OCURRIDO UN ERROR**");
+                        });
+                }
 
             } else {
                 $("#text-error-f").text("**DEBES INGRESAR UN NÚMERO DE FACTURA**");

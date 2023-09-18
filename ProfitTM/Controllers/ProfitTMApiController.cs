@@ -680,7 +680,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saFacturaVenta invoice = Invoice.GetSaleInvoiceByID(id);
+                saFacturaVenta invoice = new Invoice().GetSaleInvoiceByID(id);
 
                 if (invoice != null)
                 {
