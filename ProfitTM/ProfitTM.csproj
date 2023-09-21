@@ -636,6 +636,7 @@
     <Compile Include="Models\Admin\Cond.cs" />
     <Compile Include="Models\Admin\Country.cs" />
     <Compile Include="Models\Admin\Order.cs" />
+    <Compile Include="Models\Admin\Pay.cs" />
     <Compile Include="Models\Admin\PayOrder.cs" />
     <Compile Include="Models\Admin\ProfitAdmManager.cs" />
     <Compile Include="Models\Admin\Step.cs" />
@@ -685,6 +686,9 @@
     <Compile Include="Models\pInsertarCobro_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\pInsertarDocumentoCompra_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\pInsertarDocumentoVenta_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
@@ -700,10 +704,16 @@
     <Compile Include="Models\pInsertarOrdenPago_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\pInsertarPago_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\pInsertarProveedor_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pInsertarRenglonesDocCobro_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\pInsertarRenglonesDocPago_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pInsertarRenglonesFacturaVenta_Result.cs">
@@ -719,6 +729,9 @@
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pInsertarRenglonesTPCobro_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\pInsertarRenglonesTPPago_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pObtenerDocumentosVenta_Result.cs">

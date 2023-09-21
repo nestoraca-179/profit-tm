@@ -14577,6 +14577,68 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sRevisado" Type="char" Mode="In" />
           <Parameter Name="sTrasnfe" Type="char" Mode="In" />
         </Function>
+        <Function Name="pInsertarDocumentoCompra" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sCo_Tipo_Doc" Type="char" Mode="In" />
+          <Parameter Name="sNro_Doc" Type="char" Mode="In" />
+          <Parameter Name="sNro_Fact" Type="char" Mode="In" />
+          <Parameter Name="sCo_Mone" Type="char" Mode="In" />
+          <Parameter Name="sCo_Prov" Type="char" Mode="In" />
+          <Parameter Name="sCo_Cta_Ingr_Egr" Type="char" Mode="In" />
+          <Parameter Name="sDoc_Orig" Type="char" Mode="In" />
+          <Parameter Name="sMov_Ban" Type="char" Mode="In" />
+          <Parameter Name="sNro_Orig" Type="char" Mode="In" />
+          <Parameter Name="sNro_Che" Type="char" Mode="In" />
+          <Parameter Name="sPorc_Reca" Type="char" Mode="In" />
+          <Parameter Name="sPorc_Desc_Glob" Type="char" Mode="In" />
+          <Parameter Name="bAnulado" Type="bit" Mode="In" />
+          <Parameter Name="bAut" Type="bit" Mode="In" />
+          <Parameter Name="iPagar" Type="int" Mode="In" />
+          <Parameter Name="sObserva" Type="varchar" Mode="In" />
+          <Parameter Name="sTipo_Imp" Type="char" Mode="In" />
+          <Parameter Name="sTipo_Imp2" Type="char" Mode="In" />
+          <Parameter Name="sTipo_Imp3" Type="char" Mode="In" />
+          <Parameter Name="sdFec_Reg" Type="smalldatetime" Mode="In" />
+          <Parameter Name="sdFec_Emis" Type="smalldatetime" Mode="In" />
+          <Parameter Name="sdFec_Venc" Type="smalldatetime" Mode="In" />
+          <Parameter Name="deTotal_Neto" Type="decimal" Mode="In" />
+          <Parameter Name="deTasa" Type="decimal" Mode="In" />
+          <Parameter Name="dePorc_Imp" Type="decimal" Mode="In" />
+          <Parameter Name="dePorc_Imp2" Type="decimal" Mode="In" />
+          <Parameter Name="dePorc_Imp3" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Imp" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Imp2" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Imp3" Type="decimal" Mode="In" />
+          <Parameter Name="deTotal_Bruto" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Desc_Glob" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Reca" Type="decimal" Mode="In" />
+          <Parameter Name="deSaldo" Type="decimal" Mode="In" />
+          <Parameter Name="deAdicional" Type="decimal" Mode="In" />
+          <Parameter Name="deOtros1" Type="decimal" Mode="In" />
+          <Parameter Name="deOtros2" Type="decimal" Mode="In" />
+          <Parameter Name="deOtros3" Type="decimal" Mode="In" />
+          <Parameter Name="sPro_Pago" Type="varchar(max)" Mode="In" />
+          <Parameter Name="sSalestax" Type="char" Mode="In" />
+          <Parameter Name="sProv_Ter" Type="char" Mode="In" />
+          <Parameter Name="iReng_Ter" Type="int" Mode="In" />
+          <Parameter Name="iTipo_Origen" Type="int" Mode="In" />
+          <Parameter Name="sNum_Comprobante" Type="char" Mode="In" />
+          <Parameter Name="sDis_Cen" Type="varchar(max)" Mode="In" />
+          <Parameter Name="sN_Control" Type="char" Mode="In" />
+          <Parameter Name="sCampo1" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo2" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo3" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo4" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo5" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo6" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo7" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo8" Type="varchar" Mode="In" />
+          <Parameter Name="sRevisado" Type="char" Mode="In" />
+          <Parameter Name="sTrasnfe" Type="char" Mode="In" />
+          <Parameter Name="sco_sucu_in" Type="char" Mode="In" />
+          <Parameter Name="sco_us_in" Type="char" Mode="In" />
+          <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+          <Parameter Name="bNac" Type="bit" Mode="In" />
+        </Function>
         <Function Name="pInsertarDocumentoVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sCo_Tipo_Doc" Type="char" Mode="In" />
           <Parameter Name="sNro_Doc" Type="char" Mode="In" />
@@ -14811,6 +14873,31 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sRevisado" Type="char" Mode="In" />
           <Parameter Name="sTrasnfe" Type="char" Mode="In" />
         </Function>
+        <Function Name="pInsertarPago" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sCob_Num" Type="char" Mode="In" />
+          <Parameter Name="sRecibo" Type="char" Mode="In" />
+          <Parameter Name="sCo_Prov" Type="char" Mode="In" />
+          <Parameter Name="sCo_Mone" Type="char" Mode="In" />
+          <Parameter Name="deTasa" Type="decimal" Mode="In" />
+          <Parameter Name="sdFecha" Type="smalldatetime" Mode="In" />
+          <Parameter Name="bAnulado" Type="bit" Mode="In" />
+          <Parameter Name="deMonto" Type="decimal" Mode="In" />
+          <Parameter Name="sDis_cen" Type="varchar(max)" Mode="In" />
+          <Parameter Name="sDescrip" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo1" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo2" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo3" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo4" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo5" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo6" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo7" Type="varchar" Mode="In" />
+          <Parameter Name="sCampo8" Type="varchar" Mode="In" />
+          <Parameter Name="sCo_Us_In" Type="char" Mode="In" />
+          <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
+          <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+          <Parameter Name="sRevisado" Type="char" Mode="In" />
+          <Parameter Name="sTrasnfe" Type="char" Mode="In" />
+        </Function>
         <Function Name="pInsertarProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sCo_Prov" Type="char" Mode="In" />
           <Parameter Name="sProv_des" Type="varchar" Mode="In" />
@@ -14876,6 +14963,30 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="deMont_Cob" Type="decimal" Mode="In" />
           <Parameter Name="deDpCobro_Porc_Desc" Type="decimal" Mode="In" />
           <Parameter Name="deDpCobro_Monto" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Retencion_iva" Type="decimal" Mode="In" />
+          <Parameter Name="deMonto_Retencion" Type="decimal" Mode="In" />
+          <Parameter Name="sTipo_Doc" Type="char" Mode="In" />
+          <Parameter Name="sNum_Doc" Type="char" Mode="In" />
+          <Parameter Name="gRowguid_Reng_Ori" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="gReten_Tercero_Rowguid_Ori" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="gRowguid" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="iTipo_Origen" Type="int" Mode="In" />
+          <Parameter Name="sGen_Origen" Type="char" Mode="In" />
+          <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
+          <Parameter Name="sCo_Us_In" Type="char" Mode="In" />
+          <Parameter Name="sTrasnfe" Type="char" Mode="In" />
+          <Parameter Name="sRevisado" Type="char" Mode="In" />
+          <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pInsertarRenglonesDocPago" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="iReng_Num" Type="int" Mode="In" />
+          <Parameter Name="sCob_Num" Type="char" Mode="In" />
+          <Parameter Name="sCo_Tipo_Doc" Type="char" Mode="In" />
+          <Parameter Name="sNro_Doc" Type="char" Mode="In" />
+          <Parameter Name="sNro_Fact" Type="varchar" Mode="In" />
+          <Parameter Name="deMont_Cob" Type="decimal" Mode="In" />
+          <Parameter Name="deDppago_Porc_Desc" Type="decimal" Mode="In" />
+          <Parameter Name="deDppago_Monto" Type="decimal" Mode="In" />
           <Parameter Name="deMonto_Retencion_iva" Type="decimal" Mode="In" />
           <Parameter Name="deMonto_Retencion" Type="decimal" Mode="In" />
           <Parameter Name="sTipo_Doc" Type="char" Mode="In" />
@@ -15015,6 +15126,24 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sCo_ban" Type="char" Mode="In" />
           <Parameter Name="sCo_tar" Type="char" Mode="In" />
           <Parameter Name="sCo_Vale" Type="char" Mode="In" />
+          <Parameter Name="sCod_Caja" Type="char" Mode="In" />
+          <Parameter Name="sdFecha_Che" Type="smalldatetime" Mode="In" />
+          <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
+          <Parameter Name="sCo_Us_In" Type="char" Mode="In" />
+          <Parameter Name="sTrasnfe" Type="char" Mode="In" />
+          <Parameter Name="sRevisado" Type="char" Mode="In" />
+          <Parameter Name="sMaquina" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pInsertarRenglonesTPPago" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="iReng_Num" Type="int" Mode="In" />
+          <Parameter Name="sCob_Num" Type="char" Mode="In" />
+          <Parameter Name="sForma_Pag" Type="char" Mode="In" />
+          <Parameter Name="sMov_Num_C" Type="char" Mode="In" />
+          <Parameter Name="sMov_Num_B" Type="char" Mode="In" />
+          <Parameter Name="sNum_Doc" Type="char" Mode="In" />
+          <Parameter Name="bDevuelto" Type="bit" Mode="In" />
+          <Parameter Name="deMont_Doc" Type="decimal" Mode="In" />
+          <Parameter Name="sCod_Cta" Type="char" Mode="In" />
           <Parameter Name="sCod_Caja" Type="char" Mode="In" />
           <Parameter Name="sdFecha_Che" Type="smalldatetime" Mode="In" />
           <Parameter Name="sCo_Sucu_In" Type="char" Mode="In" />
@@ -35654,6 +35783,135 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <Parameter Name="deSaldo" Mode="In" Type="Decimal" />
             <Parameter Name="gRowguid" Mode="In" Type="Guid" />
           </FunctionImport>
+          <FunctionImport Name="pInsertarDocumentoCompra" ReturnType="Collection(ProfitAdmContext.pInsertarDocumentoCompra_Result)">
+            <Parameter Name="sCo_Tipo_Doc" Mode="In" Type="String" />
+            <Parameter Name="sNro_Doc" Mode="In" Type="String" />
+            <Parameter Name="sNro_Fact" Mode="In" Type="String" />
+            <Parameter Name="sCo_Mone" Mode="In" Type="String" />
+            <Parameter Name="sCo_Prov" Mode="In" Type="String" />
+            <Parameter Name="sCo_Cta_Ingr_Egr" Mode="In" Type="String" />
+            <Parameter Name="sDoc_Orig" Mode="In" Type="String" />
+            <Parameter Name="sMov_Ban" Mode="In" Type="String" />
+            <Parameter Name="sNro_Orig" Mode="In" Type="String" />
+            <Parameter Name="sNro_Che" Mode="In" Type="String" />
+            <Parameter Name="sPorc_Reca" Mode="In" Type="String" />
+            <Parameter Name="sPorc_Desc_Glob" Mode="In" Type="String" />
+            <Parameter Name="bAnulado" Mode="In" Type="Boolean" />
+            <Parameter Name="bAut" Mode="In" Type="Boolean" />
+            <Parameter Name="iPagar" Mode="In" Type="Int32" />
+            <Parameter Name="sObserva" Mode="In" Type="String" />
+            <Parameter Name="sTipo_Imp" Mode="In" Type="String" />
+            <Parameter Name="sTipo_Imp2" Mode="In" Type="String" />
+            <Parameter Name="sTipo_Imp3" Mode="In" Type="String" />
+            <Parameter Name="sdFec_Reg" Mode="In" Type="DateTime" />
+            <Parameter Name="sdFec_Emis" Mode="In" Type="DateTime" />
+            <Parameter Name="sdFec_Venc" Mode="In" Type="DateTime" />
+            <Parameter Name="deTotal_Neto" Mode="In" Type="Decimal" />
+            <Parameter Name="deTasa" Mode="In" Type="Decimal" />
+            <Parameter Name="dePorc_Imp" Mode="In" Type="Decimal" />
+            <Parameter Name="dePorc_Imp2" Mode="In" Type="Decimal" />
+            <Parameter Name="dePorc_Imp3" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Imp" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Imp2" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Imp3" Mode="In" Type="Decimal" />
+            <Parameter Name="deTotal_Bruto" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Desc_Glob" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Reca" Mode="In" Type="Decimal" />
+            <Parameter Name="deSaldo" Mode="In" Type="Decimal" />
+            <Parameter Name="deAdicional" Mode="In" Type="Decimal" />
+            <Parameter Name="deOtros1" Mode="In" Type="Decimal" />
+            <Parameter Name="deOtros2" Mode="In" Type="Decimal" />
+            <Parameter Name="deOtros3" Mode="In" Type="Decimal" />
+            <Parameter Name="sPro_Pago" Mode="In" Type="String" />
+            <Parameter Name="sSalestax" Mode="In" Type="String" />
+            <Parameter Name="sProv_Ter" Mode="In" Type="String" />
+            <Parameter Name="iReng_Ter" Mode="In" Type="Int32" />
+            <Parameter Name="iTipo_Origen" Mode="In" Type="Int32" />
+            <Parameter Name="sNum_Comprobante" Mode="In" Type="String" />
+            <Parameter Name="sDis_Cen" Mode="In" Type="String" />
+            <Parameter Name="sN_Control" Mode="In" Type="String" />
+            <Parameter Name="sCampo1" Mode="In" Type="String" />
+            <Parameter Name="sCampo2" Mode="In" Type="String" />
+            <Parameter Name="sCampo3" Mode="In" Type="String" />
+            <Parameter Name="sCampo4" Mode="In" Type="String" />
+            <Parameter Name="sCampo5" Mode="In" Type="String" />
+            <Parameter Name="sCampo6" Mode="In" Type="String" />
+            <Parameter Name="sCampo7" Mode="In" Type="String" />
+            <Parameter Name="sCampo8" Mode="In" Type="String" />
+            <Parameter Name="sRevisado" Mode="In" Type="String" />
+            <Parameter Name="sTrasnfe" Mode="In" Type="String" />
+            <Parameter Name="sco_sucu_in" Mode="In" Type="String" />
+            <Parameter Name="sco_us_in" Mode="In" Type="String" />
+            <Parameter Name="sMaquina" Mode="In" Type="String" />
+            <Parameter Name="bNac" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="pInsertarPago" ReturnType="Collection(ProfitAdmContext.pInsertarPago_Result)">
+            <Parameter Name="sCob_Num" Mode="In" Type="String" />
+            <Parameter Name="sRecibo" Mode="In" Type="String" />
+            <Parameter Name="sCo_Prov" Mode="In" Type="String" />
+            <Parameter Name="sCo_Mone" Mode="In" Type="String" />
+            <Parameter Name="deTasa" Mode="In" Type="Decimal" />
+            <Parameter Name="sdFecha" Mode="In" Type="DateTime" />
+            <Parameter Name="bAnulado" Mode="In" Type="Boolean" />
+            <Parameter Name="deMonto" Mode="In" Type="Decimal" />
+            <Parameter Name="sDis_cen" Mode="In" Type="String" />
+            <Parameter Name="sDescrip" Mode="In" Type="String" />
+            <Parameter Name="sCampo1" Mode="In" Type="String" />
+            <Parameter Name="sCampo2" Mode="In" Type="String" />
+            <Parameter Name="sCampo3" Mode="In" Type="String" />
+            <Parameter Name="sCampo4" Mode="In" Type="String" />
+            <Parameter Name="sCampo5" Mode="In" Type="String" />
+            <Parameter Name="sCampo6" Mode="In" Type="String" />
+            <Parameter Name="sCampo7" Mode="In" Type="String" />
+            <Parameter Name="sCampo8" Mode="In" Type="String" />
+            <Parameter Name="sCo_Us_In" Mode="In" Type="String" />
+            <Parameter Name="sCo_Sucu_In" Mode="In" Type="String" />
+            <Parameter Name="sMaquina" Mode="In" Type="String" />
+            <Parameter Name="sRevisado" Mode="In" Type="String" />
+            <Parameter Name="sTrasnfe" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pInsertarRenglonesDocPago" ReturnType="Collection(ProfitAdmContext.pInsertarRenglonesDocPago_Result)">
+            <Parameter Name="iReng_Num" Mode="In" Type="Int32" />
+            <Parameter Name="sCob_Num" Mode="In" Type="String" />
+            <Parameter Name="sCo_Tipo_Doc" Mode="In" Type="String" />
+            <Parameter Name="sNro_Doc" Mode="In" Type="String" />
+            <Parameter Name="sNro_Fact" Mode="In" Type="String" />
+            <Parameter Name="deMont_Cob" Mode="In" Type="Decimal" />
+            <Parameter Name="deDppago_Porc_Desc" Mode="In" Type="Decimal" />
+            <Parameter Name="deDppago_Monto" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Retencion_iva" Mode="In" Type="Decimal" />
+            <Parameter Name="deMonto_Retencion" Mode="In" Type="Decimal" />
+            <Parameter Name="sTipo_Doc" Mode="In" Type="String" />
+            <Parameter Name="sNum_Doc" Mode="In" Type="String" />
+            <Parameter Name="gRowguid_Reng_Ori" Mode="In" Type="Guid" />
+            <Parameter Name="gReten_Tercero_Rowguid_Ori" Mode="In" Type="Guid" />
+            <Parameter Name="gRowguid" Mode="In" Type="Guid" />
+            <Parameter Name="iTipo_Origen" Mode="In" Type="Int32" />
+            <Parameter Name="sGen_Origen" Mode="In" Type="String" />
+            <Parameter Name="sCo_Sucu_In" Mode="In" Type="String" />
+            <Parameter Name="sCo_Us_In" Mode="In" Type="String" />
+            <Parameter Name="sTrasnfe" Mode="In" Type="String" />
+            <Parameter Name="sRevisado" Mode="In" Type="String" />
+            <Parameter Name="sMaquina" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pInsertarRenglonesTPPago" ReturnType="Collection(ProfitAdmContext.pInsertarRenglonesTPPago_Result)">
+            <Parameter Name="iReng_Num" Mode="In" Type="Int32" />
+            <Parameter Name="sCob_Num" Mode="In" Type="String" />
+            <Parameter Name="sForma_Pag" Mode="In" Type="String" />
+            <Parameter Name="sMov_Num_C" Mode="In" Type="String" />
+            <Parameter Name="sMov_Num_B" Mode="In" Type="String" />
+            <Parameter Name="sNum_Doc" Mode="In" Type="String" />
+            <Parameter Name="bDevuelto" Mode="In" Type="Boolean" />
+            <Parameter Name="deMont_Doc" Mode="In" Type="Decimal" />
+            <Parameter Name="sCod_Cta" Mode="In" Type="String" />
+            <Parameter Name="sCod_Caja" Mode="In" Type="String" />
+            <Parameter Name="sdFecha_Che" Mode="In" Type="DateTime" />
+            <Parameter Name="sCo_Sucu_In" Mode="In" Type="String" />
+            <Parameter Name="sCo_Us_In" Mode="In" Type="String" />
+            <Parameter Name="sTrasnfe" Mode="In" Type="String" />
+            <Parameter Name="sRevisado" Mode="In" Type="String" />
+            <Parameter Name="sMaquina" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="RepEstadoCuentaCli_Result">
           <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -36373,6 +36631,28 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Property Type="Guid" Name="rowguid" Nullable="true" />
         </ComplexType>
         <ComplexType Name="pInsertarRenglonesRetenIvaCobro_Result">
+          <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+          <Property Type="Guid" Name="rowguid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pInsertarDocumentoCompra_Result">
+          <Property Type="Binary" Name="validador" Nullable="true" />
+          <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+          <Property Type="Guid" Name="rowguid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pInsertarPago_Result">
+          <Property Type="Binary" Name="validador" Nullable="true" />
+          <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+          <Property Type="Guid" Name="rowguid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pInsertarRenglonesDocPago_Result">
+          <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
+          <Property Type="Guid" Name="rowguid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pInsertarRenglonesTPPago_Result">
           <Property Type="DateTime" Name="fe_us_in" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
           <Property Type="Guid" Name="rowguid" Nullable="true" />
@@ -45697,6 +45977,44 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="pActualizarSaldoBanco" FunctionName="ProfitAdmContext.Store.pActualizarSaldoBanco" />
+          <FunctionImportMapping FunctionImportName="pInsertarDocumentoCompra" FunctionName="ProfitAdmContext.Store.pInsertarDocumentoCompra">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarDocumentoCompra_Result">
+                <ScalarProperty Name="validador" ColumnName="validador" />
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pInsertarPago" FunctionName="ProfitAdmContext.Store.pInsertarPago">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarPago_Result">
+                <ScalarProperty Name="validador" ColumnName="validador" />
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pInsertarRenglonesDocPago" FunctionName="ProfitAdmContext.Store.pInsertarRenglonesDocPago">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarRenglonesDocPago_Result">
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pInsertarRenglonesTPPago" FunctionName="ProfitAdmContext.Store.pInsertarRenglonesTPPago">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarRenglonesTPPago_Result">
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

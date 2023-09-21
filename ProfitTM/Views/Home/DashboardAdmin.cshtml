@@ -550,7 +550,7 @@
                 $scope.stats = $scope.allStats.all;
                 $("span.stat-number").css('opacity', '1');
 
-            }, function (error) { console.log("Ha ocurrido un error (STATS) -> " + error.statusText); });
+            }, function (error) { console.log("Ha ocurrido un error (STATS) ->"); console.log(error); });
 
         // SERVICIOS MAS VENDIDOS
         $http.get(`../../api/ProfitTMApi/GetMostSaleProducts/${fecha_d}/${fecha_h}/5/0`)
@@ -560,7 +560,7 @@
                 $scope.msp = $scope.all_msp;
                 $scope.validate('msp');
 
-            }, function (error) { console.log("Ha ocurrido un error (MSP) -> " + error.statusText); });
+            }, function (error) { console.log("Ha ocurrido un error (MSP) ->"); console.log(error); });
 
             // SUCURSAL
         $http.get(`../../api/ProfitTMApi/GetMostSaleProducts/${fecha_d}/${fecha_h}/5/1`)
@@ -568,7 +568,7 @@
 
                 $scope.suc_msp = response.data.Result;
 
-            }, function (error) { console.log("Ha ocurrido un error (MSP-S) -> " + error.statusText); });
+            }, function (error) { console.log("Ha ocurrido un error (MSP-S) ->"); console.log(error); });
 
         // SERVICIOS MAS COMPRADOS
         $http.get(`../../api/ProfitTMApi/GetMostPurchaseProducts/${fecha_d}/${fecha_h}/5/0`)
@@ -578,7 +578,7 @@
                 $scope.mpp = $scope.all_mpp;
                 $scope.validate('mpp');
 
-            }, function (error) { console.log("Ha ocurrido un error (MPP) -> " + error.statusText); });
+            }, function (error) { console.log("Ha ocurrido un error (MPP) ->"); console.log(error); });
 
             // SUCURSAL
         $http.get(`../../api/ProfitTMApi/GetMostPurchaseProducts/${fecha_d}/${fecha_h}/5/1`)
@@ -586,7 +586,7 @@
 
                 $scope.suc_mpp = response.data.Result;
 
-            }, function (error) { console.log("Ha ocurrido un error (MPP) -> " + error.statusText); });
+            }, function (error) { console.log("Ha ocurrido un error (MPP) ->"); console.log(error); });
 
         // CLIENTES CON MAS VENTAS
         $http.get(`../../api/ProfitTMApi/GetMostActiveClients/${fecha_d}/${fecha_h}/7/0`)
@@ -596,7 +596,7 @@
                 $scope.mac = $scope.all_mac;
                 $scope.validate('mac');
 
-            }, function (error) { console.log("Ha ocurrido un error (MAC) -> " + error.statusText); });
+            }, function (error) { console.log("Ha ocurrido un error (MAC) ->"); console.log(error); });
 
             // SUCURSAL
         $http.get(`../../api/ProfitTMApi/GetMostActiveClients/${fecha_d}/${fecha_h}/7/1`)
@@ -604,7 +604,7 @@
 
                 $scope.suc_mac = response.data.Result;
 
-            }, function (error) { console.log("Ha ocurrido un error (MAC) -> " + error.statusText); });
+            }, function (error) { console.log("Ha ocurrido un error (MAC) ->"); console.log(error); });
 
         // PROVEEDORES CON MAS COMPRAS
         $http.get(`../../api/ProfitTMApi/GetMostActiveSuppliers/${fecha_d}/${fecha_h}/5/0`)
@@ -614,7 +614,7 @@
                 $scope.mas = $scope.all_mas;
                 $scope.validate('mas');
 
-            }, function (error) { console.log("Ha ocurrido un error (MAS) -> " + error.statusText); });
+            }, function (error) { console.log("Ha ocurrido un error (MAS) ->"); console.log(error); });
 
             // SUCURSAL
         $http.get(`../../api/ProfitTMApi/GetMostActiveSuppliers/${fecha_d}/${fecha_h}/5/1`)
@@ -622,7 +622,7 @@
 
                 $scope.suc_mas = response.data.Result;
 
-            }, function (error) { console.log("Ha ocurrido un error (MAS) -> " + error.statusText); });
+            }, function (error) { console.log("Ha ocurrido un error (MAS) ->"); console.log(error); });
 
         $scope.validate = function (item) {
 

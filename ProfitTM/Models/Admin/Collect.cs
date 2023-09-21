@@ -10,19 +10,19 @@ namespace ProfitTM.Models
     {
         public static saCobro GetCollectByID(string id)
         {
-            saCobro invoice;
+            saCobro collect;
 
             try
             {
-                invoice = db.saCobro.AsNoTracking().Single(c => c.cob_num == id);
+                collect = db.saCobro.AsNoTracking().Single(c => c.cob_num == id);
             }
             catch (Exception ex)
             {
-                invoice = null;
+                collect = null;
                 Incident.CreateIncident("ERROR BUSCANDO COBRO " + id, ex);
             }
 
-            return invoice;
+            return collect;
         }
 
         public List<saCobro> GetAllCollects(int number, string sucur)
@@ -448,7 +448,7 @@ namespace ProfitTM.Models
                     catch (Exception ex)
                     {
                         tran.Rollback();
-                        Incident.CreateIncident("ERROR INTERNO AGREGANDO COBRO DE CONTADO 2", ex);
+                        Incident.CreateIncident("ERROR INTERNO AGREGANDO COBRO DE CONTADO", ex);
 
                         throw ex;
                     }

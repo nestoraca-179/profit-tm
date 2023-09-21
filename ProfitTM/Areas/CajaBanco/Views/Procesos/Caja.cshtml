@@ -139,14 +139,19 @@
     .card-box-actions {
         display: flex;
         justify-content: space-between;
-        /*flex-wrap: wrap;*/
+        flex-wrap: wrap;
     }
     .card-box-actions button {
-        /*height: 50px;
-        display: flex;
-        align-items: center;*/
+        width: 220px;
+        height: 40px;
         padding: 5px 10px;
         font-size: 14px;
+        border-radius: 0;
+    }
+    .card-box-actions button.btn-info {
+        background: #ff7b06;
+        border: solid 1px #ff7b06;
+        color: #FFF;
     }
     .first {
         background: #FFC3AB;
@@ -157,14 +162,15 @@
     .third {
         background: #ADD5FA;
     }
-    #modal-income .controls > *, #modal-expense .controls > * {
+    #modal-income .controls > *, #modal-expense .controls > *, #modal-advance .controls > * {
         width: auto;
     }
-    #modal-income .controls > label, #modal-expense .controls > label {
+    #modal-income .controls > label, #modal-expense .controls > label, #modal-advance .controls > label {
         width: 33.33%;
     }
     #modal-income .controls > input, #modal-income .controls > textarea, #modal-income .controls > .input-search, #modal-income .controls > select,
-    #modal-expense .controls > input, #modal-expense .controls > textarea, #modal-expense .controls > .input-search, #modal-expense .controls > select {
+    #modal-expense .controls > input, #modal-expense .controls > textarea, #modal-expense .controls > .input-search, #modal-expense .controls > select,
+    #modal-advance .controls > input, #modal-advance .controls > textarea, #modal-advance .controls > .input-search, #modal-advance .controls > select {
         width: 66.66%;
     }
 </style>
@@ -346,6 +352,45 @@
             </div>
         </form>
     </div>
+    <!-- Modal Generar Adelanto -->
+    <div class="modal fade" id="modal-advance" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <form class="modal-dialog" id="form-advance" role="document" onsubmit="return false;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Generar Adelanto a Proveedor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="controls">
+                        <label>Proveedor</label>
+                        <div class="input-search">
+                            <input type="text" class="form-control" id="supplier" ng-model="docAdel.co_prov" ng-required="true" style="flex: 1;" onkeydown="prevDel(event);" />
+                            <input type="text" class="form-control" id="des_supplier" ng-readonly="true" style="flex: 2; margin-left: 5px;" />
+                            <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSuppliers')" data-name="supplier"></i>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <label>Monto $USD</label>
+                        <input type="text" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="docAdel.total_neto" ng-required="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Tasa</label>
+                        <input type="text" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-model="docAdel.tasa" ng-required="true" />
+                    </div>
+                    <div class="controls">
+                        <label>Comentario</label>
+                        <textarea style="font-size: 14px;" ng-model="docAdel.observa" ng-required="true"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success" ng-click="sendAdel()">Aceptar</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!-- Modal Ver Movimientos -->
     <div class="modal fade" id="modal-eye" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document" style="min-width: 850px !important;">
@@ -510,16 +555,19 @@
                         <button ng-disabled="!box.IsOpen || user.BoxType == 1" class="btn btn-success" data-toggle="modal" data-target="#modal-income" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
                             <p class="mx-2 my-0"><i class="fas fa-exchange"></i> Generar Mov. Caja</p>
                         </button>
-                        <button ng-disabled="!box.IsOpen || user.BoxType == 1 || box.BoxType == 1 || (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) <= 0" class="btn btn-danger mx-1" data-toggle="modal" data-target="#modal-expense" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
+                        <button ng-disabled="!box.IsOpen || user.BoxType == 1 || box.BoxType == 1 || (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) <= 0" class="btn btn-danger" data-toggle="modal" data-target="#modal-expense" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
                             <p class="mx-2 my-0"><i class="fas fa-file-invoice"></i> Generar Ord. Pago</p>
                         </button>
-                        <button class="btn btn-primary" ng-click="viewMovs(box.ID)">
+                        <button ng-disabled="!box.IsOpen || user.BoxType == 1 || box.BoxType == 1 || (box.AmountInit + box.Incomes - box.Expenses + box.Sales).toFixed(2) <= 0" class="btn btn-info" data-toggle="modal" data-target="#modal-advance" ng-click="setId(box.ID, box.AmountInit + box.Incomes - box.Expenses + box.Sales)">
+                            <p class="mx-2 my-0"><i class="fas fa-file-plus"></i> Generar Adelanto a Prov.</p>
+                        </button>
+                        <button class="btn btn-primary mt-1" ng-click="viewMovs(box.ID)">
                             <p class="mx-2 my-0"><i class="fas fa-eye"></i> Ver Movimientos</p>
                         </button>
-                        <button class="btn btn-secondary mx-1" ng-click="viewTrans(box.ID)">
+                        <button class="btn btn-secondary mt-1" ng-click="viewTrans(box.ID)">
                             <p class="mx-2 my-0"><i class="fas fa-eye"></i> Ver Transferencias</p>
                         </button>
-                        <button ng-disabled="!box.IsOpen || box.UserID == user.Username" class="btn btn-warning justify-content-center" data-dismiss="modal" ng-click="openModalClose(box.ID)">
+                        <button ng-disabled="!box.IsOpen || box.UserID == user.Username" class="btn btn-warning justify-content-center mt-1" data-dismiss="modal" ng-click="openModalClose(box.ID)">
                             <p class="mx-2 my-0"><i class="fas fa-dollar-sign"></i> Cerrar Caja</p>
                         </button>
                     </div>
@@ -688,6 +736,35 @@
             </div>
         </div>
     </div>
+    <!-- Modal 4 -->
+    <div class="modal fade" id="modalSuppliers" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Proveedor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar proveedor..." onkeyup="search('modalSuppliers')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="supplier in suppliers" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ supplier.co_prov }}</td>
+                            <td>{{ supplier.prov_des }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalSuppliers')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel-loading p-3">
     <h4>Cargando cajas...</h4>
@@ -697,6 +774,7 @@
     var user = '@ViewBag.username';
     var benefs = @Html.Raw(ViewBag.benefs);
     var accounts = @Html.Raw(ViewBag.accounts);
+    var suppliers = @Html.Raw(ViewBag.suppliers);
     var boxes = null;
     var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
     var us = @Html.Raw(Json.Encode(ViewBag.user));
@@ -709,6 +787,7 @@
         $scope.totalBox = 0;
         $scope.benefs = benefs;
         $scope.accounts = accounts;
+        $scope.suppliers = suppliers;
         $scope.boxes = [];
         $scope.user = us;
         $scope.move = {
@@ -727,6 +806,7 @@
                 tipo_imp: 7,
             }],
         };
+        $scope.docAdel = {};
 
         $('#modal-income').on('hide.bs.modal', function () {
             if (!validating) {
@@ -759,6 +839,14 @@
                         tipo_imp: 7,
                     }],
                 };
+            }
+        });
+
+        $('#modal-advance').on('hide.bs.modal', function () {
+            if (!validating) {
+                $("#supplier").val("");
+                $("#des_supplier").val("");
+                $scope.docAdel = {};
             }
         });
 
@@ -1103,7 +1191,7 @@
                             Comment: res.Result.descrip
                         };
 
-                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.unshift(move);
 
                         if ($scope.move.tipo_mov == "I")
                             $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Incomes += move.Amount;
@@ -1191,7 +1279,7 @@
                             Comment: res.Result.descrip + " (OP. " + res.Result.ord_num.trim() + ")"
                         };
 
-                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.push(move);
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.unshift(move);
                         $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Expenses += move.Amount;
 
                         $("#des_benef").val("");
@@ -1207,6 +1295,67 @@
                                 tipo_imp: 7,
                             }],
                         };
+
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+                });
+            }
+        }
+
+        $scope.sendAdel = function () {
+
+            if ($("#form-advance")[0].checkValidity()) {
+
+                $("#form-advance input").change();
+                $scope.docAdel.campo1 = $scope.box.UserID; // ACA ENVIO LA CAJA DEL ADELANTO
+
+                var amount = parseFloat($scope.docAdel.total_neto);
+                var total = parseFloat($scope.totalBox);
+
+                if (amount > total) {
+                    $("#modalError").modal("show");
+                    $scope.errorMessage = `Debes ingresar un monto menor al saldo disponible en caja (${total.toFixed(2)})`;
+                    return;
+                }
+
+                validating = true;
+                $("#modal-advance").modal("hide");
+                $("#modalWaiting").modal("show");
+                validating = false;
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/AddDocAdel/',
+                    data: $scope.docAdel,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    var res = response.data;
+                    if (res.Status == "OK") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = `El retiro se ha agregado con éxito bajo el Pago N° ${res.Result.cob_num}`;
+
+                        var move = {
+                            ID: res.Result.campo2,
+                            BoxID: res.Result.campo1,
+                            UserID: user,
+                            Amount: amount,
+                            Type: 2,
+                            Date: new Date(Date.now()),
+                            Comment: res.Result.descrip + " (PAG. " + res.Result.cob_num.trim() + ")"
+                        };
+
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).BoxMoves.unshift(move);
+                        $scope.boxes.find(b => b.ID == parseInt(res.Result.campo1)).Expenses += move.Amount;
+
+                        $("#des_supplier").val("");
+                        $scope.docAdel = {};
 
                     } else {
                         $("#modalError").modal("show");
@@ -1256,6 +1405,10 @@
 
     function searchAccount(value) {
         return accounts.find(c => c.co_cta_ingr_egr.trim() == value.trim()).descrip;
+    }
+
+    function searchSupplier(value) {
+        return suppliers.find(s => s.co_prov.trim() == value.trim()).prov_des;
     }
 
     function searchBox(value) {
@@ -1334,6 +1487,8 @@
                 $("#des_box").val(searchBox(value));
             } else if (input == "account") {
                 $("#des_account").val(searchAccount(value));
+            } else if (input == "supplier") {
+                $("#des_supplier").val(searchSupplier(value));
             }
 
             rows.forEach(row => row.style.display = "");

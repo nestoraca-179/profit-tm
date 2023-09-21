@@ -92,6 +92,7 @@ namespace ProfitTM
         protected void Application_Disposed()
         {
             // Incident.CreateIncident("APPLICATION DISPOSED", new Exception());
+            var i = 0;
         }
 
         protected void Application_End()

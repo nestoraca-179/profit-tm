@@ -61,8 +61,12 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
                 if (Session["ACCOUNTS"] == null)
                     Session["ACCOUNTS"] = serializer.Serialize(new Account().GetAllAccounts());
 
+                if (Session["SUPPLIERS"] == null)
+                    Session["SUPPLIERS"] = serializer.Serialize(new Supplier().GetAllSuppliers());
+
                 ViewBag.benefs = serializer.Serialize(new Beneficiary().GetAllBeneficiaries());
                 ViewBag.accounts = Session["ACCOUNTS"];
+                ViewBag.suppliers = Session["SUPPLIERS"];
 
                 return View();
             }
