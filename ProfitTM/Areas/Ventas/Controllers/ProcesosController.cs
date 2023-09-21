@@ -186,7 +186,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
         }
 
-        public ActionResult ImprimirFactura(string id, string type)
+        public ActionResult ImprimirFactura(string id, string type, string copy = "")
         {
             ViewBag.user = Session["USER"];
             ViewBag.connect = Session["CONNECT"];
@@ -205,9 +205,11 @@ namespace ProfitTM.Areas.Ventas.Controllers
             else
             {
                 ViewBag.format = type == "002" ? "RepFormatoFacturaVentaOMPartial" : "RepFormatoFacturaVentaPartial";
+                ViewBag.copy = !string.IsNullOrEmpty(copy) ? "1" : "0";
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
                 ViewBag.fact = id;
+                ViewBag.type = type;
 
                 return View();
             }

@@ -85,6 +85,9 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
     private XRLabel xrLabel47;
     private XRLabel xrLabel49;
     public XRLabel bolivares;
+    public XRLabel nc_value;
+    public XRLabel nc_title;
+    public XRLabel note;
 
     /// <summary>
     /// Required designer variable.
@@ -140,6 +143,9 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.DetailData3_Odd = new DevExpress.XtraReports.UI.XRControlStyle();
             this.PageInfo = new DevExpress.XtraReports.UI.XRControlStyle();
             this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
+            this.note = new DevExpress.XtraReports.UI.XRLabel();
+            this.nc_value = new DevExpress.XtraReports.UI.XRLabel();
+            this.nc_title = new DevExpress.XtraReports.UI.XRLabel();
             this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
             this.ReportHeader = new DevExpress.XtraReports.UI.ReportHeaderBand();
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
@@ -333,8 +339,51 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             // 
             // TopMargin
             // 
+            this.TopMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.note,
+            this.nc_value,
+            this.nc_title});
             this.TopMargin.HeightF = 185F;
             this.TopMargin.Name = "TopMargin";
+            // 
+            // note
+            // 
+            this.note.Font = new System.Drawing.Font("Microsoft JhengHei", 10F, System.Drawing.FontStyle.Bold);
+            this.note.LocationFloat = new DevExpress.Utils.PointFloat(0F, 98.9583F);
+            this.note.Multiline = true;
+            this.note.Name = "note";
+            this.note.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.note.SizeF = new System.Drawing.SizeF(810.0001F, 53.04169F);
+            this.note.StylePriority.UseFont = false;
+            this.note.Text = "Nota: Este documento no representa una factura legal, solo es una copia para efec" +
+    "tos de generar los comprobantes de retenciones IVA e ISLR.";
+            this.note.Visible = false;
+            // 
+            // nc_value
+            // 
+            this.nc_value.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[n_control]")});
+            this.nc_value.Font = new System.Drawing.Font("Microsoft JhengHei", 11F, System.Drawing.FontStyle.Bold);
+            this.nc_value.LocationFloat = new DevExpress.Utils.PointFloat(610.6213F, 152F);
+            this.nc_value.Multiline = true;
+            this.nc_value.Name = "nc_value";
+            this.nc_value.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.nc_value.SizeF = new System.Drawing.SizeF(177.5038F, 23F);
+            this.nc_value.StylePriority.UseFont = false;
+            this.nc_value.Text = "nc_value";
+            this.nc_value.Visible = false;
+            // 
+            // nc_title
+            // 
+            this.nc_title.Font = new System.Drawing.Font("Microsoft JhengHei", 11F, System.Drawing.FontStyle.Bold);
+            this.nc_title.LocationFloat = new DevExpress.Utils.PointFloat(511.7576F, 152F);
+            this.nc_title.Multiline = true;
+            this.nc_title.Name = "nc_title";
+            this.nc_title.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.nc_title.SizeF = new System.Drawing.SizeF(98.86365F, 23.00002F);
+            this.nc_title.StylePriority.UseFont = false;
+            this.nc_title.Text = "Nro. Control";
+            this.nc_title.Visible = false;
             // 
             // BottomMargin
             // 

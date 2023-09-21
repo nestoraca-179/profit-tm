@@ -88,7 +88,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
 
         // RepFormatoFacturaVenta
         RepFormatoFacturaVenta report3 = new RepFormatoFacturaVenta();
-        public ActionResult RepFormatoFacturaVentaPartial(string id)
+        public ActionResult RepFormatoFacturaVentaPartial(string id, bool c)
         {
             string connect = Session["CONNECT"].ToString();
             // report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
@@ -96,6 +96,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
             SqlDataSource ds = report3.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             report3.Parameters["nroFact"].Value = id;
+            report3.nc_title.Visible = c;
+            report3.nc_value.Visible = c;
+            report3.note.Visible = c;
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepFormatoFacturaVentaPartial.cshtml", report3);
         }
@@ -105,7 +108,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         }
 
         RepFormatoFacturaVentaOM report4 = new RepFormatoFacturaVentaOM();
-        public ActionResult RepFormatoFacturaVentaOMPartial(string id)
+        public ActionResult RepFormatoFacturaVentaOMPartial(string id, bool c)
         {
             string connect = Session["CONNECT"].ToString();
             // report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
@@ -113,6 +116,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
             SqlDataSource ds = report4.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             report4.Parameters["nroFact"].Value = id;
+            report4.nc_title.Visible = c;
+            report4.nc_value.Visible = c;
+            report4.note.Visible = c;
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepFormatoFacturaVentaOMPartial.cshtml", report4);
         }
