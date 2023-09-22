@@ -182,7 +182,7 @@
             @{
                 if ((ViewBag.sucur == "002" || ViewBag.sucur == "003" || ViewBag.sucur == "004" || ViewBag.sucur == "005") && ViewBag.user.UseBox)
                 {
-                    <button class="btn btn-success d-flex align-items-center" ng-click="initBox()">
+                    <button class="btn btn-success d-flex align-items-center" ng-click="initBox()" onclick="this.setAttribute('disabled', 'true')">
                         <i class="fas fa-plus"></i>
                         <p class="mx-2 my-0">Abrir nueva caja</p>
                     </button>
