@@ -425,6 +425,8 @@
     <Content Include="Areas\CajaBanco\Views\Procesos\ConciliacionM.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\_RepFormatoOrdenPagoPartial.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Procesos\ImprimirOrdenPago.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Procesos\ImprimirPago.cshtml" />
+    <Content Include="Areas\CajaBanco\Views\Reportes\_RepFormatoPagoPartial.cshtml" />
     <None Include="Properties\PublishProfiles\Publicacion Local.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
@@ -533,6 +535,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Areas\CajaBanco\Reports\RepFormatoOrdenPago.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\CajaBanco\Reports\RepFormatoPago.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Areas\CajaBanco\Reports\RepMoviBancoXNum.cs">
@@ -1570,6 +1575,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\CajaBanco\Reports\RepFormatoOrdenPago.resx">
       <DependentUpon>RepFormatoOrdenPago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\CajaBanco\Reports\RepFormatoPago.resx">
+      <DependentUpon>RepFormatoPago.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\CajaBanco\Reports\RepMoviBancoXNum.resx">
       <DependentUpon>RepMoviBancoXNum.cs</DependentUpon>

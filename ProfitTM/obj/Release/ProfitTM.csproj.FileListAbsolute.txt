@@ -408,6 +408,7 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxSpreadshe
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Spreadsheet.v18.2.Core.xml
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\DevExpress.Web.ASPxTreeList.v18.2.xml
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\Humanizer.resources.dll
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Optimization.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\de\DevExpress.Data.v18.2.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\DevExpress.Data.v18.2.resources.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ja\DevExpress.Data.v18.2.resources.dll
@@ -503,6 +504,8 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\ru\DevExpress.Web.ASPxTreeLi
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepBanco.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepDisponibilidad.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepDisponibilidadBancaria.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepFormatoOrdenPago.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepFormatoPago.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepMoviBancoXNum.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepCompraxArt.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepProveedorMasCompra.resources
@@ -527,6 +530,3 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.Core
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.CopyComplete
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.pdb
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepFormatoOrdenPago.resources
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.AssemblyReference.cache
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\bin\es\System.Web.Optimization.resources.dll

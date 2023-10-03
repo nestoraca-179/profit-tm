@@ -427,6 +427,7 @@
                                     <td style="user-select: text;">{{ m.Comment.toUpperCase() }} <span ng-if="m.Cancelled">(ANULADO)</span></td>
                                     <td>
                                         <i ng-if="m.PayOrder" class="fas fa-print mx-2" style="font-size: 16px; color: #606060; cursor: pointer;" ng-click="printPayOrder(m.PayOrder)"></i>
+                                        <i ng-if="m.Pay" class="fas fa-print mx-2" style="font-size: 16px; color: #606060; cursor: pointer;" ng-click="printPay(m.Pay)"></i>
                                     </td>
                                 </tr>
                             </tbody>
@@ -624,6 +625,9 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" ng-if="successMessage.includes('Orden de Pago')" ng-click="printPayOrder2(successMessage)">
                         <i class="fas fa-print"></i> Imprimir Orden de Pago
+                    </button>
+                    <button type="button" class="btn btn-secondary" ng-if="successMessage.includes('el Pago')" ng-click="printPay2(successMessage)">
+                        <i class="fas fa-print"></i> Imprimir Pago
                     </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="$('#modalWaiting').modal('hide');">Aceptar</button>
                 </div>
@@ -904,6 +908,12 @@
                                 m.PayOrder = m.Comment.split("(OP.")[1].replace(/\D/g, "");
                             } catch (e) {
                                 m.PayOrder = null;
+                            }
+
+                            try {
+                                m.Pay = m.Comment.split("(PAG.")[1].replace(/\D/g, "");
+                            } catch (e) {
+                                m.Pay = null;
                             }
                         }
                     }
@@ -1380,6 +1390,15 @@
         $scope.printPayOrder2 = function (msg) {
             var id = msg.replace(/\D/g, "");
             $scope.printPayOrder(id);
+        }
+
+        $scope.printPay = function (id) {
+            location.href = '/CajaBanco/Procesos/ImprimirPago?id=' + id.trim();
+        }
+
+        $scope.printPay2 = function (msg) {
+            var id = msg.replace(/\D/g, "");
+            $scope.printPay(id);
         }
     });
 
