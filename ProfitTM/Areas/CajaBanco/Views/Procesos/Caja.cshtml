@@ -40,8 +40,11 @@
     .buttons-actions i {
         width: 20px;
     }
-    .modal:not(#modalLoading) .modal-dialog {
+    .modal:not(#modalLoading, #modal-eye, #modal-trans) .modal-dialog {
         min-width: 700px !important;
+    }
+    #modal-eye .modal-dialog, #modal-trans .modal-dialog {
+        min-width: 850px !important;
     }
     .controls {
         display: flex;
@@ -173,6 +176,32 @@
     #modal-advance .controls > input, #modal-advance .controls > textarea, #modal-advance .controls > .input-search, #modal-advance .controls > select {
         width: 66.66%;
     }
+    @@media (max-width: 458px) {
+        .row.m-3 {
+            flex-direction: column-reverse;
+        }
+        .row.m-3 .col.d-flex {
+            justify-content: center;
+        }
+    }
+    @@media (max-width: 483px) {
+        .card-box-actions button {
+            width: 100%;
+        }
+    }
+    @@media (max-width: 530px) {
+        .container-card-boxes {
+            justify-content: center;
+        }
+    }
+    @@media (max-width: 710px) {
+        .card-box-actions button {
+            margin: 2px !important;
+        }
+        .modal:not(#modalLoading) .modal-dialog {
+            min-width: auto !important;
+        }
+    }
 </style>
 <script src="~/Scripts/angular-min.js"></script>
 <script src="~/Scripts/table2excel.js"></script>
@@ -180,7 +209,7 @@
     <div class="row m-3">
         <div class="col d-flex align-items-center">
             @{
-                if ((ViewBag.sucur == "002" || ViewBag.sucur == "003" || ViewBag.sucur == "004" || ViewBag.sucur == "005") && ViewBag.user.UseBox)
+                if (ViewBag.user.UseBox)
                 {
                     <button class="btn btn-success d-flex align-items-center" ng-click="initBox()" onclick="this.setAttribute('disabled', 'true')">
                         <i class="fas fa-plus"></i>
@@ -393,7 +422,7 @@
     </div>
     <!-- Modal Ver Movimientos -->
     <div class="modal fade" id="modal-eye" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document" style="min-width: 850px !important;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Ver Movimientos</h5>
@@ -445,7 +474,7 @@
     </div>
     <!-- Modal Ver Transferencias -->
     <div class="modal fade" id="modal-trans" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document" style="min-width: 850px !important;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Ver Transferencias</h5>

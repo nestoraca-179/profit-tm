@@ -61,7 +61,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
 
                 int id;
 
-                if ((sucur == "002" || sucur == "003" || sucur == "004" || sucur == "005") && user.UseBox && user.AllowCollect)
+                if (user.UseBox && user.AllowCollect)
                     id = Box.GetBoxOpenByUser(user.Username, conn, user.BoxType.Value, false);
                 else
                     id = -1;
