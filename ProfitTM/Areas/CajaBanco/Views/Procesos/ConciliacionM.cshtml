@@ -74,7 +74,7 @@
 <script src="~/Scripts/angular-min.js"></script>
 <link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet" />
 <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
-<div class="container-fluid my-3" ng-app="ConcM" ng-controller="controller">
+<div class="container-fluid container-transf my-3" style="display: none;" ng-app="ConcM" ng-controller="controller">
     <div class="row m-3">
         <div class="col"></div>
         <div class="col">
@@ -283,6 +283,9 @@
         </div>
     </div>
 </div>
+<div class="panel-loading p-3">
+    <h4>Cargando transferencias... <i class="fas fa-spinner-third fa-spin" style="font-size: 25px;"></i></h4>
+</div>
 <script>
     var app = angular.module("ConcM", []);
     var user = '@ViewBag.username';
@@ -309,6 +312,8 @@
     transfers = transfers.filter(t => t.Collect != null);
 
     $(document).ready(function () {
+        $(".container-transf").removeAttr("style");
+        $(".panel-loading").css("display", "none");
         $('#table-transfers, #table-transfers-cancelled, #table-transfers-concilied').DataTable({
             "language": {
                 "lengthMenu": "Mostrar _MENU_ registros por página",
