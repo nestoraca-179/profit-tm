@@ -109,15 +109,16 @@ namespace ProfitTM.Controllers
         // CAJA
 
         [HttpGet]
-        [Route("api/ProfitTMApi/GetBoxes/")]
-        public ProfitTMResponse GetBoxes()
+        [Route("api/ProfitTMApi/GetBoxes/{fec_d}")]
+        public ProfitTMResponse GetBoxes(string fec_d)
         {
             ProfitTMResponse response = new ProfitTMResponse();
             int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
             try
             {
-                List<Box> boxes = Box.GetAllBoxesAndMoves(conn);
+                DateTime fecha_d = utils.FormatDate(fec_d);
+                List<Box> boxes = Box.GetAllBoxesAndMoves(conn, fecha_d);
 
                 response.Status = "OK";
                 response.Result = boxes;

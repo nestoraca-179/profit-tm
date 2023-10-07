@@ -29,7 +29,7 @@ namespace ProfitTM.Models
             return box;
         }
 
-        public static List<Box> GetAllBoxesAndMoves(int conn)
+        public static List<Box> GetAllBoxesAndMoves(int conn, DateTime date)
         {
             List<Box> boxes;
 
@@ -37,7 +37,6 @@ namespace ProfitTM.Models
             {
                 ProfitTMEntities db = new ProfitTMEntities();
 
-                DateTime fec_d = DateTime.Now.AddDays(-7);
                 boxes = (from b in db.Boxes.AsNoTracking().Where(b => b.ConnID == conn)
                          join u in db.Users.AsNoTracking() on b.UserID equals u.Username
                          select new Box()
@@ -58,7 +57,7 @@ namespace ProfitTM.Models
 
                          }).ToList();
 
-                boxes = boxes.Where(b => b.IsOpen || (!b.IsOpen && b.DateE >= fec_d)).ToList();
+                boxes = boxes.Where(b => b.IsOpen || (!b.IsOpen && b.DateS >= date)).ToList();
 
                 foreach (Box box in boxes)
                 {

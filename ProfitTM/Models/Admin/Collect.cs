@@ -295,7 +295,7 @@ namespace ProfitTM.Models
 
                             // ACTUALIZAR FACTURA
                             fact.saldo -= total_fact;
-                            fact.status = fact.saldo > 0 ? "1" : "2";
+                            // fact.status = fact.saldo > 0 ? "1" : "2";
                             context.Entry(fact).State = EntityState.Modified;
 
                             // ACTUALIZAR DOCUMENTO
@@ -428,7 +428,7 @@ namespace ProfitTM.Models
 
                             // ACTUALIZAR FACTURA
                             fact.saldo -= mont_cob;
-                            fact.status = fact.saldo > 0 ? "1" : "2";
+                            // fact.status = fact.saldo > 0 ? "1" : "2";
                             context.Entry(fact).State = EntityState.Modified;
 
                             // ACTUALIZAR DOCUMENTO
@@ -544,7 +544,7 @@ namespace ProfitTM.Models
                                         context.Entry(doc_f).State = EntityState.Modified;
 
                                         fact.saldo += r_fact.mont_cob;
-                                        fact.status = fact.saldo < fact.total_neto ? "1" : "0";
+                                        // fact.status = fact.saldo < fact.total_neto ? "1" : "0";
                                         context.Entry(fact).State = EntityState.Modified;
 
                                         doc_a.saldo += r_adel.mont_cob;
@@ -588,7 +588,7 @@ namespace ProfitTM.Models
                                         context.Entry(doc_f).State = EntityState.Modified;
 
                                         fact.saldo += r_fact.mont_cob;
-                                        fact.status = fact.saldo < fact.total_neto ? "1" : "0";
+                                        // fact.status = fact.saldo < fact.total_neto ? "1" : "0";
                                         context.Entry(fact).State = EntityState.Modified;
 
                                         doc_a.saldo += r_adel.mont_cob;
