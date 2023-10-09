@@ -1442,6 +1442,7 @@
         $scope.dateChanged = function (date) {
             var fecha_d = date.toLocaleDateString().replaceAll("/", "-");
 
+            $("#modalWaiting").modal("show");
             $http.get("/api/ProfitTMApi/GetBoxes/" + fecha_d)
                 .then(function (response) {
 

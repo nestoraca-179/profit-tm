@@ -146,9 +146,10 @@ namespace ProfitTM.Models
                                     n_mov_c = GetNextConsec(sucur, "MOVC_NUM");
 
                                     // INSERTAR MOVIMIENTO CAJA
+                                    string dis_cen_m = "<InformacionContable><Carpeta01><CuentaContable>1.1.01.01.002</CuentaContable></Carpeta01></InformacionContable>";
                                     var sp_m = context.pInsertarMovimientoCaja(n_mov_c, DateTime.Now, "MOVIMIENTO CAJA COBRO " + n_coll, user.ToUpper(), fact.tasa, "I", "EF",
                                         null, null, null, null, co_cta_ingr_egr, mont_doc_usd, false, "COBRO", n_coll, null, false, false, false, false, null, DateTime.Now,
-                                        null, null, null, null, null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
+                                        null, null, null, null, dis_cen_m, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
                                     sp_m.Dispose();
 
                                     // AGREGAR VENTA A CAJA
@@ -265,7 +266,8 @@ namespace ProfitTM.Models
                         if (igtf > 0)
                         {
                             // CREACION DE DOCUMENTO AJPM DE 3% IGTF
-                            string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>7.1.01.01.001</CuentaContable></Carpeta01></InformacionContable>";
+                            string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>2.1.05.01.005</CuentaContable></Carpeta01></InformacionContable>";
+                            // string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>7.1.01.01.001</CuentaContable></Carpeta01></InformacionContable>";
 
                             // SERIE AJPM
                             n_ajpm = GetNextConsec(sucur, "DOC_VEN_AJPM");
