@@ -177,6 +177,12 @@ namespace ProfitTM.Models
                                     // SERIE MOVIMIENTO BANCO
                                     n_mov_b = GetNextConsec(sucur, "MOVB_NUM");
 
+                                    // VERIFICACION MOVIMIENTO EXISTENTE
+                                    saMovimientoBanco exist = context.saMovimientoBanco.AsNoTracking().FirstOrDefault(m => m.cod_cta == reng.cod_cta && m.doc_num == reng.num_doc);
+
+                                    if (exist != null)
+                                        throw new Exception("La transferencia ha sido agregada anteriormente bajo el Movimiento de Banco Nro. " + exist.mov_num.Trim());
+
                                     // INSERTAR MOVIMIENTO BANCO
                                     var sp_m = context.pInsertarMovimientoBanco(n_mov_b, "MOVIMIENTO BANCO COBRO " + n_coll, reng.cod_cta, reng.fecha_che, 1, "TP", reng.num_doc,
                                         reng.mont_doc, "110301001", "COBRO", n_coll, 0, null, false, false, false, false, 0, null, null, reng.fecha_che, null, null, null, null,
