@@ -280,7 +280,7 @@ namespace ProfitTM.Models
 
                             // INSERTAR AJPM
                             var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, "US$", null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
-                                DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, null, null, null, 0, 0, igtf, 0, null, null, 0, igtf, 0, 0, "7",
+                                DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_coll, null, 0, 0, igtf, 0, null, null, 0, igtf, 0, 0, "7",
                                 0, 0, 0, 0, null, null, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null,
                                 null, null, null, null, sucur, user, "SERVER PROFIT WEB");
                             sp_i.Dispose();
@@ -661,7 +661,7 @@ namespace ProfitTM.Models
                                     saCobroTPReng reng_tp_t = cob_tp.Single(t => t.forma_pag == "TP");
 
                                     // ACTUALIZANDO SALDO
-                                    var sp_s_e = context.pSaldoActualizar(reng_tp_e.cod_caja, "EF", "EF", Math.Round(reng_tp_e.mont_doc / cob.tasa), false, "COBRO", false);
+                                    var sp_s_e = context.pSaldoActualizar(reng_tp_e.cod_caja, "EF", "EF", Math.Round(reng_tp_e.mont_doc / cob.tasa, 2), false, "COBRO", false);
                                     sp_s_e.Dispose();
 
                                     var sp_s_t = context.pSaldoActualizar(reng_tp_t.cod_cta, reng_tp_t.forma_pag, "TF", reng_tp_t.mont_doc, false, "COBRO", false);
