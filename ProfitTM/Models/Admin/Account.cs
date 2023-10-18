@@ -63,7 +63,9 @@ namespace ProfitTM.Models
 
             try
             {
-                accounts = db.saCuentaBancaria.AsNoTracking().ToList();
+                string acc_ish = "0134-0205-12-20-53024949";
+                string acc_its = "0134-0205-10-2053025089";
+                accounts = db.saCuentaBancaria.AsNoTracking().Where(c => c.num_cta != acc_ish && c.num_cta != acc_its).ToList();
             }
             catch (Exception ex)
             {
