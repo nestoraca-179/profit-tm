@@ -336,7 +336,7 @@ namespace ProfitTM.Models
                             sp_dd3.Dispose();
 
                             // INSERTAR TP COBRO CRUCE
-                            var sp_tt = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", null, null, null, false, 0, null, null, null, null, "004", DateTime.Now,
+                            var sp_tt = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", null, null, null, false, 0, null, null, null, null, "001", DateTime.Now,
                                 sucur, user, null, null, "SERVER PROFIT WEB");
                             sp_tt.Dispose();
 
