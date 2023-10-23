@@ -50,8 +50,8 @@ namespace ProfitTM.Models
             try
             {
                 prods = (from a in db.saArticulo.AsNoTracking()
-                         where a.co_art.Trim().Substring(0, 1) == "4"
-                         select a.co_art.Trim() + "/" + a.art_des.Trim()).ToList();
+                         where a.co_art.Trim().Substring(0, 1) == "4" || a.co_art.Trim().Substring(0, 1) == "9"
+                         select a.co_art.Trim() + "/" + a.art_des.Trim()).OrderBy(a => a).ToList();
             }
             catch (Exception ex)
             {
