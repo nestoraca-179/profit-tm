@@ -120,6 +120,7 @@
     <EntitySetMapping Name="Incidents">
       <EntityTypeMapping TypeName="ProfitTMContext.Incidents">
         <MappingFragment StoreEntitySet="Incidents">
+          <ScalarProperty Name="Usuario" ColumnName="Usuario" />
           <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="Titulo" ColumnName="Titulo" />

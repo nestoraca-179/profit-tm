@@ -62,6 +62,7 @@
     <Property Name="Titulo" Type="varchar(max)" />
     <Property Name="Descripcion" Type="varchar(max)" />
     <Property Name="Fecha" Type="datetime" Nullable="false" />
+    <Property Name="Usuario" Type="varchar" MaxLength="10" Nullable="false" />
   </EntityType>
   <EntityType Name="Modules">
     <Key>

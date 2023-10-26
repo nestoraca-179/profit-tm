@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 
 namespace ProfitTM.Models
 {
@@ -6,9 +7,20 @@ namespace ProfitTM.Models
     {
         public static void CreateIncident(string titulo, Exception ex)
         {
+            string user = "SYSTEM";
+            
+            if (HttpContext.Current.Session != null)
+            {
+                if (HttpContext.Current.Session["USER"] != null)
+                {
+                    user = (HttpContext.Current.Session["USER"] as Users).Username;
+                }
+            }
+
             Incidents error = new Incidents();
             error.Titulo = titulo;
             error.Fecha = DateTime.Now;
+            error.Usuario = user;
 
             while (ex.InnerException != null)
             {

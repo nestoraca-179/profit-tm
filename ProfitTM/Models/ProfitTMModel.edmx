@@ -67,6 +67,7 @@
           <Property Name="Titulo" Type="varchar(max)" />
           <Property Name="Descripcion" Type="varchar(max)" />
           <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Usuario" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="Modules">
           <Key>
@@ -612,6 +613,7 @@
           <Property Name="Titulo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Usuario" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="BoxMoves">
           <Key>
@@ -818,6 +820,7 @@
           <EntitySetMapping Name="Incidents">
             <EntityTypeMapping TypeName="ProfitTMContext.Incidents">
               <MappingFragment StoreEntitySet="Incidents">
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Titulo" ColumnName="Titulo" />

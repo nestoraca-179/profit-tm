@@ -433,7 +433,7 @@ namespace ProfitTM.Models
 
         public void SetPrinted(string id)
         {
-            saFacturaVenta invoice = GetSaleInvoiceByID(id);
+            saFacturaVenta invoice = db.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());
             invoice.impresa = true;
 
             db.Entry(invoice).State = EntityState.Modified;
