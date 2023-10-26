@@ -88,6 +88,8 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
     public XRLabel nc_value;
     public XRLabel nc_title;
     public XRLabel note;
+    public XRLabel desc_empresa;
+    public XRLabel dir_empresa;
 
     /// <summary>
     /// Required designer variable.
@@ -213,6 +215,8 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.GroupFooter = new DevExpress.XtraReports.UI.GroupFooterBand();
             this.descripcion = new DevExpress.XtraReports.UI.CalculatedField();
             this.exento = new DevExpress.XtraReports.UI.CalculatedField();
+            this.desc_empresa = new DevExpress.XtraReports.UI.XRLabel();
+            this.dir_empresa = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // DemoAdmin
@@ -340,6 +344,8 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             // TopMargin
             // 
             this.TopMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.desc_empresa,
+            this.dir_empresa,
             this.note,
             this.nc_value,
             this.nc_title});
@@ -1198,6 +1204,28 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.exento.DataMember = "RepFormatoFacturaVenta";
             this.exento.Expression = "IsNull([][[monto_imp_1] == 0].Sum([reng_neto]), 0)";
             this.exento.Name = "exento";
+            // 
+            // desc_empresa
+            // 
+            this.desc_empresa.Font = new System.Drawing.Font("Microsoft JhengHei", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.desc_empresa.LocationFloat = new DevExpress.Utils.PointFloat(173.5176F, 10.00001F);
+            this.desc_empresa.Multiline = true;
+            this.desc_empresa.Name = "desc_empresa";
+            this.desc_empresa.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.desc_empresa.SizeF = new System.Drawing.SizeF(636.4824F, 34.29168F);
+            this.desc_empresa.StylePriority.UseFont = false;
+            this.desc_empresa.Visible = false;
+            // 
+            // dir_empresa
+            // 
+            this.dir_empresa.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dir_empresa.LocationFloat = new DevExpress.Utils.PointFloat(173.5176F, 44.29169F);
+            this.dir_empresa.Multiline = true;
+            this.dir_empresa.Name = "dir_empresa";
+            this.dir_empresa.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.dir_empresa.SizeF = new System.Drawing.SizeF(636.4824F, 53.04169F);
+            this.dir_empresa.StylePriority.UseFont = false;
+            this.dir_empresa.Visible = false;
             // 
             // RepFormatoFacturaVenta
             // 

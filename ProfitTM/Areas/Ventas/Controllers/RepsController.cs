@@ -91,6 +91,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult RepFormatoFacturaVentaPartial(string id, bool c)
         {
             string connect = Session["CONNECT"].ToString();
+            Connections conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
             // report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report3.DataSource as SqlDataSource;
@@ -99,6 +100,11 @@ namespace ProfitTM.Areas.Ventas.Controllers
             report3.nc_title.Visible = c;
             report3.nc_value.Visible = c;
             report3.note.Visible = c;
+
+            report3.desc_empresa.Visible = c;
+            report3.desc_empresa.Text = conn.Name;
+            report3.dir_empresa.Visible = c;
+            report3.dir_empresa.Text = conn.Address;
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepFormatoFacturaVentaPartial.cshtml", report3);
         }
@@ -111,6 +117,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
         public ActionResult RepFormatoFacturaVentaOMPartial(string id, bool c)
         {
             string connect = Session["CONNECT"].ToString();
+            Connections conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
             // report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/images/Logo-prod.png";
 
             SqlDataSource ds = report4.DataSource as SqlDataSource;
@@ -119,6 +126,11 @@ namespace ProfitTM.Areas.Ventas.Controllers
             report4.nc_title.Visible = c;
             report4.nc_value.Visible = c;
             report4.note.Visible = c;
+
+            report4.desc_empresa.Visible = c;
+            report4.desc_empresa.Text = conn.Name;
+            report4.dir_empresa.Visible = c;
+            report4.dir_empresa.Text = conn.Address;
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepFormatoFacturaVentaOMPartial.cshtml", report4);
         }

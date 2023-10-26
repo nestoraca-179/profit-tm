@@ -55,7 +55,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-                serializer.MaxJsonLength = 50000000;
+                serializer.MaxJsonLength = 100000000;
 
                 ViewBag.clients = serializer.Serialize(new Client().GetAllClients(true));
 
