@@ -15,7 +15,7 @@ namespace ProfitTM.Controllers
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(pass))
             {
                 string encryptedPass = SecurityController.Encrypt(pass);
-                // string decryptedText = SecurityController.Decrypt("SvxYb3wGpTYQAvMRdCSAXQ==");
+                // string decryptedText = SecurityController.Decrypt("IDaB8UHxBROqKEbn9PQvkA==");
 
                 using (ProfitTMEntities db = new ProfitTMEntities())
                 {

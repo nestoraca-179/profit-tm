@@ -1516,7 +1516,7 @@
                         <input type="text" class="form-control" placeholder="Buscar cuenta bancaria..." onkeyup="search('modalBankAccounts')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        <tr ng-repeat="ba in bankAccounts" ng-if="ba.co_mone.trim() == 'BSD'" style="cursor: pointer" onclick="selectRow(this)">
+                        <tr ng-repeat="ba in bankAccounts" style="cursor: pointer" onclick="selectRow(this)">
                             <td>{{ ba.cod_cta}}</td>
                             <td>{{ ba.num_cta }} - {{ ba.co_mone }}</td>
                         </tr>

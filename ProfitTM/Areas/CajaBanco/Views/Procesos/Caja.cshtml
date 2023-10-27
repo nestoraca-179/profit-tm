@@ -246,7 +246,10 @@
             <h5 class="my-3">Cajas cerradas</h5>
             <div class="d-flex align-items-center">
                 <h6 class="mx-2 my-0">Visualizar cajas desde</h6>
-                <input type="date" class="form-control" style="width: auto;" ng-model="dateInit" ng-change="dateChanged(dateInit)" />
+                <input type="date" class="form-control" style="width: auto;" ng-model="dateInit" onchange="$('#btn-search').removeAttr('disabled');" />
+                <button type="button" id="btn-search" class="btn btn-primary mx-2" ng-click="dateChanged(dateInit)" disabled>
+                    <i class="fas fa-search"></i> Buscar
+                </button>
             </div>
         </div>
         <div ng-repeat="date in uniqueDates" class="container-card-boxes">
@@ -1441,6 +1444,7 @@
 
         $scope.dateChanged = function (date) {
             var fecha_d = date.toLocaleDateString().replaceAll("/", "-");
+            $('#btn-search').prop('disabled', 'true');
 
             $("#modalWaiting").modal("show");
             $http.get("/api/ProfitTMApi/GetBoxes/" + fecha_d)
