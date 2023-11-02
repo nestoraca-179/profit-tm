@@ -90,6 +90,7 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
     public XRLabel note;
     public XRLabel desc_empresa;
     public XRLabel dir_empresa;
+    public XRLabel rif;
 
     /// <summary>
     /// Required designer variable.
@@ -145,6 +146,8 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.DetailData3_Odd = new DevExpress.XtraReports.UI.XRControlStyle();
             this.PageInfo = new DevExpress.XtraReports.UI.XRControlStyle();
             this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
+            this.desc_empresa = new DevExpress.XtraReports.UI.XRLabel();
+            this.dir_empresa = new DevExpress.XtraReports.UI.XRLabel();
             this.note = new DevExpress.XtraReports.UI.XRLabel();
             this.nc_value = new DevExpress.XtraReports.UI.XRLabel();
             this.nc_title = new DevExpress.XtraReports.UI.XRLabel();
@@ -215,8 +218,7 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.GroupFooter = new DevExpress.XtraReports.UI.GroupFooterBand();
             this.descripcion = new DevExpress.XtraReports.UI.CalculatedField();
             this.exento = new DevExpress.XtraReports.UI.CalculatedField();
-            this.desc_empresa = new DevExpress.XtraReports.UI.XRLabel();
-            this.dir_empresa = new DevExpress.XtraReports.UI.XRLabel();
+            this.rif = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // DemoAdmin
@@ -344,6 +346,7 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             // TopMargin
             // 
             this.TopMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.rif,
             this.desc_empresa,
             this.dir_empresa,
             this.note,
@@ -351,6 +354,28 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.nc_title});
             this.TopMargin.HeightF = 185F;
             this.TopMargin.Name = "TopMargin";
+            // 
+            // desc_empresa
+            // 
+            this.desc_empresa.Font = new System.Drawing.Font("Microsoft JhengHei", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.desc_empresa.LocationFloat = new DevExpress.Utils.PointFloat(173.5176F, 10.00001F);
+            this.desc_empresa.Multiline = true;
+            this.desc_empresa.Name = "desc_empresa";
+            this.desc_empresa.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.desc_empresa.SizeF = new System.Drawing.SizeF(636.4824F, 34.29168F);
+            this.desc_empresa.StylePriority.UseFont = false;
+            this.desc_empresa.Visible = false;
+            // 
+            // dir_empresa
+            // 
+            this.dir_empresa.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dir_empresa.LocationFloat = new DevExpress.Utils.PointFloat(173.5176F, 62.00002F);
+            this.dir_empresa.Multiline = true;
+            this.dir_empresa.Name = "dir_empresa";
+            this.dir_empresa.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.dir_empresa.SizeF = new System.Drawing.SizeF(636.4824F, 35.33336F);
+            this.dir_empresa.StylePriority.UseFont = false;
+            this.dir_empresa.Visible = false;
             // 
             // note
             // 
@@ -1205,27 +1230,18 @@ public class RepFormatoFacturaVenta : DevExpress.XtraReports.UI.XtraReport
             this.exento.Expression = "IsNull([][[monto_imp_1] == 0].Sum([reng_neto]), 0)";
             this.exento.Name = "exento";
             // 
-            // desc_empresa
+            // rif
             // 
-            this.desc_empresa.Font = new System.Drawing.Font("Microsoft JhengHei", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.desc_empresa.LocationFloat = new DevExpress.Utils.PointFloat(173.5176F, 10.00001F);
-            this.desc_empresa.Multiline = true;
-            this.desc_empresa.Name = "desc_empresa";
-            this.desc_empresa.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.desc_empresa.SizeF = new System.Drawing.SizeF(636.4824F, 34.29168F);
-            this.desc_empresa.StylePriority.UseFont = false;
-            this.desc_empresa.Visible = false;
-            // 
-            // dir_empresa
-            // 
-            this.dir_empresa.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dir_empresa.LocationFloat = new DevExpress.Utils.PointFloat(173.5176F, 44.29169F);
-            this.dir_empresa.Multiline = true;
-            this.dir_empresa.Name = "dir_empresa";
-            this.dir_empresa.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.dir_empresa.SizeF = new System.Drawing.SizeF(636.4824F, 53.04169F);
-            this.dir_empresa.StylePriority.UseFont = false;
-            this.dir_empresa.Visible = false;
+            this.rif.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rif.LocationFloat = new DevExpress.Utils.PointFloat(173.5178F, 44.29169F);
+            this.rif.Multiline = true;
+            this.rif.Name = "rif";
+            this.rif.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.rif.SizeF = new System.Drawing.SizeF(636.4824F, 17.70833F);
+            this.rif.StylePriority.UseFont = false;
+            this.rif.StylePriority.UseTextAlignment = false;
+            this.rif.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+            this.rif.Visible = false;
             // 
             // RepFormatoFacturaVenta
             // 

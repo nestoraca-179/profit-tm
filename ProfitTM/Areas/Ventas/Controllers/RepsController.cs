@@ -105,6 +105,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
             report3.desc_empresa.Text = conn.Name;
             report3.dir_empresa.Visible = c;
             report3.dir_empresa.Text = conn.Address;
+            report3.rif.Visible = c;
+            report3.rif.Text = conn.RIF;
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepFormatoFacturaVentaPartial.cshtml", report3);
         }
@@ -131,6 +133,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
             report4.desc_empresa.Text = conn.Name;
             report4.dir_empresa.Visible = c;
             report4.dir_empresa.Text = conn.Address;
+            report4.rif.Visible = c;
+            report4.rif.Text = conn.RIF;
 
             return PartialView("~/Areas/Ventas/Views/Reportes/_RepFormatoFacturaVentaOMPartial.cshtml", report4);
         }
