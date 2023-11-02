@@ -711,6 +711,9 @@ namespace ProfitTM.Models
             if (calcRetIva)
             {
                 decimal porc = db.saCliente.AsNoTracking().First(c => c.co_cli == fact.co_cli).porc_esp;
+                if (porc == 0)
+                    porc = 75;
+
                 decimal ret_ivan = Math.Round((fact.monto_imp * porc) / 100, 2);
                 amount += ret_ivan;
             }
