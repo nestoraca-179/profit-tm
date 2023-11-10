@@ -250,7 +250,7 @@
                             Guardar
                         </button>
                         <div class="d-flex align-items-center px-2">
-                            <label><input type="checkbox" ng-model="manual" /> No mostrar en Libro de Ventas</label>
+                            <label><input type="checkbox" ng-model="manual" ng-click="protectDate(manual)" /> No mostrar en Libro de Ventas</label>
                         </div>
                     </div>
                     <div class="col buttons-save-cancel" ng-show="adding">
@@ -2273,6 +2273,14 @@
                     var retIslr = parse(i.total_bruto_om) - (parse(i.total_bruto_om) * porc_ret_islr);
                     i.comentario = (retIva + retIslr).toFixed(2);
                     break;
+            }
+        }
+
+        $scope.protectDate = function (manual) {
+            if (manual) {
+                $scope.invoice.fec_emis = new Date(Date.now());
+                $scope.invoice.fec_venc = new Date(Date.now());
+                $scope.invoice.fec_reg = new Date(Date.now());
             }
         }
 
