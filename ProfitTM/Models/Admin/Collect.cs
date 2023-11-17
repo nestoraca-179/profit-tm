@@ -385,7 +385,7 @@ namespace ProfitTM.Models
 
                                 // INSERTAR DOC IVAN
                                 var sp_d_ivan = context.pInsertarDocumentoVenta("IVAN", n_ivan, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa,
-                                    "RET IVA FACT " + fact.doc_num, DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_ret, null, 0, 0,
+                                    "RET IVA FACT " + fact.doc_num, DateTime.Now, r_iva.fecha_che, r_iva.fecha_che, false, true, false, "COBRO", n_ret, null, 0, 0,
                                     r_iva.mont_doc, 0, null, null, 0, r_iva.mont_doc, 0, 0, "7", 0, 0, 0, 0, r_iva.num_doc, null, null, 0, 0, 0, 0, 0, 0, 0, null, 
                                     false, null, null, null, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
                                 sp_d_ivan.Dispose();
@@ -397,7 +397,7 @@ namespace ProfitTM.Models
 
                                 // INSERTAR RENG IVA COBRO RET
                                 var sp_r_iva = context.pInsertarRenglonesRetenIvaCobro(iva_guid, 1, Connection.GetConnByID(conn.ToString()).RIF.Replace("-", ""), 
-                                    decimal.Parse(periodImp), DateTime.Now, "C", "FACT", rif_c, fact.doc_num, fact.n_control, fact.total_neto, fact.total_bruto, 
+                                    decimal.Parse(periodImp), r_iva.fecha_che, "C", "FACT", rif_c, fact.doc_num, fact.n_control, fact.total_neto, fact.total_bruto, 
                                     r_iva.mont_doc, "0", r_iva.num_doc, 0, 16, "0", false, null, null, sucur, user, "SERVER PROFIT WEB");
                                 sp_r_iva.Dispose();
                             }

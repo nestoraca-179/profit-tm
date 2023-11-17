@@ -660,23 +660,6 @@
             </div>
         </div>
     </div>
-    <!-- Modal Confirmar Monto Cobro -->
-    <div class="modal fade modal-info" id="modalConfirmarMonto" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="background: rgba(0, 0, 0, 0.7)">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
-            <div class="modal-content">
-                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
-                    <div style="display: flex; justify-content: center;">
-                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
-                    </div>
-                    <h3 class="text-center">Ha ingresado el monto {{ setSeparator(rengTP.mont_doc) }}. ¿Desea generar el cobro?</h3>
-                </div>
-                <div class="modal-footer" style="justify-content: center">
-                    <button type="button" style="width: 70px;" class="btn btn-danger" data-dismiss="modal">No</button>
-                    <button type="button" style="width: 70px;" class="btn btn-success" ng-click="sendCollect()">Sí</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Modal OK -->
     <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
@@ -807,210 +790,6 @@
         </div>
     </div>
     <!-- Modal Cobro -->
-    <div class="modal fade" id="modalCobrar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
-        <form id="form-collect" class="modal-dialog" role="document" style="max-width: 800px;" onsubmit="return false;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Cobrar de contado</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$('#des_cta').val('')" ng-click="rengTP = { forma_pag: 'EF' }">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-4">
-                            <div class="controls">
-                                <label>Forma de Cobro</label>
-                                <select class="form-control" ng-model="rengTP.forma_pag" style="-webkit-appearance: button; -moz-appearance: button;">
-                                    <option ng-if="invoice.co_cond.trim() == '002'" value="EF">Efectivo ($USD)</option>
-                                    <option ng-if="invoice.co_cond.trim() == '001'" value="TP">Transferencia</option>
-                                    <option ng-if="invoice.co_cond.trim() == '001'" value="DP">Depósito</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4">
-                            <div class="controls">
-                                <label>Nro. Documento</label>
-                                <input type="text" class="form-control" id="num_doc" ng-model="rengTP.num_doc" ng-disabled="rengTP.forma_pag == 'EF'" ng-required="rengTP.forma_pag != 'EF'" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4">
-                            <div class="controls">
-                                <label>Fecha</label>
-                                <input type="date" class="form-control" id="fecha_che" ng-model="rengTP.fecha_che" required />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-4">
-                            <div class="controls">
-                                <label>Monto</label>
-                                <input type="text" class="form-control" id="mont_doc" ng-model="rengTP.mont_doc" required onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
-                            </div>
-                            <label ng-if="error != null && error != ''" class="text-danger text-center w-100" style="font-size: 14px;">{{ error }}</label>
-                        </div>
-                        <div class="col-sm-12 col-md-8">
-                            <div class="controls">
-                                <label>Cuenta Bancaria</label>
-                                <div class="input-search">
-                                    @*<input type="text" class="form-control" id="cod_cta" ng-model="rengTP.cod_cta" ng-disabled="rengTP.forma_pag == 'EF'" ng-required="rengTP.forma_pag != 'EF'" style="flex: 1;" onkeydown="prevDel(event);" />
-                                        <input type="text" class="form-control" id="des_cta" ng-disabled="rengTP.forma_pag == 'EF'" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
-                                        <i class="fas fa-search" role="button" onclick="openModal(this, 'modalBankAccounts')" data-name="cod_cta"></i>*@
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row" ng-if="invoice.saCliente.contribu_e">
-                        <div class="col-sm-12">
-                            <label>
-                                <input type="checkbox" name="i_ret_iva" class="mx-2" ng-model="rengTP.isRetIVA" ng-disabled="invoice.ret_iva" ng-change="updateBalance(rengTP.isRetIVA, 'IVAN')" onclick="$('.field-iva').slideToggle()" /> Incluir Ret. IVA
-                                <span ng-if="invoice.ret_iva" style="font-size: 14px;"><b> - Ya se ha aplicado Ret. IVA a esta factura</b></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row mt-2 field-iva" style="display: none;">
-                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-4">
-                            <div class="controls">
-                                <label>IVA del Documento</label>
-                                <input type="text" class="form-control" id="iva_doc" ng-model="invoice.monto_imp" ng-disabled="true" />
-                            </div>
-                        </div>
-                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-4">
-                            <div class="controls">
-                                <label>IVA del Documento</label>
-                                <input type="text" class="form-control" id="iva_doc" ng-model="invoice.monto_imp_om" ng-disabled="true" />
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4">
-                            <div class="controls">
-                                <label>Porc. de Retencion</label>
-                                <input type="text" class="form-control" id="porc_esp" ng-model="invoice.saCliente.porc_esp" ng-disabled="true" />
-                            </div>
-                        </div>
-                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-4">
-                            <div class="controls">
-                                <label>IVA Retenido</label>
-                                <input type="text" class="form-control" id="monto_ret_imp" ng-model="invoice.monto_ret_imp" ng-disabled="true" />
-                            </div>
-                        </div>
-                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-4">
-                            <div class="controls">
-                                <label>IVA Retenido</label>
-                                <input type="text" class="form-control" id="monto_ret_imp" ng-model="invoice.monto_ret_imp_om" ng-disabled="true" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row field-iva" style="display: none;">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="controls">
-                                <label>Fecha de Comprobante</label>
-                                <input type="date" class="form-control" id="fecha_documento" ng-model="rengIVA.fecha_documento" ng-disabled="true" ng-required="rengTP.isRetIVA" />
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="controls">
-                                <label>Num. de Comprobante (últimos 8 dígitos)</label>
-                                <input type="text" class="form-control" id="num_comprobante" ng-model="rengIVA.num_comprobante" ng-disabled="!rengTP.isRetIVA" ng-required="rengTP.isRetIVA" minlength="8" maxlength="8" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-sm-12">
-                            <label>
-                                <input type="checkbox" name="i_ret_islr" class="mx-2" ng-model="rengTP.isRetISLR" ng-disabled="invoice.ret_islr" ng-change="updateBalance(rengTP.isRetISLR, 'ISLR')" onclick="$('.field-islr').slideToggle()" /> Incluir Ret. ISLR
-                                <span ng-if="invoice.ret_islr" style="font-size: 14px;"><b> - Ya se ha aplicado Ret. ISLR a esta factura</b></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row mt-2 field-islr" style="display: none;">
-                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Base Imp.</label>
-                                <input type="text" class="form-control" id="islr_doc" ng-model="invoice.total_bruto" ng-disabled="true" />
-                            </div>
-                        </div>
-                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Base Imp.</label>
-                                <input type="text" class="form-control" id="islr_doc" ng-model="invoice.total_bruto_om" ng-disabled="true" />
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Concepto ISLR</label>
-                                <select class="form-control" ng-model="rengISLR.co_islr" ng-change="changePorc(rengISLR.co_islr)" ng-disabled="true" style="-webkit-appearance: button; -moz-appearance: button;">
-                                    <option ng-repeat="conc in conceps" value="{{ conc.co_conce }}">{{ conc.co_conce }}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Porc. de Retencion</label>
-                                <input type="text" class="form-control" id="porc_ret" ng-model="rengISLR.porc_retn" ng-disabled="true" />
-                            </div>
-                        </div>
-                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Monto Retenido</label>
-                                <input type="text" class="form-control" id="monto_ret_islr" ng-model="invoice.monto_reten" ng-disabled="true" />
-                            </div>
-                        </div>
-                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Monto Retenido</label>
-                                <input type="text" class="form-control" id="monto_ret_islr" ng-model="invoice.monto_reten_om" ng-disabled="true" />
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Total Fact. BSD</label>
-                                <input type="text" class="form-control" ng-model="invoice.total_neto" disabled />
-                            </div>
-                        </div>
-                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Total Fact. $USD</label>
-                                <input type="text" class="form-control" ng-model="invoice.total_neto_om" disabled />
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Base IGTF</label>
-                                <input type="text" id="b_igtf" class="form-control" ng-model="invoice.b_igtf" ng-change="recalcIgtf(invoice.b_igtf)" ng-disabled="invoice.co_cond.trim() != '002'" />
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>3% IGTF</label>
-                                <input type="text" id="igtf" class="form-control" ng-model="invoice.igtf" disabled />
-                            </div>
-                        </div>
-                        <div ng-if="invoice.co_cond.trim() == '001'" class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Saldo Pendiente BSD</label>
-                                <input type="text" class="form-control" ng-model="invoice.saldo_f" disabled />
-                            </div>
-                        </div>
-                        <div ng-if="invoice.co_cond.trim() == '002'" class="col-sm-12 col-md-3">
-                            <div class="controls">
-                                <label>Saldo Pendiente $USD</label>
-                                <input type="text" class="form-control" ng-model="invoice.saldo_f_om" disabled />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" ng-click="openModalCollect()">Aceptar</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <!-- Modal Cobro Nuevo -->
     <div class="modal fade" id="modalCobrarNuevo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
         <form id="form-collect" class="modal-dialog" role="document" style="max-width: 1000px;" onsubmit="return false;">
             <div class="modal-content">
@@ -1274,8 +1053,12 @@
                         <input type="text" ng-model="invoice.monto_ret_imp" ng-disabled="true" />
                     </div>
                     <div class="controls">
-                        <label>Fecha de Comprobante</label>
-                        <input type="date" required ng-model="rengIVA.fecha_documento" ng-disabled="true" />
+                        <label>Fecha de Recepción de Comprobante</label>
+                        <input type="date" required ng-model="rengIVA.fecha_documento" />
+                    </div>
+                    <div class="controls">
+                        <label>Fecha de Registro de Comprobante</label>
+                        <input type="date" required ng-model="rengIVA.fecha_reg" ng-disabled="true" />
                     </div>
                     <div class="controls">
                         <label>Num. de Comprobante (últimos 14 dígitos)</label>
@@ -1616,7 +1399,7 @@
             monto_imp_om: "4.00"
         };
         // $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
-        $scope.rengIVA = { fecha_documento: new Date(Date.now()) };
+        $scope.rengIVA = { fecha_documento: new Date(Date.now()), fecha_reg: new Date(Date.now()) };
         $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
         $scope.conceps = [
             { co_conce: "055", porc_ret: "2.00" },
@@ -1644,30 +1427,6 @@
             $(".panel-not-access").removeAttr("style");
             $(".container-invoices").css("display", "none");
         }
-
-        $('#modalCobrar').on('hide.bs.modal', function () {
-
-            $('#des_cta').val('');
-            $('.field-iva').slideUp();
-            $('.field-islr').slideUp();
-            $scope.invoice.saldo_f = setSeparator(parse($scope.invoice.saldo));
-            $scope.invoice.saldo_f_om = setSeparator(parse($scope.invoice.saldo_om));
-            $scope.error = "";
-
-            if (!validating) {
-
-                if ($scope.invoice.co_cond.trim() == "001") {
-                    $scope.rengTP = { forma_pag: "TP", fecha_che: new Date(Date.now()) };
-                } else {
-                    $scope.rengTP = { forma_pag: "EF", fecha_che: new Date(Date.now()) };
-                }
-
-                $scope.rengIVA = { fecha_documento: new Date(Date.now()) };
-                $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
-                $scope.invoice.monto_reten_om = setSeparator((parse($scope.invoice.total_bruto_om) * 0.02).toFixed(2));
-                $scope.invoice.monto_reten = setSeparator((parse($scope.invoice.total_bruto) * 0.02).toFixed(2));
-            }
-        });
 
         $('#modalCobrarNuevo').on('hide.bs.modal', function () {
 
@@ -2385,6 +2144,7 @@
             $scope.invoice.saldo_f = $scope.invoice.saldo;
             $scope.invoice.saldo_f_om = $scope.invoice.saldo_om;
             $scope.date_transf = new Date(Date.now());
+            $scope.rengIVA.fecha_documento = new Date(Date.now());
             $scope.rengIVA.num_comprobante = "";
             $scope.rengIV = $scope.invoice.ret_iva;
             $scope.rengIS = $scope.invoice.ret_islr;
@@ -2500,67 +2260,67 @@
 
         $scope.sendCollect = function () {
 
-            $("#form-collect input").change();
-            var reng = $scope.rengTP, rengIVA = null, rengISLR = null;
+            //$("#form-collect input").change();
+            //var reng = $scope.rengTP, rengIVA = null, rengISLR = null;
 
-            if (reng.isRetIVA) {
-                rengIVA = $scope.rengIVA;
-                rengIVA.monto_ret_imp = $scope.invoice.monto_ret_imp;
-                rengIVA.periodo_impositivo = $scope.getImpPeriod(rengIVA.fecha_documento);
-                rengIVA.num_comprobante = rengIVA.periodo_impositivo + rengIVA.num_comprobante;
-            }
+            //if (reng.isRetIVA) {
+            //    rengIVA = $scope.rengIVA;
+            //    rengIVA.monto_ret_imp = $scope.invoice.monto_ret_imp;
+            //    rengIVA.periodo_impositivo = $scope.getImpPeriod(rengIVA.fecha_documento);
+            //    rengIVA.num_comprobante = rengIVA.periodo_impositivo + rengIVA.num_comprobante;
+            //}
 
-            if (reng.isRetISLR) {
-                rengISLR = $scope.rengISLR;
-                rengISLR.monto = $scope.invoice.total_bruto;
-                rengISLR.monto_obj = $scope.invoice.total_bruto;
-                rengISLR.monto_reten = $scope.invoice.monto_reten;
-            }
+            //if (reng.isRetISLR) {
+            //    rengISLR = $scope.rengISLR;
+            //    rengISLR.monto = $scope.invoice.total_bruto;
+            //    rengISLR.monto_obj = $scope.invoice.total_bruto;
+            //    rengISLR.monto_reten = $scope.invoice.monto_reten;
+            //}
 
-            validating = true;
-            $("#modalCobrar").modal("hide");
-            $("#modalConfirmarMonto").modal("hide");
-            $("#modalWaiting").modal("show");
-            validating = false;
+            //validating = true;
+            //$("#modalCobrar").modal("hide");
+            //$("#modalConfirmarMonto").modal("hide");
+            //$("#modalWaiting").modal("show");
+            //validating = false;
 
-            var req = {
-                method: 'POST',
-                url: '/api/ProfitTMApi/AddCollect/' + $scope.invoice.doc_num.trim(),
-                data: [reng, rengIVA, rengISLR],
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            }
+            //var req = {
+            //    method: 'POST',
+            //    url: '/api/ProfitTMApi/AddCollect/' + $scope.invoice.doc_num.trim(),
+            //    data: [reng, rengIVA, rengISLR],
+            //    headers: {
+            //        'Content-Type': 'application/json'
+            //    },
+            //}
 
-            $http(req).then(function (response) {
+            //$http(req).then(function (response) {
 
-                var res = response.data;
-                if (res.Status == "OK") {
-                    $("#modalSuccess").modal("show");
-                    $scope.successMessage = `El Cobro ${res.Result.cob_num} se ha agregado con éxito`;
+            //    var res = response.data;
+            //    if (res.Status == "OK") {
+            //        $("#modalSuccess").modal("show");
+            //        $scope.successMessage = `El Cobro ${res.Result.cob_num} se ha agregado con éxito`;
 
-                    $scope.invoice.status = parseInt(res.Result.campo1);
-                    $scope.invoice.estatus = setStatus($scope.invoice.status);
-                    $scope.invoice.saldo = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
-                    $scope.invoice.saldo_f = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
-                    $scope.invoice.saldo_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
-                    $scope.invoice.saldo_f_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
-                    $scope.invoice.ret_iva = reng.isRetIVA;
-                    $scope.invoice.ret_islr = reng.isRetISLR;
-                } else {
-                    $("#modalError").modal("show");
-                    $scope.errorMessage = res.Message;
-                }
+            //        $scope.invoice.status = parseInt(res.Result.campo1);
+            //        $scope.invoice.estatus = setStatus($scope.invoice.status);
+            //        $scope.invoice.saldo = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
+            //        $scope.invoice.saldo_f = setSeparator(parseFloat(res.Result.campo2.replaceAll(",", ".")));
+            //        $scope.invoice.saldo_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
+            //        $scope.invoice.saldo_f_om = setSeparator(parseFloat(res.Result.campo3.replaceAll(",", ".")));
+            //        $scope.invoice.ret_iva = reng.isRetIVA;
+            //        $scope.invoice.ret_islr = reng.isRetISLR;
+            //    } else {
+            //        $("#modalError").modal("show");
+            //        $scope.errorMessage = res.Message;
+            //    }
 
-                $scope.rengIVA = { fecha_documento: new Date(Date.now()) };
-                $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
-                $scope.invoice.monto_reten_om = setSeparator((parse($scope.invoice.total_bruto_om) * 0.02).toFixed(2));
-                $scope.invoice.monto_reten = setSeparator((parse($scope.invoice.total_bruto) * 0.02).toFixed(2));
+            //    $scope.rengIVA = { fecha_documento: new Date(Date.now()) };
+            //    $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
+            //    $scope.invoice.monto_reten_om = setSeparator((parse($scope.invoice.total_bruto_om) * 0.02).toFixed(2));
+            //    $scope.invoice.monto_reten = setSeparator((parse($scope.invoice.total_bruto) * 0.02).toFixed(2));
 
-                $('#des_cta').val('');
-                $('.field-iva').slideUp();
-                $('.field-islr').slideUp();
-            });
+            //    $('#des_cta').val('');
+            //    $('.field-iva').slideUp();
+            //    $('.field-islr').slideUp();
+            //});
         }
 
         // FUNCIONES NUEVAS
@@ -2701,7 +2461,7 @@
                     forma_pag: "IVAN",
                     num_doc: $scope.rengIVA.num_comprobante,
                     co_ban: null,
-                    fecha_che: $scope.rengIVA.fecha_documento.toLocaleString("es-ES", options).replace(",", "").split(" ")[0],
+                    fecha_che: $scope.rengIVA.fecha_documento.toLocaleString("en-US", options).replace(",", "").split(" ")[0],
                     cod_caja: null,
                     cod_cta: null,
                     co_mone: "BSD",
@@ -2914,8 +2674,6 @@
                     }
 
                     $('#des_cta').val('');
-                    $('.field-iva').slideUp();
-                    $('.field-islr').slideUp();
                 });
             } else {
                 alert("Debes agregar al menos una forma de cobro");
