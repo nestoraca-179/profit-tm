@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "Orden de Compra";
+}
+<style>
+    input, select, textarea {
+        border: solid 1px #d7d7d7;
+        border-radius: 5px;
+        box-shadow: none;
+    }
+    input[disabled] {
+        pointer-events: none;
+    }
+    .container-orders {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+    .container-orders > .row {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .container-orders > .row hr {
+        display: none;
+    }
+    .container-form .controls {
+        margin: 0;
+    }
+    .col-sm-12.col-md-4.controls {
+        width: auto;
+    }
+    .form-body .row {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .form-body .row .controls {
+        margin: 0;
+        padding: 0;
+    }
+    .cont-checks {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .cont-checks .label-check {
+        width: 140px;
+    }
+    .cont-radios {
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .btn-convert {
+        display: flex;
+        justify-content: center;
+        align-items: end;
+    }
+    .btn-convert button {
+        width: 100%;
+    }
+    .bottom {
+        margin-top: 15px;
+    }
+    .modal-info .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
+    tr.active {
+        background: #0277bd !important;
+    }
+    tr.active td {
+        color: #FFF !important;
+    }
+    .field-active {
+        background: #7af4af !important;
+    }
+    .d-flex.justify-content-evenly > button {
+        width: 25px;
+        height: 25px;
+        padding: 0;
+        font-size: 10px;
+    }
+    @@media (max-width: 767px) {
+        .btn-convert {
+            margin-top: 15px;
+        }
+    }
+    @@media (max-width: 1199px) {
+        .container-orders, .container-orders > .row {
+            height: auto !important;
+        }
+        hr:not(.divider) {
+            display: block !important;
+        }
+        .button-import .btn {
+            margin: 2px;
+        }
+        .buttons-next-prev {
+            justify-content: center !important;
+            margin: 5px 0;
+        }
+        .button-import {
+            flex-wrap: wrap;
+            justify-content: center !important;
+            margin: 5px 0;
+        }
+    }
+</style>
+<script src="~/Scripts/angular-min.js"></script>
+<div class="container-fluid container-orders" id="container-orders" style="display: none;" ng-app="Orders" ng-controller="controller">
+    <div class="row">
+        <div class="col-md-12 col-xl-3 container-list">
+            <input type="text" id="input-orders" class="form-control" placeholder="Buscar orden de compra..." style="border: solid 1px #ced4da;" onkeyup="searchOrder()" />
+            <div class="list-table-orders">
+                <table class="table table-hover table-striped" id="table-orders">
+                    <thead>
+                        <tr>
+                            <th class="text-white">Código</th>
+                            <th class="text-white">Cliente</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="order in orders" ng-class="{ active: orders[index].doc_num == order.doc_num }" ng-click="selectOrder(order.doc_num)" style="cursor: pointer;">
+                        <td><i class="fas fa-caret-right mx-1" ng-show="orders[index].doc_num == order.doc_num"></i>{{ order.doc_num }}</td>
+                        <td>{{ order.co_prov }}</td>
+                    </tr>
+                </table>
+            </div>
+            @*<button type="button" class="btn btn-primary mt-2" ng-click="loadInvoices()">Cargar más facturas</button>*@
+        </div>
+    </div>
+</div>
+<div class="panel-loading p-3">
+    <h4>Cargando datos...</h4>
+</div>
+<script>
+    var app = angular.module("Orders", []);
+    var user = '@ViewBag.username';
+    var orders = @Html.Raw(ViewBag.orders);
+
+    $(document).ready(function () {
+        $(".container-orders").removeAttr("style");
+        $(".panel-loading").css("display", "none");
+
+        if (!responsive)
+            $("#icon-menu").trigger("click");
+    });
+
+    $("#container-orders").on("click", function (event) {
+        if (event.target.id != "icon-menu" && event.target.id != "menu-left" && !responsive) {
+            if ($("#menu-left.active").length == 0) {
+                $("#icon-menu").trigger("click");
+            }
+        }
+    });
+
+    $(document).on("contextmenu", function (event) {
+        event.preventDefault();
+    });
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.index = 0;
+        $scope.numberO = 200;
+        $scope.orders = orders;
+        $scope.order = orders[$scope.index];
+    });
+
+</script>

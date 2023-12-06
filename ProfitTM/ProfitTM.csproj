@@ -427,6 +427,7 @@
     <Content Include="Areas\CajaBanco\Views\Procesos\ImprimirOrdenPago.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Procesos\ImprimirPago.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\_RepFormatoPagoPartial.cshtml" />
+    <Content Include="Areas\Compras\Views\Procesos\OrdenCompra.cshtml" />
     <None Include="Properties\PublishProfiles\Publicacion Local.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
@@ -627,6 +628,7 @@
     <Compile Include="Models\Admin\Beneficiary.cs" />
     <Compile Include="Models\Admin\BoxMove.cs" />
     <Compile Include="Models\Admin\Branch.cs" />
+    <Compile Include="Models\Admin\BuyOrder.cs" />
     <Compile Include="Models\Admin\Collect.cs" />
     <Compile Include="Models\Admin\Currency.cs" />
     <Compile Include="Models\Admin\Invoice.cs" />
