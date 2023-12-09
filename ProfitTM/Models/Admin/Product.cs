@@ -43,20 +43,28 @@ namespace ProfitTM.Models
             return arts;
         }
 
-        public List<string> GetAllNameSellArts()
+        public List<string> GetAllNameArts(bool sell)
         {
             List<string> prods;
 
             try
             {
-                prods = (from a in db.saArticulo.AsNoTracking()
-                         where a.co_art.Trim().Substring(0, 1) == "4" || a.co_art.Trim().Substring(0, 1) == "9"
-                         select a.co_art.Trim() + "/" + a.art_des.Trim()).OrderBy(a => a).ToList();
+                if (sell)
+                {
+                    prods = (from a in db.saArticulo.AsNoTracking()
+                             where a.co_art.Trim().Substring(0, 1) == "4" || a.co_art.Trim().Substring(0, 1) == "9"
+                             select a.co_art.Trim() + "/" + a.art_des.Trim()).OrderBy(a => a).ToList();
+                }
+                else
+                {
+                    prods = (from a in db.saArticulo.AsNoTracking()
+                             select a.co_art.Trim() + "/" + a.art_des.Trim()).OrderBy(a => a).ToList();
+                }
             }
             catch (Exception ex)
             {
                 prods = null;
-                Incident.CreateIncident("ERROR BUSCANDO NOMBRES DE PRODUCTOS DE VENTA", ex);
+                Incident.CreateIncident("ERROR BUSCANDO NOMBRES DE PRODUCTOS", ex);
             }
 
             return prods;

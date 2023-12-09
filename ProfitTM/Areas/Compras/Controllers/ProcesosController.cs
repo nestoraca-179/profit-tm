@@ -48,6 +48,11 @@ namespace ProfitTM.Areas.Compras.Controllers
 
                 ViewBag.orders = serializer.Serialize(new BuyOrder().GetAllBuyOrders(200));
 
+                if (Session["ARTS_C"] == null)
+                    Session["ARTS_C"] = serializer.Serialize(new Product().GetAllNameArts(false));
+
+                ViewBag.arts = Session["ARTS_C"];
+
                 return View();
             }
         }

@@ -164,7 +164,146 @@
                 </div>
             </div>
             <div id="general" class="form-body" style="display: flex;">
-                <p>general</p>
+                <div class="row">
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Número</label>
+                            <input type="text" class="form-control" id="id" ng-model="order.doc_num" ng-disabled="true" ng-required="true" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="fec_emis" ng-model="order.fec_emis" ng-disabled="true" ng-required="true" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Fec. Venc</label>
+                            <input type="date" class="form-control" id="fec_emis" ng-model="order.fec_venc" ng-disabled="true" ng-required="true" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Estatus</label>
+                            <input type="text" class="form-control" id="n_control" ng-model="order.estatus" ng-disabled="!confirm" ng-required="false" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="controls">
+                            <label>Proveedor</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="supplier" ng-model="order.co_prov" ng-disabled="true" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_supplier" ng-model="order.saProveedor.prov_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSuppliers')" data-name="supplier"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Moneda</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="currency" ng-model="order.co_mone" ng-disabled="true" ng-required="true" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="currency"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Tasa</label>
+                            <input type="text" class="form-control" id="tasa" ng-model="order.tasa" ng-disabled="true" ng-required="true" ng-change="update(order.tasa)" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="controls">
+                            <label>Descripción</label>
+                            <input type="text" class="form-control" id="descrip" ng-model="order.descrip" ng-disabled="true" ng-required="false" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <div class="controls">
+                            <label>Cond. Pago</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="cond" ng-model="order.co_cond" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_cond" ng-model="order.saCondicionPago.cond_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 btn-convert">
+                        <button class="btn btn-primary" ng-click="convert()">Conversión</button>
+                    </div>
+                </div>
+                <div class="bottom" style="padding: 0 0 10px 0;">
+                    <h4 class="text-center text-white form-header">Items de la Orden de Compra</h4>
+                    <div style="padding: 0 10px; overflow-x: auto;">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Artículo</th>
+                                    <th>Descripción</th>
+                                    <th>Almacén</th>
+                                    <th>Cantidad</th>
+                                    <th>IVA</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="reng in order.saOrdenCompraReng" style="cursor: pointer;">
+                                    <td>{{ reng.reng_num }}</td>
+                                    <td>{{ reng.co_art }}</td>
+                                    <td>{{ searchArt(reng.co_art) }}</td>
+                                    <td>{{ reng.co_alma }}</td>
+                                    <td>{{ reng.total_art }}</td>
+                                    <td ng-show="!converted">{{ reng.monto_imp }}</td>
+                                    <td ng-show="converted" class="field-active">{{ reng.monto_imp_om }}</td>
+                                    <td ng-show="!converted">{{ reng.reng_neto }}</td>
+                                    <td ng-show="converted" class="field-active">{{ reng.reng_neto_om }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 offset-md-6">
+                            <div class="controls">
+                                <label>Sub-Total</label>
+                                <input type="text" class="form-control" id="subtotal" ng-model="order.total_bruto" ng-show="!converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="subtotal_om" ng-model="order.total_bruto_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 offset-md-6">
+                            <div class="controls">
+                                <label>IVA</label>
+                                <input type="text" class="form-control" id="iva" ng-model="order.monto_imp" ng-show="!converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="iva_om" ng-model="order.monto_imp_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="controls">
+                                <label>Saldo</label>
+                                <input type="text" class="form-control" id="saldo" ng-model="order.saldo" ng-show="!converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="saldo_om" ng-model="order.saldo_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="controls">
+                                <label>Total</label>
+                                <input type="text" class="form-control" id="total" ng-model="order.total_neto" ng-show="!converted" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control field-active" id="total_om" ng-model="order.total_neto_om" ng-show="converted" ng-disabled="true" ng-required="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="adicionales" class="form-body">
                 <p>adicionales</p>
@@ -179,6 +318,7 @@
     var app = angular.module("Orders", []);
     var user = '@ViewBag.username';
     var orders = @Html.Raw(ViewBag.orders);
+    var arts = @Html.Raw(ViewBag.arts);
 
     orders = parseItems(orders);
 
@@ -245,6 +385,9 @@
             $scope.converted = !$scope.converted;
         }
 
+        // FUNCIONES VARIAS
+        $scope.searchArt = (id) => searchArt(id);
+
         // FUNCIONES DE ORDENES MOSTRADAS
         $scope.selectOrder = function (id) {
             if ($scope.new || $scope.adding) {
@@ -278,6 +421,23 @@
             else
                 row.style.display = "";
         }
+    }
+
+    function searchArt(value) {
+
+        var name = "";
+        value = value.trim();
+
+        for (var a of arts) {
+            var code = a.split("/")[0];
+
+            if (code == value) {
+                name = a.split("/")[1];
+                break;
+            }
+        }
+
+        return name;
     }
 
     // FORMATO DE DATOS DE ORDENES DE COMPRA

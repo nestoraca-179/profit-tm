@@ -72,7 +72,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(200, sucur));
 
                 if (Session["ARTS"] == null)
-                    Session["ARTS"] = serializer.Serialize(new Product().GetAllNameSellArts());
+                    Session["ARTS"] = serializer.Serialize(new Product().GetAllNameArts(true));
 
                 if (Session["CONDS"] == null)
                     Session["CONDS"] = serializer.Serialize(new Cond().GetAllConds());
