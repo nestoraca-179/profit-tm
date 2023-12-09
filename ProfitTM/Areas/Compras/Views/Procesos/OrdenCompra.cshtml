@@ -131,6 +131,45 @@
             </div>
             @*<button type="button" class="btn btn-primary mt-2" ng-click="loadInvoices()">Cargar más facturas</button>*@
         </div>
+        <hr class="divider" />
+        <form action="" method="post" id="form" class="col-md-12 col-xl-9 container-form" onsubmit="return false;">
+            <div class="form-header">
+                <h3 class="text-center text-white"><i class="fas fa-file-alt"></i> Orden de Compra</h3>
+            </div>
+            <div class="form-buttons">
+                <div class="row">
+                    <div class="col buttons-next-prev" ng-show="!adding">
+                        <button type="button" class="btn btn-primary" ng-click="margin('s')">
+                            <i class="fas fa-chevron-double-left"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="prev()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="next()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="button" class="btn btn-primary" ng-click="margin('e')">
+                            <i class="fas fa-chevron-double-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-tabs">
+                <div class="row">
+                    <button type="button" id="btn-general" class="col tablinks active" onclick="openTab(event, 'general')">General</button>
+                    <button type="button" id="btn-adicionales" class="col tablinks" onclick="openTab(event, 'adicionales')">Adicionales</button>
+                </div>
+            </div>
+            <div id="general" class="form-body" style="display: flex;">
+                <p>general</p>
+            </div>
+            <div id="adicionales" class="form-body">
+                <p>adicionales</p>
+            </div>
+        </form>
     </div>
 </div>
 <div class="panel-loading p-3">
@@ -140,6 +179,8 @@
     var app = angular.module("Orders", []);
     var user = '@ViewBag.username';
     var orders = @Html.Raw(ViewBag.orders);
+
+    orders = parseItems(orders);
 
     $(document).ready(function () {
         $(".container-orders").removeAttr("style");
@@ -167,6 +208,158 @@
         $scope.numberO = 200;
         $scope.orders = orders;
         $scope.order = orders[$scope.index];
+        $scope.converted = false;
+
+        // FUNCIONES DE BOTONES
+        $scope.next = function () {
+            if ($scope.index == (orders.length - 1)) {
+                $scope.index = 0;
+            } else {
+                $scope.index++;
+            }
+
+            $scope.order = orders[$scope.index];
+        }
+
+        $scope.prev = function () {
+            if ($scope.index == 0) {
+                $scope.index = orders.length - 1;
+            } else {
+                $scope.index--;
+            }
+
+            $scope.order = orders[$scope.index];
+        }
+
+        $scope.margin = function (p) {
+            if (p == "s") {
+                $scope.index = 0;
+                $scope.order = orders[0];
+            } else if (p == "e") {
+                $scope.index = orders.length - 1;
+                $scope.order = orders[invoices.length - 1];
+            }
+        }
+
+        $scope.convert = function () {
+            $scope.converted = !$scope.converted;
+        }
+
+        // FUNCIONES DE ORDENES MOSTRADAS
+        $scope.selectOrder = function (id) {
+            if ($scope.new || $scope.adding) {
+                alert("Debes terminar de agregar la orden");
+            } else if ($scope.editing) {
+                alert("Debes terminar de modificar la orden " + $scope.order.doc_num);
+            } else {
+                $scope.order = orders.find(o => o.doc_num == id);
+                $scope.index = orders.indexOf($scope.order);
+                $scope.orders = orders;
+                $("#input-orders").val("");
+                searchOrder();
+            }
+        }
     });
+
+    // BUSQUEDAS
+    function searchOrder() {
+        var value = $("#input-orders").val().toLowerCase(),
+            table = $("#table-orders")[0];
+
+        for (var i = 1; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    // FORMATO DE DATOS DE ORDENES DE COMPRA
+    function parseItems(items_c) {
+
+        var items = items_c;
+
+        for (var item of items) {
+
+            // TOTALES OM
+            item.total_bruto_om = setSeparator((item.total_bruto / item.tasa).toFixed(2));
+            item.total_bruto = setSeparator(item.total_bruto.toFixed(2));
+
+            item.monto_imp_om = setSeparator((item.monto_imp / item.tasa).toFixed(2));
+            item.monto_imp = setSeparator(item.monto_imp.toFixed(2));
+
+            item.total_neto_om = setSeparator((item.total_neto / item.tasa).toFixed(2));
+            item.total_neto = setSeparator(item.total_neto.toFixed(2));
+
+            item.saldo_om = setSeparator((item.saldo / item.tasa).toFixed(2));
+            item.saldo = setSeparator(item.saldo.toFixed(2));
+            item.saldo_f_om = item.saldo_om;
+            item.saldo_f = item.saldo;
+
+            for (var r of item.saOrdenCompraReng) {
+                r.monto_imp_om = setSeparator((r.monto_imp / item.tasa).toFixed(2));
+                r.monto_imp = setSeparator(r.monto_imp.toFixed(2));
+
+                r.reng_neto_om = setSeparator((r.reng_neto / item.tasa).toFixed(2));
+                r.reng_neto = setSeparator(r.reng_neto.toFixed(2));
+            }
+
+            // FECHAS
+            item.fec_emis = new Date(parseInt(item.fec_emis.substr(6)));
+            item.fec_venc = new Date(parseInt(item.fec_venc.substr(6)));
+            item.fec_reg = new Date(parseInt(item.fec_reg.substr(6)));
+            item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
+            item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
+
+            // DATOS
+            item.estatus = setStatus(item.status);
+        }
+
+        return items;
+    }
+
+    function setStatus(status) {
+
+        var value;
+
+        if (status == 0)
+            value = "NO PROCESADA";
+        else if (status == 1)
+            value = "PARC. PROCESADA";
+        else if (status == 2)
+            value = "PROCESADA";
+
+        return value;
+    }
+
+    // FORMATO Y CAMPOS
+    function setSeparator(value) {
+        return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
+    }
+
+    // PESTAÑAS
+    function openTab(e, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("form-body");
+
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(tabName).style.display = "flex";
+        e.target.className += " active";
+    }
 
 </script>

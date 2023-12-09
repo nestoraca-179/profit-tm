@@ -29,7 +29,18 @@ namespace ProfitTM.Models
 
             try
             {
-                orders = db.saOrdenCompra.AsNoTracking().OrderByDescending(i => i.fe_us_in).ThenBy(i => i.doc_num).Take(number).ToList();
+                orders = db.saOrdenCompra.AsNoTracking().Include("saOrdenCompraReng").Include("saProveedor").Include("saCondicionPago")
+                    .OrderByDescending(i => i.fe_us_in).ThenBy(i => i.doc_num).Take(number).ToList();
+
+                foreach (saOrdenCompra order in orders)
+                {
+                    order.saProveedor.saOrdenCompra = null;
+                    order.saCondicionPago.saOrdenCompra = null;
+                    foreach (saOrdenCompraReng reng in order.saOrdenCompraReng)
+                    {
+                        reng.saOrdenCompra = null;
+                    }
+                }
             }
             catch (Exception ex)
             {
