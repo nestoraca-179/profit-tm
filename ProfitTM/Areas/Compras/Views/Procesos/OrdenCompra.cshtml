@@ -306,7 +306,42 @@
                 </div>
             </div>
             <div id="adicionales" class="form-body">
-                <p>adicionales</p>
+                <div class="left">
+                    <div class="controls">
+                        <label>Ag. Aduanal</label>
+                        <input type="text" class="form-control" ng-model="invoice.campo1" ng-disabled="!new" />
+                    </div>
+                    <div class="controls">
+                        <label>No. Doc.</label>
+                        <input type="text" class="form-control" ng-model="invoice.campo3" ng-disabled="!new && !adding" />
+                    </div>
+                    <div class="controls">
+                        <label>Destino</label>
+                        <input type="text" class="form-control" ng-model="invoice.campo5" ng-disabled="!new" />
+                    </div>
+                    <div class="controls">
+                        <label>Buque</label>
+                        <input type="text" class="form-control" ng-model="invoice.campo7" ng-disabled="!new" />
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="controls">
+                        <label>Fec. Viaje</label>
+                        <input type="text" class="form-control" ng-model="invoice.campo2" ng-disabled="!new" />
+                    </div>
+                    <div class="controls">
+                        <label>Pto. Embq.</label>
+                        <input type="text" class="form-control" ng-model="invoice.campo4" ng-disabled="!new" />
+                    </div>
+                    <div class="controls">
+                        <label>Mercancía</label>
+                        <input type="text" class="form-control" ng-model="invoice.campo6" ng-disabled="!new" />
+                    </div>
+                    <div class="controls">
+                        <label>No. Viaje</label>
+                        <input type="text" class="form-control" ng-model="invoice.campo8" ng-disabled="!new" />
+                    </div>
+                </div>
             </div>
         </form>
     </div>
