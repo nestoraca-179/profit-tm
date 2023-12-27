@@ -1843,10 +1843,10 @@
             $scope.invoice.saCliente = {
                 cli_des: template.saCliente.cli_des
             },
-                $scope.invoice.fec_emis = new Date(Date.now()),
-                $scope.invoice.fec_venc = new Date(Date.now()),
-                $scope.invoice.fec_reg = new Date(Date.now()),
-                $scope.invoice.saFacturaVentaReng = template.saPlantillaVentaReng;
+            $scope.invoice.fec_emis = new Date(Date.now()),
+            $scope.invoice.fec_venc = new Date(Date.now()),
+            $scope.invoice.fec_reg = new Date(Date.now()),
+            $scope.invoice.saFacturaVentaReng = template.saPlantillaVentaReng;
             $scope.invoice.total_bruto = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.reng_neto).reduce((acc, act) => acc + act, 0));
             $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
             $scope.invoice.monto_imp = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.monto_imp).reduce((acc, act) => acc + act, 0));

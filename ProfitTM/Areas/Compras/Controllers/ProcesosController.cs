@@ -51,7 +51,19 @@ namespace ProfitTM.Areas.Compras.Controllers
                 if (Session["ARTS_C"] == null)
                     Session["ARTS_C"] = serializer.Serialize(new Product().GetAllNameArts(false));
 
+                if (Session["SUPPLIERS"] == null)
+                    Session["SUPPLIERS"] = serializer.Serialize(new Supplier().GetAllSuppliers());
+
+                if (Session["CURRENCIES"] == null)
+                    Session["CURRENCIES"] = serializer.Serialize(new Currency().GetAllCurrencies());
+
+                if (Session["CONDS"] == null)
+                    Session["CONDS"] = serializer.Serialize(new Cond().GetAllConds());
+
                 ViewBag.arts = Session["ARTS_C"];
+                ViewBag.suppliers = Session["SUPPLIERS"];
+                ViewBag.currencies = Session["CURRENCIES"];
+                ViewBag.conds = Session["CONDS"];
 
                 return View();
             }

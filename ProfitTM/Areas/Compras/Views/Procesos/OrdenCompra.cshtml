@@ -129,7 +129,7 @@
                     </tr>
                 </table>
             </div>
-            @*<button type="button" class="btn btn-primary mt-2" ng-click="loadInvoices()">Cargar más facturas</button>*@
+            <button type="button" class="btn btn-primary mt-2" ng-click="">Cargar más órdenes</button>
         </div>
         <hr class="divider" />
         <form action="" method="post" id="form" class="col-md-12 col-xl-9 container-form" onsubmit="return false;">
@@ -138,7 +138,11 @@
             </div>
             <div class="form-buttons">
                 <div class="row">
-                    <div class="col buttons-next-prev" ng-show="!adding">
+                    <div class="col buttons-next-prev" ng-show="!new && !adding">
+                        <button type="button" class="btn text-white" style="background: #810be3; min-width: auto; padding: 0 7px;" ng-click="initAddOrder()">
+                            <i class="fas fa-plus"></i> Nuevo
+                        </button>
+                        <div style="width: 10px;"></div>
                         <button type="button" class="btn btn-primary" ng-click="margin('s')">
                             <i class="fas fa-chevron-double-left"></i>
                         </button>
@@ -153,6 +157,17 @@
                         <div style="width: 10px;"></div>
                         <button type="button" class="btn btn-primary" ng-click="margin('e')">
                             <i class="fas fa-chevron-double-right"></i>
+                        </button>
+                    </div>
+                    <div class="col buttons-save-cancel" ng-show="new">
+                        <button type="button" class="btn btn-danger" ng-click="new = false; order = orders[index];">
+                            <i class="fas fa-times"></i>
+                            Cancelar
+                        </button>
+                        <div style="width: 10px;"></div>
+                        <button type="submit" class="btn btn-success" ng-click="addNewOrder()">
+                            <i class="fas fa-save"></i>
+                            Guardar
                         </button>
                     </div>
                 </div>
@@ -174,19 +189,19 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fecha</label>
-                            <input type="date" class="form-control" id="fec_emis" ng-model="order.fec_emis" ng-disabled="true" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_emis" ng-model="order.fec_emis" ng-disabled="!new" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Venc</label>
-                            <input type="date" class="form-control" id="fec_emis" ng-model="order.fec_venc" ng-disabled="true" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_emis" ng-model="order.fec_venc" ng-disabled="!new" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Estatus</label>
-                            <input type="text" class="form-control" id="n_control" ng-model="order.estatus" ng-disabled="!confirm" ng-required="false" />
+                            <input type="text" class="form-control" id="n_control" ng-model="order.estatus" ng-disabled="true" ng-required="false" />
                         </div>
                     </div>
                 </div>
@@ -195,8 +210,8 @@
                         <div class="controls">
                             <label>Proveedor</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="supplier" ng-model="order.co_prov" ng-disabled="true" ng-required="true" style="flex: 1;" />
-                                <input type="text" class="form-control" id="des_supplier" ng-model="order.saProveedor.prov_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <input type="text" class="form-control" id="supplier" ng-model="order.co_prov" ng-disabled="!new" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_supplier" ng-model="order.saProveedor.prov_des" ng-disabled="!new" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSuppliers')" data-name="supplier"></i>
                             </div>
                         </div>
@@ -205,7 +220,7 @@
                         <div class="controls">
                             <label>Moneda</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="currency" ng-model="order.co_mone" ng-disabled="true" ng-required="true" />
+                                <input type="text" class="form-control" id="currency" ng-model="order.co_mone" ng-disabled="!new" ng-required="true" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalCurrencies')" data-name="currency"></i>
                             </div>
                         </div>
@@ -213,7 +228,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Tasa</label>
-                            <input type="text" class="form-control" id="tasa" ng-model="order.tasa" ng-disabled="true" ng-required="true" ng-change="update(order.tasa)" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                            <input type="text" class="form-control" id="tasa" ng-model="order.tasa" ng-disabled="!new" ng-required="true" ng-change="update(order.tasa)" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
                         </div>
                     </div>
                 </div>
@@ -221,15 +236,15 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="controls">
                             <label>Descripción</label>
-                            <input type="text" class="form-control" id="descrip" ng-model="order.descrip" ng-disabled="true" ng-required="false" />
+                            <input type="text" class="form-control" id="descrip" ng-model="order.descrip" ng-disabled="!new" ng-required="false" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Cond. Pago</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="cond" ng-model="order.co_cond" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 1;" />
-                                <input type="text" class="form-control" id="des_cond" ng-model="order.saCondicionPago.cond_des" ng-disabled="true" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <input type="text" class="form-control" id="cond" ng-model="order.co_cond" ng-disabled="!new" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="des_cond" ng-model="order.saCondicionPago.cond_des" ng-disabled="!new" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalConds')" data-name="cond"></i>
                             </div>
                         </div>
@@ -313,7 +328,7 @@
                     </div>
                     <div class="controls">
                         <label>No. Doc.</label>
-                        <input type="text" class="form-control" ng-model="invoice.campo3" ng-disabled="!new && !adding" />
+                        <input type="text" class="form-control" ng-model="invoice.campo3" ng-disabled="!new" />
                     </div>
                     <div class="controls">
                         <label>Destino</label>
@@ -345,6 +360,96 @@
             </div>
         </form>
     </div>
+    <!-- Modal 1 -->
+    <div class="modal fade" id="modalSuppliers" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Proveedor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar proveedor..." onkeyup="search('modalSuppliers')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="supplier in suppliers" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ supplier.co_prov }}</td>
+                            <td>{{ supplier.prov_des }}</td>
+                        </tr>
+                        <tr ng-if="!clients">
+                            <td colspan="2">Cargando proveedores... <i class="fas fa-spinner-third fa-spin" style="font-size: 25px;"></i></td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalSuppliers')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 2 -->
+    <div class="modal fade" id="modalCurrencies" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Moneda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar moneda..." onkeyup="search('modalCurrencies')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="currency in currencies" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ currency.co_mone }}</td>
+                            <td>{{ currency.mone_des }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalCurrencies')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 3 -->
+    <div class="modal fade" id="modalConds" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Cond. Pago</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cond. pago..." onkeyup="search('modalConds')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="cond in conds" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ cond.co_cond }}</td>
+                            <td>{{ cond.cond_des }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalConds')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel-loading p-3">
     <h4>Cargando datos...</h4>
@@ -354,6 +459,9 @@
     var user = '@ViewBag.username';
     var orders = @Html.Raw(ViewBag.orders);
     var arts = @Html.Raw(ViewBag.arts);
+    var suppliers = @Html.Raw(ViewBag.suppliers);
+    var currencies = @Html.Raw(ViewBag.currencies);
+    var conds = @Html.Raw(ViewBag.conds);
 
     orders = parseItems(orders);
 
@@ -383,6 +491,10 @@
         $scope.numberO = 200;
         $scope.orders = orders;
         $scope.order = orders[$scope.index];
+        $scope.arts = arts;
+        $scope.suppliers = suppliers;
+        $scope.currencies = currencies;
+        $scope.conds = conds;
         $scope.converted = false;
 
         // FUNCIONES DE BOTONES
@@ -437,6 +549,31 @@
                 searchOrder();
             }
         }
+
+        // FUNCIONES DE AGREGAR ORDEN
+        $scope.initAddOrder = function () {
+
+            $scope.new = true;
+
+            $scope.order = {
+                fec_emis: new Date(Date.now()),
+                fec_venc: new Date(Date.now()),
+                status: 0,
+                estatus: "NO PROCESADA",
+                saOrdenCompraReng: []
+            };
+        }
+
+        $scope.addNewOrder = function () {
+
+            if ($("#form")[0].checkValidity()) {
+                if ($scope.order.saOrdenCompraReng.length > 0) {
+
+                } else {
+                    alert("Debes agregar items a la orden de compra");
+                }
+            }
+        }
     });
 
     // BUSQUEDAS
@@ -473,6 +610,18 @@
         }
 
         return name;
+    }
+
+    function searchSupplier(value) {
+        return suppliers.find(s => s.co_prov == value).prov_des;
+    }
+
+    function searchCurrency(value) {
+        return currencies.find(c => c.co_mone == value).mone_des;
+    }
+
+    function searchCond(value) {
+        return conds.find(c => c.co_cond.trim() == value.trim()).cond_des;
     }
 
     // FORMATO DE DATOS DE ORDENES DE COMPRA
@@ -536,6 +685,74 @@
     // FORMATO Y CAMPOS
     function setSeparator(value) {
         return new Intl.NumberFormat('en-EN', { minimumFractionDigits: 2 }).format(value);
+    }
+
+    // MODALES
+    function openModal(elem, modal) {
+
+        var previous = elem.previousElementSibling;
+
+        if (!previous.disabled) {
+            $("#" + modal).find("#name-input").val($(elem).data("name"));
+            $("#" + modal).modal("show");
+        }
+    }
+
+    function search(modal) {
+        var value = $("#" + modal).find("input[type=text]").val().toLowerCase(),
+            table = $("#" + modal).find("#results")[0];
+
+        for (var i = 0; i < table.rows.length; i++) {
+
+            var row = table.rows[i];
+            var elems = row.getElementsByTagName("td");
+
+            var val1 = elems[0].innerHTML.toLocaleLowerCase(), val2 = elems[1].innerHTML.toLocaleLowerCase();
+
+            if (!val1.includes(value) && !val2.includes(value))
+                row.style.display = "none";
+            else
+                row.style.display = "";
+        }
+    }
+
+    function selectRow(elem) {
+        var previous = document.getElementsByClassName("selected-row")[0];
+
+        if (previous != null) {
+            previous.classList.remove("selected-row");
+        }
+
+        elem.classList.add("selected-row");
+    }
+
+    function saveRow(modal) {
+        var item = document.getElementsByClassName("selected-row")[0];
+
+        if (item != null) {
+            var elem = item.children[0],
+                value = elem.innerHTML,
+                input = $("#" + modal).find("#name-input").val(),
+                rows = [...($("#" + modal).find("#results")[0].rows)];
+
+            $("#" + input).val(value.trim());
+            $(".selected-row")[0].classList.remove("selected-row");
+            $("#" + modal).find("input[type=text]").val("");
+            $("#" + modal).find("button[name=search-btn]").trigger("click");
+
+            if (input == "cond") {
+                $("#des_cond").val(searchCond(value));
+            } else if (input == "supplier") {
+                $("#des_supplier").val(searchSupplier(value));
+            } else if (input == "currency") {
+                $("#des_currency").val(searchCurrency(value));
+            }
+
+            rows.forEach(row => row.style.display = "");
+            $("#" + modal).modal("hide");
+        } else {
+            alert("Debes seleccionar un item");
+        }
     }
 
     // PESTAÑAS
