@@ -106,6 +106,29 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("api/ProfitTMApi/ResetPass/{id}")]
+        public ProfitTMResponse ResetPass(int id)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                Models.User.ResetPass(id);
+
+                response.Status = "OK";
+                response.Result = id;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR RESETANDO CLAVE DE USUARIO " + id.ToString(), ex);
+            }
+
+            return response;
+        }
+
         // CAJA
 
         [HttpGet]

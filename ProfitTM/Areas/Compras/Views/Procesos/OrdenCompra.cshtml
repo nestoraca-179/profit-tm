@@ -183,7 +183,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Número</label>
-                            <input type="text" class="form-control" id="id" ng-model="order.doc_num" ng-disabled="true" ng-required="true" />
+                            <input type="text" class="form-control" id="id" ng-model="order.doc_num" ng-disabled="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -195,13 +195,13 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Venc</label>
-                            <input type="date" class="form-control" id="fec_emis" ng-model="order.fec_venc" ng-disabled="!new" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_venc" ng-model="order.fec_venc" ng-disabled="!new" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Estatus</label>
-                            <input type="text" class="form-control" id="n_control" ng-model="order.estatus" ng-disabled="true" ng-required="false" />
+                            <input type="text" class="form-control" id="n_control" ng-model="order.estatus" ng-disabled="true" />
                         </div>
                     </div>
                 </div>
@@ -210,7 +210,7 @@
                         <div class="controls">
                             <label>Proveedor</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="supplier" ng-model="order.co_prov" ng-disabled="!new" ng-required="true" style="flex: 1;" />
+                                <input type="text" class="form-control" id="supplier" ng-model="order.co_prov" ng-disabled="!new" ng-required="true" style="flex: 1;" onkeypress="return false;" />
                                 <input type="text" class="form-control" id="des_supplier" ng-model="order.saProveedor.prov_des" ng-disabled="!new" ng-required="true" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalSuppliers')" data-name="supplier"></i>
                             </div>
@@ -228,7 +228,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Tasa</label>
-                            <input type="text" class="form-control" id="tasa" ng-model="order.tasa" ng-disabled="!new" ng-required="true" ng-change="update(order.tasa)" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
+                            <input type="text" class="form-control" id="tasa" name="tasa" ng-model="order.tasa" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" />
                         </div>
                     </div>
                 </div>
@@ -496,6 +496,7 @@
         $scope.currencies = currencies;
         $scope.conds = conds;
         $scope.converted = false;
+        $scope.new = false;
 
         // FUNCIONES DE BOTONES
         $scope.next = function () {

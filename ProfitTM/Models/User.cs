@@ -140,6 +140,18 @@ namespace ProfitTM.Models
             return user;
         }
 
+        public static void ResetPass(int id)
+        {
+            ProfitTMEntities db = new ProfitTMEntities();
+            Users user = GetUserByID(id.ToString());
+
+            user.Password = SecurityController.Encrypt("gish.123");
+            user.NextChange = DateTime.Now.AddDays(-1);
+
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
         private static List<UserModules> GetUserModules(string id)
         {
             List<UserModules> modules = new List<UserModules>();

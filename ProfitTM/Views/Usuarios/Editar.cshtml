@@ -142,6 +142,7 @@
                     </div>
                     <div class="col d-flex justify-content-center align-items-center">
                         <button type="submit" class="btn btn-primary" ng-click="sendUser()">Actualizar usuario</button>
+                        <button type="button" class="btn btn-warning mx-2" ng-click="resetPass()">Resetear Clave</button>
                     </div>
                 </div>
                 <form action="" method="post" id="form" class="mt-5" onsubmit="return false;">
@@ -556,6 +557,23 @@
                     }
                 }
             }
+        }
+
+        $scope.resetPass = function () {
+
+            $("#modalWaiting").modal("show");
+            $http.get("/api/ProfitTMApi/ResetPass/" + user.ID.toString()).then(function (response) {
+
+                var res = response.data;
+                if (res.Status == "OK") {
+                    $("#modalSuccess").modal("show");
+                    $scope.successMessage = "La clave se ha reseteado con éxito";
+                } else {
+                    $("#modalError").modal("show");
+                    $scope.errorMessage = res.Message;
+                }
+
+            });
         }
 
         $scope.closeModal = function () {
