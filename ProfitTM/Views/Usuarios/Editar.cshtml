@@ -6,39 +6,48 @@
     .form-group, .form-check {
         margin: 5px 0;
     }
+
     fieldset.form-group {
         margin: 10px 0;
     }
+
     .modal-info .fas {
         font-size: 6em;
         padding: 5%;
     }
+
     legend {
         font-size: 16px;
         font-weight: bold;
     }
+
     h5 {
         margin: 15px 0;
     }
+
     .col-sm-12 button {
         width: 100%;
         max-width: 600px;
         margin: 0 auto;
         display: block;
     }
+
     @@media (max-width: 575px) {
         .form-group.row label {
             margin: 0 0 5px 0;
         }
+
         legend {
             text-align: center;
             font-size: 20px !important;
         }
     }
+
     @@media (max-width: 767px) {
         .header-right-side {
             display: none;
         }
+
         .dash-left-side {
             width: 100%;
             height: auto;
@@ -48,10 +57,12 @@
             border: 0 !important;
             overflow-y: auto;
         }
+
         .list-menu {
             margin: 0;
             display: none;
         }
+
         .menu-item {
             padding: 20px;
         }
@@ -187,6 +198,12 @@
                                         <option></option>
                                         <option ng-repeat="sup in sups" ng-if="sup.ID != user.ID" value="{{ sup.ID }}">{{ sup.Descrip }}</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-check row mt-4">
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" ng-model="user.UseAlterSerie">
+                                    <label class="form-check-label ml-3">Usar Serie Alterna (Nro. Control)</label>
                                 </div>
                             </div>
                         </div>

@@ -95,6 +95,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="ProfitTMContext.Users">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UseAlterSerie" ColumnName="UseAlterSerie" />
           <ScalarProperty Name="AllowCancel" ColumnName="AllowCancel" />
           <ScalarProperty Name="AllowCollect" ColumnName="AllowCollect" />
           <ScalarProperty Name="BoxType" ColumnName="BoxType" />

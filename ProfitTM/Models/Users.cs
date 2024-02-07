@@ -40,6 +40,7 @@ namespace ProfitTM.Models
         public Nullable<int> BoxType { get; set; }
         public bool AllowCollect { get; set; }
         public bool AllowCancel { get; set; }
+        public bool UseAlterSerie { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserModules> UserModules { get; set; }
