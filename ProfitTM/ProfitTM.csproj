@@ -428,6 +428,12 @@
     <Content Include="Areas\CajaBanco\Views\Procesos\ImprimirPago.cshtml" />
     <Content Include="Areas\CajaBanco\Views\Reportes\_RepFormatoPagoPartial.cshtml" />
     <Content Include="Areas\Compras\Views\Procesos\OrdenCompra.cshtml" />
+    <Content Include="Areas\General\Views\Reportes\_RepEstadoGananciasPerdidas2KDocePartial.cshtml" />
+    <Content Include="Areas\Fiscal\Views\web.config" />
+    <Content Include="Areas\Fiscal\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Fiscal\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Fiscal\Views\Reportes\Index.cshtml" />
+    <Content Include="Areas\Fiscal\Views\Reportes\Reporte.cshtml" />
     <None Include="Properties\PublishProfiles\Publicacion Local.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
@@ -556,6 +562,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Areas\Compras\Reports\RepTotalCompraxArticulo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Areas\Fiscal\Controllers\ReportesController.cs" />
+    <Compile Include="Areas\Fiscal\Controllers\RepsController.cs" />
+    <Compile Include="Areas\Fiscal\FiscalAreaRegistration.cs" />
+    <Compile Include="Areas\Fiscal\Reports\RepMayorAnalitico2KDoce.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Areas\General\Controllers\ReportesController.cs" />
@@ -1558,6 +1570,8 @@
     <Folder Include="Areas\Compras\Data\" />
     <Folder Include="Areas\Compras\Views\Reps\" />
     <Folder Include="Areas\Compras\Views\SQL\" />
+    <Folder Include="Areas\Fiscal\Data\" />
+    <Folder Include="Areas\Fiscal\Views\Reps\" />
     <Folder Include="Areas\General\Data\" />
     <Folder Include="Areas\General\Views\Reps\" />
     <Folder Include="Areas\Inventario\Data\" />
@@ -1595,6 +1609,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\Compras\Reports\RepTotalCompraxArticulo.resx">
       <DependentUpon>RepTotalCompraxArticulo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\Fiscal\Reports\RepMayorAnalitico2KDoce.resx">
+      <DependentUpon>RepMayorAnalitico2KDoce.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\General\Reports\RepBalanceComprobacion.resx">
       <DependentUpon>RepBalanceComprobacion.cs</DependentUpon>

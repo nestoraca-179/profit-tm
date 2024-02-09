@@ -114,20 +114,21 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.PageInfo = new DevExpress.XtraReports.UI.XRControlStyle();
             this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
             this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
-            this.ReportHeader = new DevExpress.XtraReports.UI.ReportHeaderBand();
-            this.Detail = new DevExpress.XtraReports.UI.DetailBand();
             this.pageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.pageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
-            this.table1 = new DevExpress.XtraReports.UI.XRTable();
-            this.tableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
-            this.tableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.ReportHeader = new DevExpress.XtraReports.UI.ReportHeaderBand();
+            this.Detail = new DevExpress.XtraReports.UI.DetailBand();
+            this.xrLine1 = new DevExpress.XtraReports.UI.XRLine();
             this.table2 = new DevExpress.XtraReports.UI.XRTable();
             this.tableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.tableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.tableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.table1 = new DevExpress.XtraReports.UI.XRTable();
+            this.tableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
+            this.tableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.tableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.tableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
             this.fecDesde = new DevExpress.XtraReports.Parameters.Parameter();
             this.fecHasta = new DevExpress.XtraReports.Parameters.Parameter();
             this.cenDesde = new DevExpress.XtraReports.Parameters.Parameter();
@@ -135,8 +136,6 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.cueDesde = new DevExpress.XtraReports.Parameters.Parameter();
             this.cueHasta = new DevExpress.XtraReports.Parameters.Parameter();
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
-            this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
-            this.label1 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.xrLabel9 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
@@ -148,13 +147,14 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
             this.LBL_DescEmpresa = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLine1 = new DevExpress.XtraReports.UI.XRLine();
+            this.label1 = new DevExpress.XtraReports.UI.XRLabel();
+            this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
+            this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel15 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLine3 = new DevExpress.XtraReports.UI.XRLine();
             this.totalSaldo = new DevExpress.XtraReports.UI.CalculatedField();
-            this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // DemoCont
@@ -221,6 +221,7 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             // 
             // DetailData1
             // 
+            this.DetailData1.BackColor = System.Drawing.Color.White;
             this.DetailData1.BorderColor = System.Drawing.Color.White;
             this.DetailData1.Borders = DevExpress.XtraPrinting.BorderSide.Left;
             this.DetailData1.BorderWidth = 2F;
@@ -232,7 +233,7 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             // 
             // DetailData3_Odd
             // 
-            this.DetailData3_Odd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(245)))), ((int)(((byte)(248)))));
+            this.DetailData3_Odd.BackColor = System.Drawing.Color.White;
             this.DetailData3_Odd.BorderColor = System.Drawing.Color.White;
             this.DetailData3_Odd.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.DetailData3_Odd.BorderWidth = 1F;
@@ -261,19 +262,6 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.pageInfo2});
             this.BottomMargin.Name = "BottomMargin";
             // 
-            // ReportHeader
-            // 
-            this.ReportHeader.HeightF = 0F;
-            this.ReportHeader.Name = "ReportHeader";
-            // 
-            // Detail
-            // 
-            this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrLine1,
-            this.table2});
-            this.Detail.HeightF = 32.29167F;
-            this.Detail.Name = "Detail";
-            // 
             // pageInfo1
             // 
             this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 6.00001F);
@@ -290,6 +278,77 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.pageInfo2.StyleName = "PageInfo";
             this.pageInfo2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
             this.pageInfo2.TextFormatString = "Página {0} de {1}";
+            // 
+            // ReportHeader
+            // 
+            this.ReportHeader.HeightF = 0F;
+            this.ReportHeader.Name = "ReportHeader";
+            // 
+            // Detail
+            // 
+            this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLine1,
+            this.table2});
+            this.Detail.HeightF = 28F;
+            this.Detail.Name = "Detail";
+            // 
+            // xrLine1
+            // 
+            this.xrLine1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Visible", "[is_total]")});
+            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(652.7499F, 0F);
+            this.xrLine1.Name = "xrLine1";
+            this.xrLine1.SizeF = new System.Drawing.SizeF(197.25F, 3.000005F);
+            // 
+            // table2
+            // 
+            this.table2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 3F);
+            this.table2.Name = "table2";
+            this.table2.OddStyleName = "DetailData3_Odd";
+            this.table2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
+            this.tableRow2});
+            this.table2.SizeF = new System.Drawing.SizeF(850F, 25F);
+            // 
+            // tableRow2
+            // 
+            this.tableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
+            this.tableCell4,
+            this.tableCell6,
+            this.tableCell5});
+            this.tableRow2.Name = "tableRow2";
+            this.tableRow2.Weight = 11.5D;
+            // 
+            // tableCell4
+            // 
+            this.tableCell4.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.tableCell4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_cue]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            this.tableCell4.Name = "tableCell4";
+            this.tableCell4.StyleName = "DetailData1";
+            this.tableCell4.StylePriority.UseBorders = false;
+            this.tableCell4.Weight = 0.15533555386334422D;
+            // 
+            // tableCell6
+            // 
+            this.tableCell6.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[des_cue]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            this.tableCell6.Name = "tableCell6";
+            this.tableCell6.StyleName = "DetailData1";
+            this.tableCell6.Weight = 0.845817465206243D;
+            // 
+            // tableCell5
+            // 
+            this.tableCell5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[SaldoActual]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            this.tableCell5.Name = "tableCell5";
+            this.tableCell5.StyleName = "DetailData1";
+            this.tableCell5.StylePriority.UseTextAlignment = false;
+            this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            this.tableCell5.TextFormatString = "{0:n2}";
+            this.tableCell5.Weight = 0.30653927237075462D;
             // 
             // table1
             // 
@@ -311,78 +370,37 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             // tableCell1
             // 
             this.tableCell1.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.tableCell1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
             this.tableCell1.Name = "tableCell1";
             this.tableCell1.StyleName = "DetailCaption1";
             this.tableCell1.StylePriority.UseBorders = false;
+            this.tableCell1.StylePriority.UseFont = false;
             this.tableCell1.StylePriority.UseTextAlignment = false;
             this.tableCell1.Text = "Código";
             this.tableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell1.Weight = 0.15533549154264512D;
             // 
-            // tableCell2
-            // 
-            this.tableCell2.Name = "tableCell2";
-            this.tableCell2.StyleName = "DetailCaption1";
-            this.tableCell2.StylePriority.UseTextAlignment = false;
-            this.tableCell2.Text = "Saldo";
-            this.tableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.tableCell2.Weight = 0.30653932228813591D;
-            // 
             // tableCell3
             // 
+            this.tableCell3.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
             this.tableCell3.Name = "tableCell3";
             this.tableCell3.StyleName = "DetailCaption1";
+            this.tableCell3.StylePriority.UseFont = false;
             this.tableCell3.StylePriority.UseTextAlignment = false;
             this.tableCell3.Text = "Cuenta";
             this.tableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell3.Weight = 0.84581742059870124D;
             // 
-            // table2
+            // tableCell2
             // 
-            this.table2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 5F);
-            this.table2.Name = "table2";
-            this.table2.OddStyleName = "DetailData3_Odd";
-            this.table2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
-            this.tableRow2});
-            this.table2.SizeF = new System.Drawing.SizeF(850F, 25F);
-            // 
-            // tableRow2
-            // 
-            this.tableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.tableCell4,
-            this.tableCell6,
-            this.tableCell5});
-            this.tableRow2.Name = "tableRow2";
-            this.tableRow2.Weight = 11.5D;
-            // 
-            // tableCell4
-            // 
-            this.tableCell4.Borders = DevExpress.XtraPrinting.BorderSide.None;
-            this.tableCell4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_cue]")});
-            this.tableCell4.Name = "tableCell4";
-            this.tableCell4.StyleName = "DetailData1";
-            this.tableCell4.StylePriority.UseBorders = false;
-            this.tableCell4.Weight = 0.15533555386334422D;
-            // 
-            // tableCell5
-            // 
-            this.tableCell5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[SaldoActual]")});
-            this.tableCell5.Name = "tableCell5";
-            this.tableCell5.StyleName = "DetailData1";
-            this.tableCell5.StylePriority.UseTextAlignment = false;
-            this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.tableCell5.TextFormatString = "{0:n2}";
-            this.tableCell5.Weight = 0.30653927237075462D;
-            // 
-            // tableCell6
-            // 
-            this.tableCell6.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[des_cue]")});
-            this.tableCell6.Name = "tableCell6";
-            this.tableCell6.StyleName = "DetailData1";
-            this.tableCell6.Weight = 0.845817465206243D;
+            this.tableCell2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.tableCell2.Name = "tableCell2";
+            this.tableCell2.StyleName = "DetailCaption1";
+            this.tableCell2.StylePriority.UseFont = false;
+            this.tableCell2.StylePriority.UseTextAlignment = false;
+            this.tableCell2.Text = "Saldo";
+            this.tableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.tableCell2.Weight = 0.30653932228813591D;
             // 
             // fecDesde
             // 
@@ -468,24 +486,6 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.table1});
             this.PageHeader.HeightF = 219.5833F;
             this.PageHeader.Name = "PageHeader";
-            // 
-            // ReportFooter
-            // 
-            this.ReportFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrLabel2,
-            this.xrLabel15,
-            this.xrLine3});
-            this.ReportFooter.Name = "ReportFooter";
-            // 
-            // label1
-            // 
-            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(149.5F, 149.625F);
-            this.label1.Name = "label1";
-            this.label1.SizeF = new System.Drawing.SizeF(550.5001F, 25.23601F);
-            this.label1.StyleName = "Title";
-            this.label1.StylePriority.UseTextAlignment = false;
-            this.label1.Text = "Estado de Ganancias y Pérdidas";
-            this.label1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // xrPageInfo1
             // 
@@ -604,13 +604,41 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.LBL_DescEmpresa.StylePriority.UseFont = false;
             this.LBL_DescEmpresa.Text = "LBL_DescEmpresa";
             // 
-            // xrLine1
+            // label1
             // 
-            this.xrLine1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Visible", "[is_total]")});
-            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(650.125F, 1F);
-            this.xrLine1.Name = "xrLine1";
-            this.xrLine1.SizeF = new System.Drawing.SizeF(199.23F, 2F);
+            this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 14.25F, System.Drawing.FontStyle.Bold);
+            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(149.5F, 149.625F);
+            this.label1.Name = "label1";
+            this.label1.SizeF = new System.Drawing.SizeF(550.5001F, 25.23601F);
+            this.label1.StyleName = "Title";
+            this.label1.StylePriority.UseFont = false;
+            this.label1.StylePriority.UseTextAlignment = false;
+            this.label1.Text = "Estado de Ganancias y Pérdidas";
+            this.label1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // ReportFooter
+            // 
+            this.ReportFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel2,
+            this.xrLabel15,
+            this.xrLine3});
+            this.ReportFooter.Name = "ReportFooter";
+            // 
+            // xrLabel2
+            // 
+            this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "IsNull([totalSaldo], 0)")});
+            this.xrLabel2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
+            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(650.7495F, 6.00001F);
+            this.xrLabel2.Multiline = true;
+            this.xrLabel2.Name = "xrLabel2";
+            this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel2.SizeF = new System.Drawing.SizeF(198.6055F, 23F);
+            this.xrLabel2.StylePriority.UseFont = false;
+            this.xrLabel2.StylePriority.UseTextAlignment = false;
+            this.xrLabel2.Text = "xrLabel2";
+            this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            this.xrLabel2.TextFormatString = "{0:n2}";
             // 
             // xrLabel15
             // 
@@ -637,22 +665,6 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.totalSaldo.DataMember = "RepEstadoGananciasPerdidas2KDocePW";
             this.totalSaldo.Expression = "[][![detalle] && IsNull([co_cuepadre])].Sum([SaldoActual])";
             this.totalSaldo.Name = "totalSaldo";
-            // 
-            // xrLabel2
-            // 
-            this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "IsNull([totalSaldo], 0)")});
-            this.xrLabel2.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold);
-            this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(650.7495F, 6.00001F);
-            this.xrLabel2.Multiline = true;
-            this.xrLabel2.Name = "xrLabel2";
-            this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
-            this.xrLabel2.SizeF = new System.Drawing.SizeF(198.6055F, 23F);
-            this.xrLabel2.StylePriority.UseFont = false;
-            this.xrLabel2.StylePriority.UseTextAlignment = false;
-            this.xrLabel2.Text = "xrLabel2";
-            this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-            this.xrLabel2.TextFormatString = "{0:n2}";
             // 
             // RepEstadoGananciasPerdidas2KDoce
             // 
@@ -687,11 +699,29 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.DetailData3_Odd,
             this.PageInfo});
             this.Version = "18.2";
-            ((System.ComponentModel.ISupportInitialize)(this.table1)).EndInit();
+            this.DataSourceDemanded += new System.EventHandler<System.EventArgs>(this.RepEstadoGananciasPerdidas2KDoce_DataSourceDemanded);
             ((System.ComponentModel.ISupportInitialize)(this.table2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.table1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
     }
 
     #endregion
+
+    private void RepEstadoGananciasPerdidas2KDoce_DataSourceDemanded(object sender, EventArgs e)
+    {
+        XtraReport report = sender as XtraReport;
+        var parameters = report.Parameters;
+
+        foreach (var param in parameters)
+        {
+            if (param.Value != null)
+            {
+                if (param.Value.ToString() == "")
+                {
+                    param.Value = DBNull.Value;
+                }
+            }
+        }
+    }
 }

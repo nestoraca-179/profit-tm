@@ -81,5 +81,30 @@ namespace ProfitTM.Areas.General.Controllers
         {
             return DocumentViewerExtension.ExportTo(report2, Request);
         }
+
+        // RepEstadoGananciasPerdidas2KDoce
+        RepEstadoGananciasPerdidas2KDoce report3 = new RepEstadoGananciasPerdidas2KDoce();
+        public ActionResult RepEstadoGananciasPerdidas2KDocePartial()
+        {
+            string connect = Session["CONNECT"].ToString();
+            Connections conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
+
+            report3.PB_Logo.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/" + conn.Image;
+            report3.LBL_DescEmpresa.Text = conn.Name;
+            report3.LBL_RIF.Text = conn.RIF;
+            report3.LBL_Telf.Text = conn.Phone;
+            report3.LBL_Direc.Text = conn.Address;
+            report3.Parameters["fecDesde"].Value = DateTime.Now;
+            report3.Parameters["fecHasta"].Value = DateTime.Now;
+
+            SqlDataSource ds = report3.DataSource as SqlDataSource;
+            ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
+
+            return PartialView("~/Areas/General/Views/Reportes/_RepEstadoGananciasPerdidas2KDocePartial.cshtml", report3);
+        }
+        public ActionResult RepEstadoGananciasPerdidas2KDocePartialExport()
+        {
+            return DocumentViewerExtension.ExportTo(report3, Request);
+        }
     }
 }

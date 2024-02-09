@@ -1,0 +1,11 @@
+<script>
+    function WebDocumentViewer_Init(s, e) {
+        s.GetPreviewModel().reportPreview.zoom(1);
+    }
+</script>
+
+@Html.DevExpress().WebDocumentViewer(settings =>
+{
+    settings.Name = "RepEstadoGananciasPerdidas2KDoce";
+    settings.ClientSideEvents.Init = "WebDocumentViewer_Init";
+}).Bind(Model).GetHtml()
