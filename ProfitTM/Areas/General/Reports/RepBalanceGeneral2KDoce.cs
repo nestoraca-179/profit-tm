@@ -342,7 +342,7 @@ public class RepBalanceGeneral2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.label1.StyleName = "Title";
             this.label1.StylePriority.UseFont = false;
             this.label1.StylePriority.UseTextAlignment = false;
-            this.label1.Text = "Estado de Situación Financiera";
+            this.label1.Text = "Balance General";
             this.label1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // Detail

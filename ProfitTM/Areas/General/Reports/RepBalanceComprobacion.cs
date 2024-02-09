@@ -55,13 +55,6 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
     private CalculatedField totalDebe;
     private CalculatedField totalHaber;
     private CalculatedField totalSaldoReng;
-    private XRLine xrLine2;
-    private XRLabel xrLabel25;
-    private XRLabel xrLabel24;
-    private XRLabel xrLabel23;
-    private XRLabel xrLabel22;
-    private XRLabel xrLabel21;
-    private XRLabel xrLabel20;
     private CalculatedField totalActivo;
     private CalculatedField totalCuenta;
     private CalculatedField totalPasivoCapital;
@@ -78,6 +71,13 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
     public XRLabel LBL_Direc;
     public XRLabel LBL_Telf;
     public XRLabel LBL_RIF;
+    private XRLabel xrLabel25;
+    private XRLabel xrLabel24;
+    private XRLabel xrLabel23;
+    private XRLabel xrLabel22;
+    private XRLabel xrLabel21;
+    private XRLabel xrLabel20;
+    private XRLine xrLine2;
 
     /// <summary>
     /// Required designer variable.
@@ -158,6 +158,13 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             this.cueDesde = new DevExpress.XtraReports.Parameters.Parameter();
             this.cueHasta = new DevExpress.XtraReports.Parameters.Parameter();
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
+            this.LBL_DescEmpresa = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
+            this.LBL_Direc = new DevExpress.XtraReports.UI.XRLabel();
+            this.LBL_Telf = new DevExpress.XtraReports.UI.XRLabel();
+            this.LBL_RIF = new DevExpress.XtraReports.UI.XRLabel();
             this.PB_Logo = new DevExpress.XtraReports.UI.XRPictureBox();
             this.xrPageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.xrLabel9 = new DevExpress.XtraReports.UI.XRLabel();
@@ -193,13 +200,6 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             this.totalCuenta = new DevExpress.XtraReports.UI.CalculatedField();
             this.totalPasivoCapital = new DevExpress.XtraReports.UI.CalculatedField();
             this.totalIngrEgr = new DevExpress.XtraReports.UI.CalculatedField();
-            this.LBL_DescEmpresa = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
-            this.LBL_Direc = new DevExpress.XtraReports.UI.XRLabel();
-            this.LBL_Telf = new DevExpress.XtraReports.UI.XRLabel();
-            this.LBL_RIF = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
@@ -592,6 +592,80 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             this.label1});
             this.PageHeader.HeightF = 221.5417F;
             this.PageHeader.Name = "PageHeader";
+            // 
+            // LBL_DescEmpresa
+            // 
+            this.LBL_DescEmpresa.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold);
+            this.LBL_DescEmpresa.LocationFloat = new DevExpress.Utils.PointFloat(150.9583F, 10.00002F);
+            this.LBL_DescEmpresa.Multiline = true;
+            this.LBL_DescEmpresa.Name = "LBL_DescEmpresa";
+            this.LBL_DescEmpresa.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.LBL_DescEmpresa.SizeF = new System.Drawing.SizeF(476.9189F, 22.99998F);
+            this.LBL_DescEmpresa.StylePriority.UseFont = false;
+            this.LBL_DescEmpresa.Text = "LBL_DescEmpresa";
+            // 
+            // xrLabel1
+            // 
+            this.xrLabel1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(150.9583F, 68.99994F);
+            this.xrLabel1.Multiline = true;
+            this.xrLabel1.Name = "xrLabel1";
+            this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel1.SizeF = new System.Drawing.SizeF(63.53999F, 44.4444F);
+            this.xrLabel1.StylePriority.UseFont = false;
+            this.xrLabel1.Text = "Dirección:";
+            // 
+            // xrLabel3
+            // 
+            this.xrLabel3.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(150.9583F, 50.99997F);
+            this.xrLabel3.Multiline = true;
+            this.xrLabel3.Name = "xrLabel3";
+            this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel3.SizeF = new System.Drawing.SizeF(63.54F, 18F);
+            this.xrLabel3.StylePriority.UseFont = false;
+            this.xrLabel3.Text = "Teléfonos:";
+            // 
+            // xrLabel4
+            // 
+            this.xrLabel4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(150.9583F, 33.00001F);
+            this.xrLabel4.Multiline = true;
+            this.xrLabel4.Name = "xrLabel4";
+            this.xrLabel4.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel4.SizeF = new System.Drawing.SizeF(63.54167F, 17.99997F);
+            this.xrLabel4.StylePriority.UseFont = false;
+            this.xrLabel4.Text = "RIF:";
+            // 
+            // LBL_Direc
+            // 
+            this.LBL_Direc.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.LBL_Direc.LocationFloat = new DevExpress.Utils.PointFloat(214.4983F, 68.99994F);
+            this.LBL_Direc.Multiline = true;
+            this.LBL_Direc.Name = "LBL_Direc";
+            this.LBL_Direc.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.LBL_Direc.SizeF = new System.Drawing.SizeF(413.379F, 44.4444F);
+            this.LBL_Direc.StylePriority.UseFont = false;
+            // 
+            // LBL_Telf
+            // 
+            this.LBL_Telf.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.LBL_Telf.LocationFloat = new DevExpress.Utils.PointFloat(214.4983F, 50.99998F);
+            this.LBL_Telf.Multiline = true;
+            this.LBL_Telf.Name = "LBL_Telf";
+            this.LBL_Telf.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.LBL_Telf.SizeF = new System.Drawing.SizeF(413.379F, 18F);
+            this.LBL_Telf.StylePriority.UseFont = false;
+            // 
+            // LBL_RIF
+            // 
+            this.LBL_RIF.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
+            this.LBL_RIF.LocationFloat = new DevExpress.Utils.PointFloat(214.5F, 33.00001F);
+            this.LBL_RIF.Multiline = true;
+            this.LBL_RIF.Name = "LBL_RIF";
+            this.LBL_RIF.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.LBL_RIF.SizeF = new System.Drawing.SizeF(413.3773F, 17.99997F);
+            this.LBL_RIF.StylePriority.UseFont = false;
             // 
             // PB_Logo
             // 
@@ -998,80 +1072,6 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             this.totalIngrEgr.DataMember = "RepBalanceComprobacion";
             this.totalIngrEgr.Expression = "[][[EsIngEgr] && IsNull([co_cuepadre])].Sum([totalCuenta])";
             this.totalIngrEgr.Name = "totalIngrEgr";
-            // 
-            // LBL_DescEmpresa
-            // 
-            this.LBL_DescEmpresa.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold);
-            this.LBL_DescEmpresa.LocationFloat = new DevExpress.Utils.PointFloat(150.9583F, 10.00002F);
-            this.LBL_DescEmpresa.Multiline = true;
-            this.LBL_DescEmpresa.Name = "LBL_DescEmpresa";
-            this.LBL_DescEmpresa.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.LBL_DescEmpresa.SizeF = new System.Drawing.SizeF(476.9189F, 22.99998F);
-            this.LBL_DescEmpresa.StylePriority.UseFont = false;
-            this.LBL_DescEmpresa.Text = "LBL_DescEmpresa";
-            // 
-            // xrLabel1
-            // 
-            this.xrLabel1.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(150.9583F, 68.99994F);
-            this.xrLabel1.Multiline = true;
-            this.xrLabel1.Name = "xrLabel1";
-            this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel1.SizeF = new System.Drawing.SizeF(63.53999F, 44.4444F);
-            this.xrLabel1.StylePriority.UseFont = false;
-            this.xrLabel1.Text = "Dirección:";
-            // 
-            // xrLabel3
-            // 
-            this.xrLabel3.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(150.9583F, 50.99997F);
-            this.xrLabel3.Multiline = true;
-            this.xrLabel3.Name = "xrLabel3";
-            this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel3.SizeF = new System.Drawing.SizeF(63.54F, 18F);
-            this.xrLabel3.StylePriority.UseFont = false;
-            this.xrLabel3.Text = "Teléfonos:";
-            // 
-            // xrLabel4
-            // 
-            this.xrLabel4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(150.9583F, 33.00001F);
-            this.xrLabel4.Multiline = true;
-            this.xrLabel4.Name = "xrLabel4";
-            this.xrLabel4.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel4.SizeF = new System.Drawing.SizeF(63.54167F, 17.99997F);
-            this.xrLabel4.StylePriority.UseFont = false;
-            this.xrLabel4.Text = "RIF:";
-            // 
-            // LBL_Direc
-            // 
-            this.LBL_Direc.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.LBL_Direc.LocationFloat = new DevExpress.Utils.PointFloat(214.4983F, 68.99994F);
-            this.LBL_Direc.Multiline = true;
-            this.LBL_Direc.Name = "LBL_Direc";
-            this.LBL_Direc.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.LBL_Direc.SizeF = new System.Drawing.SizeF(413.379F, 44.4444F);
-            this.LBL_Direc.StylePriority.UseFont = false;
-            // 
-            // LBL_Telf
-            // 
-            this.LBL_Telf.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.LBL_Telf.LocationFloat = new DevExpress.Utils.PointFloat(214.4983F, 50.99998F);
-            this.LBL_Telf.Multiline = true;
-            this.LBL_Telf.Name = "LBL_Telf";
-            this.LBL_Telf.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.LBL_Telf.SizeF = new System.Drawing.SizeF(413.379F, 18F);
-            this.LBL_Telf.StylePriority.UseFont = false;
-            // 
-            // LBL_RIF
-            // 
-            this.LBL_RIF.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
-            this.LBL_RIF.LocationFloat = new DevExpress.Utils.PointFloat(214.5F, 33.00001F);
-            this.LBL_RIF.Multiline = true;
-            this.LBL_RIF.Name = "LBL_RIF";
-            this.LBL_RIF.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.LBL_RIF.SizeF = new System.Drawing.SizeF(413.3773F, 17.99997F);
-            this.LBL_RIF.StylePriority.UseFont = false;
             // 
             // RepBalanceComprobacion
             // 

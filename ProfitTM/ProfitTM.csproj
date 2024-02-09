@@ -567,6 +567,9 @@
     <Compile Include="Areas\General\Reports\RepBalanceGeneral2KDoce.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Areas\General\Reports\RepEstadoGananciasPerdidas2KDoce.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Areas\General\Reports\RepEstadoResultados2KDoce.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -1598,6 +1601,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\General\Reports\RepBalanceGeneral2KDoce.resx">
       <DependentUpon>RepBalanceGeneral2KDoce.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Areas\General\Reports\RepEstadoGananciasPerdidas2KDoce.resx">
+      <DependentUpon>RepEstadoGananciasPerdidas2KDoce.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Areas\General\Reports\RepEstadoResultados2KDoce.resx">
       <DependentUpon>RepEstadoResultados2KDoce.cs</DependentUpon>
