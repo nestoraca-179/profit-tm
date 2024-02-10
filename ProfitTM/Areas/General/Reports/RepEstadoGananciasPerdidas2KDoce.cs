@@ -221,8 +221,8 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             // 
             // DetailData1
             // 
-            this.DetailData1.BackColor = System.Drawing.Color.White;
-            this.DetailData1.BorderColor = System.Drawing.Color.White;
+            this.DetailData1.BackColor = System.Drawing.Color.Transparent;
+            this.DetailData1.BorderColor = System.Drawing.Color.Transparent;
             this.DetailData1.Borders = DevExpress.XtraPrinting.BorderSide.Left;
             this.DetailData1.BorderWidth = 2F;
             this.DetailData1.Font = new System.Drawing.Font("Arial", 8.25F);
@@ -233,8 +233,8 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             // 
             // DetailData3_Odd
             // 
-            this.DetailData3_Odd.BackColor = System.Drawing.Color.White;
-            this.DetailData3_Odd.BorderColor = System.Drawing.Color.White;
+            this.DetailData3_Odd.BackColor = System.Drawing.Color.Transparent;
+            this.DetailData3_Odd.BorderColor = System.Drawing.Color.Transparent;
             this.DetailData3_Odd.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.DetailData3_Odd.BorderWidth = 1F;
             this.DetailData3_Odd.Font = new System.Drawing.Font("Arial", 8.25F);
@@ -296,7 +296,7 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             // 
             this.xrLine1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Visible", "[is_total]")});
-            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(652.7499F, 0F);
+            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(651.7499F, 0F);
             this.xrLine1.Name = "xrLine1";
             this.xrLine1.SizeF = new System.Drawing.SizeF(197.25F, 3.000005F);
             // 
@@ -324,9 +324,11 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.tableCell4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[co_cue]"),
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            this.tableCell4.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.tableCell4.Name = "tableCell4";
             this.tableCell4.StyleName = "DetailData1";
             this.tableCell4.StylePriority.UseBorders = false;
+            this.tableCell4.StylePriority.UseFont = false;
             this.tableCell4.Weight = 0.15533555386334422D;
             // 
             // tableCell6
@@ -334,8 +336,10 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.tableCell6.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[des_cue]"),
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            this.tableCell6.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.tableCell6.Name = "tableCell6";
             this.tableCell6.StyleName = "DetailData1";
+            this.tableCell6.StylePriority.UseFont = false;
             this.tableCell6.Weight = 0.845817465206243D;
             // 
             // tableCell5
@@ -343,8 +347,10 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.tableCell5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[SaldoActual]"),
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            this.tableCell5.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.tableCell5.Name = "tableCell5";
             this.tableCell5.StyleName = "DetailData1";
+            this.tableCell5.StylePriority.UseFont = false;
             this.tableCell5.StylePriority.UseTextAlignment = false;
             this.tableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.tableCell5.TextFormatString = "{0:n2}";
@@ -652,7 +658,7 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.xrLabel15.StylePriority.UsePadding = false;
             this.xrLabel15.StylePriority.UseTextAlignment = false;
             this.xrLabel15.Text = "RESULTADO DEL EJERCICIO";
-            this.xrLabel15.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            this.xrLabel15.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
             // 
             // xrLine3
             // 

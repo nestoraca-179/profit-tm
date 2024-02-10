@@ -511,6 +511,7 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepMoviBancoXNum.res
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepCompraxArt.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepProveedorMasCompra.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepTotalCompraxArticulo.resources
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepMayorAnalitico2KDoce.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepBalanceComprobacion.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepBalanceGeneral2KDoce.resources
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepEstadoGananciasPerdidas2KDoce.resources
@@ -532,4 +533,3 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.Core
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.CopyComplete
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.pdb
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepMayorAnalitico2KDoce.resources
