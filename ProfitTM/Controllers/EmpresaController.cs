@@ -22,12 +22,24 @@ namespace ProfitTM.Controllers
             }
             else
             {
+                switch (Session["PROD"].ToString())
+                {
+                    case "ADM":
+                        ViewBag.product = "Administrativo";
+                        break;
+                    case "CON":
+                        ViewBag.product = "Contabilidad";
+                        break;
+                    case "NOM":
+                        ViewBag.product = "Nómina";
+                        break;
+                }
+
                 ViewBag.message = message;
                 ViewBag.user = Session["USER"];
                 ViewBag.modules = Session["MODULES"];
-                ViewBag.product = "Administrativo";
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
-                ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
+                ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
                 ViewBag.conn = Connection.GetConnByID(Session["ID_CONN"].ToString());
 
                 return View();
