@@ -725,7 +725,7 @@ public class RepBalanceGeneral2KDoce : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel15.StylePriority.UseFont = false;
             this.xrLabel15.StylePriority.UsePadding = false;
             this.xrLabel15.StylePriority.UseTextAlignment = false;
-            this.xrLabel15.Text = "TOTAL BALANCE DE COMPROBACIÓN";
+            this.xrLabel15.Text = "TOTAL BALANCE GENERAL";
             this.xrLabel15.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // xrLine2

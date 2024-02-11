@@ -346,7 +346,8 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             // 
             this.tableCell5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[SaldoActual]"),
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Bold", "[is_total]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Visible", "[detalle]")});
             this.tableCell5.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F);
             this.tableCell5.Name = "tableCell5";
             this.tableCell5.StyleName = "DetailData1";
