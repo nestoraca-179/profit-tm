@@ -2,10 +2,19 @@
     function WebDocumentViewer_Init(s, e) {
         s.GetPreviewModel().reportPreview.zoom(1);
     }
+
+    function CustomizeParameterEditors(s, e) {
+        if (e.parameter.type === 'System.DateTime') {
+            e.info.editor = $.extend({}, e.info.editor);
+            e.info.editor.extendedOptions = $.extend(e.info.editor.extendedOptions || {}, { type: 'date', displayFormat: 'dd/MM/yyyy', useMaskBehavior: true });
+        }
+    }
 </script>
 
 @Html.DevExpress().WebDocumentViewer(settings =>
 {
     settings.Name = "RepEstadoGananciasPerdidas2KDoce";
     settings.ClientSideEvents.Init = "WebDocumentViewer_Init";
+    settings.ClientSideEvents.CustomizeParameterEditors = "CustomizeParameterEditors";
+
 }).Bind(Model).GetHtml()

@@ -188,7 +188,7 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             storedProcQuery1.Parameters.Add(queryParameter6);
             storedProcQuery1.StoredProcName = "RepEstadoGananciasPerdidas2KDocePW";
             customSqlQuery1.Name = "Centros";
-            customSqlQuery1.Sql = "select co_cue, des_cue from sccuenta";
+            customSqlQuery1.Sql = "select co_cen, des_cen from sccentro\r\n";
             customSqlQuery2.Name = "Cuentas";
             customSqlQuery2.Sql = "select co_gas, des_gas from scgastos";
             this.DemoCont.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
@@ -429,10 +429,10 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.cenDesde.Description = "Centro de Costos Desde";
             dynamicListLookUpSettings1.DataMember = "Centros";
             dynamicListLookUpSettings1.DataSource = this.DemoCont;
-            dynamicListLookUpSettings1.DisplayMember = "des_cue";
-            dynamicListLookUpSettings1.SortMember = "co_cue";
+            dynamicListLookUpSettings1.DisplayMember = "des_cen";
+            dynamicListLookUpSettings1.SortMember = "co_cen";
             dynamicListLookUpSettings1.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
-            dynamicListLookUpSettings1.ValueMember = "co_cue";
+            dynamicListLookUpSettings1.ValueMember = "co_cen";
             this.cenDesde.LookUpSettings = dynamicListLookUpSettings1;
             this.cenDesde.Name = "cenDesde";
             // 
@@ -442,10 +442,10 @@ public class RepEstadoGananciasPerdidas2KDoce : DevExpress.XtraReports.UI.XtraRe
             this.cenHasta.Description = "Centro de Costos Hasta";
             dynamicListLookUpSettings2.DataMember = "Centros";
             dynamicListLookUpSettings2.DataSource = this.DemoCont;
-            dynamicListLookUpSettings2.DisplayMember = "des_cue";
-            dynamicListLookUpSettings2.SortMember = "co_cue";
+            dynamicListLookUpSettings2.DisplayMember = "des_cen";
+            dynamicListLookUpSettings2.SortMember = "co_cen";
             dynamicListLookUpSettings2.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
-            dynamicListLookUpSettings2.ValueMember = "co_cue";
+            dynamicListLookUpSettings2.ValueMember = "co_cen";
             this.cenHasta.LookUpSettings = dynamicListLookUpSettings2;
             this.cenHasta.Name = "cenHasta";
             // 
