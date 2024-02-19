@@ -9353,5 +9353,24 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pInsertarFacturaCompra" FunctionName="ProfitAdmContext.Store.pInsertarFacturaCompra">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarFacturaCompra_Result">
+          <ScalarProperty Name="validador" ColumnName="validador" />
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pInsertarRenglonesFacturaCompra" FunctionName="ProfitAdmContext.Store.pInsertarRenglonesFacturaCompra">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProfitAdmContext.pInsertarRenglonesFacturaCompra_Result">
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

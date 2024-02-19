@@ -435,6 +435,7 @@
     <Content Include="Areas\Fiscal\Views\Reportes\Index.cshtml" />
     <Content Include="Areas\Fiscal\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Fiscal\Views\Reportes\_RepMayorAnalitico2KDocePartial.cshtml" />
+    <Content Include="Areas\Compras\Views\Procesos\Factura.cshtml" />
     <None Include="Properties\PublishProfiles\Publicacion Local.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />
@@ -708,6 +709,9 @@
     <Compile Include="Models\pInsertarDocumentoVenta_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\pInsertarFacturaCompra_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\pInsertarFacturaVenta_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
@@ -730,6 +734,9 @@
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pInsertarRenglonesDocPago_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\pInsertarRenglonesFacturaCompra_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pInsertarRenglonesFacturaVenta_Result.cs">

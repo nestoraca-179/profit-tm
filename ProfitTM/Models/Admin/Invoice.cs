@@ -100,7 +100,7 @@ namespace ProfitTM.Models
                     .Include("saCondicionPago").Single(i => i.doc_num == id);
 
                 invoice.saProveedor.saFacturaCompra = null;
-                invoice.saCondicionPago.saFacturaVenta = null;
+                invoice.saCondicionPago.saFacturaCompra = null;
                 foreach (saFacturaCompraReng reng in invoice.saFacturaCompraReng)
                 {
                     reng.saFacturaCompra = null;
@@ -127,7 +127,7 @@ namespace ProfitTM.Models
                 foreach (saFacturaCompra invoice in invoices)
                 {
                     invoice.saProveedor.saFacturaCompra = null;
-                    invoice.saCondicionPago.saFacturaVenta = null;
+                    invoice.saCondicionPago.saFacturaCompra = null;
                     foreach (saFacturaCompraReng reng in invoice.saFacturaCompraReng)
                     {
                         reng.saFacturaCompra = null;
@@ -394,8 +394,8 @@ namespace ProfitTM.Models
                         // RENGLONES
                         foreach (saFacturaVentaReng r in invoice.saFacturaVentaReng)
                         {
-                            var sp_reng = context.pInsertarRenglonesFacturaVenta(r.reng_num, n_fact, r.co_art, r.des_art, r.co_uni, r.sco_uni, r.co_alma, r.co_precio, r.tipo_imp, r.tipo_imp2,
-                                r.tipo_imp3, r.total_art, r.stotal_art, r.prec_vta, r.porc_desc, r.monto_desc, r.reng_neto, r.pendiente, r.pendiente2, r.monto_desc_glob,
+                            var sp_reng = context.pInsertarRenglonesFacturaVenta(r.reng_num, n_fact, r.co_art, r.des_art, r.co_uni, r.sco_uni, r.co_alma, r.co_precio, r.tipo_imp, 
+                                r.tipo_imp2, r.tipo_imp3, r.total_art, r.stotal_art, r.prec_vta, r.porc_desc, r.monto_desc, r.reng_neto, r.pendiente, r.pendiente2, r.monto_desc_glob,
                                 r.monto_reca_glob, r.otros1_glob, r.otros2_glob, r.otros3_glob, r.monto_imp_afec_glob, r.monto_imp2_afec_glob, r.monto_imp3_afec_glob,
                                 r.tipo_doc, r.rowguid_doc, r.num_doc, r.porc_imp, r.porc_imp2, r.porc_imp3, r.monto_imp, r.monto_imp2, r.monto_imp3, r.otros, r.total_dev,
                                 r.monto_dev, r.comentario, null, sucur, user, r.revisado, r.trasnfe, "SERVER PROFIT WEB");
@@ -431,6 +431,68 @@ namespace ProfitTM.Models
             return new_invoice;
         }
 
+        public saFacturaCompra AddBuyInvoice(saFacturaCompra invoice, string user, string sucur)
+        {
+            saFacturaCompra new_invoice = new saFacturaCompra();
+
+            using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
+            {
+                using (DbContextTransaction tran = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        string doc_num = "";
+
+                        var sp_doc_num = context.pConsecutivoProximo(sucur, "DOC_COM_FACT").GetEnumerator();
+                        if (sp_doc_num.MoveNext())
+                            doc_num = sp_doc_num.Current;
+
+                        sp_doc_num.Dispose();
+
+                        // FACTURA
+                        var sp = context.pInsertarFacturaCompra(doc_num, invoice.nro_fact, invoice.descrip, invoice.co_prov, invoice.co_cta_ingr_egr, invoice.co_mone, 
+                            invoice.co_cond, invoice.n_control, null, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, false, invoice.status, invoice.tasa, null, 
+                            invoice.saldo, invoice.total_bruto, invoice.total_neto, 0, 0, 0, 0, 0, invoice.monto_imp, 0, 0, null, null, false, null, null, invoice.campo1, 
+                            null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", true);
+
+                        // RENGLONES
+                        foreach (saFacturaCompraReng r in invoice.saFacturaCompraReng)
+                        {
+                            var sp_reng = context.pInsertarRenglonesFacturaCompra(r.reng_num, doc_num, r.co_art, r.des_art, r.co_uni, r.sco_uni, r.co_alma, r.tipo_imp,
+                                r.tipo_imp2, r.tipo_imp3, r.tipo_doc, r.porc_desc, r.num_doc, r.rowguid_doc, r.reng_neto, r.cost_unit, r.cost_unit_om, r.total_art,
+                                r.stotal_art, r.otros, r.porc_imp, r.porc_imp2, r.porc_imp3, r.monto_imp, r.monto_imp2, r.monto_imp3, r.porc_gas, r.total_dev, r.monto_dev,
+                                r.pendiente2, r.comentario, false, r.monto_desc_glob, r.monto_reca_glob, r.otros1_glob, r.otros2_glob, r.otros3_glob, r.monto_imp_afec_glob,
+                                r.monto_imp2_afec_glob, r.monto_imp3_afec_glob, r.monto_desc, r.pendiente, null, null, sucur, user, null, null, "SERVER PROFIT WEB", 0, 0, 0, null);
+
+                            sp_reng.Dispose();
+                        }
+
+                        // DOCUMENTO COMPRA
+                        var sp_doc = context.pInsertarDocumentoCompra("FACT", doc_num, invoice.nro_fact, invoice.co_mone, invoice.co_prov, invoice.co_cta_ingr_egr, "FACT",
+                            null, doc_num, null, null, null, false, false, 0, string.Format("FACT N° {0} de Proveedor {1}", doc_num, invoice.co_prov), "1", null, null, 
+                            invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.total_neto, invoice.tasa, 0, 0, 0, invoice.monto_imp, 0, 0, invoice.total_bruto,
+                            0, 0, invoice.saldo, 0, 0, 0, 0, null, null, null, 0, 0, null, null, invoice.n_control, null, null, null, null, null, null, null, null, null,
+                            null, sucur, user, "SERVER PROFIT WEB", true);
+
+                        sp.Dispose();
+                        sp_doc.Dispose();
+
+                        tran.Commit();
+                        new_invoice = GetBuyInvoiceByID(doc_num);
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        Incident.CreateIncident("ERROR INTERNO AGREGANDO FACTURA DE COMPRA", ex);
+
+                        throw ex;
+                    }
+                }
+            }
+
+            return new_invoice;
+        }
+        
         public void SetPrinted(string id)
         {
             saFacturaVenta invoice = db.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());

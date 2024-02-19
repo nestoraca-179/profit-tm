@@ -670,7 +670,7 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // FACTURA
+        // FACTURA VENTA
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddInvoice/{fromOrder}")]
@@ -804,6 +804,58 @@ namespace ProfitTM.Controllers
                 response.Status = "ERROR";
                 response.Message = ex.Message;
                 Incident.CreateIncident("ERROR ANULANDO FACTURA N° " + id, ex);
+            }
+
+            return response;
+        }
+
+        // FACTURA COMPRA
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetBuyInvoices/{number}")]
+        public ProfitTMResponse GetBuyInvoicesByNumber(int number)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            
+            try
+            {
+                List<saFacturaCompra> invoices = new Invoice().GetAllBuyInvoices(number, sucur);
+
+                response.Status = "OK";
+                response.Result = invoices;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO FACTURAS", ex);
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddBuyInvoice/")]
+        public ProfitTMResponse AddBuyInvoice(saFacturaCompra invoice)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+
+            try
+            {
+                saFacturaCompra new_invoice = new Invoice().AddBuyInvoice(invoice, user, sucur);
+
+                response.Status = "OK";
+                response.Result = new_invoice;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO FACTURA DE COMPRA", ex);
             }
 
             return response;
