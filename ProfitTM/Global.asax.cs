@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Routing;
 using System.Web.SessionState;
 using ProfitTM.Models;
+using ProfitTM.Controllers;
 
 namespace ProfitTM
 {
@@ -92,7 +93,6 @@ namespace ProfitTM
         protected void Application_Disposed()
         {
             // Incident.CreateIncident("APPLICATION DISPOSED", new Exception());
-            var i = 0;
         }
 
         protected void Application_End()

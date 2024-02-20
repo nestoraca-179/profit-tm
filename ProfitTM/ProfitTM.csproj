@@ -658,6 +658,7 @@
     <Compile Include="Models\Admin\ProfitAdmManager.cs" />
     <Compile Include="Models\Admin\Step.cs" />
     <Compile Include="Models\Admin\Transport.cs" />
+    <Compile Include="Models\ATF\ModelsATF.cs" />
     <Compile Include="Models\Box.cs" />
     <Compile Include="Models\Boxes.cs">
       <DependentUpon>ProfitTMModel.tt</DependentUpon>

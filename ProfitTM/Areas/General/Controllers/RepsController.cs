@@ -2,6 +2,9 @@
 using DevExpress.Web.Mvc;
 using ProfitTM.Models;
 using System;
+using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace ProfitTM.Areas.General.Controllers
@@ -105,6 +108,57 @@ namespace ProfitTM.Areas.General.Controllers
         public ActionResult RepEstadoGananciasPerdidas2KDocePartialExport()
         {
             return DocumentViewerExtension.ExportTo(report3, Request);
+
+            #region PRUEBAS ENVIO DE CORREO
+            //try
+            //{
+            //    // Generar el reporte utilizando DevExpress Reporting
+            //    RepEstadoGananciasPerdidas2KDoce report = GenerateReport();
+
+            //    // Exportar el reporte a PDF
+            //    MemoryStream stream = new MemoryStream();
+            //    report.ExportToPdf(stream);
+            //    stream.Seek(0, SeekOrigin.Begin);
+
+            //    // Adjuntar el archivo PDF al correo electrónico
+            //    Attachment attachment = new Attachment(stream, "Report.pdf", "application/pdf");
+
+            //    // Crear el correo electrónico
+            //    MailMessage mail = new MailMessage();
+            //    mail.From = new MailAddress("acarreno@gtsconsultingca.com");
+            //    mail.To.Add("nestoraca.179@gmail.com");
+            //    mail.Subject = "Informe Adjunto";
+            //    mail.Body = "Adjunto encontrarás el informe solicitado.";
+            //    mail.Attachments.Add(attachment);
+
+            //    // Configurar el servidor SMTP saliente
+            //    SmtpClient smtpClient = new SmtpClient("mail.gtsconsultingca.com");
+            //    smtpClient.Port = 587;
+            //    smtpClient.Credentials = new NetworkCredential("acarreno@gtsconsultingca.com", "alfa02-GT$ac*");
+            //    smtpClient.EnableSsl = true;
+            //    smtpClient.Timeout = 10000;
+
+            //    // Enviar el correo electrónico
+            //    smtpClient.Send(mail);
+
+            //    return Content("El informe ha sido enviado por correo electrónico correctamente.");
+            //}
+            //catch (Exception ex)
+            //{
+            //    return Content("El informe no pudo ser enviado correctamente: " + ex.Message);
+            //}
+            #endregion
         }
+
+        #region PRUEBAS ENVIO DE CORREO
+        //private RepEstadoGananciasPerdidas2KDoce GenerateReport()
+        //{
+        //    // Aquí implementa la lógica para generar el reporte utilizando DevExpress Reporting
+        //    // Por ejemplo:
+        //    RepEstadoGananciasPerdidas2KDoce reporte = new RepEstadoGananciasPerdidas2KDoce();
+        //    reporte.CreateDocument();
+        //    return reporte;
+        //}
+        #endregion
     }
 }
