@@ -15,6 +15,11 @@
     <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UseFactOnline" Type="Boolean" Nullable="false" />
+    <Property Name="UserToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PassToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Token" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="DateToken" Type="DateTime" Precision="0" />
   </EntityType>
   <EntityType Name="GroupReports">
     <Key>

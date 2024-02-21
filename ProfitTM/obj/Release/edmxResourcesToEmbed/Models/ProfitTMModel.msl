@@ -4,6 +4,11 @@
     <EntitySetMapping Name="Connections">
       <EntityTypeMapping TypeName="ProfitTMContext.Connections">
         <MappingFragment StoreEntitySet="Connections">
+          <ScalarProperty Name="DateToken" ColumnName="DateToken" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
+          <ScalarProperty Name="PassToken" ColumnName="PassToken" />
+          <ScalarProperty Name="UserToken" ColumnName="UserToken" />
+          <ScalarProperty Name="UseFactOnline" ColumnName="UseFactOnline" />
           <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="Address" ColumnName="Address" />

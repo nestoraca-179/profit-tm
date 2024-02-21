@@ -38,5 +38,6 @@ namespace ProfitTM.Models
         public virtual DbSet<BoxMoves> BoxMoves { get; set; }
         public virtual DbSet<Transfers> Transfers { get; set; }
         public virtual DbSet<Boxes> Boxes { get; set; }
+        public virtual DbSet<LogsFactOnline> LogsFactOnline { get; set; }
     }
 }

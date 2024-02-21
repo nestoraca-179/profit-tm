@@ -50,6 +50,11 @@
           <Property Name="Username" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="Type" Type="varchar" MaxLength="3" />
+          <Property Name="UseFactOnline" Type="bit" Nullable="false" />
+          <Property Name="UserToken" Type="varchar(max)" />
+          <Property Name="PassToken" Type="varchar(max)" />
+          <Property Name="Token" Type="varchar(max)" />
+          <Property Name="DateToken" Type="smalldatetime" />
         </EntityType>
         <EntityType Name="GroupReports">
           <Key>
@@ -68,6 +73,17 @@
           <Property Name="Descripcion" Type="varchar(max)" />
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="Usuario" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LogsFactOnline">
+          <Key>
+            <PropertyRef Name="NroFact" />
+          </Key>
+          <Property Name="NroFact" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="DateInserted" Type="smalldatetime" Nullable="false" />
+          <Property Name="DateTried" Type="smalldatetime" />
+          <Property Name="DateSent" Type="smalldatetime" />
+          <Property Name="Message" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Modules">
           <Key>
@@ -242,7 +258,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Boxes_BoxMoves">
-          <End Role="Boxes" Type="Self.Boxes" Multiplicity="1" />
+          <End Role="Boxes" Type="Self.Boxes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="BoxMoves" Type="Self.BoxMoves" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Boxes">
@@ -295,6 +313,7 @@
           <EntitySet Name="Connections" EntityType="Self.Connections" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupReports" EntityType="Self.GroupReports" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Incidents" EntityType="Self.Incidents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogsFactOnline" EntityType="Self.LogsFactOnline" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
@@ -359,6 +378,11 @@
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UseFactOnline" Type="Boolean" Nullable="false" />
+          <Property Name="UserToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PassToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Token" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateToken" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="GroupReports">
           <Key>
@@ -604,6 +628,7 @@
             <End Role="Boxes" EntitySet="Boxes" />
             <End Role="Transfers" EntitySet="Transfers" />
           </AssociationSet>
+          <EntitySet Name="LogsFactOnline" EntityType="ProfitTMContext.LogsFactOnline" />
         </EntityContainer>
         <EntityType Name="Incidents">
           <Key>
@@ -695,6 +720,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LogsFactOnline">
+          <Key>
+            <PropertyRef Name="NroFact" />
+          </Key>
+          <Property Name="NroFact" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="DateInserted" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateTried" Type="DateTime" Precision="0" />
+          <Property Name="DateSent" Type="DateTime" Precision="0" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -704,6 +740,11 @@
           <EntitySetMapping Name="Connections">
             <EntityTypeMapping TypeName="ProfitTMContext.Connections">
               <MappingFragment StoreEntitySet="Connections">
+                <ScalarProperty Name="DateToken" ColumnName="DateToken" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="PassToken" ColumnName="PassToken" />
+                <ScalarProperty Name="UserToken" ColumnName="UserToken" />
+                <ScalarProperty Name="UseFactOnline" ColumnName="UseFactOnline" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
@@ -879,6 +920,18 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ConnID" ColumnName="ConnID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogsFactOnline">
+            <EntityTypeMapping TypeName="ProfitTMContext.LogsFactOnline">
+              <MappingFragment StoreEntitySet="LogsFactOnline">
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="DateTried" ColumnName="DateTried" />
+                <ScalarProperty Name="DateInserted" ColumnName="DateInserted" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="NroFact" ColumnName="NroFact" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

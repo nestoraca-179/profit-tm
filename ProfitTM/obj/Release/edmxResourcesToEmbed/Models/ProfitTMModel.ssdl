@@ -45,6 +45,11 @@
     <Property Name="Username" Type="varchar" MaxLength="50" />
     <Property Name="Password" Type="varchar" MaxLength="50" />
     <Property Name="Type" Type="varchar" MaxLength="3" />
+    <Property Name="UseFactOnline" Type="bit" Nullable="false" />
+    <Property Name="UserToken" Type="varchar(max)" />
+    <Property Name="PassToken" Type="varchar(max)" />
+    <Property Name="Token" Type="varchar(max)" />
+    <Property Name="DateToken" Type="smalldatetime" />
   </EntityType>
   <EntityType Name="GroupReports">
     <Key>
@@ -237,7 +242,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Boxes_BoxMoves">
-    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1" />
+    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="BoxMoves" Type="Self.BoxMoves" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Boxes">

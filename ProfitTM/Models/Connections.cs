@@ -25,5 +25,10 @@ namespace ProfitTM.Models
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Image { get; set; }
+        public bool UseFactOnline { get; set; }
+        public string UserToken { get; set; }
+        public string PassToken { get; set; }
+        public string Token { get; set; }
+        public Nullable<System.DateTime> DateToken { get; set; }
     }
 }

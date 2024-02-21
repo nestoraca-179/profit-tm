@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace ProfitTM.Models
 {
@@ -33,10 +36,10 @@ namespace ProfitTM.Models
                         horaEmision = i.fec_emis.ToString("hh:mm:ss tt"),
                         anulado = i.anulado,
                         tipoDePago = "CONTADO",
-                        serie = "A", // CONSULTAR SI ESTO VARIA
+                        serie = "A",
                         sucursal = i.co_sucu_in,
                         tipoDeVenta = "Inmediato",
-                        moneda = i.co_mone, // CONSULTAR SI ESTO SIEMPRE SERA EN BSD O USD
+                        moneda = "BSD",
                     },
                     comprador = new Comprador()
                     {
@@ -73,7 +76,7 @@ namespace ProfitTM.Models
                                 montoDescuento = "0.00"
                             }
                         },
-                        impuestosSubtotal = new List<ImpuestosSubtotal>() // CONSULTAR SI ESTO ES EN MONEDA BASE
+                        impuestosSubtotal = new List<ImpuestosSubtotal>()
                         {
                             new ImpuestosSubtotal()
                             {
@@ -97,22 +100,22 @@ namespace ProfitTM.Models
                                 valorTotalImp = ((decimal.Parse(i.comentario) * i.tasa) * (3 / 100)).ToString(),
                             }
                         },
-                        formasPago = new List<FormasPago>() // CONSULTAR A INTERSHIPPING
+                        formasPago = new List<FormasPago>()
                         {
                             new FormasPago()
                             {
                                 descripcion = "Transferencia Bancaria|Venezuela|04008933",
-                                fecha = "15/02/2023",
+                                fecha = DateTime.Now.ToString("dd/MM/yyyy"),
                                 forma = "01",
-                                monto = "43907.76",
-                                moneda = "VEF"
+                                monto = i.total_neto.ToString(),
+                                moneda = "BSD"
                             },
                             new FormasPago()
                             {
                                 descripcion = "Efectivo Divisas|-|-",
-                                fecha = "15/02/2023",
+                                fecha = DateTime.Now.ToString("dd/MM/yyyy"),
                                 forma = "01",
-                                monto = "0.00",
+                                monto = (i.total_neto * i.tasa).ToString(),
                                 moneda = "USD"
                             }
                         }
@@ -121,10 +124,10 @@ namespace ProfitTM.Models
                     {
                         totalBaseImponible = i.total_bruto.ToString(),
                         numeroCompRetencion = "1",
-                        fechaEmisionCR = "20/02/2024",
-                        totalIVA = (i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100)).ToString(), // DEFINIR
-                        totalISRL = (i.total_bruto * (2 / 100)).ToString(), // DEFINIR
-                        totalRetenido = "0.00" // CONSULTAR
+                        fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
+                        totalIVA = (i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100)).ToString(),
+                        totalISRL = (i.total_bruto * (2 / 100)).ToString(),
+                        totalRetenido = "0.00"
                     },
                     totalesOtraMoneda = new TotalesOtraMoneda()
                     {
@@ -218,6 +221,52 @@ namespace ProfitTM.Models
             return root;
         }
 
+        public async Task<ModelResponse> SendAuth(ModelAuth auth)
+        {
+            ModelResponse final = new ModelResponse();
+            string url = "https://demoemision.thefactoryhka.com.ve/api/Autenticacion";
+            string data = JsonConvert.SerializeObject(auth);
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    // request.Content.Headers.Add("Content-Type", "application/json");
+                    // request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "tu_token_de_autorizacion"); ;
+
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        final = JsonConvert.DeserializeObject<ModelResponse>(content);
+                        if (final.codigo != 200)
+                        {
+                            Incident.CreateIncident($"ERROR EN RESPUESTA DE API DE AUTENTICACION {final.codigo}", new Exception(final.mensaje));
+                            throw new Exception(final.codigo.ToString());
+                        }
+                    }
+                    else
+                    {
+                        final = JsonConvert.DeserializeObject<ModelResponse>(content);
+                        final.token = null;
+
+                        Incident.CreateIncident("ERROR EN RESPUESTA DE SERVIDOR DE AUTENTICACION", new Exception(response.StatusCode.ToString()));
+                        throw new Exception(response.StatusCode.ToString());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Incident.CreateIncident("ERROR CONSULTA DE API", ex);
+                    throw ex;
+                }
+            }
+
+            return final;
+        }
+        
         public async Task SendInvoiceInfoAsync()
         {
             // URL del recurso al que deseas hacer la petición
@@ -254,6 +303,22 @@ namespace ProfitTM.Models
         }
     }
 
+    // MODELO JSON AUTHENTICATION
+    public class ModelAuth
+    {
+        public string usuario { get; set; }
+        public string clave { get; set; }
+    }
+
+    public class ModelResponse
+    {
+        public int codigo { get; set; }
+        public string mensaje { get; set; }
+        public string token { get; set; }
+        public DateTime expiracion { get; set; }
+    }
+
+    // MODELOS JSON FACTURA DE VENTA
     public class DocumentoElectronico
     {
         public Encabezado encabezado { get; set; }

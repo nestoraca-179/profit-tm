@@ -6,6 +6,7 @@ using System.Web.Routing;
 using System.Web.SessionState;
 using ProfitTM.Models;
 using ProfitTM.Controllers;
+using System.Threading.Tasks;
 
 namespace ProfitTM
 {
@@ -34,6 +35,22 @@ namespace ProfitTM
             DevExpress.Web.ASPxWebControl.CallbackError += Application_Error;
             DevExpress.Web.Mvc.MVCxWebDocumentViewer.StaticInitialize();
             Incident.CreateIncident("APPLICATION START", new Exception());
+
+            Connections conn = Connection.GetConnByID("1");
+
+            if (conn.UseFactOnline)
+            {
+                if (conn.DateToken == null || DateTime.Now > conn.DateToken)
+                {
+                    ModelAuth auth = new ModelAuth()
+                    {
+                        usuario = conn.UserToken,
+                        clave = conn.PassToken + "22"
+                    };
+
+                    new Root().SendAuth(auth);
+                }
+            }
 
             #region QUARTZ
             //Incident.CreateIncident("INICIANDO QUARTZ", new Exception());
