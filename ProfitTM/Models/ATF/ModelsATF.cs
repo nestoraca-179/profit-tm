@@ -1,6 +1,7 @@
 ﻿using ProfitTM.Controllers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -15,8 +16,8 @@ namespace ProfitTM.Models
             Root root = new Root();
             saCliente c = new Client().GetClientByID(i.co_cli);
 
-            root.documentoElectronico = new DocumentoElectronico() 
-            { 
+            root.documentoElectronico = new DocumentoElectronico()
+            {
                 encabezado = new Encabezado()
                 {
                     identificacionDocumento = new IdentificacionDocumento()
@@ -59,7 +60,158 @@ namespace ProfitTM.Models
                         totalIVA = i.monto_imp.ToString(),
                         montoTotalConIVA = i.total_neto.ToString(),
                         montoEnLetras = new UtilsController().NumberToWords(i.total_neto),
+                        listaDescBonificacion = new List<ListaDescBonificacion>()
+                        {
+                            new ListaDescBonificacion()
+                            {
+                                descDescuento = "descuento",
+                                montoDescuento = "0.00"
+                            },
+                            new ListaDescBonificacion()
+                            {
+                                descDescuento = "recargo",
+                                montoDescuento = "0.00"
+                            }
+                        },
+                        impuestosSubtotal = new List<ImpuestosSubtotal>() // CONSULTAR SI ESTO ES EN MONEDA BASE
+                        {
+                            new ImpuestosSubtotal()
+                            {
+                                codigoTotalImp = "E",
+                                alicuotaImp = "0.00",
+                                baseImponibleImp = "0.00",
+                                valorTotalImp = "0.00",
+                            },
+                            new ImpuestosSubtotal()
+                            {
+                                codigoTotalImp = "G",
+                                alicuotaImp = "16.00",
+                                baseImponibleImp = i.total_bruto.ToString(),
+                                valorTotalImp = i.monto_imp.ToString(),
+                            },
+                            new ImpuestosSubtotal()
+                            {
+                                codigoTotalImp = "IGTF",
+                                alicuotaImp = "3.00",
+                                baseImponibleImp = (decimal.Parse(i.comentario) * i.tasa).ToString(),
+                                valorTotalImp = ((decimal.Parse(i.comentario) * i.tasa) * (3 / 100)).ToString(),
+                            }
+                        },
+                        formasPago = new List<FormasPago>() // CONSULTAR A INTERSHIPPING
+                        {
+                            new FormasPago()
+                            {
+                                descripcion = "Transferencia Bancaria|Venezuela|04008933",
+                                fecha = "15/02/2023",
+                                forma = "01",
+                                monto = "43907.76",
+                                moneda = "VEF"
+                            },
+                            new FormasPago()
+                            {
+                                descripcion = "Efectivo Divisas|-|-",
+                                fecha = "15/02/2023",
+                                forma = "01",
+                                monto = "0.00",
+                                moneda = "USD"
+                            }
+                        }
+                    },
+                    totalesRetencion = new TotalesRetencion()
+                    {
+                        totalBaseImponible = i.total_bruto.ToString(),
+                        numeroCompRetencion = "1",
+                        fechaEmisionCR = "20/02/2024",
+                        totalIVA = (i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100)).ToString(), // DEFINIR
+                        totalISRL = (i.total_bruto * (2 / 100)).ToString(), // DEFINIR
+                        totalRetenido = "0.00" // CONSULTAR
+                    },
+                    totalesOtraMoneda = new TotalesOtraMoneda()
+                    {
+                        moneda = "USD",
+                        tipoCambio = i.tasa.ToString(),
+                        montoGravadoTotal = Math.Round(i.total_bruto / i.tasa).ToString(),
+                        montoExentoTotal = "0.00",
+                        subtotal = Math.Round(i.total_bruto / i.tasa).ToString(),
+                        totalAPagar = Math.Round(i.total_neto / i.tasa).ToString(),
+                        totalIVA = Math.Round(i.monto_imp / i.tasa).ToString(),
+                        montoTotalConIVA = Math.Round(i.total_neto / i.tasa).ToString(),
+                        montoEnLetras = new UtilsController().NumberToWords(Math.Round(i.total_neto / i.tasa)),
+                        listaDescBonificacion = new List<ListaDescBonificacion>()
+                        {
+                            new ListaDescBonificacion()
+                            {
+                                descDescuento = "descuento",
+                                montoDescuento = "0.00"
+                            },
+                            new ListaDescBonificacion()
+                            {
+                                descDescuento = "recargo",
+                                montoDescuento = "0.00"
+                            }
+                        },
+                        impuestosSubtotal = new List<ImpuestosSubtotal>() // CONSULTAR SI ESTO ES EN MONEDA BASE
+                        {
+                            new ImpuestosSubtotal()
+                            {
+                                codigoTotalImp = "E",
+                                alicuotaImp = "0.00",
+                                baseImponibleImp = "0.00",
+                                valorTotalImp = "0.00",
+                            },
+                            new ImpuestosSubtotal()
+                            {
+                                codigoTotalImp = "G",
+                                alicuotaImp = "16.00",
+                                baseImponibleImp = Math.Round(i.total_bruto / i.tasa).ToString(),
+                                valorTotalImp = Math.Round(i.monto_imp / i.tasa).ToString(),
+                            },
+                            new ImpuestosSubtotal()
+                            {
+                                codigoTotalImp = "IGTF",
+                                alicuotaImp = "3.00",
+                                baseImponibleImp = decimal.Parse(i.comentario).ToString(),
+                                valorTotalImp = (decimal.Parse(i.comentario) * (3 / 100)).ToString(),
+                            }
+                        },
                     }
+                },
+                detallesItems = i.saFacturaVentaReng.Select(r => new DetallesItem() { 
+                
+                    numeroLinea = r.reng_num.ToString(),
+                    codigoPLU = r.co_art,
+                    indicadorBienoServicio = "2", // CONSULTAR
+                    descripcion = new Product().GetArtByID(r.co_art).art_des,
+                    cantidad = r.total_art.ToString(),
+                    unidadMedida = r.co_uni,
+                    precioUnitario = r.prec_vta.ToString(),
+                    precioItem = r.reng_neto.ToString(),
+                    codigoImpuesto = r.tipo_imp == "1" ? "G" : "E",
+                    tasaIVA = r.tipo_imp == "1" ? "16.00" : "0.00",
+                    valorIVA = r.tipo_imp == "1" ? r.monto_imp.ToString() : "0.00",
+                    valorTotalItem = (r.reng_neto + (r.tipo_imp == "1" ? r.monto_imp : 0)).ToString(),
+                    infoAdicionalItem = new List<InfoAdicionalItem>()
+                    {
+                        new InfoAdicionalItem()
+                        {
+                            campo = "USD",
+                            valor = Math.Round((r.reng_neto + (r.tipo_imp == "1" ? r.monto_imp : 0)) / i.tasa, 2).ToString()
+                        }
+                    }
+
+                }).ToList(),
+                viajes = new Viajes()
+                {
+                    razonSocialServTransporte = i.campo1,
+                    numeroBoleto = i.campo8,
+                    fechaSalida = i.campo2,
+                    horaSalida = "",
+                    puntoDestino = i.dir_ent
+                },
+                transporte = new TransporteF()
+                {
+                    descripcion = i.campo7,
+                    codigo = i.campo3
                 }
             };
 
@@ -107,7 +259,7 @@ namespace ProfitTM.Models
         public Encabezado encabezado { get; set; }
         public List<DetallesItem> detallesItems { get; set; }
         public Viajes viajes { get; set; }
-        public Transporte transporte { get; set; }
+        public TransporteF transporte { get; set; }
     }
 
     public class Encabezado
@@ -267,7 +419,7 @@ namespace ProfitTM.Models
         public string comentario20 { get; set; }
     }
 
-    public class Transporte
+    public class TransporteF
     {
         public string descripcion { get; set; }
         public string comentario21 { get; set; }
