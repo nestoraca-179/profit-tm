@@ -265,6 +265,7 @@
       <End Role="Boxes" EntitySet="Boxes" />
       <End Role="Transfers" EntitySet="Transfers" />
     </AssociationSet>
+    <EntitySet Name="LogsFactOnline" EntityType="ProfitTMContext.LogsFactOnline" />
   </EntityContainer>
   <EntityType Name="Incidents">
     <Key>
@@ -356,4 +357,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="LogsFactOnline">
+    <Key>
+      <PropertyRef Name="NroFact" />
+    </Key>
+    <Property Name="NroFact" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <Property Name="DateInserted" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DateTried" Type="DateTime" Precision="0" />
+    <Property Name="DateSent" Type="DateTime" Precision="0" />
+    <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

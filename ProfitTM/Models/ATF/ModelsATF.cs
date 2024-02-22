@@ -234,32 +234,30 @@ namespace ProfitTM.Models
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
                     request.Content = new StringContent(data, Encoding.UTF8, "application/json");
                     // request.Content.Headers.Add("Content-Type", "application/json");
-                    // request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "tu_token_de_autorizacion"); ;
+                    // request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "tu_token_de_autorizacion");
 
                     HttpResponseMessage response = await client.SendAsync(request);
                     string content = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelResponse>(content);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        final = JsonConvert.DeserializeObject<ModelResponse>(content);
                         if (final.codigo != 200)
                         {
-                            Incident.CreateIncident($"ERROR EN RESPUESTA DE API DE AUTENTICACION {final.codigo}", new Exception(final.mensaje));
-                            throw new Exception(final.codigo.ToString());
+                            throw new Exception($"ERROR EN RESPUESTA DE API DE AUTENTICACION {final.codigo}");
+                        }
+                        else
+                        {
+
                         }
                     }
                     else
                     {
-                        final = JsonConvert.DeserializeObject<ModelResponse>(content);
-                        final.token = null;
-
-                        Incident.CreateIncident("ERROR EN RESPUESTA DE SERVIDOR DE AUTENTICACION", new Exception(response.StatusCode.ToString()));
-                        throw new Exception(response.StatusCode.ToString());
+                        throw new Exception($"ERROR EN RESPUESTA DE SERVIDOR DE AUTENTICACION {response.StatusCode}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Incident.CreateIncident("ERROR CONSULTA DE API", ex);
                     throw ex;
                 }
             }
@@ -269,24 +267,17 @@ namespace ProfitTM.Models
         
         public async Task SendInvoiceInfoAsync()
         {
-            // URL del recurso al que deseas hacer la petición
             string url = "https://jsonplaceholder.typicode.com/posts";
 
-            // Crear instancia de HttpClient
             using (HttpClient httpClient = new HttpClient())
             {
                 try
                 {
-                    // Realizar la petición GET al recurso
                     HttpResponseMessage response = await httpClient.GetAsync(url);
-
-                    // Verificar si la petición fue exitosa
                     if (response.IsSuccessStatusCode)
                     {
-                        // Leer el contenido de la respuesta como una cadena
                         string responseBody = await response.Content.ReadAsStringAsync();
 
-                        // Mostrar el contenido de la respuesta
                         Console.WriteLine("Respuesta:");
                         Console.WriteLine(responseBody);
                     }

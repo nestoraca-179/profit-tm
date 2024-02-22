@@ -5,8 +5,12 @@ using System.Web.Http;
 using System.Web.Routing;
 using System.Web.SessionState;
 using ProfitTM.Models;
-using ProfitTM.Controllers;
+using Quartz;
+using Quartz.Impl;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ProfitTM
 {
@@ -36,60 +40,24 @@ namespace ProfitTM
             DevExpress.Web.Mvc.MVCxWebDocumentViewer.StaticInitialize();
             Incident.CreateIncident("APPLICATION START", new Exception());
 
-            Connections conn = Connection.GetConnByID("1");
-
-            if (conn.UseFactOnline)
-            {
-                if (conn.DateToken == null || DateTime.Now > conn.DateToken)
-                {
-                    ModelAuth auth = new ModelAuth()
-                    {
-                        usuario = conn.UserToken,
-                        clave = conn.PassToken + "22"
-                    };
-
-                    new Root().SendAuth(auth);
-                }
-            }
-
             #region QUARTZ
-            //Incident.CreateIncident("INICIANDO QUARTZ", new Exception());
-            ////var builder = Host.CreateDefaultBuilder().ConfigureServices((cxt, services) =>
-            ////{
-            ////    services.AddQuartz(q => {
-            ////        q.UseMicrosoftDependencyInjectionJobFactory();
-            ////    });
+            StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
+            IScheduler scheduler = schedulerFactory.GetScheduler().Result;
 
-            ////    services.AddQuartzHostedService(opt => {
-            ////        opt.WaitForJobsToComplete = true;
-            ////    });
+            var job = JobBuilder.Create<PruebaJob>()
+                .WithIdentity("myJob", "group1")
+                .Build();
 
-            ////}).Build();
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("myTrigger", "group1")
+                .StartNow()
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInMinutes(1)
+                    .RepeatForever())
+                .Build();
 
-            ////var schedulerFactory = builder.Services.GetRequiredService<ISchedulerFactory>();
-            //StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
-            //IScheduler scheduler = await schedulerFactory.GetScheduler();
-
-            //var job = JobBuilder.Create<CerrarCajas>()
-            //    .WithIdentity("myJob", "group1")
-            //    .Build();
-
-            //var trigger = TriggerBuilder.Create()
-            //    .WithIdentity("myTrigger", "group1")
-            //    .ForJob("myJob", "group1")
-            //    .StartAt(DateTimeOffset.Now)
-            //    .WithCronSchedule("0 55 0,1,2,3,4,17,18,19,20,23 ? * * *", x => x.WithMisfireHandlingInstructionIgnoreMisfires())
-            //    //.WithCronSchedule("0 40 15 ? * * *", x => x.WithMisfireHandlingInstructionIgnoreMisfires())
-            //    .Build();
-
-            //await scheduler.ScheduleJob(job, trigger);
-            //await scheduler.Start();
-            ////await builder.RunAsync();
-
-            //Incident.CreateIncident("QUARTZ ACTIVADO " + scheduler.IsStarted, new Exception());
-            //Incident.CreateIncident("QUARTZ APAGADO " + scheduler.IsShutdown, new Exception());
-            //Incident.CreateIncident("QUARTZ EN STAND BY " + scheduler.InStandbyMode, new Exception());
-            //Incident.CreateIncident("FINALIZANDO QUARTZ " + trigger.StartTimeUtc.DateTime.ToString("dd/MM/yyyy HH:mm:ss"), new Exception());
+            scheduler.ScheduleJob(job, trigger);
+            scheduler.Start();
             #endregion
         }
 
@@ -144,24 +112,60 @@ namespace ProfitTM
         }
 
         #region QUARTZ
-        //public class CerrarCajas : IJob
-        //{
-        //    Task IJob.Execute(IJobExecutionContext context)
-        //    {
-        //        try
-        //        {
-        //            Incident.CreateIncident("INICIANDO CERRAR CAJAS", new Exception());
-        //            Box.CloseAllBoxes();
-        //            Incident.CreateIncident("FINALIZANDO CERRAR CAJAS", new Exception());
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Incident.CreateIncident("ERROR CERRANDO CAJAS", ex);
-        //        }
+        public class PruebaJob : IJob
+        {
+            async Task IJob.Execute(IJobExecutionContext context)
+            {
+                try
+                {
+                    var httpContext = context.MergedJobDataMap.Get("HttpContext") as HttpContextBase; // REVISAR
+                    if (httpContext != null)
+                    {
+                        string userName = httpContext.Session["ID_CONN"] as string;
+                        if (!string.IsNullOrEmpty(userName))
+                        {
+                            Console.WriteLine($"El usuario {userName} ha iniciado sesión.");
+                        }
+                    }
 
-        //        return Task.CompletedTask;
-        //    }
-        //}
+                    string id_conn = HttpContext.Current != null ? HttpContext.Current.Session["ID_CONN"].ToString() : "";
+                    if (!string.IsNullOrEmpty(id_conn))
+                    {
+                        Connections conn = Connection.GetConnByID(id_conn);
+                        if (conn.UseFactOnline)
+                        {
+                            if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
+                            {
+                                ModelAuth auth = new ModelAuth() { usuario = conn.UserToken, clave = conn.PassToken };
+                                ModelResponse response = await new Root().SendAuth(auth);
+                                
+                                if (response.codigo == 200)
+                                {
+                                    conn.Token = response.token;
+                                    conn.DateToken = response.expiracion.AddHours(-4);
+                                    Connection.Edit(conn);
+                                }
+                                else
+                                {
+                                    throw new Exception(response.mensaje);
+                                }
+                            }
+
+                            List<LogsFactOnline> logs = LogsFact.GetPendingLogs();
+                            foreach (LogsFactOnline log in logs)
+                            {
+                                saFacturaVenta i = new Invoice().GetSaleInvoiceByID(log.NroFact);
+                                Root json = new Root().GetInvoiceInfo(i);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    int i = 0;
+                }
+            }
+        }
         #endregion
     }
 }

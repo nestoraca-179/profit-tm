@@ -258,9 +258,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Boxes_BoxMoves">
-          <End Role="Boxes" Type="Self.Boxes" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Boxes" Type="Self.Boxes" Multiplicity="1" />
           <End Role="BoxMoves" Type="Self.BoxMoves" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Boxes">

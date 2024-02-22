@@ -69,6 +69,17 @@
     <Property Name="Fecha" Type="datetime" Nullable="false" />
     <Property Name="Usuario" Type="varchar" MaxLength="10" Nullable="false" />
   </EntityType>
+  <EntityType Name="LogsFactOnline">
+    <Key>
+      <PropertyRef Name="NroFact" />
+    </Key>
+    <Property Name="NroFact" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="DateInserted" Type="smalldatetime" Nullable="false" />
+    <Property Name="DateTried" Type="smalldatetime" />
+    <Property Name="DateSent" Type="smalldatetime" />
+    <Property Name="Message" Type="varchar(max)" />
+  </EntityType>
   <EntityType Name="Modules">
     <Key>
       <PropertyRef Name="ID" />
@@ -242,9 +253,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Boxes_BoxMoves">
-    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
+    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1" />
     <End Role="BoxMoves" Type="Self.BoxMoves" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Boxes">
@@ -297,6 +306,7 @@
     <EntitySet Name="Connections" EntityType="Self.Connections" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GroupReports" EntityType="Self.GroupReports" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Incidents" EntityType="Self.Incidents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LogsFactOnline" EntityType="Self.LogsFactOnline" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />

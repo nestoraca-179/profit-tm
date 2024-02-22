@@ -680,10 +680,11 @@ namespace ProfitTM.Controllers
 
             string user = (HttpContext.Current.Session["USER"] as Users).Username;
             string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
             try
             {
-                saFacturaVenta new_invoice = new Invoice().AddInvoice(invoice, user, sucur, Convert.ToBoolean(fromOrder));
+                saFacturaVenta new_invoice = new Invoice().AddInvoice(invoice, user, sucur, conn, Convert.ToBoolean(fromOrder));
 
                 response.Status = "OK";
                 response.Result = new_invoice;

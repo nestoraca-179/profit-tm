@@ -328,7 +328,7 @@ namespace ProfitTM.Models
             return obj;
         }
 
-        public saFacturaVenta AddInvoice(saFacturaVenta invoice, string user, string sucur, bool fromOrder)
+        public saFacturaVenta AddInvoice(saFacturaVenta invoice, string user, string sucur, int conn, bool fromOrder)
         {
             saFacturaVenta new_invoice = new saFacturaVenta();
 
@@ -417,6 +417,9 @@ namespace ProfitTM.Models
 
                         tran.Commit();
                         new_invoice = GetSaleInvoiceByID(n_fact);
+
+                        if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
+                            LogsFact.Add(new_invoice);
                     }
                     catch (Exception ex)
                     {
