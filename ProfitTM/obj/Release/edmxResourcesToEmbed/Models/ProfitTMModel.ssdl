@@ -74,7 +74,10 @@
       <PropertyRef Name="NroFact" />
     </Key>
     <Property Name="NroFact" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="ConnID" Type="int" Nullable="false" />
+    <Property Name="BodyJson" Type="varchar(max)" Nullable="false" />
     <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="NroControl" Type="varchar" MaxLength="25" />
     <Property Name="DateInserted" Type="smalldatetime" Nullable="false" />
     <Property Name="DateTried" Type="smalldatetime" />
     <Property Name="DateSent" Type="smalldatetime" />
@@ -253,7 +256,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Boxes_BoxMoves">
-    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1" />
+    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="BoxMoves" Type="Self.BoxMoves" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Boxes">

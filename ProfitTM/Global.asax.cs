@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace ProfitTM
 {
@@ -19,6 +20,8 @@ namespace ProfitTM
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static int conn = 0;
+
         protected void Application_Init()
         {
             // Incident.CreateIncident("APPLICATION INIT", new Exception());
@@ -118,46 +121,28 @@ namespace ProfitTM
             {
                 try
                 {
-                    var httpContext = context.MergedJobDataMap.Get("HttpContext") as HttpContextBase; // REVISAR
-                    if (httpContext != null)
+                    List<LogsFactOnline> logs = LogsFact.GetPendingLogs();
+                    foreach (LogsFactOnline log in logs)
                     {
-                        string userName = httpContext.Session["ID_CONN"] as string;
-                        if (!string.IsNullOrEmpty(userName))
+                        Connections conn = Connection.GetConnByID(log.ConnID.ToString());
+                        if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
                         {
-                            Console.WriteLine($"El usuario {userName} ha iniciado sesión.");
-                        }
-                    }
+                            ModelAuth auth = new ModelAuth() { usuario = conn.UserToken, clave = conn.PassToken };
+                            ModelResponse response = await new Root().SendAuth(auth);
 
-                    string id_conn = HttpContext.Current != null ? HttpContext.Current.Session["ID_CONN"].ToString() : "";
-                    if (!string.IsNullOrEmpty(id_conn))
-                    {
-                        Connections conn = Connection.GetConnByID(id_conn);
-                        if (conn.UseFactOnline)
-                        {
-                            if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
+                            if (response.codigo == 200)
                             {
-                                ModelAuth auth = new ModelAuth() { usuario = conn.UserToken, clave = conn.PassToken };
-                                ModelResponse response = await new Root().SendAuth(auth);
-                                
-                                if (response.codigo == 200)
-                                {
-                                    conn.Token = response.token;
-                                    conn.DateToken = response.expiracion.AddHours(-4);
-                                    Connection.Edit(conn);
-                                }
-                                else
-                                {
-                                    throw new Exception(response.mensaje);
-                                }
+                                conn.Token = response.token;
+                                conn.DateToken = response.expiracion.AddHours(-4);
+                                Connection.Edit(conn);
                             }
-
-                            List<LogsFactOnline> logs = LogsFact.GetPendingLogs();
-                            foreach (LogsFactOnline log in logs)
+                            else
                             {
-                                saFacturaVenta i = new Invoice().GetSaleInvoiceByID(log.NroFact);
-                                Root json = new Root().GetInvoiceInfo(i);
+                                throw new Exception(response.mensaje);
                             }
                         }
+
+                        await new Root().SendInvoiceInfoAsync(log.BodyJson, conn.Token);
                     }
                 }
                 catch (Exception ex)

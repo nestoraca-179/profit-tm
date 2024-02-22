@@ -105,7 +105,7 @@ namespace ProfitTM.Areas.General.Controllers
 
             return PartialView("~/Areas/General/Views/Reportes/_RepEstadoGananciasPerdidas2KDocePartial.cshtml", report3);
         }
-        public ActionResult RepEstadoGananciasPerdidas2KDocePartialExport()
+        public ActionResult RepEstadoGananciasPerdidas2KDocePartialExport(string name = "")
         {
             return DocumentViewerExtension.ExportTo(report3, Request);
 
@@ -156,6 +156,8 @@ namespace ProfitTM.Areas.General.Controllers
         //    // Aquí implementa la lógica para generar el reporte utilizando DevExpress Reporting
         //    // Por ejemplo:
         //    RepEstadoGananciasPerdidas2KDoce reporte = new RepEstadoGananciasPerdidas2KDoce();
+        //    reporte.Parameters["fecDesde"].Value = DateTime.Now;
+        //    reporte.Parameters["fecHasta"].Value = DateTime.Now;
         //    reporte.CreateDocument();
         //    return reporte;
         //}

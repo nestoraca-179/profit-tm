@@ -190,6 +190,9 @@
     <EntitySetMapping Name="LogsFactOnline">
       <EntityTypeMapping TypeName="ProfitTMContext.LogsFactOnline">
         <MappingFragment StoreEntitySet="LogsFactOnline">
+          <ScalarProperty Name="NroControl" ColumnName="NroControl" />
+          <ScalarProperty Name="BodyJson" ColumnName="BodyJson" />
+          <ScalarProperty Name="ConnID" ColumnName="ConnID" />
           <ScalarProperty Name="Message" ColumnName="Message" />
           <ScalarProperty Name="DateSent" ColumnName="DateSent" />
           <ScalarProperty Name="DateTried" ColumnName="DateTried" />

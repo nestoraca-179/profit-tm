@@ -20,5 +20,8 @@ namespace ProfitTM.Models
         public Nullable<System.DateTime> DateTried { get; set; }
         public Nullable<System.DateTime> DateSent { get; set; }
         public string Message { get; set; }
+        public int ConnID { get; set; }
+        public string BodyJson { get; set; }
+        public string NroControl { get; set; }
     }
 }

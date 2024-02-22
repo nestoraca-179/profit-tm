@@ -367,5 +367,8 @@
     <Property Name="DateTried" Type="DateTime" Precision="0" />
     <Property Name="DateSent" Type="DateTime" Precision="0" />
     <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ConnID" Type="Int32" Nullable="false" />
+    <Property Name="BodyJson" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="NroControl" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>

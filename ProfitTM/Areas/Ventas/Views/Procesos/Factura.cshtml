@@ -430,6 +430,9 @@
                                         </button>
                                     </td>
                                 </tr>
+                                <tr ng-if="!invoice.saFacturaVentaReng || invoice.saFacturaVentaReng.length == 0">
+                                    <td colspan="8"><p class="m-0 text-center">No hay items agregados</p></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

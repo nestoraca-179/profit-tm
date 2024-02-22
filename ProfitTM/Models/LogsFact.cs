@@ -7,11 +7,13 @@ namespace ProfitTM.Models
 {
     public class LogsFact
     {
-        public static LogsFactOnline Add(saFacturaVenta i)
+        public static LogsFactOnline Add(saFacturaVenta i, int conn, string json)
         {
             LogsFactOnline log = new LogsFactOnline()
             {
                 NroFact = i.doc_num.Trim(),
+                ConnID = conn,
+                BodyJson = json,
                 Status = 0,
                 DateInserted = DateTime.Now
             };

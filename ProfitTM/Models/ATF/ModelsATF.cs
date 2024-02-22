@@ -14,7 +14,7 @@ namespace ProfitTM.Models
     {
         public DocumentoElectronico documentoElectronico { get; set; }
 
-        public Root GetInvoiceInfo(saFacturaVenta i)
+        public string GetJsonInvoiceInfo(saFacturaVenta i)
         {
             Root root = new Root();
             saCliente c = new Client().GetClientByID(i.co_cli);
@@ -26,14 +26,14 @@ namespace ProfitTM.Models
                     identificacionDocumento = new IdentificacionDocumento()
                     {
                         tipoDocumento = "01",
-                        numeroDocumento = i.doc_num,
+                        numeroDocumento = i.doc_num.Trim(),
                         serieFacturaAfectada = null,
                         numeroFacturaAfectada = null,
                         fechaFacturaAfectada = null,
                         montoFacturaAfectada = null,
                         fechaEmision = i.fec_emis.ToString("dd/MM/yyyy"),
                         fechaVencimiento = i.fec_venc.ToString("dd/MM/yyyy"),
-                        horaEmision = i.fec_emis.ToString("hh:mm:ss tt"),
+                        horaEmision = i.fec_emis.ToString("hh:mm:ss tt").Replace("p. m.", "pm").Replace("a. m.", "am"),
                         anulado = i.anulado,
                         tipoDePago = "CONTADO",
                         serie = "A",
@@ -44,11 +44,11 @@ namespace ProfitTM.Models
                     comprador = new Comprador()
                     {
                         tipoIdentificacion = i.co_cli.Substring(0, 1),
-                        numeroIdentificacion = i.co_cli.Substring(1),
-                        razonSocial = c.cli_des,
-                        direccion = c.direc1,
+                        numeroIdentificacion = i.co_cli.Substring(1).Trim(),
+                        razonSocial = c.cli_des.Trim(),
+                        direccion = c.direc1.Trim(),
                         ubigeo = null,
-                        pais = c.co_pais,
+                        pais = "VE",
                         notificar = "Si",
                         telefono = new List<string>() { c.telefonos },
                         correo = new List<string>() { c.email, c.email_alterno },
@@ -56,12 +56,12 @@ namespace ProfitTM.Models
                     totales = new Totales()
                     {
                         nroItems = i.saFacturaVentaReng.Count.ToString(),
-                        montoGravadoTotal = i.total_bruto.ToString(),
-                        montoExentoTotal = "0",
-                        subtotal = i.total_bruto.ToString(),
-                        totalAPagar = i.total_neto.ToString(),
-                        totalIVA = i.monto_imp.ToString(),
-                        montoTotalConIVA = i.total_neto.ToString(),
+                        montoGravadoTotal = i.total_bruto.ToString().Replace(",", "."),
+                        montoExentoTotal = "0.00",
+                        subtotal = i.total_bruto.ToString().Replace(",", "."),
+                        totalAPagar = i.total_neto.ToString().Replace(",", "."),
+                        totalIVA = i.monto_imp.ToString().Replace(",", "."),
+                        montoTotalConIVA = i.total_neto.ToString().Replace(",", "."),
                         montoEnLetras = new UtilsController().NumberToWords(i.total_neto),
                         listaDescBonificacion = new List<ListaDescBonificacion>()
                         {
@@ -89,15 +89,15 @@ namespace ProfitTM.Models
                             {
                                 codigoTotalImp = "G",
                                 alicuotaImp = "16.00",
-                                baseImponibleImp = i.total_bruto.ToString(),
-                                valorTotalImp = i.monto_imp.ToString(),
+                                baseImponibleImp = i.total_bruto.ToString().Replace(",", "."),
+                                valorTotalImp = i.monto_imp.ToString().Replace(",", "."),
                             },
                             new ImpuestosSubtotal()
                             {
                                 codigoTotalImp = "IGTF",
                                 alicuotaImp = "3.00",
-                                baseImponibleImp = (decimal.Parse(i.comentario) * i.tasa).ToString(),
-                                valorTotalImp = ((decimal.Parse(i.comentario) * i.tasa) * (3 / 100)).ToString(),
+                                baseImponibleImp = Math.Round(decimal.Parse(i.comentario) * i.tasa, 2).ToString().Replace(",", "."),
+                                valorTotalImp = Math.Round((decimal.Parse(i.comentario) * i.tasa) * (3 / 100), 2).ToString().Replace(",", "."),
                             }
                         },
                         formasPago = new List<FormasPago>()
@@ -107,7 +107,7 @@ namespace ProfitTM.Models
                                 descripcion = "Transferencia Bancaria|Venezuela|04008933",
                                 fecha = DateTime.Now.ToString("dd/MM/yyyy"),
                                 forma = "01",
-                                monto = i.total_neto.ToString(),
+                                monto = Math.Round(i.total_neto, 2).ToString().Replace(",", "."),
                                 moneda = "BSD"
                             },
                             new FormasPago()
@@ -115,30 +115,30 @@ namespace ProfitTM.Models
                                 descripcion = "Efectivo Divisas|-|-",
                                 fecha = DateTime.Now.ToString("dd/MM/yyyy"),
                                 forma = "01",
-                                monto = (i.total_neto * i.tasa).ToString(),
+                                monto = Math.Round(i.total_neto * i.tasa, 2).ToString().Replace(",", "."),
                                 moneda = "USD"
                             }
                         }
                     },
                     totalesRetencion = new TotalesRetencion()
                     {
-                        totalBaseImponible = i.total_bruto.ToString(),
+                        totalBaseImponible = i.total_bruto.ToString().Replace(",", "."),
                         numeroCompRetencion = "1",
                         fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
-                        totalIVA = (i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100)).ToString(),
-                        totalISRL = (i.total_bruto * (2 / 100)).ToString(),
+                        totalIVA = Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
+                        totalISRL = (i.total_bruto * (2 / 100)).ToString().Replace(",", "."),
                         totalRetenido = "0.00"
                     },
                     totalesOtraMoneda = new TotalesOtraMoneda()
                     {
                         moneda = "USD",
-                        tipoCambio = i.tasa.ToString(),
-                        montoGravadoTotal = Math.Round(i.total_bruto / i.tasa).ToString(),
+                        tipoCambio = Math.Round(i.tasa, 2).ToString().Replace(",", "."),
+                        montoGravadoTotal = Math.Round(i.total_bruto / i.tasa).ToString().Replace(",", "."),
                         montoExentoTotal = "0.00",
-                        subtotal = Math.Round(i.total_bruto / i.tasa).ToString(),
-                        totalAPagar = Math.Round(i.total_neto / i.tasa).ToString(),
-                        totalIVA = Math.Round(i.monto_imp / i.tasa).ToString(),
-                        montoTotalConIVA = Math.Round(i.total_neto / i.tasa).ToString(),
+                        subtotal = Math.Round(i.total_bruto / i.tasa).ToString().Replace(",", "."),
+                        totalAPagar = Math.Round(i.total_neto / i.tasa).ToString().Replace(",", "."),
+                        totalIVA = Math.Round(i.monto_imp / i.tasa).ToString().Replace(",", "."),
+                        montoTotalConIVA = Math.Round(i.total_neto / i.tasa).ToString().Replace(",", "."),
                         montoEnLetras = new UtilsController().NumberToWords(Math.Round(i.total_neto / i.tasa)),
                         listaDescBonificacion = new List<ListaDescBonificacion>()
                         {
@@ -166,39 +166,39 @@ namespace ProfitTM.Models
                             {
                                 codigoTotalImp = "G",
                                 alicuotaImp = "16.00",
-                                baseImponibleImp = Math.Round(i.total_bruto / i.tasa).ToString(),
-                                valorTotalImp = Math.Round(i.monto_imp / i.tasa).ToString(),
+                                baseImponibleImp = Math.Round(i.total_bruto / i.tasa).ToString().Replace(",", "."),
+                                valorTotalImp = Math.Round(i.monto_imp / i.tasa).ToString().Replace(",", "."),
                             },
                             new ImpuestosSubtotal()
                             {
                                 codigoTotalImp = "IGTF",
                                 alicuotaImp = "3.00",
-                                baseImponibleImp = decimal.Parse(i.comentario).ToString(),
-                                valorTotalImp = (decimal.Parse(i.comentario) * (3 / 100)).ToString(),
+                                baseImponibleImp = decimal.Parse(i.comentario).ToString().Replace(",", "."),
+                                valorTotalImp = (decimal.Parse(i.comentario) * (3 / 100)).ToString().Replace(",", "."),
                             }
                         },
                     }
                 },
-                detallesItems = i.saFacturaVentaReng.Select(r => new DetallesItem() { 
-                
+                detallesItems = i.saFacturaVentaReng.Select(r => new DetallesItem()
+                {
                     numeroLinea = r.reng_num.ToString(),
-                    codigoPLU = r.co_art,
+                    codigoPLU = r.co_art.Trim(),
                     indicadorBienoServicio = "2", // CONSULTAR
-                    descripcion = new Product().GetArtByID(r.co_art).art_des,
-                    cantidad = r.total_art.ToString(),
-                    unidadMedida = r.co_uni,
-                    precioUnitario = r.prec_vta.ToString(),
-                    precioItem = r.reng_neto.ToString(),
+                    descripcion = new Product().GetArtByID(r.co_art).art_des.Trim(),
+                    cantidad = Convert.ToInt32(r.total_art).ToString(),
+                    unidadMedida = r.co_uni.Trim(),
+                    precioUnitario = Math.Round(r.prec_vta, 2).ToString().Replace(",", "."),
+                    precioItem = Math.Round(r.reng_neto, 2).ToString().Replace(",", "."),
                     codigoImpuesto = r.tipo_imp == "1" ? "G" : "E",
                     tasaIVA = r.tipo_imp == "1" ? "16.00" : "0.00",
-                    valorIVA = r.tipo_imp == "1" ? r.monto_imp.ToString() : "0.00",
-                    valorTotalItem = (r.reng_neto + (r.tipo_imp == "1" ? r.monto_imp : 0)).ToString(),
+                    valorIVA = r.tipo_imp == "1" ? Math.Round(r.monto_imp, 2).ToString().Replace(",", ".") : "0.00",
+                    valorTotalItem = (r.reng_neto + (r.tipo_imp == "1" ? Math.Round(r.monto_imp, 2) : 0)).ToString().Replace(",", "."),
                     infoAdicionalItem = new List<InfoAdicionalItem>()
                     {
                         new InfoAdicionalItem()
                         {
                             campo = "USD",
-                            valor = Math.Round((r.reng_neto + (r.tipo_imp == "1" ? r.monto_imp : 0)) / i.tasa, 2).ToString()
+                            valor = Math.Round((r.reng_neto + (r.tipo_imp == "1" ? r.monto_imp : 0)) / i.tasa, 2).ToString().Replace(",", ".")
                         }
                     }
 
@@ -207,7 +207,7 @@ namespace ProfitTM.Models
                 {
                     razonSocialServTransporte = i.campo1,
                     numeroBoleto = i.campo8,
-                    fechaSalida = i.campo2,
+                    fechaSalida = "22/02/2024", // i.campo2.Substring(0, 10),
                     horaSalida = "",
                     puntoDestino = i.dir_ent
                 },
@@ -218,7 +218,7 @@ namespace ProfitTM.Models
                 }
             };
 
-            return root;
+            return JsonConvert.SerializeObject(root);
         }
 
         public async Task<ModelResponse> SendAuth(ModelAuth auth)
@@ -246,10 +246,6 @@ namespace ProfitTM.Models
                         {
                             throw new Exception($"ERROR EN RESPUESTA DE API DE AUTENTICACION {final.codigo}");
                         }
-                        else
-                        {
-
-                        }
                     }
                     else
                     {
@@ -265,36 +261,41 @@ namespace ProfitTM.Models
             return final;
         }
         
-        public async Task SendInvoiceInfoAsync()
+        public async Task SendInvoiceInfoAsync(string json, string token)
         {
-            string url = "https://jsonplaceholder.typicode.com/posts";
+            ModelErrorResponseInvoiceInfo final = new ModelErrorResponseInvoiceInfo();
+            string url = "https://demoemision.thefactoryhka.com.ve/api/Emision";
+            string data = json;
 
-            using (HttpClient httpClient = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    HttpResponseMessage response = await httpClient.GetAsync(url);
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    string content = await response.Content.ReadAsStringAsync();
+
                     if (response.IsSuccessStatusCode)
                     {
-                        string responseBody = await response.Content.ReadAsStringAsync();
-
-                        Console.WriteLine("Respuesta:");
-                        Console.WriteLine(responseBody);
+                        final = JsonConvert.DeserializeObject<ModelErrorResponseInvoiceInfo>(content);
                     }
                     else
                     {
-                        Console.WriteLine($"La petición falló con el código de estado: {response.StatusCode}");
+                        final = JsonConvert.DeserializeObject<ModelErrorResponseInvoiceInfo>(content);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Ocurrió un error al realizar la petición: {ex.Message}");
+                    string m = ex.Message;
                 }
             }
         }
     }
 
-    // MODELO JSON AUTHENTICATION
+    // MODELOS JSON AUTHENTICATION
     public class ModelAuth
     {
         public string usuario { get; set; }
@@ -330,14 +331,11 @@ namespace ProfitTM.Models
     public class IdentificacionDocumento
     {
         public string tipoDocumento { get; set; }
-        public string comentario1 { get; set; }
         public string numeroDocumento { get; set; }
-        public string comentario2 { get; set; }
         public object serieFacturaAfectada { get; set; }
         public object numeroFacturaAfectada { get; set; }
         public object fechaFacturaAfectada { get; set; }
         public object montoFacturaAfectada { get; set; }
-        public object comentarioFacturaAfectada { get; set; }
         public string fechaEmision { get; set; }
         public string fechaVencimiento { get; set; }
         public string horaEmision { get; set; }
@@ -368,11 +366,9 @@ namespace ProfitTM.Models
         public string montoGravadoTotal { get; set; }
         public string montoExentoTotal { get; set; }
         public string subtotal { get; set; }
-        public string comentario3 { get; set; }
         public string totalAPagar { get; set; }
         public string totalIVA { get; set; }
         public string montoTotalConIVA { get; set; }
-        public string comentario4 { get; set; }
         public string montoEnLetras { get; set; }
         public List<ListaDescBonificacion> listaDescBonificacion { get; set; }
         public List<ImpuestosSubtotal> impuestosSubtotal { get; set; }
@@ -382,22 +378,15 @@ namespace ProfitTM.Models
     public class ListaDescBonificacion
     {
         public string descDescuento { get; set; }
-        public string comentario5 { get; set; }
         public string montoDescuento { get; set; }
-        public string comentario6 { get; set; }
     }
 
     public class ImpuestosSubtotal
     {
         public string codigoTotalImp { get; set; }
-        public string comentario7 { get; set; }
         public string alicuotaImp { get; set; }
         public string baseImponibleImp { get; set; }
         public string valorTotalImp { get; set; }
-        public string comentario8 { get; set; }
-        public string comentario9 { get; set; }
-        public string comentario10 { get; set; }
-        public string comentario11 { get; set; }
     }
 
     public class FormasPago
@@ -415,16 +404,12 @@ namespace ProfitTM.Models
         public string numeroCompRetencion { get; set; }
         public string fechaEmisionCR { get; set; }
         public string totalIVA { get; set; }
-        public string comentario12 { get; set; }
         public string totalRetenido { get; set; }
-        public string comentario13 { get; set; }
         public string totalISRL { get; set; }
-        public string comentario14 { get; set; }
     }
 
     public class TotalesOtraMoneda
     {
-        public string comentario15 { get; set; }
         public string moneda { get; set; }
         public string tipoCambio { get; set; }
         public string montoGravadoTotal { get; set; }
@@ -464,22 +449,23 @@ namespace ProfitTM.Models
     public class Viajes
     {
         public string razonSocialServTransporte { get; set; }
-        public string comentario16 { get; set; }
         public string numeroBoleto { get; set; }
-        public string comentario17 { get; set; }
         public string fechaSalida { get; set; }
-        public string comentario18 { get; set; }
         public string horaSalida { get; set; }
-        public string comentario19 { get; set; }
         public string puntoDestino { get; set; }
-        public string comentario20 { get; set; }
     }
 
     public class TransporteF
     {
         public string descripcion { get; set; }
-        public string comentario21 { get; set; }
         public string codigo { get; set; }
-        public string comentario22 { get; set; }
+    }
+
+    // MODELO RESPUESTA ENVIO DOCUMENTO
+    public class ModelErrorResponseInvoiceInfo
+    {
+        public List<string> validaciones { get; set; }
+        public string codigo { get; set; }
+        public string mensaje { get; set; }
     }
 }

@@ -234,7 +234,8 @@
                             Guardar
                         </button>
                         <div class="d-flex align-items-center px-2">
-                            <label><input type="checkbox" ng-model="m" ng-click="invoice.campo1 = invoice.campo1 === 'C' ? '' : 'C'" /> No mostrar en Libro de Compras</label>
+                            <label><input type="checkbox" ng-model="m" ng-disabled="true" ng-checked="true" /> No mostrar en Libro de Compras</label>
+                            @*<label><input type="checkbox" ng-model="m" ng-click="invoice.campo1 = invoice.campo1 === 'C' ? '' : 'C'" /> No mostrar en Libro de Compras</label>*@
                         </div>
                     </div>
                 </div>
@@ -382,6 +383,9 @@
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </td>
+                                </tr>
+                                <tr ng-if="!invoice.saFacturaCompraReng || invoice.saFacturaCompraReng.length == 0">
+                                    <td colspan="8"><p class="m-0 text-center">No hay items agregados</p></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -873,6 +877,7 @@
             $scope.invoice.comentario = $scope.invoice.total_neto_om;
             $scope.invoice.saldo = $scope.invoice.total_neto;
             $scope.invoice.saldo_om = $scope.invoice.total_neto_om;
+            $scope.invoice.campo1 = "C"; // IMPORTANTE PARA LIBRO DE COMPRAS
         }
 
         $scope.update = function (tasa) {
@@ -930,7 +935,7 @@
         }
 
         $scope.showItem = function (art) {
-            return $scope.invoice.saFacturaCompraReng.find(r => r.co_art.trim() == art.split('/')[0]) == null;
+            return art.split('/')[0].includes("92010100") && $scope.invoice.saFacturaCompraReng.find(r => r.co_art.trim() == art.split('/')[0]) == null;
         }
 
         $scope.setItem = function (reng, action) {

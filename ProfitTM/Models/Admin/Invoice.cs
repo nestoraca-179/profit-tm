@@ -419,7 +419,10 @@ namespace ProfitTM.Models
                         new_invoice = GetSaleInvoiceByID(n_fact);
 
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
-                            LogsFact.Add(new_invoice);
+                        {
+                            string json = new Root().GetJsonInvoiceInfo(new_invoice);
+                            LogsFact.Add(new_invoice, conn, json);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -445,6 +448,7 @@ namespace ProfitTM.Models
                     try
                     {
                         string doc_num = "";
+                        string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>1.1.90.05.001</CuentaContable></Carpeta01></InformacionContable>";
 
                         var sp_doc_num = context.pConsecutivoProximo(sucur, "DOC_COM_FACT").GetEnumerator();
                         if (sp_doc_num.MoveNext())
@@ -455,7 +459,7 @@ namespace ProfitTM.Models
                         // FACTURA
                         var sp = context.pInsertarFacturaCompra(doc_num, invoice.nro_fact, invoice.descrip, invoice.co_prov, invoice.co_cta_ingr_egr, invoice.co_mone, 
                             invoice.co_cond, invoice.n_control, null, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, false, invoice.status, invoice.tasa, null, 
-                            invoice.saldo, invoice.total_bruto, invoice.total_neto, 0, 0, 0, 0, 0, invoice.monto_imp, 0, 0, null, null, false, null, null, invoice.campo1, 
+                            invoice.saldo, invoice.total_bruto, invoice.total_neto, 0, 0, 0, 0, 0, invoice.monto_imp, 0, 0, null, null, false, null, dis_cen, invoice.campo1, 
                             null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", true);
 
                         // RENGLONES

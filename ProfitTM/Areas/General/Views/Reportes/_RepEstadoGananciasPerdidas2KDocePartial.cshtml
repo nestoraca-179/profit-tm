@@ -11,8 +11,6 @@
     }
 </script>
 
-@*<a href="@Url.Action("RepEstadoGananciasPerdidas2KDocePartialExport", "Reps", new { area = "General" })">export</a>*@
-
 @Html.DevExpress().WebDocumentViewer(settings =>
 {
     settings.Name = "RepEstadoGananciasPerdidas2KDoce";
@@ -20,3 +18,25 @@
     settings.ClientSideEvents.CustomizeParameterEditors = "CustomizeParameterEditors";
 
 }).Bind(Model).GetHtml()
+
+@*<button onclick="getParams()">Obtener</button>
+<script>
+
+    function getParams() {
+        var params = document.querySelectorAll(".dx-fieldset input[type=hidden]");
+        var strParams = "";
+
+        for (var param of params) {
+            if (param.value != null && param.value != "")
+                strParams += param.value.toString().replaceAll("-", "").trim();
+            else
+                strParams += "_"
+
+            strParams += "-";
+        }
+
+        strParams = strParams.slice(0, -1);
+        console.log(strParams);
+    }
+
+</script>*@
