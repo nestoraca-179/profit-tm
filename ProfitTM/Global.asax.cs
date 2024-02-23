@@ -9,7 +9,6 @@ using Quartz;
 using Quartz.Impl;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace ProfitTM
 {
@@ -148,6 +147,7 @@ namespace ProfitTM
                             log.DateSent = DateTime.Now;
                             log.NroControl = info.resultado.numeroControl;
                             log.Message = "OK";
+                            log.HttpCode = "200";
                         }
                         else if (info.codigo == "203")
                         {
@@ -168,6 +168,7 @@ namespace ProfitTM
 
                             log.Status = 3; // WAITING
                             log.Message = "WAITING FOR RE-SEND";
+                            log.HttpCode = "203";
                         }
                     }
                     catch (AuthenticationException ex)

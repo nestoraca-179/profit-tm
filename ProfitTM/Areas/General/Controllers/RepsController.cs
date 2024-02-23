@@ -2,9 +2,6 @@
 using DevExpress.Web.Mvc;
 using ProfitTM.Models;
 using System;
-using System.IO;
-using System.Net;
-using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace ProfitTM.Areas.General.Controllers

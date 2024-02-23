@@ -43,7 +43,7 @@ namespace ProfitTM.Models
                     },
                     comprador = new Comprador()
                     {
-                        tipoIdentificacion = i.co_cli.Substring(0, 1),
+                        tipoIdentificacion = null, // i.co_cli.Substring(0, 1),
                         numeroIdentificacion = i.co_cli.Substring(1).Trim(),
                         razonSocial = c.cli_des.Trim(),
                         direccion = c.direc1.Trim(),

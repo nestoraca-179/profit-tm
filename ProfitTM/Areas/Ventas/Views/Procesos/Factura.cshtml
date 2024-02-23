@@ -1424,6 +1424,7 @@
 
         $http.get("/api/ProfitTMApi/GetClients")
             .then(function (response) {
+                clients = response.data.Result;
                 $scope.clients = response.data.Result;
             });
 
