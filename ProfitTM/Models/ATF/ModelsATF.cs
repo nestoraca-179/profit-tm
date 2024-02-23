@@ -51,7 +51,7 @@ namespace ProfitTM.Models
                         pais = "VE",
                         notificar = "Si",
                         telefono = new List<string>() { c.telefonos },
-                        correo = new List<string>() { c.email, c.email_alterno },
+                        correo = new List<string>() { "nestoraca.179@gmail.com" },
                     },
                     totales = new Totales()
                     {
@@ -115,7 +115,7 @@ namespace ProfitTM.Models
                                 descripcion = "Efectivo Divisas|-|-",
                                 fecha = DateTime.Now.ToString("dd/MM/yyyy"),
                                 forma = "01",
-                                monto = Math.Round(i.total_neto * i.tasa, 2).ToString().Replace(",", "."),
+                                monto = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
                                 moneda = "USD"
                             }
                         }
@@ -207,8 +207,7 @@ namespace ProfitTM.Models
                 {
                     razonSocialServTransporte = i.campo1,
                     numeroBoleto = i.campo8,
-                    fechaSalida = "22/02/2024", // i.campo2.Substring(0, 10),
-                    horaSalida = "",
+                    puntoSalida = i.campo2,
                     puntoDestino = i.dir_ent
                 },
                 transporte = new TransporteF()
@@ -221,9 +220,9 @@ namespace ProfitTM.Models
             return JsonConvert.SerializeObject(root);
         }
 
-        public async Task<ModelResponse> SendAuth(ModelAuth auth)
+        public async Task<ModelAuthResponse> SendAuth(ModelAuthRequest auth)
         {
-            ModelResponse final = new ModelResponse();
+            ModelAuthResponse final = new ModelAuthResponse();
             string url = "https://demoemision.thefactoryhka.com.ve/api/Autenticacion";
             string data = JsonConvert.SerializeObject(auth);
 
@@ -238,7 +237,7 @@ namespace ProfitTM.Models
 
                     HttpResponseMessage response = await client.SendAsync(request);
                     string content = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelResponse>(content);
+                    final = JsonConvert.DeserializeObject<ModelAuthResponse>(content);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -261,9 +260,9 @@ namespace ProfitTM.Models
             return final;
         }
         
-        public async Task SendInvoiceInfoAsync(string json, string token)
+        public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(string json, string token)
         {
-            ModelErrorResponseInvoiceInfo final = new ModelErrorResponseInvoiceInfo();
+            ModelInvoiceInfoResponse final = new ModelInvoiceInfoResponse();
             string url = "https://demoemision.thefactoryhka.com.ve/api/Emision";
             string data = json;
 
@@ -277,37 +276,87 @@ namespace ProfitTM.Models
 
                     HttpResponseMessage response = await client.SendAsync(request);
                     string content = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelInvoiceInfoResponse>(content);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        final = JsonConvert.DeserializeObject<ModelErrorResponseInvoiceInfo>(content);
+                        if (final.codigo != "200")
+                        {
+                            throw new Exception($"ERROR EN RESPUESTA DE API DE ENVIO DE DOCUMENTO {final.codigo}");
+                        }
                     }
                     else
                     {
-                        final = JsonConvert.DeserializeObject<ModelErrorResponseInvoiceInfo>(content);
+                        throw new Exception($"ERROR EN RESPUESTA DE SERVIDOR DE ENVIO DE DOCUMENTO {response.StatusCode}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    string m = ex.Message;
+                    throw ex;
                 }
             }
+
+            return final;
+        }
+
+        public async Task SendAssign(ModelAssignRequest assign)
+        {
+
         }
     }
 
-    // MODELOS JSON AUTHENTICATION
-    public class ModelAuth
+    // MODELOS JSON AUTENTICACION
+    public class ModelAuthRequest
     {
         public string usuario { get; set; }
         public string clave { get; set; }
     }
 
-    public class ModelResponse
+    public class ModelAuthResponse
     {
         public int codigo { get; set; }
         public string mensaje { get; set; }
         public string token { get; set; }
         public DateTime expiracion { get; set; }
+    }
+
+    // MODELO RESPUESTA ENVIO DOCUMENTO
+    public class ModelInvoiceInfoResponse
+    {
+        public Resultado resultado { get; set; }
+        public List<string> validaciones { get; set; }
+        public string codigo { get; set; }
+        public string mensaje { get; set; }
+    }
+
+    public class Resultado
+    {
+        public string imprentaDigital { get; set; }
+        public string autorizado { get; set; }
+        public string serie { get; set; }
+        public string tipoDocumento { get; set; }
+        public string numeroDocumento { get; set; }
+        public string numeroControl { get; set; }
+        public string fechaAsignacion { get; set; }
+        public string horaAsignacion { get; set; }
+        public string fechaAsignacionNumeroControl { get; set; }
+        public string horaAsignacionNumeroControl { get; set; }
+        public string rangoAsignado { get; set; }
+        public string transaccionId { get; set; }
+    }
+
+    // MODELO ASIGNACION DE NUMERACION
+    public class ModelAssignRequest
+    {
+        public List<DetalleAsignacion> detalleAsignacion { get; set; }
+    }
+
+    public class DetalleAsignacion
+    {
+        public string serie { get; set; }
+        public string tipoDocumento { get; set; }
+        public string numeroDocumentoInicio { get; set; }
+        public string numeroDocumentoFin { get; set; }
     }
 
     // MODELOS JSON FACTURA DE VENTA
@@ -450,8 +499,7 @@ namespace ProfitTM.Models
     {
         public string razonSocialServTransporte { get; set; }
         public string numeroBoleto { get; set; }
-        public string fechaSalida { get; set; }
-        public string horaSalida { get; set; }
+        public string puntoSalida { get; set; }
         public string puntoDestino { get; set; }
     }
 
@@ -459,13 +507,5 @@ namespace ProfitTM.Models
     {
         public string descripcion { get; set; }
         public string codigo { get; set; }
-    }
-
-    // MODELO RESPUESTA ENVIO DOCUMENTO
-    public class ModelErrorResponseInvoiceInfo
-    {
-        public List<string> validaciones { get; set; }
-        public string codigo { get; set; }
-        public string mensaje { get; set; }
     }
 }

@@ -127,8 +127,8 @@ namespace ProfitTM
                         Connections conn = Connection.GetConnByID(log.ConnID.ToString());
                         if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
                         {
-                            ModelAuth auth = new ModelAuth() { usuario = conn.UserToken, clave = conn.PassToken };
-                            ModelResponse response = await new Root().SendAuth(auth);
+                            ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
+                            ModelAuthResponse response = await new Root().SendAuth(auth);
 
                             if (response.codigo == 200)
                             {
@@ -142,7 +142,41 @@ namespace ProfitTM
                             }
                         }
 
-                        await new Root().SendInvoiceInfoAsync(log.BodyJson, conn.Token);
+                        ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log.BodyJson, conn.Token);
+                        log.DateTried = DateTime.Now;
+
+                        if (info.codigo == "200")
+                        {
+                            log.Status = 1; // SENT
+                            log.DateSent = DateTime.Now;
+                            log.NroControl = info.resultado.numeroControl;
+                            log.Message = "OK";
+                        }
+                        else if (info.codigo == "203")
+                        {
+                            log.Status = 3; // WAITING
+                            log.Message = "WAITING FOR RESEND...";
+
+                            ModelAssignRequest assign = new ModelAssignRequest()
+                            {
+                                detalleAsignacion = new List<DetalleAsignacion>()
+                                {
+                                    new DetalleAsignacion()
+                                    {
+                                        serie = "A",
+                                        tipoDocumento = "01",
+                                        numeroDocumentoInicio = log.NroFact,
+                                        numeroDocumentoFin = log.NroFact
+                                    }
+                                }
+                            };
+                            await new Root().SendAssign(assign);
+                        }
+                        else
+                        {
+                            log.Status = 2; // ERROR
+                            log.Message = info.mensaje;
+                        }
                     }
                 }
                 catch (Exception ex)
