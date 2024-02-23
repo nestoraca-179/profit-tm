@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
 
 namespace ProfitTM.Models
 {
@@ -12,9 +12,11 @@ namespace ProfitTM.Models
             LogsFactOnline log = new LogsFactOnline()
             {
                 NroFact = i.doc_num.Trim(),
+                Serie = "A",
                 ConnID = conn,
                 BodyJson = json,
                 Status = 0,
+                Times = 0,
                 DateInserted = DateTime.Now
             };
 
@@ -27,13 +29,32 @@ namespace ProfitTM.Models
             return log;
         }
 
+        public static LogsFactOnline Edit(LogsFactOnline log)
+        {
+            try
+            {
+                using (ProfitTMEntities db = new ProfitTMEntities())
+                {
+                    db.Entry(log).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Incident.CreateIncident("ERROR EDITANDO LOG", ex);
+                throw ex;
+            }
+
+            return log;
+        }
+
         public static List<LogsFactOnline> GetPendingLogs()
         {
             List<LogsFactOnline> logs;
 
             using (ProfitTMEntities db = new ProfitTMEntities())
             {
-                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status == 0).ToList();
+                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status != 1).ToList();
             }
 
             return logs;

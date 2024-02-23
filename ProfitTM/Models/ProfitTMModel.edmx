@@ -79,9 +79,12 @@
             <PropertyRef Name="NroFact" />
           </Key>
           <Property Name="NroFact" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Serie" Type="char" MaxLength="10" Nullable="false" />
           <Property Name="ConnID" Type="int" Nullable="false" />
           <Property Name="BodyJson" Type="varchar(max)" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="HttpCode" Type="char" MaxLength="5" />
+          <Property Name="Times" Type="int" Nullable="false" />
           <Property Name="NroControl" Type="varchar" MaxLength="25" />
           <Property Name="DateInserted" Type="smalldatetime" Nullable="false" />
           <Property Name="DateTried" Type="smalldatetime" />
@@ -736,6 +739,9 @@
           <Property Name="ConnID" Type="Int32" Nullable="false" />
           <Property Name="BodyJson" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="NroControl" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Serie" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="HttpCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Times" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -932,6 +938,9 @@
           <EntitySetMapping Name="LogsFactOnline">
             <EntityTypeMapping TypeName="ProfitTMContext.LogsFactOnline">
               <MappingFragment StoreEntitySet="LogsFactOnline">
+                <ScalarProperty Name="Times" ColumnName="Times" />
+                <ScalarProperty Name="HttpCode" ColumnName="HttpCode" />
+                <ScalarProperty Name="Serie" ColumnName="Serie" />
                 <ScalarProperty Name="NroControl" ColumnName="NroControl" />
                 <ScalarProperty Name="BodyJson" ColumnName="BodyJson" />
                 <ScalarProperty Name="ConnID" ColumnName="ConnID" />

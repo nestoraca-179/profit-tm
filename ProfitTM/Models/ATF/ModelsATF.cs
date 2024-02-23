@@ -232,8 +232,6 @@ namespace ProfitTM.Models
                 {
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
                     request.Content = new StringContent(data, Encoding.UTF8, "application/json");
-                    // request.Content.Headers.Add("Content-Type", "application/json");
-                    // request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "tu_token_de_autorizacion");
 
                     HttpResponseMessage response = await client.SendAsync(request);
                     string content = await response.Content.ReadAsStringAsync();
@@ -243,12 +241,12 @@ namespace ProfitTM.Models
                     {
                         if (final.codigo != 200)
                         {
-                            throw new Exception($"ERROR EN RESPUESTA DE API DE AUTENTICACION {final.codigo}");
+                            throw new AuthenticationException($"{final.mensaje} ** {final.codigo}");
                         }
                     }
                     else
                     {
-                        throw new Exception($"ERROR EN RESPUESTA DE SERVIDOR DE AUTENTICACION {response.StatusCode}");
+                        throw new AuthenticationException($"{response.StatusCode} ** {(int)response.StatusCode}");
                     }
                 }
                 catch (Exception ex)
@@ -280,14 +278,14 @@ namespace ProfitTM.Models
 
                     if (response.IsSuccessStatusCode)
                     {
-                        if (final.codigo != "200")
+                        if (final.codigo != "200" && final.codigo != "203")
                         {
-                            throw new Exception($"ERROR EN RESPUESTA DE API DE ENVIO DE DOCUMENTO {final.codigo}");
+                            throw new InformationException($"{final.mensaje} ** {final.codigo}");
                         }
                     }
                     else
                     {
-                        throw new Exception($"ERROR EN RESPUESTA DE SERVIDOR DE ENVIO DE DOCUMENTO {response.StatusCode}");
+                        throw new InformationException($"{response.StatusCode} ** {(int)response.StatusCode}");
                     }
                 }
                 catch (Exception ex)
@@ -299,9 +297,42 @@ namespace ProfitTM.Models
             return final;
         }
 
-        public async Task SendAssign(ModelAssignRequest assign)
+        public async Task<ModelAssignResponse> SendAssign(ModelAssignRequest assign)
         {
+            ModelAssignResponse final = new ModelAssignResponse();
+            string url = "https://demoemision.thefactoryhka.com.ve/api/AsignarNumeraciones";
+            string data = JsonConvert.SerializeObject(assign);
 
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    string content = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelAssignResponse>(content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        if (final.codigo != "200")
+                        {
+                            throw new AssignmentException($"{final.mensaje} ** {final.codigo}");
+                        }
+                    }
+                    else
+                    {
+                        throw new AssignmentException($"{response.StatusCode} ** {(int)response.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return final;
         }
     }
 
@@ -357,6 +388,21 @@ namespace ProfitTM.Models
         public string tipoDocumento { get; set; }
         public string numeroDocumentoInicio { get; set; }
         public string numeroDocumentoFin { get; set; }
+    }
+
+    public class ModelAssignResponse
+    {
+        public string codigo { get; set; }
+        public string mensaje { get; set; }
+        public List<string> validaciones { get; set; }
+        public string fechaAsignacion { get; set; }
+        public List<RangosAsignado> rangosAsignados { get; set; }
+    }
+
+    public class RangosAsignado
+    {
+        public string asignado { get; set; }
+        public string global { get; set; }
     }
 
     // MODELOS JSON FACTURA DE VENTA
@@ -507,5 +553,21 @@ namespace ProfitTM.Models
     {
         public string descripcion { get; set; }
         public string codigo { get; set; }
+    }
+
+    // EXCEPCIONES
+    public class AuthenticationException : Exception
+    {
+        public AuthenticationException(string msg) : base(msg) { }
+    }
+
+    public class InformationException : Exception
+    {
+        public InformationException(string msg) : base(msg) { }
+    }
+
+    public class AssignmentException : Exception
+    {
+        public AssignmentException(string msg) : base(msg) { }
     }
 }

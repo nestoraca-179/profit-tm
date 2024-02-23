@@ -370,5 +370,8 @@
     <Property Name="ConnID" Type="Int32" Nullable="false" />
     <Property Name="BodyJson" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="NroControl" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Serie" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="HttpCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="Times" Type="Int32" Nullable="false" />
   </EntityType>
 </Schema>

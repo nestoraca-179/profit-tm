@@ -7,8 +7,6 @@ using System.Web.SessionState;
 using ProfitTM.Models;
 using Quartz;
 using Quartz.Impl;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -20,8 +18,6 @@ namespace ProfitTM
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        public static int conn = 0;
-
         protected void Application_Init()
         {
             // Incident.CreateIncident("APPLICATION INIT", new Exception());
@@ -119,10 +115,10 @@ namespace ProfitTM
         {
             async Task IJob.Execute(IJobExecutionContext context)
             {
-                try
+                List<LogsFactOnline> logs = LogsFact.GetPendingLogs();
+                foreach (LogsFactOnline log in logs)
                 {
-                    List<LogsFactOnline> logs = LogsFact.GetPendingLogs();
-                    foreach (LogsFactOnline log in logs)
+                    try
                     {
                         Connections conn = Connection.GetConnByID(log.ConnID.ToString());
                         if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
@@ -142,8 +138,9 @@ namespace ProfitTM
                             }
                         }
 
-                        ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log.BodyJson, conn.Token);
+                        log.Times++;
                         log.DateTried = DateTime.Now;
+                        ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log.BodyJson, conn.Token);
 
                         if (info.codigo == "200")
                         {
@@ -154,9 +151,6 @@ namespace ProfitTM
                         }
                         else if (info.codigo == "203")
                         {
-                            log.Status = 3; // WAITING
-                            log.Message = "WAITING FOR RESEND...";
-
                             ModelAssignRequest assign = new ModelAssignRequest()
                             {
                                 detalleAsignacion = new List<DetalleAsignacion>()
@@ -170,18 +164,50 @@ namespace ProfitTM
                                     }
                                 }
                             };
-                            await new Root().SendAssign(assign);
-                        }
-                        else
-                        {
-                            log.Status = 2; // ERROR
-                            log.Message = info.mensaje;
+                            ModelAssignResponse response = await new Root().SendAssign(assign);
+
+                            log.Status = 3; // WAITING
+                            log.Message = "WAITING FOR RE-SEND";
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    int i = 0;
+                    catch (AuthenticationException ex)
+                    {
+                        log.Status = 2; // ERROR AUTHENTICATION
+                        log.Message = ex.Message;
+                        log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
+
+                        Incident.CreateIncident("ERROR EN AUTENTICACION DE ATF", ex);
+                    }
+                    catch (InformationException ex)
+                    {
+                        log.Status = 2; // ERROR INFORMATION
+                        log.Message = ex.Message;
+                        log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
+
+                        Incident.CreateIncident("ERROR EN INFORMACION DE ATF", ex);
+                    }
+                    catch (AssignmentException ex)
+                    {
+                        log.Status = 2; // ERROR ASSIGNMENT
+                        log.Message = ex.Message;
+                        log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
+
+                        Incident.CreateIncident("ERROR EN ASIGNACION DE ATF", ex);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Status = 2; // ERROR GENERAL
+                        log.Message = ex.Message;
+
+                        Incident.CreateIncident("ERROR GENERAL EN CONSUMO DE ATF", ex);
+                    }
+                    finally
+                    {
+                        LogsFact.Edit(log); // ACTUALIZAR ESTADO DEL LOG
+                    }
+
+                    if (log.Status != 1 || log.Status != 3)
+                        break;
                 }
             }
         }

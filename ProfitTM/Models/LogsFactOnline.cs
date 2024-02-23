@@ -23,5 +23,8 @@ namespace ProfitTM.Models
         public int ConnID { get; set; }
         public string BodyJson { get; set; }
         public string NroControl { get; set; }
+        public string Serie { get; set; }
+        public string HttpCode { get; set; }
+        public int Times { get; set; }
     }
 }

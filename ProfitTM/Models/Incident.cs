@@ -9,11 +9,14 @@ namespace ProfitTM.Models
         {
             string user = "SYSTEM";
             
-            if (HttpContext.Current.Session != null)
+            if (HttpContext.Current != null)
             {
-                if (HttpContext.Current.Session["USER"] != null)
+                if (HttpContext.Current.Session != null)
                 {
-                    user = (HttpContext.Current.Session["USER"] as Users).Username;
+                    if (HttpContext.Current.Session["USER"] != null)
+                    {
+                        user = (HttpContext.Current.Session["USER"] as Users).Username;
+                    }
                 }
             }
 
