@@ -436,6 +436,8 @@
     <Content Include="Areas\Fiscal\Views\Reportes\Reporte.cshtml" />
     <Content Include="Areas\Fiscal\Views\Reportes\_RepMayorAnalitico2KDocePartial.cshtml" />
     <Content Include="Areas\Compras\Views\Procesos\Factura.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\LogsFacturas.cshtml" />
+    <Content Include="Areas\Ventas\Views\Procesos\InfoLog.cshtml" />
     <None Include="Properties\PublishProfiles\Publicacion Local.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\highcharts-3d.js" />

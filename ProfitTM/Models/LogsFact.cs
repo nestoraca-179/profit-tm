@@ -7,6 +7,42 @@ namespace ProfitTM.Models
 {
     public class LogsFact
     {
+        public static LogsFactOnline GetLogByID(string l)
+        {
+            LogsFactOnline log;
+
+            using (ProfitTMEntities db = new ProfitTMEntities())
+            {
+                log = db.LogsFactOnline.AsNoTracking().Single(lo => lo.NroFact == l);
+            }
+
+            return log;
+        }
+
+        public static List<LogsFactOnline> GetAllLogs(int conn)
+        {
+            List<LogsFactOnline> logs;
+
+            using (ProfitTMEntities db = new ProfitTMEntities())
+            {
+                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.ConnID == conn).ToList();
+            }
+
+            return logs;
+        }
+
+        public static List<LogsFactOnline> GetPendingLogs()
+        {
+            List<LogsFactOnline> logs;
+
+            using (ProfitTMEntities db = new ProfitTMEntities())
+            {
+                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status != 1).ToList();
+            }
+
+            return logs;
+        }
+
         public static LogsFactOnline Add(saFacturaVenta i, int conn, string json)
         {
             LogsFactOnline log = new LogsFactOnline()
@@ -46,18 +82,6 @@ namespace ProfitTM.Models
             }
 
             return log;
-        }
-
-        public static List<LogsFactOnline> GetPendingLogs()
-        {
-            List<LogsFactOnline> logs;
-
-            using (ProfitTMEntities db = new ProfitTMEntities())
-            {
-                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status != 1).ToList();
-            }
-
-            return logs;
         }
     }
 }

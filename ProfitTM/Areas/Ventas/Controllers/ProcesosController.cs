@@ -2,6 +2,7 @@
 using System.Web.Security;
 using System.Web.Script.Serialization;
 using ProfitTM.Models;
+using Newtonsoft.Json;
 
 namespace ProfitTM.Areas.Ventas.Controllers
 {
@@ -210,6 +211,64 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.bran_conn = Session["BRAN_CONN"].ToString();
                 ViewBag.fact = id;
                 ViewBag.type = type;
+
+                return View();
+            }
+        }
+
+        public ActionResult LogsFacturas()
+        {
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
+            ViewBag.modules = Session["MODULES"];
+            ViewBag.product = "Administrativo";
+
+            if (!Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home", new { message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
+            }
+            else
+            {
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
+                ViewBag.logs = LogsFact.GetAllLogs(int.Parse(Session["ID_CONN"].ToString()));
+
+                return View();
+            }
+        }
+
+        public ActionResult InfoLog(string l = "")
+        {
+            ViewBag.user = Session["USER"];
+            ViewBag.connect = Session["CONNECT"];
+            ViewBag.modules = Session["MODULES"];
+            ViewBag.product = "Administrativo";
+
+            if (!Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home", new { message = "Debes iniciar sesión" });
+            }
+            else if (ViewBag.connect == null)
+            {
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
+            }
+            else if (string.IsNullOrEmpty(l))
+            {
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes seleccionar un LOG" });
+            }
+            else
+            {
+                LogsFactOnline log = LogsFact.GetLogByID(l);
+                Root info_log = JsonConvert.DeserializeObject<Root>(log.BodyJson);
+
+                ViewBag.data_conn = Session["DATA_CONN"].ToString();
+                ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
+                ViewBag.log = log;
+                ViewBag.info_log = info_log;
 
                 return View();
             }

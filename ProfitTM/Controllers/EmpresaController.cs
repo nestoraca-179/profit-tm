@@ -13,7 +13,6 @@ namespace ProfitTM.Controllers
             ViewBag.connect = Session["CONNECT"];
             if (!Request.IsAuthenticated)
             {
-                // FormsAuthentication.SignOut();
                 return RedirectToAction("Index", "Home", new { message = "Debes iniciar sesión" });
             }
             else if (ViewBag.connect == null)

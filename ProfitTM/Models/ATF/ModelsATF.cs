@@ -43,7 +43,7 @@ namespace ProfitTM.Models
                     },
                     comprador = new Comprador()
                     {
-                        tipoIdentificacion = null, // i.co_cli.Substring(0, 1),
+                        tipoIdentificacion = i.co_cli.Substring(0, 1),
                         numeroIdentificacion = i.co_cli.Substring(1).Trim(),
                         razonSocial = c.cli_des.Trim(),
                         direccion = c.direc1.Trim(),
@@ -51,7 +51,7 @@ namespace ProfitTM.Models
                         pais = "VE",
                         notificar = "Si",
                         telefono = new List<string>() { c.telefonos },
-                        correo = new List<string>() { "nestoraca.179@gmail.com" },
+                        correo = new List<string>() { c.email },
                     },
                     totales = new Totales()
                     {
@@ -89,7 +89,7 @@ namespace ProfitTM.Models
                             {
                                 codigoTotalImp = "G",
                                 alicuotaImp = "16.00",
-                                baseImponibleImp = i.total_bruto.ToString().Replace(",", "."),
+                                baseImponibleImp = i.total_bruto.ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN BSD ESTA APARECIENDO EN LA COLUMNA DE USD (PEDIR INVERTIR)
                                 valorTotalImp = i.monto_imp.ToString().Replace(",", "."),
                             },
                             new ImpuestosSubtotal()
@@ -126,20 +126,20 @@ namespace ProfitTM.Models
                         numeroCompRetencion = "1",
                         fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
                         totalIVA = Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
-                        totalISRL = (i.total_bruto * (2 / 100)).ToString().Replace(",", "."),
+                        totalISRL = Math.Round((i.total_bruto * 2) / 100, 2).ToString().Replace(",", "."),
                         totalRetenido = "0.00"
                     },
                     totalesOtraMoneda = new TotalesOtraMoneda()
                     {
                         moneda = "USD",
                         tipoCambio = Math.Round(i.tasa, 2).ToString().Replace(",", "."),
-                        montoGravadoTotal = Math.Round(i.total_bruto / i.tasa).ToString().Replace(",", "."),
+                        montoGravadoTotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
                         montoExentoTotal = "0.00",
-                        subtotal = Math.Round(i.total_bruto / i.tasa).ToString().Replace(",", "."),
-                        totalAPagar = Math.Round(i.total_neto / i.tasa).ToString().Replace(",", "."),
-                        totalIVA = Math.Round(i.monto_imp / i.tasa).ToString().Replace(",", "."),
-                        montoTotalConIVA = Math.Round(i.total_neto / i.tasa).ToString().Replace(",", "."),
-                        montoEnLetras = new UtilsController().NumberToWords(Math.Round(i.total_neto / i.tasa)),
+                        subtotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
+                        totalAPagar = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
+                        totalIVA = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
+                        montoTotalConIVA = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
+                        montoEnLetras = new UtilsController().NumberToWords(Math.Round(i.total_neto / i.tasa, 2)),
                         listaDescBonificacion = new List<ListaDescBonificacion>()
                         {
                             new ListaDescBonificacion()
@@ -166,8 +166,8 @@ namespace ProfitTM.Models
                             {
                                 codigoTotalImp = "G",
                                 alicuotaImp = "16.00",
-                                baseImponibleImp = Math.Round(i.total_bruto / i.tasa).ToString().Replace(",", "."),
-                                valorTotalImp = Math.Round(i.monto_imp / i.tasa).ToString().Replace(",", "."),
+                                baseImponibleImp = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN USD ESTA APARECIENDO EN LA COLUMNA DE BSD (PEDIR INVERTIR)
+                                valorTotalImp = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
                             },
                             new ImpuestosSubtotal()
                             {
@@ -198,7 +198,7 @@ namespace ProfitTM.Models
                         new InfoAdicionalItem()
                         {
                             campo = "USD",
-                            valor = Math.Round((r.reng_neto + (r.tipo_imp == "1" ? r.monto_imp : 0)) / i.tasa, 2).ToString().Replace(",", ".")
+                            valor = Math.Round(r.reng_neto / i.tasa, 2).ToString().Replace(",", ".")
                         }
                     }
 
@@ -278,14 +278,14 @@ namespace ProfitTM.Models
 
                     if (response.IsSuccessStatusCode)
                     {
-                        if (final.codigo != "200" && final.codigo != "203")
-                        {
+                        if (final.codigo != "200" && final.codigo != "203" && final.codigo != "400")
                             throw new InformationException($"{final.mensaje} ** {final.codigo}");
-                        }
                     }
                     else
                     {
-                        throw new InformationException($"{response.StatusCode} ** {(int)response.StatusCode}");
+                        int code = (int)response.StatusCode;
+                        if (code != 203 && code != 400)
+                            throw new InformationException($"{response.StatusCode} ** {code}");
                     }
                 }
                 catch (Exception ex)
@@ -297,7 +297,7 @@ namespace ProfitTM.Models
             return final;
         }
 
-        public async Task<ModelAssignResponse> SendAssign(ModelAssignRequest assign)
+        public async Task<ModelAssignResponse> SendAssign(ModelAssignRequest assign, string token)
         {
             ModelAssignResponse final = new ModelAssignResponse();
             string url = "https://demoemision.thefactoryhka.com.ve/api/AsignarNumeraciones";
@@ -309,6 +309,7 @@ namespace ProfitTM.Models
                 {
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
                     request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                     HttpResponseMessage response = await client.SendAsync(request);
                     string content = await response.Content.ReadAsStringAsync();

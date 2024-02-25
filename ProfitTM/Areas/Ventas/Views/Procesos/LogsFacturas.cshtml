@@ -1,0 +1,258 @@
+﻿@{
+    ViewData["TITLE"] = "Registro de Facturas";
+    ViewData["HOME"] = Session["HOME"];
+}
+<style>
+    table#table-logs {
+        border-top: solid 10px transparent !important;
+    }
+    .table-info {
+        overflow-x: auto;
+    }
+    table thead {
+        background: #0277bd;
+        color: #FFF;
+    }
+    table thead th {
+        padding: 15px 5px !important;
+    }
+    table tbody td {
+        font-size: 14px;
+        user-select: none;
+        vertical-align: middle !important;
+    }
+    table tbody, table tbody tr, table tbody td {
+        border: 0;
+        border-style: none;
+    }
+    .btn.btn-success {
+        color: #FFF;
+    }
+    input[type=checkbox] {
+        display: block;
+        margin: 0 auto;
+    }
+    .cell-buttons {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .cell-buttons .btn {
+        margin: 2px;
+        /*padding: 2px 10px;*/
+    }
+    .modal-delete .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
+    select[name="table-logs_length"] {
+        background: #FFF !important;
+        border: solid 1px #ced4da !important;
+        box-shadow: none;
+    }
+    #table-logs_filter input {
+        background: #FFF;
+        border: solid 1px #ced4da;
+        border-radius: 5px;
+    }
+    #table-logs_paginate {
+        user-select: none;
+    }
+    #table-logs_paginate > a:not(.disabled) {
+        background: #0d6efd;
+        color: #FAFAFA !important;
+        border-radius: 5px;
+    }
+    #table-logs_paginate > a:not(.disabled):hover {
+        background: #0b5ed7;
+    }
+    #table-logs_paginate > span a.paginate_button:not(.disabled).current, #table-logs_paginate > span a.paginate_button:not(.disabled):hover {
+        background: none;
+        border: solid 2px #0d6efd;
+        border-radius: 5px;
+        color: #333 !important;
+    }
+    @@media (max-width: 767px) {
+        .header-right-side {
+            display: none;
+        }
+        .dash-left-side {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            position: absolute;
+            z-index: 10;
+            border: 0 !important;
+            overflow-y: auto;
+        }
+        .list-menu {
+            margin: 0;
+            display: none;
+        }
+        .menu-item {
+            padding: 20px;
+        }
+        table {
+            width: max-content !important;
+        }
+    }
+</style>
+<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+<div class="container-fluid container-logs py-3" id="container-logs" style="display: none;" ng-app="Logs" ng-controller="controller">
+    <div class="row mt-3">
+        <div class="col"></div>
+        <div class="col">
+            <h2 class="text-center">Registros de Facturas Online</h2>
+        </div>
+        <div class="col"></div>
+    </div>
+    <hr />
+    <div class="table-info">
+        <table class="table mt-3" id="table-logs">
+            <thead>
+                <tr>
+                    <th>Nro. Factura</th>
+                    <th>Serie</th>
+                    <th>Status</th>
+                    <th>Codigo HTTP</th>
+                    <th>Intentos</th>
+                    <th>Nro. Control</th>
+                    <th>Fecha de Registro</th>
+                    <th>Fecha de Ultimo Intento</th>
+                    <th>Fecha de Envio</th>
+                    <th>Mensaje</th>
+                    <th class="text-center">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="log in logs" class="{{ setClass(log.Status) }}">
+                    <td>{{ log.NroFact }}</td>
+                    <td>{{ log.Serie }}</td>
+                    <td>{{ setStatus(log.Status) }}</td>
+                    <td>{{ log.HttpCode }}</td>
+                    <td>{{ log.Times }}</td>
+                    <td>{{ log.NroControl }}</td>
+                    <td>{{ formatDate(log.DateInserted) }}</td>
+                    <td>{{ formatDate(log.DateTried) }}</td>
+                    <td>{{ formatDate(log.DateSent) }}</td>
+                    <td>{{ log.Message }}</td>
+                    <td class="cell-buttons">
+                        <button type="button" class="btn btn-primary" ng-click="infoLog(log)">
+                            <i class="fas {{ setIcon(log.Status) }}"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="panel-loading p-3">
+    <h4>Cargando datos...</h4>
+</div>
+<script src="~/Scripts/angular-min.js"></script>
+<script>
+    var app = angular.module("Logs", []);
+    var logs = @Html.Raw(Json.Encode(ViewBag.logs));
+
+    for (var item of logs) {
+        item.DateInserted = new Date(parseInt(item.DateInserted.substr(6)));
+        item.DateTried = item.DateTried == null ? null : new Date(parseInt(item.DateTried.substr(6)));
+        item.DateSent = item.DateSent == null ? null : new Date(parseInt(item.DateSent.substr(6)));
+    }
+
+    $(document).ready(function () {
+        $(".container-logs").removeAttr("style");
+        $(".panel-loading").css("display", "none");
+
+        $('#table-logs').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "processing": "Procesando...",
+                "search": "Buscar:   ",
+                "zeroRecords": "No se encontraron resultados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+            "lengthMenu": [5, 10, 25, 50, 75, 100],
+        });
+    });
+
+    $(document).on("contextmenu", function (event) {
+        event.preventDefault();
+    });
+
+    app.controller("controller", function ($scope, $http) {
+
+        $scope.logs = logs;
+
+        $scope.formatDate = function (date) {
+
+            if (date == null)
+                return null;
+
+            var day = date.getDate(), month = date.getMonth() + 1, year = date.getFullYear();
+            var hour = date.getHours(), minute = date.getMinutes();
+
+            if (day < 10)
+                day = "0" + day;
+
+            if (month < 10)
+                month = "0" + month;
+
+            if (hour < 10)
+                hour = "0" + hour;
+
+            if (minute < 10)
+                minute = "0" + minute;
+
+            return `${day}/${month}/${year} ${hour}:${minute}`;
+        }
+
+        $scope.setClass = function (status) {
+
+            switch (status) {
+                case 0:
+                    return "table-secondary";
+                case 1:
+                    return "table-success";
+                case 2:
+                    return "table-danger";
+                case 3:
+                    return "table-warning";
+            }
+        }
+
+        $scope.setIcon = function (s) {
+            if (s == 1)
+                return "fa-search";
+            else
+                return "fa-file-edit";
+        }
+
+        $scope.setStatus = function (s) {
+            switch (s) {
+                case 0:
+                    return "NO ENVIADO";
+                case 1:
+                    return "ENVIADO";
+                case 2:
+                    return "ERROR";
+                case 3:
+                    return "EN ESPERA";
+            }
+        }
+
+        $scope.infoLog = function (log) {
+            location.href = "/Ventas/Procesos/InfoLog?l=" + log.NroFact;
+        }
+    });
+
+</script>

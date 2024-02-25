@@ -3,6 +3,7 @@ using System.Web.Security;
 
 namespace ProfitTM.Areas.Fiscal.Controllers
 {
+    [Authorize]
     public class ReportesController : Controller
     {
         public ActionResult Index()

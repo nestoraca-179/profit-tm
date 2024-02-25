@@ -149,11 +149,13 @@ namespace ProfitTM
                             log.Message = "OK";
                             log.HttpCode = "200";
                         }
-                        else if (info.codigo == "203")
+                        else if (info.codigo == "203" || info.codigo == "400")
                         {
-                            ModelAssignRequest assign = new ModelAssignRequest()
+                            if (log.Status != 3)
                             {
-                                detalleAsignacion = new List<DetalleAsignacion>()
+                                ModelAssignRequest assign = new ModelAssignRequest()
+                                {
+                                    detalleAsignacion = new List<DetalleAsignacion>()
                                 {
                                     new DetalleAsignacion()
                                     {
@@ -163,12 +165,13 @@ namespace ProfitTM
                                         numeroDocumentoFin = log.NroFact
                                     }
                                 }
-                            };
-                            ModelAssignResponse response = await new Root().SendAssign(assign);
+                                };
+                                ModelAssignResponse response = await new Root().SendAssign(assign, conn.Token);
 
-                            log.Status = 3; // WAITING
-                            log.Message = "WAITING FOR RE-SEND";
-                            log.HttpCode = "203";
+                                log.Status = 3; // WAITING
+                                log.Message = "WAITING FOR RE-SEND";
+                                log.HttpCode = info.codigo;
+                            }
                         }
                     }
                     catch (AuthenticationException ex)
@@ -207,7 +210,7 @@ namespace ProfitTM
                         LogsFact.Edit(log); // ACTUALIZAR ESTADO DEL LOG
                     }
 
-                    if (log.Status != 1 || log.Status != 3)
+                    if (log.Status != 1 && log.Status != 3)
                         break;
                 }
             }

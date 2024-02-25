@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Http;
 using System.Collections.Generic;
 using ProfitTM.Models;
+using Newtonsoft.Json;
 
 namespace ProfitTM.Controllers
 {
@@ -1063,6 +1064,34 @@ namespace ProfitTM.Controllers
                 return SecurityController.Decrypt(user.Password);
             else
                 return "USUARIO NO EXISTE";
+        }
+
+        // LOG
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/EditLog/{fact}/")]
+        public ProfitTMResponse EditLog(string fact, Root info)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                LogsFactOnline log = LogsFact.GetLogByID(fact);
+                log.BodyJson = JsonConvert.SerializeObject(info);
+
+                LogsFactOnline new_log = LogsFact.Edit(log);
+
+                response.Status = "OK";
+                response.Result = new_log.NroFact;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR EDITANDO LOG " + fact, ex);
+            }
+
+            return response;
         }
     }
 }
