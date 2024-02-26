@@ -25,8 +25,20 @@
         border: 0;
         border-style: none;
     }
+    .modal-info .fas {
+        font-size: 6em;
+        padding: 5%;
+    }
     .btn.btn-success {
         color: #FFF;
+    }
+    .btn.btn-danger {
+        background: #ff2e0c;
+        border: solid 1px #ff2e0c;
+    }
+    .btn.btn-danger:hover{
+        background: #d92204;
+        border: solid 1px #d92204;
     }
     input[type=checkbox] {
         display: block;
@@ -39,7 +51,6 @@
     }
     .cell-buttons .btn {
         margin: 2px;
-        /*padding: 2px 10px;*/
     }
     .modal-delete .fas {
         font-size: 6em;
@@ -141,10 +152,108 @@
                         <button type="button" class="btn btn-primary" ng-click="infoLog(log)">
                             <i class="fas {{ setIcon(log.Status) }}"></i>
                         </button>
+                        <button ng-disabled="log.Status != 1" type="button" class="btn btn-success" ng-click="askEmail(log)">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button ng-disabled="log.Status != 1" type="button" class="btn btn-danger" ng-click="downloadInvoice(log)">
+                            <i class="fas fa-download"></i>
+                        </button>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+    <!-- Modal Enviar Correo -->
+    <div class="modal fade" id="modalSendEmail" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enviar Factura {{ selected.NroFact }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$('#text-error-f').text('');">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div style="width: 100%; margin: 30px auto; display: flex; align-items: center; flex-direction: column;">
+                        <label style="flex: 1; font-size: 25px; font-weight: bold;">Ingrese los correos destino</label>
+                        <label style="flex: 1;">en caso de varios correos colocarlos separados por comas</label>
+                        <div class="input-search mt-3" style="flex: 1; width: 80%; position: relative;">
+                            <input type="text" class="form-control" id="emails" ng-model="emails" placeholder="alguien@example.com, someone@example.com ..." />
+                            <label class="text-danger text-center w-100" id="text-error-f" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-error-f').text('');">Cerrar</button>
+                    <button type="button" class="btn btn-primary" ng-click="sendInvoice(emails)">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Waiting -->
+    <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-spinner fa-spin" style="color: #01579b;"></i>
+                    </div>
+                    <h2 class="text-center">Procesando...</h2>
+                </div>
+                @*<div class="modal-footer"></div>*@
+            </div>
+        </div>
+    </div>
+    <!-- Modal Success -->
+    <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-check-circle" style="color: var(--bs-green)"></i>
+                    </div>
+                    <h2 class="text-center">{{ successMessage }}</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="closeModal()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Error -->
+    <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-red)"></i>
+                    </div>
+                    <h2 class="text-center">Ha ocurrido un error</h2>
+                    <p class="text-center">{{ errorMessage }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="closeModal()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Loading -->
+    <div class="modal fade modal-info" id="modalLoading" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
+            <div class="modal-content">
+                @*<div class="modal-header"></div>*@
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+                    <div style="display: flex; justify-content: center;">
+                        <i class="fas fa-spinner fa-spin" style="color: #01579b; font-size: 7em;"></i>
+                    </div>
+                    <h1 class="text-center mt-5">Cargando módulo...</h1>
+                </div>
+                @*<div class="modal-footer"></div>*@
+            </div>
+        </div>
     </div>
 </div>
 <div class="panel-loading p-3">
@@ -192,6 +301,8 @@
     app.controller("controller", function ($scope, $http) {
 
         $scope.logs = logs;
+        $scope.emails = "";
+        $scope.selected = null;
 
         $scope.formatDate = function (date) {
 
@@ -253,6 +364,157 @@
         $scope.infoLog = function (log) {
             location.href = "/Ventas/Procesos/InfoLog?l=" + log.NroFact;
         }
+
+        $scope.askEmail = function (log) {
+            $scope.selected = log;
+            $scope.emails = "";
+            $("#modalSendEmail").modal("show");
+
+            setTimeout(function () {
+                $("#emails").focus();
+            }, 500);
+        }
+
+        $scope.sendInvoice = function (value) {
+
+            $('#text-error-f').text('');
+            if (value != null && value != "") {
+
+                var emails = value.replaceAll(" ", "").split(",");
+                for (var email of emails) {
+                    if (!validateEmail(email)) {
+                        $('#text-error-f').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
+                        $("#emails").focus();
+                        return;
+                    }
+                }
+
+                $("#modalSendEmail").modal("hide");
+                $("#modalWaiting").modal("show");
+
+                var data = {
+                    serie: $scope.selected.Serie.trim(),
+                    tipoDocumento: "01",
+                    numeroDocumento: $scope.selected.NroFact,
+                    correos: emails
+                };
+
+                var req = {
+                    method: 'POST',
+                    url: '/api/ProfitTMApi/SendInvoice/',
+                    data: data,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }
+
+                $http(req).then(function (response) {
+
+                    console.log(response.data);
+                    var res = response.data;
+
+                    if (res.Status == "OK") {
+                        if (res.Result.codigo == "200") {
+                            $("#modalSuccess").modal("show");
+                            $scope.successMessage = "La factura se ha reenviado con éxito";
+                        } else {
+                            $("#modalError").modal("show");
+                            $scope.errorMessage = res.Result.mensaje;
+                        }
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Message;
+                    }
+
+                });
+
+            } else {
+                $('#text-error-f').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
+                $("#emails").focus();
+            }
+        }
+
+        $scope.downloadInvoice = function (log) {
+
+            $("#modalWaiting").modal("show");
+
+            var data = {
+                serie: log.Serie.trim(),
+                tipoDocumento: "01",
+                numeroDocumento: log.NroFact,
+                tipoArchivo: "pdf"
+            };
+
+            var req = {
+                method: 'POST',
+                url: '/api/ProfitTMApi/DownloadInvoice/',
+                data: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }
+
+            $http(req).then(function (response) {
+
+                console.log(response.data);
+                var res = response.data;
+
+                if (res.Status == "OK") {
+                    if (res.Result.codigo == "200") {
+                        $("#modalSuccess").modal("show");
+                        $scope.successMessage = "La factura se ha descargado con éxito";
+                        convertBase64ToPdf(res.Result.archivo, log.NroFact);
+                    } else {
+                        $("#modalError").modal("show");
+                        $scope.errorMessage = res.Result.mensaje;
+                    }
+                } else {
+                    $("#modalError").modal("show");
+                    $scope.errorMessage = res.Message;
+                }
+
+            });
+        }
+
+        $scope.closeModal = function () {
+            $("#modalWaiting").modal("hide");
+        }
     });
+
+    function validateEmail(email) {
+        const regex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
+    }
+
+    function convertBase64ToPdf(base64Pdf, fact) {
+        // Convert the base64 encoded PDF file to a byte array
+        var pdfBytes = atob(base64Pdf);
+        var pdfArray = new Uint8Array(pdfBytes.length);
+
+        // Fill the byte array with the bytes from the base64 encoded PDF file
+        for (var i = 0; i < pdfBytes.length; i++) {
+            pdfArray[i] = pdfBytes.charCodeAt(i);
+        }
+
+        // Create a Blob object from the byte array
+        var pdfBlob = new Blob([pdfArray], { type: "application/pdf" });
+
+        // Create a URL object from the Blob object
+        var pdfUrl = URL.createObjectURL(pdfBlob);
+
+        // Create an anchor element with the URL object as the href attribute
+        var pdfLink = document.createElement("a");
+        pdfLink.href = pdfUrl;
+        pdfLink.download = `FACT_${fact}.pdf`;
+
+        // Append the anchor element to the body of the document
+        document.body.appendChild(pdfLink);
+
+        // Trigger the download by clicking the anchor element
+        pdfLink.click();
+
+        // Remove the anchor element from the body of the document
+        document.body.removeChild(pdfLink);
+    }
 
 </script>

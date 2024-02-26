@@ -335,6 +335,84 @@ namespace ProfitTM.Models
 
             return final;
         }
+
+        public async Task<ModelSendResponse> SendEmail(ModelSendRequest send, string token)
+        {
+            ModelSendResponse final = new ModelSendResponse();
+            string url = "https://demoemision.thefactoryhka.com.ve/api/Correo/Enviar";
+            string data = JsonConvert.SerializeObject(send);
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    string content = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelSendResponse>(content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        if (final.codigo != "200")
+                        {
+                            throw new SendingException($"{final.mensaje} ** {final.codigo}");
+                        }
+                    }
+                    else
+                    {
+                        throw new SendingException($"{response.StatusCode} ** {(int)response.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return final;
+        }
+
+        public async Task<ModelDownloadResponse> DownloadInvoice(ModelDownloadRequest download, string token)
+        {
+            ModelDownloadResponse final = new ModelDownloadResponse();
+            string url = "https://demoemision.thefactoryhka.com.ve/api/DescargaArchivo";
+            string data = JsonConvert.SerializeObject(download);
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    string content = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelDownloadResponse>(content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        if (final.codigo != "200")
+                        {
+                            throw new DownloadException($"{final.mensaje} ** {final.codigo}");
+                        }
+                    }
+                    else
+                    {
+                        throw new DownloadException($"{response.StatusCode} ** {(int)response.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return final;
+        }
     }
 
     // MODELOS JSON AUTENTICACION
@@ -404,6 +482,38 @@ namespace ProfitTM.Models
     {
         public string asignado { get; set; }
         public string global { get; set; }
+    }
+
+    // MODELO ENVIO DE CORREO
+    public class ModelSendRequest
+    {
+        public string serie { get; set; }
+        public string tipoDocumento { get; set; }
+        public string numeroDocumento { get; set; }
+        public List<string> correos { get; set; }
+    }
+
+    public class ModelSendResponse
+    {
+        public string codigo { get; set; }
+        public string mensaje { get; set; }
+        public List<string> validaciones { get; set; }
+    }
+
+    // MODELO DESCARGA DE ARCHIVO
+    public class ModelDownloadRequest
+    {
+        public string serie { get; set; }
+        public string tipoDocumento { get; set; }
+        public string numeroDocumento { get; set; }
+        public string tipoArchivo { get; set; }
+    }
+
+    public class ModelDownloadResponse
+    {
+        public string codigo { get; set; }
+        public string mensaje { get; set; }
+        public string archivo { get; set; }
     }
 
     // MODELOS JSON FACTURA DE VENTA
@@ -570,5 +680,15 @@ namespace ProfitTM.Models
     public class AssignmentException : Exception
     {
         public AssignmentException(string msg) : base(msg) { }
+    }
+
+    public class SendingException : Exception
+    {
+        public SendingException(string msg) : base(msg) { }
+    }
+
+    public class DownloadException : Exception
+    {
+        public DownloadException(string msg) : base(msg) { }
     }
 }

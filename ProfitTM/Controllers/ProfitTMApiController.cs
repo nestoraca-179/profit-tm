@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Collections.Generic;
 using ProfitTM.Models;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace ProfitTM.Controllers
 {
@@ -1089,6 +1090,58 @@ namespace ProfitTM.Controllers
                 response.Status = "ERROR";
                 response.Message = ex.Message;
                 Incident.CreateIncident("ERROR EDITANDO LOG " + fact, ex);
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/SendInvoice/")]
+        public async Task<ProfitTMResponse> SendInvoiceAsync(ModelSendRequest request)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            string id_conn = HttpContext.Current.Session["ID_CONN"].ToString();
+            Connections conn = Connection.GetConnByID(id_conn);
+
+            try
+            {
+                ModelSendResponse res = await new Root().SendEmail(request, conn.Token);
+
+                response.Status = "OK";
+                response.Result = res;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR ENVIANDO FACTURA " + request.numeroDocumento, ex);
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("api/ProfitTMApi/DownloadInvoice/")]
+        public async Task<ProfitTMResponse> DownloadInvoiceAsync(ModelDownloadRequest request)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            string id_conn = HttpContext.Current.Session["ID_CONN"].ToString();
+            Connections conn = Connection.GetConnByID(id_conn);
+
+            try
+            {
+                ModelDownloadResponse res = await new Root().DownloadInvoice(request, conn.Token);
+
+                response.Status = "OK";
+                response.Result = res;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR DESCARGANDO FACTURA " + request.numeroDocumento, ex);
             }
 
             return response;

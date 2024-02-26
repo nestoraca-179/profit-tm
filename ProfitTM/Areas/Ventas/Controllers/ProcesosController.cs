@@ -225,11 +225,11 @@ namespace ProfitTM.Areas.Ventas.Controllers
 
             if (!Request.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home", new { message = "Debes iniciar sesión" });
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
             }
             else if (ViewBag.connect == null)
             {
-                return RedirectToAction("Logout", "Account", new { msg = "Debes elegir una empresa" });
+                return RedirectToAction("Logout", "Account", new { area = "", msg = "Debes elegir una empresa" });
             }
             else
             {
@@ -250,7 +250,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
 
             if (!Request.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home", new { message = "Debes iniciar sesión" });
+                return RedirectToAction("Index", "Home", new { area = "", message = "Debes iniciar sesión" });
             }
             else if (ViewBag.connect == null)
             {
