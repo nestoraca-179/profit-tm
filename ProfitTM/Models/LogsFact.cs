@@ -43,12 +43,12 @@ namespace ProfitTM.Models
             return logs;
         }
 
-        public static LogsFactOnline Add(saFacturaVenta i, int conn, string json)
+        public static LogsFactOnline Add(saFacturaVenta i, int conn, string json, string serie)
         {
             LogsFactOnline log = new LogsFactOnline()
             {
                 NroFact = i.doc_num.Trim(),
-                Serie = "A",
+                Serie = serie,
                 ConnID = conn,
                 BodyJson = json,
                 Status = 0,

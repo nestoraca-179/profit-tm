@@ -180,7 +180,7 @@ namespace ProfitTM
                         log.Message = ex.Message;
                         log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
 
-                        Incident.CreateIncident("ERROR EN AUTENTICACION DE ATF", ex);
+                        Incident.CreateIncident($"ERROR EN AUTENTICACION DE ATF {log.NroFact}", ex);
                     }
                     catch (InformationException ex)
                     {
@@ -188,7 +188,7 @@ namespace ProfitTM
                         log.Message = ex.Message;
                         log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
 
-                        Incident.CreateIncident("ERROR EN INFORMACION DE ATF", ex);
+                        Incident.CreateIncident($"ERROR EN INFORMACION DE ATF {log.NroFact}", ex);
                     }
                     catch (AssignmentException ex)
                     {
@@ -196,7 +196,7 @@ namespace ProfitTM
                         log.Message = ex.Message;
                         log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
 
-                        Incident.CreateIncident("ERROR EN ASIGNACION DE ATF", ex);
+                        Incident.CreateIncident($"ERROR EN ASIGNACION DE ATF {log.NroFact}", ex);
                     }
                     catch (Exception ex)
                     {

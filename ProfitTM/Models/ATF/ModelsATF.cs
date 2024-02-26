@@ -14,7 +14,7 @@ namespace ProfitTM.Models
     {
         public DocumentoElectronico documentoElectronico { get; set; }
 
-        public string GetJsonInvoiceInfo(saFacturaVenta i)
+        public string GetJsonInvoiceInfo(saFacturaVenta i, string serie)
         {
             Root root = new Root();
             saCliente c = new Client().GetClientByID(i.co_cli);
@@ -36,7 +36,7 @@ namespace ProfitTM.Models
                         horaEmision = i.fec_emis.ToString("hh:mm:ss tt").Replace("p. m.", "pm").Replace("a. m.", "am"),
                         anulado = i.anulado,
                         tipoDePago = "CONTADO",
-                        serie = "A",
+                        serie = serie,
                         sucursal = i.co_sucu_in,
                         tipoDeVenta = "Inmediato",
                         moneda = "BSD",
@@ -280,6 +280,8 @@ namespace ProfitTM.Models
                     {
                         if (final.codigo != "200" && final.codigo != "203" && final.codigo != "400")
                             throw new InformationException($"{final.mensaje} ** {final.codigo}");
+                        else if ((final.codigo == "203" || final.codigo == "400") && final.validaciones != null)
+                            throw new InformationException($"{final.mensaje} ** {final.codigo} ** {final.validaciones[0]}");
                     }
                     else
                     {
