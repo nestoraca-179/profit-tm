@@ -1924,8 +1924,8 @@
             var cant = parseFloat($scope.reng.total_art ?? 0);
             var price = parseFloat($scope.reng.prec_vta_om ?? 0);
 
-            $scope.reng.reng_neto_om = (cant * price).toFixed(2);
-            $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(2);
+            $scope.reng.reng_neto_om = (cant * price).toFixed(3);
+            $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(3);
         }
 
         $scope.updateAmounts = function (i, r, rengs, action) {
@@ -1954,16 +1954,16 @@
                     r.prec_vta = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
                     r.reng_neto = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
                     r.monto_imp = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
-                    r.prec_vta_om = setSeparator((parse(r.prec_vta) / parseFloat(i.tasa ?? 1)).toFixed(2));
-                    r.reng_neto_om = setSeparator((parse(r.reng_neto) / parseFloat(i.tasa ?? 1)).toFixed(2));
-                    r.monto_imp_om = setSeparator((parse(r.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(2));
+                    r.prec_vta_om = setSeparator((parseFloat((parse(r.prec_vta) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                    r.reng_neto_om = setSeparator((parseFloat((parse(r.reng_neto) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                    r.monto_imp_om = setSeparator((parseFloat((parse(r.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
                 } else {
-                    r.prec_vta = setSeparator((parseFloat(r.prec_vta_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                    r.reng_neto = setSeparator((parseFloat(r.reng_neto_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                    r.monto_imp = setSeparator((parseFloat(r.monto_imp_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                    r.prec_vta_om = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
-                    r.reng_neto_om = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
-                    r.monto_imp_om = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
+                    r.prec_vta = setSeparator((parseFloat((parseFloat(r.prec_vta_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                    r.reng_neto = setSeparator((parseFloat((parseFloat(r.reng_neto_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                    r.monto_imp = setSeparator((parseFloat((parseFloat(r.monto_imp_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                    r.prec_vta_om = setSeparator(parseFloat(parseFloat(r.prec_vta_om).toFixed(3)).toFixed(2));
+                    r.reng_neto_om = setSeparator(parseFloat(parseFloat(r.reng_neto_om).toFixed(3)).toFixed(2));
+                    r.monto_imp_om = setSeparator(parseFloat(parseFloat(r.monto_imp_om).toFixed(3)).toFixed(2));
                 }
             }
 

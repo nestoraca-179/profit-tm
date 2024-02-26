@@ -953,8 +953,8 @@
             var cant = parseFloat($scope.reng.total_art ?? 0);
             var price = parseFloat($scope.reng.prec_vta_om ?? 0);
 
-            $scope.reng.reng_neto_om = (cant * price).toFixed(2);
-            $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(2);
+            $scope.reng.reng_neto_om = (cant * price).toFixed(3);
+            $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(3);
         }
 
         $scope.updateAmounts = function (i, r, rengs, action) {
