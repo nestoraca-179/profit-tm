@@ -513,20 +513,20 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
-                                <label>Precio Unit. $USD</label>
+                                <label>Precio Unit. BSD</label>
                                 <input type="text" class="form-control" id="price_usd" ng-model="reng.prec_vta_om" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePriceItem()" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
-                                <label>Total $USD (Sin IVA)</label>
+                                <label>Total BSD (Sin IVA)</label>
                                 <input type="text" class="form-control" id="total_usd" ng-model="reng.reng_neto_om" ng-disabled="!new" ng-required="true" ng-readonly="true" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
-                                <label>Monto IVA $USD</label>
-                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="true" />
+                                <label>Monto IVA BSD</label>
+                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="false" />
                             </div>
                         </div>
                     </div>
@@ -972,12 +972,18 @@
 
                 r.total_art = parseInt(r.total_art);
                 r.pendiente = parseInt(r.total_art);
-                r.cost_unit = setSeparator((parseFloat(r.prec_vta_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                r.reng_neto = setSeparator((parseFloat(r.reng_neto_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                r.monto_imp = setSeparator((parseFloat(r.monto_imp_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                r.cost_unit_om = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
-                r.reng_neto_om = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
-                r.monto_imp_om = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
+                //r.cost_unit = setSeparator((parseFloat(r.prec_vta_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
+                //r.reng_neto = setSeparator((parseFloat(r.reng_neto_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
+                //r.monto_imp = setSeparator((parseFloat(r.monto_imp_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
+                //r.cost_unit_om = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
+                //r.reng_neto_om = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
+                //r.monto_imp_om = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
+                r.prec_vta = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
+                r.reng_neto = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
+                r.monto_imp = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
+                r.prec_vta_om = setSeparator((parseFloat((parse(r.prec_vta) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                r.reng_neto_om = setSeparator((parseFloat((parse(r.reng_neto) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                r.monto_imp_om = setSeparator((parseFloat((parse(r.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
             }
 
             let ind = rengs.indexOf(rengs.find(i => i.reng_num == r.reng_num));
