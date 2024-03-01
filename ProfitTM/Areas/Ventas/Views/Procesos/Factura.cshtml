@@ -1110,6 +1110,33 @@
             </div>
         </form>
     </div>
+    <!-- Modal Enviar Correo -->
+    <div class="modal fade" id="modalSendEmail" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enviar Factura {{ invoice.doc_num }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$('#text-error-f').text('');">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div style="width: 100%; margin: 30px auto; display: flex; align-items: center; flex-direction: column;">
+                        <label style="flex: 1; font-size: 25px; font-weight: bold;">Ingrese los correos destino</label>
+                        <label style="flex: 1;">en caso de varios correos colocarlos separados por comas</label>
+                        <div class="input-search mt-3" style="flex: 1; width: 80%; position: relative;">
+                            <input type="text" class="form-control" id="emails" ng-model="emails" placeholder="alguien@example.com, someone@example.com ..." />
+                            <label class="text-danger text-center w-100" id="text-error-email" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-error-f').text('');">Cerrar</button>
+                    <button type="button" class="btn btn-primary" ng-click="addInvoice()">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal 1 -->
     <div class="modal fade" id="modalConds" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
@@ -1343,6 +1370,7 @@
     var validating = false;
     var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
     var box = '@ViewBag.id_box';
+    var useFactOnline = '@ViewBag.useFactOnline';
 
     invoices = parseItems(invoices);
 
@@ -1404,6 +1432,7 @@
         $scope.rengsTP = [];
         $scope.rengIVA = { fecha_documento: new Date(Date.now()), fecha_reg: new Date(Date.now()) };
         $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
+        $scope.emails = "";
 
         if (!$scope.boxOpen) {
             $(".panel-not-access").removeAttr("style");
@@ -1620,6 +1649,30 @@
 
             if ($("#form")[0].checkValidity()) {
 
+                if (useFactOnline === "True") {
+                    if (isNullOrEmpty($scope.emails)) {
+                        $("#modalConfirm").modal("hide");
+                        $("#modalSend").modal("hide");
+                        $("#modalSendEmail").modal("show");
+
+                        if ($('#modalSendEmail').hasClass('show'))
+                            $('#text-error-email').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
+
+                        return;
+                    } else {
+                        var emails = $scope.emails.replaceAll(" ", "").split(",");
+                        for (var email of emails) {
+                            if (!validateEmail(email)) {
+                                $('#text-error-email').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
+                                $("#emails").focus();
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                $('#text-error-email').text('');
+                $("#modalSendEmail").modal("hide");
                 $("#modalConfirm").modal("hide");
                 $("#modalSend").modal("hide");
                 $("#form input, #form textarea").change();
@@ -1628,6 +1681,7 @@
                 $scope.invoice.fec_emis = origDate($scope.invoice.fec_emis);
                 $scope.invoice.fec_venc = origDate($scope.invoice.fec_venc);
                 $scope.invoice.fec_reg = origDate($scope.invoice.fec_reg);
+                $scope.invoice.co_cta_ingr_egr = useFactOnline === "True" ? $scope.emails : null;
 
                 for (var ind in $scope.invoice) {
                     if ($scope.invoice[ind] === "")
@@ -1658,6 +1712,7 @@
                         $scope.index = 0;
                         $scope.adding = false;
                         $scope.confirm = false;
+                        $scope.emails = "";
                     } else {
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;
@@ -2415,7 +2470,7 @@
                 if ($scope.rengsTP.length == 1 && $scope.rengsTP[0].forma_pag == "TP" && $scope.change > 0) {
                     $scope.advance = true;
                 }
-                
+
                 $("#modalTransf").modal("hide");
             }
         }
@@ -2853,6 +2908,11 @@
 
     function prevDel(e) {
         e.preventDefault();
+    }
+
+    function validateEmail(email) {
+        const regex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
     }
 
     // MODALES

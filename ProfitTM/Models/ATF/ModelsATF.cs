@@ -14,7 +14,7 @@ namespace ProfitTM.Models
     {
         public DocumentoElectronico documentoElectronico { get; set; }
 
-        public string GetJsonInvoiceInfo(saFacturaVenta i, string serie)
+        public string GetJsonInvoiceInfo(saFacturaVenta i, string serie, List<string> emails)
         {
             Root root = new Root();
             saCliente c = new Client().GetClientByID(i.co_cli);
@@ -51,7 +51,7 @@ namespace ProfitTM.Models
                         pais = "VE",
                         notificar = "Si",
                         telefono = new List<string>() { c.telefonos },
-                        correo = new List<string>() { c.email },
+                        correo = emails, // new List<string>() { c.email },
                     },
                     totales = new Totales()
                     {
@@ -183,7 +183,7 @@ namespace ProfitTM.Models
                 {
                     numeroLinea = r.reng_num.ToString(),
                     codigoPLU = r.co_art.Trim(),
-                    indicadorBienoServicio = "2", // CONSULTAR
+                    indicadorBienoServicio = "2",
                     descripcion = new Product().GetArtByID(r.co_art).art_des.Trim(),
                     cantidad = Convert.ToInt32(r.total_art).ToString(),
                     unidadMedida = r.co_uni.Trim(),
@@ -192,7 +192,7 @@ namespace ProfitTM.Models
                     codigoImpuesto = r.tipo_imp == "1" ? "G" : "E",
                     tasaIVA = r.tipo_imp == "1" ? "16.00" : "0.00",
                     valorIVA = r.tipo_imp == "1" ? Math.Round(r.monto_imp, 2).ToString().Replace(",", ".") : "0.00",
-                    valorTotalItem = (r.reng_neto + (r.tipo_imp == "1" ? Math.Round(r.monto_imp, 2) : 0)).ToString().Replace(",", "."),
+                    valorTotalItem = Math.Round(r.reng_neto, 2).ToString().Replace(",", "."),
                     infoAdicionalItem = new List<InfoAdicionalItem>()
                     {
                         new InfoAdicionalItem()

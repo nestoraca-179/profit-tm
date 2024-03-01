@@ -94,6 +94,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                     Session["TEMPLATE"] = serializer.Serialize(new Invoice().GetTemplate());
 
                 ViewBag.id_box = id;
+                ViewBag.useFactOnline = Connection.GetConnByID(conn.ToString()).UseFactOnline;
                 ViewBag.arts = Session["ARTS"];
                 ViewBag.conds = Session["CONDS"];
                 // ViewBag.clients = Session["CLIENTS"];

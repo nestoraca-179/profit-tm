@@ -384,7 +384,7 @@ namespace ProfitTM.Models
                         }
 
                         // FACTURA
-                        var sp = context.pInsertarFacturaVenta(n_fact, invoice.descrip, invoice.co_cli, invoice.co_tran, invoice.co_mone, invoice.co_cta_ingr_egr, invoice.co_ven,
+                        var sp = context.pInsertarFacturaVenta(n_fact, invoice.descrip, invoice.co_cli, invoice.co_tran, invoice.co_mone, null, invoice.co_ven,
                             invoice.co_cond, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, invoice.anulado, invoice.status, invoice.tasa, n_cont, invoice.porc_desc_glob,
                             invoice.monto_desc_glob, invoice.porc_reca, invoice.monto_reca, invoice.saldo, invoice.total_bruto, invoice.monto_imp, invoice.monto_imp2,
                             invoice.monto_imp3, invoice.otros1, invoice.otros2, invoice.otros3, invoice.total_neto, null, invoice.comentario, invoice.dir_ent, invoice.contrib,
@@ -404,7 +404,7 @@ namespace ProfitTM.Models
                         }
 
                         // DOCUMENTO VENTA
-                        var sp_doc = context.pInsertarDocumentoVenta("FACT", n_fact, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, invoice.co_cta_ingr_egr, invoice.tasa,
+                        var sp_doc = context.pInsertarDocumentoVenta("FACT", n_fact, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa,
                             string.Format("FACT N° {0} de Cliente {1}", n_fact, invoice.co_cli), invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.anulado, true, invoice.contrib,
                             "FACT", n_fact, null, invoice.monto_imp, invoice.saldo, invoice.total_bruto, invoice.monto_desc_glob, invoice.porc_desc_glob, invoice.porc_reca,
                             invoice.monto_reca, invoice.total_neto, invoice.monto_imp2, invoice.monto_imp3, null, 0, 0, 0, 0, null, n_cont, null, 0, 0, 0, 0, 0, 0,
@@ -421,7 +421,7 @@ namespace ProfitTM.Models
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
                         {
                             string serie = new Branch().GetBranchByID(sucur).campo2;
-                            string json = new Root().GetJsonInvoiceInfo(new_invoice, serie);
+                            string json = new Root().GetJsonInvoiceInfo(new_invoice, serie, invoice.co_cta_ingr_egr.Replace(" ", "").Split(',').ToList());
                             LogsFact.Add(new_invoice, conn, json, serie);
                         }
                     }
