@@ -208,7 +208,7 @@ namespace ProfitTM.Models
                     razonSocialServTransporte = i.campo1,
                     numeroBoleto = i.campo8,
                     puntoSalida = i.campo2,
-                    puntoDestino = i.dir_ent
+                    puntoDestino = i.dir_ent // CONSULTAR PARA QUE SEA VARCHAR(MAX)
                 },
                 transporte = new TransporteF()
                 {

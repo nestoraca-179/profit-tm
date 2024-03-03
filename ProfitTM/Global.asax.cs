@@ -172,6 +172,17 @@ namespace ProfitTM
                                 log.Message = "WAITING FOR RE-SEND";
                                 log.HttpCode = info.codigo;
                             }
+                            else
+                            {
+                                if (info.validaciones != null)
+                                {
+                                    string msg = "";
+                                    foreach (string v in info.validaciones)
+                                        msg += (v + "-");
+
+                                    Incident.CreateIncident("ERROR DE REENVIO DE INFORMACION DE FACTURA " + log.NroFact, new Exception(msg));
+                                }
+                            }
                         }
                     }
                     catch (AuthenticationException ex)

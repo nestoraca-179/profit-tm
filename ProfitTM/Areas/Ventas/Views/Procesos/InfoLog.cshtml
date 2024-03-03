@@ -187,6 +187,59 @@
                 </div>
             </div>
         </div>
+        <hr />
+        <h5 class="text-center my-3">Datos Viaje</h5>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label class="col-sm-4">Ag. Aduanal</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.viajes.razonSocialServTransporte" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Nro. Viaje</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.viajes.numeroBoleto" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label class="col-sm-4">Fec. Viaje</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.viajes.puntoSalida" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Contenedores</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.viajes.puntoDestino" ng-disabled="log.Status == 1"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <h5 class="text-center my-3">Datos Transporte</h5>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label class="col-sm-4">Buque</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.transporte.descripcion" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label class="col-sm-4">Nro. Doc</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.transporte.codigo" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
     </form>
     <!-- Modal Waiting -->
     <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
