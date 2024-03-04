@@ -2018,7 +2018,13 @@
                     r.monto_imp = setSeparator((parseFloat((parseFloat(r.monto_imp_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
                     r.prec_vta_om = setSeparator(parseFloat(parseFloat(r.prec_vta_om).toFixed(3)).toFixed(2));
                     r.reng_neto_om = setSeparator(parseFloat(parseFloat(r.reng_neto_om).toFixed(3)).toFixed(2));
-                    r.monto_imp_om = setSeparator(parseFloat(parseFloat(r.monto_imp_om).toFixed(3)).toFixed(2));
+                    r.monto_imp_om = setSeparator(
+                        parseFloat
+                            (
+                                parseFloat(r.monto_imp_om).toFixed(3)
+                            )
+                            .toFixed(2)
+                        );
                 }
             }
 
@@ -2042,11 +2048,11 @@
             }
 
             i.total_bruto = setSeparator(rengs.map((r) => r.reng_neto).reduce((acc, act) => acc + parse(act), 0));
-            i.total_bruto_om = setSeparator((parse(i.total_bruto) / parseFloat(i.tasa ?? 1)).toFixed(2));
+            i.total_bruto_om = setSeparator((parseFloat((parse(i.total_bruto) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
             i.monto_imp = setSeparator(rengs.map((r) => r.monto_imp).reduce((acc, act) => acc + parse(act), 0));
-            i.monto_imp_om = setSeparator((parse(i.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(2));
+            i.monto_imp_om = setSeparator((parseFloat((parse(i.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
             i.total_neto = setSeparator(rengs.map((r) => parse(r.reng_neto) + parse(r.monto_imp)).reduce((acc, act) => acc + parse(setSeparator(act)), 0));
-            i.total_neto_om = setSeparator((parse(i.total_neto) / parseFloat(i.tasa ?? 1)).toFixed(2));
+            i.total_neto_om = setSeparator((parseFloat((parse(i.total_neto) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
             i.saldo = i.total_neto;
             i.saldo_om = i.total_neto_om;
 
@@ -2764,25 +2770,25 @@
         for (var item of items) {
 
             // TOTALES OM
-            item.total_bruto_om = setSeparator((item.total_bruto / item.tasa).toFixed(2));
+            item.total_bruto_om = setSeparator(parseFloat((item.total_bruto / item.tasa).toFixed(3)).toFixed(2));
             item.total_bruto = setSeparator(item.total_bruto.toFixed(2));
 
-            item.monto_imp_om = setSeparator((item.monto_imp / item.tasa).toFixed(2));
+            item.monto_imp_om = setSeparator(parseFloat((item.monto_imp / item.tasa).toFixed(3)).toFixed(2));
             item.monto_imp = setSeparator(item.monto_imp.toFixed(2));
 
-            item.total_neto_om = setSeparator((item.total_neto / item.tasa).toFixed(2));
+            item.total_neto_om = setSeparator(parseFloat((item.total_neto / item.tasa).toFixed(3)).toFixed(2));
             item.total_neto = setSeparator(item.total_neto.toFixed(2));
 
-            item.saldo_om = setSeparator((item.saldo / item.tasa).toFixed(2));
+            item.saldo_om = setSeparator(parseFloat((item.saldo / item.tasa).toFixed(3)).toFixed(2));
             item.saldo = setSeparator(item.saldo.toFixed(2));
             item.saldo_f_om = item.saldo_om;
             item.saldo_f = item.saldo;
 
             for (var r of item.saFacturaVentaReng) {
-                r.monto_imp_om = setSeparator((r.monto_imp / item.tasa).toFixed(2));
+                r.monto_imp_om = setSeparator(parseFloat((r.monto_imp / item.tasa).toFixed(3)).toFixed(2));
                 r.monto_imp = setSeparator(r.monto_imp.toFixed(2));
 
-                r.reng_neto_om = setSeparator((r.reng_neto / item.tasa).toFixed(2));
+                r.reng_neto_om = setSeparator(parseFloat((r.reng_neto / item.tasa).toFixed(3)).toFixed(2));
                 r.reng_neto = setSeparator(r.reng_neto.toFixed(2));
             }
 
@@ -2814,16 +2820,16 @@
 
         var i = invoice;
 
-        i.total_bruto_om = setSeparator((i.total_bruto / i.tasa).toFixed(2));
+        i.total_bruto_om = setSeparator(parseFloat((i.total_bruto / i.tasa).toFixed(3)).toFixed(2));
         i.total_bruto = setSeparator(i.total_bruto.toFixed(2));
 
-        i.monto_imp_om = setSeparator((i.monto_imp / i.tasa).toFixed(2));
+        i.monto_imp_om = setSeparator(parseFloat((i.monto_imp / i.tasa).toFixed(3)).toFixed(2));
         i.monto_imp = setSeparator(i.monto_imp.toFixed(2));
 
-        i.total_neto_om = setSeparator((i.total_neto / i.tasa).toFixed(2));
+        i.total_neto_om = setSeparator(parseFloat((i.total_neto / i.tasa).toFixed(3)).toFixed(2));
         i.total_neto = setSeparator(i.total_neto.toFixed(2));
 
-        i.saldo_om = setSeparator((i.saldo / i.tasa).toFixed(2));
+        i.saldo_om = setSeparator(parseFloat((i.saldo / i.tasa).toFixed(3)).toFixed(2));
         i.saldo = setSeparator(i.saldo.toFixed(2));
         i.saldo_f_om = i.saldo_om;
         i.saldo_f = i.saldo;

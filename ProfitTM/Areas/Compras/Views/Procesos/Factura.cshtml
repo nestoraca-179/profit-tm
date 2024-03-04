@@ -935,7 +935,7 @@
         }
 
         $scope.showItem = function (art) {
-            return art.split('/')[0].includes("92010100") && $scope.invoice.saFacturaCompraReng.find(r => r.co_art.trim() == art.split('/')[0]) == null;
+            return art.split('/')[0].includes("92010100"); // && $scope.invoice.saFacturaCompraReng.find(r => r.co_art.trim() == art.split('/')[0]) == null;
         }
 
         $scope.setItem = function (reng, action) {
