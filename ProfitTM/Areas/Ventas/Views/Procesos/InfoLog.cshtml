@@ -138,6 +138,50 @@
             </div>
         </div>
         <hr />
+        <h5 class="text-center my-3">Datos Factura</h5>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label class="col-sm-4">Nro. Documento</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.numeroDocumento" ng-disabled="true" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Fecha Emision</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.fechaEmision" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Fecha Vencimiento</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.fechaVencimiento" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label class="col-sm-4">Hora Emision</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.horaEmision" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Serie</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.serie" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Moneda</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.moneda" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
         <h5 class="text-center my-3">Datos Comprador</h5>
         <div class="row">
             <div class="col-sm-6">

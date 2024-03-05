@@ -1123,7 +1123,7 @@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                     <div style="width: 100%; margin: 30px auto; display: flex; align-items: center; flex-direction: column;">
                         <label style="flex: 1; font-size: 25px; font-weight: bold;">Ingrese los correos destino</label>
-                        <label style="flex: 1;">en caso de varios correos colocarlos separados por comas</label>
+                        <label style="flex: 1;">En caso de varios correos colocarlos separados por comas (máx. 5 correos)</label>
                         <div class="input-search mt-3" style="flex: 1; width: 80%; position: relative;">
                             <input type="text" class="form-control" id="emails" ng-model="emails" placeholder="alguien@example.com, someone@example.com ..." />
                             <label class="text-danger text-center w-100" id="text-error-email" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
@@ -1668,6 +1668,11 @@
                                 return;
                             }
                         }
+
+                        if (emails.length > 5) {
+                            $('#text-error-email').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
+                            return;
+                        }
                     }
                 }
 
@@ -1716,12 +1721,13 @@
                     } else {
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;
+                        $scope.emails = "";
                     }
 
                 }, function (response) {
                     $("#modalError").modal("show");
-                    console.log(response);
                     $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
+                    $scope.emails = "";
                 });
 
             } else {
@@ -1803,6 +1809,8 @@
                         $("#modalError").modal("show");
                     }
 
+                }, function (response) {
+                    console.log(response);
                 });
         }
 
@@ -2090,6 +2098,33 @@
             if ($("#form")[0].checkValidity()) {
                 if ($scope.invoice.saFacturaVentaReng.length > 0) {
 
+                    if (useFactOnline === "True") {
+                        if (isNullOrEmpty($scope.emails)) {
+                            $("#modalConfirm").modal("hide");
+                            $("#modalSend").modal("hide");
+                            $("#modalSendEmail").modal("show");
+
+                            if ($('#modalSendEmail').hasClass('show'))
+                                $('#text-error-email').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
+
+                            return;
+                        } else {
+                            var emails = $scope.emails.replaceAll(" ", "").split(",");
+                            for (var email of emails) {
+                                if (!validateEmail(email)) {
+                                    $('#text-error-email').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
+                                    $("#emails").focus();
+                                    return;
+                                }
+                            }
+
+                            if (emails.length > 5) {
+                                $('#text-error-email').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
+                                return;
+                            }
+                        }
+                    }
+
                     $("#form input, #form textarea").change();
 
                     if ($scope.manual) {
@@ -2138,13 +2173,17 @@
                             $scope.new = false;
                             $scope.manual = false;
                             template = template_orig;
+                            $scope.emails = "";
                         } else {
                             $("#modalError").modal("show");
                             $scope.errorMessage = res.Message;
+                            $scope.emails = "";
                         }
+
                     }, function (response) {
                         $("#modalError").modal("show");
                         $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
+                        $scope.emails = "";
                     });
 
                 } else {

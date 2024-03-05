@@ -33,7 +33,7 @@ namespace ProfitTM.Models
                         montoFacturaAfectada = null,
                         fechaEmision = i.fec_emis.ToString("dd/MM/yyyy"),
                         fechaVencimiento = i.fec_venc.ToString("dd/MM/yyyy"),
-                        horaEmision = i.fec_emis.ToString("hh:mm:ss tt").Replace("p. m.", "pm").Replace("a. m.", "am"),
+                        horaEmision = i.fec_emis.ToString("hh:mm:ss tt").Replace(".", "").Replace(" m", "m"),
                         anulado = i.anulado,
                         tipoDePago = "CONTADO",
                         serie = serie,
@@ -415,9 +415,48 @@ namespace ProfitTM.Models
 
             return final;
         }
+
+        public async Task<ModelCancelResponse> CancelInvoice(ModelCancelRequest cancel, string token)
+        {
+            ModelCancelResponse final = new ModelCancelResponse();
+            string url = "https://demoemision.thefactoryhka.com.ve/api/Anular";
+            string data = JsonConvert.SerializeObject(cancel);
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
+                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    string content = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelCancelResponse>(content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        if (final.codigo != "200")
+                        {
+                            throw new CancelException($"{final.mensaje} ** {final.codigo}");
+                        }
+                    }
+                    else
+                    {
+                        throw new CancelException($"{response.StatusCode} ** {(int)response.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return final;
+        }
     }
 
-    // MODELOS JSON AUTENTICACION
+    // MODELO AUTENTICACION
     public class ModelAuthRequest
     {
         public string usuario { get; set; }
@@ -516,6 +555,24 @@ namespace ProfitTM.Models
         public string codigo { get; set; }
         public string mensaje { get; set; }
         public string archivo { get; set; }
+    }
+
+    // MODELO ANULACION DE FACTURA
+    public class ModelCancelRequest
+    {
+        public string serie { get; set; }
+        public string tipoDocumento { get; set; }
+        public string numeroDocumento { get; set; }
+        public string motivoAnulacion { get; set; }
+        public string fechaAnulacion { get; set; }
+        public string horaAnulacion { get; set; }
+    }
+
+    public class ModelCancelResponse
+    {
+        public string codigo { get; set; }
+        public string mensaje { get; set; }
+        public List<string> validaciones { get; set; }
     }
 
     // MODELOS JSON FACTURA DE VENTA
@@ -692,5 +749,10 @@ namespace ProfitTM.Models
     public class DownloadException : Exception
     {
         public DownloadException(string msg) : base(msg) { }
+    }
+
+    public class CancelException : Exception
+    {
+        public CancelException(string msg) : base(msg) { }
     }
 }

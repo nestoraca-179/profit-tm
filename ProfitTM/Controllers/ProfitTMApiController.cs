@@ -793,11 +793,15 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse CancelInvoice(string id)
         {
             ProfitTMResponse response = new ProfitTMResponse();
+
             string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string id_conn = HttpContext.Current.Session["ID_CONN"].ToString();
+            string sucur = HttpContext.Current.Session["BRANCH"]?.ToString();
+            Connections conn = Connection.GetConnByID(id_conn);
 
             try
             {
-                new Invoice().SetCancelled(id, user);
+                new Invoice().SetCancelledAsync(id, user, sucur, conn.Token);
 
                 response.Status = "OK";
                 response.Result = id;

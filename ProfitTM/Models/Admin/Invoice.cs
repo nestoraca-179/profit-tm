@@ -510,10 +510,21 @@ namespace ProfitTM.Models
             db.SaveChanges();
         }
 
-        public void SetCancelled(string id, string user)
+        public async void SetCancelledAsync(string id, string user, string serie, string token)
         {
             saFacturaVenta invoice = GetSaleInvoiceByID(id);
             saDocumentoVenta doc = GetDocFromSaleInvoice(id);
+
+            ModelCancelRequest request = new ModelCancelRequest()
+            {
+                serie = serie,
+                tipoDocumento = "01",
+                numeroDocumento = id,
+                motivoAnulacion = "ANULACION DE FACTURA " + id,
+                fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
+                horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt")
+            };
+            ModelCancelResponse response = await new Root().CancelInvoice(request, token);
 
             foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
             {
