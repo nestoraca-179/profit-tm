@@ -459,7 +459,7 @@ namespace ProfitTM.Models
 
                         // FACTURA
                         var sp = context.pInsertarFacturaCompra(doc_num, invoice.nro_fact, invoice.descrip, invoice.co_prov, invoice.co_cta_ingr_egr, invoice.co_mone, 
-                            invoice.co_cond, invoice.n_control, null, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, false, invoice.status, invoice.tasa, null, 
+                            invoice.co_cond, invoice.n_control, "0", invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, false, invoice.status, invoice.tasa, null, 
                             invoice.saldo, invoice.total_bruto, invoice.total_neto, 0, 0, 0, 0, 0, invoice.monto_imp, 0, 0, null, null, false, null, dis_cen, invoice.campo1, 
                             null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", true);
 
@@ -470,14 +470,15 @@ namespace ProfitTM.Models
                                 r.tipo_imp2, r.tipo_imp3, r.tipo_doc, r.porc_desc, r.num_doc, r.rowguid_doc, r.reng_neto, r.cost_unit, r.cost_unit_om, r.total_art,
                                 r.stotal_art, r.otros, r.porc_imp, r.porc_imp2, r.porc_imp3, r.monto_imp, r.monto_imp2, r.monto_imp3, r.porc_gas, r.total_dev, r.monto_dev,
                                 r.pendiente2, r.comentario, false, r.monto_desc_glob, r.monto_reca_glob, r.otros1_glob, r.otros2_glob, r.otros3_glob, r.monto_imp_afec_glob,
-                                r.monto_imp2_afec_glob, r.monto_imp3_afec_glob, r.monto_desc, r.pendiente, null, null, sucur, user, null, null, "SERVER PROFIT WEB", 0, 0, 0, null);
+                                r.monto_imp2_afec_glob, r.monto_imp3_afec_glob, r.monto_desc, r.pendiente, null, null, sucur, user, null, null, "SERVER PROFIT WEB", 0, 0, 0,
+                                "Totalmente Deducible (Art. 34)");
 
                             sp_reng.Dispose();
                         }
 
                         // DOCUMENTO COMPRA
                         var sp_doc = context.pInsertarDocumentoCompra("FACT", doc_num, invoice.nro_fact, invoice.co_mone, invoice.co_prov, invoice.co_cta_ingr_egr, "FACT",
-                            null, doc_num, null, null, null, false, false, 0, string.Format("FACT N° {0} de Proveedor {1}", doc_num, invoice.co_prov), "1", null, null, 
+                            null, doc_num, null, null, "0", false, true, 0, string.Format("FACT N° {0} de Proveedor {1}", doc_num.Trim(), invoice.co_prov), "1", null, null, 
                             invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.total_neto, invoice.tasa, 0, 0, 0, invoice.monto_imp, 0, 0, invoice.total_bruto,
                             0, 0, invoice.saldo, 0, 0, 0, 0, null, null, null, 0, 0, null, null, invoice.n_control, null, null, null, null, null, null, null, null, null,
                             null, sucur, user, "SERVER PROFIT WEB", true);

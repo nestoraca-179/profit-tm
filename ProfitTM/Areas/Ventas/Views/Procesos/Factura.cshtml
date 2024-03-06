@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Factura";
+    ViewBag.Title = "Factura"; // VENTAS
 }
 <style>
     input, select, textarea {
@@ -1421,14 +1421,6 @@
         $scope.us = us;
         $scope.sucur = sucur;
         $scope.options = options;
-        $scope.reng = {
-            total_art: 1,
-            reng_neto_om: (0).toFixed(2),
-            monto_imp_om: (0).toFixed(2),
-            prec_vta_om: "25.00",
-            reng_neto_om: "25.00",
-            monto_imp_om: "4.00"
-        };
         $scope.rengsTP = [];
         $scope.rengIVA = { fecha_documento: new Date(Date.now()), fecha_reg: new Date(Date.now()) };
         $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };

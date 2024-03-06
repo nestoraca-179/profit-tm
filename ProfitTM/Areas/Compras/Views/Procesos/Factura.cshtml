@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Factura";
+    ViewBag.Title = "Factura"; // COMPRAS
 }
 <style>
     input, select, textarea {
@@ -513,20 +513,20 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
-                                <label>Precio Unit. BSD</label>
-                                <input type="text" class="form-control" id="price_usd" ng-model="reng.prec_vta_om" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePriceItem()" />
+                                <label>Costo Unit. BSD</label>
+                                <input type="text" class="form-control" id="price_usd" ng-model="reng.cost_unit" ng-disabled="!new" ng-required="true" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)" ng-change="updatePriceItem()" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Total BSD (Sin IVA)</label>
-                                <input type="text" class="form-control" id="total_usd" ng-model="reng.reng_neto_om" ng-disabled="!new" ng-required="true" ng-readonly="true" />
+                                <input type="text" class="form-control" id="total_usd" ng-model="reng.reng_neto" ng-disabled="!new" ng-required="true" ng-readonly="true" />
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <div class="controls">
                                 <label>Monto IVA BSD</label>
-                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="false" />
+                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp" ng-disabled="!new" ng-required="true" ng-readonly="false" />
                             </div>
                         </div>
                     </div>
@@ -750,14 +750,6 @@
         $scope.us = us;
         $scope.sucur = sucur;
         $scope.options = options;
-        $scope.reng = {
-            total_art: 1,
-            reng_neto_om: (0).toFixed(2),
-            monto_imp_om: (0).toFixed(2),
-            prec_vta_om: "25.00",
-            reng_neto_om: "25.00",
-            monto_imp_om: "4.00"
-        };
 
         // FUNCIONES DE BOTONES
         $scope.next = function () {
@@ -935,7 +927,7 @@
         }
 
         $scope.showItem = function (art) {
-            return true; // art.split('/')[0].includes("92010100"); // && $scope.invoice.saFacturaCompraReng.find(r => r.co_art.trim() == art.split('/')[0]) == null;
+            return art.split('/')[0].includes("92010100"); // && $scope.invoice.saFacturaCompraReng.find(r => r.co_art.trim() == art.split('/')[0]) == null;
         }
 
         $scope.setItem = function (reng, action) {
@@ -951,10 +943,10 @@
         $scope.updatePriceItem = function () {
 
             var cant = parseFloat($scope.reng.total_art ?? 0);
-            var price = parseFloat($scope.reng.prec_vta_om ?? 0);
+            var price = parseFloat($scope.reng.cost_unit ?? 0);
 
-            $scope.reng.reng_neto_om = (cant * price).toFixed(3);
-            $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(3);
+            $scope.reng.reng_neto = (cant * price).toFixed(3);
+            $scope.reng.monto_imp = ((cant * price) * 0.16).toFixed(3);
         }
 
         $scope.updateAmounts = function (i, r, rengs, action) {
@@ -966,22 +958,16 @@
                     r.co_uni = "UND";
                     r.co_alma = sucur;
                     r.co_precio = "001";
-                    r.tipo_imp = 1;
-                    r.porc_imp = 16.00;
                 }
 
                 r.total_art = parseInt(r.total_art);
                 r.pendiente = parseInt(r.total_art);
-                //r.cost_unit = setSeparator((parseFloat(r.prec_vta_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                //r.reng_neto = setSeparator((parseFloat(r.reng_neto_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                //r.monto_imp = setSeparator((parseFloat(r.monto_imp_om).toFixed(2) * parseFloat(i.tasa ?? 1)).toFixed(2));
-                //r.cost_unit_om = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
-                //r.reng_neto_om = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
-                //r.monto_imp_om = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
-                r.prec_vta = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
-                r.reng_neto = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
-                r.monto_imp = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
-                r.prec_vta_om = setSeparator((parseFloat((parse(r.prec_vta) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                r.tipo_imp = parseFloat(r.monto_imp) == 0 ? 7 : 1;
+                r.porc_imp = parseFloat(r.monto_imp) == 0 ? 0 : 16.00;
+                r.cost_unit = setSeparator(parseFloat(r.cost_unit).toFixed(2));
+                r.reng_neto = setSeparator(parseFloat(r.reng_neto).toFixed(2));
+                r.monto_imp = setSeparator(parseFloat(r.monto_imp).toFixed(2));
+                r.cost_unit_om = setSeparator((parseFloat((parse(r.cost_unit) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
                 r.reng_neto_om = setSeparator((parseFloat((parse(r.reng_neto) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
                 r.monto_imp_om = setSeparator((parseFloat((parse(r.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
             }
@@ -1058,6 +1044,7 @@
                             $("#modalError").modal("show");
                             $scope.errorMessage = res.Message;
                         }
+
                     }, function (response) {
                         $("#modalError").modal("show");
                         $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
