@@ -176,7 +176,7 @@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto">
                     <div style="width: 100%; margin: 30px auto; display: flex; align-items: center; flex-direction: column;">
                         <label style="flex: 1; font-size: 25px; font-weight: bold;">Ingrese los correos destino</label>
-                        <label style="flex: 1;">en caso de varios correos colocarlos separados por comas</label>
+                        <label style="flex: 1;">En caso de varios correos colocarlos separados por comas (máx. 5 correos)</label>
                         <div class="input-search mt-3" style="flex: 1; width: 80%; position: relative;">
                             <input type="text" class="form-control" id="emails" ng-model="emails" placeholder="alguien@example.com, someone@example.com ..." />
                             <label class="text-danger text-center w-100" id="text-error-f" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
@@ -389,6 +389,11 @@
                     }
                 }
 
+                if (emails.length > 5) {
+                    $('#text-error-f').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
+                    return;
+                }
+
                 $("#modalSendEmail").modal("hide");
                 $("#modalWaiting").modal("show");
 
@@ -416,7 +421,7 @@
                     if (res.Status == "OK") {
                         if (res.Result.codigo == "200") {
                             $("#modalSuccess").modal("show");
-                            $scope.successMessage = "La factura se ha reenviado con éxito";
+                            $scope.successMessage = "La factura " + $scope.selected.NroFact + " se ha reenviado con éxito";
                         } else {
                             $("#modalError").modal("show");
                             $scope.errorMessage = res.Result.mensaje;

@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Data.Entity;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Globalization;
 
 namespace ProfitTM.Models
 {
@@ -511,7 +513,7 @@ namespace ProfitTM.Models
             db.SaveChanges();
         }
 
-        public async void SetCancelledAsync(string id, string user, string serie, string token)
+        public async Task SetCancelledAsync(string id, string user, string serie, string token)
         {
             saFacturaVenta invoice = GetSaleInvoiceByID(id);
             saDocumentoVenta doc = GetDocFromSaleInvoice(id);
@@ -523,7 +525,7 @@ namespace ProfitTM.Models
                 numeroDocumento = id,
                 motivoAnulacion = "ANULACION DE FACTURA " + id,
                 fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
-                horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt")
+                horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt", new CultureInfo("en-US")).ToLower()
             };
             ModelCancelResponse response = await new Root().CancelInvoice(request, token);
 

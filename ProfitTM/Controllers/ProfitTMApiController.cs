@@ -790,18 +790,35 @@ namespace ProfitTM.Controllers
 
         [HttpGet]
         [Route("api/ProfitTMApi/CancelInvoice/{id}")]
-        public ProfitTMResponse CancelInvoice(string id)
+        public async Task<ProfitTMResponse> CancelInvoiceAsync(string id)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
             string user = (HttpContext.Current.Session["USER"] as Users).Username;
             string id_conn = HttpContext.Current.Session["ID_CONN"].ToString();
-            string sucur = HttpContext.Current.Session["BRANCH"]?.ToString();
+            string serie = new Branch().GetBranchByID(HttpContext.Current.Session["BRANCH"]?.ToString()).campo2;
             Connections conn = Connection.GetConnByID(id_conn);
 
             try
             {
-                new Invoice().SetCancelledAsync(id, user, sucur, conn.Token);
+                if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
+                {
+                    ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
+                    ModelAuthResponse res = await new Root().SendAuth(auth);
+
+                    if (res.codigo == 200)
+                    {
+                        conn.Token = res.token;
+                        conn.DateToken = res.expiracion.AddHours(-4);
+                        Connection.Edit(conn);
+                    }
+                    else
+                    {
+                        throw new Exception(res.mensaje);
+                    }
+                }
+
+                await new Invoice().SetCancelledAsync(id, user, serie, conn.Token);
 
                 response.Status = "OK";
                 response.Result = id;

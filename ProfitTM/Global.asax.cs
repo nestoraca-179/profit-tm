@@ -6,9 +6,9 @@ using System.Web.Routing;
 using System.Web.SessionState;
 using ProfitTM.Models;
 using Quartz;
-using Quartz.Impl;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Quartz.Impl;
 
 namespace ProfitTM
 {
@@ -50,7 +50,7 @@ namespace ProfitTM
                 .WithIdentity("myTrigger", "group1")
                 .StartNow()
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInMinutes(1)
+                    .WithIntervalInMinutes(7)
                     .RepeatForever())
                 .Build();
 
