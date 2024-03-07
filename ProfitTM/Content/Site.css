@@ -426,7 +426,7 @@ p.title-opt {
     width: 100%;
     margin: 0;
 }
-.form-buttons .btn{
+.form-buttons .btn, .form-header .btn-primary {
     min-width: 50px;
     padding: 5px 10px;
     font-size: 14px;

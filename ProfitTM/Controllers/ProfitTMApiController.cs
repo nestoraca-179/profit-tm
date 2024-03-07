@@ -1127,6 +1127,23 @@ namespace ProfitTM.Controllers
 
             try
             {
+                if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
+                {
+                    ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
+                    ModelAuthResponse r = await new Root().SendAuth(auth);
+
+                    if (r.codigo == 200)
+                    {
+                        conn.Token = r.token;
+                        conn.DateToken = r.expiracion.AddHours(-4);
+                        Connection.Edit(conn);
+                    }
+                    else
+                    {
+                        throw new Exception(r.mensaje);
+                    }
+                }
+
                 ModelSendResponse res = await new Root().SendEmail(request, conn.Token);
 
                 response.Status = "OK";
@@ -1153,6 +1170,23 @@ namespace ProfitTM.Controllers
 
             try
             {
+                if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
+                {
+                    ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
+                    ModelAuthResponse r = await new Root().SendAuth(auth);
+
+                    if (r.codigo == 200)
+                    {
+                        conn.Token = r.token;
+                        conn.DateToken = r.expiracion.AddHours(-4);
+                        Connection.Edit(conn);
+                    }
+                    else
+                    {
+                        throw new Exception(r.mensaje);
+                    }
+                }
+
                 ModelDownloadResponse res = await new Root().DownloadInvoice(request, conn.Token);
 
                 response.Status = "OK";
