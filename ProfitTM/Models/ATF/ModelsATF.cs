@@ -59,7 +59,12 @@ namespace ProfitTM.Models
                         montoGravadoTotal = i.total_bruto.ToString().Replace(",", "."),
                         montoExentoTotal = "0.00",
                         subtotal = i.total_bruto.ToString().Replace(",", "."),
-                        totalAPagar = i.total_neto.ToString().Replace(",", "."),
+                        totalAPagar = 
+                        (
+                            i.total_neto + // TOTAL + IVA FACTURA (BSD)
+                            (decimal.Parse(i.comentario) * (3 / 100) * i.tasa) // IGTF (BSD)
+                        )
+                        .ToString().Replace(",", "."),
                         totalIVA = i.monto_imp.ToString().Replace(",", "."),
                         montoTotalConIVA = i.total_neto.ToString().Replace(",", "."),
                         montoEnLetras = new UtilsController().NumberToWords(i.total_neto),
@@ -127,7 +132,12 @@ namespace ProfitTM.Models
                         fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
                         totalIVA = Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
                         totalISRL = Math.Round((i.total_bruto * 2) / 100, 2).ToString().Replace(",", "."),
-                        totalRetenido = "0.00"
+                        totalRetenido = 
+                        (
+                            Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2) +
+                            Math.Round((i.total_bruto * 2) / 100, 2)
+                        )
+                        .ToString().Replace(",", ".")
                     },
                     totalesOtraMoneda = new TotalesOtraMoneda()
                     {
@@ -136,7 +146,13 @@ namespace ProfitTM.Models
                         montoGravadoTotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
                         montoExentoTotal = "0.00",
                         subtotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
-                        totalAPagar = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
+                        totalAPagar =  Math.Round
+                        (
+                            (i.total_neto / i.tasa) + // TOTAL + IVA FACTURA (USD)
+                            (decimal.Parse(i.comentario) * (3 / 100)) // IGTF (USD)
+                        , 
+                        2)
+                        .ToString().Replace(",", "."),
                         totalIVA = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
                         montoTotalConIVA = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
                         montoEnLetras = new UtilsController().NumberToWords(Math.Round(i.total_neto / i.tasa, 2)),
@@ -153,7 +169,7 @@ namespace ProfitTM.Models
                                 montoDescuento = "0.00"
                             }
                         },
-                        impuestosSubtotal = new List<ImpuestosSubtotal>() // CONSULTAR SI ESTO ES EN MONEDA BASE
+                        impuestosSubtotal = new List<ImpuestosSubtotal>()
                         {
                             new ImpuestosSubtotal()
                             {
@@ -208,7 +224,20 @@ namespace ProfitTM.Models
                     razonSocialServTransporte = i.campo1,
                     numeroBoleto = i.campo8,
                     puntoSalida = i.campo2,
-                    puntoDestino = "", // i.dir_ent // CONSULTAR PARA QUE SEA VARCHAR(MAX)
+                    puntoDestino = i.descrip,
+                },
+                infoAdicional = new List<InfoAdicional>()
+                {
+                    new InfoAdicional()
+                    {
+                        campo = "PDF",
+                        valor = "{'coletilla1':'De conformidad con la Providencia Administrativa SNAT/2022/000013 publicada en la G.O.N 42.339 del 17-03-2022, este pago está sujeto al cobro adicional del 3% del Impuesto a las Grandes Transacciones Financieras (IGTF), siempre que sea pagado en moneda distinta a la del curso legal.'}"
+                    },
+                    new InfoAdicional()
+                    {
+                        campo = "PDF",
+                        valor = "{'coletilla2':'En los casos en que la base imponible de la venta o prestación de servicio estuviere expresada en moneda extranjera, se establecerá la equivalencia en moneda nacional, al tipo de cambio corriente en el mercado del día en que ocurra el hecho imponible, salvo que éste ocurra en un día no hábil para el sector financiero, en cuyo caso se aplicará el vigente en el día hábil inmediatamente siguiente al de la operación. (ART. 25 Ley de IVA G.O N° 6.152 de fecha 18/11/2014)'}"
+                    }
                 },
                 transporte = new TransporteF()
                 {
@@ -581,6 +610,7 @@ namespace ProfitTM.Models
         public Encabezado encabezado { get; set; }
         public List<DetallesItem> detallesItems { get; set; }
         public Viajes viajes { get; set; }
+        public List<InfoAdicional> infoAdicional { get; set; }
         public TransporteF transporte { get; set; }
     }
 
@@ -719,6 +749,12 @@ namespace ProfitTM.Models
         public string puntoDestino { get; set; }
     }
 
+    public class InfoAdicional
+    {
+        public string campo { get; set; }
+        public string valor { get; set; }
+    }
+    
     public class TransporteF
     {
         public string descripcion { get; set; }

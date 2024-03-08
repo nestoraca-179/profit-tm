@@ -144,7 +144,7 @@
                     <td>{{ log.HttpCode }}</td>
                     <td>{{ log.Times }}</td>
                     <td>{{ log.NroControl }}</td>
-                    <td>{{ formatDate(log.DateInserted) }}</td>
+                    <td>{{ origDate(log.DateInserted) }}</td>
                     <td>{{ formatDate(log.DateTried) }}</td>
                     <td>{{ formatDate(log.DateSent) }}</td>
                     <td>{{ log.Message }}</td>
@@ -365,6 +365,8 @@
             location.href = "/Ventas/Procesos/InfoLog?l=" + log.NroFact;
         }
 
+        $scope.origDate = (value) => origDate(value);
+
         $scope.askEmail = function (log) {
             $scope.selected = log;
             $scope.emails = "";
@@ -485,6 +487,14 @@
             $("#modalWaiting").modal("hide");
         }
     });
+
+    function origDate(value) {
+
+        var timeOffset = value.getTimezoneOffset() * 60000;
+        var date = new Date(value.getTime() - timeOffset).toUTCString();
+
+        return new Date(date);
+    }
 
     function validateEmail(email) {
         const regex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

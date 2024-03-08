@@ -330,7 +330,7 @@ namespace ProfitTM.Models
             return obj;
         }
 
-        public saFacturaVenta AddInvoice(saFacturaVenta invoice, string user, string sucur, int conn, bool fromOrder)
+        public saFacturaVenta AddSaleInvoice(saFacturaVenta invoice, string user, string sucur, int conn, bool fromOrder)
         {
             saFacturaVenta new_invoice = new saFacturaVenta();
 
@@ -502,6 +502,75 @@ namespace ProfitTM.Models
             }
 
             return new_invoice;
+        }
+        
+        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur)
+        {
+            saDocumentoVenta new_doc = new saDocumentoVenta();
+
+            using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
+            {
+                using (DbContextTransaction tran = context.Database.BeginTransaction()) 
+                {
+                    try
+                    {
+                        string n_ncr = "", n_cont = "";
+                        string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>1.1.03.01.001</CuentaContable></Carpeta01></InformacionContable>";
+                        saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num == doc_num);
+                        saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
+
+                        n_ncr = GetNextConsec(sucur, "DOC_VEN_N/CR");
+                        n_cont = GetNextConsec(sucur, "N/CR_VTA_N_CON");
+
+                        // NOTA DE CREDITO
+                        var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa, 
+                            string.Format("NOTA DE CREDITO DE FACTURA {0}", invoice.doc_num), DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, 
+                            "FACT", invoice.doc_num, null, invoice.monto_imp, 0, invoice.total_bruto, 0, "0", "0", 0, invoice.total_neto, 0, 0, "1", 0, 16, 0, 
+                            0, null, n_cont, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, invoice.campo2, invoice.campo7, invoice.campo3, 
+                            invoice.campo8, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
+                        sp.Dispose();
+
+                        doc_v.saldo = 0;
+                        context.Entry(doc_v).State = EntityState.Modified;
+
+                        invoice.saldo = 0;
+                        context.Entry(invoice).State = EntityState.Modified;
+
+                        // COBRO CRUCE
+                        string n_coll = GetNextConsec(sucur, "COBRO");
+
+                        var sp_c = context.pInsertarCobro(n_coll, null, invoice.co_cli, invoice.co_ven, invoice.co_mone, invoice.tasa, DateTime.Now, false, 0, 
+                            null, string.Format("CRUCE FACT {0} / NCR {1}", doc_num, n_ncr), null, null, null, null, null, null, null, null, user, sucur, 
+                            "SERVER PROFIT WEB", null, null);
+                        sp_c.Dispose();
+
+                        var sp_cd1 = context.pInsertarRenglonesDocCobro(1, n_coll, "FACT", doc_num, invoice.total_neto, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(), 
+                            null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+                        sp_cd1.Dispose();
+
+                        var sp_cd2 = context.pInsertarRenglonesDocCobro(2, n_coll, "N/CR", n_ncr, invoice.total_neto, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(),
+                            null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+                        sp_cd2.Dispose();
+
+                        var sp_ct = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", null, null, null, false, 0, null, null, null, null, "001", DateTime.Now, sucur, 
+                            user, null, null, "SERVER PROFIT WEB");
+                        sp_ct.Dispose();
+
+                        context.SaveChanges();
+                        tran.Commit();
+                        new_doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "N/CR" && d.nro_doc == n_ncr);
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        Incident.CreateIncident("ERROR AGREGANDO NOTA DE CREDITO DE FACTURA " + doc_num, ex);
+
+                        throw ex;
+                    }
+                }
+            }
+
+            return new_doc;
         }
         
         public void SetPrinted(string id)

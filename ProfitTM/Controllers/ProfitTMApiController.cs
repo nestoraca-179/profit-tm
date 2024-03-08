@@ -686,7 +686,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saFacturaVenta new_invoice = new Invoice().AddInvoice(invoice, user, sucur, conn, Convert.ToBoolean(fromOrder));
+                saFacturaVenta new_invoice = new Invoice().AddSaleInvoice(invoice, user, sucur, conn, Convert.ToBoolean(fromOrder));
 
                 response.Status = "OK";
                 response.Result = new_invoice;
@@ -828,6 +828,32 @@ namespace ProfitTM.Controllers
                 response.Status = "ERROR";
                 response.Message = ex.Message;
                 Incident.CreateIncident("ERROR ANULANDO FACTURA N° " + id, ex);
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/AddCreditNote/{doc_num}")]
+        public ProfitTMResponse AddCreditNote(string doc_num)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            string user = (HttpContext.Current.Session["USER"] as Users).Username;
+            string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+
+            try
+            {
+                saDocumentoVenta new_doc = new Invoice().AddCreditNote(doc_num, user, sucur);
+
+                response.Status = "OK";
+                response.Result = new_doc;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO NOTA DE CREDITO", ex);
             }
 
             return response;
