@@ -123,7 +123,7 @@
         <table class="table mt-3" id="table-logs">
             <thead>
                 <tr>
-                    <th>Nro. Factura</th>
+                    <th>Nro. Doc.</th>
                     <th>Serie</th>
                     <th>Status</th>
                     <th>Codigo HTTP</th>
@@ -144,7 +144,7 @@
                     <td>{{ log.HttpCode }}</td>
                     <td>{{ log.Times }}</td>
                     <td>{{ log.NroControl }}</td>
-                    <td>{{ origDate(log.DateInserted) }}</td>
+                    <td>{{ log.DateInserted }}</td>
                     <td>{{ formatDate(log.DateTried) }}</td>
                     <td>{{ formatDate(log.DateSent) }}</td>
                     <td>{{ log.Message }}</td>
@@ -260,12 +260,13 @@
     <h4>Cargando datos...</h4>
 </div>
 <script src="~/Scripts/angular-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     var app = angular.module("Logs", []);
     var logs = @Html.Raw(Json.Encode(ViewBag.logs));
 
     for (var item of logs) {
-        item.DateInserted = new Date(parseInt(item.DateInserted.substr(6)));
+        //item.DateInserted = new Date(parseInt(item.DateInserted.substr(6)));
         item.DateTried = item.DateTried == null ? null : new Date(parseInt(item.DateTried.substr(6)));
         item.DateSent = item.DateSent == null ? null : new Date(parseInt(item.DateSent.substr(6)));
     }
@@ -291,6 +292,16 @@
                 },
             },
             "lengthMenu": [5, 10, 25, 50, 75, 100],
+            "columnDefs": [{
+                "targets": 6,
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        return moment(data).format('DD/MM/YYYY HH:mm');
+                    }
+                    return data;
+                }
+            }],
+            "order": [6, 'desc'],
         });
     });
 
@@ -399,10 +410,18 @@
                 $("#modalSendEmail").modal("hide");
                 $("#modalWaiting").modal("show");
 
+                var tipoDocumento = "01";
+                var numeroDocumento = $scope.selected.NroFact;
+
+                if (numeroDocumento.includes("N-")) {
+                    tipoDocumento = "02";
+                    numeroDocumento = numeroDocumento.replaceAll("N-", "");
+                }
+
                 var data = {
                     serie: $scope.selected.Serie.trim(),
-                    tipoDocumento: "01",
-                    numeroDocumento: $scope.selected.NroFact,
+                    tipoDocumento: tipoDocumento,
+                    numeroDocumento: numeroDocumento,
                     correos: emails
                 };
 
@@ -423,7 +442,7 @@
                     if (res.Status == "OK") {
                         if (res.Result.codigo == "200") {
                             $("#modalSuccess").modal("show");
-                            $scope.successMessage = "La factura " + $scope.selected.NroFact + " se ha reenviado con éxito";
+                            $scope.successMessage = "El documento " + $scope.selected.NroFact + " se ha reenviado con éxito";
                         } else {
                             $("#modalError").modal("show");
                             $scope.errorMessage = res.Result.mensaje;
@@ -445,10 +464,18 @@
 
             $("#modalWaiting").modal("show");
 
+            var tipoDocumento = "01";
+            var numeroDocumento = log.NroFact;
+
+            if (numeroDocumento.includes("N-")) {
+                tipoDocumento = "02";
+                numeroDocumento = numeroDocumento.replaceAll("N-", "");
+            }
+
             var data = {
                 serie: log.Serie.trim(),
-                tipoDocumento: "01",
-                numeroDocumento: log.NroFact,
+                tipoDocumento: tipoDocumento,
+                numeroDocumento: numeroDocumento,
                 tipoArchivo: "pdf"
             };
 
@@ -469,7 +496,7 @@
                 if (res.Status == "OK") {
                     if (res.Result.codigo == "200") {
                         $("#modalSuccess").modal("show");
-                        $scope.successMessage = "La factura se ha descargado con éxito";
+                        $scope.successMessage = "El documento se ha descargado con éxito";
                         convertBase64ToPdf(res.Result.archivo, log.NroFact);
                     } else {
                         $("#modalError").modal("show");
@@ -520,7 +547,7 @@
         // Create an anchor element with the URL object as the href attribute
         var pdfLink = document.createElement("a");
         pdfLink.href = pdfUrl;
-        pdfLink.download = `FACT_${fact}.pdf`;
+        pdfLink.download = `DOC_${fact}.pdf`;
 
         // Append the anchor element to the body of the document
         document.body.appendChild(pdfLink);

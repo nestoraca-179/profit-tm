@@ -203,7 +203,7 @@
                     <h3 class="text-center text-white"><i class="fas fa-file-invoice"></i> Factura</h3>
                 </div>
                 <div class="col d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNotaCredito" ng-disabled="invoice.anulado || invoice.saldo < invoice.total_neto"><i class="fas fa-file"></i> Generar N/CR</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNotaCredito" ng-disabled="!us.AllowCancel || invoice.anulado || invoice.saldo < invoice.total_neto"><i class="fas fa-file"></i> Generar N/CR</button>
                 </div>
             </div>
             <div class="form-buttons">
@@ -235,7 +235,7 @@
                             <i class="fas fa-print"></i> Imprimir
                         </button>
                         <p ng-if="invoice.anulado" class="my-0 d-flex align-items-center text-center" style="margin-right: 5px;"><b>Anulado</b></p>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCancel || invoice.anulado || invoice.status != 0">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCancel || invoice.anulado || invoice.saldo < invoice.total_neto">
                             <i class="fas fa-times"></i> Anular
                         </button>
                         <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCollect || invoice.anulado || invoice.saldo == 0" ng-click="initLoadCollect()">
@@ -1672,6 +1672,12 @@
 
                         if ($('#modalSendEmail').hasClass('show'))
                             $('#text-error-email').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
+                        else
+                            $scope.emails = $scope.invoice.saCliente.email;
+
+                        setTimeout(function () {
+                            $("#emails").focus();
+                        }, 500);
 
                         return;
                     } else {
@@ -2146,6 +2152,12 @@
 
                             if ($('#modalSendEmail').hasClass('show'))
                                 $('#text-error-email').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
+                            else
+                                $scope.emails = $scope.invoice.saCliente.email;
+
+                            setTimeout(function () {
+                                $("#emails").focus();
+                            }, 500);
 
                             return;
                         } else {

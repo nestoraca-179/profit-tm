@@ -42,7 +42,7 @@ namespace ProfitTM
             StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
             IScheduler scheduler = schedulerFactory.GetScheduler().Result;
 
-            var job = JobBuilder.Create<PruebaJob>()
+            var job = JobBuilder.Create<EnvioFacturas>()
                 .WithIdentity("myJob", "group1")
                 .Build();
 
@@ -50,7 +50,8 @@ namespace ProfitTM
                 .WithIdentity("myTrigger", "group1")
                 .StartNow()
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInMinutes(7)
+                    // .WithIntervalInMinutes(7)
+                    .WithIntervalInMinutes(1)
                     .RepeatForever())
                 .Build();
 
@@ -110,7 +111,7 @@ namespace ProfitTM
         }
 
         #region QUARTZ
-        public class PruebaJob : IJob
+        public class EnvioFacturas : IJob
         {
             async Task IJob.Execute(IJobExecutionContext context)
             {

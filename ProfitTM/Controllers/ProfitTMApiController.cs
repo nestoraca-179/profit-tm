@@ -841,10 +841,11 @@ namespace ProfitTM.Controllers
 
             string user = (HttpContext.Current.Session["USER"] as Users).Username;
             string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+            int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
             try
             {
-                saDocumentoVenta new_doc = new Invoice().AddCreditNote(doc_num, user, sucur);
+                saDocumentoVenta new_doc = new Invoice().AddCreditNote(doc_num, user, sucur, conn);
 
                 response.Status = "OK";
                 response.Result = new_doc;

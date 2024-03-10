@@ -31,9 +31,10 @@ namespace ProfitTM.Models
                         numeroFacturaAfectada = null,
                         fechaFacturaAfectada = null,
                         montoFacturaAfectada = null,
+                        comentarioFacturaAfectada = null,
                         fechaEmision = i.fec_emis.ToString("dd/MM/yyyy"),
                         fechaVencimiento = i.fec_venc.ToString("dd/MM/yyyy"),
-                        horaEmision = i.fec_emis.ToString("hh:mm:ss tt").Replace(".", "").Replace(" m", "m"),
+                        horaEmision = i.fec_emis.ToString("hh:mm:ss") + (i.fec_emis.Hour < 12 ? " am" : " pm"),
                         anulado = i.anulado,
                         tipoDePago = "CONTADO",
                         serie = serie,
@@ -59,11 +60,12 @@ namespace ProfitTM.Models
                         montoGravadoTotal = i.total_bruto.ToString().Replace(",", "."),
                         montoExentoTotal = "0.00",
                         subtotal = i.total_bruto.ToString().Replace(",", "."),
-                        totalAPagar = 
+                        totalAPagar = Math.Round
                         (
                             i.total_neto + // TOTAL + IVA FACTURA (BSD)
                             (decimal.Parse(i.comentario) * (3 / 100) * i.tasa) // IGTF (BSD)
-                        )
+                        ,
+                        2)
                         .ToString().Replace(",", "."),
                         totalIVA = i.monto_imp.ToString().Replace(",", "."),
                         montoTotalConIVA = i.total_neto.ToString().Replace(",", "."),
@@ -631,6 +633,7 @@ namespace ProfitTM.Models
         public object numeroFacturaAfectada { get; set; }
         public object fechaFacturaAfectada { get; set; }
         public object montoFacturaAfectada { get; set; }
+        public object comentarioFacturaAfectada { get; set; }
         public string fechaEmision { get; set; }
         public string fechaVencimiento { get; set; }
         public string horaEmision { get; set; }

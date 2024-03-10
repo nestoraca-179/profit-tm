@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace ProfitTM.Models
 {
@@ -504,7 +505,7 @@ namespace ProfitTM.Models
             return new_invoice;
         }
         
-        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur)
+        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur, int conn)
         {
             saDocumentoVenta new_doc = new saDocumentoVenta();
 
@@ -516,11 +517,13 @@ namespace ProfitTM.Models
                     {
                         string n_ncr = "", n_cont = "";
                         string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>1.1.03.01.001</CuentaContable></Carpeta01></InformacionContable>";
+
                         saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num == doc_num);
+                        invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num == doc_num).ToList();
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
-                        n_ncr = GetNextConsec(sucur, "DOC_VEN_N/CR");
-                        n_cont = GetNextConsec(sucur, "N/CR_VTA_N_CON");
+                        n_ncr = GetNextConsec(sucur, "DOC_VEN_N/CR").Trim();
+                        n_cont = GetNextConsec(sucur, "N/CR_VTA_N_CON").Trim();
 
                         // NOTA DE CREDITO
                         var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa, 
@@ -559,6 +562,24 @@ namespace ProfitTM.Models
                         context.SaveChanges();
                         tran.Commit();
                         new_doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "N/CR" && d.nro_doc == n_ncr);
+
+                        if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
+                        {
+                            string serie = new Branch().GetBranchByID(sucur).campo2;
+                            Root obj = JsonConvert.DeserializeObject<Root>(new Root().GetJsonInvoiceInfo(invoice, serie, new List<string>() { "nestoraca.179@gmail.com" }));
+
+                            obj.documentoElectronico.encabezado.identificacionDocumento.tipoDocumento = "02";
+                            obj.documentoElectronico.encabezado.identificacionDocumento.numeroDocumento = n_ncr;
+                            obj.documentoElectronico.encabezado.identificacionDocumento.serieFacturaAfectada = serie;
+                            obj.documentoElectronico.encabezado.identificacionDocumento.numeroFacturaAfectada = doc_num;
+                            obj.documentoElectronico.encabezado.identificacionDocumento.fechaFacturaAfectada = invoice.fec_emis.ToString("dd/MM/yyyy");
+                            obj.documentoElectronico.encabezado.identificacionDocumento.montoFacturaAfectada = invoice.total_neto.ToString().Replace(",", ".");
+                            obj.documentoElectronico.encabezado.identificacionDocumento.comentarioFacturaAfectada = "N/CR " + n_ncr + " FACTURA " + doc_num;
+
+                            string json = JsonConvert.SerializeObject(obj);
+                            invoice.doc_num = "N-" + n_ncr;
+                            LogsFact.Add(invoice, conn, json, serie);
+                        }
                     }
                     catch (Exception ex)
                     {
