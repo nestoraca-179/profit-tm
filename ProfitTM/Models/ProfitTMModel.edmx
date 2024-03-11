@@ -86,9 +86,9 @@
           <Property Name="HttpCode" Type="char" MaxLength="5" />
           <Property Name="Times" Type="int" Nullable="false" />
           <Property Name="NroControl" Type="varchar" MaxLength="25" />
-          <Property Name="DateInserted" Type="smalldatetime" Nullable="false" />
-          <Property Name="DateTried" Type="smalldatetime" />
-          <Property Name="DateSent" Type="smalldatetime" />
+          <Property Name="DateInserted" Type="datetime" Nullable="false" />
+          <Property Name="DateTried" Type="datetime" />
+          <Property Name="DateSent" Type="datetime" />
           <Property Name="Message" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Modules">
@@ -732,9 +732,9 @@
           </Key>
           <Property Name="NroFact" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="DateInserted" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DateTried" Type="DateTime" Precision="0" />
-          <Property Name="DateSent" Type="DateTime" Precision="0" />
+          <Property Name="DateInserted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateTried" Type="DateTime" Precision="3" />
+          <Property Name="DateSent" Type="DateTime" Precision="3" />
           <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ConnID" Type="Int32" Nullable="false" />
           <Property Name="BodyJson" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />

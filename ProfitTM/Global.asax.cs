@@ -42,7 +42,7 @@ namespace ProfitTM
             StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
             IScheduler scheduler = schedulerFactory.GetScheduler().Result;
 
-            var job = JobBuilder.Create<EnvioFacturas>()
+            var job = JobBuilder.Create<EnvioDocumentos>()
                 .WithIdentity("myJob", "group1")
                 .Build();
 
@@ -51,7 +51,7 @@ namespace ProfitTM
                 .StartNow()
                 .WithSimpleSchedule(x => x
                     // .WithIntervalInMinutes(7)
-                    .WithIntervalInMinutes(1)
+                    .WithIntervalInMinutes(5)
                     .RepeatForever())
                 .Build();
 
@@ -111,13 +111,18 @@ namespace ProfitTM
         }
 
         #region QUARTZ
-        public class EnvioFacturas : IJob
+        public class EnvioDocumentos : IJob
         {
             async Task IJob.Execute(IJobExecutionContext context)
             {
+                List<int> conn_error = new List<int>();
                 List<LogsFactOnline> logs = LogsFact.GetPendingLogs();
+
                 foreach (LogsFactOnline log in logs)
                 {
+                    if (conn_error.Contains(log.ConnID))
+                        continue;
+
                     try
                     {
                         Connections conn = Connection.GetConnByID(log.ConnID.ToString());
@@ -222,8 +227,8 @@ namespace ProfitTM
                         LogsFact.Edit(log); // ACTUALIZAR ESTADO DEL LOG
                     }
 
-                    if (log.Status != 1 && log.Status != 3)
-                        break;
+                    if (log.Status == 2)
+                        conn_error.Add(log.ConnID);
                 }
             }
         }

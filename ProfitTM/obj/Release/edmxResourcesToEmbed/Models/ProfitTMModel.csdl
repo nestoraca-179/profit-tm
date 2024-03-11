@@ -363,9 +363,9 @@
     </Key>
     <Property Name="NroFact" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
     <Property Name="Status" Type="Int32" Nullable="false" />
-    <Property Name="DateInserted" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="DateTried" Type="DateTime" Precision="0" />
-    <Property Name="DateSent" Type="DateTime" Precision="0" />
+    <Property Name="DateInserted" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DateTried" Type="DateTime" Precision="3" />
+    <Property Name="DateSent" Type="DateTime" Precision="3" />
     <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="ConnID" Type="Int32" Nullable="false" />
     <Property Name="BodyJson" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />

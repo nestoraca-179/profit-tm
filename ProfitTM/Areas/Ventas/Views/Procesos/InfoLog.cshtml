@@ -74,7 +74,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group row">
-                    <label class="col-sm-4">Nro. Factura</label>
+                    <label class="col-sm-4">Nro. Documento</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" autocomplete="false" autofocus ng-model="log.NroFact" disabled />
                     </div>
@@ -138,7 +138,7 @@
             </div>
         </div>
         <hr />
-        <h5 class="text-center my-3">Datos Factura</h5>
+        <h5 class="text-center my-3">Datos Documento</h5>
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group row">
@@ -159,8 +159,6 @@
                         <input type="text" class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.fechaVencimiento" ng-disabled="log.Status == 1" />
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-6">
                 <div class="form-group row">
                     <label class="col-sm-4">Hora Emision</label>
                     <div class="col-sm-8">
@@ -171,6 +169,32 @@
                     <label class="col-sm-4">Serie</label>
                     <div class="col-sm-8">
                         <input class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.serie" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label class="col-sm-4">Serie Fact. Afectada</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.serieFacturaAfectada" ng-disabled="log.Status == 1 || !log.NroFact.includes('N-')" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Numero Fact. Afectada</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.numeroFacturaAfectada" ng-disabled="log.Status == 1 || !log.NroFact.includes('N-')" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Fecha Fact. Afectada</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.fechaFacturaAfectada" ng-disabled="log.Status == 1 || !log.NroFact.includes('N-')" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Monto Fact. Afectada</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.encabezado.identificacionDocumento.montoFacturaAfectada" ng-disabled="log.Status == 1 || !log.NroFact.includes('N-')" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -256,7 +280,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-4">Contenedores</label>
+                    <label class="col-sm-4">Descripcion</label>
                     <div class="col-sm-8">
                         <textarea class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.viajes.puntoDestino" ng-disabled="log.Status == 1"></textarea>
                     </div>

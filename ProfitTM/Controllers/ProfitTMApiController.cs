@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ProfitTM.Models;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ProfitTM.Controllers
 {
@@ -833,9 +834,9 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("api/ProfitTMApi/AddCreditNote/{doc_num}")]
-        public ProfitTMResponse AddCreditNote(string doc_num)
+        [HttpPost]
+        [Route("api/ProfitTMApi/AddCreditNote/")]
+        public ProfitTMResponse AddCreditNote(saFacturaVenta invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -845,7 +846,8 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saDocumentoVenta new_doc = new Invoice().AddCreditNote(doc_num, user, sucur, conn);
+                List<string> emails = invoice.co_cta_ingr_egr.Replace(" ", "").Split(',').ToList();
+                saDocumentoVenta new_doc = new Invoice().AddCreditNote(invoice.doc_num, user, sucur, conn, emails);
 
                 response.Status = "OK";
                 response.Result = new_doc;

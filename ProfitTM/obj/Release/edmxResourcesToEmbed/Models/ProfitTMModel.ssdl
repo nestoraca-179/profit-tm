@@ -81,9 +81,9 @@
     <Property Name="HttpCode" Type="char" MaxLength="5" />
     <Property Name="Times" Type="int" Nullable="false" />
     <Property Name="NroControl" Type="varchar" MaxLength="25" />
-    <Property Name="DateInserted" Type="smalldatetime" Nullable="false" />
-    <Property Name="DateTried" Type="smalldatetime" />
-    <Property Name="DateSent" Type="smalldatetime" />
+    <Property Name="DateInserted" Type="datetime" Nullable="false" />
+    <Property Name="DateTried" Type="datetime" />
+    <Property Name="DateSent" Type="datetime" />
     <Property Name="Message" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Modules">

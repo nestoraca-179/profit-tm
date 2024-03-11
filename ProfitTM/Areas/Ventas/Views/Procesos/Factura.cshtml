@@ -1116,13 +1116,13 @@
             </div>
         </form>
     </div>
-    <!-- Modal Enviar Correo -->
+    <!-- Modal Enviar Correo Factura -->
     <div class="modal fade" id="modalSendEmail" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Enviar Factura {{ invoice.doc_num }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$('#text-error-f').text('');">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$('#text-error-email').text('');">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -1137,7 +1137,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-error-f').text('');">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-error-email').text('');">Cerrar</button>
                     <button type="button" class="btn btn-primary" ng-click="addInvoice()">Seleccionar</button>
                 </div>
             </div>
@@ -1156,6 +1156,33 @@
                 <div class="modal-footer" style="justify-content: center">
                     <button type="button" style="width: 70px;" class="btn btn-danger" data-dismiss="modal">No</button>
                     <button type="button" style="width: 70px;" class="btn btn-success" ng-click="creditInvoice(invoice.doc_num)">Sí</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Enviar Correo Nota Credito -->
+    <div class="modal fade" id="modalSendEmailNC" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enviar N/CR de Factura {{ invoice.doc_num }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$('#text-error-email-nc').text('');">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div style="width: 100%; margin: 30px auto; display: flex; align-items: center; flex-direction: column;">
+                        <label style="flex: 1; font-size: 25px; font-weight: bold;">Ingrese los correos destino</label>
+                        <label style="flex: 1;">En caso de varios correos colocarlos separados por comas (máx. 5 correos)</label>
+                        <div class="input-search mt-3" style="flex: 1; width: 80%; position: relative;">
+                            <input type="text" class="form-control" id="emails_nc" ng-model="emails" placeholder="alguien@example.com, someone@example.com ..." />
+                            <label class="text-danger text-center w-100" id="text-error-email-nc" style="font-weight: bold; font-size: 15px; color: #ff1919; position: absolute; top: 130%;"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-error-email-nc').text('');">Cerrar</button>
+                    <button type="button" class="btn btn-primary" ng-click="creditInvoice()">Seleccionar</button>
                 </div>
             </div>
         </div>
@@ -1738,16 +1765,19 @@
                         $scope.index = 0;
                         $scope.adding = false;
                         $scope.confirm = false;
+                        $scope.idOrder = "";
                         $scope.emails = "";
                     } else {
                         $("#modalError").modal("show");
                         $scope.errorMessage = res.Message;
+                        $scope.idOrder = "";
                         $scope.emails = "";
                     }
 
                 }, function (response) {
                     $("#modalError").modal("show");
                     $scope.errorMessage = "ERROR INTERNO -> " + response.data.ExceptionMessage;
+                    $scope.idOrder = "";
                     $scope.emails = "";
                 });
 
@@ -1838,9 +1868,53 @@
         $scope.creditInvoice = function () {
 
             $("#modalNotaCredito").modal("hide");
+            if (useFactOnline === "True") {
+                if (isNullOrEmpty($scope.emails)) {
+                    $("#modalSendEmailNC").modal("show");
+
+                    if ($('#modalSendEmailNC').hasClass('show'))
+                        $('#text-error-email-nc').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
+                    else
+                        $scope.emails = $scope.invoice.saCliente.email;
+
+                    setTimeout(function () {
+                        $("#emails_nc").focus();
+                    }, 500);
+
+                    return;
+                } else {
+                    var emails = $scope.emails.replaceAll(" ", "").split(",");
+                    for (var email of emails) {
+                        if (!validateEmail(email)) {
+                            $('#text-error-email-nc').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
+                            $("#emails_nc").focus();
+                            return;
+                        }
+                    }
+
+                    if (emails.length > 5) {
+                        $('#text-error-email-nc').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
+                        return;
+                    }
+                }
+            }
+
+            $('#text-error-email-nc').text('');
+            $("#modalSendEmailNC").modal("hide");
             $("#modalWaiting").modal("show");
 
-            $http.get("/api/ProfitTMApi/AddCreditNote/" + $scope.invoice.doc_num).then(function (response) {
+            $scope.invoice.co_cta_ingr_egr = useFactOnline === "True" ? $scope.emails : null;
+
+            var req = {
+                method: 'POST',
+                url: '/api/ProfitTMApi/AddCreditNote/',
+                data: $scope.invoice,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }
+
+            $http(req).then(function (response) {
 
                 var res = response.data;
                 if (res.Status == "OK") {
@@ -1848,9 +1922,11 @@
                     $scope.successMessage = `La N/CR ${res.Result.nro_doc} se ha agregado con éxito`;
                     $scope.invoice.saldo = "0.00";
                     $scope.invoice.saldo_om = "0.00";
+                    $scope.emails = "";
                 } else {
                     $("#modalError").modal("show");
                     $scope.errorMessage = res.Message;
+                    $scope.emails = "";
                 }
 
             }, function (response) {

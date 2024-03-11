@@ -126,12 +126,12 @@
                     <th>Nro. Doc.</th>
                     <th>Serie</th>
                     <th>Status</th>
-                    <th>Codigo HTTP</th>
+                    <th>Cod. HTTP</th>
                     <th>Intentos</th>
                     <th>Nro. Control</th>
-                    <th>Fecha de Registro</th>
-                    <th>Fecha de Ultimo Intento</th>
-                    <th>Fecha de Envio</th>
+                    <th>Fec. Registro</th>
+                    <th>Fec. Ult. Intento</th>
+                    <th>Fec. Envio</th>
                     <th>Mensaje</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -296,12 +296,15 @@
                 "targets": 6,
                 "render": function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
-                        return moment(data).format('DD/MM/YYYY HH:mm');
+                        return moment(data).format('DD/MM/YYYY HH:mm:ss');
                     }
                     return data;
                 }
             }],
-            "order": [6, 'desc'],
+            "order": [
+                [6, 'desc'],
+                [0, 'desc']
+            ],
         });
     });
 
@@ -321,7 +324,7 @@
                 return null;
 
             var day = date.getDate(), month = date.getMonth() + 1, year = date.getFullYear();
-            var hour = date.getHours(), minute = date.getMinutes();
+            var hour = date.getHours(), minute = date.getMinutes(), second = date.getSeconds();
 
             if (day < 10)
                 day = "0" + day;
@@ -335,7 +338,10 @@
             if (minute < 10)
                 minute = "0" + minute;
 
-            return `${day}/${month}/${year} ${hour}:${minute}`;
+            if (second < 10)
+                second = "0" + second;
+
+            return `${day}/${month}/${year} ${hour}:${minute}:${second}`;
         }
 
         $scope.setClass = function (status) {

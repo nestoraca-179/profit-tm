@@ -505,7 +505,7 @@ namespace ProfitTM.Models
             return new_invoice;
         }
         
-        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur, int conn)
+        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur, int conn, List<string> emails)
         {
             saDocumentoVenta new_doc = new saDocumentoVenta();
 
@@ -520,6 +520,7 @@ namespace ProfitTM.Models
 
                         saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num == doc_num);
                         invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num == doc_num).ToList();
+                        string email = context.saCliente.AsNoTracking().Single(c => c.co_cli == invoice.co_cli).email;
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
                         n_ncr = GetNextConsec(sucur, "DOC_VEN_N/CR").Trim();
@@ -566,15 +567,15 @@ namespace ProfitTM.Models
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
                         {
                             string serie = new Branch().GetBranchByID(sucur).campo2;
-                            Root obj = JsonConvert.DeserializeObject<Root>(new Root().GetJsonInvoiceInfo(invoice, serie, new List<string>() { "nestoraca.179@gmail.com" }));
+                            Root obj = JsonConvert.DeserializeObject<Root>(new Root().GetJsonInvoiceInfo(invoice, serie, emails));
 
                             obj.documentoElectronico.encabezado.identificacionDocumento.tipoDocumento = "02";
                             obj.documentoElectronico.encabezado.identificacionDocumento.numeroDocumento = n_ncr;
                             obj.documentoElectronico.encabezado.identificacionDocumento.serieFacturaAfectada = serie;
-                            obj.documentoElectronico.encabezado.identificacionDocumento.numeroFacturaAfectada = doc_num;
+                            obj.documentoElectronico.encabezado.identificacionDocumento.numeroFacturaAfectada = doc_num.Trim();
                             obj.documentoElectronico.encabezado.identificacionDocumento.fechaFacturaAfectada = invoice.fec_emis.ToString("dd/MM/yyyy");
                             obj.documentoElectronico.encabezado.identificacionDocumento.montoFacturaAfectada = invoice.total_neto.ToString().Replace(",", ".");
-                            obj.documentoElectronico.encabezado.identificacionDocumento.comentarioFacturaAfectada = "N/CR " + n_ncr + " FACTURA " + doc_num;
+                            obj.documentoElectronico.encabezado.identificacionDocumento.comentarioFacturaAfectada = "N/CR " + n_ncr + " FACTURA " + doc_num.Trim();
 
                             string json = JsonConvert.SerializeObject(obj);
                             invoice.doc_num = "N-" + n_ncr;
