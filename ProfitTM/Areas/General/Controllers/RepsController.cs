@@ -2,6 +2,9 @@
 using DevExpress.Web.Mvc;
 using ProfitTM.Models;
 using System;
+using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace ProfitTM.Areas.General.Controllers
@@ -122,16 +125,16 @@ namespace ProfitTM.Areas.General.Controllers
 
             //    // Crear el correo electrónico
             //    MailMessage mail = new MailMessage();
-            //    mail.From = new MailAddress("acarreno@gtsconsultingca.com");
-            //    mail.To.Add("nestoraca.179@gmail.com");
+            //    mail.From = new MailAddress("nestoraca.179@gmail.com");
+            //    mail.To.Add("acarreno@gtsconsultingca.com");
             //    mail.Subject = "Informe Adjunto";
             //    mail.Body = "Adjunto encontrarás el informe solicitado.";
             //    mail.Attachments.Add(attachment);
 
             //    // Configurar el servidor SMTP saliente
-            //    SmtpClient smtpClient = new SmtpClient("mail.gtsconsultingca.com");
+            //    SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
             //    smtpClient.Port = 587;
-            //    smtpClient.Credentials = new NetworkCredential("acarreno@gtsconsultingca.com", "alfa02-GT$ac*");
+            //    smtpClient.Credentials = new NetworkCredential("nestoraca.179@gmail.com", "zied gguv vlve jmvj");
             //    smtpClient.EnableSsl = true;
             //    smtpClient.Timeout = 10000;
 
@@ -148,16 +151,16 @@ namespace ProfitTM.Areas.General.Controllers
         }
 
         #region PRUEBAS ENVIO DE CORREO
-        //private RepEstadoGananciasPerdidas2KDoce GenerateReport()
-        //{
-        //    // Aquí implementa la lógica para generar el reporte utilizando DevExpress Reporting
-        //    // Por ejemplo:
-        //    RepEstadoGananciasPerdidas2KDoce reporte = new RepEstadoGananciasPerdidas2KDoce();
-        //    reporte.Parameters["fecDesde"].Value = DateTime.Now;
-        //    reporte.Parameters["fecHasta"].Value = DateTime.Now;
-        //    reporte.CreateDocument();
-        //    return reporte;
-        //}
+        private RepEstadoGananciasPerdidas2KDoce GenerateReport()
+        {
+            // Aquí implementa la lógica para generar el reporte utilizando DevExpress Reporting
+            // Por ejemplo:
+            RepEstadoGananciasPerdidas2KDoce reporte = new RepEstadoGananciasPerdidas2KDoce();
+            reporte.Parameters["fecDesde"].Value = DateTime.Now;
+            reporte.Parameters["fecHasta"].Value = DateTime.Now;
+            reporte.CreateDocument();
+            return reporte;
+        }
         #endregion
     }
 }
