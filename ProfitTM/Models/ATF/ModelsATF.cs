@@ -50,7 +50,7 @@ namespace ProfitTM.Models
                         direccion = c.direc1.Trim(),
                         ubigeo = null,
                         pais = "VE",
-                        notificar = "Si",
+                        notificar = "No",
                         telefono = new List<string>() { c.telefonos },
                         correo = emails, // new List<string>() { c.email },
                     },
