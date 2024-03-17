@@ -209,7 +209,7 @@ namespace ProfitTM.Models
                 totalCountSale++;
                 totalAmountSale += Math.Round(decimal.Parse(total_neto_v.ToString()), 2);
 
-                if (enumerator1.Current.co_sucu_in.Trim() == sucur)
+                if (enumerator1.Current.co_sucu_in?.Trim() == sucur)
                 {
                     totalCountSaleSuc++;
                     totalAmountSaleSuc += Math.Round(decimal.Parse(total_neto_v.ToString()), 2);
@@ -227,7 +227,7 @@ namespace ProfitTM.Models
                 totalCountBuy++;
                 totalAmountBuy += Math.Round(decimal.Parse(total_neto_c.ToString()), 2);
 
-                if (enumerator2.Current.co_sucu_in.Trim() == sucur)
+                if (enumerator2.Current.co_sucu_in?.Trim() == sucur)
                 {
                     totalCountBuySuc++;
                     totalAmountBuySuc += Math.Round(decimal.Parse(total_neto_c.ToString()), 2);

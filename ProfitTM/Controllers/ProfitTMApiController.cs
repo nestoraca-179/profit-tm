@@ -976,7 +976,7 @@ namespace ProfitTM.Controllers
             {
                 DateTime fecha_d = utils.FormatDate(fec_d);
                 DateTime fecha_h = utils.FormatDate(fec_h);
-                string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+                string sucur = HttpContext.Current.Session["BRANCH"]?.ToString();
 
                 object stats = new Invoice().GetStatsInvoices(fecha_d, fecha_h, sucur);
 
