@@ -51,7 +51,7 @@ namespace ProfitTM
                 .StartNow()
                 .WithSimpleSchedule(x => x
                     // .WithIntervalInMinutes(7)
-                    .WithIntervalInMinutes(5)
+                    .WithIntervalInMinutes(3)
                     .RepeatForever())
                 .Build();
 
@@ -145,7 +145,7 @@ namespace ProfitTM
 
                         log.Times++;
                         log.DateTried = DateTime.Now;
-                        ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log.BodyJson, conn.Token);
+                        ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log, conn.Token);
 
                         if (info.codigo == "200")
                         {

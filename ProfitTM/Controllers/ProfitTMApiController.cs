@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using ProfitTM.Models;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace ProfitTM.Controllers
 {
@@ -846,8 +845,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                List<string> emails = invoice.co_cta_ingr_egr.Replace(" ", "").Split(',').ToList();
-                saDocumentoVenta new_doc = new Invoice().AddCreditNote(invoice.doc_num, user, sucur, conn, emails);
+                saDocumentoVenta new_doc = new Invoice().AddCreditNote(invoice.doc_num, user, sucur, conn);
 
                 response.Status = "OK";
                 response.Result = new_doc;

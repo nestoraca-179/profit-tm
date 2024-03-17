@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Globalization;
 using Newtonsoft.Json;
+using ProfitTM.Controllers;
+using System.Data.Entity.Core.EntityClient;
 
 namespace ProfitTM.Models
 {
@@ -408,12 +410,12 @@ namespace ProfitTM.Models
 
                         // DOCUMENTO VENTA
                         var sp_doc = context.pInsertarDocumentoVenta("FACT", n_fact, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa,
-                            string.Format("FACT N° {0} de Cliente {1}", n_fact, invoice.co_cli), invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.anulado, true, invoice.contrib,
-                            "FACT", n_fact, null, invoice.monto_imp, invoice.saldo, invoice.total_bruto, invoice.monto_desc_glob, invoice.porc_desc_glob, invoice.porc_reca,
-                            invoice.monto_reca, invoice.total_neto, invoice.monto_imp2, invoice.monto_imp3, null, 0, 0, 0, 0, null, n_cont, null, 0, 0, 0, 0, 0, 0,
-                            0, invoice.salestax, invoice.ven_ter, invoice.impfis, invoice.impfisfac, invoice.imp_nro_z, invoice.otros1, invoice.otros2, invoice.otros3, invoice.campo1,
-                            invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, invoice.revisado, invoice.trasnfe, sucur, user,
-                            "SERVER PROFIT WEB");
+                            string.Format("FACT N° {0} de Cliente {1}", n_fact.Trim(), invoice.co_cli), invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.anulado, 
+                            true, invoice.contrib, "FACT", n_fact, null, invoice.monto_imp, invoice.saldo, invoice.total_bruto, invoice.monto_desc_glob, invoice.porc_desc_glob, 
+                            invoice.porc_reca, invoice.monto_reca, invoice.total_neto, invoice.monto_imp2, invoice.monto_imp3, null, 0, 0, 0, 0, null, n_cont, null, 0, 0, 
+                            0, 0, 0, 0, 0, invoice.salestax, invoice.ven_ter, invoice.impfis, invoice.impfisfac, invoice.imp_nro_z, invoice.otros1, invoice.otros2, 
+                            invoice.otros3, invoice.campo1, invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, 
+                            invoice.revisado, invoice.trasnfe, sucur, user, "SERVER PROFIT WEB");
 
                         sp.Dispose();
                         sp_doc.Dispose();
@@ -424,7 +426,7 @@ namespace ProfitTM.Models
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
                         {
                             string serie = new Branch().GetBranchByID(sucur).campo2;
-                            string json = new Root().GetJsonInvoiceInfo(new_invoice, serie, invoice.co_cta_ingr_egr.Replace(" ", "").Split(',').ToList());
+                            string json = new Root().GetJsonInvoiceInfo(new_invoice, serie);
                             LogsFact.Add(new_invoice, conn, json, serie);
                         }
                     }
@@ -505,7 +507,7 @@ namespace ProfitTM.Models
             return new_invoice;
         }
         
-        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur, int conn, List<string> emails)
+        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur, int conn)
         {
             saDocumentoVenta new_doc = new saDocumentoVenta();
 
@@ -520,7 +522,6 @@ namespace ProfitTM.Models
 
                         saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num == doc_num);
                         invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num == doc_num).ToList();
-                        string email = context.saCliente.AsNoTracking().Single(c => c.co_cli == invoice.co_cli).email;
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
                         n_ncr = GetNextConsec(sucur, "DOC_VEN_N/CR").Trim();
@@ -567,7 +568,7 @@ namespace ProfitTM.Models
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
                         {
                             string serie = new Branch().GetBranchByID(sucur).campo2;
-                            Root obj = JsonConvert.DeserializeObject<Root>(new Root().GetJsonInvoiceInfo(invoice, serie, emails));
+                            Root obj = JsonConvert.DeserializeObject<Root>(new Root().GetJsonInvoiceInfo(invoice, serie));
 
                             obj.documentoElectronico.encabezado.identificacionDocumento.tipoDocumento = "02";
                             obj.documentoElectronico.encabezado.identificacionDocumento.numeroDocumento = n_ncr;
@@ -603,7 +604,7 @@ namespace ProfitTM.Models
             db.Entry(invoice).State = EntityState.Modified;
             db.SaveChanges();
         }
-
+        
         public async Task SetCancelledAsync(string id, string user, string serie, string token)
         {
             saFacturaVenta invoice = GetSaleInvoiceByID(id);
@@ -680,6 +681,40 @@ namespace ProfitTM.Models
             }
 
             return result;
+        }
+
+        public static void UpdateControl(LogsFactOnline log, string n_control)
+        {
+            Connections conn = Connection.GetConnByID(log.ConnID.ToString());
+            string n_connect = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
+            EntityConnectionStringBuilder n_entity = EntityController.GetEntity(n_connect);
+
+            using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString()))
+            {
+                bool isFact = !log.NroFact.Contains("N-");
+                string tip_doc = "", nro_doc = "";
+
+                if (isFact)
+                {
+                    saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == log.NroFact);
+                    fact.n_control = n_control;
+                    context.Entry(fact).State = EntityState.Modified;
+
+                    tip_doc = "FACT";
+                    nro_doc = log.NroFact;
+                }
+                else
+                {
+                    tip_doc = "N/CR";
+                    nro_doc = log.NroFact.Replace("N-", "");
+                }
+
+                saDocumentoVenta doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
+                doc.n_control = n_control;
+                context.Entry(doc).State = EntityState.Modified;
+
+                context.SaveChanges();
+            }
         }
     }
 }

@@ -168,7 +168,7 @@
         <div class="modal-dialog" role="document" style="max-width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Enviar Factura {{ selected.NroFact }}</h5>
+                    <h5 class="modal-title">Enviar Doc. {{ selected.NroFact }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="$('#text-error-f').text('');">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -185,7 +185,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#text-error-f').text('');">Cerrar</button>
-                    <button type="button" class="btn btn-primary" ng-click="sendInvoice(emails)">Seleccionar</button>
+                    <button type="button" class="btn btn-primary" ng-click="sendInvoice(emails)">Enviar</button>
                 </div>
             </div>
         </div>
@@ -269,6 +269,7 @@
         //item.DateInserted = new Date(parseInt(item.DateInserted.substr(6)));
         item.DateTried = item.DateTried == null ? null : new Date(parseInt(item.DateTried.substr(6)));
         item.DateSent = item.DateSent == null ? null : new Date(parseInt(item.DateSent.substr(6)));
+        item.correos = JSON.parse(item.BodyJson).documentoElectronico.encabezado.comprador.correo;
     }
 
     $(document).ready(function () {
@@ -386,7 +387,7 @@
 
         $scope.askEmail = function (log) {
             $scope.selected = log;
-            $scope.emails = "";
+            $scope.emails = log.correos != null ? log.correos.toString() : null;
             $("#modalSendEmail").modal("show");
 
             setTimeout(function () {
@@ -398,11 +399,11 @@
 
             $('#text-error-f').text('');
             if (value != null && value != "") {
-
-                var emails = value.replaceAll(" ", "").split(",");
+                
+                var emails = value.split(",");
                 for (var email of emails) {
-                    if (!validateEmail(email)) {
-                        $('#text-error-f').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
+                    if (!validateEmail(email.trim())) {
+                        $('#text-error-f').text(`** EL VALOR ${email.trim()} NO ES UN CORREO VALIDO **`);
                         $("#emails").focus();
                         return;
                     }
@@ -448,7 +449,7 @@
                     if (res.Status == "OK") {
                         if (res.Result.codigo == "200") {
                             $("#modalSuccess").modal("show");
-                            $scope.successMessage = "El documento " + $scope.selected.NroFact + " se ha reenviado con éxito";
+                            $scope.successMessage = "El documento " + $scope.selected.NroFact + " se ha enviado con éxito";
                         } else {
                             $("#modalError").modal("show");
                             $scope.errorMessage = res.Result.mensaje;

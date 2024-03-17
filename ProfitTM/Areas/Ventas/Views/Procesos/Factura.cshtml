@@ -1691,38 +1691,38 @@
 
             if ($("#form")[0].checkValidity()) {
 
-                if (useFactOnline === "True") {
-                    if (isNullOrEmpty($scope.emails)) {
-                        $("#modalConfirm").modal("hide");
-                        $("#modalSend").modal("hide");
-                        $("#modalSendEmail").modal("show");
+                //if (useFactOnline === "True") {
+                //    if (isNullOrEmpty($scope.emails)) {
+                //        $("#modalConfirm").modal("hide");
+                //        $("#modalSend").modal("hide");
+                //        $("#modalSendEmail").modal("show");
 
-                        if ($('#modalSendEmail').hasClass('show'))
-                            $('#text-error-email').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
-                        else
-                            $scope.emails = $scope.invoice.saCliente.email;
+                //        if ($('#modalSendEmail').hasClass('show'))
+                //            $('#text-error-email').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
+                //        else
+                //            $scope.emails = $scope.invoice.saCliente.email;
 
-                        setTimeout(function () {
-                            $("#emails").focus();
-                        }, 500);
+                //        setTimeout(function () {
+                //            $("#emails").focus();
+                //        }, 500);
 
-                        return;
-                    } else {
-                        var emails = $scope.emails.replaceAll(" ", "").split(",");
-                        for (var email of emails) {
-                            if (!validateEmail(email)) {
-                                $('#text-error-email').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
-                                $("#emails").focus();
-                                return;
-                            }
-                        }
+                //        return;
+                //    } else {
+                //        var emails = $scope.emails.replaceAll(" ", "").split(",");
+                //        for (var email of emails) {
+                //            if (!validateEmail(email)) {
+                //                $('#text-error-email').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
+                //                $("#emails").focus();
+                //                return;
+                //            }
+                //        }
 
-                        if (emails.length > 5) {
-                            $('#text-error-email').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
-                            return;
-                        }
-                    }
-                }
+                //        if (emails.length > 5) {
+                //            $('#text-error-email').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
+                //            return;
+                //        }
+                //    }
+                //}
 
                 $('#text-error-email').text('');
                 $("#modalSendEmail").modal("hide");
@@ -1734,7 +1734,8 @@
                 $scope.invoice.fec_emis = origDate($scope.invoice.fec_emis);
                 $scope.invoice.fec_venc = origDate($scope.invoice.fec_venc);
                 $scope.invoice.fec_reg = origDate($scope.invoice.fec_reg);
-                $scope.invoice.co_cta_ingr_egr = useFactOnline === "True" ? $scope.emails : null;
+                // $scope.invoice.co_cta_ingr_egr = useFactOnline === "True" ? $scope.emails : null;
+                $scope.invoice.co_cta_ingr_egr = null;
 
                 for (var ind in $scope.invoice) {
                     if ($scope.invoice[ind] === "")
@@ -1851,7 +1852,8 @@
                     if (res.Status == "OK") {
 
                         $scope.invoice.anulado = true;
-                        $scope.invoice.saldo = 0;
+                        $scope.invoice.saldo = "0.00";
+                        $scope.invoice.saldo_om = "0.00";
                         $scope.successMessage = "La factura se ha anulado con éxito";
                         $("#modalSuccess").modal("show");
 
@@ -1868,42 +1870,42 @@
         $scope.creditInvoice = function () {
 
             $("#modalNotaCredito").modal("hide");
-            if (useFactOnline === "True") {
-                if (isNullOrEmpty($scope.emails)) {
-                    $("#modalSendEmailNC").modal("show");
+            //if (useFactOnline === "True") {
+            //    if (isNullOrEmpty($scope.emails)) {
+            //        $("#modalSendEmailNC").modal("show");
 
-                    if ($('#modalSendEmailNC').hasClass('show'))
-                        $('#text-error-email-nc').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
-                    else
-                        $scope.emails = $scope.invoice.saCliente.email;
+            //        if ($('#modalSendEmailNC').hasClass('show'))
+            //            $('#text-error-email-nc').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
+            //        else
+            //            $scope.emails = $scope.invoice.saCliente.email;
 
-                    setTimeout(function () {
-                        $("#emails_nc").focus();
-                    }, 500);
+            //        setTimeout(function () {
+            //            $("#emails_nc").focus();
+            //        }, 500);
 
-                    return;
-                } else {
-                    var emails = $scope.emails.replaceAll(" ", "").split(",");
-                    for (var email of emails) {
-                        if (!validateEmail(email)) {
-                            $('#text-error-email-nc').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
-                            $("#emails_nc").focus();
-                            return;
-                        }
-                    }
+            //        return;
+            //    } else {
+            //        var emails = $scope.emails.replaceAll(" ", "").split(",");
+            //        for (var email of emails) {
+            //            if (!validateEmail(email)) {
+            //                $('#text-error-email-nc').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
+            //                $("#emails_nc").focus();
+            //                return;
+            //            }
+            //        }
 
-                    if (emails.length > 5) {
-                        $('#text-error-email-nc').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
-                        return;
-                    }
-                }
-            }
+            //        if (emails.length > 5) {
+            //            $('#text-error-email-nc').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
+            //            return;
+            //        }
+            //    }
+            //}
 
             $('#text-error-email-nc').text('');
             $("#modalSendEmailNC").modal("hide");
             $("#modalWaiting").modal("show");
 
-            $scope.invoice.co_cta_ingr_egr = useFactOnline === "True" ? $scope.emails : null;
+            $scope.invoice.co_cta_ingr_egr = null;
 
             var req = {
                 method: 'POST',
@@ -2220,38 +2222,38 @@
             if ($("#form")[0].checkValidity()) {
                 if ($scope.invoice.saFacturaVentaReng.length > 0) {
 
-                    if (useFactOnline === "True") {
-                        if (isNullOrEmpty($scope.emails)) {
-                            $("#modalConfirm").modal("hide");
-                            $("#modalSend").modal("hide");
-                            $("#modalSendEmail").modal("show");
+                    //if (useFactOnline === "True") {
+                    //    if (isNullOrEmpty($scope.emails)) {
+                    //        $("#modalConfirm").modal("hide");
+                    //        $("#modalSend").modal("hide");
+                    //        $("#modalSendEmail").modal("show");
 
-                            if ($('#modalSendEmail').hasClass('show'))
-                                $('#text-error-email').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
-                            else
-                                $scope.emails = $scope.invoice.saCliente.email;
+                    //        if ($('#modalSendEmail').hasClass('show'))
+                    //            $('#text-error-email').text('**DEBES INGRESAR AL MENOS 1 CORREO**');
+                    //        else
+                    //            $scope.emails = $scope.invoice.saCliente.email;
 
-                            setTimeout(function () {
-                                $("#emails").focus();
-                            }, 500);
+                    //        setTimeout(function () {
+                    //            $("#emails").focus();
+                    //        }, 500);
 
-                            return;
-                        } else {
-                            var emails = $scope.emails.replaceAll(" ", "").split(",");
-                            for (var email of emails) {
-                                if (!validateEmail(email)) {
-                                    $('#text-error-email').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
-                                    $("#emails").focus();
-                                    return;
-                                }
-                            }
+                    //        return;
+                    //    } else {
+                    //        var emails = $scope.emails.replaceAll(" ", "").split(",");
+                    //        for (var email of emails) {
+                    //            if (!validateEmail(email)) {
+                    //                $('#text-error-email').text(`** EL VALOR ${email} NO ES UN CORREO VALIDO **`);
+                    //                $("#emails").focus();
+                    //                return;
+                    //            }
+                    //        }
 
-                            if (emails.length > 5) {
-                                $('#text-error-email').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
-                                return;
-                            }
-                        }
-                    }
+                    //        if (emails.length > 5) {
+                    //            $('#text-error-email').text('**DEBES INGRESAR UN MAXIMO DE 5 CORREOS**');
+                    //            return;
+                    //        }
+                    //    }
+                    //}
 
                     $("#form input, #form textarea").change();
 
@@ -2271,6 +2273,7 @@
                     $scope.invoice.fec_emis = origDate($scope.invoice.fec_emis);
                     $scope.invoice.fec_venc = origDate($scope.invoice.fec_venc);
                     $scope.invoice.fec_reg = origDate($scope.invoice.fec_reg);
+                    $scope.invoice.co_cta_ingr_egr = null;
 
                     for (var ind in $scope.invoice) {
                         if ($scope.invoice[ind] === "")

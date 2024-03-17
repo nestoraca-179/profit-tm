@@ -62,12 +62,14 @@
 </style>
 <div class="container-fluid" ng-app="EditLog" ng-controller="controller">
     <div class="row mt-4">
-        <div class="col"></div>
+        <div class="col">
+            <a href="/Ventas/Procesos/LogsFacturas" class="btn btn-primary my-2"><i class="fas fa-arrow-left"></i> Volver al módulo de registros</a>
+        </div>
         <div class="col">
             <h2 class="text-center">Informacion Log</h2>
         </div>
         <div class="col d-flex justify-content-center align-items-center">
-            <button ng-if="log.Status != 1" type="submit" class="btn btn-primary" ng-click="sendLog()">Actualizar log</button>
+            <button ng-if="log.Status != 1" type="submit" class="btn btn-success" ng-click="sendLog()">Actualizar log</button>
         </div>
     </div>
     <form action="" method="post" id="form" class="mt-5" onsubmit="return false;">
@@ -233,14 +235,14 @@
                         <textarea class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.comprador.direccion" ng-disabled="log.Status == 1"></textarea>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-6">
                 <div class="form-group row">
                     <label class="col-sm-4">Pais</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.comprador.pais" ng-disabled="log.Status == 1" />
                     </div>
                 </div>
+            </div>
+            <div class="col-sm-6">
                 <div class="form-group row">
                     <label class="col-sm-4">Telefono</label>
                     <div class="col-sm-8">
@@ -248,9 +250,33 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-4">Correo</label>
+                    <label class="col-sm-4">Correo 1</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" autocomplete="false" required ng-model="info_log.documentoElectronico.encabezado.comprador.correo[0]" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Correo 2</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.encabezado.comprador.correo[1]" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Correo 3</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.encabezado.comprador.correo[2]" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Correo 4</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.encabezado.comprador.correo[3]" ng-disabled="log.Status == 1" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4">Correo 5</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="false" ng-model="info_log.documentoElectronico.encabezado.comprador.correo[4]" ng-disabled="log.Status == 1" />
                     </div>
                 </div>
             </div>

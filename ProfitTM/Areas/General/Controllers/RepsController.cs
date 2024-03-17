@@ -151,16 +151,16 @@ namespace ProfitTM.Areas.General.Controllers
         }
 
         #region PRUEBAS ENVIO DE CORREO
-        private RepEstadoGananciasPerdidas2KDoce GenerateReport()
-        {
-            // Aquí implementa la lógica para generar el reporte utilizando DevExpress Reporting
-            // Por ejemplo:
-            RepEstadoGananciasPerdidas2KDoce reporte = new RepEstadoGananciasPerdidas2KDoce();
-            reporte.Parameters["fecDesde"].Value = DateTime.Now;
-            reporte.Parameters["fecHasta"].Value = DateTime.Now;
-            reporte.CreateDocument();
-            return reporte;
-        }
+        //private RepEstadoGananciasPerdidas2KDoce GenerateReport()
+        //{
+        //    // Aquí implementa la lógica para generar el reporte utilizando DevExpress Reporting
+        //    // Por ejemplo:
+        //    RepEstadoGananciasPerdidas2KDoce reporte = new RepEstadoGananciasPerdidas2KDoce();
+        //    reporte.Parameters["fecDesde"].Value = DateTime.Now;
+        //    reporte.Parameters["fecHasta"].Value = DateTime.Now;
+        //    reporte.CreateDocument();
+        //    return reporte;
+        //}
         #endregion
     }
 }

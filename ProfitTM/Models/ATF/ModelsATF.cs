@@ -14,7 +14,7 @@ namespace ProfitTM.Models
     {
         public DocumentoElectronico documentoElectronico { get; set; }
 
-        public string GetJsonInvoiceInfo(saFacturaVenta i, string serie, List<string> emails)
+        public string GetJsonInvoiceInfo(saFacturaVenta i, string serie)
         {
             Root root = new Root();
             saCliente c = new Client().GetClientByID(i.co_cli);
@@ -52,7 +52,7 @@ namespace ProfitTM.Models
                         pais = "VE",
                         notificar = "No",
                         telefono = new List<string>() { c.telefonos },
-                        correo = emails, // new List<string>() { c.email },
+                        correo = GetEmails(c),
                     },
                     totales = new Totales()
                     {
@@ -63,7 +63,7 @@ namespace ProfitTM.Models
                         totalAPagar = Math.Round
                         (
                             i.total_neto + // TOTAL + IVA FACTURA (BSD)
-                            (decimal.Parse(i.comentario) * (3 / 100) * i.tasa) // IGTF (BSD)
+                            (((decimal.Parse(i.comentario) * 3) / 100) * i.tasa) // IGTF (BSD)
                         ,
                         2)
                         .ToString().Replace(",", "."),
@@ -104,25 +104,25 @@ namespace ProfitTM.Models
                                 codigoTotalImp = "IGTF",
                                 alicuotaImp = "3.00",
                                 baseImponibleImp = Math.Round(decimal.Parse(i.comentario) * i.tasa, 2).ToString().Replace(",", "."),
-                                valorTotalImp = Math.Round((decimal.Parse(i.comentario) * i.tasa) * (3 / 100), 2).ToString().Replace(",", "."),
+                                valorTotalImp = Math.Round(((decimal.Parse(i.comentario) * i.tasa) * 3) / 100, 2).ToString().Replace(",", "."),
                             }
                         },
                         formasPago = new List<FormasPago>()
                         {
-                            new FormasPago()
-                            {
-                                descripcion = "Transferencia Bancaria|Venezuela|04008933",
-                                fecha = DateTime.Now.ToString("dd/MM/yyyy"),
-                                forma = "01",
-                                monto = Math.Round(i.total_neto, 2).ToString().Replace(",", "."),
-                                moneda = "BSD"
-                            },
+                            //new FormasPago()
+                            //{
+                            //    descripcion = "Transferencia Bancaria|-|-",
+                            //    fecha = DateTime.Now.ToString("dd/MM/yyyy"),
+                            //    forma = "01",
+                            //    monto = Math.Round(i.total_neto, 2).ToString().Replace(",", "."),
+                            //    moneda = "BSD"
+                            //},
                             new FormasPago()
                             {
                                 descripcion = "Efectivo Divisas|-|-",
                                 fecha = DateTime.Now.ToString("dd/MM/yyyy"),
                                 forma = "01",
-                                monto = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
+                                monto = Math.Round(decimal.Parse(i.comentario), 2).ToString().Replace(",", "."),
                                 moneda = "USD"
                             }
                         }
@@ -151,7 +151,7 @@ namespace ProfitTM.Models
                         totalAPagar =  Math.Round
                         (
                             (i.total_neto / i.tasa) + // TOTAL + IVA FACTURA (USD)
-                            (decimal.Parse(i.comentario) * (3 / 100)) // IGTF (USD)
+                            ((decimal.Parse(i.comentario) * 3) / 100) // IGTF (USD)
                         , 
                         2)
                         .ToString().Replace(",", "."),
@@ -192,7 +192,7 @@ namespace ProfitTM.Models
                                 codigoTotalImp = "IGTF",
                                 alicuotaImp = "3.00",
                                 baseImponibleImp = decimal.Parse(i.comentario).ToString().Replace(",", "."),
-                                valorTotalImp = (decimal.Parse(i.comentario) * (3 / 100)).ToString().Replace(",", "."),
+                                valorTotalImp = ((decimal.Parse(i.comentario) * 3) / 100).ToString().Replace(",", "."),
                             }
                         },
                     }
@@ -289,11 +289,11 @@ namespace ProfitTM.Models
             return final;
         }
         
-        public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(string json, string token)
+        public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, string token)
         {
             ModelInvoiceInfoResponse final = new ModelInvoiceInfoResponse();
             string url = "https://demoemision.thefactoryhka.com.ve/api/Emision";
-            string data = json;
+            string data = log.BodyJson;
 
             using (HttpClient client = new HttpClient())
             {
@@ -313,6 +313,8 @@ namespace ProfitTM.Models
                             throw new InformationException($"{final.mensaje} ** {final.codigo}");
                         else if ((final.codigo == "203" || final.codigo == "400") && final.validaciones != null)
                             throw new InformationException($"{final.mensaje} ** {final.codigo} ** {final.validaciones[0]}");
+
+                        Invoice.UpdateControl(log, final.resultado.numeroControl);
                     }
                     else
                     {
@@ -484,6 +486,31 @@ namespace ProfitTM.Models
             }
 
             return final;
+        }
+
+        private List<string> GetEmails(saCliente c)
+        {
+            List<string> emails = new List<string>();
+
+            if (string.IsNullOrEmpty(c.email) && string.IsNullOrEmpty(c.email_alterno) && string.IsNullOrEmpty(c.campo1) && string.IsNullOrEmpty(c.campo2) && string.IsNullOrEmpty(c.campo3))
+                return null;
+
+            if (!string.IsNullOrEmpty(c.email))
+                emails.Add(c.email);
+
+            if (!string.IsNullOrEmpty(c.email_alterno))
+                emails.Add(c.email_alterno);
+
+            if (!string.IsNullOrEmpty(c.campo1))
+                emails.Add(c.campo1);
+
+            if (!string.IsNullOrEmpty(c.campo2))
+                emails.Add(c.campo2);
+
+            if (!string.IsNullOrEmpty(c.campo3))
+                emails.Add(c.campo3);
+
+            return emails;
         }
     }
 
