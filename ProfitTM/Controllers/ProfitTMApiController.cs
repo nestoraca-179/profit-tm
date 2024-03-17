@@ -1003,7 +1003,7 @@ namespace ProfitTM.Controllers
             {
                 DateTime fecha_d = utils.FormatDate(fec_d);
                 DateTime fecha_h = utils.FormatDate(fec_h);
-                string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+                string sucur = HttpContext.Current.Session["BRANCH"]?.ToString();
 
                 List<saArticulo> arts = new Product().GetMostProducts(fecha_d, fecha_h, number, true, suc == 1 ? sucur : null);
 
@@ -1030,7 +1030,7 @@ namespace ProfitTM.Controllers
             {
                 DateTime fecha_d = utils.FormatDate(fec_d);
                 DateTime fecha_h = utils.FormatDate(fec_h);
-                string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+                string sucur = HttpContext.Current.Session["BRANCH"]?.ToString();
 
                 List<saArticulo> arts = new Product().GetMostProducts(fecha_d, fecha_h, number, false, suc == 1 ? sucur : null);
 
@@ -1057,7 +1057,7 @@ namespace ProfitTM.Controllers
             {
                 DateTime fecha_d = utils.FormatDate(fec_d);
                 DateTime fecha_h = utils.FormatDate(fec_h);
-                string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+                string sucur = HttpContext.Current.Session["BRANCH"]?.ToString();
 
                 List<saCliente> clients = new Client().GetMostActiveClients(fecha_d, fecha_h, number, suc == 1 ? sucur : null);
 
@@ -1084,7 +1084,7 @@ namespace ProfitTM.Controllers
             {
                 DateTime fecha_d = utils.FormatDate(fec_d);
                 DateTime fecha_h = utils.FormatDate(fec_h);
-                string sucur = HttpContext.Current.Session["BRANCH"].ToString();
+                string sucur = HttpContext.Current.Session["BRANCH"]?.ToString();
 
                 List<saProveedor> suppliers = new Supplier().GetMostActiveSuppliers(fecha_d, fecha_h, number, suc == 1 ? sucur : null);
 
