@@ -162,15 +162,15 @@ namespace ProfitTM
                                 ModelAssignRequest assign = new ModelAssignRequest()
                                 {
                                     detalleAsignacion = new List<DetalleAsignacion>()
-                                {
-                                    new DetalleAsignacion()
                                     {
-                                        serie = "A",
-                                        tipoDocumento = "01",
-                                        numeroDocumentoInicio = log.NroFact,
-                                        numeroDocumentoFin = log.NroFact
+                                        new DetalleAsignacion()
+                                        {
+                                            serie = log.Serie,
+                                            tipoDocumento = log.NroFact.Contains("N-") ? "02" : "01",
+                                            numeroDocumentoInicio = log.NroFact,
+                                            numeroDocumentoFin = log.NroFact
+                                        }
                                     }
-                                }
                                 };
                                 ModelAssignResponse response = await new Root().SendAssign(assign, conn.Token);
 

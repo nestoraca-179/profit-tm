@@ -192,7 +192,7 @@ namespace ProfitTM.Models
                                 codigoTotalImp = "IGTF",
                                 alicuotaImp = "3.00",
                                 baseImponibleImp = decimal.Parse(i.comentario).ToString().Replace(",", "."),
-                                valorTotalImp = ((decimal.Parse(i.comentario) * 3) / 100).ToString().Replace(",", "."),
+                                valorTotalImp = Math.Round((decimal.Parse(i.comentario) * 3) / 100, 2).ToString().Replace(",", "."),
                             }
                         },
                     }
