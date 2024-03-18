@@ -254,7 +254,7 @@ namespace ProfitTM.Models
         public async Task<ModelAuthResponse> SendAuth(ModelAuthRequest auth)
         {
             ModelAuthResponse final = new ModelAuthResponse();
-            string url = "https://demoemision.thefactoryhka.com.ve/api/Autenticacion";
+            string url = "https://emision.thefactoryhka.com.ve/api/Autenticacion";
             string data = JsonConvert.SerializeObject(auth);
 
             using (HttpClient client = new HttpClient())
@@ -292,7 +292,7 @@ namespace ProfitTM.Models
         public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, string token)
         {
             ModelInvoiceInfoResponse final = new ModelInvoiceInfoResponse();
-            string url = "https://demoemision.thefactoryhka.com.ve/api/Emision";
+            string url = "https://emision.thefactoryhka.com.ve/api/Emision";
             string data = log.BodyJson;
 
             using (HttpClient client = new HttpClient())
@@ -335,7 +335,7 @@ namespace ProfitTM.Models
         public async Task<ModelAssignResponse> SendAssign(ModelAssignRequest assign, string token)
         {
             ModelAssignResponse final = new ModelAssignResponse();
-            string url = "https://demoemision.thefactoryhka.com.ve/api/AsignarNumeraciones";
+            string url = "https://emision.thefactoryhka.com.ve/api/AsignarNumeraciones";
             string data = JsonConvert.SerializeObject(assign);
 
             using (HttpClient client = new HttpClient())
@@ -374,7 +374,7 @@ namespace ProfitTM.Models
         public async Task<ModelSendResponse> SendEmail(ModelSendRequest send, string token)
         {
             ModelSendResponse final = new ModelSendResponse();
-            string url = "https://demoemision.thefactoryhka.com.ve/api/Correo/Enviar";
+            string url = "https://emision.thefactoryhka.com.ve/api/Correo/Enviar";
             string data = JsonConvert.SerializeObject(send);
 
             using (HttpClient client = new HttpClient())
@@ -413,7 +413,7 @@ namespace ProfitTM.Models
         public async Task<ModelDownloadResponse> DownloadInvoice(ModelDownloadRequest download, string token)
         {
             ModelDownloadResponse final = new ModelDownloadResponse();
-            string url = "https://demoemision.thefactoryhka.com.ve/api/DescargaArchivo";
+            string url = "https://emision.thefactoryhka.com.ve/api/DescargaArchivo";
             string data = JsonConvert.SerializeObject(download);
 
             using (HttpClient client = new HttpClient())
@@ -452,7 +452,7 @@ namespace ProfitTM.Models
         public async Task<ModelCancelResponse> CancelInvoice(ModelCancelRequest cancel, string token)
         {
             ModelCancelResponse final = new ModelCancelResponse();
-            string url = "https://demoemision.thefactoryhka.com.ve/api/Anular";
+            string url = "https://emision.thefactoryhka.com.ve/api/Anular";
             string data = JsonConvert.SerializeObject(cancel);
 
             using (HttpClient client = new HttpClient())
