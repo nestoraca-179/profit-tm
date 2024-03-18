@@ -425,9 +425,12 @@ namespace ProfitTM.Models
 
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
                         {
-                            string serie = new Branch().GetBranchByID(sucur).campo2;
-                            string json = new Root().GetJsonInvoiceInfo(new_invoice, serie);
-                            LogsFact.Add(new_invoice, conn, json, serie);
+                            if (!n_fact.StartsWith("D"))
+                            {
+                                string serie = new Branch().GetBranchByID(sucur).campo2;
+                                string json = new Root().GetJsonInvoiceInfo(new_invoice, serie);
+                                LogsFact.Add(new_invoice, conn, json, serie);
+                            }
                         }
                     }
                     catch (Exception ex)

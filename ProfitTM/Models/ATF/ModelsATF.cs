@@ -12,6 +12,9 @@ namespace ProfitTM.Models
 {
     public class Root
     {
+        private static readonly string base_url = "https://emision.thefactoryhka.com.ve/api/"; // PRODUCCION
+        // private static readonly string base_url = "https://demoemision.thefactoryhka.com.ve/api/"; // INTEGRACION
+
         public DocumentoElectronico documentoElectronico { get; set; }
 
         public string GetJsonInvoiceInfo(saFacturaVenta i, string serie)
@@ -254,7 +257,7 @@ namespace ProfitTM.Models
         public async Task<ModelAuthResponse> SendAuth(ModelAuthRequest auth)
         {
             ModelAuthResponse final = new ModelAuthResponse();
-            string url = "https://emision.thefactoryhka.com.ve/api/Autenticacion";
+            string url = base_url + "Autenticacion";
             string data = JsonConvert.SerializeObject(auth);
 
             using (HttpClient client = new HttpClient())
@@ -292,7 +295,7 @@ namespace ProfitTM.Models
         public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, string token)
         {
             ModelInvoiceInfoResponse final = new ModelInvoiceInfoResponse();
-            string url = "https://emision.thefactoryhka.com.ve/api/Emision";
+            string url = base_url + "Emision";
             string data = log.BodyJson;
 
             using (HttpClient client = new HttpClient())
@@ -335,7 +338,7 @@ namespace ProfitTM.Models
         public async Task<ModelAssignResponse> SendAssign(ModelAssignRequest assign, string token)
         {
             ModelAssignResponse final = new ModelAssignResponse();
-            string url = "https://emision.thefactoryhka.com.ve/api/AsignarNumeraciones";
+            string url = base_url + "AsignarNumeraciones";
             string data = JsonConvert.SerializeObject(assign);
 
             using (HttpClient client = new HttpClient())
@@ -374,7 +377,7 @@ namespace ProfitTM.Models
         public async Task<ModelSendResponse> SendEmail(ModelSendRequest send, string token)
         {
             ModelSendResponse final = new ModelSendResponse();
-            string url = "https://emision.thefactoryhka.com.ve/api/Correo/Enviar";
+            string url = base_url + "Correo/Enviar";
             string data = JsonConvert.SerializeObject(send);
 
             using (HttpClient client = new HttpClient())
@@ -413,7 +416,7 @@ namespace ProfitTM.Models
         public async Task<ModelDownloadResponse> DownloadInvoice(ModelDownloadRequest download, string token)
         {
             ModelDownloadResponse final = new ModelDownloadResponse();
-            string url = "https://emision.thefactoryhka.com.ve/api/DescargaArchivo";
+            string url = base_url + "DescargaArchivo";
             string data = JsonConvert.SerializeObject(download);
 
             using (HttpClient client = new HttpClient())
@@ -452,7 +455,7 @@ namespace ProfitTM.Models
         public async Task<ModelCancelResponse> CancelInvoice(ModelCancelRequest cancel, string token)
         {
             ModelCancelResponse final = new ModelCancelResponse();
-            string url = "https://emision.thefactoryhka.com.ve/api/Anular";
+            string url = base_url + "Anular";
             string data = JsonConvert.SerializeObject(cancel);
 
             using (HttpClient client = new HttpClient())
