@@ -6,48 +6,39 @@
     .form-group, .form-check {
         margin: 5px 0;
     }
-
     fieldset.form-group {
         margin: 10px 0;
     }
-
     .modal-info .fas {
         font-size: 6em;
         padding: 5%;
     }
-
     legend {
         font-size: 16px;
         font-weight: bold;
     }
-
     h5 {
         margin: 15px 0;
     }
-
     .col-sm-12 button {
         width: 100%;
         max-width: 600px;
         margin: 0 auto;
         display: block;
     }
-
     @@media (max-width: 575px) {
         .form-group.row label {
             margin: 0 0 5px 0;
         }
-
         legend {
             text-align: center;
             font-size: 20px !important;
         }
     }
-
     @@media (max-width: 767px) {
         .header-right-side {
             display: none;
         }
-
         .dash-left-side {
             width: 100%;
             height: auto;
@@ -57,12 +48,10 @@
             border: 0 !important;
             overflow-y: auto;
         }
-
         .list-menu {
             margin: 0;
             display: none;
         }
-
         .menu-item {
             padding: 20px;
         }
@@ -545,6 +534,7 @@
 
                             return obj;
                         });
+                        $scope.user.NextChange = origDate(new Date(parseInt($scope.user.NextChange.substr(6))));
 
                         console.log($scope.user);
 
@@ -597,6 +587,14 @@
             $("#modalWaiting").modal("hide");
         }
     });
+
+    function origDate(value) {
+
+        var timeOffset = value.getTimezoneOffset() * 60000;
+        var date = new Date(value.getTime() - timeOffset).toUTCString();
+
+        return new Date(date);
+    }
 
     function print(elem) {
 
