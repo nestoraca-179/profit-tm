@@ -165,7 +165,7 @@ namespace ProfitTM
                                     {
                                         new DetalleAsignacion()
                                         {
-                                            serie = log.Serie,
+                                            serie = log.Serie.Trim(),
                                             tipoDocumento = log.NroFact.Contains("N-") ? "02" : "01",
                                             numeroDocumentoInicio = log.NroFact,
                                             numeroDocumentoFin = log.NroFact

@@ -21,6 +21,7 @@ namespace ProfitTM.Models
         {
             Root root = new Root();
             saCliente c = new Client().GetClientByID(i.co_cli);
+            bool isFrg = i.co_cli.StartsWith("FR");
 
             root.documentoElectronico = new DocumentoElectronico()
             {
@@ -47,8 +48,8 @@ namespace ProfitTM.Models
                     },
                     comprador = new Comprador()
                     {
-                        tipoIdentificacion = i.co_cli.Substring(0, 1),
-                        numeroIdentificacion = i.co_cli.Substring(1).Trim(),
+                        tipoIdentificacion = isFrg ? "E" : i.co_cli.Substring(0, 1),
+                        numeroIdentificacion = isFrg ? i.co_cli.Trim() : i.co_cli.Substring(1).Trim(),
                         razonSocial = c.cli_des.Trim(),
                         direccion = c.direc1.Trim(),
                         ubigeo = null,
