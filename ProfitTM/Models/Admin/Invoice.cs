@@ -564,13 +564,12 @@ namespace ProfitTM.Models
                             user, null, null, "SERVER PROFIT WEB");
                         sp_ct.Dispose();
 
-                        context.SaveChanges();
-                        tran.Commit();
-                        new_doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "N/CR" && d.nro_doc == n_ncr);
-
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
                         {
                             string serie = new Branch().GetBranchByID(sucur).campo2;
+                            if (string.IsNullOrEmpty(invoice.comentario))
+                                invoice.comentario = "0";
+
                             Root obj = JsonConvert.DeserializeObject<Root>(new Root().GetJsonInvoiceInfo(invoice, serie));
 
                             obj.documentoElectronico.encabezado.identificacionDocumento.tipoDocumento = "02";
@@ -585,6 +584,10 @@ namespace ProfitTM.Models
                             invoice.doc_num = "N-" + n_ncr;
                             LogsFact.Add(invoice, conn, json, serie);
                         }
+
+                        context.SaveChanges();
+                        tran.Commit();
+                        new_doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "N/CR" && d.nro_doc == n_ncr);
                     }
                     catch (Exception ex)
                     {
