@@ -34,6 +34,12 @@
             text-align: center;
             font-size: 20px !important;
         }
+        .btn-reset {
+            width: 100%;
+            max-width: 400px;
+            margin: 10px auto;
+            display: block;
+        }
     }
     @@media (max-width: 767px) {
         .header-right-side {
@@ -136,16 +142,23 @@
         <div class="col-md-8 col-xl-9 col-xxl-10 dash-right-side">
             <div class="container-fluid">
                 <div class="row mt-4">
-                    <div class="col"></div>
+                    <div class="col d-flex justify-content-center align-items-center">
+                        <a href="/Usuarios/Index" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Volver</a>
+                    </div>
                     <div class="col">
                         <h2 class="text-center">Editar Usuario</h2>
                     </div>
                     <div class="col d-flex justify-content-center align-items-center">
-                        <button type="submit" class="btn btn-primary" ng-click="sendUser()">Actualizar usuario</button>
-                        <button type="button" class="btn btn-warning mx-2" ng-click="resetPass()">Resetear Clave</button>
+                        <button type="submit" class="btn btn-success" ng-click="sendUser()"><i class="fas fa-save"></i> Guardar</button>
                     </div>
                 </div>
-                <form action="" method="post" id="form" class="mt-5" onsubmit="return false;">
+                <hr />
+                <div class="row my-2">
+                    <div class="col px-4">
+                        <button type="button" class="btn btn-warning btn-reset" ng-click="resetPass()"><i class="fas fa-power-off"></i> Resetear Clave</button>
+                    </div>
+                </div>
+                <form action="" method="post" id="form" onsubmit="return false;">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group row">
@@ -190,9 +203,13 @@
                                 </div>
                             </div>
                             <div class="form-check row mt-4">
-                                <div class="col">
+                                @*<div class="col">
                                     <input class="form-check-input" type="checkbox" ng-model="user.UseAlterSerie">
                                     <label class="form-check-label ml-3">Usar Serie Alterna (Nro. Control)</label>
+                                </div>*@
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" ng-model="user.Enabled">
+                                    <label class="form-check-label ml-3">Activo</label>
                                 </div>
                             </div>
                         </div>
@@ -217,12 +234,6 @@
                             </div>
                             <div class="form-check row mt-4">
                                 <div class="col">
-                                    <input class="form-check-input" type="checkbox" ng-model="user.Enabled">
-                                    <label class="form-check-label ml-3">Activo</label>
-                                </div>
-                            </div>
-                            <div class="form-check row mt-4">
-                                <div class="col">
                                     <input class="form-check-input" type="checkbox" ng-model="user.AllowCollect">
                                     <label class="form-check-label ml-3">Permitir Cobrar Facturas</label>
                                 </div>
@@ -231,6 +242,12 @@
                                 <div class="col">
                                     <input class="form-check-input" type="checkbox" ng-model="user.AllowCancel">
                                     <label class="form-check-label ml-3">Permitir Anular Facturas</label>
+                                </div>
+                            </div>
+                            <div class="form-check row mt-4">
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" ng-model="user.AllowCredit">
+                                    <label class="form-check-label ml-3">Permitir Generar N/C</label>
                                 </div>
                             </div>
                         </div>
@@ -536,8 +553,6 @@
                         });
                         $scope.user.NextChange = origDate(new Date(parseInt($scope.user.NextChange.substr(6))));
 
-                        console.log($scope.user);
-
                         var req = {
                             method: 'POST',
                             url: '/api/ProfitTMApi/EditUser/',
@@ -549,9 +564,7 @@
 
                         $http(req).then(function (response) {
 
-                            console.log(response.data);
                             var res = response.data;
-
                             if (res.Status == "OK") {
                                 $("#modalSuccess").modal("show");
                                 $scope.successMessage = "El usuario se ha modificado con éxito";

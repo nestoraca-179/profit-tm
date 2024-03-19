@@ -126,6 +126,7 @@
     <Property Name="AllowCollect" Type="Boolean" Nullable="false" />
     <Property Name="AllowCancel" Type="Boolean" Nullable="false" />
     <Property Name="UseAlterSerie" Type="Boolean" Nullable="false" />
+    <Property Name="AllowCredit" Type="Boolean" Nullable="false" />
   </EntityType>
   <Association Name="FK_GroupR_Reps">
     <End Role="GroupReports" Type="Self.GroupReports" Multiplicity="1" />

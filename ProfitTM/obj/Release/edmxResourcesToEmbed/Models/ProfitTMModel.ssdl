@@ -188,6 +188,7 @@
     <Property Name="NextChange" Type="smalldatetime" Nullable="false" />
     <Property Name="AllowCollect" Type="bit" Nullable="false" />
     <Property Name="AllowCancel" Type="bit" Nullable="false" />
+    <Property Name="AllowCredit" Type="bit" Nullable="false" />
     <Property Name="UseAlterSerie" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK__Options__ModuleI__123EB7A3">
@@ -259,9 +260,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Boxes_BoxMoves">
-    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
+    <End Role="Boxes" Type="Self.Boxes" Multiplicity="1" />
     <End Role="BoxMoves" Type="Self.BoxMoves" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Boxes">

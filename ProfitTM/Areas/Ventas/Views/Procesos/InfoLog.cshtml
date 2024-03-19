@@ -51,6 +51,11 @@
             border: 0 !important;
             overflow-y: auto;
         }
+        .btn-back {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
         .list-menu {
             margin: 0;
             display: none;
@@ -62,10 +67,10 @@
 </style>
 <div class="container-fluid" ng-app="EditLog" ng-controller="controller">
     <div class="row mt-4">
-        <div class="col">
-            <a href="/Ventas/Procesos/LogsFacturas" class="btn btn-primary my-2"><i class="fas fa-arrow-left"></i> Volver al módulo de registros</a>
+        <div class="col-sm-12 col-md-4 d-flex align-items-center">
+            <a href="/Ventas/Procesos/LogsFacturas" class="btn btn-primary my-3 btn-back"><i class="fas fa-arrow-left"></i> Volver al módulo de registros</a>
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-4 d-flex justify-content-center align-items-center">
             <h2 class="text-center">Informacion Log</h2>
         </div>
         <div class="col d-flex justify-content-center align-items-center">

@@ -53,7 +53,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             else
             {
                 Users user = Session["USER"] as Users;
-                string sucur = Session["BRANCH"].ToString();
+                string sucur = Session["BRANCH"]?.ToString();
                 int conn = int.Parse(Session["ID_CONN"].ToString());
 
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();

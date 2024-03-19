@@ -85,6 +85,11 @@
             border: 0 !important;
             overflow-y: auto;
         }
+        .btn-add {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
         .list-menu {
             margin: 0;
             display: none;
@@ -179,15 +184,15 @@
             <div class="container-fluid">
                 <div ng-if="show" class="{{ class }}">{{ message }}</div>
                 <div class="row mt-3">
-                    <div class="col d-flex align-items-center">
-                        <a href="/Usuarios/Agregar" class="btn btn-success">
+                    <div class="col-sm-12 col-md-4 d-flex align-items-center">
+                        <a href="/Usuarios/Agregar" class="btn btn-success my-3 btn-add">
                             <i class="fas fa-plus"></i> Agregar nuevo
                         </a>
                     </div>
-                    <div class="col">
-                        <h2 class="text-center">Usuarios</h2>
+                    <div class="col-sm-12 col-md-4 d-flex justify-content-center align-items-center">
+                        <h2 class="text-center m-0">Usuarios</h2>
                     </div>
-                    <div class="col"></div>
+                    <div class="col-sm-12 col-md-4"></div>
                 </div>
                 <hr />
                 <div class="table-info mb-3">
