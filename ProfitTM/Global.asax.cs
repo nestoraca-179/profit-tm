@@ -167,8 +167,8 @@ namespace ProfitTM
                                         {
                                             serie = log.Serie.Trim(),
                                             tipoDocumento = log.NroFact.Contains("N-") ? "02" : "01",
-                                            numeroDocumentoInicio = log.NroFact,
-                                            numeroDocumentoFin = log.NroFact
+                                            numeroDocumentoInicio = log.NroFact.Replace("N-", ""),
+                                            numeroDocumentoFin = log.NroFact.Replace("N-", "")
                                         }
                                     }
                                 };
