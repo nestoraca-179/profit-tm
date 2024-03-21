@@ -535,7 +535,7 @@ namespace ProfitTM.Models
 
                         // NOTA DE CREDITO
                         var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa, 
-                            string.Format("NOTA DE CREDITO DE FACTURA {0}", invoice.doc_num), DateTime.Now, DateTime.Now, DateTime.Now, false, false, false, 
+                            string.Format("NOTA DE CREDITO DE FACTURA {0}", invoice.doc_num.Trim()), DateTime.Now, DateTime.Now, DateTime.Now, false, false, false, 
                             "FACT", invoice.doc_num, null, invoice.monto_imp, 0, invoice.total_bruto, 0, "0", "0", 0, invoice.total_neto, 0, 0, "1", 0, 16, 0, 
                             0, null, n_cont, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, invoice.campo2, invoice.campo7, invoice.campo3, 
                             invoice.campo8, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
@@ -551,8 +551,8 @@ namespace ProfitTM.Models
                         string n_coll = GetNextConsec(sucur, "COBRO");
 
                         var sp_c = context.pInsertarCobro(n_coll, null, invoice.co_cli, invoice.co_ven, invoice.co_mone, invoice.tasa, DateTime.Now, false, 0, 
-                            null, string.Format("CRUCE FACT {0} / NCR {1}", doc_num, n_ncr), null, null, null, null, null, null, null, null, user, sucur, 
-                            "SERVER PROFIT WEB", null, null);
+                            null, string.Format("CRUCE FACT {0} / NCR {1}", doc_num.Trim(), n_ncr.Trim()), null, null, null, null, null, null, null, null, user, 
+                            sucur, "SERVER PROFIT WEB", null, null);
                         sp_c.Dispose();
 
                         var sp_cd1 = context.pInsertarRenglonesDocCobro(1, n_coll, "FACT", doc_num, invoice.total_neto, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(), 

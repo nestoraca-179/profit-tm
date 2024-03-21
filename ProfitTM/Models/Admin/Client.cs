@@ -22,7 +22,9 @@ namespace ProfitTM.Models
                 client.saCuentaIngEgr.saCliente = null;
                 client.saPais.saCliente = null;
                 client.saZona.saCliente = null;
-                client.saCondicionPago.saCliente = null;
+
+                if (client.saCondicionPago != null)
+                    client.saCondicionPago.saCliente = null;
             }
             catch (Exception ex)
             {

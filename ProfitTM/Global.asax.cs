@@ -50,8 +50,8 @@ namespace ProfitTM
                 .WithIdentity("myTrigger", "group1")
                 .StartNow()
                 .WithSimpleSchedule(x => x
-                    // .WithIntervalInMinutes(7)
                     .WithIntervalInMinutes(3)
+                    // .WithIntervalInSeconds(30) // PRUEBAS
                     .RepeatForever())
                 .Build();
 

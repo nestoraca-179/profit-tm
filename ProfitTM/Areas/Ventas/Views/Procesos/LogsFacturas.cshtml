@@ -261,7 +261,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     var app = angular.module("Logs", []);
-    var logs = @Html.Raw(Json.Encode(ViewBag.logs));
+    var logs = @Html.Raw(ViewBag.logs);
 
     for (var item of logs) {
         //item.DateInserted = new Date(parseInt(item.DateInserted.substr(6)));

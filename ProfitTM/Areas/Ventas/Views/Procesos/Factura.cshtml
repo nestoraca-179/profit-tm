@@ -1350,7 +1350,7 @@
                         <input type="text" class="form-control" placeholder="Buscar articulo..." onkeyup="search('modalArts')" />
                     </div>
                     <table class="table table-bordered table-hover table-striped mt-3" id="results">
-                        <tr ng-repeat="art in arts" ng-show="showItem(art)" style="cursor: pointer" onclick="selectRow(this)">
+                        <tr ng-repeat="art in arts" ng-show="true" style="cursor: pointer" onclick="selectRow(this)">
                             <td>{{ art.split("/")[0] }}</td>
                             <td>{{ art.split("/")[1] }}</td>
                         </tr>
@@ -1451,7 +1451,7 @@
     app.controller("controller", function ($scope, $http) {
 
         $scope.index = 0;
-        $scope.numberI = 200;
+        $scope.numberI = 50;
         $scope.invoices = invoices;
         $scope.invoice = invoices[$scope.index];
         $scope.conds = conds;
@@ -1791,7 +1791,7 @@
         // FUNCIONES DE FACTURAS MOSTRADAS
         $scope.loadInvoices = function () {
 
-            $scope.numberI += 200;
+            $scope.numberI += 50;
             $("#modalWaiting").modal("show");
 
             $http.get("/api/ProfitTMApi/GetInvoices/" + $scope.numberI)
