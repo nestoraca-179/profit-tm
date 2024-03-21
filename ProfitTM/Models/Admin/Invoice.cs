@@ -388,6 +388,9 @@ namespace ProfitTM.Models
                             n_cont = invoice.n_control;
                         }
 
+                        if (string.IsNullOrEmpty(invoice.comentario)) // VALIDACION DE BASE DE IGTF
+                            invoice.comentario = "0";
+
                         // FACTURA
                         var sp = context.pInsertarFacturaVenta(n_fact, invoice.descrip, invoice.co_cli, invoice.co_tran, invoice.co_mone, null, invoice.co_ven,
                             invoice.co_cond, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, invoice.anulado, invoice.status, invoice.tasa, n_cont, invoice.porc_desc_glob,
@@ -427,9 +430,6 @@ namespace ProfitTM.Models
                         {
                             if (!n_fact.StartsWith("D"))
                             {
-                                if (string.IsNullOrEmpty(invoice.comentario))
-                                    invoice.comentario = "0";
-
                                 string serie = new Branch().GetBranchByID(sucur).campo2;
                                 string json = new Root().GetJsonInvoiceInfo(new_invoice, serie);
                                 LogsFact.Add(new_invoice, conn, json, serie);
