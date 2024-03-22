@@ -23,58 +23,62 @@ namespace ProfitTM.Models
             saCliente c = new Client().GetClientByID(i.co_cli);
             bool isFrg = i.co_cli.StartsWith("FR");
 
-            root.documentoElectronico = new DocumentoElectronico()
+            string result = "";
+
+            try
             {
-                encabezado = new Encabezado()
+                root.documentoElectronico = new DocumentoElectronico()
                 {
-                    identificacionDocumento = new IdentificacionDocumento()
+                    encabezado = new Encabezado()
                     {
-                        tipoDocumento = "01",
-                        numeroDocumento = i.doc_num.Trim(),
-                        serieFacturaAfectada = null,
-                        numeroFacturaAfectada = null,
-                        fechaFacturaAfectada = null,
-                        montoFacturaAfectada = null,
-                        comentarioFacturaAfectada = null,
-                        fechaEmision = i.fec_emis.ToString("dd/MM/yyyy"),
-                        fechaVencimiento = i.fec_venc.ToString("dd/MM/yyyy"),
-                        horaEmision = i.fec_emis.ToString("hh:mm:ss") + (i.fec_emis.Hour < 12 ? " am" : " pm"),
-                        anulado = i.anulado,
-                        tipoDePago = "CONTADO",
-                        serie = serie,
-                        sucursal = i.co_sucu_in,
-                        tipoDeVenta = "Inmediato",
-                        moneda = "BSD",
-                    },
-                    comprador = new Comprador()
-                    {
-                        tipoIdentificacion = isFrg ? "E" : i.co_cli.Substring(0, 1),
-                        numeroIdentificacion = isFrg ? c.rif : i.co_cli.Substring(1).Trim(),
-                        razonSocial = c.cli_des.Trim(),
-                        direccion = c.direc1.Trim(),
-                        ubigeo = null,
-                        pais = "VE",
-                        notificar = "No",
-                        telefono = new List<string>() { c.telefonos },
-                        correo = GetEmails(c),
-                    },
-                    totales = new Totales()
-                    {
-                        nroItems = i.saFacturaVentaReng.Count.ToString(),
-                        montoGravadoTotal = i.total_bruto.ToString().Replace(",", "."),
-                        montoExentoTotal = "0.00",
-                        subtotal = i.total_bruto.ToString().Replace(",", "."),
-                        totalAPagar = Math.Round
+                        identificacionDocumento = new IdentificacionDocumento()
+                        {
+                            tipoDocumento = "01",
+                            numeroDocumento = i.doc_num.Trim(),
+                            serieFacturaAfectada = null,
+                            numeroFacturaAfectada = null,
+                            fechaFacturaAfectada = null,
+                            montoFacturaAfectada = null,
+                            comentarioFacturaAfectada = null,
+                            fechaEmision = i.fec_emis.ToString("dd/MM/yyyy"),
+                            fechaVencimiento = i.fec_venc.ToString("dd/MM/yyyy"),
+                            horaEmision = i.fec_emis.ToString("hh:mm:ss") + (i.fec_emis.Hour < 12 ? " am" : " pm"),
+                            anulado = i.anulado,
+                            tipoDePago = "CONTADO",
+                            serie = serie,
+                            sucursal = i.co_sucu_in,
+                            tipoDeVenta = "Inmediato",
+                            moneda = "BSD",
+                        },
+                        comprador = new Comprador()
+                        {
+                            tipoIdentificacion = isFrg ? "E" : i.co_cli.Substring(0, 1),
+                            numeroIdentificacion = isFrg ? c.rif : i.co_cli.Substring(1).Trim(),
+                            razonSocial = c.cli_des.Trim(),
+                            direccion = c.direc1.Trim(),
+                            ubigeo = null,
+                            pais = "VE",
+                            notificar = "No",
+                            telefono = new List<string>() { c.telefonos },
+                            correo = GetEmails(c),
+                        },
+                        totales = new Totales()
+                        {
+                            nroItems = i.saFacturaVentaReng.Count.ToString(),
+                            montoGravadoTotal = i.total_bruto.ToString().Replace(",", "."),
+                            montoExentoTotal = "0.00",
+                            subtotal = i.total_bruto.ToString().Replace(",", "."),
+                            totalAPagar = Math.Round
                         (
                             i.total_neto + // TOTAL + IVA FACTURA (BSD)
                             (((decimal.Parse(i.comentario) * 3) / 100) * i.tasa) // IGTF (BSD)
                         ,
                         2)
                         .ToString().Replace(",", "."),
-                        totalIVA = i.monto_imp.ToString().Replace(",", "."),
-                        montoTotalConIVA = i.total_neto.ToString().Replace(",", "."),
-                        montoEnLetras = new UtilsController().NumberToWords(i.total_neto),
-                        listaDescBonificacion = new List<ListaDescBonificacion>()
+                            totalIVA = i.monto_imp.ToString().Replace(",", "."),
+                            montoTotalConIVA = i.total_neto.ToString().Replace(",", "."),
+                            montoEnLetras = new UtilsController().NumberToWords(i.total_neto),
+                            listaDescBonificacion = new List<ListaDescBonificacion>()
                         {
                             new ListaDescBonificacion()
                             {
@@ -87,7 +91,7 @@ namespace ProfitTM.Models
                                 montoDescuento = "0.00"
                             }
                         },
-                        impuestosSubtotal = new List<ImpuestosSubtotal>()
+                            impuestosSubtotal = new List<ImpuestosSubtotal>()
                         {
                             new ImpuestosSubtotal()
                             {
@@ -111,7 +115,7 @@ namespace ProfitTM.Models
                                 valorTotalImp = Math.Round(((decimal.Parse(i.comentario) * i.tasa) * 3) / 100, 2).ToString().Replace(",", "."),
                             }
                         },
-                        formasPago = new List<FormasPago>()
+                            formasPago = new List<FormasPago>()
                         {
                             //new FormasPago()
                             //{
@@ -130,39 +134,39 @@ namespace ProfitTM.Models
                                 moneda = "USD"
                             }
                         }
-                    },
-                    totalesRetencion = new TotalesRetencion()
-                    {
-                        totalBaseImponible = i.total_bruto.ToString().Replace(",", "."),
-                        numeroCompRetencion = "1",
-                        fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
-                        totalIVA = Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
-                        totalISRL = Math.Round((i.total_bruto * 2) / 100, 2).ToString().Replace(",", "."),
-                        totalRetenido = 
+                        },
+                        totalesRetencion = new TotalesRetencion()
+                        {
+                            totalBaseImponible = i.total_bruto.ToString().Replace(",", "."),
+                            numeroCompRetencion = "1",
+                            fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
+                            totalIVA = Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
+                            totalISRL = Math.Round((i.total_bruto * 2) / 100, 2).ToString().Replace(",", "."),
+                            totalRetenido =
                         (
                             Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2) +
                             Math.Round((i.total_bruto * 2) / 100, 2)
                         )
                         .ToString().Replace(",", ".")
-                    },
-                    totalesOtraMoneda = new TotalesOtraMoneda()
-                    {
-                        moneda = "USD",
-                        tipoCambio = Math.Round(i.tasa, 2).ToString().Replace(",", "."),
-                        montoGravadoTotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
-                        montoExentoTotal = "0.00",
-                        subtotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
-                        totalAPagar =  Math.Round
+                        },
+                        totalesOtraMoneda = new TotalesOtraMoneda()
+                        {
+                            moneda = "USD",
+                            tipoCambio = Math.Round(i.tasa, 2).ToString().Replace(",", "."),
+                            montoGravadoTotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
+                            montoExentoTotal = "0.00",
+                            subtotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
+                            totalAPagar = Math.Round
                         (
                             (i.total_neto / i.tasa) + // TOTAL + IVA FACTURA (USD)
                             ((decimal.Parse(i.comentario) * 3) / 100) // IGTF (USD)
-                        , 
+                        ,
                         2)
                         .ToString().Replace(",", "."),
-                        totalIVA = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
-                        montoTotalConIVA = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
-                        montoEnLetras = new UtilsController().NumberToWords(Math.Round(i.total_neto / i.tasa, 2)),
-                        listaDescBonificacion = new List<ListaDescBonificacion>()
+                            totalIVA = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
+                            montoTotalConIVA = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
+                            montoEnLetras = new UtilsController().NumberToWords(Math.Round(i.total_neto / i.tasa, 2)),
+                            listaDescBonificacion = new List<ListaDescBonificacion>()
                         {
                             new ListaDescBonificacion()
                             {
@@ -175,7 +179,7 @@ namespace ProfitTM.Models
                                 montoDescuento = "0.00"
                             }
                         },
-                        impuestosSubtotal = new List<ImpuestosSubtotal>()
+                            impuestosSubtotal = new List<ImpuestosSubtotal>()
                         {
                             new ImpuestosSubtotal()
                             {
@@ -199,60 +203,66 @@ namespace ProfitTM.Models
                                 valorTotalImp = Math.Round((decimal.Parse(i.comentario) * 3) / 100, 2).ToString().Replace(",", "."),
                             }
                         },
-                    }
-                },
-                detallesItems = i.saFacturaVentaReng.Select(r => new DetallesItem()
-                {
-                    numeroLinea = r.reng_num.ToString(),
-                    codigoPLU = r.co_art.Trim(),
-                    indicadorBienoServicio = "2",
-                    descripcion = new Product().GetArtByID(r.co_art).art_des.Trim(),
-                    cantidad = Convert.ToInt32(r.total_art).ToString(),
-                    unidadMedida = r.co_uni.Trim(),
-                    precioUnitario = Math.Round(r.prec_vta, 2).ToString().Replace(",", "."),
-                    precioItem = Math.Round(r.reng_neto, 2).ToString().Replace(",", "."),
-                    codigoImpuesto = r.tipo_imp == "1" ? "G" : "E",
-                    tasaIVA = r.tipo_imp == "1" ? "16.00" : "0.00",
-                    valorIVA = r.tipo_imp == "1" ? Math.Round(r.monto_imp, 2).ToString().Replace(",", ".") : "0.00",
-                    valorTotalItem = Math.Round(r.reng_neto, 2).ToString().Replace(",", "."),
-                    infoAdicionalItem = new List<InfoAdicionalItem>()
-                    {
-                        new InfoAdicionalItem()
-                        {
-                            campo = "USD",
-                            valor = Math.Round(r.reng_neto / i.tasa, 2).ToString().Replace(",", ".")
                         }
-                    }
-
-                }).ToList(),
-                viajes = new Viajes()
-                {
-                    razonSocialServTransporte = i.campo1,
-                    numeroBoleto = i.campo8,
-                    puntoSalida = i.campo2,
-                    puntoDestino = i.descrip,
-                },
-                infoAdicional = new List<InfoAdicional>()
-                {
-                    new InfoAdicional()
-                    {
-                        campo = "PDF",
-                        valor = "{'coletilla1':'De conformidad con la Providencia Administrativa SNAT/2022/000013 publicada en la G.O.N 42.339 del 17-03-2022, este pago está sujeto al cobro adicional del 3% del Impuesto a las Grandes Transacciones Financieras (IGTF), siempre que sea pagado en moneda distinta a la del curso legal.'}"
                     },
-                    new InfoAdicional()
+                    detallesItems = i.saFacturaVentaReng.Select(r => new DetallesItem()
                     {
-                        campo = "PDF",
-                        valor = "{'coletilla2':'En los casos en que la base imponible de la venta o prestación de servicio estuviere expresada en moneda extranjera, se establecerá la equivalencia en moneda nacional, al tipo de cambio corriente en el mercado del día en que ocurra el hecho imponible, salvo que éste ocurra en un día no hábil para el sector financiero, en cuyo caso se aplicará el vigente en el día hábil inmediatamente siguiente al de la operación. (ART. 25 Ley de IVA G.O N° 6.152 de fecha 18/11/2014)'}"
+                        numeroLinea = r.reng_num.ToString(),
+                        codigoPLU = r.co_art.Trim(),
+                        indicadorBienoServicio = "2",
+                        descripcion = new Product().GetArtByID(r.co_art).art_des.Trim(),
+                        cantidad = Convert.ToInt32(r.total_art).ToString(),
+                        unidadMedida = r.co_uni.Trim(),
+                        precioUnitario = Math.Round(r.prec_vta, 2).ToString().Replace(",", "."),
+                        precioItem = Math.Round(r.reng_neto, 2).ToString().Replace(",", "."),
+                        codigoImpuesto = r.tipo_imp == "1" ? "G" : "E",
+                        tasaIVA = r.tipo_imp == "1" ? "16.00" : "0.00",
+                        valorIVA = r.tipo_imp == "1" ? Math.Round(r.monto_imp, 2).ToString().Replace(",", ".") : "0.00",
+                        valorTotalItem = Math.Round(r.reng_neto, 2).ToString().Replace(",", "."),
+                        infoAdicionalItem = new List<InfoAdicionalItem>()
+                        {
+                            new InfoAdicionalItem()
+                            {
+                                campo = "USD",
+                                valor = Math.Round(r.reng_neto / i.tasa, 2).ToString().Replace(",", ".")
+                            }
+                        }
+                    }).ToList(),
+                    viajes = new Viajes()
+                    {
+                        razonSocialServTransporte = i.campo1,
+                        numeroBoleto = i.campo8,
+                        puntoSalida = i.campo2,
+                        puntoDestino = i.descrip,
+                    },
+                    infoAdicional = new List<InfoAdicional>()
+                    {
+                        new InfoAdicional()
+                        {
+                            campo = "PDF",
+                            valor = "{'coletilla1':'De conformidad con la Providencia Administrativa SNAT/2022/000013 publicada en la G.O.N 42.339 del 17-03-2022, este pago está sujeto al cobro adicional del 3% del Impuesto a las Grandes Transacciones Financieras (IGTF), siempre que sea pagado en moneda distinta a la del curso legal.'}"
+                        },
+                        new InfoAdicional()
+                        {
+                            campo = "PDF",
+                            valor = "{'coletilla2':'En los casos en que la base imponible de la venta o prestación de servicio estuviere expresada en moneda extranjera, se establecerá la equivalencia en moneda nacional, al tipo de cambio corriente en el mercado del día en que ocurra el hecho imponible, salvo que éste ocurra en un día no hábil para el sector financiero, en cuyo caso se aplicará el vigente en el día hábil inmediatamente siguiente al de la operación. (ART. 25 Ley de IVA G.O N° 6.152 de fecha 18/11/2014)'}"
+                        }
+                    },
+                    transporte = new TransporteF()
+                    {
+                        descripcion = i.campo7,
+                        codigo = i.campo3
                     }
-                },
-                transporte = new TransporteF()
-                {
-                    descripcion = i.campo7,
-                    codigo = i.campo3
-                }
-            };
+                };
 
-            return JsonConvert.SerializeObject(root);
+                result = JsonConvert.SerializeObject(root);
+            }
+            catch (Exception ex)
+            {
+                Incident.CreateIncident(string.Format("ERROR CREANDO JSON FACT {0}", i.doc_num), ex);
+            }
+            
+            return result;
         }
 
         public async Task<ModelAuthResponse> SendAuth(ModelAuthRequest auth)
