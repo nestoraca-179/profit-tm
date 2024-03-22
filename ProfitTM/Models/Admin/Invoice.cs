@@ -619,8 +619,8 @@ namespace ProfitTM.Models
         
         public async Task SetCancelledAsync(string id, string user, string serie, string token)
         {
-            saFacturaVenta invoice = GetSaleInvoiceByID(id);
-            saDocumentoVenta doc = GetDocFromSaleInvoice(id);
+            saFacturaVenta invoice = db.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());
+            saDocumentoVenta doc = db.saDocumentoVenta.AsNoTracking().Single(i => i.co_tipo_doc == "FACT" && i.nro_doc.Trim() == id.Trim());
 
             ModelCancelRequest request = new ModelCancelRequest()
             {
