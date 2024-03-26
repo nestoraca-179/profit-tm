@@ -424,7 +424,9 @@ namespace ProfitTM.Models
                         sp_doc.Dispose();
 
                         tran.Commit();
-                        new_invoice = GetSaleInvoiceByID(n_fact);
+                        // new_invoice = GetSaleInvoiceByID(n_fact);
+                        new_invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == n_fact.Trim()); ;
+                        new_invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num.Trim() == n_fact.Trim()).ToList();
 
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
                         {
