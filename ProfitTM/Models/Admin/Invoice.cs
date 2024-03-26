@@ -425,8 +425,9 @@ namespace ProfitTM.Models
 
                         tran.Commit();
                         // new_invoice = GetSaleInvoiceByID(n_fact);
-                        new_invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == n_fact.Trim()); ;
+                        new_invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == n_fact.Trim());
                         new_invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num.Trim() == n_fact.Trim()).ToList();
+                        new_invoice.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == new_invoice.co_cli.Trim());
 
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
                         {
@@ -528,8 +529,9 @@ namespace ProfitTM.Models
                         string n_ncr = "", n_cont = "";
                         string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>1.1.03.01.001</CuentaContable></Carpeta01></InformacionContable>";
 
-                        saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num == doc_num);
-                        invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num == doc_num).ToList();
+                        saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == doc_num.Trim());
+                        invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num.Trim() == doc_num.Trim()).ToList();
+                        invoice.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == invoice.co_cli.Trim());
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
                         n_ncr = GetNextConsec(sucur, "DOC_VEN_N/CR").Trim();

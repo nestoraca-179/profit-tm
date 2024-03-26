@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using ProfitTM.Models;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Data.Entity.Core.EntityClient;
+using System.Linq;
 
 namespace ProfitTM.Controllers
 {
@@ -1227,6 +1229,40 @@ namespace ProfitTM.Controllers
             }
 
             return response;
+        }
+
+        // GENERAR JSON
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetJson/{id_conn}/{fact}/{serie}")]
+        public string GetJson(string id_conn, string fact, string serie)
+        {
+            string result;
+
+            Connections conn = Connection.GetConnByID(id_conn);
+            string n_connect = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
+            EntityConnectionStringBuilder n_entity = EntityController.GetEntity(n_connect);
+
+            HttpContext.Current.Session["CONNECT"] = n_connect;
+
+            using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString()))
+            {
+                try
+                {
+                    saFacturaVenta f = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == fact);
+                    f.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num.Trim() == fact).ToList();
+                    f.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == f.co_cli.Trim());
+                    result = new Root().GetJsonInvoiceInfo(f, serie);
+                }
+                catch (Exception ex)
+                {
+                    result = $"ERROR => {ex.Message}";
+                }
+            }
+
+            HttpContext.Current.Session["CONNECT"] = null;
+
+            return result;
         }
     }
 }
