@@ -483,9 +483,15 @@ namespace ProfitTM.Models
 
                     if (response.IsSuccessStatusCode)
                     {
-                        if (final.codigo != "200")
+                        if (final.codigo != "200" && final.codigo != "203") // Documento ha sido anulada previamente
                         {
                             throw new CancelException($"{final.mensaje} ** {final.codigo}");
+                        }
+
+                        if (final.codigo == "203") 
+                        {
+                            if (final.validaciones != null && !final.validaciones.Contains("Documento ha sido anulada previamente"))
+                                throw new CancelException($"{final.validaciones[0]} ** {final.codigo}");
                         }
                     }
                     else
