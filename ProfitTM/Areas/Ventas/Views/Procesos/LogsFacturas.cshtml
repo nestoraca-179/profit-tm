@@ -273,7 +273,9 @@
         //item.DateInserted = new Date(parseInt(item.DateInserted.substr(6)));
         item.DateTried = item.DateTried == null ? null : new Date(parseInt(item.DateTried.substr(6)));
         item.DateSent = item.DateSent == null ? null : new Date(parseInt(item.DateSent.substr(6)));
-        item.correos = JSON.parse(item.BodyJson).documentoElectronico.encabezado.comprador.correo;
+
+        if (item.BodyJson != "")
+            item.correos = JSON.parse(item.BodyJson).documentoElectronico.encabezado.comprador.correo;
     }
 
     $(document).ready(function () {

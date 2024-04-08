@@ -78,6 +78,10 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
     private XRLabel xrLabel21;
     private XRLabel xrLabel20;
     private XRLine xrLine2;
+    private XRLabel xrLabel6;
+    private XRLabel xrLabel5;
+    private XRLabel xrLabel8;
+    private XRLabel xrLabel7;
 
     /// <summary>
     /// Required designer variable.
@@ -200,6 +204,10 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             this.totalCuenta = new DevExpress.XtraReports.UI.CalculatedField();
             this.totalPasivoCapital = new DevExpress.XtraReports.UI.CalculatedField();
             this.totalIngrEgr = new DevExpress.XtraReports.UI.CalculatedField();
+            this.xrLabel5 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel6 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel7 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel8 = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
@@ -577,6 +585,10 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             // PageHeader
             // 
             this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel8,
+            this.xrLabel7,
+            this.xrLabel6,
+            this.xrLabel5,
             this.LBL_DescEmpresa,
             this.xrLabel1,
             this.xrLabel3,
@@ -590,7 +602,7 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             this.xrPageInfo1,
             this.xrTable1,
             this.label1});
-            this.PageHeader.HeightF = 221.5417F;
+            this.PageHeader.HeightF = 256.75F;
             this.PageHeader.Name = "PageHeader";
             // 
             // LBL_DescEmpresa
@@ -712,7 +724,7 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             // 
             // xrTable1
             // 
-            this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 193.5417F);
+            this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 218.75F);
             this.xrTable1.Name = "xrTable1";
             this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow1});
@@ -1072,6 +1084,64 @@ public class RepBalanceComprobacion : DevExpress.XtraReports.UI.XtraReport
             this.totalIngrEgr.DataMember = "RepBalanceComprobacion";
             this.totalIngrEgr.Expression = "[][[EsIngEgr] && IsNull([co_cuepadre])].Sum([totalCuenta])";
             this.totalIngrEgr.Name = "totalIngrEgr";
+            // 
+            // xrLabel5
+            // 
+            this.xrLabel5.Font = new System.Drawing.Font("Microsoft JhengHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrLabel5.LocationFloat = new DevExpress.Utils.PointFloat(150.9583F, 173.5277F);
+            this.xrLabel5.Multiline = true;
+            this.xrLabel5.Name = "xrLabel5";
+            this.xrLabel5.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel5.SizeF = new System.Drawing.SizeF(137.0817F, 25.29163F);
+            this.xrLabel5.StylePriority.UseFont = false;
+            this.xrLabel5.StylePriority.UseTextAlignment = false;
+            this.xrLabel5.Text = "DESDE:";
+            this.xrLabel5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            // 
+            // xrLabel6
+            // 
+            this.xrLabel6.Font = new System.Drawing.Font("Microsoft JhengHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xrLabel6.LocationFloat = new DevExpress.Utils.PointFloat(426.4199F, 173.5277F);
+            this.xrLabel6.Multiline = true;
+            this.xrLabel6.Name = "xrLabel6";
+            this.xrLabel6.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.xrLabel6.SizeF = new System.Drawing.SizeF(137.0817F, 25.29163F);
+            this.xrLabel6.StylePriority.UseFont = false;
+            this.xrLabel6.StylePriority.UseTextAlignment = false;
+            this.xrLabel6.Text = "HASTA:";
+            this.xrLabel6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            // 
+            // xrLabel7
+            // 
+            this.xrLabel7.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "?fecDesde")});
+            this.xrLabel7.Font = new System.Drawing.Font("Microsoft JhengHei", 11.25F);
+            this.xrLabel7.LocationFloat = new DevExpress.Utils.PointFloat(288.04F, 173.5277F);
+            this.xrLabel7.Multiline = true;
+            this.xrLabel7.Name = "xrLabel7";
+            this.xrLabel7.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
+            this.xrLabel7.SizeF = new System.Drawing.SizeF(138.3798F, 25.29163F);
+            this.xrLabel7.StylePriority.UseFont = false;
+            this.xrLabel7.StylePriority.UseTextAlignment = false;
+            this.xrLabel7.Text = "xrLabel7";
+            this.xrLabel7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+            this.xrLabel7.TextFormatString = "{0:dd/MM/yyyy}";
+            // 
+            // xrLabel8
+            // 
+            this.xrLabel8.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "?fecHasta")});
+            this.xrLabel8.Font = new System.Drawing.Font("Microsoft JhengHei", 11.25F);
+            this.xrLabel8.LocationFloat = new DevExpress.Utils.PointFloat(563.5016F, 173.5277F);
+            this.xrLabel8.Multiline = true;
+            this.xrLabel8.Name = "xrLabel8";
+            this.xrLabel8.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
+            this.xrLabel8.SizeF = new System.Drawing.SizeF(136.3733F, 25.29163F);
+            this.xrLabel8.StylePriority.UseFont = false;
+            this.xrLabel8.StylePriority.UseTextAlignment = false;
+            this.xrLabel8.Text = "xrLabel8";
+            this.xrLabel8.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+            this.xrLabel8.TextFormatString = "{0:dd/MM/yyyy}";
             // 
             // RepBalanceComprobacion
             // 

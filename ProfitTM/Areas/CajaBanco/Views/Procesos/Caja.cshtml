@@ -909,42 +909,49 @@
                 var res = response.data;
                 if (res.Status = "OK") {
 
-                    if (us.BoxType == 1) {
+                    if (!us.Admin) {
+                        if (us.BoxType == 1) {
 
-                        $scope.boxes = res.Result.filter(b => b.UserID == us.Username);
-                        for (var b of $scope.boxes) {
-                            b.Level = 1;
-                        }
-
-                    } else if (us.BoxType == 2) {
-
-                        $scope.boxes = res.Result.filter(b => b.UserID == us.Username || b.Sup == us.Username);
-                        for (var b of $scope.boxes) {
-                            if (b.UserID == us.Username) {
-                                b.Level = 2;
-                            } else if (b.Sup == us.Username) {
+                            $scope.boxes = res.Result.filter(b => b.UserID == us.Username);
+                            for (var b of $scope.boxes) {
                                 b.Level = 1;
                             }
+
+                        } else if (us.BoxType == 2) {
+
+                            $scope.boxes = res.Result.filter(b => b.UserID == us.Username || b.Sup == us.Username);
+                            for (var b of $scope.boxes) {
+                                if (b.UserID == us.Username) {
+                                    b.Level = 2;
+                                } else if (b.Sup == us.Username) {
+                                    b.Level = 1;
+                                }
+                            }
+
+                        } else if (us.BoxType == 3) {
+
+                            var list = res.Result.filter(b => b.Sup == us.Username).map(b => b.UserID);
+                            list = list.filter(onlyUnique);
+                            $scope.boxes = res.Result.filter(b => b.UserID == us.Username || b.Sup == us.Username);
+
+                            for (var b of $scope.boxes) {
+                                if (b.UserID == us.Username) {
+                                    b.Level = 3;
+                                } else if (b.Sup == us.Username) {
+                                    b.Level = 2;
+                                }
+                            }
+                            for (var id of list) {
+                                for (var box of res.Result.filter(b => b.Sup == id)) {
+                                    box.Level = 1;
+                                    $scope.boxes.push(box);
+                                }
+                            }
                         }
-
-                    } else if (us.BoxType == 3) {
-
-                        var list = res.Result.filter(b => b.Sup == us.Username).map(b => b.UserID);
-                        list = list.filter(onlyUnique);
-                        $scope.boxes = res.Result.filter(b => b.UserID == us.Username || b.Sup == us.Username);
-
+                    } else {
+                        $scope.boxes = res.Result;
                         for (var b of $scope.boxes) {
-                            if (b.UserID == us.Username) {
-                                b.Level = 3;
-                            } else if (b.Sup == us.Username) {
-                                b.Level = 2;
-                            }
-                        }
-                        for (var id of list) {
-                            for (var box of res.Result.filter(b => b.Sup == id)) {
-                                box.Level = 1;
-                                $scope.boxes.push(box);
-                            }
+                            b.Level = b.BoxType;
                         }
                     }
 
