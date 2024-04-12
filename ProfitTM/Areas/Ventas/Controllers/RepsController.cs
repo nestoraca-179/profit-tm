@@ -97,6 +97,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             SqlDataSource ds = report3.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             report3.Parameters["nroFact"].Value = id;
+            report3.Parameters["sucur"].Value = Session["BRANCH"]?.ToString();
             report3.nc_title.Visible = c;
             report3.nc_value.Visible = c;
             report3.note.Visible = c;
@@ -125,6 +126,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             SqlDataSource ds = report4.DataSource as SqlDataSource;
             ds.Connection.ConnectionString = "XpoProvider=MSSqlServer;" + connect;
             report4.Parameters["nroFact"].Value = id;
+            report4.Parameters["sucur"].Value = Session["BRANCH"]?.ToString();
             report4.nc_title.Visible = c;
             report4.nc_value.Visible = c;
             report4.note.Visible = c;

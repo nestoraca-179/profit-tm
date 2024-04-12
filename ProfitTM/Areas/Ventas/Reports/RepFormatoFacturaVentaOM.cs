@@ -99,6 +99,9 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
     public XRLabel dir_empresa;
     public XRLabel desc_empresa;
     public XRLabel rif;
+    private XRLabel xrLabel51;
+    private CalculatedField prefijo;
+    private DevExpress.XtraReports.Parameters.Parameter sucur;
 
     /// <summary>
     /// Required designer variable.
@@ -142,9 +145,12 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             DevExpress.DataAccess.Sql.QueryParameter queryParameter4 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter5 = new DevExpress.DataAccess.Sql.QueryParameter();
             DevExpress.DataAccess.Sql.QueryParameter queryParameter6 = new DevExpress.DataAccess.Sql.QueryParameter();
+            DevExpress.DataAccess.Sql.CustomSqlQuery customSqlQuery1 = new DevExpress.DataAccess.Sql.CustomSqlQuery();
+            DevExpress.DataAccess.Sql.QueryParameter queryParameter7 = new DevExpress.DataAccess.Sql.QueryParameter();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepFormatoFacturaVentaOM));
             this.DemoAdmin = new DevExpress.DataAccess.Sql.SqlDataSource(this.components);
             this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
+            this.rif = new DevExpress.XtraReports.UI.XRLabel();
             this.dir_empresa = new DevExpress.XtraReports.UI.XRLabel();
             this.desc_empresa = new DevExpress.XtraReports.UI.XRLabel();
             this.note = new DevExpress.XtraReports.UI.XRLabel();
@@ -233,7 +239,9 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             this.total_neto_usd = new DevExpress.XtraReports.UI.CalculatedField();
             this.exento_bs = new DevExpress.XtraReports.UI.CalculatedField();
             this.igtf = new DevExpress.XtraReports.UI.CalculatedField();
-            this.rif = new DevExpress.XtraReports.UI.XRLabel();
+            this.prefijo = new DevExpress.XtraReports.UI.CalculatedField();
+            this.xrLabel51 = new DevExpress.XtraReports.UI.XRLabel();
+            this.sucur = new DevExpress.XtraReports.Parameters.Parameter();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // DemoAdmin
@@ -263,8 +271,15 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             storedProcQuery1.Parameters.Add(queryParameter5);
             storedProcQuery1.Parameters.Add(queryParameter6);
             storedProcQuery1.StoredProcName = "RepFormatoFacturaVentaOM";
+            customSqlQuery1.Name = "Sucursales";
+            queryParameter7.Name = "SUCUR";
+            queryParameter7.Type = typeof(DevExpress.DataAccess.Expression);
+            queryParameter7.Value = new DevExpress.DataAccess.Expression("?sucur", typeof(string));
+            customSqlQuery1.Parameters.Add(queryParameter7);
+            customSqlQuery1.Sql = "select * from saSucursal\r\nwhere co_sucur = @SUCUR";
             this.DemoAdmin.Queries.AddRange(new DevExpress.DataAccess.Sql.SqlQuery[] {
-            storedProcQuery1});
+            storedProcQuery1,
+            customSqlQuery1});
             this.DemoAdmin.ResultSchemaSerializable = resources.GetString("DemoAdmin.ResultSchemaSerializable");
             // 
             // TopMargin
@@ -278,6 +293,19 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             this.nc_title});
             this.TopMargin.HeightF = 185F;
             this.TopMargin.Name = "TopMargin";
+            // 
+            // rif
+            // 
+            this.rif.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rif.LocationFloat = new DevExpress.Utils.PointFloat(173.5177F, 44.29169F);
+            this.rif.Multiline = true;
+            this.rif.Name = "rif";
+            this.rif.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.rif.SizeF = new System.Drawing.SizeF(636.4824F, 17.70833F);
+            this.rif.StylePriority.UseFont = false;
+            this.rif.StylePriority.UseTextAlignment = false;
+            this.rif.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+            this.rif.Visible = false;
             // 
             // dir_empresa
             // 
@@ -445,6 +473,7 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             // PageHeader
             // 
             this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel51,
             this.xrLabel31,
             this.xrLabel28,
             this.xrLabel29,
@@ -617,11 +646,11 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[doc_num]")});
             this.xrLabel5.Font = new System.Drawing.Font("Microsoft JhengHei", 11F, System.Drawing.FontStyle.Bold);
-            this.xrLabel5.LocationFloat = new DevExpress.Utils.PointFloat(667.6212F, 6.500021F);
+            this.xrLabel5.LocationFloat = new DevExpress.Utils.PointFloat(712.4129F, 6.500053F);
             this.xrLabel5.Multiline = true;
             this.xrLabel5.Name = "xrLabel5";
             this.xrLabel5.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel5.SizeF = new System.Drawing.SizeF(119.4622F, 34.45835F);
+            this.xrLabel5.SizeF = new System.Drawing.SizeF(74.67053F, 34.45835F);
             this.xrLabel5.StylePriority.UseFont = false;
             this.xrLabel5.Text = "xrLabel5";
             // 
@@ -1339,18 +1368,31 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             this.igtf.Expression = "IsNull(ToDouble([comentario]), 0) * 0.03";
             this.igtf.Name = "igtf";
             // 
-            // rif
+            // prefijo
             // 
-            this.rif.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rif.LocationFloat = new DevExpress.Utils.PointFloat(173.5177F, 44.29169F);
-            this.rif.Multiline = true;
-            this.rif.Name = "rif";
-            this.rif.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.rif.SizeF = new System.Drawing.SizeF(636.4824F, 17.70833F);
-            this.rif.StylePriority.UseFont = false;
-            this.rif.StylePriority.UseTextAlignment = false;
-            this.rif.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-            this.rif.Visible = false;
+            this.prefijo.DataMember = "Sucursales";
+            this.prefijo.Expression = "Iif(!IsNullOrEmpty([campo2]), [campo2] + \'-\', \'\')";
+            this.prefijo.Name = "prefijo";
+            // 
+            // xrLabel51
+            // 
+            this.xrLabel51.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Sucursales].[prefijo]")});
+            this.xrLabel51.Font = new System.Drawing.Font("Microsoft JhengHei", 11F, System.Drawing.FontStyle.Bold);
+            this.xrLabel51.LocationFloat = new DevExpress.Utils.PointFloat(667.6212F, 6.500053F);
+            this.xrLabel51.Multiline = true;
+            this.xrLabel51.Name = "xrLabel51";
+            this.xrLabel51.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
+            this.xrLabel51.SizeF = new System.Drawing.SizeF(44.79169F, 34.45832F);
+            this.xrLabel51.StylePriority.UseFont = false;
+            this.xrLabel51.Text = "xrLabel51";
+            // 
+            // sucur
+            // 
+            this.sucur.AllowNull = true;
+            this.sucur.Description = "Sucursal";
+            this.sucur.Name = "sucur";
+            this.sucur.Visible = false;
             // 
             // RepFormatoFacturaVentaOM
             // 
@@ -1372,7 +1414,8 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             this.monto_imp_bs,
             this.total_neto_usd,
             this.exento_bs,
-            this.igtf});
+            this.igtf,
+            this.prefijo});
             this.ComponentStorage.AddRange(new System.ComponentModel.IComponent[] {
             this.DemoAdmin});
             this.DataMember = "RepFormatoFacturaVentaOM";
@@ -1383,7 +1426,8 @@ public class RepFormatoFacturaVentaOM : DevExpress.XtraReports.UI.XtraReport
             this.Font = new System.Drawing.Font("Arial", 9.75F);
             this.Margins = new System.Drawing.Printing.Margins(20, 20, 185, 50);
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
-            this.nroFact});
+            this.nroFact,
+            this.sucur});
             this.ReportPrintOptions.PrintOnEmptyDataSource = false;
             this.Version = "18.2";
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
