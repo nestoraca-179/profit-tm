@@ -12,8 +12,8 @@ namespace ProfitTM.Models
 {
     public class Root
     {
-        // private static readonly string base_url = "https://emision.thefactoryhka.com.ve/api/"; // PRODUCCION
-        private static readonly string base_url = "https://demoemision.thefactoryhka.com.ve/api/"; // INTEGRACION
+        private static readonly string base_url = "https://emision.thefactoryhka.com.ve/api/"; // PRODUCCION
+        // private static readonly string base_url = "https://demoemision.thefactoryhka.com.ve/api/"; // INTEGRACION
 
         public DocumentoElectronico documentoElectronico { get; set; }
 
@@ -21,7 +21,7 @@ namespace ProfitTM.Models
         {
             Root root = new Root();
             saCliente c = i.saCliente;
-            bool isFrg = i.co_cli.StartsWith("FR");
+            bool isFrg = i.co_cli.StartsWith("FR") || i.co_cli.StartsWith("0");
 
             string result = "";
 
