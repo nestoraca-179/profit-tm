@@ -803,24 +803,27 @@ namespace ProfitTM.Controllers
 
             try
             {
-                if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
+                if (conn.UseFactOnline)
                 {
-                    ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
-                    ModelAuthResponse res = await new Root().SendAuth(auth);
+                    if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
+                    {
+                        ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
+                        ModelAuthResponse res = await new Root().SendAuth(auth);
 
-                    if (res.codigo == 200)
-                    {
-                        conn.Token = res.token;
-                        conn.DateToken = res.expiracion.AddHours(-4);
-                        Connection.Edit(conn);
-                    }
-                    else
-                    {
-                        throw new Exception(res.mensaje);
+                        if (res.codigo == 200)
+                        {
+                            conn.Token = res.token;
+                            conn.DateToken = res.expiracion.AddHours(-4);
+                            Connection.Edit(conn);
+                        }
+                        else
+                        {
+                            throw new Exception(res.mensaje);
+                        }
                     }
                 }
 
-                await new Invoice().SetCancelledAsync(id, user, serie, conn.Token);
+                await new Invoice().SetCancelledAsync(id, user, serie, conn);
 
                 response.Status = "OK";
                 response.Result = id;

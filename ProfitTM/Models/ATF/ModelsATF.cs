@@ -12,8 +12,8 @@ namespace ProfitTM.Models
 {
     public class Root
     {
-        private static readonly string base_url = "https://emision.thefactoryhka.com.ve/api/"; // PRODUCCION
-        // private static readonly string base_url = "https://demoemision.thefactoryhka.com.ve/api/"; // INTEGRACION
+        // private static readonly string base_url = "https://emision.thefactoryhka.com.ve/api/"; // PRODUCCION
+        private static readonly string base_url = "https://demoemision.thefactoryhka.com.ve/api/"; // INTEGRACION
 
         public DocumentoElectronico documentoElectronico { get; set; }
 

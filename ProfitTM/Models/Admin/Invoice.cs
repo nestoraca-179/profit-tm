@@ -551,6 +551,22 @@ namespace ProfitTM.Models
                         invoice.saldo = 0;
                         context.Entry(invoice).State = EntityState.Modified;
 
+                        // ANULACION DE DOCUMENTO IGTF
+                        saDocumentoVenta ajpm_igtf = db.saDocumentoVenta.AsNoTracking().SingleOrDefault(d =>
+                            d.co_tipo_doc == "AJPM" &&
+                            d.observa.Contains("IGTF") &&
+                            d.observa.Contains(doc_num.Trim()) &&
+                            !d.anulado
+                        );
+
+                        if (ajpm_igtf != null)
+                        {
+                            ajpm_igtf.anulado = true;
+                            ajpm_igtf.saldo = 0;
+                            ajpm_igtf.observa = ajpm_igtf.observa.Trim() + " | (ANULADO)";
+                            context.Entry(ajpm_igtf).State = EntityState.Modified;
+                        }
+
                         // COBRO CRUCE
                         string n_coll = GetNextConsec(sucur, "COBRO");
 
@@ -621,21 +637,24 @@ namespace ProfitTM.Models
             db.SaveChanges();
         }
         
-        public async Task SetCancelledAsync(string id, string user, string serie, string token)
+        public async Task SetCancelledAsync(string id, string user, string serie, Connections conn)
         {
             saFacturaVenta invoice = db.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());
-            saDocumentoVenta doc = db.saDocumentoVenta.AsNoTracking().Single(i => i.co_tipo_doc == "FACT" && i.nro_doc.Trim() == id.Trim());
+            saDocumentoVenta doc = db.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc.Trim() == id.Trim());
 
-            ModelCancelRequest request = new ModelCancelRequest()
+            if (conn.UseFactOnline)
             {
-                serie = serie,
-                tipoDocumento = "01",
-                numeroDocumento = id,
-                motivoAnulacion = "ANULACION DE FACTURA " + id,
-                fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
-                horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt", new CultureInfo("en-US")).ToLower()
-            };
-            ModelCancelResponse response = await new Root().CancelInvoice(request, token);
+                ModelCancelRequest request = new ModelCancelRequest()
+                {
+                    serie = serie,
+                    tipoDocumento = "01",
+                    numeroDocumento = id,
+                    motivoAnulacion = "ANULACION DE FACTURA " + id,
+                    fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
+                    horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt", new CultureInfo("en-US")).ToLower()
+                };
+                ModelCancelResponse response = await new Root().CancelInvoice(request, conn.Token);
+            }
 
             foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
             {
@@ -649,6 +668,23 @@ namespace ProfitTM.Models
             doc.anulado = true;
             doc.saldo = 0;
             doc.observa = doc.observa.Trim() + " | (ANULADO)";
+
+            // ANULACION DE DOCUMENTO IGTF
+            saDocumentoVenta ajpm_igtf = db.saDocumentoVenta.AsNoTracking().SingleOrDefault(d => 
+                d.co_tipo_doc == "AJPM" && 
+                d.observa.Contains("IGTF") && 
+                d.observa.Contains(id.Trim()) && 
+                !d.anulado
+            );
+
+            if (ajpm_igtf != null)
+            {
+                ajpm_igtf.anulado = true;
+                ajpm_igtf.saldo = 0;
+                ajpm_igtf.observa = ajpm_igtf.observa.Trim() + " | (ANULADO)";
+                db.Entry(ajpm_igtf).State = EntityState.Modified;
+                Step.CreateStep("saDocumentoVenta", ajpm_igtf.rowguid, user, "M", "ANULACION - " + id);
+            }
 
             db.Entry(invoice).State = EntityState.Modified;
             db.Entry(doc).State = EntityState.Modified;
