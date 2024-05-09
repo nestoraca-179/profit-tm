@@ -471,6 +471,12 @@ namespace ProfitTM.Models
 
                         sp_doc_num.Dispose();
 
+                        // VERIFICACION FACTURA EXISTENTE
+                        saFacturaCompra e = context.saFacturaCompra.AsNoTracking().FirstOrDefault(i => i.co_prov == invoice.co_prov && i.nro_fact == invoice.nro_fact);
+
+                        if (e != null)
+                            throw new Exception(string.Format("El Nro. de Factura {0} del proveedor {1} está duplicado ({2})", e.nro_fact.Trim(), e.co_prov.Trim(), e.doc_num.Trim()));
+
                         // FACTURA
                         var sp = context.pInsertarFacturaCompra(doc_num, invoice.nro_fact, invoice.descrip, invoice.co_prov, invoice.co_cta_ingr_egr, invoice.co_mone, 
                             invoice.co_cond, invoice.n_control, "0", invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, false, invoice.status, invoice.tasa, null, 
