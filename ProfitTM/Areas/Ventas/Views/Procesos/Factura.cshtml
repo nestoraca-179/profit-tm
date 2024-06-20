@@ -318,7 +318,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Emis</label>
-                            <input type="date" class="form-control" id="fec_emis" ng-model="invoice.fec_emis" ng-disabled="!manual" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_emis" ng-model="invoice.fec_emis" ng-disabled="true" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -345,7 +345,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Venc</label>
-                            <input type="date" class="form-control" id="fec_venc" ng-model="invoice.fec_venc" ng-disabled="!manual" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_venc" ng-model="invoice.fec_venc" ng-disabled="true" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -372,7 +372,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="controls">
                             <label>Fec. Reg</label>
-                            <input type="date" class="form-control" id="fec_reg" ng-model="invoice.fec_reg" ng-disabled="!manual" ng-required="true" />
+                            <input type="date" class="form-control" id="fec_reg" ng-model="invoice.fec_reg" ng-disabled="true" ng-required="true" />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
@@ -1062,12 +1062,12 @@
                         <input type="text" ng-model="invoice.monto_ret_imp" ng-disabled="true" />
                     </div>
                     <div class="controls">
-                        <label>Fecha de Recepción de Comprobante</label>
+                        <label>Fecha de Emisión de Comprobante</label>
                         <input type="date" required ng-model="rengIVA.fecha_documento" />
                     </div>
                     <div class="controls">
                         <label>Fecha de Registro de Comprobante</label>
-                        <input type="date" required ng-model="rengIVA.fecha_reg" ng-disabled="true" />
+                        <input type="date" required ng-model="rengIVA.fecha_reg" />
                     </div>
                     <div class="controls">
                         <label>Num. de Comprobante (últimos 14 dígitos)</label>
