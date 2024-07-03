@@ -530,6 +530,6 @@ C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\RepTotalVentaxArticu
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.GenerateResource.cache
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll.licenses
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.CoreCompileInputs.cache
-C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.CopyComplete
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.dll
 C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.pdb
+C:\Temp\ac\developer\c#\ProfitTM admin\ProfitTM\obj\Release\ProfitTM.csproj.Up2Date

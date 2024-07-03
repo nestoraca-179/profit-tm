@@ -645,60 +645,63 @@ namespace ProfitTM.Models
         
         public async Task SetCancelledAsync(string id, string user, string serie, Connections conn)
         {
-            saFacturaVenta invoice = db.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());
-            saDocumentoVenta doc = db.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc.Trim() == id.Trim());
-
-            if (conn.UseFactOnline)
+            using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
             {
-                ModelCancelRequest request = new ModelCancelRequest()
-                {
-                    serie = serie,
-                    tipoDocumento = "01",
-                    numeroDocumento = id,
-                    motivoAnulacion = "ANULACION DE FACTURA " + id,
-                    fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
-                    horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt", new CultureInfo("en-US")).ToLower()
-                };
-                ModelCancelResponse response = await new Root().CancelInvoice(request, conn.Token);
-            }
+				saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());
+				saDocumentoVenta doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc.Trim() == id.Trim());
 
-            foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
-            {
-                if (reng.rowguid_doc != null)
-                    db.pStockPendienteActualizar(reng.rowguid_doc, reng.total_art * -1, "PCLI");
-            }
+				if (conn.UseFactOnline)
+				{
+					ModelCancelRequest request = new ModelCancelRequest()
+					{
+						serie = serie,
+						tipoDocumento = "01",
+						numeroDocumento = id,
+						motivoAnulacion = "ANULACION DE FACTURA " + id,
+						fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
+						horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt", new CultureInfo("en-US")).ToLower()
+					};
+					ModelCancelResponse response = await new Root().CancelInvoice(request, conn.Token);
+				}
 
-            invoice.anulado = true;
-            invoice.saldo = 0;
+				foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
+				{
+					if (reng.rowguid_doc != null)
+						context.pStockPendienteActualizar(reng.rowguid_doc, reng.total_art * -1, "PCLI");
+				}
 
-            doc.anulado = true;
-            doc.saldo = 0;
-            doc.observa = doc.observa.Trim() + " | (ANULADO)";
+				invoice.anulado = true;
+				invoice.saldo = 0;
 
-            // ANULACION DE DOCUMENTO IGTF
-            saDocumentoVenta ajpm_igtf = db.saDocumentoVenta.AsNoTracking().SingleOrDefault(d => 
-                d.co_tipo_doc == "AJPM" && 
-                d.observa.Contains("IGTF") && 
-                d.observa.Contains(id.Trim()) && 
-                !d.anulado
-            );
+				doc.anulado = true;
+				doc.saldo = 0;
+				doc.observa = doc.observa.Trim() + " | (ANULADO)";
 
-            if (ajpm_igtf != null)
-            {
-                ajpm_igtf.anulado = true;
-                ajpm_igtf.saldo = 0;
-                ajpm_igtf.observa = ajpm_igtf.observa.Trim() + " | (ANULADO)";
-                db.Entry(ajpm_igtf).State = EntityState.Modified;
-                Step.CreateStep("saDocumentoVenta", ajpm_igtf.rowguid, user, "M", "ANULACION - " + id);
-            }
+				// ANULACION DE DOCUMENTO IGTF
+				saDocumentoVenta ajpm_igtf = context.saDocumentoVenta.AsNoTracking().SingleOrDefault(d =>
+					d.co_tipo_doc == "AJPM" &&
+					d.observa.Contains("IGTF") &&
+					d.observa.Contains(id.Trim()) &&
+					!d.anulado
+				);
 
-            db.Entry(invoice).State = EntityState.Modified;
-            db.Entry(doc).State = EntityState.Modified;
+				if (ajpm_igtf != null)
+				{
+					ajpm_igtf.anulado = true;
+					ajpm_igtf.saldo = 0;
+					ajpm_igtf.observa = ajpm_igtf.observa.Trim() + " | (ANULADO)";
+					context.Entry(ajpm_igtf).State = EntityState.Modified;
+					Step.CreateStep("saDocumentoVenta", ajpm_igtf.rowguid, user, "M", "ANULACION - " + id);
+				}
 
-            Step.CreateStep("saFacturaVenta", invoice.rowguid, user, "M", "ANULACION - " + id);
-            Step.CreateStep("saDocumentoVenta", doc.rowguid, user, "M", "ANULACION - " + id);
+				context.Entry(invoice).State = EntityState.Modified;
+				context.Entry(doc).State = EntityState.Modified;
 
-            db.SaveChanges();
+				Step.CreateStep("saFacturaVenta", invoice.rowguid, user, "M", "ANULACION - " + id);
+				Step.CreateStep("saDocumentoVenta", doc.rowguid, user, "M", "ANULACION - " + id);
+
+				context.SaveChanges();
+			}
         }
 
         private static List<bool> HasRet(string doc_num)
