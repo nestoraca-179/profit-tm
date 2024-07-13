@@ -222,7 +222,7 @@ namespace ProfitTM.Models
                                 sp_a.Dispose();
 
                                 // INSERTAR COBRO ADELANTO
-                                var sp_c = context.pInsertarCobro(n_coll, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, DateTime.Now, false, total_cob, null,
+                                var sp_c = context.pInsertarCobro(n_coll, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, cob.fecha, false, total_cob, null,
                                     "ADELANTO FACT " + fact.doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
                                 sp_c.Dispose();
 
@@ -313,7 +313,7 @@ namespace ProfitTM.Models
                                 context.Entry(doc_v).State = EntityState.Modified;
 
                                 // INSERTAR COBRO CRUCE
-                                var sp_cc = context.pInsertarCobro(n_coll, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, DateTime.Now, false, 0, null,
+                                var sp_cc = context.pInsertarCobro(n_coll, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, cob.fecha, false, 0, null,
                                     "CRUCE FACT " + fact.doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
                                 sp_cc.Dispose();
 
@@ -366,7 +366,7 @@ namespace ProfitTM.Models
                                 n_ret = GetNextConsec(sucur, "COBRO");
 
                                 // INSERTAR COBRO RETENCIONES
-                                var sp_c_ret = context.pInsertarCobro(n_ret, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, DateTime.Now, false, 0, null,
+                                var sp_c_ret = context.pInsertarCobro(n_ret, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, cob.fecha, false, 0, null,
                                     "RETENCIONES FACT " + fact.doc_num, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
                                 sp_c_ret.Dispose();
 
