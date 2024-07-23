@@ -25,7 +25,7 @@ namespace ProfitTM.Models
 
             using (ProfitTMEntities db = new ProfitTMEntities())
             {
-                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.ConnID == conn).OrderByDescending(l => l.DateInserted).ToList();
+                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.ConnID == conn).OrderByDescending(l => l.DateInserted).Take(2500).ToList();
             }
 
             return logs;
