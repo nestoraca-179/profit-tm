@@ -185,8 +185,21 @@ namespace ProfitTM.Models
                                         if (exist != null)
                                             throw new Exception("La transferencia ha sido agregada anteriormente bajo el Movimiento de Banco Nro. " + exist.mov_num.Trim());
 
-                                        // INSERTAR MOVIMIENTO BANCO
-                                        var sp_m = context.pInsertarMovimientoBanco(n_mov_b, "MOVIMIENTO BANCO COBRO " + n_coll, reng.cod_cta, reng.fecha_che, 1, "TP", reng.num_doc,
+                                        // VERIFICACION DE ULT. CONCILIACION
+                                        DateTime fec_ult_conc = context.saMovimientoBanco.AsNoTracking().Where(m => m.conciliado && !m.anulado && m.cod_cta == reng.cod_cta)
+                                            .Select(m => m.fec_con ?? new DateTime()).Max();
+
+                                        if (reng.fecha_che < fec_ult_conc)
+											throw new Exception(string.Format("La fecha de la transferencia es menor a la ultima fecha de conciliacion de la cuenta bancaria {0}.", fec_ult_conc));
+
+										// VERIFICACION DE ULT. CONTABILIZACION
+										DateTime fec_ult_cont = context.par_emp.AsNoTracking().First().fec_cont;
+
+										if (reng.fecha_che < fec_ult_cont)
+											throw new Exception(string.Format("La fecha de la transferencia es menor a la ultima fecha de contabilizacion {0}.", fec_ult_cont));
+
+										// INSERTAR MOVIMIENTO BANCO
+										var sp_m = context.pInsertarMovimientoBanco(n_mov_b, "MOVIMIENTO BANCO COBRO " + n_coll, reng.cod_cta, reng.fecha_che, 1, "TP", reng.num_doc,
                                             reng.mont_doc, "110301001", "COBRO", n_coll, 0, null, false, false, false, false, 0, null, null, reng.fecha_che, null, null, null, null,
                                             null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", null, null);
                                         sp_m.Dispose();
