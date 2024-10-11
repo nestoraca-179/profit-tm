@@ -372,8 +372,8 @@ namespace ProfitTM.Models
                             {
                                 string consec = "FACT_VTA_N_CON";
 
-                                if (User.GetUserByName(user).UseAlterSerie)
-                                    consec = "FACT_VTA_N_CON_2";
+                                //if (User.GetUserByName(user).UseAlterSerie)
+                                //    consec = "FACT_VTA_N_CON_2";
 
                                 var sp_n_cont = context.pConsecutivoProximo(sucur, consec).GetEnumerator();
                                 if (sp_n_cont.MoveNext())

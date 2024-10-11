@@ -77,6 +77,7 @@
         <EntityType Name="LogsFactOnline">
           <Key>
             <PropertyRef Name="NroFact" />
+            <PropertyRef Name="ConnID" />
           </Key>
           <Property Name="NroFact" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="Serie" Type="char" MaxLength="10" Nullable="false" />
@@ -729,19 +730,20 @@
         <EntityType Name="LogsFactOnline">
           <Key>
             <PropertyRef Name="NroFact" />
+            <PropertyRef Name="ConnID" />
           </Key>
           <Property Name="NroFact" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Serie" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="ConnID" Type="Int32" Nullable="false" />
+          <Property Name="BodyJson" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="HttpCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Times" Type="Int32" Nullable="false" />
+          <Property Name="NroControl" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="DateInserted" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateTried" Type="DateTime" Precision="3" />
           <Property Name="DateSent" Type="DateTime" Precision="3" />
           <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ConnID" Type="Int32" Nullable="false" />
-          <Property Name="BodyJson" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="NroControl" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="Serie" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="HttpCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
-          <Property Name="Times" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -939,17 +941,17 @@
           <EntitySetMapping Name="LogsFactOnline">
             <EntityTypeMapping TypeName="ProfitTMContext.LogsFactOnline">
               <MappingFragment StoreEntitySet="LogsFactOnline">
-                <ScalarProperty Name="Times" ColumnName="Times" />
-                <ScalarProperty Name="HttpCode" ColumnName="HttpCode" />
-                <ScalarProperty Name="Serie" ColumnName="Serie" />
-                <ScalarProperty Name="NroControl" ColumnName="NroControl" />
-                <ScalarProperty Name="BodyJson" ColumnName="BodyJson" />
-                <ScalarProperty Name="ConnID" ColumnName="ConnID" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
                 <ScalarProperty Name="DateTried" ColumnName="DateTried" />
                 <ScalarProperty Name="DateInserted" ColumnName="DateInserted" />
+                <ScalarProperty Name="NroControl" ColumnName="NroControl" />
+                <ScalarProperty Name="Times" ColumnName="Times" />
+                <ScalarProperty Name="HttpCode" ColumnName="HttpCode" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BodyJson" ColumnName="BodyJson" />
+                <ScalarProperty Name="ConnID" ColumnName="ConnID" />
+                <ScalarProperty Name="Serie" ColumnName="Serie" />
                 <ScalarProperty Name="NroFact" ColumnName="NroFact" />
               </MappingFragment>
             </EntityTypeMapping>

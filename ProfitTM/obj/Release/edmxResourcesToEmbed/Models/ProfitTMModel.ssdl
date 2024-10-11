@@ -72,6 +72,7 @@
   <EntityType Name="LogsFactOnline">
     <Key>
       <PropertyRef Name="NroFact" />
+      <PropertyRef Name="ConnID" />
     </Key>
     <Property Name="NroFact" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="Serie" Type="char" MaxLength="10" Nullable="false" />
