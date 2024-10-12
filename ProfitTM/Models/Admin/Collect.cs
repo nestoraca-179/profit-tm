@@ -100,8 +100,8 @@ namespace ProfitTM.Models
                         decimal total_cob = 0, total_fact = 0, igtf = 0;
                         string n_coll = "", n_adel = "", n_ajpm = "", n_mov_c = "", n_mov_b = "", n_ret = "";
 
-                        const string CO_MONE = "USD"; // CAMBIAR
-                        const string COD_CAJA = "01"; // CAMBIAR
+                        const string CO_MONE = "US$";
+                        const string COD_CAJA = "001";
 
                         // DOCUMENTOS DE FACTURA
                         saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().FirstOrDefault(f => f.doc_num == cob.campo1);
@@ -221,7 +221,7 @@ namespace ProfitTM.Models
 
                                         // AGREGAR TRANSFERENCIA A CAJA
                                         string descrip = string.Format("{0} (COB. {1})", fact.doc_num.Trim(), n_coll.Trim());
-                                        // Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, reng.fecha_che, descrip, conn); QUITAR COMENTARIO
+                                        Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, reng.fecha_che, descrip, conn);
                                     }
                                 }
 

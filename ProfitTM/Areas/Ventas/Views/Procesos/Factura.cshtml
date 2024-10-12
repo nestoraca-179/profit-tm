@@ -768,7 +768,7 @@
                             <div class="controls">
                                 <label ng-if="!manual">Monto IVA $USD</label>
                                 <label ng-if="manual">Monto IVA Bs. D</label>
-                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="!manual" />
+                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="false" />
                             </div>
                         </div>
                     </div>
@@ -2079,13 +2079,12 @@
                 r.total_art = parseInt(r.total_art);
                 r.pendiente = parseInt(r.total_art);
 
+				if (parseFloat(r.monto_imp_om) == 0) {
+					r.tipo_imp = 7;
+					r.porc_imp = 0.00;
+				}
+
                 if ($scope.manual) {
-
-                    if (parseFloat(r.monto_imp_om) == 0) {
-                        r.tipo_imp = 7;
-                        r.porc_imp = 0.00;
-                    }
-
                     r.prec_vta = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
                     r.reng_neto = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
                     r.monto_imp = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
@@ -2098,13 +2097,7 @@
                     r.monto_imp = setSeparator((parseFloat((parseFloat(r.monto_imp_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
                     r.prec_vta_om = setSeparator(parseFloat(parseFloat(r.prec_vta_om).toFixed(3)).toFixed(2));
                     r.reng_neto_om = setSeparator(parseFloat(parseFloat(r.reng_neto_om).toFixed(3)).toFixed(2));
-                    r.monto_imp_om = setSeparator(
-                        parseFloat
-                            (
-                                parseFloat(r.monto_imp_om).toFixed(3)
-                            )
-                            .toFixed(2)
-                        );
+                    r.monto_imp_om = setSeparator(parseFloat(parseFloat(r.monto_imp_om).toFixed(3)).toFixed(2));
                 }
             }
 
@@ -2239,7 +2232,6 @@
         }
 
         // FUNCIONES DE MODULO DE COBROS
-
         $scope.initLoadCollect = function () {
 
             $scope.invoice.b_igtf = "";
