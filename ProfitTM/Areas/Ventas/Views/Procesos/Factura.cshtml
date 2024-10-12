@@ -186,7 +186,7 @@
                             <th class="text-white">Cliente</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="invoice in invoices" ng-class="{ active: invoices[index].doc_num == invoice.doc_num }" ng-click="selectInvoice(invoice.doc_num)" style="cursor: pointer;">
+                    <tr ng-repeat="invoice in invoices | orderBy:'-fec_emis'" ng-class="{ active: invoices[index].doc_num == invoice.doc_num }" ng-click="selectInvoice(invoice.doc_num)" style="cursor: pointer;">
                         <td><i class="fas fa-caret-right mx-1" ng-show="invoices[index].doc_num == invoice.doc_num"></i>{{ invoice.doc_num }}</td>
                         <td>{{ invoice.co_cli }}</td>
                     </tr>

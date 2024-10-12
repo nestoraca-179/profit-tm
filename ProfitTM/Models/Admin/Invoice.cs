@@ -428,6 +428,8 @@ namespace ProfitTM.Models
                         new_invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == n_fact.Trim());
                         new_invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num.Trim() == n_fact.Trim()).ToList();
                         new_invoice.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == new_invoice.co_cli.Trim());
+                        new_invoice.saCondicionPago = context.saCondicionPago.AsNoTracking().Single(c => c.co_cond.Trim() == new_invoice.co_cond.Trim());
+                        new_invoice.saVendedor = context.saVendedor.AsNoTracking().Single(s => s.co_ven.Trim() == new_invoice.co_ven.Trim());
 
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
                         {

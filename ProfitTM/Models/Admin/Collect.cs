@@ -100,6 +100,9 @@ namespace ProfitTM.Models
                         decimal total_cob = 0, total_fact = 0, igtf = 0;
                         string n_coll = "", n_adel = "", n_ajpm = "", n_mov_c = "", n_mov_b = "", n_ret = "";
 
+                        const string CO_MONE = "USD"; // CAMBIAR
+                        const string COD_CAJA = "01"; // CAMBIAR
+
                         // DOCUMENTOS DE FACTURA
                         saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().FirstOrDefault(f => f.doc_num == cob.campo1);
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().FirstOrDefault(d => d.co_tipo_doc == "FACT" && d.nro_doc == cob.campo1);
@@ -117,6 +120,10 @@ namespace ProfitTM.Models
 
                         // RENGLONES DE PAGO
                         List<saCobroTPReng> rengs = cob.saCobroTPReng.Where(re => re.forma_pag != "IVAN" && re.forma_pag != "ISLR").ToList();
+
+                        if (fact.fec_emis > cob.fecha)
+                            throw new Exception(string.Format("La Fecha del Cobro ({0}) no puede ser menor a la Fecha de la Factura ({1})", 
+                                cob.fecha.ToString("dd/MM/yyyy"), fact.fec_emis.ToString("dd/MM/yyyy")));
 
                         if (fact.saldo > 0)
                         {
@@ -160,17 +167,19 @@ namespace ProfitTM.Models
                                         // MONTO AJPM DE 3% IGTF
                                         igtf = Convert.ToDecimal(reng.mov_num_c, new CultureInfo("en-US"));
 
-                                        // SERIE AJPM
-                                        // n_ajpm = GetNextConsec(sucur, "DOC_VEN_AJPM");
+										#region CODIGO ANTERIOR
+										// SERIE AJPM
+										// n_ajpm = GetNextConsec(sucur, "DOC_VEN_AJPM");
 
-                                        // INSERTAR AJPM
-                                        /*var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, "US$", null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
+										// INSERTAR AJPM
+										/*var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, CO_MONE, null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
                                             DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, null, null, null, 0, 0, igtf, 0, null, null, 0, igtf, 0, 0, "7",
                                             0, 0, 0, 0, null, null, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null,
                                             null, null, null, null, sucur, user, "SERVER PROFIT WEB");
                                         sp_i.Dispose();*/
-                                    }
-                                    else if (reng.forma_pag == "TP") // TRANSFERENCIA
+										#endregion
+									}
+									else if (reng.forma_pag == "TP") // TRANSFERENCIA
                                     {
                                         // ACTUALIZAR SALDO BANCO
                                         var sp_s = context.pSaldoActualizar(reng.cod_cta, reng.forma_pag, "TF", reng.mont_doc, true, "COBRO", false);
@@ -212,30 +221,32 @@ namespace ProfitTM.Models
 
                                         // AGREGAR TRANSFERENCIA A CAJA
                                         string descrip = string.Format("{0} (COB. {1})", fact.doc_num.Trim(), n_coll.Trim());
-                                        Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, reng.fecha_che, descrip, conn);
+                                        // Transfer.AddTransfer(user, reng.mont_doc, reng.cod_cta, reng.num_doc, reng.fecha_che, descrip, conn); QUITAR COMENTARIO
                                     }
                                 }
 
-                                // total_fact = total_cob;
+								#region CODIGO ANTERIOR
+								// total_fact = total_cob;
 
-                                // if (igtf > 0) // RESTANDO IGTF DEL TOTAL A ABONAR A LA FACTURA
-                                //     total_fact = total_cob - igtf;
+								// if (igtf > 0) // RESTANDO IGTF DEL TOTAL A ABONAR A LA FACTURA
+								//     total_fact = total_cob - igtf;
 
-                                // ACTUALIZAR FACTURA
-                                // fact.saldo -= total_fact;
-                                // fact.status = fact.saldo > 0 ? "1" : "2";
-                                // context.Entry(fact).State = EntityState.Modified;
+								// ACTUALIZAR FACTURA
+								// fact.saldo -= total_fact;
+								// fact.status = fact.saldo > 0 ? "1" : "2";
+								// context.Entry(fact).State = EntityState.Modified;
 
-                                // ACTUALIZAR DOCUMENTO
-                                // doc_v.saldo -= total_fact;
-                                // context.Entry(doc_v).State = EntityState.Modified;
+								// ACTUALIZAR DOCUMENTO
+								// doc_v.saldo -= total_fact;
+								// context.Entry(doc_v).State = EntityState.Modified;
+								#endregion
 
-                                // SERIE ADELANTO
-                                n_adel = GetNextConsec(sucur, "DOC_VEN_ADEL");
+								// SERIE ADELANTO
+								n_adel = GetNextConsec(sucur, "DOC_VEN_ADEL");
 
                                 // INSERTAR ADELANTO
-                                var sp_a = context.pInsertarDocumentoVenta("ADEL", n_adel, fact.co_cli, fact.co_ven, "US$", null, null, fact.tasa, "ADELANTO DE FACTURA " + fact.doc_num,
-                                    DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_coll, null, 0, total_cob, total_cob, 0, null, null, 0, total_cob, 0, 0, "7",
+                                var sp_a = context.pInsertarDocumentoVenta("ADEL", n_adel, fact.co_cli, fact.co_ven, CO_MONE, null, null, fact.tasa, "ADELANTO DE FACTURA " + fact.doc_num,
+                                    cob.fecha, cob.fecha, cob.fecha, false, true, false, "COBRO", n_coll, null, 0, total_cob, total_cob, 0, null, null, 0, total_cob, 0, 0, "7",
                                     0, 0, 0, 0, null, null, null, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null,
                                     null, null, null, null, sucur, user, "SERVER PROFIT WEB");
                                 sp_a.Dispose();
@@ -251,20 +262,22 @@ namespace ProfitTM.Models
                                     null, null, sucur, user, null, null, "SERVER PROFIT WEB");
                                 sp_d1.Dispose();
 
-                                //if (igtf > 0)
-                                //{
-                                //    var sp_d1 = context.pInsertarRenglonesDocCobro(r, n_coll, "AJPM", n_ajpm, igtf, 0, 0, 0, 0, null, null, null, null,
-                                //        Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
-                                //    sp_d1.Dispose();
-                                //    r++;
-                                //}
+								#region CODIGO ANTERIOR
+								//if (igtf > 0)
+								//{
+								//    var sp_d1 = context.pInsertarRenglonesDocCobro(r, n_coll, "AJPM", n_ajpm, igtf, 0, 0, 0, 0, null, null, null, null,
+								//        Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+								//    sp_d1.Dispose();
+								//    r++;
+								//}
 
-                                //var sp_d2 = context.pInsertarRenglonesDocCobro(r, n_coll, "FACT", fact.doc_num, total_fact, 0, 0, 0, 0, null, null, null, null,
-                                //    Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
-                                //sp_d2.Dispose();
+								//var sp_d2 = context.pInsertarRenglonesDocCobro(r, n_coll, "FACT", fact.doc_num, total_fact, 0, 0, 0, 0, null, null, null, null,
+								//    Guid.NewGuid(), null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+								//sp_d2.Dispose();
+								#endregion
 
-                                // INSERTAR TP COBRO ADELANTO
-                                int r = 1;
+								// INSERTAR TP COBRO ADELANTO
+								int r = 1;
                                 foreach (saCobroTPReng reng in rengs)
                                 {
                                     bool isBox = reng.forma_pag == "EF";
@@ -300,7 +313,7 @@ namespace ProfitTM.Models
                                 n_ajpm = GetNextConsec(sucur, "DOC_VEN_AJPM");
 
                                 // INSERTAR AJPM
-                                var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, "US$", null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
+                                var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, CO_MONE, null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
                                     DateTime.Now, DateTime.Now, DateTime.Now, false, true, false, "COBRO", n_coll, null, 0, 0, igtf, 0, null, null, 0, igtf, 0, 0, "7",
                                     0, 0, 0, 0, null, null, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, null, null, null, null, null, null,
                                     null, null, null, null, sucur, user, "SERVER PROFIT WEB");
@@ -357,7 +370,7 @@ namespace ProfitTM.Models
                                 sp_dd3.Dispose();
 
                                 // INSERTAR TP COBRO CRUCE
-                                var sp_tt = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", null, null, null, false, 0, null, null, null, null, "001", DateTime.Now,
+                                var sp_tt = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", null, null, null, false, 0, null, null, null, null, COD_CAJA, DateTime.Now,
                                     sucur, user, null, null, "SERVER PROFIT WEB");
                                 sp_tt.Dispose();
 
@@ -451,7 +464,7 @@ namespace ProfitTM.Models
                                 }
 
                                 // INSERTAR TP FACT COBRO RETENCIONES
-                                var sp_t_ret = context.pInsertarRenglonesTPCobro(1, n_ret, "EF", null, null, null, false, 0, null, null, null, null, "001", DateTime.Now, sucur,
+                                var sp_t_ret = context.pInsertarRenglonesTPCobro(1, n_ret, "EF", null, null, null, false, 0, null, null, null, null, COD_CAJA, DateTime.Now, sucur,
                                     user, null, null, "SERVER PROFIT WEB");
                                 sp_t_ret.Dispose();
 
