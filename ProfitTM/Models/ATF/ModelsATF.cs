@@ -13,7 +13,7 @@ namespace ProfitTM.Models
     public class Root
     {
         // private static readonly string base_url = "https://emisionv2.thefactoryhka.com.ve/api/"; // PRODUCCION
-        private static readonly string base_url = "https://demoemision.thefactoryhka.com.ve/api/"; // INTEGRACION
+        private static readonly string base_url = "https://demoemisionv2.thefactoryhka.com.ve/api/"; // INTEGRACION
 
         public DocumentoElectronico documentoElectronico { get; set; }
 
@@ -66,74 +66,71 @@ namespace ProfitTM.Models
                         {
                             nroItems = i.saFacturaVentaReng.Count.ToString(),
                             montoGravadoTotal = i.total_bruto.ToString().Replace(",", "."),
-                            montoExentoTotal = "0.00",
+                            montoExentoTotal = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString(), // "0.00",
                             subtotal = i.total_bruto.ToString().Replace(",", "."),
-                            totalAPagar = Math.Round
-                        (
-                            i.total_neto + // TOTAL + IVA FACTURA (BSD)
-                            (((decimal.Parse(i.comentario) * 3) / 100) * i.tasa) // IGTF (BSD)
-                        ,
-                        2)
-                        .ToString().Replace(",", "."),
+                            totalAPagar = Math.Round(
+                                i.total_neto + // TOTAL + IVA FACTURA (BSD)
+                                (((decimal.Parse(i.comentario) * 3) / 100) * i.tasa) // IGTF (BSD)
+                            , 2).ToString().Replace(",", "."),
                             totalIVA = i.monto_imp.ToString().Replace(",", "."),
                             montoTotalConIVA = i.total_neto.ToString().Replace(",", "."),
                             montoEnLetras = new UtilsController().NumberToWords(i.total_neto),
                             listaDescBonificacion = new List<ListaDescBonificacion>()
-                        {
-                            new ListaDescBonificacion()
                             {
-                                descDescuento = "descuento",
-                                montoDescuento = "0.00"
+                                new ListaDescBonificacion()
+                                {
+                                    descDescuento = "descuento",
+                                    montoDescuento = "0.00"
+                                },
+                                new ListaDescBonificacion()
+                                {
+                                    descDescuento = "recargo",
+                                    montoDescuento = "0.00"
+                                }
                             },
-                            new ListaDescBonificacion()
-                            {
-                                descDescuento = "recargo",
-                                montoDescuento = "0.00"
-                            }
-                        },
                             impuestosSubtotal = new List<ImpuestosSubtotal>()
-                        {
-                            new ImpuestosSubtotal()
                             {
-                                codigoTotalImp = "E",
-                                alicuotaImp = "0.00",
-                                baseImponibleImp = "0.00",
-                                valorTotalImp = "0.00",
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "E",
+                                    alicuotaImp = "0.00",
+                                    baseImponibleImp = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString(), // "0.00",
+                                    valorTotalImp = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString(), // "0.00",
+                                },
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "G",
+                                    alicuotaImp = "16.00",
+                                    baseImponibleImp = i.total_bruto.ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN BSD ESTA APARECIENDO EN LA COLUMNA DE USD (PEDIR INVERTIR)
+                                    valorTotalImp = i.monto_imp.ToString().Replace(",", "."),
+                                },
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "IGTF",
+                                    alicuotaImp = "3.00",
+                                    baseImponibleImp = Math.Round(decimal.Parse(i.comentario) * i.tasa, 2).ToString().Replace(",", "."),
+                                    valorTotalImp = Math.Round(((decimal.Parse(i.comentario) * i.tasa) * 3) / 100, 2).ToString().Replace(",", "."),
+                                }
                             },
-                            new ImpuestosSubtotal()
-                            {
-                                codigoTotalImp = "G",
-                                alicuotaImp = "16.00",
-                                baseImponibleImp = i.total_bruto.ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN BSD ESTA APARECIENDO EN LA COLUMNA DE USD (PEDIR INVERTIR)
-                                valorTotalImp = i.monto_imp.ToString().Replace(",", "."),
-                            },
-                            new ImpuestosSubtotal()
-                            {
-                                codigoTotalImp = "IGTF",
-                                alicuotaImp = "3.00",
-                                baseImponibleImp = Math.Round(decimal.Parse(i.comentario) * i.tasa, 2).ToString().Replace(",", "."),
-                                valorTotalImp = Math.Round(((decimal.Parse(i.comentario) * i.tasa) * 3) / 100, 2).ToString().Replace(",", "."),
-                            }
-                        },
                             formasPago = new List<FormasPago>()
-                        {
-                            //new FormasPago()
-                            //{
-                            //    descripcion = "Transferencia Bancaria|-|-",
-                            //    fecha = DateTime.Now.ToString("dd/MM/yyyy"),
-                            //    forma = "01",
-                            //    monto = Math.Round(i.total_neto, 2).ToString().Replace(",", "."),
-                            //    moneda = "BSD"
-                            //},
-                            new FormasPago()
                             {
-                                descripcion = "Efectivo Divisas|-|-",
-                                fecha = DateTime.Now.ToString("dd/MM/yyyy"),
-                                forma = "01",
-                                monto = Math.Round(decimal.Parse(i.comentario), 2).ToString().Replace(",", "."),
-                                moneda = "USD"
+                                //new FormasPago()
+                                //{
+                                //    descripcion = "Transferencia Bancaria|-|-",
+                                //    fecha = DateTime.Now.ToString("dd/MM/yyyy"),
+                                //    forma = "01",
+                                //    monto = Math.Round(i.total_neto, 2).ToString().Replace(",", "."),
+                                //    moneda = "BSD"
+                                //},
+                                new FormasPago()
+                                {
+                                    descripcion = "Efectivo Divisas|-|-",
+                                    fecha = DateTime.Now.ToString("dd/MM/yyyy"),
+                                    forma = "01",
+                                    monto = Math.Round(decimal.Parse(i.comentario), 2).ToString().Replace(",", "."),
+                                    moneda = "USD"
+                                }
                             }
-                        }
                         },
                         totalesRetencion = new TotalesRetencion()
                         {
@@ -142,67 +139,62 @@ namespace ProfitTM.Models
                             fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
                             totalIVA = Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
                             totalISRL = Math.Round((i.total_bruto * 2) / 100, 2).ToString().Replace(",", "."),
-                            totalRetenido =
-                        (
-                            Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2) +
-                            Math.Round((i.total_bruto * 2) / 100, 2)
-                        )
-                        .ToString().Replace(",", ".")
+                            totalRetenido = (
+                                Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2) +
+                                Math.Round((i.total_bruto * 2) / 100, 2)
+                            ).ToString().Replace(",", ".")
                         },
                         totalesOtraMoneda = new TotalesOtraMoneda()
                         {
                             moneda = "USD",
                             tipoCambio = Math.Round(i.tasa, 2).ToString().Replace(",", "."),
                             montoGravadoTotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
-                            montoExentoTotal = "0.00",
+                            montoExentoTotal = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString(), // "0.00",
                             subtotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
-                            totalAPagar = Math.Round
-                        (
-                            (i.total_neto / i.tasa) + // TOTAL + IVA FACTURA (USD)
-                            ((decimal.Parse(i.comentario) * 3) / 100) // IGTF (USD)
-                        ,
-                        2)
-                        .ToString().Replace(",", "."),
+                            totalAPagar = Math.Round(
+                                (i.total_neto / i.tasa) + // TOTAL + IVA FACTURA (USD)
+                                ((decimal.Parse(i.comentario) * 3) / 100) // IGTF (USD)
+                            , 2).ToString().Replace(",", "."),
                             totalIVA = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
                             montoTotalConIVA = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
                             montoEnLetras = new UtilsController().NumberToWords(Math.Round(i.total_neto / i.tasa, 2)),
                             listaDescBonificacion = new List<ListaDescBonificacion>()
-                        {
-                            new ListaDescBonificacion()
                             {
-                                descDescuento = "descuento",
-                                montoDescuento = "0.00"
+                                new ListaDescBonificacion()
+                                {
+                                    descDescuento = "descuento",
+                                    montoDescuento = "0.00"
+                                },
+                                new ListaDescBonificacion()
+                                {
+                                    descDescuento = "recargo",
+                                    montoDescuento = "0.00"
+                                }
                             },
-                            new ListaDescBonificacion()
-                            {
-                                descDescuento = "recargo",
-                                montoDescuento = "0.00"
-                            }
-                        },
                             impuestosSubtotal = new List<ImpuestosSubtotal>()
-                        {
-                            new ImpuestosSubtotal()
                             {
-                                codigoTotalImp = "E",
-                                alicuotaImp = "0.00",
-                                baseImponibleImp = "0.00",
-                                valorTotalImp = "0.00",
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "E",
+                                    alicuotaImp = "0.00",
+                                    baseImponibleImp = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString(), // "0.00",
+                                    valorTotalImp = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString(), // "0.00",
+                                },
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "G",
+                                    alicuotaImp = "16.00",
+                                    baseImponibleImp = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN USD ESTA APARECIENDO EN LA COLUMNA DE BSD (PEDIR INVERTIR)
+                                    valorTotalImp = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
+                                },
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "IGTF",
+                                    alicuotaImp = "3.00",
+                                    baseImponibleImp = decimal.Parse(i.comentario).ToString().Replace(",", "."),
+                                    valorTotalImp = Math.Round((decimal.Parse(i.comentario) * 3) / 100, 2).ToString().Replace(",", "."),
+                                }
                             },
-                            new ImpuestosSubtotal()
-                            {
-                                codigoTotalImp = "G",
-                                alicuotaImp = "16.00",
-                                baseImponibleImp = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN USD ESTA APARECIENDO EN LA COLUMNA DE BSD (PEDIR INVERTIR)
-                                valorTotalImp = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
-                            },
-                            new ImpuestosSubtotal()
-                            {
-                                codigoTotalImp = "IGTF",
-                                alicuotaImp = "3.00",
-                                baseImponibleImp = decimal.Parse(i.comentario).ToString().Replace(",", "."),
-                                valorTotalImp = Math.Round((decimal.Parse(i.comentario) * 3) / 100, 2).ToString().Replace(",", "."),
-                            }
-                        },
                         }
                     },
                     detallesItems = i.saFacturaVentaReng.Select(r => new DetallesItem()
