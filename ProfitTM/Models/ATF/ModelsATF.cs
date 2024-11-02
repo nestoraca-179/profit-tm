@@ -66,7 +66,7 @@ namespace ProfitTM.Models
                         {
                             nroItems = i.saFacturaVentaReng.Count.ToString(),
                             montoGravadoTotal = i.total_bruto.ToString().Replace(",", "."),
-                            montoExentoTotal = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString(), // "0.00",
+                            montoExentoTotal = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
                             subtotal = i.total_bruto.ToString().Replace(",", "."),
                             totalAPagar = Math.Round(
                                 i.total_neto + // TOTAL + IVA FACTURA (BSD)
@@ -94,8 +94,8 @@ namespace ProfitTM.Models
                                 {
                                     codigoTotalImp = "E",
                                     alicuotaImp = "0.00",
-                                    baseImponibleImp = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString(), // "0.00",
-                                    valorTotalImp = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString(), // "0.00",
+                                    baseImponibleImp = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
+                                    valorTotalImp = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
                                 },
                                 new ImpuestosSubtotal()
                                 {
@@ -149,7 +149,7 @@ namespace ProfitTM.Models
                             moneda = "USD",
                             tipoCambio = Math.Round(i.tasa, 2).ToString().Replace(",", "."),
                             montoGravadoTotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
-                            montoExentoTotal = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString(), // "0.00",
+                            montoExentoTotal = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString().Replace(",", "."), // "0.00",
                             subtotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
                             totalAPagar = Math.Round(
                                 (i.total_neto / i.tasa) + // TOTAL + IVA FACTURA (USD)

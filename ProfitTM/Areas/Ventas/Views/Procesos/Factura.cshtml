@@ -202,9 +202,9 @@
                 <div class="col">
                     <h3 class="text-center text-white"><i class="fas fa-file-invoice"></i> Factura</h3>
                 </div>
-                <div class="col d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNotaCredito" ng-show="!new && !adding" ng-disabled="!us.AllowCredit || invoice.anulado || validateDiff(invoice.saldo, invoice.total_neto)"><i class="fas fa-file"></i> Generar N/CR</button>
-                </div>
+				<div class="col d-flex justify-content-end">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNotaCredito" ng-show="!new && !adding" ng-disabled="!us.AllowCredit || invoice.anulado || parse(invoice.saldo) < parse(invoice.total_neto)"><i class="fas fa-file"></i> Generar N/CR</button>
+				</div>
             </div>
             <div class="form-buttons">
                 <div class="row">
@@ -235,10 +235,10 @@
                             <i class="fas fa-print"></i> Imprimir
                         </button>
                         <p ng-if="invoice.anulado" class="my-0 d-flex align-items-center text-center" style="margin-right: 5px;"><b>Anulado</b></p>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCancel || invoice.anulado || invoice.saldo < invoice.total_neto">
+                        <button type="button" class="btn" data-toggle="modal" data-target="#modalAnularFactura" style="background: #ff5400; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCancel || invoice.anulado || parse(invoice.saldo) < parse(invoice.total_neto)">
                             <i class="fas fa-times"></i> Anular
                         </button>
-                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCollect || invoice.anulado || invoice.saldo == 0" ng-click="initLoadCollect()">
+                        <button type="button" class="btn" style="background: #0b8ece; color: #FFF; margin-right: 5px;" ng-disabled="!us.AllowCollect || invoice.anulado || parse(invoice.saldo) == 0" ng-click="initLoadCollect()">
                             <i class="fas fa-dollar-sign"></i> Cobrar
                         </button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalSearchOrder" onclick="focusField('#n_preliq')">
@@ -1151,12 +1151,16 @@
     <div class="modal fade modal-info" id="modalNotaCredito" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
-                    <div style="display: flex; justify-content: center;">
-                        <i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
-                    </div>
-                    <h3 class="text-center">¿Desea generar N/CR a la factura N° {{ invoice.doc_num.trim() }}?</h3>
-                </div>
+				<div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
+					<div style="display: flex; justify-content: center;">
+						<i class="fas fa-exclamation-triangle" style="color: var(--bs-yellow)"></i>
+					</div>
+					<h3 class="text-center">¿Desea generar N/CR a la Factura N° {{ invoice.doc_num.trim() }}?</h3>
+					<div class="w-100 d-flex justify-content-center">
+						<input type="checkbox" class="form-check-input mx-2" id="onlyDoc" value="">
+						<label class="form-check-label"><b>Generar N/CR sin cruzar con la factura (solo tomando los montos de la factura)</b></label>
+					</div>
+				</div>
                 <div class="modal-footer" style="justify-content: center">
                     <button type="button" style="width: 70px;" class="btn btn-danger" data-dismiss="modal">No</button>
                     <button type="button" style="width: 70px;" class="btn btn-success" ng-click="creditInvoice(invoice.doc_num)">Sí</button>
@@ -1838,14 +1842,6 @@
                 });
         }
 
-        $scope.validateDiff = function (saldo, total) {
-
-            var s = parseFloat(saldo.replaceAll(',', ''));
-            var t = parseFloat(total.replaceAll(',', ''));
-
-            return s < t;
-        }
-
         $scope.creditInvoice = function () {
 
             $("#modalNotaCredito").modal("hide");
@@ -1857,16 +1853,17 @@
 
             var req = {
                 method: 'POST',
-                url: '/api/ProfitTMApi/AddCreditNote/',
+				url: '/api/ProfitTMApi/AddCreditNote/' + ($("#onlyDoc").is(":checked") ? 1 : 0),
                 data: $scope.invoice,
                 headers: {
                     'Content-Type': 'application/json'
                 },
             }
 
+			$("#onlyDoc").prop('checked', false);
             $http(req).then(function (response) {
 
-                var res = response.data;
+				var res = response.data;
                 if (res.Status == "OK") {
                     $("#modalSuccess").modal("show");
                     $scope.successMessage = `La N/CR ${res.Result.nro_doc} se ha agregado con éxito`;

@@ -266,7 +266,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                LogsFactOnline log = LogsFact.GetLogByID(l);
+				int conn = int.Parse(Session["ID_CONN"].ToString());
+				LogsFactOnline log = LogsFact.GetLogByID(l, conn);
                 Root info_log = JsonConvert.DeserializeObject<Root>(log.BodyJson);
 
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();

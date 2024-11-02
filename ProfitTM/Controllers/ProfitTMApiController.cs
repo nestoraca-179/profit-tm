@@ -839,8 +839,8 @@ namespace ProfitTM.Controllers
         }
 
         [HttpPost]
-        [Route("api/ProfitTMApi/AddCreditNote/")]
-        public ProfitTMResponse AddCreditNote(saFacturaVenta invoice)
+        [Route("api/ProfitTMApi/AddCreditNote/{onlyDoc}")]
+        public ProfitTMResponse AddCreditNote(int onlyDoc, saFacturaVenta invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -850,7 +850,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saDocumentoVenta new_doc = new Invoice().AddCreditNote(invoice.doc_num, user, sucur, conn);
+                saDocumentoVenta new_doc = new Invoice().AddCreditNote(invoice.doc_num, user, sucur, conn, Convert.ToBoolean(onlyDoc));
 
                 response.Status = "OK";
                 response.Result = new_doc;
@@ -1127,10 +1127,11 @@ namespace ProfitTM.Controllers
         public ProfitTMResponse EditLog(string fact, Root info)
         {
             ProfitTMResponse response = new ProfitTMResponse();
+			int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
 
-            try
+			try
             {
-                LogsFactOnline log = LogsFact.GetLogByID(fact);
+                LogsFactOnline log = LogsFact.GetLogByID(fact, conn);
                 log.BodyJson = JsonConvert.SerializeObject(info);
 
                 LogsFactOnline new_log = LogsFact.Edit(log);

@@ -524,7 +524,7 @@ namespace ProfitTM.Models
             return new_invoice;
         }
         
-        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur, int conn)
+        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur, int conn, bool onlyDoc)
         {
             saDocumentoVenta new_doc = new saDocumentoVenta();
 
@@ -548,52 +548,58 @@ namespace ProfitTM.Models
                         // NOTA DE CREDITO
                         var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa, 
                             string.Format("NOTA DE CREDITO DE FACTURA {0}", invoice.doc_num.Trim()), DateTime.Now, DateTime.Now, DateTime.Now, false, false, false, 
-                            "FACT", invoice.doc_num, null, invoice.monto_imp, 0, invoice.total_bruto, 0, "0", "0", 0, invoice.total_neto, 0, 0, "1", 0, 16, 0, 
-                            0, null, n_cont, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 0, 0, invoice.campo2, invoice.campo7, invoice.campo3, 
-                            invoice.campo8, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
+                            onlyDoc ? null : "FACT", onlyDoc ? null : invoice.doc_num, null, invoice.monto_imp, onlyDoc ? invoice.total_neto : 0, invoice.total_bruto, 
+                            0, "0", "0", 0, invoice.total_neto, 0, 0, "1", 0, 16, 0, 0, null, n_cont, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 
+                            0, 0, invoice.campo2, invoice.campo7, invoice.campo3, invoice.campo8, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
                         sp.Dispose();
 
-                        doc_v.saldo = 0;
-                        context.Entry(doc_v).State = EntityState.Modified;
-
-                        invoice.saldo = 0;
-                        context.Entry(invoice).State = EntityState.Modified;
-
-                        // ANULACION DE DOCUMENTO IGTF
-                        saDocumentoVenta ajpm_igtf = db.saDocumentoVenta.AsNoTracking().SingleOrDefault(d =>
-                            d.co_tipo_doc == "AJPM" &&
-                            d.observa.Contains("IGTF") &&
-                            d.observa.Contains(doc_num.Trim()) &&
-                            !d.anulado
-                        );
-
-                        if (ajpm_igtf != null)
+                        if (!onlyDoc)
                         {
-                            ajpm_igtf.anulado = true;
-                            ajpm_igtf.saldo = 0;
-                            ajpm_igtf.observa = ajpm_igtf.observa.Trim() + " | (ANULADO)";
-                            context.Entry(ajpm_igtf).State = EntityState.Modified;
-                        }
+							// CANCELANDO LA FACTURA
+							doc_v.saldo = 0;
+							context.Entry(doc_v).State = EntityState.Modified;
 
-                        // COBRO CRUCE
-                        string n_coll = GetNextConsec(sucur, "COBRO");
+							invoice.saldo = 0;
+							context.Entry(invoice).State = EntityState.Modified;
 
-                        var sp_c = context.pInsertarCobro(n_coll, null, invoice.co_cli, invoice.co_ven, invoice.co_mone, invoice.tasa, DateTime.Now, false, 0, 
-                            null, string.Format("CRUCE FACT {0} / NCR {1}", doc_num.Trim(), n_ncr.Trim()), null, null, null, null, null, null, null, null, user, 
-                            sucur, "SERVER PROFIT WEB", null, null);
-                        sp_c.Dispose();
+							// ANULACION DE DOCUMENTO IGTF
+							saDocumentoVenta ajpm_igtf = db.saDocumentoVenta.AsNoTracking().SingleOrDefault(d =>
+								d.co_tipo_doc == "AJPM" &&
+								d.observa.Contains("IGTF") &&
+								d.observa.Contains(doc_num.Trim()) &&
+								!d.anulado
+							);
 
-                        var sp_cd1 = context.pInsertarRenglonesDocCobro(1, n_coll, "FACT", doc_num, invoice.total_neto, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(), 
-                            null, null, sucur, user, null, null, "SERVER PROFIT WEB");
-                        sp_cd1.Dispose();
+							if (ajpm_igtf != null)
+							{
+								ajpm_igtf.anulado = true;
+								ajpm_igtf.saldo = 0;
+								ajpm_igtf.observa = ajpm_igtf.observa.Trim() + " | (ANULADO)";
+								context.Entry(ajpm_igtf).State = EntityState.Modified;
+							}
 
-                        var sp_cd2 = context.pInsertarRenglonesDocCobro(2, n_coll, "N/CR", n_ncr, invoice.total_neto, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(),
-                            null, null, sucur, user, null, null, "SERVER PROFIT WEB");
-                        sp_cd2.Dispose();
+							// COBRO CRUCE
+							string n_coll = GetNextConsec(sucur, "COBRO");
 
-                        var sp_ct = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", null, null, null, false, 0, null, null, null, null, "001", DateTime.Now, sucur, 
-                            user, null, null, "SERVER PROFIT WEB");
-                        sp_ct.Dispose();
+							var sp_c = context.pInsertarCobro(n_coll, null, invoice.co_cli, invoice.co_ven, invoice.co_mone, invoice.tasa, DateTime.Now, false, 0,
+								null, string.Format("CRUCE FACT {0} / NCR {1}", doc_num.Trim(), n_ncr.Trim()), null, null, null, null, null, null, null, null, user,
+								sucur, "SERVER PROFIT WEB", null, null);
+							sp_c.Dispose();
+
+							// RENGLONES DOC
+							var sp_cd1 = context.pInsertarRenglonesDocCobro(1, n_coll, "FACT", doc_num, invoice.total_neto, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(),
+								null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+							sp_cd1.Dispose();
+
+							var sp_cd2 = context.pInsertarRenglonesDocCobro(2, n_coll, "N/CR", n_ncr, invoice.total_neto, 0, 0, 0, 0, null, null, null, null, Guid.NewGuid(),
+								null, null, sucur, user, null, null, "SERVER PROFIT WEB");
+							sp_cd2.Dispose();
+
+							// RENGLON TP
+							var sp_ct = context.pInsertarRenglonesTPCobro(1, n_coll, "EF", null, null, null, false, 0, null, null, null, null, "001", DateTime.Now, sucur,
+								user, null, null, "SERVER PROFIT WEB");
+							sp_ct.Dispose();
+						}
 
                         context.SaveChanges();
                         tran.Commit();
@@ -610,10 +616,10 @@ namespace ProfitTM.Models
                             obj.documentoElectronico.encabezado.identificacionDocumento.tipoDocumento = "02";
                             obj.documentoElectronico.encabezado.identificacionDocumento.numeroDocumento = n_ncr;
                             obj.documentoElectronico.encabezado.identificacionDocumento.serieFacturaAfectada = serie;
-                            obj.documentoElectronico.encabezado.identificacionDocumento.numeroFacturaAfectada = doc_num.Trim();
-                            obj.documentoElectronico.encabezado.identificacionDocumento.fechaFacturaAfectada = invoice.fec_emis.ToString("dd/MM/yyyy");
-                            obj.documentoElectronico.encabezado.identificacionDocumento.montoFacturaAfectada = invoice.total_neto.ToString().Replace(",", ".");
-                            obj.documentoElectronico.encabezado.identificacionDocumento.comentarioFacturaAfectada = "N/CR " + n_ncr + " FACTURA " + doc_num.Trim();
+                            obj.documentoElectronico.encabezado.identificacionDocumento.numeroFacturaAfectada = onlyDoc ? "0" : doc_num.Trim();
+                            obj.documentoElectronico.encabezado.identificacionDocumento.fechaFacturaAfectada = onlyDoc ? "01/01/1900" : invoice.fec_emis.ToString("dd/MM/yyyy");
+                            obj.documentoElectronico.encabezado.identificacionDocumento.montoFacturaAfectada = onlyDoc ? "0" : invoice.total_neto.ToString().Replace(",", ".");
+                            obj.documentoElectronico.encabezado.identificacionDocumento.comentarioFacturaAfectada = onlyDoc ? "-" : "N/CR " + n_ncr + " FACTURA " + doc_num.Trim();
                             obj.documentoElectronico.encabezado.identificacionDocumento.fechaEmision = DateTime.Now.ToString("dd/MM/yyyy");
                             obj.documentoElectronico.encabezado.identificacionDocumento.fechaVencimiento = DateTime.Now.ToString("dd/MM/yyyy");
                             obj.documentoElectronico.encabezado.identificacionDocumento.horaEmision = DateTime.Now.ToString("hh:mm:ss") + (DateTime.Now.Hour < 12 ? " am" : " pm");

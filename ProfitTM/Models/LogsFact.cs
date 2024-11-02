@@ -7,14 +7,14 @@ namespace ProfitTM.Models
 {
     public class LogsFact
     {
-        public static LogsFactOnline GetLogByID(string l)
+        public static LogsFactOnline GetLogByID(string l, int conn)
         {
             LogsFactOnline log;
 
             using (ProfitTMEntities db = new ProfitTMEntities())
             {
-                log = db.LogsFactOnline.AsNoTracking().Single(lo => lo.NroFact == l);
-            }
+				log = db.LogsFactOnline.AsNoTracking().Single(lo => lo.NroFact == l && lo.ConnID == conn);
+			}
 
             return log;
         }
