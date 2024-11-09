@@ -548,7 +548,7 @@ namespace ProfitTM.Models
                         // NOTA DE CREDITO
                         var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa, 
                             string.Format("NOTA DE CREDITO DE FACTURA {0}", invoice.doc_num.Trim()), DateTime.Now, DateTime.Now, DateTime.Now, false, false, false, 
-                            onlyDoc ? null : "FACT", onlyDoc ? null : invoice.doc_num, null, invoice.monto_imp, onlyDoc ? invoice.total_neto : 0, invoice.total_bruto, 
+                            "FACT", invoice.doc_num, null, invoice.monto_imp, onlyDoc ? invoice.total_neto : 0, invoice.total_bruto, 
                             0, "0", "0", 0, invoice.total_neto, 0, 0, "1", 0, 16, 0, 0, null, n_cont, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 
                             0, 0, invoice.campo2, invoice.campo7, invoice.campo3, invoice.campo8, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
                         sp.Dispose();

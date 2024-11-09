@@ -203,7 +203,7 @@
                     <h3 class="text-center text-white"><i class="fas fa-file-invoice"></i> Factura</h3>
                 </div>
 				<div class="col d-flex justify-content-end">
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNotaCredito" ng-show="!new && !adding" ng-disabled="!us.AllowCredit || invoice.anulado || parse(invoice.saldo) < parse(invoice.total_neto)"><i class="fas fa-file"></i> Generar N/CR</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNotaCredito" ng-show="!new && !adding" ng-disabled="!us.AllowCredit || invoice.anulado || parse(invoice.saldo) == 0"><i class="fas fa-file"></i> Generar N/CR</button>
 				</div>
             </div>
             <div class="form-buttons">
@@ -1850,10 +1850,11 @@
             $("#modalWaiting").modal("show");
 
             $scope.invoice.co_cta_ingr_egr = null;
+			var checked = $("#onlyDoc").is(":checked");
 
             var req = {
                 method: 'POST',
-				url: '/api/ProfitTMApi/AddCreditNote/' + ($("#onlyDoc").is(":checked") ? 1 : 0),
+				url: '/api/ProfitTMApi/AddCreditNote/' + (checked ? 1 : 0),
                 data: $scope.invoice,
                 headers: {
                     'Content-Type': 'application/json'
@@ -1867,9 +1868,13 @@
                 if (res.Status == "OK") {
                     $("#modalSuccess").modal("show");
                     $scope.successMessage = `La N/CR ${res.Result.nro_doc} se ha agregado con éxito`;
-                    $scope.invoice.saldo = "0.00";
-                    $scope.invoice.saldo_om = "0.00";
                     $scope.emails = "";
+
+                    if (!checked) {
+						$scope.invoice.saldo = "0.00";
+						$scope.invoice.saldo_om = "0.00";
+                    }
+
                 } else {
                     $("#modalError").modal("show");
                     $scope.errorMessage = res.Message;
