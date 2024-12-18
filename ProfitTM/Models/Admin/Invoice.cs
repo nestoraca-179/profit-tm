@@ -616,10 +616,10 @@ namespace ProfitTM.Models
                             obj.documentoElectronico.encabezado.identificacionDocumento.tipoDocumento = "02";
                             obj.documentoElectronico.encabezado.identificacionDocumento.numeroDocumento = n_ncr;
                             obj.documentoElectronico.encabezado.identificacionDocumento.serieFacturaAfectada = serie;
-                            obj.documentoElectronico.encabezado.identificacionDocumento.numeroFacturaAfectada = onlyDoc ? "0" : doc_num.Trim();
-                            obj.documentoElectronico.encabezado.identificacionDocumento.fechaFacturaAfectada = onlyDoc ? "01/01/1900" : invoice.fec_emis.ToString("dd/MM/yyyy");
-                            obj.documentoElectronico.encabezado.identificacionDocumento.montoFacturaAfectada = onlyDoc ? "0" : invoice.total_neto.ToString().Replace(",", ".");
-                            obj.documentoElectronico.encabezado.identificacionDocumento.comentarioFacturaAfectada = onlyDoc ? "-" : "N/CR " + n_ncr + " FACTURA " + doc_num.Trim();
+                            obj.documentoElectronico.encabezado.identificacionDocumento.numeroFacturaAfectada = doc_num.Trim();
+                            obj.documentoElectronico.encabezado.identificacionDocumento.fechaFacturaAfectada = invoice.fec_emis.ToString("dd/MM/yyyy");
+                            obj.documentoElectronico.encabezado.identificacionDocumento.montoFacturaAfectada = invoice.total_neto.ToString().Replace(",", ".");
+                            obj.documentoElectronico.encabezado.identificacionDocumento.comentarioFacturaAfectada = "N/CR " + n_ncr + " FACTURA " + doc_num.Trim();
                             obj.documentoElectronico.encabezado.identificacionDocumento.fechaEmision = DateTime.Now.ToString("dd/MM/yyyy");
                             obj.documentoElectronico.encabezado.identificacionDocumento.fechaVencimiento = DateTime.Now.ToString("dd/MM/yyyy");
                             obj.documentoElectronico.encabezado.identificacionDocumento.horaEmision = DateTime.Now.ToString("hh:mm:ss") + (DateTime.Now.Hour < 12 ? " am" : " pm");

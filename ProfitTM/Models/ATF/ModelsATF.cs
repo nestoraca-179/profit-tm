@@ -114,14 +114,6 @@ namespace ProfitTM.Models
                             },
                             formasPago = new List<FormasPago>()
                             {
-                                //new FormasPago()
-                                //{
-                                //    descripcion = "Transferencia Bancaria|-|-",
-                                //    fecha = DateTime.Now.ToString("dd/MM/yyyy"),
-                                //    forma = "01",
-                                //    monto = Math.Round(i.total_neto, 2).ToString().Replace(",", "."),
-                                //    moneda = "BSD"
-                                //},
                                 new FormasPago()
                                 {
                                     descripcion = "Efectivo Divisas|-|-",
@@ -246,6 +238,39 @@ namespace ProfitTM.Models
                         codigo = i.campo3
                     }
                 };
+
+                // EXCEPCION EIR CONTROL 17/12/2024
+                if (c.co_cli.Trim() == "J298508086")
+				{
+                    // TOTALES
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.tipoCambio = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.montoGravadoTotal = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.montoExentoTotal = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.subtotal = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.totalAPagar = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.totalIVA = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.montoTotalConIVA = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.montoEnLetras = "CERO";
+
+                    // IMPUESTOS
+                    root.documentoElectronico.encabezado.totales.impuestosSubtotal[2].alicuotaImp = "0.00";
+                    root.documentoElectronico.encabezado.totales.impuestosSubtotal[2].baseImponibleImp = "0.00";
+                    root.documentoElectronico.encabezado.totales.impuestosSubtotal[2].valorTotalImp = "0.00";
+                    root.documentoElectronico.encabezado.totales.formasPago[0].monto = "0.00";
+
+                    for (int x = 0; x <= 2; x++)
+					{
+                        root.documentoElectronico.encabezado.totalesOtraMoneda.impuestosSubtotal[x].alicuotaImp = "0.00";
+                        root.documentoElectronico.encabezado.totalesOtraMoneda.impuestosSubtotal[x].baseImponibleImp = "0.00";
+                        root.documentoElectronico.encabezado.totalesOtraMoneda.impuestosSubtotal[x].valorTotalImp = "0.00";
+                    }
+
+					// RENGLONES
+					foreach (DetallesItem reng in root.documentoElectronico.detallesItems)
+					{
+                        reng.infoAdicionalItem[0].valor = "0.00";
+					}
+                }
 
                 result = JsonConvert.SerializeObject(root);
             }
