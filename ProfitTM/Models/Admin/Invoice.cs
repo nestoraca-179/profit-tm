@@ -758,32 +758,38 @@ namespace ProfitTM.Models
             string n_connect = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
             EntityConnectionStringBuilder n_entity = EntityController.GetEntity(n_connect);
 
-            using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString()))
-            {
-                bool isFact = !log.NroFact.Contains("N-");
-                string tip_doc = "", nro_doc = "";
-
-                if (isFact)
+            try
+			{
+                using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString()))
                 {
-                    saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == log.NroFact);
-                    fact.n_control = n_control;
-                    context.Entry(fact).State = EntityState.Modified;
+                    bool isFact = !log.NroFact.Contains("N-");
+                    string tip_doc = "", nro_doc = "";
 
-                    tip_doc = "FACT";
-                    nro_doc = log.NroFact;
+                    if (isFact)
+                    {
+                        saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == log.NroFact);
+                        fact.n_control = n_control;
+                        context.Entry(fact).State = EntityState.Modified;
+
+                        tip_doc = "FACT";
+                        nro_doc = log.NroFact;
+                    }
+                    else
+                    {
+                        tip_doc = "N/CR";
+                        nro_doc = log.NroFact.Replace("N-", "");
+                    }
+
+                    saDocumentoVenta doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
+                    doc.n_control = n_control;
+                    context.Entry(doc).State = EntityState.Modified;
+                    context.SaveChanges();
                 }
-                else
-                {
-                    tip_doc = "N/CR";
-                    nro_doc = log.NroFact.Replace("N-", "");
-                }
-
-                saDocumentoVenta doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
-                doc.n_control = n_control;
-                context.Entry(doc).State = EntityState.Modified;
-
-                context.SaveChanges();
-            }
+            } 
+            catch (Exception ex)
+			{
+                Incident.CreateIncident("ERROR ASIGNANDO NUMERO DE CONTROL RECIBIDO A FACTURA DE VENTA", ex);
+			}
         }
     }
 }

@@ -411,6 +411,7 @@
                                     <th>Descripción</th>
                                     <th>Almacén</th>
                                     <th>Cantidad</th>
+                                    <th>Impuesto</th>
                                     <th>IVA</th>
                                     <th>Total</th>
                                     <th ng-if="new"></th>
@@ -423,6 +424,8 @@
                                     <td>{{ searchArt(reng.co_art) }}</td>
                                     <td>{{ reng.co_alma }}</td>
                                     <td>{{ reng.total_art }}</td>
+                                    <td ng-show="reng.tipo_imp == '1'">IVA 16%</td>
+                                    <td ng-show="reng.tipo_imp == '7'">Exento</td>
                                     <td ng-show="!converted">{{ reng.monto_imp }}</td>
                                     <td ng-show="converted" class="field-active">{{ reng.monto_imp_om }}</td>
                                     <td ng-show="!converted">{{ reng.reng_neto }}</td>
@@ -1597,33 +1600,39 @@
 
                         var res = response.data;
                         if (res.Status == "OK") {
+                            if (res.Result.saPedidoVentaReng && res.Result.saPedidoVentaReng.length > 0) { // VALIDANDO RENGLONES DE LA PRELIQUIDACION
 
-                            $("#modalSearchOrder").modal("hide");
+                                $("#modalSearchOrder").modal("hide");
 
-                            $scope.invoice = res.Result;
-                            $scope.invoice.saFacturaVentaReng = res.Result.saPedidoVentaReng;
+                                $scope.invoice = res.Result;
+                                $scope.invoice.saFacturaVentaReng = res.Result.saPedidoVentaReng;
 
-                            $scope.invoice.doc_num = "";
-                            $scope.invoice.n_control = "";
-                            $scope.invoice.descrip = id;
-                            $scope.invoice = convert($scope.invoice); // AGREGAR PRECIOS OM, DESCRIPCIONES Y FECHAS
+                                $scope.invoice.doc_num = "";
+                                $scope.invoice.n_control = "";
+                                $scope.invoice.descrip = id;
+                                $scope.invoice = convert($scope.invoice); // AGREGAR PRECIOS OM, DESCRIPCIONES Y FECHAS
 
-                            for (var reng of $scope.invoice.saFacturaVentaReng) {
-                                reng.tipo_doc = "PCLI";
-                                reng.num_doc = id;
-                                reng.rowguid_doc = reng.rowguid;
+                                for (var reng of $scope.invoice.saFacturaVentaReng) {
+                                    reng.tipo_doc = "PCLI";
+                                    reng.num_doc = id;
+                                    reng.rowguid_doc = reng.rowguid;
+                                }
+
+                                $scope.invoice.fec_emis = new Date(Date.now());
+                                $scope.invoice.fec_venc = new Date(Date.now());
+                                $scope.invoice.fec_reg = new Date(Date.now());
+
+                                $("#n_preliq").val("");
+                                $("#text-error").text("");
+                                $("#text-search").text("");
+                                $scope.adding = true;
+                                $scope.converted = true;
+
+                            } else {
+                                $("#n_preliq").focus();
+                                $("#text-search").text("");
+                                $("#text-error").text("**ERROR RECUPERANDO RENGLONES. INTENTE DE NUEVO**");
                             }
-
-                            $scope.invoice.fec_emis = new Date(Date.now());
-                            $scope.invoice.fec_venc = new Date(Date.now());
-                            $scope.invoice.fec_reg = new Date(Date.now());
-
-                            $("#n_preliq").val("");
-                            $("#text-error").text("");
-                            $("#text-search").text("");
-                            $scope.adding = true;
-                            $scope.converted = true;
-
                         } else {
                             $scope.idOrder = "";
                             $("#n_preliq").focus();
