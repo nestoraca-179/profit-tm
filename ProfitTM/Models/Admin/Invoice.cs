@@ -542,8 +542,8 @@ namespace ProfitTM.Models
                         invoice.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == invoice.co_cli.Trim());
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
-                        n_ncr = GetNextConsec(sucur, "DOC_VEN_N/CR").Trim();
-                        n_cont = GetNextConsec(sucur, "N/CR_VTA_N_CON").Trim();
+                        n_ncr = GetNextConsec(context, sucur, "DOC_VEN_N/CR").Trim();
+                        n_cont = GetNextConsec(context, sucur, "N/CR_VTA_N_CON").Trim();
 
                         // NOTA DE CREDITO
                         var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa, 
@@ -579,7 +579,7 @@ namespace ProfitTM.Models
 							}
 
 							// COBRO CRUCE
-							string n_coll = GetNextConsec(sucur, "COBRO");
+							string n_coll = GetNextConsec(context, sucur, "COBRO");
 
 							var sp_c = context.pInsertarCobro(n_coll, null, invoice.co_cli, invoice.co_ven, invoice.co_mone, invoice.tasa, DateTime.Now, false, 0,
 								null, string.Format("CRUCE FACT {0} / NCR {1}", doc_num.Trim(), n_ncr.Trim()), null, null, null, null, null, null, null, null, user,

@@ -131,7 +131,7 @@ namespace ProfitTM.Models
                             if (rengs.Count > 0)
                             {
                                 // SERIE COBRO ADELANTO
-                                n_coll = GetNextConsec(sucur, "COBRO");
+                                n_coll = GetNextConsec(context, sucur, "COBRO");
                                 total_cob = Math.Round(rengs.Select(re => re.mont_doc).Sum(), 2);
 
                                 if (change > 0 && !isAdvance)
@@ -152,7 +152,7 @@ namespace ProfitTM.Models
                                         sp_s.Dispose();
 
                                         // SERIE MOVIMIENTO CAJA
-                                        n_mov_c = GetNextConsec(sucur, "MOVC_NUM");
+                                        n_mov_c = GetNextConsec(context, sucur, "MOVC_NUM");
 
                                         // INSERTAR MOVIMIENTO CAJA
                                         string dis_cen_m = "<InformacionContable><Carpeta01><CuentaContable>1.1.01.01.002</CuentaContable></Carpeta01></InformacionContable>";
@@ -169,7 +169,7 @@ namespace ProfitTM.Models
 
 										#region CODIGO ANTERIOR
 										// SERIE AJPM
-										// n_ajpm = GetNextConsec(sucur, "DOC_VEN_AJPM");
+										// n_ajpm = GetNextConsec(context, context, sucur, "DOC_VEN_AJPM");
 
 										// INSERTAR AJPM
 										/*var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, CO_MONE, null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
@@ -186,7 +186,7 @@ namespace ProfitTM.Models
                                         sp_s.Dispose();
 
                                         // SERIE MOVIMIENTO BANCO
-                                        n_mov_b = GetNextConsec(sucur, "MOVB_NUM");
+                                        n_mov_b = GetNextConsec(context, sucur, "MOVB_NUM");
 
                                         // VERIFICACION MOVIMIENTO EXISTENTE
                                         saMovimientoBanco exist = context.saMovimientoBanco.AsNoTracking().FirstOrDefault(m => m.cod_cta == reng.cod_cta && m.doc_num == reng.num_doc);
@@ -242,7 +242,7 @@ namespace ProfitTM.Models
 								#endregion
 
 								// SERIE ADELANTO
-								n_adel = GetNextConsec(sucur, "DOC_VEN_ADEL");
+								n_adel = GetNextConsec(context, sucur, "DOC_VEN_ADEL");
 
                                 // INSERTAR ADELANTO
                                 var sp_a = context.pInsertarDocumentoVenta("ADEL", n_adel, fact.co_cli, fact.co_ven, CO_MONE, null, null, fact.tasa, "ADELANTO DE FACTURA " + fact.doc_num,
@@ -310,7 +310,7 @@ namespace ProfitTM.Models
                                 // string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>7.1.01.01.001</CuentaContable></Carpeta01></InformacionContable>";
 
                                 // SERIE AJPM
-                                n_ajpm = GetNextConsec(sucur, "DOC_VEN_AJPM");
+                                n_ajpm = GetNextConsec(context, sucur, "DOC_VEN_AJPM");
 
                                 // INSERTAR AJPM
                                 var sp_i = context.pInsertarDocumentoVenta("AJPM", n_ajpm, fact.co_cli, fact.co_ven, CO_MONE, null, null, fact.tasa, "RECARGO 3% IGTF FACT N° " + fact.doc_num,
@@ -333,7 +333,7 @@ namespace ProfitTM.Models
                                     total_fact = amount;
 
                                 // SERIE COBRO CRUCE
-                                n_coll = GetNextConsec(sucur, "COBRO");
+                                n_coll = GetNextConsec(context, sucur, "COBRO");
 
                                 // ACTUALIZAR FACTURA
                                 fact.saldo -= total_fact;
@@ -395,7 +395,7 @@ namespace ProfitTM.Models
                                 decimal mont_cob = (r_iva != null ? r_iva.mont_doc : 0) + (r_islr != null ? r_islr.mont_doc : 0);
 
                                 // SERIE COBRO RETENCIONES
-                                n_ret = GetNextConsec(sucur, "COBRO");
+                                n_ret = GetNextConsec(context, sucur, "COBRO");
 
                                 // INSERTAR COBRO RETENCIONES
                                 var sp_c_ret = context.pInsertarCobro(n_ret, null, fact.co_cli, fact.co_ven, fact.co_mone, fact.tasa, cob.fecha, false, 0, null,
@@ -415,7 +415,7 @@ namespace ProfitTM.Models
                                     string rif_c = new Client().GetClientByID(fact.co_cli).rif, periodImp = r_iva.mov_num_c;
 
                                     // SERIE DOC IVAN
-                                    n_ivan = GetNextConsec(sucur, "DOC_VEN_IVAN");
+                                    n_ivan = GetNextConsec(context, sucur, "DOC_VEN_IVAN");
 
                                     // INSERTAR DOC IVAN
                                     var sp_d_ivan = context.pInsertarDocumentoVenta("IVAN", n_ivan, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa,
@@ -443,7 +443,7 @@ namespace ProfitTM.Models
                                     Guid islr_guid = Guid.NewGuid();
 
                                     // SERIE DOC ISLR
-                                    n_islr = GetNextConsec(sucur, "DOC_VEN_ISLR");
+                                    n_islr = GetNextConsec(context, sucur, "DOC_VEN_ISLR");
 
                                     // INSERTAR DOC ISLR
                                     var sp_d_islr = context.pInsertarDocumentoVenta("ISLR", n_islr, fact.co_cli, fact.co_ven, fact.co_mone, null, null, fact.tasa,

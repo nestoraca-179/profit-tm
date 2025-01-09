@@ -77,14 +77,14 @@ namespace ProfitTM.Models
                         string co_cta_ingr_egr = context.saCaja.AsNoTracking().Single(b => b.cod_caja == cod_caja).campo1;
 
                         // SERIE PAGO 
-                        string n_pay = GetNextConsec(sucur, "PAGO");
+                        string n_pay = GetNextConsec(context, sucur, "PAGO");
 
                         // ACTUALIZAR SALDO CAJA
                         var sp_s = context.pSaldoActualizar(cod_caja, "EF", "EF", mont_doc_usd, false, "PAGO", false);
                         sp_s.Dispose();
 
                         // SERIE MOVIMIENTO CAJA
-                        string n_mov_c = GetNextConsec(sucur, "MOVC_NUM");
+                        string n_mov_c = GetNextConsec(context, sucur, "MOVC_NUM");
 
                         // INSERTAR MOVIMIENTO CAJA
                         var sp_m = context.pInsertarMovimientoCaja(n_mov_c, DateTime.Now, doc.observa.ToUpper(), cod_caja, doc.tasa, "E", "EF", null, null, null, null, 
@@ -96,7 +96,7 @@ namespace ProfitTM.Models
                         BoxMoves move = Box.AddMove(user, cod_caja, mont_doc_usd, false, string.Format("{0} (PAG. {1})", doc.observa.ToUpper(), n_pay.Trim()), conn);
 
                         // SERIE ADELANTO
-                        string n_adel = GetNextConsec(sucur, "DOC_COM_ADEL");
+                        string n_adel = GetNextConsec(context, sucur, "DOC_COM_ADEL");
 
                         // INSERTAR ADELANTO
                         var sp_a = context.pInsertarDocumentoCompra("ADEL", n_adel, null, "US$", doc.co_prov, null, "PAGO", null, n_pay, null, null, null, false, true, 0, 

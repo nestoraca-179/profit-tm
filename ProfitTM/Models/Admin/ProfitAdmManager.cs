@@ -22,11 +22,11 @@ namespace ProfitTM.Models
             db = new ProfitAdmEntities(entity.ToString());
         }
 
-        public string GetNextConsec(string sucur, string serie)
+        public string GetNextConsec(ProfitAdmEntities context, string sucur, string serie)
         {
             string num = "";
 
-            var sp = db.pConsecutivoProximo(sucur, serie).GetEnumerator();
+            var sp = context.pConsecutivoProximo(sucur, serie).GetEnumerator();
             if (sp.MoveNext())
                 num = sp.Current;
 
