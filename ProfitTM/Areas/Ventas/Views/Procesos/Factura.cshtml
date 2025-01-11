@@ -1558,8 +1558,8 @@
             $("#modalWaiting").modal("show");
             $http.get("/api/ProfitTMApi/GetOrders/" + 20)
                 .then(function (response) {
-                    var res = response.data;
 
+                    var res = response.data;
                     if (res.Status == "OK") {
                         $scope.orders = res.Result;
                         openModal($("#btn-preliq")[0], "modalOrders");
@@ -2917,7 +2917,6 @@
     function openModal(elem, modal) {
 
         var previous = elem.previousElementSibling;
-
         if (!previous.disabled) {
             $("#" + modal).find("#name-input").val($(elem).data("name"));
             $("#" + modal).modal("show");

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Text;
+using System.Globalization;
 
 namespace ProfitTM.Models
 {
@@ -65,7 +66,7 @@ namespace ProfitTM.Models
                         totales = new Totales()
                         {
                             nroItems = i.saFacturaVentaReng.Count.ToString(),
-                            montoGravadoTotal = i.total_bruto.ToString().Replace(",", "."),
+                            montoGravadoTotal = (i.total_bruto - i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()).ToString().Replace(",", "."),
                             montoExentoTotal = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
                             subtotal = i.total_bruto.ToString().Replace(",", "."),
                             totalAPagar = Math.Round(
@@ -101,15 +102,15 @@ namespace ProfitTM.Models
                                 {
                                     codigoTotalImp = "G",
                                     alicuotaImp = "16.00",
-                                    baseImponibleImp = i.total_bruto.ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN BSD ESTA APARECIENDO EN LA COLUMNA DE USD (PEDIR INVERTIR)
+                                    baseImponibleImp = (i.total_bruto - i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN BSD ESTA APARECIENDO EN LA COLUMNA DE USD (PEDIR INVERTIR)
                                     valorTotalImp = i.monto_imp.ToString().Replace(",", "."),
                                 },
                                 new ImpuestosSubtotal()
                                 {
                                     codigoTotalImp = "IGTF",
                                     alicuotaImp = "3.00",
-                                    baseImponibleImp = Math.Round(decimal.Parse(i.comentario) * i.tasa, 2).ToString().Replace(",", "."),
-                                    valorTotalImp = Math.Round(((decimal.Parse(i.comentario) * i.tasa) * 3) / 100, 2).ToString().Replace(",", "."),
+                                    baseImponibleImp = Math.Round(Convert.ToDecimal(i.comentario, new CultureInfo("en-US")) * i.tasa, 2).ToString().Replace(",", "."),
+                                    valorTotalImp = Math.Round(((Convert.ToDecimal(i.comentario, new CultureInfo("en-US")) * i.tasa) * 3) / 100, 2).ToString().Replace(",", "."),
                                 }
                             },
                             formasPago = new List<FormasPago>()
@@ -119,7 +120,7 @@ namespace ProfitTM.Models
                                     descripcion = "Efectivo Divisas|-|-",
                                     fecha = DateTime.Now.ToString("dd/MM/yyyy"),
                                     forma = "01",
-                                    monto = Math.Round(decimal.Parse(i.comentario), 2).ToString().Replace(",", "."),
+                                    monto = Math.Round(Convert.ToDecimal(i.comentario, new CultureInfo("en-US")), 2).ToString().Replace(",", "."),
                                     moneda = "USD"
                                 }
                             }
@@ -140,7 +141,7 @@ namespace ProfitTM.Models
                         {
                             moneda = "USD",
                             tipoCambio = Math.Round(i.tasa, 2).ToString().Replace(",", "."),
-                            montoGravadoTotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
+                            montoGravadoTotal = Math.Round((i.total_bruto - i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()) / i.tasa, 2).ToString().Replace(",", "."),
                             montoExentoTotal = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString().Replace(",", "."), // "0.00",
                             subtotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
                             totalAPagar = Math.Round(
@@ -176,15 +177,15 @@ namespace ProfitTM.Models
                                 {
                                     codigoTotalImp = "G",
                                     alicuotaImp = "16.00",
-                                    baseImponibleImp = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN USD ESTA APARECIENDO EN LA COLUMNA DE BSD (PEDIR INVERTIR)
+                                    baseImponibleImp = Math.Round((i.total_bruto - i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()) / i.tasa, 2).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN USD ESTA APARECIENDO EN LA COLUMNA DE BSD (PEDIR INVERTIR)
                                     valorTotalImp = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
                                 },
                                 new ImpuestosSubtotal()
                                 {
                                     codigoTotalImp = "IGTF",
                                     alicuotaImp = "3.00",
-                                    baseImponibleImp = decimal.Parse(i.comentario).ToString().Replace(",", "."),
-                                    valorTotalImp = Math.Round((decimal.Parse(i.comentario) * 3) / 100, 2).ToString().Replace(",", "."),
+                                    baseImponibleImp = Convert.ToDecimal(i.comentario, new CultureInfo("en-US")).ToString().Replace(",", "."),
+                                    valorTotalImp = Math.Round((Convert.ToDecimal(i.comentario, new CultureInfo("en-US")) * 3) / 100, 2).ToString().Replace(",", "."),
                                 }
                             },
                         }
