@@ -788,7 +788,7 @@ namespace ProfitTM.Models
             } 
             catch (Exception ex)
 			{
-                Incident.CreateIncident("ERROR ASIGNANDO NUMERO DE CONTROL RECIBIDO A FACTURA DE VENTA", ex);
+                Incident.CreateIncident($"ERROR ASIGNANDO NUMERO DE CONTROL RECIBIDO A DOCUMENTO DE VENTA {log.NroFact}", ex);
 			}
         }
     }

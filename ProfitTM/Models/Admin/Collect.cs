@@ -121,7 +121,7 @@ namespace ProfitTM.Models
                         // RENGLONES DE PAGO
                         List<saCobroTPReng> rengs = cob.saCobroTPReng.Where(re => re.forma_pag != "IVAN" && re.forma_pag != "ISLR").ToList();
 
-                        if (fact.fec_emis > cob.fecha)
+                        if (fact.fec_emis.Date > cob.fecha.Date)
                             throw new Exception(string.Format("La Fecha del Cobro ({0}) no puede ser menor a la Fecha de la Factura ({1})", 
                                 cob.fecha.ToString("dd/MM/yyyy"), fact.fec_emis.ToString("dd/MM/yyyy")));
 
