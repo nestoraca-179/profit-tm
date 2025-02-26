@@ -195,12 +195,14 @@ namespace ProfitTM.Models
                                             throw new Exception("La transferencia ha sido agregada anteriormente bajo el Movimiento de Banco Nro. " + exist.mov_num.Trim());
 
                                         // VERIFICACION DE ULT. CONCILIACION
-                                        DateTime fec_ult_conc = context.saMovimientoBanco.AsNoTracking().Where(m => m.conciliado && !m.anulado && m.cod_cta == reng.cod_cta)
-                                            .Select(m => m.fec_con ?? new DateTime()).Max();
-
-                                        if (reng.fecha_che < fec_ult_conc)
-											throw new Exception(string.Format("La fecha de la transferencia ({0}) es menor a la ultima fecha de conciliacion de la cuenta bancaria ({1}).", 
-                                                reng.fecha_che.ToString("dd/MM/yyyy"), fec_ult_conc.ToString("dd/MM/yyyy")));
+                                        List<saMovimientoBanco> movs_b_conc = context.saMovimientoBanco.AsNoTracking().Where(m => m.conciliado && !m.anulado && m.cod_cta == reng.cod_cta).ToList();
+                                        if (movs_b_conc.Count > 0)
+										{
+                                            DateTime fec_ult_conc = movs_b_conc.Select(m => m.fec_con ?? new DateTime()).Max();
+                                            if (reng.fecha_che < fec_ult_conc)
+                                                throw new Exception(string.Format("La fecha de la transferencia ({0}) es menor a la ultima fecha de conciliacion de la cuenta bancaria ({1}).",
+                                                    reng.fecha_che.ToString("dd/MM/yyyy"), fec_ult_conc.ToString("dd/MM/yyyy")));
+                                        }
 
                                         // VERIFICACION DE ULT. CONTABILIZACION
                                         DateTime fec_ult_cont = context.par_emp.AsNoTracking().First().fec_cont;

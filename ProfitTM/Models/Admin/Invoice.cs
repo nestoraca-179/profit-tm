@@ -762,6 +762,7 @@ namespace ProfitTM.Models
 			{
                 using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString()))
                 {
+                    context.Database.CommandTimeout = 300;
                     bool isFact = !log.NroFact.Contains("N-");
                     string tip_doc = "", nro_doc = "";
 
