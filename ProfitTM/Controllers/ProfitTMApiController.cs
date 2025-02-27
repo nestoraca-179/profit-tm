@@ -464,14 +464,14 @@ namespace ProfitTM.Controllers
         }
 
         [HttpGet]
-        [Route("api/ProfitTMApi/GetClients/")]
-        public ProfitTMResponse GetClients()
+        [Route("api/ProfitTMApi/GetClients/{number}")]
+        public ProfitTMResponse GetClients(int number)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
             try
             {
-                List<saCliente> clients = new Client().GetAllClients(false);
+                List<saCliente> clients = new Client().GetAllClients(number, number > 0);
 
                 response.Status = "OK";
                 response.Result = clients;

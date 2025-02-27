@@ -1504,7 +1504,7 @@
             $scope.convertedDetails = false;
         });
 
-        $http.get("/api/ProfitTMApi/GetClients")
+        $http.get("/api/ProfitTMApi/GetClients/0")
             .then(function (response) {
                 clients = response.data.Result;
                 $scope.clients = response.data.Result;
@@ -1782,11 +1782,8 @@
                 .then(function (response) {
 
                     var res = response.data;
-
                     if (res.Status == "OK") {
-
                         invoices = res.Result;
-
                         for (var i in invoices) {
                             invoices[i] = convert(invoices[i]);
                         }
@@ -1796,12 +1793,9 @@
                         $scope.index = 0;
                         $scope.successMessage = "Facturas cargadas con éxito";
                         $("#modalSuccess").modal("show");
-
                     } else {
-
                         $scope.errorMessage = res.Message;
                         $("#modalError").modal("show");
-
                     }
                 });
         }

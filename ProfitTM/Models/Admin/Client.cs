@@ -35,7 +35,7 @@ namespace ProfitTM.Models
             return client;
         }
 
-        public List<saCliente> GetAllClients(bool full)
+        public List<saCliente> GetAllClients(int number, bool full)
         {
             List<saCliente> clients;
 
@@ -72,7 +72,10 @@ namespace ProfitTM.Models
                 Incident.CreateIncident("ERROR BUSCANDO CLIENTES", ex);
             }
 
-            return clients;
+            if (number > 0)
+                return clients.Take(number).ToList();
+            else
+                return clients;
         }
 
         public List<saCliente> GetMostActiveClients(DateTime fec_d, DateTime fec_h, int number, string sucur)

@@ -510,14 +510,12 @@
     <div class="modal fade modal-info" id="modalWaiting" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-spinner fa-spin" style="color: #01579b;"></i>
                     </div>
                     <h2 class="text-center">Procesando...</h2>
                 </div>
-                @*<div class="modal-footer"></div>*@
             </div>
         </div>
     </div>
@@ -525,7 +523,6 @@
     <div class="modal fade modal-info" id="modalSuccess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-check-circle" style="color: var(--bs-green)"></i>
@@ -542,7 +539,6 @@
     <div class="modal fade modal-info" id="modalError" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 800px; margin: 0 auto;">
             <div class="modal-content">
-                @*<div class="modal-header"></div>*@
                 <div class="modal-body" style="max-height: 450px; overflow-y: auto; padding: 45px;">
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--bs-red)"></i>
@@ -774,12 +770,7 @@
     var zones = @Html.Raw(ViewBag.zones);
     var conds = @Html.Raw(ViewBag.conds);
 
-    for (var item of clients) {
-        item.fecha_reg = new Date(parseInt(item.fecha_reg.substr(6)));
-        item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
-        item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
-        item.tipo_adi = item.tipo_adi.toString();
-    }
+    clients = parseClients(clients);
 
     $(document).ready(function () {
         $(".container-clients").removeAttr("style");
@@ -794,6 +785,7 @@
 
         $scope.index = 0;
         $scope.clients = clients;
+        $scope.client = clients[$scope.index];
         $scope.types = types;
         $scope.segments = segments;
         $scope.sellers = sellers;
@@ -803,9 +795,7 @@
         $scope.conds = conds;
         $scope.adding = false;
         $scope.editing = false;
-        $scope.numberC = 200;
-
-        $scope.client = clients[$scope.index];
+        $scope.numberC = 20;
 
         $scope.next = function () {
             if ($scope.index == (clients.length - 1)) {
@@ -990,9 +980,39 @@
         }
 
         $scope.loadClients = function () {
-            $scope.numberC += 200;
+
+            $scope.numberC += 20;
+            $("#modalWaiting").modal("show");
+
+            $http.get("/api/ProfitTMApi/GetClients/" + $scope.numberC)
+                .then(function (response) {
+
+                    var res = response.data;
+                    if (res.Status == "OK") {
+                        clients = parseClients(res.Result);
+                        $scope.clients = clients;
+                        $scope.client = clients[0];
+                        $scope.index = 0;
+                        $scope.successMessage = "Clientes cargados con éxito";
+                        $("#modalSuccess").modal("show");
+                    } else {
+                        $scope.errorMessage = res.Message;
+                        $("#modalError").modal("show");
+                    }
+                });
         }
     });
+
+    function parseClients(clients) {
+        for (var item of clients) {
+            item.fecha_reg = new Date(parseInt(item.fecha_reg.substr(6)));
+            item.fe_us_in = new Date(parseInt(item.fe_us_in.substr(6)));
+            item.fe_us_mo = new Date(parseInt(item.fe_us_mo.substr(6)));
+            item.tipo_adi = item.tipo_adi.toString();
+        }
+
+        return clients;
+    }
 
     function searchType(value) {
         return types.find(c => c.tip_cli == value).des_tipo;

@@ -136,7 +136,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.collects = serializer.Serialize(new Collect().GetAllCollects(200, sucur));
 
                 if (Session["CLIENTS"] == null)
-                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllClients(false));
+                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllClients(0, false));
 
                 if (Session["CURRENCIES"] == null)
                     Session["CURRENCIES"] = serializer.Serialize(new Currency().GetAllCurrencies());
@@ -179,7 +179,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.orders = serializer.Serialize(new Order().GetAllOrders(50, false));
                 ViewBag.arts = serializer.Serialize(new Product().GetAllArts());
 
-                ViewBag.clients = new Client().GetAllClients(false);
+                ViewBag.clients = new Client().GetAllClients(0, false);
                 ViewBag.conds = new Cond().GetAllConds();
                 ViewBag.sellers = new Seller().GetAllSellers();
                 ViewBag.obj_client = serializer.Serialize(ViewBag.clients);

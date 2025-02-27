@@ -57,7 +57,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 100000000;
 
-                ViewBag.clients = serializer.Serialize(new Client().GetAllClients(true));
+                ViewBag.clients = serializer.Serialize(new Client().GetAllClients(20, true));
 
                 if (Session["CONDS"] == null)
                     Session["CONDS"] = serializer.Serialize(new Cond().GetAllConds());
@@ -118,7 +118,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 serializer.MaxJsonLength = 50000000;
 
                 if (Session["CLIENTS"] == null)
-                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllClients(false));
+                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllClients(0, false));
 
                 ViewBag.clients = Session["CLIENTS"];
 
