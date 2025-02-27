@@ -28,6 +28,7 @@ namespace ProfitTM.Models
             this.saTransferenciaEntreCuentas = new HashSet<saTransferenciaEntreCuentas>();
             this.saTransferenciaEntreCuentas1 = new HashSet<saTransferenciaEntreCuentas>();
             this.saTransferenciaEntreCuentas2 = new HashSet<saTransferenciaEntreCuentas>();
+            this.saImpuestoCuentaBancaria = new HashSet<saImpuestoCuentaBancaria>();
         }
     
         public string cod_cta { get; set; }
@@ -93,5 +94,7 @@ namespace ProfitTM.Models
         public virtual ICollection<saTransferenciaEntreCuentas> saTransferenciaEntreCuentas1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<saTransferenciaEntreCuentas> saTransferenciaEntreCuentas2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<saImpuestoCuentaBancaria> saImpuestoCuentaBancaria { get; set; }
     }
 }

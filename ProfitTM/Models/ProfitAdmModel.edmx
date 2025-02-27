@@ -140,9 +140,14 @@
           <Property Name="correopass" Type="varchar" MaxLength="128" />
           <Property Name="c_retenISLR_auto" Type="int" />
           <Property Name="v_reconv" Type="bit" Nullable="false" />
+          <Property Name="cb_manej_imp_cuenta" Type="int" Nullable="false" />
+          <Property Name="percepcion_igtf" Type="int" Nullable="false" />
+          <Property Name="v_validar_nro_control" Type="bit" Nullable="false" />
+          <Property Name="c_validar_nro_control" Type="bit" Nullable="false" />
           <Property Name="v_maneja_ncf" Type="bit" Nullable="false" />
           <Property Name="pto_emision" Type="char" MaxLength="3" />
           <Property Name="area_imp" Type="char" MaxLength="3" />
+          <Property Name="imp_cod_des" Type="int" />
         </EntityType>
         <EntityType Name="pvArticuloExt">
           <Key>
@@ -740,6 +745,10 @@ advertencia 6002: La tabla o vista 'DEMOA.dbo.pvDenominacionesMoneda' no tiene d
           <Property Name="trasnfe" Type="char" MaxLength="1" />
           <Property Name="validador" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="cod_caja2" Type="char" MaxLength="6" />
+          <Property Name="cod_caja3" Type="char" MaxLength="6" />
+          <Property Name="saldo2" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="saldo3" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="pvValeAlimentacion">
           <Key>
@@ -4506,6 +4515,14 @@ advertencia 6002: La tabla o vista 'DEMOA.dbo.saArtCrearAut' no tiene definida n
           <Property Name="nac" Type="bit" />
           <Property Name="co_cta_ingr_egr" Type="char" MaxLength="20" />
         </EntityType>
+        <EntityType Name="saDocumentoCompraInfoIGTF">
+          <Key>
+            <PropertyRef Name="rowguid" />
+          </Key>
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="base_imponible" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="porc_aplic" Type="decimal" Precision="21" Scale="8" Nullable="false" />
+        </EntityType>
         <EntityType Name="saDocumentoCompraReng">
           <Key>
             <PropertyRef Name="reng_num" />
@@ -4718,6 +4735,14 @@ advertencia 6002: La tabla o vista 'DEMOA.dbo.saArtCrearAut' no tiene definida n
           <Property Name="validador" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="co_cta_ingr_egr" Type="char" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="saDocumentoVentaInfoIGTF">
+          <Key>
+            <PropertyRef Name="rowguid" />
+          </Key>
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="base_imponible" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="porc_aplic" Type="decimal" Precision="21" Scale="8" Nullable="false" />
         </EntityType>
         <EntityType Name="saDocumentoVentaReng">
           <Key>
@@ -5274,6 +5299,27 @@ advertencia 6002: La tabla o vista 'DEMOA.dbo.saArtCrearAut' no tiene definida n
           <Property Name="revisado" Type="char" MaxLength="1" />
           <Property Name="trasnfe" Type="char" MaxLength="1" />
           <Property Name="validador" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="saImpuestoCuentaBancaria">
+          <Key>
+            <PropertyRef Name="tipo_imp" />
+            <PropertyRef Name="fecha_regis" />
+            <PropertyRef Name="cod_cta" />
+          </Key>
+          <Property Name="tipo_imp" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="fecha_regis" Type="smalldatetime" Nullable="false" />
+          <Property Name="valor_porcent" Type="decimal" Precision="21" Scale="8" Nullable="false" />
+          <Property Name="monto_adic" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="cod_cta" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="co_us_in" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="co_sucu_in" Type="char" MaxLength="6" />
+          <Property Name="fe_us_in" Type="datetime" Nullable="false" />
+          <Property Name="co_us_mo" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="co_sucu_mo" Type="char" MaxLength="6" />
+          <Property Name="fe_us_mo" Type="datetime" Nullable="false" />
+          <Property Name="revisado" Type="char" MaxLength="1" />
+          <Property Name="trasnfe" Type="char" MaxLength="1" />
           <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="saImpuestoReng">
@@ -8757,6 +8803,30 @@ advertencia 6035: La relación 'FK_pvTarjetaCreditoExt_saTarjetaCredito' tiene c
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_pvTurnoExe_saCaja2">
+          <End Role="saCaja" Type="Self.saCaja" Multiplicity="0..1" />
+          <End Role="pvTurnoExe" Type="Self.pvTurnoExe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="saCaja">
+              <PropertyRef Name="cod_caja" />
+            </Principal>
+            <Dependent Role="pvTurnoExe">
+              <PropertyRef Name="cod_caja2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pvTurnoExe_saCaja3">
+          <End Role="saCaja" Type="Self.saCaja" Multiplicity="0..1" />
+          <End Role="pvTurnoExe" Type="Self.pvTurnoExe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="saCaja">
+              <PropertyRef Name="cod_caja" />
+            </Principal>
+            <Dependent Role="pvTurnoExe">
+              <PropertyRef Name="cod_caja3" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_pvValeAlimentacionReng_pvValeAlimentacion">
           <End Role="pvValeAlimentacion" Type="Self.pvValeAlimentacion" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -8914,9 +8984,7 @@ advertencia 6035: La relación 'FK_pvTarjetaCreditoExt_saTarjetaCredito' tiene c
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_saAjusteReng_saTipoAjuste">
-          <End Role="saTipoAjuste" Type="Self.saTipoAjuste" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="saTipoAjuste" Type="Self.saTipoAjuste" Multiplicity="1" />
           <End Role="saAjusteReng" Type="Self.saAjusteReng" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="saTipoAjuste">
@@ -11563,6 +11631,9 @@ advertencia 6035: La relación 'FK_saDistribCostoOrigenReng_saPlantillaCompraRen
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_saDocumentoCompraInfoIGTF_saDocumentoCompra' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_saDocumentoCompraInfoIGTF_saDocumentoCompra" />-->
         <Association Name="FK_saDocumentoCompraReng_saArtUnidad">
           <End Role="saArtUnidad" Type="Self.saArtUnidad" Multiplicity="0..1" />
           <End Role="saDocumentoCompraReng" Type="Self.saDocumentoCompraReng" Multiplicity="*" />
@@ -11737,6 +11808,9 @@ advertencia 6035: La relación 'FK_saDistribCostoOrigenReng_saPlantillaCompraRen
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_saDocumentoVentaInfoIGTF_saDocumentoVenta' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <Association Name="FK_saDocumentoVentaInfoIGTF_saDocumentoVenta" />-->
         <Association Name="FK_saDocumentoVentaReng_saArtUnidad">
           <End Role="saArtUnidad" Type="Self.saArtUnidad" Multiplicity="0..1" />
           <End Role="saDocumentoVentaReng" Type="Self.saDocumentoVentaReng" Multiplicity="*" />
@@ -12129,6 +12203,20 @@ advertencia 6035: La relación 'FK_saFacturaCompraRengExt_saFacturaCompraReng' t
             </Principal>
             <Dependent Role="saImpMun">
               <PropertyRef Name="co_sucur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_saImpuestoCuentaBancaria_saCuentaBancaria">
+          <End Role="saCuentaBancaria" Type="Self.saCuentaBancaria" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="saImpuestoCuentaBancaria" Type="Self.saImpuestoCuentaBancaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="saCuentaBancaria">
+              <PropertyRef Name="cod_cta" />
+            </Principal>
+            <Dependent Role="saImpuestoCuentaBancaria">
+              <PropertyRef Name="cod_cta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14790,6 +14878,7 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Parameter Name="sSalestax" Type="char" Mode="In" />
           <Parameter Name="sImpfis" Type="varchar" Mode="In" />
           <Parameter Name="sImpfisfac" Type="varchar" Mode="In" />
+          <Parameter Name="sImp_nro_z" Type="char" Mode="In" />
           <Parameter Name="bVen_Ter" Type="bit" Mode="In" />
           <Parameter Name="sCampo1" Type="varchar" Mode="In" />
           <Parameter Name="sCampo2" Type="varchar" Mode="In" />
@@ -15654,10 +15743,12 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <EntitySet Name="saDistribCostoOrigenReng" EntityType="Self.saDistribCostoOrigenReng" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saDistribCostoRelaReng" EntityType="Self.saDistribCostoRelaReng" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saDocumentoCompra" EntityType="Self.saDocumentoCompra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="saDocumentoCompraInfoIGTF" EntityType="Self.saDocumentoCompraInfoIGTF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saDocumentoCompraReng" EntityType="Self.saDocumentoCompraReng" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saDocumentoElectronico" EntityType="Self.saDocumentoElectronico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saDocumentoImagen" EntityType="Self.saDocumentoImagen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saDocumentoVenta" EntityType="Self.saDocumentoVenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="saDocumentoVentaInfoIGTF" EntityType="Self.saDocumentoVentaInfoIGTF" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saDocumentoVentaReng" EntityType="Self.saDocumentoVentaReng" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saFactCompRengCaracteristicasAdic" EntityType="Self.saFactCompRengCaracteristicasAdic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saFactCompRengPesoVolumen" EntityType="Self.saFactCompRengPesoVolumen" Schema="dbo" store:Type="Tables" />
@@ -15674,6 +15765,7 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <EntitySet Name="saHistoricoEstado" EntityType="Self.saHistoricoEstado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saImpMun" EntityType="Self.saImpMun" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saImpuesto" EntityType="Self.saImpuesto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="saImpuestoCuentaBancaria" EntityType="Self.saImpuestoCuentaBancaria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saImpuestoReng" EntityType="Self.saImpuestoReng" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saImpuestoSobreVenta" EntityType="Self.saImpuestoSobreVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="saImpuestoSobreVentaReng" EntityType="Self.saImpuestoSobreVentaReng" Schema="dbo" store:Type="Tables" />
@@ -15998,6 +16090,14 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <End Role="pvTurnoExe" EntitySet="pvTurnoExe" />
           </AssociationSet>
           <AssociationSet Name="FK_pvTurnoExe_saCaja" Association="Self.FK_pvTurnoExe_saCaja">
+            <End Role="saCaja" EntitySet="saCaja" />
+            <End Role="pvTurnoExe" EntitySet="pvTurnoExe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pvTurnoExe_saCaja2" Association="Self.FK_pvTurnoExe_saCaja2">
+            <End Role="saCaja" EntitySet="saCaja" />
+            <End Role="pvTurnoExe" EntitySet="pvTurnoExe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pvTurnoExe_saCaja3" Association="Self.FK_pvTurnoExe_saCaja3">
             <End Role="saCaja" EntitySet="saCaja" />
             <End Role="pvTurnoExe" EntitySet="pvTurnoExe" />
           </AssociationSet>
@@ -17049,6 +17149,10 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <End Role="saSucursal" EntitySet="saSucursal" />
             <End Role="saImpMun" EntitySet="saImpMun" />
           </AssociationSet>
+          <AssociationSet Name="FK_saImpuestoCuentaBancaria_saCuentaBancaria" Association="Self.FK_saImpuestoCuentaBancaria_saCuentaBancaria">
+            <End Role="saCuentaBancaria" EntitySet="saCuentaBancaria" />
+            <End Role="saImpuestoCuentaBancaria" EntitySet="saImpuestoCuentaBancaria" />
+          </AssociationSet>
           <AssociationSet Name="FK_saImpuestoReng_saImpuesto" Association="Self.FK_saImpuestoReng_saImpuesto">
             <End Role="saImpuesto" EntitySet="saImpuesto" />
             <End Role="saImpuestoReng" EntitySet="saImpuestoReng" />
@@ -17882,6 +17986,11 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <NavigationProperty Name="saZona" Relationship="Self.FK_par_emp_saZona_C" FromRole="par_emp" ToRole="saZona" />
           <NavigationProperty Name="saZona1" Relationship="Self.FK_par_emp_saZona_V" FromRole="par_emp" ToRole="saZona" />
           <NavigationProperty Name="saConsecutivo" Relationship="Self.FK_saConsecutivo_par_emp" FromRole="par_emp" ToRole="saConsecutivo" />
+          <Property Name="cb_manej_imp_cuenta" Type="Int32" Nullable="false" />
+          <Property Name="percepcion_igtf" Type="Int32" Nullable="false" />
+          <Property Name="v_validar_nro_control" Type="Boolean" Nullable="false" />
+          <Property Name="c_validar_nro_control" Type="Boolean" Nullable="false" />
+          <Property Name="imp_cod_des" Type="Int32" />
         </EntityType>
         <EntityType Name="pvArticuloExt">
           <Key>
@@ -18465,6 +18574,12 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Property Name="rowguid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="pvTurno" Relationship="Self.FK_pvTurnoExe_pvTurno" FromRole="pvTurnoExe" ToRole="pvTurno" />
           <NavigationProperty Name="saCaja" Relationship="Self.FK_pvTurnoExe_saCaja" FromRole="pvTurnoExe" ToRole="saCaja" />
+          <Property Name="cod_caja2" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="cod_caja3" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="saldo2" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="saldo3" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="saCaja1" Relationship="ProfitAdmContext.FK_pvTurnoExe_saCaja2" FromRole="pvTurnoExe" ToRole="saCaja" />
+          <NavigationProperty Name="saCaja2" Relationship="ProfitAdmContext.FK_pvTurnoExe_saCaja3" FromRole="pvTurnoExe" ToRole="saCaja" />
         </EntityType>
         <EntityType Name="pvValeAlimentacion">
           <Key>
@@ -19591,6 +19706,8 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <NavigationProperty Name="saOrdenPago" Relationship="Self.FK_saOrdenPago_saCaja" FromRole="saCaja" ToRole="saOrdenPago" />
           <NavigationProperty Name="saPagoTPReng" Relationship="Self.FK_saPagoTPReng_saCaja" FromRole="saCaja" ToRole="saPagoTPReng" />
           <NavigationProperty Name="saSaldoCaja" Relationship="Self.FK_saSaldoCaja_saCaja" FromRole="saCaja" ToRole="saSaldoCaja" />
+          <NavigationProperty Name="pvTurnoExe1" Relationship="ProfitAdmContext.FK_pvTurnoExe_saCaja2" FromRole="saCaja" ToRole="pvTurnoExe" />
+          <NavigationProperty Name="pvTurnoExe2" Relationship="ProfitAdmContext.FK_pvTurnoExe_saCaja3" FromRole="saCaja" ToRole="pvTurnoExe" />
         </EntityType>
         <EntityType Name="saCatArticulo">
           <Key>
@@ -21752,6 +21869,7 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <NavigationProperty Name="saTransferenciaEntreCuentas" Relationship="Self.FK_saTransferenciaEntreBancos_cta_comision_saCuentaBancaria" FromRole="saCuentaBancaria" ToRole="saTransferenciaEntreCuentas" />
           <NavigationProperty Name="saTransferenciaEntreCuentas1" Relationship="Self.FK_saTransferenciaEntreBancos_cta_destino_saCuentaBancaria" FromRole="saCuentaBancaria" ToRole="saTransferenciaEntreCuentas" />
           <NavigationProperty Name="saTransferenciaEntreCuentas2" Relationship="Self.FK_saTransferenciaEntreBancos_cta_origen_saCuentaBancaria" FromRole="saCuentaBancaria" ToRole="saTransferenciaEntreCuentas" />
+          <NavigationProperty Name="saImpuestoCuentaBancaria" Relationship="ProfitAdmContext.FK_saImpuestoCuentaBancaria_saCuentaBancaria" FromRole="saCuentaBancaria" ToRole="saImpuestoCuentaBancaria" />
         </EntityType>
         <EntityType Name="saCuentaIngEgr">
           <Key>
@@ -35489,6 +35607,7 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <Parameter Name="sSalestax" Mode="In" Type="String" />
             <Parameter Name="sImpfis" Mode="In" Type="String" />
             <Parameter Name="sImpfisfac" Mode="In" Type="String" />
+            <Parameter Name="sImp_nro_z" Mode="In" Type="String" />
             <Parameter Name="bVen_Ter" Mode="In" Type="Boolean" />
             <Parameter Name="sCampo1" Mode="In" Type="String" />
             <Parameter Name="sCampo2" Mode="In" Type="String" />
@@ -36118,6 +36237,21 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
             <Parameter Name="deCosto_Adi3" Mode="In" Type="Decimal" />
             <Parameter Name="sCredito_fiscal" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="saDocumentoCompraInfoIGTF" EntityType="ProfitAdmContext.saDocumentoCompraInfoIGTF" />
+          <EntitySet Name="saDocumentoVentaInfoIGTF" EntityType="ProfitAdmContext.saDocumentoVentaInfoIGTF" />
+          <EntitySet Name="saImpuestoCuentaBancaria" EntityType="ProfitAdmContext.saImpuestoCuentaBancaria" />
+          <AssociationSet Name="FK_pvTurnoExe_saCaja2" Association="ProfitAdmContext.FK_pvTurnoExe_saCaja2">
+            <End Role="saCaja" EntitySet="saCaja" />
+            <End Role="pvTurnoExe" EntitySet="pvTurnoExe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pvTurnoExe_saCaja3" Association="ProfitAdmContext.FK_pvTurnoExe_saCaja3">
+            <End Role="saCaja" EntitySet="saCaja" />
+            <End Role="pvTurnoExe" EntitySet="pvTurnoExe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_saImpuestoCuentaBancaria_saCuentaBancaria" Association="ProfitAdmContext.FK_saImpuestoCuentaBancaria_saCuentaBancaria">
+            <End Role="saCuentaBancaria" EntitySet="saCuentaBancaria" />
+            <End Role="saImpuestoCuentaBancaria" EntitySet="saImpuestoCuentaBancaria" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="RepEstadoCuentaCli_Result">
           <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -36874,6 +37008,82 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
           <Property Type="Guid" Name="rowguid" Nullable="true" />
         </ComplexType>
+        <EntityType Name="saDocumentoCompraInfoIGTF">
+          <Key>
+            <PropertyRef Name="rowguid" />
+          </Key>
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="base_imponible" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="porc_aplic" Type="Decimal" Nullable="false" Precision="21" Scale="8" />
+        </EntityType>
+        <EntityType Name="saDocumentoVentaInfoIGTF">
+          <Key>
+            <PropertyRef Name="rowguid" />
+          </Key>
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="base_imponible" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="porc_aplic" Type="Decimal" Nullable="false" Precision="21" Scale="8" />
+        </EntityType>
+        <EntityType Name="saImpuestoCuentaBancaria">
+          <Key>
+            <PropertyRef Name="tipo_imp" />
+            <PropertyRef Name="fecha_regis" />
+            <PropertyRef Name="cod_cta" />
+          </Key>
+          <Property Name="tipo_imp" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="fecha_regis" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="valor_porcent" Type="Decimal" Nullable="false" Precision="21" Scale="8" />
+          <Property Name="monto_adic" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="cod_cta" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="co_us_in" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="co_sucu_in" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="fe_us_in" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="co_us_mo" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="co_sucu_mo" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="fe_us_mo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="revisado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="trasnfe" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="saCuentaBancaria" Relationship="ProfitAdmContext.FK_saImpuestoCuentaBancaria_saCuentaBancaria" FromRole="saImpuestoCuentaBancaria" ToRole="saCuentaBancaria" />
+        </EntityType>
+        <Association Name="FK_pvTurnoExe_saCaja2">
+          <End Type="ProfitAdmContext.saCaja" Role="saCaja" Multiplicity="0..1" />
+          <End Type="ProfitAdmContext.pvTurnoExe" Role="pvTurnoExe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="saCaja">
+              <PropertyRef Name="cod_caja" />
+            </Principal>
+            <Dependent Role="pvTurnoExe">
+              <PropertyRef Name="cod_caja2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pvTurnoExe_saCaja3">
+          <End Type="ProfitAdmContext.saCaja" Role="saCaja" Multiplicity="0..1" />
+          <End Type="ProfitAdmContext.pvTurnoExe" Role="pvTurnoExe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="saCaja">
+              <PropertyRef Name="cod_caja" />
+            </Principal>
+            <Dependent Role="pvTurnoExe">
+              <PropertyRef Name="cod_caja3" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_saImpuestoCuentaBancaria_saCuentaBancaria">
+          <End Type="ProfitAdmContext.saCuentaBancaria" Role="saCuentaBancaria" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ProfitAdmContext.saImpuestoCuentaBancaria" Role="saImpuestoCuentaBancaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="saCuentaBancaria">
+              <PropertyRef Name="cod_cta" />
+            </Principal>
+            <Dependent Role="saImpuestoCuentaBancaria">
+              <PropertyRef Name="cod_cta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -36883,6 +37093,11 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <EntitySetMapping Name="par_emp">
             <EntityTypeMapping TypeName="ProfitAdmContext.par_emp">
               <MappingFragment StoreEntitySet="par_emp">
+                <ScalarProperty Name="imp_cod_des" ColumnName="imp_cod_des" />
+                <ScalarProperty Name="c_validar_nro_control" ColumnName="c_validar_nro_control" />
+                <ScalarProperty Name="v_validar_nro_control" ColumnName="v_validar_nro_control" />
+                <ScalarProperty Name="percepcion_igtf" ColumnName="percepcion_igtf" />
+                <ScalarProperty Name="cb_manej_imp_cuenta" ColumnName="cb_manej_imp_cuenta" />
                 <ScalarProperty Name="cod_emp" ColumnName="cod_emp" />
                 <ScalarProperty Name="tab_num" ColumnName="tab_num" />
                 <ScalarProperty Name="logo" ColumnName="logo" />
@@ -37563,6 +37778,10 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
           <EntitySetMapping Name="pvTurnoExe">
             <EntityTypeMapping TypeName="ProfitAdmContext.pvTurnoExe">
               <MappingFragment StoreEntitySet="pvTurnoExe">
+                <ScalarProperty Name="saldo3" ColumnName="saldo3" />
+                <ScalarProperty Name="saldo2" ColumnName="saldo2" />
+                <ScalarProperty Name="cod_caja3" ColumnName="cod_caja3" />
+                <ScalarProperty Name="cod_caja2" ColumnName="cod_caja2" />
                 <ScalarProperty Name="num_turno" ColumnName="num_turno" />
                 <ScalarProperty Name="co_turno" ColumnName="co_turno" />
                 <ScalarProperty Name="cod_caja" ColumnName="cod_caja" />
@@ -46251,6 +46470,44 @@ advertencia 6035: La relación 'FK_stgFacturaVentaExt_stgFactLoteGen' tiene colu
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="saDocumentoCompraInfoIGTF">
+            <EntityTypeMapping TypeName="ProfitAdmContext.saDocumentoCompraInfoIGTF">
+              <MappingFragment StoreEntitySet="saDocumentoCompraInfoIGTF">
+                <ScalarProperty Name="porc_aplic" ColumnName="porc_aplic" />
+                <ScalarProperty Name="base_imponible" ColumnName="base_imponible" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="saDocumentoVentaInfoIGTF">
+            <EntityTypeMapping TypeName="ProfitAdmContext.saDocumentoVentaInfoIGTF">
+              <MappingFragment StoreEntitySet="saDocumentoVentaInfoIGTF">
+                <ScalarProperty Name="porc_aplic" ColumnName="porc_aplic" />
+                <ScalarProperty Name="base_imponible" ColumnName="base_imponible" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="saImpuestoCuentaBancaria">
+            <EntityTypeMapping TypeName="ProfitAdmContext.saImpuestoCuentaBancaria">
+              <MappingFragment StoreEntitySet="saImpuestoCuentaBancaria">
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="trasnfe" ColumnName="trasnfe" />
+                <ScalarProperty Name="revisado" ColumnName="revisado" />
+                <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+                <ScalarProperty Name="co_sucu_mo" ColumnName="co_sucu_mo" />
+                <ScalarProperty Name="co_us_mo" ColumnName="co_us_mo" />
+                <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+                <ScalarProperty Name="co_sucu_in" ColumnName="co_sucu_in" />
+                <ScalarProperty Name="co_us_in" ColumnName="co_us_in" />
+                <ScalarProperty Name="cod_cta" ColumnName="cod_cta" />
+                <ScalarProperty Name="monto_adic" ColumnName="monto_adic" />
+                <ScalarProperty Name="valor_porcent" ColumnName="valor_porcent" />
+                <ScalarProperty Name="fecha_regis" ColumnName="fecha_regis" />
+                <ScalarProperty Name="tipo_imp" ColumnName="tipo_imp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

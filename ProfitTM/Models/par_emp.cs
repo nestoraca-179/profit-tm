@@ -154,6 +154,11 @@ namespace ProfitTM.Models
         public bool v_maneja_ncf { get; set; }
         public string pto_emision { get; set; }
         public string area_imp { get; set; }
+        public int cb_manej_imp_cuenta { get; set; }
+        public int percepcion_igtf { get; set; }
+        public bool v_validar_nro_control { get; set; }
+        public bool c_validar_nro_control { get; set; }
+        public Nullable<int> imp_cod_des { get; set; }
     
         public virtual saCondicionPago saCondicionPago { get; set; }
         public virtual saCondicionPago saCondicionPago1 { get; set; }

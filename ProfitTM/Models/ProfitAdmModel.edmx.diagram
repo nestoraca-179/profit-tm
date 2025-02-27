@@ -703,6 +703,12 @@
         <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saUbicacion_Hasta" ManuallyRouted="false" />
         <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_Uni" ManuallyRouted="false" />
         <AssociationConnector Association="ProfitAdmContext.FK_saVendedor_saZona" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDocumentoCompraInfoIGTF" Width="1.5" PointX="10.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saDocumentoVentaInfoIGTF" Width="1.5" PointX="31.375" PointY="24.75" />
+        <EntityTypeShape EntityType="ProfitAdmContext.saImpuestoCuentaBancaria" Width="1.5" PointX="8.25" PointY="315.125" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvTurnoExe_saCaja2" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvTurnoExe_saCaja3" />
+        <AssociationConnector Association="ProfitAdmContext.FK_saImpuestoCuentaBancaria_saCuentaBancaria" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

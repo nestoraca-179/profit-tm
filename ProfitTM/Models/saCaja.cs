@@ -28,6 +28,8 @@ namespace ProfitTM.Models
             this.saOrdenPago = new HashSet<saOrdenPago>();
             this.saPagoTPReng = new HashSet<saPagoTPReng>();
             this.saSaldoCaja = new HashSet<saSaldoCaja>();
+            this.pvTurnoExe1 = new HashSet<pvTurnoExe>();
+            this.pvTurnoExe2 = new HashSet<pvTurnoExe>();
         }
     
         public string cod_caja { get; set; }
@@ -83,5 +85,9 @@ namespace ProfitTM.Models
         public virtual ICollection<saPagoTPReng> saPagoTPReng { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<saSaldoCaja> saSaldoCaja { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<pvTurnoExe> pvTurnoExe1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<pvTurnoExe> pvTurnoExe2 { get; set; }
     }
 }

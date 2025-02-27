@@ -396,7 +396,7 @@ namespace ProfitTM.Models
                             invoice.co_cond, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, invoice.anulado, invoice.status, invoice.tasa, n_cont, invoice.porc_desc_glob,
                             invoice.monto_desc_glob, invoice.porc_reca, invoice.monto_reca, invoice.saldo, invoice.total_bruto, invoice.monto_imp, invoice.monto_imp2,
                             invoice.monto_imp3, invoice.otros1, invoice.otros2, invoice.otros3, invoice.total_neto, null, invoice.comentario, invoice.dir_ent, invoice.contrib,
-                            invoice.impresa, invoice.salestax, invoice.impfis, invoice.impfisfac, invoice.ven_ter, invoice.campo1, invoice.campo2, invoice.campo3,
+                            invoice.impresa, invoice.salestax, invoice.impfis, invoice.impfisfac, null, invoice.ven_ter, invoice.campo1, invoice.campo2, invoice.campo3,
                             invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, user, sucur, invoice.revisado, invoice.trasnfe, "SERVER PROFIT WEB");
 
                         // RENGLONES

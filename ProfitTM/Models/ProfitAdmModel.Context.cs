@@ -22,7 +22,7 @@ namespace ProfitTM.Models
             Configuration.ProxyCreationEnabled = false;
             ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -264,6 +264,9 @@ namespace ProfitTM.Models
         public virtual DbSet<stgFacturaVentaExt> stgFacturaVentaExt { get; set; }
         public virtual DbSet<pvDenominacionesMoneda> pvDenominacionesMoneda { get; set; }
         public virtual DbSet<saArtCrearAut> saArtCrearAut { get; set; }
+        public virtual DbSet<saDocumentoCompraInfoIGTF> saDocumentoCompraInfoIGTF { get; set; }
+        public virtual DbSet<saDocumentoVentaInfoIGTF> saDocumentoVentaInfoIGTF { get; set; }
+        public virtual DbSet<saImpuestoCuentaBancaria> saImpuestoCuentaBancaria { get; set; }
     
         public virtual ObjectResult<RepEstadoCuentaCli_Result> RepEstadoCuentaCli(Nullable<System.DateTime> dFecha_d, Nullable<System.DateTime> dFecha_h, string sCo_Cli, string sCo_Zon_d, string sCo_Zon_h, string sCo_Moneda, string sCo_Seg_d, string sCo_Seg_h, string sTipo_pro, string sDetalle, string sProve_sin_mov, string sCo_Sucursal, string sCampOrderBy, string sDir, Nullable<bool> bHeaderRep)
         {
@@ -2496,7 +2499,7 @@ namespace ProfitTM.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("pStockPendienteActualizar", uniRowGuidOriParameter, deCantidadParameter, sTipoDocumentoParameter);
         }
     
-        public virtual ObjectResult<pInsertarFacturaVenta_Result> pInsertarFacturaVenta(string sDoc_Num, string sDescrip, string sCo_Cli, string sCo_Tran, string sCo_Mone, string sCo_Cta_Ingr_Egr, string sCo_Ven, string sCo_Cond, Nullable<System.DateTime> sdFec_Emis, Nullable<System.DateTime> sdFec_Venc, Nullable<System.DateTime> sdFec_Reg, Nullable<bool> bAnulado, string sStatus, Nullable<decimal> deTasa, string sN_Control, string sPorc_Desc_Glob, Nullable<decimal> deMonto_Desc_Glob, string sPorc_Reca, Nullable<decimal> deMonto_Reca, Nullable<decimal> deSaldo, Nullable<decimal> deTotal_Bruto, Nullable<decimal> deMonto_Imp, Nullable<decimal> deMonto_Imp2, Nullable<decimal> deMonto_Imp3, Nullable<decimal> deOtros1, Nullable<decimal> deOtros2, Nullable<decimal> deOtros3, Nullable<decimal> deTotal_Neto, string sDis_Cen, string sComentario, string sDir_Ent, Nullable<bool> bContrib, Nullable<bool> bImpresa, string sSalestax, string sImpfis, string sImpfisfac, Nullable<bool> bVen_Ter, string sCampo1, string sCampo2, string sCampo3, string sCampo4, string sCampo5, string sCampo6, string sCampo7, string sCampo8, string sCo_Us_In, string sCo_Sucu_In, string sRevisado, string sTrasnfe, string sMaquina)
+        public virtual ObjectResult<pInsertarFacturaVenta_Result> pInsertarFacturaVenta(string sDoc_Num, string sDescrip, string sCo_Cli, string sCo_Tran, string sCo_Mone, string sCo_Cta_Ingr_Egr, string sCo_Ven, string sCo_Cond, Nullable<System.DateTime> sdFec_Emis, Nullable<System.DateTime> sdFec_Venc, Nullable<System.DateTime> sdFec_Reg, Nullable<bool> bAnulado, string sStatus, Nullable<decimal> deTasa, string sN_Control, string sPorc_Desc_Glob, Nullable<decimal> deMonto_Desc_Glob, string sPorc_Reca, Nullable<decimal> deMonto_Reca, Nullable<decimal> deSaldo, Nullable<decimal> deTotal_Bruto, Nullable<decimal> deMonto_Imp, Nullable<decimal> deMonto_Imp2, Nullable<decimal> deMonto_Imp3, Nullable<decimal> deOtros1, Nullable<decimal> deOtros2, Nullable<decimal> deOtros3, Nullable<decimal> deTotal_Neto, string sDis_Cen, string sComentario, string sDir_Ent, Nullable<bool> bContrib, Nullable<bool> bImpresa, string sSalestax, string sImpfis, string sImpfisfac, string sImp_nro_z, Nullable<bool> bVen_Ter, string sCampo1, string sCampo2, string sCampo3, string sCampo4, string sCampo5, string sCampo6, string sCampo7, string sCampo8, string sCo_Us_In, string sCo_Sucu_In, string sRevisado, string sTrasnfe, string sMaquina)
         {
             var sDoc_NumParameter = sDoc_Num != null ?
                 new ObjectParameter("sDoc_Num", sDoc_Num) :
@@ -2642,6 +2645,10 @@ namespace ProfitTM.Models
                 new ObjectParameter("sImpfisfac", sImpfisfac) :
                 new ObjectParameter("sImpfisfac", typeof(string));
     
+            var sImp_nro_zParameter = sImp_nro_z != null ?
+                new ObjectParameter("sImp_nro_z", sImp_nro_z) :
+                new ObjectParameter("sImp_nro_z", typeof(string));
+    
             var bVen_TerParameter = bVen_Ter.HasValue ?
                 new ObjectParameter("bVen_Ter", bVen_Ter) :
                 new ObjectParameter("bVen_Ter", typeof(bool));
@@ -2698,7 +2705,7 @@ namespace ProfitTM.Models
                 new ObjectParameter("sMaquina", sMaquina) :
                 new ObjectParameter("sMaquina", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pInsertarFacturaVenta_Result>("pInsertarFacturaVenta", sDoc_NumParameter, sDescripParameter, sCo_CliParameter, sCo_TranParameter, sCo_MoneParameter, sCo_Cta_Ingr_EgrParameter, sCo_VenParameter, sCo_CondParameter, sdFec_EmisParameter, sdFec_VencParameter, sdFec_RegParameter, bAnuladoParameter, sStatusParameter, deTasaParameter, sN_ControlParameter, sPorc_Desc_GlobParameter, deMonto_Desc_GlobParameter, sPorc_RecaParameter, deMonto_RecaParameter, deSaldoParameter, deTotal_BrutoParameter, deMonto_ImpParameter, deMonto_Imp2Parameter, deMonto_Imp3Parameter, deOtros1Parameter, deOtros2Parameter, deOtros3Parameter, deTotal_NetoParameter, sDis_CenParameter, sComentarioParameter, sDir_EntParameter, bContribParameter, bImpresaParameter, sSalestaxParameter, sImpfisParameter, sImpfisfacParameter, bVen_TerParameter, sCampo1Parameter, sCampo2Parameter, sCampo3Parameter, sCampo4Parameter, sCampo5Parameter, sCampo6Parameter, sCampo7Parameter, sCampo8Parameter, sCo_Us_InParameter, sCo_Sucu_InParameter, sRevisadoParameter, sTrasnfeParameter, sMaquinaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pInsertarFacturaVenta_Result>("pInsertarFacturaVenta", sDoc_NumParameter, sDescripParameter, sCo_CliParameter, sCo_TranParameter, sCo_MoneParameter, sCo_Cta_Ingr_EgrParameter, sCo_VenParameter, sCo_CondParameter, sdFec_EmisParameter, sdFec_VencParameter, sdFec_RegParameter, bAnuladoParameter, sStatusParameter, deTasaParameter, sN_ControlParameter, sPorc_Desc_GlobParameter, deMonto_Desc_GlobParameter, sPorc_RecaParameter, deMonto_RecaParameter, deSaldoParameter, deTotal_BrutoParameter, deMonto_ImpParameter, deMonto_Imp2Parameter, deMonto_Imp3Parameter, deOtros1Parameter, deOtros2Parameter, deOtros3Parameter, deTotal_NetoParameter, sDis_CenParameter, sComentarioParameter, sDir_EntParameter, bContribParameter, bImpresaParameter, sSalestaxParameter, sImpfisParameter, sImpfisfacParameter, sImp_nro_zParameter, bVen_TerParameter, sCampo1Parameter, sCampo2Parameter, sCampo3Parameter, sCampo4Parameter, sCampo5Parameter, sCampo6Parameter, sCampo7Parameter, sCampo8Parameter, sCo_Us_InParameter, sCo_Sucu_InParameter, sRevisadoParameter, sTrasnfeParameter, sMaquinaParameter);
         }
     
         public virtual int pEliminarPedidoVenta(string sDoc_NumOri, byte[] tsValidador, string sMaquina, string sCo_Us_Mo, string sCo_Sucu_Mo, Nullable<System.Guid> gRowguid)

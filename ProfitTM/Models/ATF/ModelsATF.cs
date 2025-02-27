@@ -502,9 +502,7 @@ namespace ProfitTM.Models
                     if (response.IsSuccessStatusCode)
                     {
                         if (final.codigo != "200" && final.codigo != "203")
-                        {
                             throw new CancelException($"{final.mensaje} ** {final.codigo}");
-                        }
 
                         if (final.codigo == "203") 
                         {

@@ -42,8 +42,14 @@ namespace ProfitTM.Models
         public string trasnfe { get; set; }
         public byte[] validador { get; set; }
         public System.Guid rowguid { get; set; }
+        public string cod_caja2 { get; set; }
+        public string cod_caja3 { get; set; }
+        public decimal saldo2 { get; set; }
+        public decimal saldo3 { get; set; }
     
         public virtual pvTurno pvTurno { get; set; }
         public virtual saCaja saCaja { get; set; }
+        public virtual saCaja saCaja1 { get; set; }
+        public virtual saCaja saCaja2 { get; set; }
     }
 }

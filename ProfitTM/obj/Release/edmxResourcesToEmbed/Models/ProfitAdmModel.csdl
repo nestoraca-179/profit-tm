@@ -152,6 +152,11 @@
     <NavigationProperty Name="saZona" Relationship="Self.FK_par_emp_saZona_C" FromRole="par_emp" ToRole="saZona" />
     <NavigationProperty Name="saZona1" Relationship="Self.FK_par_emp_saZona_V" FromRole="par_emp" ToRole="saZona" />
     <NavigationProperty Name="saConsecutivo" Relationship="Self.FK_saConsecutivo_par_emp" FromRole="par_emp" ToRole="saConsecutivo" />
+    <Property Name="cb_manej_imp_cuenta" Type="Int32" Nullable="false" />
+    <Property Name="percepcion_igtf" Type="Int32" Nullable="false" />
+    <Property Name="v_validar_nro_control" Type="Boolean" Nullable="false" />
+    <Property Name="c_validar_nro_control" Type="Boolean" Nullable="false" />
+    <Property Name="imp_cod_des" Type="Int32" />
   </EntityType>
   <EntityType Name="pvArticuloExt">
     <Key>
@@ -735,6 +740,12 @@
     <Property Name="rowguid" Type="Guid" Nullable="false" />
     <NavigationProperty Name="pvTurno" Relationship="Self.FK_pvTurnoExe_pvTurno" FromRole="pvTurnoExe" ToRole="pvTurno" />
     <NavigationProperty Name="saCaja" Relationship="Self.FK_pvTurnoExe_saCaja" FromRole="pvTurnoExe" ToRole="saCaja" />
+    <Property Name="cod_caja2" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="cod_caja3" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="saldo2" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="saldo3" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <NavigationProperty Name="saCaja1" Relationship="ProfitAdmContext.FK_pvTurnoExe_saCaja2" FromRole="pvTurnoExe" ToRole="saCaja" />
+    <NavigationProperty Name="saCaja2" Relationship="ProfitAdmContext.FK_pvTurnoExe_saCaja3" FromRole="pvTurnoExe" ToRole="saCaja" />
   </EntityType>
   <EntityType Name="pvValeAlimentacion">
     <Key>
@@ -1861,6 +1872,8 @@
     <NavigationProperty Name="saOrdenPago" Relationship="Self.FK_saOrdenPago_saCaja" FromRole="saCaja" ToRole="saOrdenPago" />
     <NavigationProperty Name="saPagoTPReng" Relationship="Self.FK_saPagoTPReng_saCaja" FromRole="saCaja" ToRole="saPagoTPReng" />
     <NavigationProperty Name="saSaldoCaja" Relationship="Self.FK_saSaldoCaja_saCaja" FromRole="saCaja" ToRole="saSaldoCaja" />
+    <NavigationProperty Name="pvTurnoExe1" Relationship="ProfitAdmContext.FK_pvTurnoExe_saCaja2" FromRole="saCaja" ToRole="pvTurnoExe" />
+    <NavigationProperty Name="pvTurnoExe2" Relationship="ProfitAdmContext.FK_pvTurnoExe_saCaja3" FromRole="saCaja" ToRole="pvTurnoExe" />
   </EntityType>
   <EntityType Name="saCatArticulo">
     <Key>
@@ -4022,6 +4035,7 @@
     <NavigationProperty Name="saTransferenciaEntreCuentas" Relationship="Self.FK_saTransferenciaEntreBancos_cta_comision_saCuentaBancaria" FromRole="saCuentaBancaria" ToRole="saTransferenciaEntreCuentas" />
     <NavigationProperty Name="saTransferenciaEntreCuentas1" Relationship="Self.FK_saTransferenciaEntreBancos_cta_destino_saCuentaBancaria" FromRole="saCuentaBancaria" ToRole="saTransferenciaEntreCuentas" />
     <NavigationProperty Name="saTransferenciaEntreCuentas2" Relationship="Self.FK_saTransferenciaEntreBancos_cta_origen_saCuentaBancaria" FromRole="saCuentaBancaria" ToRole="saTransferenciaEntreCuentas" />
+    <NavigationProperty Name="saImpuestoCuentaBancaria" Relationship="ProfitAdmContext.FK_saImpuestoCuentaBancaria_saCuentaBancaria" FromRole="saCuentaBancaria" ToRole="saImpuestoCuentaBancaria" />
   </EntityType>
   <EntityType Name="saCuentaIngEgr">
     <Key>
@@ -17759,6 +17773,7 @@
       <Parameter Name="sSalestax" Mode="In" Type="String" />
       <Parameter Name="sImpfis" Mode="In" Type="String" />
       <Parameter Name="sImpfisfac" Mode="In" Type="String" />
+      <Parameter Name="sImp_nro_z" Mode="In" Type="String" />
       <Parameter Name="bVen_Ter" Mode="In" Type="Boolean" />
       <Parameter Name="sCampo1" Mode="In" Type="String" />
       <Parameter Name="sCampo2" Mode="In" Type="String" />
@@ -18388,6 +18403,21 @@
       <Parameter Name="deCosto_Adi3" Mode="In" Type="Decimal" />
       <Parameter Name="sCredito_fiscal" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="saDocumentoCompraInfoIGTF" EntityType="ProfitAdmContext.saDocumentoCompraInfoIGTF" />
+    <EntitySet Name="saDocumentoVentaInfoIGTF" EntityType="ProfitAdmContext.saDocumentoVentaInfoIGTF" />
+    <EntitySet Name="saImpuestoCuentaBancaria" EntityType="ProfitAdmContext.saImpuestoCuentaBancaria" />
+    <AssociationSet Name="FK_pvTurnoExe_saCaja2" Association="ProfitAdmContext.FK_pvTurnoExe_saCaja2">
+      <End Role="saCaja" EntitySet="saCaja" />
+      <End Role="pvTurnoExe" EntitySet="pvTurnoExe" />
+    </AssociationSet>
+    <AssociationSet Name="FK_pvTurnoExe_saCaja3" Association="ProfitAdmContext.FK_pvTurnoExe_saCaja3">
+      <End Role="saCaja" EntitySet="saCaja" />
+      <End Role="pvTurnoExe" EntitySet="pvTurnoExe" />
+    </AssociationSet>
+    <AssociationSet Name="FK_saImpuestoCuentaBancaria_saCuentaBancaria" Association="ProfitAdmContext.FK_saImpuestoCuentaBancaria_saCuentaBancaria">
+      <End Role="saCuentaBancaria" EntitySet="saCuentaBancaria" />
+      <End Role="saImpuestoCuentaBancaria" EntitySet="saImpuestoCuentaBancaria" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="RepEstadoCuentaCli_Result">
     <Property Type="String" Name="descrip" Nullable="true" MaxLength="6" />
@@ -19144,4 +19174,80 @@
     <Property Type="DateTime" Name="fe_us_mo" Nullable="true" Precision="23" />
     <Property Type="Guid" Name="rowguid" Nullable="true" />
   </ComplexType>
+  <EntityType Name="saDocumentoCompraInfoIGTF">
+    <Key>
+      <PropertyRef Name="rowguid" />
+    </Key>
+    <Property Name="rowguid" Type="Guid" Nullable="false" />
+    <Property Name="base_imponible" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="porc_aplic" Type="Decimal" Nullable="false" Precision="21" Scale="8" />
+  </EntityType>
+  <EntityType Name="saDocumentoVentaInfoIGTF">
+    <Key>
+      <PropertyRef Name="rowguid" />
+    </Key>
+    <Property Name="rowguid" Type="Guid" Nullable="false" />
+    <Property Name="base_imponible" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="porc_aplic" Type="Decimal" Nullable="false" Precision="21" Scale="8" />
+  </EntityType>
+  <EntityType Name="saImpuestoCuentaBancaria">
+    <Key>
+      <PropertyRef Name="tipo_imp" />
+      <PropertyRef Name="fecha_regis" />
+      <PropertyRef Name="cod_cta" />
+    </Key>
+    <Property Name="tipo_imp" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="fecha_regis" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="valor_porcent" Type="Decimal" Nullable="false" Precision="21" Scale="8" />
+    <Property Name="monto_adic" Type="Decimal" Precision="18" Scale="5" />
+    <Property Name="cod_cta" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="co_us_in" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="co_sucu_in" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="fe_us_in" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="co_us_mo" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="co_sucu_mo" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="fe_us_mo" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="revisado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="trasnfe" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="rowguid" Type="Guid" Nullable="false" />
+    <NavigationProperty Name="saCuentaBancaria" Relationship="ProfitAdmContext.FK_saImpuestoCuentaBancaria_saCuentaBancaria" FromRole="saImpuestoCuentaBancaria" ToRole="saCuentaBancaria" />
+  </EntityType>
+  <Association Name="FK_pvTurnoExe_saCaja2">
+    <End Type="ProfitAdmContext.saCaja" Role="saCaja" Multiplicity="0..1" />
+    <End Type="ProfitAdmContext.pvTurnoExe" Role="pvTurnoExe" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="saCaja">
+        <PropertyRef Name="cod_caja" />
+      </Principal>
+      <Dependent Role="pvTurnoExe">
+        <PropertyRef Name="cod_caja2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_pvTurnoExe_saCaja3">
+    <End Type="ProfitAdmContext.saCaja" Role="saCaja" Multiplicity="0..1" />
+    <End Type="ProfitAdmContext.pvTurnoExe" Role="pvTurnoExe" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="saCaja">
+        <PropertyRef Name="cod_caja" />
+      </Principal>
+      <Dependent Role="pvTurnoExe">
+        <PropertyRef Name="cod_caja3" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_saImpuestoCuentaBancaria_saCuentaBancaria">
+    <End Type="ProfitAdmContext.saCuentaBancaria" Role="saCuentaBancaria" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ProfitAdmContext.saImpuestoCuentaBancaria" Role="saImpuestoCuentaBancaria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="saCuentaBancaria">
+        <PropertyRef Name="cod_cta" />
+      </Principal>
+      <Dependent Role="saImpuestoCuentaBancaria">
+        <PropertyRef Name="cod_cta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

@@ -4,6 +4,11 @@
     <EntitySetMapping Name="par_emp">
       <EntityTypeMapping TypeName="ProfitAdmContext.par_emp">
         <MappingFragment StoreEntitySet="par_emp">
+          <ScalarProperty Name="imp_cod_des" ColumnName="imp_cod_des" />
+          <ScalarProperty Name="c_validar_nro_control" ColumnName="c_validar_nro_control" />
+          <ScalarProperty Name="v_validar_nro_control" ColumnName="v_validar_nro_control" />
+          <ScalarProperty Name="percepcion_igtf" ColumnName="percepcion_igtf" />
+          <ScalarProperty Name="cb_manej_imp_cuenta" ColumnName="cb_manej_imp_cuenta" />
           <ScalarProperty Name="cod_emp" ColumnName="cod_emp" />
           <ScalarProperty Name="tab_num" ColumnName="tab_num" />
           <ScalarProperty Name="logo" ColumnName="logo" />
@@ -684,6 +689,10 @@
     <EntitySetMapping Name="pvTurnoExe">
       <EntityTypeMapping TypeName="ProfitAdmContext.pvTurnoExe">
         <MappingFragment StoreEntitySet="pvTurnoExe">
+          <ScalarProperty Name="saldo3" ColumnName="saldo3" />
+          <ScalarProperty Name="saldo2" ColumnName="saldo2" />
+          <ScalarProperty Name="cod_caja3" ColumnName="cod_caja3" />
+          <ScalarProperty Name="cod_caja2" ColumnName="cod_caja2" />
           <ScalarProperty Name="num_turno" ColumnName="num_turno" />
           <ScalarProperty Name="co_turno" ColumnName="co_turno" />
           <ScalarProperty Name="cod_caja" ColumnName="cod_caja" />
@@ -9372,5 +9381,43 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <EntitySetMapping Name="saDocumentoCompraInfoIGTF">
+      <EntityTypeMapping TypeName="ProfitAdmContext.saDocumentoCompraInfoIGTF">
+        <MappingFragment StoreEntitySet="saDocumentoCompraInfoIGTF">
+          <ScalarProperty Name="porc_aplic" ColumnName="porc_aplic" />
+          <ScalarProperty Name="base_imponible" ColumnName="base_imponible" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="saDocumentoVentaInfoIGTF">
+      <EntityTypeMapping TypeName="ProfitAdmContext.saDocumentoVentaInfoIGTF">
+        <MappingFragment StoreEntitySet="saDocumentoVentaInfoIGTF">
+          <ScalarProperty Name="porc_aplic" ColumnName="porc_aplic" />
+          <ScalarProperty Name="base_imponible" ColumnName="base_imponible" />
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="saImpuestoCuentaBancaria">
+      <EntityTypeMapping TypeName="ProfitAdmContext.saImpuestoCuentaBancaria">
+        <MappingFragment StoreEntitySet="saImpuestoCuentaBancaria">
+          <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+          <ScalarProperty Name="trasnfe" ColumnName="trasnfe" />
+          <ScalarProperty Name="revisado" ColumnName="revisado" />
+          <ScalarProperty Name="fe_us_mo" ColumnName="fe_us_mo" />
+          <ScalarProperty Name="co_sucu_mo" ColumnName="co_sucu_mo" />
+          <ScalarProperty Name="co_us_mo" ColumnName="co_us_mo" />
+          <ScalarProperty Name="fe_us_in" ColumnName="fe_us_in" />
+          <ScalarProperty Name="co_sucu_in" ColumnName="co_sucu_in" />
+          <ScalarProperty Name="co_us_in" ColumnName="co_us_in" />
+          <ScalarProperty Name="cod_cta" ColumnName="cod_cta" />
+          <ScalarProperty Name="monto_adic" ColumnName="monto_adic" />
+          <ScalarProperty Name="valor_porcent" ColumnName="valor_porcent" />
+          <ScalarProperty Name="fecha_regis" ColumnName="fecha_regis" />
+          <ScalarProperty Name="tipo_imp" ColumnName="tipo_imp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

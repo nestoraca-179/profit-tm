@@ -1237,6 +1237,9 @@
     <Compile Include="Models\saDocumentoCompra.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\saDocumentoCompraInfoIGTF.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\saDocumentoCompraReng.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
@@ -1247,6 +1250,9 @@
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\saDocumentoVenta.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\saDocumentoVentaInfoIGTF.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\saDocumentoVentaReng.cs">
@@ -1295,6 +1301,9 @@
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\saImpuesto.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\saImpuestoCuentaBancaria.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\saImpuestoReng.cs">
