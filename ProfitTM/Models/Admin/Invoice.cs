@@ -768,7 +768,7 @@ namespace ProfitTM.Models
 
                     if (isFact)
                     {
-                        saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == log.NroFact);
+                        saFacturaVenta fact = context.saFacturaVenta.Single(i => i.doc_num.Trim() == log.NroFact);
                         fact.n_control = n_control;
                         context.Entry(fact).State = EntityState.Modified;
 
@@ -781,7 +781,7 @@ namespace ProfitTM.Models
                         nro_doc = log.NroFact.Replace("N-", "");
                     }
 
-                    saDocumentoVenta doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
+                    saDocumentoVenta doc = context.saDocumentoVenta.Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
                     doc.n_control = n_control;
                     context.Entry(doc).State = EntityState.Modified;
                     context.SaveChanges();
