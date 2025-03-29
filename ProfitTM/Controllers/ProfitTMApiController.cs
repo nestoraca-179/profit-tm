@@ -15,7 +15,8 @@ namespace ProfitTM.Controllers
         // UTILS
         private readonly UtilsController utils = new UtilsController();
 
-        // BUSCAR REPORTES
+        // REPORTE
+
         [HttpGet]
         [Route("api/ProfitTMApi/GetReports/Prod/{prod}/Mod/{mod}")]
         public ProfitTMResponse GetReports(string prod, string mod)
@@ -1105,20 +1106,6 @@ namespace ProfitTM.Controllers
 
             return response;
         }
-        
-        // DECRIPTAR CLAVE
-
-        [HttpGet]
-        [Route("api/ProfitTMApi/DecryptPass/{username}")]
-        public string DecryptPass(string username)
-        {
-            Users user = Models.User.GetUserByName(username);
-
-            if (user != null)
-                return SecurityController.Decrypt(user.Password);
-            else
-                return "USUARIO NO EXISTE";
-        }
 
         // LOG
 
@@ -1235,7 +1222,7 @@ namespace ProfitTM.Controllers
             return response;
         }
 
-        // GENERAR JSON
+        // JSON FACTURA
 
         [HttpGet]
         [Route("api/ProfitTMApi/GetJson/{id_conn}/{fact}/{serie}")]
@@ -1267,6 +1254,47 @@ namespace ProfitTM.Controllers
             HttpContext.Current.Session["CONNECT"] = null;
 
             return result;
+        }
+
+        // DECRIPTAR CLAVE
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/DecryptPass/{username}")]
+        public string DecryptPass(string username)
+        {
+            Users user = Models.User.GetUserByName(username);
+
+            if (user != null)
+                return SecurityController.Decrypt(user.Password);
+            else
+                return "USUARIO NO EXISTE";
+        }
+
+        // INCIDENTE
+
+        [HttpGet]
+        [Route("api/ProfitTMApi/Incident/{limit?}")]
+        public IHttpActionResult GetIncidents(int limit = 0)
+		{
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                List<Incidents> incidents = Incident.GetTopIncidents(limit == 0 ? 50 : limit);
+
+                response.Status = "OK";
+                response.Result = incidents;
+
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO INCIDENTES", ex);
+
+                return InternalServerError(ex);
+            }
         }
     }
 }

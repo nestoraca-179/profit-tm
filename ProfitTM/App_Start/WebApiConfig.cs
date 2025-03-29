@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Serialization;
 using System.Web.Http;
 
 namespace ProfitTM
@@ -9,6 +10,9 @@ namespace ProfitTM
 
         public static void Register(HttpConfiguration config)
         {
+            // config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            // config.Formatters.Remove(config.Formatters.XmlFormatter); // Opcional: Eliminar el formateador XML
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
