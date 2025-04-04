@@ -343,8 +343,11 @@ namespace ProfitTM.Models
                 {
                     try
                     {
-                        string n_fact = "", n_cont = "";
-                        
+                        string n_fact = string.IsNullOrEmpty(invoice.doc_num) ? GetNextConsec(context, sucur, "DOC_VEN_FACT").Trim() : invoice.doc_num;
+                        string n_cont = string.IsNullOrEmpty(invoice.n_control) ? GetNextConsec(context, sucur, "FACT_VTA_N_CON").Trim() : invoice.n_control;
+                        while (context.saFacturaVenta.AsNoTracking().Any(i => i.n_control.Trim() == n_cont))
+                            n_cont = GetNextConsec(context, sucur, "FACT_VTA_N_CON").Trim();
+
                         if (fromOrder)
                         {
                             foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
@@ -353,42 +356,44 @@ namespace ProfitTM.Models
                             }
                         }
 
-                        if (string.IsNullOrEmpty(invoice.doc_num))
-                        {
-                            var sp_n_fact = context.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();
-                            if (sp_n_fact.MoveNext())
-                                n_fact = sp_n_fact.Current;
+						#region CODIGO EN DESUSO
+						//if (string.IsNullOrEmpty(invoice.doc_num))
+						//{
+						//    var sp_n_fact = context.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();
+						//    if (sp_n_fact.MoveNext())
+						//        n_fact = sp_n_fact.Current;
 
-                            sp_n_fact.Dispose();
-                        }
-                        else
-                        {
-                            n_fact = invoice.doc_num;
-                        }
+						//    sp_n_fact.Dispose();
+						//}
+						//else
+						//{
+						//    n_fact = invoice.doc_num;
+						//}
 
-                        if (string.IsNullOrEmpty(invoice.n_control))
-                        {
-                            do
-                            {
-                                string consec = "FACT_VTA_N_CON";
+						//if (string.IsNullOrEmpty(invoice.n_control))
+						//{
+						//    do
+						//    {
+						//        string consec = "FACT_VTA_N_CON";
 
-                                //if (User.GetUserByName(user).UseAlterSerie)
-                                //    consec = "FACT_VTA_N_CON_2";
+						//        //if (User.GetUserByName(user).UseAlterSerie)
+						//        //    consec = "FACT_VTA_N_CON_2";
 
-                                var sp_n_cont = context.pConsecutivoProximo(sucur, consec).GetEnumerator();
-                                if (sp_n_cont.MoveNext())
-                                    n_cont = sp_n_cont.Current;
+						//        var sp_n_cont = context.pConsecutivoProximo(sucur, consec).GetEnumerator();
+						//        if (sp_n_cont.MoveNext())
+						//            n_cont = sp_n_cont.Current;
 
-                                sp_n_cont.Dispose();
+						//        sp_n_cont.Dispose();
 
-                            } while (context.saFacturaVenta.AsNoTracking().SingleOrDefault(i => i.n_control.Trim() == n_cont) != null);
-                        }
-                        else
-                        {
-                            n_cont = invoice.n_control;
-                        }
+						//    } while (context.saFacturaVenta.AsNoTracking().SingleOrDefault(i => i.n_control.Trim() == n_cont) != null);
+						//}
+						//else
+						//{
+						//    n_cont = invoice.n_control;
+						//}
+						#endregion
 
-                        if (string.IsNullOrEmpty(invoice.comentario)) // VALIDACION DE BASE DE IGTF
+						if (string.IsNullOrEmpty(invoice.comentario)) // VALIDACION DE BASE DE IGTF
                             invoice.comentario = "0";
 
                         // FACTURA
@@ -398,6 +403,7 @@ namespace ProfitTM.Models
                             invoice.monto_imp3, invoice.otros1, invoice.otros2, invoice.otros3, invoice.total_neto, null, invoice.comentario, invoice.dir_ent, invoice.contrib,
                             invoice.impresa, invoice.salestax, invoice.impfis, invoice.impfisfac, null, invoice.ven_ter, invoice.campo1, invoice.campo2, invoice.campo3,
                             invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, user, sucur, invoice.revisado, invoice.trasnfe, "SERVER PROFIT WEB");
+                        sp.Dispose();
 
                         // RENGLONES
                         foreach (saFacturaVentaReng r in invoice.saFacturaVentaReng)
@@ -407,7 +413,6 @@ namespace ProfitTM.Models
                                 r.monto_reca_glob, r.otros1_glob, r.otros2_glob, r.otros3_glob, r.monto_imp_afec_glob, r.monto_imp2_afec_glob, r.monto_imp3_afec_glob,
                                 r.tipo_doc, r.rowguid_doc, r.num_doc, r.porc_imp, r.porc_imp2, r.porc_imp3, r.monto_imp, r.monto_imp2, r.monto_imp3, r.otros, r.total_dev,
                                 r.monto_dev, r.comentario, null, sucur, user, r.revisado, r.trasnfe, "SERVER PROFIT WEB");
-
                             sp_reng.Dispose();
                         }
 
@@ -419,12 +424,9 @@ namespace ProfitTM.Models
                             0, 0, 0, 0, 0, invoice.salestax, invoice.ven_ter, invoice.impfis, invoice.impfisfac, invoice.imp_nro_z, invoice.otros1, invoice.otros2, 
                             invoice.otros3, invoice.campo1, invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, 
                             invoice.revisado, invoice.trasnfe, sucur, user, "SERVER PROFIT WEB");
-
-                        sp.Dispose();
                         sp_doc.Dispose();
 
                         tran.Commit();
-                        // new_invoice = GetSaleInvoiceByID(n_fact);
                         new_invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == n_fact.Trim());
                         new_invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num.Trim() == n_fact.Trim()).ToList();
                         new_invoice.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == new_invoice.co_cli.Trim());
@@ -443,9 +445,12 @@ namespace ProfitTM.Models
                     }
                     catch (Exception ex)
                     {
-                        tran.Rollback();
-                        Incident.CreateIncident("ERROR INTERNO AGREGANDO FACTURA CON PRELIQUIDACION", ex);
+                        string msg = "ERROR INTERNO AGREGANDO FACTURA DE VENTA";
+                        if (fromOrder)
+                            msg += $" CON PRELIQUIDACION {invoice.saFacturaVentaReng.First().num_doc}";
 
+                        Incident.CreateIncident(msg, ex);
+                        tran.Rollback();
                         throw ex;
                     }
                 }
@@ -464,14 +469,14 @@ namespace ProfitTM.Models
                 {
                     try
                     {
-                        string doc_num = "";
+                        string doc_num = GetNextConsec(context, sucur, "DOC_COM_FACT").Trim();
                         string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>1.1.90.05.001</CuentaContable></Carpeta01></InformacionContable>";
 
-                        var sp_doc_num = context.pConsecutivoProximo(sucur, "DOC_COM_FACT").GetEnumerator();
-                        if (sp_doc_num.MoveNext())
-                            doc_num = sp_doc_num.Current;
+                        //var sp_doc_num = context.pConsecutivoProximo(sucur, "DOC_COM_FACT").GetEnumerator();
+                        //if (sp_doc_num.MoveNext())
+                        //    doc_num = sp_doc_num.Current;
 
-                        sp_doc_num.Dispose();
+                        //sp_doc_num.Dispose();
 
                         // VERIFICACION FACTURA EXISTENTE
                         saFacturaCompra e = context.saFacturaCompra.AsNoTracking().FirstOrDefault(i => i.co_prov == invoice.co_prov && i.nro_fact == invoice.nro_fact);
@@ -484,6 +489,7 @@ namespace ProfitTM.Models
                             invoice.co_cond, invoice.n_control, "0", invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, false, invoice.status, invoice.tasa, null, 
                             invoice.saldo, invoice.total_bruto, invoice.total_neto, 0, 0, 0, 0, 0, invoice.monto_imp, 0, 0, null, null, false, null, dis_cen, invoice.campo1, 
                             null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", true);
+                        sp.Dispose();
 
                         // RENGLONES
                         foreach (saFacturaCompraReng r in invoice.saFacturaCompraReng)
@@ -494,7 +500,6 @@ namespace ProfitTM.Models
                                 r.pendiente2, r.comentario, false, r.monto_desc_glob, r.monto_reca_glob, r.otros1_glob, r.otros2_glob, r.otros3_glob, r.monto_imp_afec_glob,
                                 r.monto_imp2_afec_glob, r.monto_imp3_afec_glob, r.monto_desc, r.pendiente, null, null, sucur, user, null, null, "SERVER PROFIT WEB", 0, 0, 0,
                                 "Totalmente Deducible (Art. 34)");
-
                             sp_reng.Dispose();
                         }
 
@@ -504,8 +509,6 @@ namespace ProfitTM.Models
                             invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.total_neto, invoice.tasa, 0, 0, 0, invoice.monto_imp, 0, 0, invoice.total_bruto,
                             0, 0, invoice.saldo, 0, 0, 0, 0, null, null, null, 0, 0, null, null, invoice.n_control, null, null, null, null, null, null, null, null, null,
                             null, sucur, user, "SERVER PROFIT WEB", true);
-
-                        sp.Dispose();
                         sp_doc.Dispose();
 
                         tran.Commit();
@@ -513,9 +516,8 @@ namespace ProfitTM.Models
                     }
                     catch (Exception ex)
                     {
-                        tran.Rollback();
                         Incident.CreateIncident("ERROR INTERNO AGREGANDO FACTURA DE COMPRA", ex);
-
+                        tran.Rollback();
                         throw ex;
                     }
                 }
@@ -534,16 +536,14 @@ namespace ProfitTM.Models
                 {
                     try
                     {
-                        string n_ncr = "", n_cont = "";
+                        string n_ncr = GetNextConsec(context, sucur, "DOC_VEN_N/CR").Trim();
+                        string n_cont = GetNextConsec(context, sucur, "N/CR_VTA_N_CON").Trim();
                         string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>1.1.03.01.001</CuentaContable></Carpeta01></InformacionContable>";
 
                         saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == doc_num.Trim());
                         invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num.Trim() == doc_num.Trim()).ToList();
                         invoice.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == invoice.co_cli.Trim());
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
-
-                        n_ncr = GetNextConsec(context, sucur, "DOC_VEN_N/CR").Trim();
-                        n_cont = GetNextConsec(context, sucur, "N/CR_VTA_N_CON").Trim();
 
                         // NOTA DE CREDITO
                         var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa, 
@@ -631,9 +631,8 @@ namespace ProfitTM.Models
                     }
                     catch (Exception ex)
                     {
+                        Incident.CreateIncident($"ERROR AGREGANDO NOTA DE CREDITO DE FACTURA {doc_num}", ex);
                         tran.Rollback();
-                        Incident.CreateIncident("ERROR AGREGANDO NOTA DE CREDITO DE FACTURA " + doc_num, ex);
-
                         throw ex;
                     }
                 }

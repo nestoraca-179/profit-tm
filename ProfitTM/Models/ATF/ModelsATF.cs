@@ -385,8 +385,13 @@ namespace ProfitTM.Models
                     if (response.IsSuccessStatusCode)
                     {
                         if (final.codigo != "200")
-                        {
-                            throw new AssignmentException($"{final.mensaje} ** {final.codigo}");
+						{
+                            string msg = $"{final.mensaje} ** {final.codigo}";
+                            if (final.validaciones?.Count > 0)
+                                foreach (string v in final.validaciones)
+                                    msg += $" ** {v}";
+
+                            throw new AssignmentException(msg);
                         }
                     }
                     else

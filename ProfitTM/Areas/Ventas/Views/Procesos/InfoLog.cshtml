@@ -51,7 +51,7 @@
             border: 0 !important;
             overflow-y: auto;
         }
-        .btn-back {
+        .btn-back, .btn-update {
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
@@ -71,10 +71,10 @@
             <a href="/Ventas/Procesos/LogsFacturas" class="btn btn-primary my-3 btn-back"><i class="fas fa-arrow-left"></i> Volver al módulo de registros</a>
         </div>
         <div class="col-sm-12 col-md-4 d-flex justify-content-center align-items-center">
-            <h2 class="text-center">Informacion Log</h2>
+            <h2 class="text-center m-0">Informacion Log</h2>
         </div>
         <div class="col d-flex justify-content-center align-items-center">
-            <button ng-if="log.Status != 1" type="submit" class="btn btn-success" ng-click="sendLog()">Actualizar log</button>
+            <button ng-if="log.Status != 1" type="submit" class="btn btn-success my-3 btn-update" ng-click="sendLog()">Actualizar log</button>
         </div>
     </div>
     <form action="" method="post" id="form" class="mt-5" onsubmit="return false;">
