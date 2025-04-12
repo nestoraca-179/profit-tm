@@ -7,6 +7,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using ProfitTM.Controllers;
 using System.Data.Entity.Core.EntityClient;
+using System.Data.Entity.Infrastructure;
 
 namespace ProfitTM.Models
 {
@@ -757,39 +758,54 @@ namespace ProfitTM.Models
             string n_connect = string.Format("Server={0};Database={1};User Id={2};Password={3}", conn.Server, conn.DB, conn.Username, conn.Password);
             EntityConnectionStringBuilder n_entity = EntityController.GetEntity(n_connect);
 
-            try
+            int maxRetries = 3;
+            int retryCount = 0;
+
+            while (retryCount < maxRetries)
 			{
-                using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString()))
+                try
                 {
-                    context.Database.CommandTimeout = 300;
-                    bool isFact = !log.NroFact.Contains("N-");
-                    string tip_doc = "", nro_doc = "";
-
-                    if (isFact)
+                    using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString()))
                     {
-                        saFacturaVenta fact = context.saFacturaVenta.Single(i => i.doc_num.Trim() == log.NroFact);
-                        fact.n_control = n_control;
-                        context.Entry(fact).State = EntityState.Modified;
+                        context.Database.CommandTimeout = 300;
+                        bool isFact = !log.NroFact.Contains("N-");
+                        string tip_doc = "", nro_doc = "";
 
-                        tip_doc = "FACT";
-                        nro_doc = log.NroFact;
-                    }
-                    else
-                    {
-                        tip_doc = "N/CR";
-                        nro_doc = log.NroFact.Replace("N-", "");
-                    }
+                        if (isFact)
+                        {
+                            saFacturaVenta fact = context.saFacturaVenta.Single(i => i.doc_num.Trim() == log.NroFact);
+                            fact.n_control = n_control;
+                            context.Entry(fact).State = EntityState.Modified;
 
-                    saDocumentoVenta doc = context.saDocumentoVenta.Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
-                    doc.n_control = n_control;
-                    context.Entry(doc).State = EntityState.Modified;
-                    context.SaveChanges();
+                            tip_doc = "FACT";
+                            nro_doc = log.NroFact;
+                        }
+                        else
+                        {
+                            tip_doc = "N/CR";
+                            nro_doc = log.NroFact.Replace("N-", "");
+                        }
+
+                        saDocumentoVenta doc = context.saDocumentoVenta.Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
+                        doc.n_control = n_control;
+                        context.Entry(doc).State = EntityState.Modified;
+                        context.SaveChanges();
+                        break;
+                    }
                 }
-            } 
-            catch (Exception ex)
-			{
-                Incident.CreateIncident($"ERROR ASIGNANDO NUMERO DE CONTROL RECIBIDO A DOCUMENTO DE VENTA {log.NroFact}", ex);
-			}
+                catch (DbUpdateException dbEx)
+				{
+                    Incident.CreateIncident($"ERROR ASIGNANDO NUMERO DE CONTROL RECIBIDO A DOCUMENTO DE VENTA {log.NroFact} - INTENTO {retryCount + 1}", dbEx);
+                    retryCount++;
+                    if (retryCount >= maxRetries)
+                        throw dbEx;
+                }
+                catch (Exception ex)
+                {
+                    Incident.CreateIncident($"ERROR ASIGNANDO NUMERO DE CONTROL RECIBIDO A DOCUMENTO DE VENTA {log.NroFact}", ex);
+                    break;
+                }
+            }
         }
     }
 }
