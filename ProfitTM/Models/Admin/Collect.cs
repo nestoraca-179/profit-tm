@@ -484,7 +484,8 @@ namespace ProfitTM.Models
                             context.SaveChanges();
                             tran.Commit();
 
-                            collect = GetCollectByID(rengs.Count > 0 ? n_coll : n_ret);
+                            // collect = GetCollectByID(rengs.Count > 0 ? n_coll : n_ret);
+                            collect = context.saCobro.AsNoTracking().Single(c => c.cob_num.Trim() == (rengs.Count > 0 ? n_coll : n_ret).Trim());
                             collect.campo1 = fact.status; // STATUS DE FACTURA
                             collect.campo2 = fact.saldo.ToString(); // SALDO RESTANTE EN BSD
                             collect.campo3 = Math.Round(fact.saldo / fact.tasa, 2).ToString(); // SALDO RESTANTE EN $USD
@@ -496,9 +497,8 @@ namespace ProfitTM.Models
                     }
                     catch (Exception ex)
                     {
-                        tran.Rollback();
                         Incident.CreateIncident("ERROR INTERNO AGREGANDO COBRO DE CONTADO", ex);
-
+                        tran.Rollback();
                         throw ex;
                     }
                 }
@@ -535,9 +535,8 @@ namespace ProfitTM.Models
                     }
                     catch (Exception ex)
                     {
-                        tran.Rollback();
                         Incident.CreateIncident("ERROR CONCILIANDO MOVIMIENTO DE COBRO " + cob_num, ex);
-
+                        tran.Rollback();
                         throw ex;
                     }
                 }
@@ -726,7 +725,6 @@ namespace ProfitTM.Models
                         if (result == 0)
                         {
                             Transfer.CancelTransf(id, user);
-
                             context.SaveChanges();
                             tran.Commit();
                         }
@@ -734,9 +732,9 @@ namespace ProfitTM.Models
                     catch (Exception ex)
                     {
                         result = -1;
-                        tran.Rollback();
-                        Incident.CreateIncident("ERROR ANULANDO COBRO " + cob_num, ex);
 
+                        Incident.CreateIncident("ERROR ANULANDO COBRO " + cob_num, ex);
+                        tran.Rollback();
                         throw ex;
                     }
                 }
