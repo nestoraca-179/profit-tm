@@ -345,8 +345,6 @@ namespace ProfitTM.Models
                             throw new InformationException($"{final.mensaje} ** {final.codigo}");
                         else if ((final.codigo == "203" || final.codigo == "400") && final.validaciones != null)
                             throw new InformationException($"{final.mensaje} ** {final.codigo} ** {final.validaciones[0]}");
-
-                        Invoice.UpdateControl(log, final.resultado.numeroControl);
                     }
                     else
                     {

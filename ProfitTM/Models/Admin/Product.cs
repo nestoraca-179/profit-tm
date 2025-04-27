@@ -52,7 +52,7 @@ namespace ProfitTM.Models
                 if (sell)
                 {
                     prods = (from a in db.saArticulo.AsNoTracking()
-                             where a.co_art.Trim().Substring(0, 1) == "4" || a.co_art.Trim().Substring(0, 1) == "9"
+                             where a.co_art.Trim().Substring(0, 1) == "4" || a.co_art.Trim().Substring(0, 1) == "9" || a.co_art.Trim() == "710102006-001"
                              select a.co_art.Trim() + "/" + a.art_des.Trim()).OrderBy(a => a).ToList();
                 }
                 else

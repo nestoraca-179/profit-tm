@@ -7,7 +7,6 @@ using System.Globalization;
 using Newtonsoft.Json;
 using ProfitTM.Controllers;
 using System.Data.Entity.Core.EntityClient;
-using System.Data.Entity.Infrastructure;
 
 namespace ProfitTM.Models
 {
@@ -793,17 +792,12 @@ namespace ProfitTM.Models
                         break;
                     }
                 }
-                catch (DbUpdateException dbEx)
+                catch (Exception ex)
 				{
-                    Incident.CreateIncident($"ERROR ASIGNANDO NUMERO DE CONTROL RECIBIDO A DOCUMENTO DE VENTA {log.NroFact} - INTENTO {retryCount + 1}", dbEx);
+                    Incident.CreateIncident($"ERROR ASIGNANDO NUMERO DE CONTROL RECIBIDO A DOCUMENTO DE VENTA {log.NroFact} - INTENTO {retryCount + 1}", ex);
                     retryCount++;
                     if (retryCount >= maxRetries)
-                        throw dbEx;
-                }
-                catch (Exception ex)
-                {
-                    Incident.CreateIncident($"ERROR ASIGNANDO NUMERO DE CONTROL RECIBIDO A DOCUMENTO DE VENTA {log.NroFact}", ex);
-                    break;
+                        throw ex;
                 }
             }
         }
