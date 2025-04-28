@@ -154,6 +154,10 @@ namespace ProfitTM
                             log.NroControl = info.resultado.numeroControl;
                             log.Message = "OK";
                             log.HttpCode = "200";
+
+                            LogsFact.CreateLogInFile($"INICIO: ({log.ConnID}) {log.NroFact} -> {log.NroControl}");
+                            Invoice.UpdateControl(log, log.NroControl);
+                            LogsFact.CreateLogInFile($"   FIN: ({log.ConnID}) {log.NroFact} -> {log.NroControl}");
                         }
                         else if (info.codigo == "203" || info.codigo == "400")
                         {

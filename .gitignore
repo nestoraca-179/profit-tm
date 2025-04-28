@@ -3,5 +3,6 @@ packages/
 ProfitTM/bin/
 ProfitTM/obj/
 ProfitTM/Properties/
+ProfitTM/Logs/
 testing/
 www/

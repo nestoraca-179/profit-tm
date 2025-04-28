@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 
 namespace ProfitTM.Models
@@ -82,6 +83,26 @@ namespace ProfitTM.Models
             }
 
             return log;
+        }
+    
+        public static void CreateLogInFile(string message)
+		{
+            string path = $"{AppDomain.CurrentDomain.BaseDirectory}/Logs/";
+            string file = $"{path}/Logs.txt";
+            string logEntry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [INFO] {message}";
+
+            try
+            {
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                using (StreamWriter writer = new StreamWriter(file, true))
+                    writer.WriteLine(logEntry);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al escribir en el log: {ex.Message}");
+            }
         }
     }
 }
