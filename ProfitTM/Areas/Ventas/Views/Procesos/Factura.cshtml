@@ -968,7 +968,7 @@
                         <p ng-if="invoice.ret_islr" class="m-0 fw-bold">- Ya se ha aplicado Ret. ISLR</p>
                     </div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" ng-click="addCollect()">
+                    <button type="submit" class="btn btn-primary" ng-disabled="setSeparator(change) == setSeparator(accumulate)" ng-click="addCollect()">
                         <i class="fas fa-hand-holding-usd" style="margin: 0 10px 0 0;"></i>Cobrar
                     </button>
                 </div>
