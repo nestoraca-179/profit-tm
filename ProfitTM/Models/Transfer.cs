@@ -35,7 +35,8 @@ namespace ProfitTM.Models
                 transfers = (from t in db.Transfers.AsNoTracking()
                              join b in db.Boxes.AsNoTracking() on t.BoxID equals b.ID
                              where b.ConnID == conn
-                             select t).ToList();
+                             orderby t.DateReg descending
+                             select t).Take(1000).ToList();
             }
             catch (Exception ex)
             {

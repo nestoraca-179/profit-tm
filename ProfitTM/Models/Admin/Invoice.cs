@@ -666,8 +666,8 @@ namespace ProfitTM.Models
 						numeroDocumento = id,
 						motivoAnulacion = "ANULACION DE FACTURA " + id,
 						fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
-						horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt", new CultureInfo("en-US")).ToLower()
-					};
+						horaAnulacion = DateTime.Now.ToString("hh:mm:ss") + (DateTime.Now.Hour < 12 ? " am" : " pm")
+                    };
 					ModelCancelResponse response = await new Root().CancelInvoice(request, conn.Token);
 				}
 

@@ -95,7 +95,9 @@ namespace ProfitTM.Areas.CajaBanco.Controllers
                 ViewBag.product = "Administrativo";
                 ViewBag.username = (Session["USER"] as Users).Username;
 
-                ViewBag.transfers = Transfer.GetAllTransfers(conn);
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                serializer.MaxJsonLength = 50000000;
+                ViewBag.transfers = serializer.Serialize(Transfer.GetAllTransfers(conn));
 
                 return View();
             }
