@@ -166,6 +166,9 @@ namespace ProfitTM.Models
 
             Users us = User.GetUserByName(box_m);
             Boxes box = GetBoxByID(GetBoxOpenByUser(box_m, conn, us.BoxType.Value, descrip.Contains("CIERRE DE CAJA")).ToString());
+            if (box == null)
+                throw new Exception($"No existe caja {box_m} abierta para la fecha actual {DateTime.Now.ToShortDateString()}");
+
             BoxMoves move = new BoxMoves()
             {
                 BoxID = box.ID,
