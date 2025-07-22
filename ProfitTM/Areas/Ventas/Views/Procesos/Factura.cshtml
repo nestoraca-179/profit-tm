@@ -809,7 +809,7 @@
 					<h5 class="text-center fw-bold" style="margin: 10px 0">Factura N° {{ invoice.doc_num }}</h5>
 					<div class="controls" style="width: 400px;">
 						<label class="mx-2">Fecha Cobro</label>
-						<input type="date" id="date_collect" required style="width: 200px; padding: 5px;" ng-model="date_collect" ng-change="console.log(date_transf)" />
+						<input type="date" id="date_collect" required style="width: 200px; padding: 5px;" ng-model="date_collect" ng-change="console.log(date_transf)" ng-disabled="true" />
 					</div>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
 						<span aria-hidden="true">&times;</span>
@@ -2451,6 +2451,7 @@
                 $scope.rengsTP.push(r);
                 $scope.accumulate = $scope.rengsTP.map((r) => r.mont_doc).reduce((acc, act) => acc + act, 0);
                 $scope.remaining = parse($scope.invoice.saldo_f) - $scope.accumulate;
+                $scope.date_collect = $scope.date_transf; // ACTUALIZAR FECHA DE COBRO
 
                 if ($scope.calcRetIva)
                     $scope.remaining -= parse($scope.invoice.monto_ret_imp);
@@ -2666,7 +2667,6 @@
                     }
 
                     $http(req).then(function (response) {
-
                         var res = response.data;
                         if (res.Status == "OK") {
                             $("#modalSuccess").modal("show");
