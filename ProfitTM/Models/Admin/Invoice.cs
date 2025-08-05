@@ -764,6 +764,9 @@ namespace ProfitTM.Models
 			{
                 try
                 {
+					#region ANTERIOR
+					/*
+                    
                     using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString()))
                     {
                         context.Database.CommandTimeout = 300;
@@ -789,6 +792,48 @@ namespace ProfitTM.Models
                         doc.n_control = n_control;
                         context.Entry(doc).State = EntityState.Modified;
                         context.SaveChanges();
+                        break;
+                    }
+                
+                    */
+					#endregion
+
+					using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString())) // 04/08/2025
+                    {
+                        context.Database.CommandTimeout = 300;
+                        bool isFact = !log.NroFact.Contains("N-");
+                        string tip_doc = isFact ? "FACT" : "N/CR";
+                        string nro_doc = isFact ? log.NroFact : log.NroFact.Replace("N-", "");
+
+                        if (isFact)
+                        {
+                            saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().SingleOrDefault(i => i.doc_num.Trim() == log.NroFact);
+                            if (fact == null)
+							{
+                                retryCount = 10; // PARA QUE SALGA DEL CICLO
+                                throw new Exception($"Factura {log.NroFact} no encontrada.");
+							}
+
+                            fact.n_control = n_control;
+                            context.Entry(fact).State = EntityState.Modified;
+                        }
+
+                        saDocumentoVenta doc = context.saDocumentoVenta.AsNoTracking().SingleOrDefault(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
+                        if (doc == null)
+						{
+                            retryCount = 10; // PARA QUE SALGA DEL CICLO
+                            throw new Exception($"Documento {nro_doc} (tipo {tip_doc}) no encontrado.");
+						}
+
+                        doc.n_control = n_control;
+                        context.Entry(doc).State = EntityState.Modified;
+                        context.SaveChanges();
+
+                        // VERIFICACION (AL VERIFICAR DOC, IGUAL SE VERIFICA FACT)
+                        saDocumentoVenta updatedDoc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
+                        if (updatedDoc.n_control != n_control)
+                            throw new Exception($"Error: n_control no se actualizó en saDocumentoVenta.");
+                        
                         break;
                     }
                 }
