@@ -410,10 +410,12 @@
                                     <th>Artículo</th>
                                     <th>Descripción</th>
                                     <th>Almacén</th>
+                                    <th>Prec. Unit.</th>
                                     <th>Cantidad</th>
+                                    <th>Sub-Total Reng.</th>
                                     <th>Impuesto</th>
                                     <th>IVA</th>
-                                    <th>Total</th>
+                                    <th>Total Reng.</th>
                                     <th ng-if="new"></th>
                                 </tr>
                             </thead>
@@ -423,13 +425,17 @@
                                     <td>{{ reng.co_art }}</td>
                                     <td>{{ searchArt(reng.co_art) }}</td>
                                     <td>{{ reng.co_alma }}</td>
+                                    <td ng-show="!converted">{{ getUnitPriceReng(reng, false) }}</td>
+                                    <td ng-show="converted" class="field-active">{{ getUnitPriceReng(reng, true) }}</td>
                                     <td>{{ reng.total_art }}</td>
+                                    <td ng-show="!converted">{{ reng.reng_neto }}</td>
+                                    <td ng-show="converted" class="field-active">{{ reng.reng_neto_om }}</td>
                                     <td ng-show="reng.tipo_imp == '1'">IVA 16%</td>
                                     <td ng-show="reng.tipo_imp == '7'">Exento</td>
                                     <td ng-show="!converted">{{ reng.monto_imp }}</td>
                                     <td ng-show="converted" class="field-active">{{ reng.monto_imp_om }}</td>
-                                    <td ng-show="!converted">{{ reng.reng_neto }}</td>
-                                    <td ng-show="converted" class="field-active">{{ reng.reng_neto_om }}</td>
+                                    <td ng-show="!converted">{{ setSeparator(parse(reng.reng_neto) + parse(reng.monto_imp)) }}</td>
+                                    <td ng-show="converted" class="field-active">{{ setSeparator(parse(reng.reng_neto_om) + parse(reng.monto_imp_om)) }}</td>
                                     <td ng-if="new" class="d-flex justify-content-evenly">
                                         <button type="button" class="btn btn-primary" ng-click="initItem(true, reng);">
                                             <i class="fas fa-pencil"></i>
@@ -1551,6 +1557,14 @@
         $scope.setSeparator = (value) => setSeparator(value);
 
         $scope.parse = (value) => parse(value ?? "0.00");
+
+        $scope.getUnitPriceReng = function (r, price_om) {
+            if (price_om) {
+                return r.tipo_doc == 'PCLI' ? setSeparator((parse(r.reng_neto_om) / r.total_art).toFixed(2)) : r.prec_vta_om;
+            } else {
+                return r.tipo_doc == 'PCLI' ? setSeparator((parse(r.reng_neto) / r.total_art).toFixed(2)) : r.prec_vta;
+            }
+        }
 
         // FUNCIONES DE FACTURAS CON PRELIQUIDACION
         $scope.getOrders = function () {
@@ -2771,6 +2785,9 @@
             item.saldo_f = item.saldo;
 
             for (var r of item.saFacturaVentaReng) {
+                r.prec_vta_om = setSeparator(parseFloat((r.prec_vta / item.tasa).toFixed(3)).toFixed(2));
+                r.prec_vta = setSeparator(r.prec_vta.toFixed(2));
+
                 r.monto_imp_om = setSeparator(parseFloat((r.monto_imp / item.tasa).toFixed(3)).toFixed(2));
                 r.monto_imp = setSeparator(r.monto_imp.toFixed(2));
 
@@ -2821,11 +2838,12 @@
         i.saldo_f = i.saldo;
 
         for (var reng of i.saFacturaVentaReng) {
-
             if (reng.porc_imp > 0) {
                 reng.monto_imp = (reng.reng_neto * 0.16);
             }
 
+            reng.prec_vta_om = setSeparator(parseFloat((reng.prec_vta / i.tasa).toFixed(3)).toFixed(2));
+            reng.prec_vta = setSeparator(reng.prec_vta.toFixed(2));
             reng.monto_imp_om = setSeparator((reng.monto_imp / i.tasa).toFixed(2));
             reng.monto_imp = setSeparator(reng.monto_imp.toFixed(2));
             reng.reng_neto_om = setSeparator((reng.reng_neto / i.tasa).toFixed(2));
