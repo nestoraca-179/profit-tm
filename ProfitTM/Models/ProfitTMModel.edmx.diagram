@@ -28,6 +28,7 @@
         <AssociationConnector Association="ProfitTMContext.FK_Boxes_BoxMoves" />
         <AssociationConnector Association="ProfitTMContext.FK_Boxes_Transfers" />
         <EntityTypeShape EntityType="ProfitTMContext.LogsFactOnline" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ProfitTMContext.HttpTraces" Width="1.5" PointX="3.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

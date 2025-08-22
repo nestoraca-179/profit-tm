@@ -291,14 +291,24 @@ namespace ProfitTM.Models
 
             using (HttpClient client = new HttpClient())
             {
+                HttpTraces trace = null;
+                DateTime start = DateTime.UtcNow;
+                Exception exception = null;
+
+                HttpRequestMessage request = null;
+                HttpResponseMessage response = null;
+                string reqContent = "", resContent = "";
+
                 try
                 {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request = new HttpRequestMessage(HttpMethod.Post, url);
+                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Content = stringContent;
+                    reqContent = await stringContent.ReadAsStringAsync();
 
-                    HttpResponseMessage response = await client.SendAsync(request);
-                    string content = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelAuthResponse>(content);
+                    response = await client.SendAsync(request);
+                    resContent = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelAuthResponse>(resContent);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -314,7 +324,14 @@ namespace ProfitTM.Models
                 }
                 catch (Exception ex)
                 {
+                    exception = ex;
                     throw ex;
+                }
+                finally
+				{
+                    TimeSpan duration = DateTime.UtcNow - start;
+                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                    HttpTrace.AddTrace(trace);
                 }
             }
 
@@ -329,15 +346,25 @@ namespace ProfitTM.Models
 
             using (HttpClient client = new HttpClient())
             {
+                HttpTraces trace = null;
+                DateTime start = DateTime.UtcNow;
+                Exception exception = null;
+
+                HttpRequestMessage request = null;
+                HttpResponseMessage response = null;
+                string reqContent = "", resContent = "";
+
                 try
                 {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request = new HttpRequestMessage(HttpMethod.Post, url);
+                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Content = stringContent;
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    reqContent = await stringContent.ReadAsStringAsync();
 
-                    HttpResponseMessage response = await client.SendAsync(request);
-                    string content = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelInvoiceInfoResponse>(content);
+                    response = await client.SendAsync(request);
+                    resContent = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelInvoiceInfoResponse>(resContent);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -355,7 +382,14 @@ namespace ProfitTM.Models
                 }
                 catch (Exception ex)
                 {
+                    exception = ex;
                     throw ex;
+                }
+                finally
+                {
+                    TimeSpan duration = DateTime.UtcNow - start;
+                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                    HttpTrace.AddTrace(trace);
                 }
             }
 
@@ -370,15 +404,25 @@ namespace ProfitTM.Models
 
             using (HttpClient client = new HttpClient())
             {
+                HttpTraces trace = null;
+                DateTime start = DateTime.UtcNow;
+                Exception exception = null;
+
+                HttpRequestMessage request = null;
+                HttpResponseMessage response = null;
+                string reqContent = "", resContent = "";
+
                 try
                 {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request = new HttpRequestMessage(HttpMethod.Post, url);
+                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Content = stringContent;
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    reqContent = await stringContent.ReadAsStringAsync();
 
-                    HttpResponseMessage response = await client.SendAsync(request);
-                    string content = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelAssignResponse>(content);
+                    response = await client.SendAsync(request);
+                    resContent = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelAssignResponse>(resContent);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -399,7 +443,14 @@ namespace ProfitTM.Models
                 }
                 catch (Exception ex)
                 {
+                    exception = ex;
                     throw ex;
+                }
+                finally
+                {
+                    TimeSpan duration = DateTime.UtcNow - start;
+                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                    HttpTrace.AddTrace(trace);
                 }
             }
 
@@ -414,15 +465,25 @@ namespace ProfitTM.Models
 
             using (HttpClient client = new HttpClient())
             {
+                HttpTraces trace = null;
+                DateTime start = DateTime.UtcNow;
+                Exception exception = null;
+
+                HttpRequestMessage request = null;
+                HttpResponseMessage response = null;
+                string reqContent = "", resContent = "";
+
                 try
                 {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request = new HttpRequestMessage(HttpMethod.Post, url);
+                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Content = stringContent;
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    reqContent = await stringContent.ReadAsStringAsync();
 
-                    HttpResponseMessage response = await client.SendAsync(request);
-                    string content = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelSendResponse>(content);
+                    response = await client.SendAsync(request);
+                    resContent = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelSendResponse>(resContent);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -438,7 +499,14 @@ namespace ProfitTM.Models
                 }
                 catch (Exception ex)
                 {
+                    exception = ex;
                     throw ex;
+                }
+                finally
+                {
+                    TimeSpan duration = DateTime.UtcNow - start;
+                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                    HttpTrace.AddTrace(trace);
                 }
             }
 
@@ -453,15 +521,25 @@ namespace ProfitTM.Models
 
             using (HttpClient client = new HttpClient())
             {
+                HttpTraces trace = null;
+                DateTime start = DateTime.UtcNow;
+                Exception exception = null;
+
+                HttpRequestMessage request = null;
+                HttpResponseMessage response = null;
+                string reqContent = "", resContent = "";
+
                 try
                 {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request = new HttpRequestMessage(HttpMethod.Post, url);
+                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Content = stringContent;
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    reqContent = await stringContent.ReadAsStringAsync();
 
-                    HttpResponseMessage response = await client.SendAsync(request);
-                    string content = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelDownloadResponse>(content);
+                    response = await client.SendAsync(request);
+                    resContent = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelDownloadResponse>(resContent);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -477,7 +555,14 @@ namespace ProfitTM.Models
                 }
                 catch (Exception ex)
                 {
+                    exception = ex;
                     throw ex;
+                }
+                finally
+                {
+                    TimeSpan duration = DateTime.UtcNow - start;
+                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                    HttpTrace.AddTrace(trace);
                 }
             }
 
@@ -492,15 +577,25 @@ namespace ProfitTM.Models
 
             using (HttpClient client = new HttpClient())
             {
+                HttpTraces trace = null;
+                DateTime start = DateTime.UtcNow;
+                Exception exception = null;
+
+                HttpRequestMessage request = null;
+                HttpResponseMessage response = null;
+                string reqContent = "", resContent = "";
+
                 try
                 {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-                    request.Content = new StringContent(data, Encoding.UTF8, "application/json");
+                    request = new HttpRequestMessage(HttpMethod.Post, url);
+                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                    request.Content = stringContent;
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    reqContent = await stringContent.ReadAsStringAsync();
 
-                    HttpResponseMessage response = await client.SendAsync(request);
-                    string content = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelCancelResponse>(content);
+                    response = await client.SendAsync(request);
+                    resContent = await response.Content.ReadAsStringAsync();
+                    final = JsonConvert.DeserializeObject<ModelCancelResponse>(resContent);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -522,7 +617,14 @@ namespace ProfitTM.Models
                 }
                 catch (Exception ex)
                 {
+                    exception = ex;
                     throw ex;
+                }
+                finally
+                {
+                    TimeSpan duration = DateTime.UtcNow - start;
+                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                    HttpTrace.AddTrace(trace);
                 }
             }
 

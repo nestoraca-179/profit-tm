@@ -64,6 +64,24 @@
           <Property Name="GroupName" Type="varchar" MaxLength="50" />
           <Property Name="TreeID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="HttpTraces">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="RequestMethod" Type="nvarchar" MaxLength="10" />
+          <Property Name="RequestUrl" Type="nvarchar" MaxLength="2000" />
+          <Property Name="RequestHeaders" Type="nvarchar(max)" />
+          <Property Name="RequestContent" Type="nvarchar(max)" />
+          <Property Name="ResponseStatusCode" Type="int" />
+          <Property Name="ResponseReasonPhrase" Type="nvarchar" MaxLength="100" />
+          <Property Name="ResponseHeaders" Type="nvarchar(max)" />
+          <Property Name="ResponseContent" Type="nvarchar(max)" />
+          <Property Name="DurationMs" Type="bigint" />
+          <Property Name="IsSuccessStatusCode" Type="bit" />
+          <Property Name="ExceptionMessage" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Incidents">
           <Key>
             <PropertyRef Name="ID" />
@@ -318,6 +336,7 @@
           <EntitySet Name="BoxMoves" EntityType="Self.BoxMoves" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Connections" EntityType="Self.Connections" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupReports" EntityType="Self.GroupReports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HttpTraces" EntityType="Self.HttpTraces" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Incidents" EntityType="Self.Incidents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LogsFactOnline" EntityType="Self.LogsFactOnline" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
@@ -636,6 +655,7 @@
             <End Role="Transfers" EntitySet="Transfers" />
           </AssociationSet>
           <EntitySet Name="LogsFactOnline" EntityType="ProfitTMContext.LogsFactOnline" />
+          <EntitySet Name="HttpTraces" EntityType="ProfitTMContext.HttpTraces" />
         </EntityContainer>
         <EntityType Name="Incidents">
           <Key>
@@ -744,6 +764,24 @@
           <Property Name="DateTried" Type="DateTime" Precision="3" />
           <Property Name="DateSent" Type="DateTime" Precision="3" />
           <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="HttpTraces">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RequestMethod" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RequestUrl" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="RequestHeaders" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RequestContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseStatusCode" Type="Int32" />
+          <Property Name="ResponseReasonPhrase" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseHeaders" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DurationMs" Type="Int64" />
+          <Property Name="IsSuccessStatusCode" Type="Boolean" />
+          <Property Name="ExceptionMessage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -953,6 +991,25 @@
                 <ScalarProperty Name="ConnID" ColumnName="ConnID" />
                 <ScalarProperty Name="Serie" ColumnName="Serie" />
                 <ScalarProperty Name="NroFact" ColumnName="NroFact" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HttpTraces">
+            <EntityTypeMapping TypeName="ProfitTMContext.HttpTraces">
+              <MappingFragment StoreEntitySet="HttpTraces">
+                <ScalarProperty Name="ExceptionMessage" ColumnName="ExceptionMessage" />
+                <ScalarProperty Name="IsSuccessStatusCode" ColumnName="IsSuccessStatusCode" />
+                <ScalarProperty Name="DurationMs" ColumnName="DurationMs" />
+                <ScalarProperty Name="ResponseContent" ColumnName="ResponseContent" />
+                <ScalarProperty Name="ResponseHeaders" ColumnName="ResponseHeaders" />
+                <ScalarProperty Name="ResponseReasonPhrase" ColumnName="ResponseReasonPhrase" />
+                <ScalarProperty Name="ResponseStatusCode" ColumnName="ResponseStatusCode" />
+                <ScalarProperty Name="RequestContent" ColumnName="RequestContent" />
+                <ScalarProperty Name="RequestHeaders" ColumnName="RequestHeaders" />
+                <ScalarProperty Name="RequestUrl" ColumnName="RequestUrl" />
+                <ScalarProperty Name="RequestMethod" ColumnName="RequestMethod" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

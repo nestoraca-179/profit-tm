@@ -677,6 +677,10 @@
     <Compile Include="Models\GroupReports.cs">
       <DependentUpon>ProfitTMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HttpTrace.cs" />
+    <Compile Include="Models\HttpTraces.cs">
+      <DependentUpon>ProfitTMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Incident.cs" />
     <Compile Include="Models\Incidents.cs">
       <DependentUpon>ProfitTMModel.tt</DependentUpon>
