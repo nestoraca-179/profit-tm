@@ -440,13 +440,13 @@
                                         <button type="button" class="btn btn-primary" ng-click="initItem(true, reng);">
                                             <i class="fas fa-pencil"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger" ng-click="updateAmounts(invoice, reng, invoice.saFacturaVentaReng, 3);">
+                                        <button type="button" class="btn btn-danger ms-2" ng-click="updateAmounts(invoice, reng, invoice.saFacturaVentaReng, 3);">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </td>
                                 </tr>
                                 <tr ng-if="!invoice.saFacturaVentaReng || invoice.saFacturaVentaReng.length == 0">
-                                    <td colspan="8"><p class="m-0 text-center">No hay items agregados</p></td>
+                                    <td colspan="11"><p class="m-0 text-center">No hay items agregados</p></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -777,8 +777,13 @@
                             <div class="controls">
                                 <label ng-if="!manual">Monto IVA $USD</label>
                                 <label ng-if="manual">Monto IVA Bs. D</label>
-                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="false" />
+                                <input type="text" class="form-control" id="iva_usd" ng-model="reng.monto_imp_om" ng-disabled="!new" ng-required="true" ng-readonly="true" />
                             </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-sm-12">
+                            <label><input type="checkbox" class="me-2" ng-model="reng.isExempt" ng-change="setItemExempt(reng.isExempt)" /> Item Exento</label>
                         </div>
                     </div>
                 </div>
@@ -1971,19 +1976,17 @@
 
             $scope.new = true;
 
-            $scope.invoice = template;
+            $scope.invoice = JSON.parse(JSON.stringify(template));
             $scope.invoice.doc_num = "";
             $scope.invoice.n_control = "";
             $scope.invoice.status = 0;
             $scope.invoice.estatus = "NO PROCESADA";
             $scope.invoice.co_cli = template.co_cli;
-            $scope.invoice.saCliente = {
-                cli_des: template.saCliente.cli_des
-            },
+            $scope.invoice.saCliente = { cli_des: template.saCliente.cli_des },
             $scope.invoice.fec_emis = new Date(Date.now()),
             $scope.invoice.fec_venc = new Date(Date.now()),
             $scope.invoice.fec_reg = new Date(Date.now()),
-            $scope.invoice.saFacturaVentaReng = template.saPlantillaVentaReng;
+            $scope.invoice.saFacturaVentaReng = JSON.parse(JSON.stringify(template.saPlantillaVentaReng));
             $scope.invoice.total_bruto = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.reng_neto).reduce((acc, act) => acc + act, 0));
             $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / parseFloat($scope.invoice.tasa ?? 1)).toFixed(2));
             $scope.invoice.monto_imp = setSeparator($scope.invoice.saFacturaVentaReng.map((r) => r.monto_imp).reduce((acc, act) => acc + act, 0));
@@ -1997,6 +2000,9 @@
             $scope.converted = true;
 
             for (var r of $scope.invoice.saFacturaVentaReng) {
+                r.prec_vta_om = setSeparator((r.prec_vta / $scope.invoice.tasa).toFixed(2));
+                r.prec_vta = setSeparator(r.prec_vta.toFixed(2));
+
                 r.monto_imp_om = setSeparator((r.monto_imp / $scope.invoice.tasa).toFixed(2));
                 r.monto_imp = setSeparator(r.monto_imp.toFixed(2));
 
@@ -2006,7 +2012,6 @@
         }
 
         $scope.update = function (tasa) {
-
             tasa = tasa == null || parseFloat(tasa) == 0 ? 1 : parseFloat(tasa);
 
             if ($scope.converted) {
@@ -2037,19 +2042,19 @@
         }
 
         $scope.initItem = function (edit, r) {
-
             $scope.editItem = edit;
+            $scope.rengIsExempt = r?.tipo_imp == 7; // Verifica si el item es exento de IVA
 
             if (edit) {
-                $scope.reng = r;
+                $scope.reng = { ...r };
                 $("#des_art").val(searchArt(r.co_art));
             } else {
                 $scope.reng = {
                     co_art: "",
                     total_art: 1,
                     prec_vta_om: "25.00",
-                    reng_neto_om: "25.00",
-                    monto_imp_om: "4.00"
+                    reng_neto_om: "25.000",
+                    monto_imp_om: "4.000"
                 };
 
                 $("#art").val("");
@@ -2074,18 +2079,23 @@
         }
 
         $scope.updatePriceItem = function () {
-
             var cant = parseFloat($scope.reng.total_art ?? 0);
             var price = parseFloat($scope.reng.prec_vta_om ?? 0);
 
             $scope.reng.reng_neto_om = (cant * price).toFixed(3);
-            $scope.reng.monto_imp_om = ((cant * price) * 0.16).toFixed(3);
+            $scope.reng.monto_imp_om = ((cant * price) * ($scope.reng.isExempt ? 0 : 0.16)).toFixed(3);
+        }
+
+        $scope.setItemExempt = function (isExempt) {
+            if (isExempt) {
+                $scope.reng.monto_imp_om = "0.000";
+            } else {
+                $scope.updatePriceItem();
+            }
         }
 
         $scope.updateAmounts = function (i, r, rengs, action) {
-
             if (action != 3) {
-
                 if (action == 1) {
                     r.reng_num = $scope.invoice.saFacturaVentaReng.length + 1;
                     r.co_uni = "UND";
@@ -2098,25 +2108,32 @@
                 r.total_art = parseInt(r.total_art);
                 r.pendiente = parseInt(r.total_art);
 
-				if (parseFloat(r.monto_imp_om) == 0) {
-					r.tipo_imp = 7;
-					r.porc_imp = 0.00;
-				}
+                if (parseFloat(r.monto_imp_om) == 0) {
+                    r.tipo_imp = 7;
+                    r.porc_imp = 0.00;
+                } else {
+                    r.tipo_imp = 1;
+                    r.porc_imp = 16.00;
+                }
 
                 if ($scope.manual) {
                     r.prec_vta = setSeparator(parseFloat(r.prec_vta_om).toFixed(2));
                     r.reng_neto = setSeparator(parseFloat(r.reng_neto_om).toFixed(2));
                     r.monto_imp = setSeparator(parseFloat(r.monto_imp_om).toFixed(2));
-                    r.prec_vta_om = setSeparator((parseFloat((parse(r.prec_vta) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
-                    r.reng_neto_om = setSeparator((parseFloat((parse(r.reng_neto) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
-                    r.monto_imp_om = setSeparator((parseFloat((parse(r.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                    r.prec_vta_om = setSeparator(parseFloat((parse(r.prec_vta) / parseFloat(i.tasa ?? 1)).toFixed(3)).toFixed(2));
+                    r.reng_neto_om = setSeparator(parseFloat((parse(r.reng_neto) / parseFloat(i.tasa ?? 1)).toFixed(3)).toFixed(2));
+                    r.monto_imp_om = setSeparator(parseFloat((parse(r.monto_imp) / parseFloat(i.tasa ?? 1)).toFixed(3)).toFixed(2));
                 } else {
-                    r.prec_vta = setSeparator((parseFloat((parseFloat(r.prec_vta_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
-                    r.reng_neto = setSeparator((parseFloat((parseFloat(r.reng_neto_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
-                    r.monto_imp = setSeparator((parseFloat((parseFloat(r.monto_imp_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                    r.prec_vta = setSeparator(parseFloat((parseFloat(r.prec_vta_om) * parseFloat(i.tasa ?? 1)).toFixed(3)).toFixed(2));
+                    r.reng_neto = setSeparator(parseFloat((parse(r.prec_vta) * r.total_art).toFixed(3)).toFixed(2));
+                    r.monto_imp = setSeparator(parseFloat((parse(r.reng_neto) * (r.porc_imp / 100)).toFixed(3)).toFixed(2));
                     r.prec_vta_om = setSeparator(parseFloat(parseFloat(r.prec_vta_om).toFixed(3)).toFixed(2));
                     r.reng_neto_om = setSeparator(parseFloat(parseFloat(r.reng_neto_om).toFixed(3)).toFixed(2));
                     r.monto_imp_om = setSeparator(parseFloat(parseFloat(r.monto_imp_om).toFixed(3)).toFixed(2));
+
+                    // IDLE CODE - 23/08/2025
+                    // r.reng_neto = setSeparator((parseFloat((parseFloat(r.reng_neto_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
+                    // r.monto_imp = setSeparator((parseFloat((parseFloat(r.monto_imp_om) * parseFloat(i.tasa ?? 1)).toFixed(3))).toFixed(2));
                 }
             }
 
@@ -2217,7 +2234,6 @@
                     }
 
                     $http(req).then(function (response) {
-
                         var res = response.data;
                         if (res.Status == "OK") {
                             $("#modalSuccess").modal("show");
@@ -2230,7 +2246,7 @@
                             $scope.index = 0;
                             $scope.new = false;
                             $scope.manual = false;
-                            template = template_orig;
+                            template = JSON.parse(JSON.stringify(template_orig));
                             $scope.emails = "";
                         } else {
                             $("#modalError").modal("show");
@@ -2842,7 +2858,7 @@
                 reng.monto_imp = (reng.reng_neto * 0.16);
             }
 
-            reng.prec_vta_om = setSeparator(parseFloat((reng.prec_vta / i.tasa).toFixed(3)).toFixed(2));
+            reng.prec_vta_om = setSeparator((reng.prec_vta / i.tasa).toFixed(2));
             reng.prec_vta = setSeparator(reng.prec_vta.toFixed(2));
             reng.monto_imp_om = setSeparator((reng.monto_imp / i.tasa).toFixed(2));
             reng.monto_imp = setSeparator(reng.monto_imp.toFixed(2));
