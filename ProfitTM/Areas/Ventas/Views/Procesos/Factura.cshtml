@@ -2012,32 +2012,49 @@
         }
 
         $scope.update = function (tasa) {
+            let acc_total_bruto = 0, acc_monto_imp = 0;
             tasa = tasa == null || parseFloat(tasa) == 0 ? 1 : parseFloat(tasa);
 
             if ($scope.converted) {
-                $scope.invoice.total_bruto = setSeparator((parse($scope.invoice.total_bruto_om) * tasa).toFixed(2));
-                $scope.invoice.monto_imp = setSeparator((parse($scope.invoice.monto_imp_om) * tasa).toFixed(2));
-                $scope.invoice.total_neto = setSeparator((parse($scope.invoice.total_neto_om) * tasa).toFixed(2));
-                $scope.invoice.saldo = setSeparator((parse($scope.invoice.saldo_om) * tasa).toFixed(2));
-
                 if ($scope.invoice.saFacturaVentaReng) {
                     for (var reng of $scope.invoice.saFacturaVentaReng) {
-                        reng.monto_imp = setSeparator((parse(reng.monto_imp_om) * tasa).toFixed(2));
-                        reng.reng_neto = setSeparator((parse(reng.reng_neto_om) * tasa).toFixed(2));
+                        reng.prec_vta = setSeparator((parse(reng.prec_vta_om) * tasa).toFixed(2));
+                        reng.reng_neto = setSeparator((parse(reng.prec_vta) * reng.total_art).toFixed(2));
+                        reng.monto_imp = setSeparator((parse(reng.reng_neto) * (reng.porc_imp / 100)).toFixed(2));
+
+                        // IDLE CODE - 23/08/2025
+                        // reng.monto_imp = setSeparator((parse(reng.monto_imp_om) * tasa).toFixed(2));
+                        // reng.reng_neto = setSeparator((parse(reng.reng_neto_om) * tasa).toFixed(2));
+
+                        acc_total_bruto += parse(reng.reng_neto);
+                        acc_monto_imp += parse(reng.monto_imp);
                     }
                 }
+
+                $scope.invoice.total_bruto = setSeparator(acc_total_bruto.toFixed(2)); // setSeparator((parse($scope.invoice.total_bruto_om) * tasa).toFixed(2));
+                $scope.invoice.monto_imp = setSeparator(acc_monto_imp.toFixed(2)); // setSeparator((parse($scope.invoice.monto_imp_om) * tasa).toFixed(2));
+                $scope.invoice.total_neto = setSeparator((acc_total_bruto + acc_monto_imp).toFixed(2)); // setSeparator((parse($scope.invoice.total_neto_om) * tasa).toFixed(2));
+                $scope.invoice.saldo = setSeparator((acc_total_bruto + acc_monto_imp).toFixed(2)); // setSeparator((parse($scope.invoice.saldo_om) * tasa).toFixed(2));
             } else {
-                $scope.invoice.total_bruto_om = setSeparator((parse($scope.invoice.total_bruto) / tasa).toFixed(2));
-                $scope.invoice.monto_imp_om = setSeparator((parse($scope.invoice.monto_imp) / tasa).toFixed(2));
-                $scope.invoice.total_neto_om = setSeparator((parse($scope.invoice.total_neto) / tasa).toFixed(2));
-                $scope.invoice.saldo_om = setSeparator((parse($scope.invoice.saldo) / tasa).toFixed(2));
-
                 if ($scope.invoice.saFacturaVentaReng) {
                     for (var reng of $scope.invoice.saFacturaVentaReng) {
-                        reng.monto_imp_om = setSeparator((parse(reng.monto_imp) / tasa).toFixed(2));
-                        reng.reng_neto_om = setSeparator((parse(reng.reng_neto) / tasa).toFixed(2));
+                        reng.prec_vta_om = setSeparator((parse(reng.prec_vta) / tasa).toFixed(2));
+                        reng.reng_neto_om = setSeparator((parse(reng.prec_vta_om) * reng.total_art).toFixed(2));
+                        reng.monto_imp_om = setSeparator((parse(reng.reng_neto_om) * (reng.porc_imp / 100)).toFixed(2));
+
+                        // IDLE CODE - 23/08/2025
+                        // reng.monto_imp_om = setSeparator((parse(reng.monto_imp) / tasa).toFixed(2));
+                        // reng.reng_neto_om = setSeparator((parse(reng.reng_neto) / tasa).toFixed(2));
+
+                        acc_total_bruto += parse(reng.reng_neto_om);
+                        acc_monto_imp += parse(reng.monto_imp_om);
                     }
                 }
+
+                $scope.invoice.total_bruto_om = setSeparator(acc_total_bruto.toFixed(2)); // setSeparator((parse($scope.invoice.total_bruto) / tasa).toFixed(2));
+                $scope.invoice.monto_imp_om = setSeparator(acc_monto_imp.toFixed(2)); // setSeparator((parse($scope.invoice.monto_imp) / tasa).toFixed(2));
+                $scope.invoice.total_neto_om = setSeparator((acc_total_bruto + acc_monto_imp).toFixed(2)); // setSeparator((parse($scope.invoice.total_neto) / tasa).toFixed(2));
+                $scope.invoice.saldo_om = setSeparator((acc_total_bruto + acc_monto_imp).toFixed(2)); // setSeparator((parse($scope.invoice.saldo) / tasa).toFixed(2));
             }
         }
 

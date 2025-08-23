@@ -170,8 +170,8 @@ namespace ProfitTM.Models
                                 {
                                     codigoTotalImp = "E",
                                     alicuotaImp = "0.00",
-                                    baseImponibleImp = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString(), // "0.00",
-                                    valorTotalImp = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString(), // "0.00",
+                                    baseImponibleImp = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString().Replace(",", "."), // "0.00",
+                                    valorTotalImp = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString().Replace(",", "."), // "0.00",
                                 },
                                 new ImpuestosSubtotal()
                                 {
