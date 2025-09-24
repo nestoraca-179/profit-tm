@@ -88,7 +88,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                     Session["SELLERS"] = serializer.Serialize(new Seller().GetAllSellers());
 
                 if (Session["BANKACCOUNTS"] == null)
-                    Session["BANKACCOUNTS"] = serializer.Serialize(new Account().GetAllBankAccounts());
+                    Session["BANKACCOUNTS"] = serializer.Serialize(new Account().GetAllBankAccounts(true));
 
                 if (Session["TEMPLATE"] == null)
                     Session["TEMPLATE"] = serializer.Serialize(new Invoice().GetTemplate());

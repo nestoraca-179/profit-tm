@@ -57,7 +57,7 @@ namespace ProfitTM.Models
             return accounts;
         }
 
-        public List<saCuentaBancaria> GetAllBankAccounts()
+        public List<saCuentaBancaria> GetAllBankAccounts(bool onlyActive)
         {
             List<saCuentaBancaria> accounts;
 
@@ -66,6 +66,8 @@ namespace ProfitTM.Models
                 string acc_ish = "0134-0205-12-20-53024949";
                 string acc_its = "0134-0205-10-2053025089";
                 accounts = db.saCuentaBancaria.AsNoTracking().Where(c => c.cod_cta != "0190-1" && c.num_cta != acc_ish && c.num_cta != acc_its).ToList();
+                if (onlyActive)
+                    accounts = accounts.Where(a => !a.inactivo).ToList();
             }
             catch (Exception ex)
             {
