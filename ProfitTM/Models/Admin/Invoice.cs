@@ -7,6 +7,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using ProfitTM.Controllers;
 using System.Data.Entity.Core.EntityClient;
+using System.Web;
 
 namespace ProfitTM.Models
 {
@@ -343,6 +344,9 @@ namespace ProfitTM.Models
                 {
                     try
                     {
+                        if (HttpContext.Current.Session["CONNECT"] == null)
+                            throw new Exception("Sesion expirada. Iniciar sesion nuevamente");
+
                         string n_fact = string.IsNullOrEmpty(invoice.doc_num) ? GetNextConsec(context, sucur, "DOC_VEN_FACT").Trim() : invoice.doc_num;
                         string n_cont = string.IsNullOrEmpty(invoice.n_control) ? GetNextConsec(context, sucur, "FACT_VTA_N_CON").Trim() : invoice.n_control;
                         while (context.saFacturaVenta.AsNoTracking().Any(i => i.n_control.Trim() == n_cont))
@@ -426,7 +430,6 @@ namespace ProfitTM.Models
                             invoice.revisado, invoice.trasnfe, sucur, user, "SERVER PROFIT WEB");
                         sp_doc.Dispose();
 
-                        tran.Commit();
                         new_invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == n_fact.Trim());
                         new_invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num.Trim() == n_fact.Trim()).ToList();
                         new_invoice.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == new_invoice.co_cli.Trim());
@@ -442,6 +445,8 @@ namespace ProfitTM.Models
                                 LogsFact.Add(new_invoice, conn, json, serie);
                             }
                         }
+
+                        tran.Commit();
                     }
                     catch (Exception ex)
                     {
