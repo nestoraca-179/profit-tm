@@ -90,6 +90,9 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 if (Session["BANKACCOUNTS"] == null)
                     Session["BANKACCOUNTS"] = serializer.Serialize(new Account().GetAllBankAccounts(true));
 
+                if (Session["EXPENSEACCOUNTS"] == null)
+                    Session["EXPENSEACCOUNTS"] = serializer.Serialize(new Account().GetAllExpenseAccounts());
+
                 if (Session["TEMPLATE"] == null)
                     Session["TEMPLATE"] = serializer.Serialize(new Invoice().GetTemplate());
 
@@ -101,6 +104,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.currencies = Session["CURRENCIES"];
                 ViewBag.sellers = Session["SELLERS"];
                 ViewBag.bankAccounts = Session["BANKACCOUNTS"];
+                ViewBag.expenseAccounts = Session["EXPENSEACCOUNTS"];
                 ViewBag.template = Session["TEMPLATE"];
 
                 return View();

@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using ProfitTM.Controllers;
 using System.Data.Entity.Core.EntityClient;
 using System.Web;
+using System.IO;
+using System.Xml;
 
 namespace ProfitTM.Models
 {
@@ -400,12 +402,14 @@ namespace ProfitTM.Models
 						if (string.IsNullOrEmpty(invoice.comentario)) // VALIDACION DE BASE DE IGTF
                             invoice.comentario = "0";
 
+                        string dis_cen = GenerateDisCen(db.Database.Connection.Database, sucur, invoice.co_cta_ingr_egr);
+
                         // FACTURA
                         var sp = context.pInsertarFacturaVenta(n_fact, invoice.descrip, invoice.co_cli, invoice.co_tran, invoice.co_mone, null, invoice.co_ven,
                             invoice.co_cond, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, invoice.anulado, invoice.status, invoice.tasa, n_cont, invoice.porc_desc_glob,
                             invoice.monto_desc_glob, invoice.porc_reca, invoice.monto_reca, invoice.saldo, invoice.total_bruto, invoice.monto_imp, invoice.monto_imp2,
-                            invoice.monto_imp3, invoice.otros1, invoice.otros2, invoice.otros3, invoice.total_neto, null, invoice.comentario, invoice.dir_ent, invoice.contrib,
-                            invoice.impresa, invoice.salestax, invoice.impfis, invoice.impfisfac, invoice.ven_ter, invoice.campo1, invoice.campo2, invoice.campo3,
+                            invoice.monto_imp3, invoice.otros1, invoice.otros2, invoice.otros3, invoice.total_neto, dis_cen, invoice.comentario, invoice.dir_ent, 
+                            invoice.contrib, invoice.impresa, invoice.salestax, invoice.impfis, invoice.impfisfac, invoice.ven_ter, invoice.campo1, invoice.campo2, invoice.campo3,
                             invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, user, sucur, invoice.revisado, invoice.trasnfe, "SERVER PROFIT WEB");
                         sp.Dispose();
 
@@ -754,6 +758,34 @@ namespace ProfitTM.Models
             }
 
             return result;
+        }
+
+        private static string GenerateDisCen(string databaseName, string co_sucu_in, string cue_gas)
+		{
+            if (!databaseName.Equals("PP2K12_ISH_ADM") && !databaseName.Equals("PP2K12_ITS_ADM"))
+                return null;
+
+            bool isISH = databaseName.Equals("PP2K12_ISH_ADM");
+            List<string> branchISH = new List<string>() { "001", "002", "003" };
+            List<string> branchITS = new List<string>() { "002", "004", "005" };
+
+            if ((isISH && branchISH.Contains(co_sucu_in)) || (!isISH && branchITS.Contains(co_sucu_in)))
+			{
+                string dis_cen = $@"<InformacionContable>
+                    <Carpeta01>
+                        {(string.IsNullOrEmpty(cue_gas) ? string.Empty : $"<CuentaGasto>{cue_gas}</CuentaGasto>")}
+                        <DistribucionCentros>
+                            <CentroCosto>
+                                <Codigo>{co_sucu_in}</Codigo>
+                                <Porcentaje>100</Porcentaje>
+                            </CentroCosto>
+                        </DistribucionCentros>
+                    </Carpeta01>
+                </InformacionContable>";
+                return dis_cen;
+            }
+
+            return null;
         }
 
         public static void UpdateControl(LogsFactOnline log, string n_control)

@@ -489,6 +489,18 @@
                 </div>
             </div>
             <div id="adicionales" class="form-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="controls">
+                            <label>Cuenta de Gasto</label>
+                            <div class="input-search">
+                                <input type="text" class="form-control" id="cue_gas" ng-model="invoice.co_cta_ingr_egr" ng-disabled="!new && !adding" ng-required="false" style="flex: 1;" onkeypress="return false;" />
+                                <input type="text" class="form-control" id="des_cue_gas" ng-model="invoice.des_cta_ingr_egr" ng-disabled="!new && !adding" ng-required="false" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <i class="fas fa-search" role="button" onclick="openModal(this, 'modalExpAccounts')" data-name="cue_gas"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="left">
                     <div class="controls" ng-if="new">
                         <label>¿Como cancela el cliente?</label>
@@ -1415,6 +1427,35 @@
             </div>
         </div>
     </div>
+    <!-- Modal 8 -->
+    <div class="modal fade" id="modalExpAccounts" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar Cuenta de Gasto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 450px; overflow-y: auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cuenta de gasto..." onkeyup="search('modalExpAccounts')" />
+                    </div>
+                    <table class="table table-bordered table-hover table-striped mt-3" id="results">
+                        <tr ng-repeat="ea in expenseAccounts" style="cursor: pointer" onclick="selectRow(this)">
+                            <td>{{ ea.co_gas}}</td>
+                            <td>{{ ea.des_gas }}</td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="name-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRow('modalExpAccounts')">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="panel-loading p-3">
     <h4>Cargando datos...</h4>
@@ -1433,6 +1474,7 @@
     var currencies = @Html.Raw(ViewBag.currencies);
     var sellers = @Html.Raw(ViewBag.sellers);
     var bankAccounts = @Html.Raw(ViewBag.bankAccounts);
+    var expenseAccounts = @Html.Raw(ViewBag.expenseAccounts);
     var us = @Html.Raw(Json.Encode(ViewBag.user));
     var curr = "US$";
     var template = @Html.Raw(ViewBag.template);
@@ -1480,6 +1522,7 @@
         $scope.currencies = currencies;
         $scope.sellers = sellers;
         $scope.bankAccounts = bankAccounts;
+        $scope.expenseAccounts = expenseAccounts;
         $scope.arts = arts;
         $scope.adding = false;
         $scope.confirm = false;
@@ -1738,7 +1781,7 @@
                 $scope.invoice.fec_venc = origDate($scope.invoice.fec_venc);
                 $scope.invoice.fec_reg = origDate($scope.invoice.fec_reg);
                 // $scope.invoice.co_cta_ingr_egr = useFactOnline === "True" ? $scope.emails : null;
-                $scope.invoice.co_cta_ingr_egr = null;
+                // $scope.invoice.co_cta_ingr_egr = null;
 
                 for (var ind in $scope.invoice) {
                     if ($scope.invoice[ind] === "")
@@ -2233,7 +2276,7 @@
                     $scope.invoice.fec_emis = origDate($scope.invoice.fec_emis);
                     $scope.invoice.fec_venc = origDate($scope.invoice.fec_venc);
                     $scope.invoice.fec_reg = origDate($scope.invoice.fec_reg);
-                    $scope.invoice.co_cta_ingr_egr = null;
+                    // $scope.invoice.co_cta_ingr_egr = null;
 
                     for (var ind in $scope.invoice) {
                         if ($scope.invoice[ind] === "")
@@ -2759,6 +2802,10 @@
         return bankAccounts.find(c => c.cod_cta.trim() == value.trim());
     }
 
+    function searchExpenseAccount(value) {
+        return expenseAccounts.find(c => c.co_gas.trim() == value.trim());
+    }
+
     function searchArt(value) {
 
         var name = "";
@@ -2792,6 +2839,19 @@
             else
                 row.style.display = "";
         }
+    }
+
+    function extractExpAccountFromXml(dis_cen) {
+        if (isNullOrEmpty(dis_cen))
+            return null;
+
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(dis_cen, "text/xml");
+        const expAccountElement = xmlDoc.getElementsByTagName("CuentaGasto")[0];
+        if (expAccountElement)
+            return expAccountElement.textContent;
+
+        return null;
     }
 
     // FORMATO DE DATOS DE FACTURAS
@@ -2846,6 +2906,10 @@
             item.monto_reten = setSeparator((parse(item.total_bruto) * 0.02).toFixed(2));
             item.ret_iva = item.co_us_in == "True";
             item.ret_islr = item.co_us_mo == "True";
+
+            // CUENTA GASTO
+            item.co_cta_ingr_egr = extractExpAccountFromXml(item.dis_cen);
+            item.des_cta_ingr_egr = !isNullOrEmpty(item.co_cta_ingr_egr) ? searchExpenseAccount(item.co_cta_ingr_egr)?.des_gas : null;
         }
 
         return items;
@@ -2898,6 +2962,10 @@
         i.monto_reten = setSeparator((parse(i.total_bruto) * 0.02).toFixed(2));
         i.ret_iva = i.co_us_in == "True";
         i.ret_islr = i.co_us_mo == "True";
+
+        // CUENTA GASTO
+        i.co_cta_ingr_egr = extractExpAccountFromXml(i.dis_cen);
+        i.des_cta_ingr_egr = !isNullOrEmpty(i.co_cta_ingr_egr) ? searchExpenseAccount(i.co_cta_ingr_egr)?.des_gas : null;
 
         return i;
     }
@@ -3023,6 +3091,8 @@
                 $("#des_cta").val(searchBankAccount(value).num_cta + " - " + searchBankAccount(value).co_mone);
                 curr = searchBankAccount(value).co_mone;
                 $("#cod_cta").change();
+            } else if (input == "cue_gas") {
+                $("#des_cue_gas").val(searchExpenseAccount(value)?.des_gas);
             }
 
             rows.forEach(row => row.style.display = "");

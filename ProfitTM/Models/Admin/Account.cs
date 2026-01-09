@@ -40,6 +40,23 @@ namespace ProfitTM.Models
             return bankAccount;
         }
 
+        public scGastos GetExpenseAccountByID(string id)
+		{
+            scGastos expenseAccount;
+
+            try
+            {
+                expenseAccount = db.scGastos.AsNoTracking().SingleOrDefault(c => c.co_gas == id);
+            }
+            catch (Exception ex)
+            {
+                expenseAccount = null;
+                Incident.CreateIncident("ERROR BUSCANDO CUENTA DE GASTO " + id, ex);
+            }
+
+            return expenseAccount;
+        }
+        
         public List<saCuentaIngEgr> GetAllAccounts()
         {
             List<saCuentaIngEgr> accounts;
@@ -73,6 +90,23 @@ namespace ProfitTM.Models
             {
                 accounts = null;
                 Incident.CreateIncident("ERROR BUSCANDO CUENTAS BANCARIAS", ex);
+            }
+
+            return accounts;
+        }
+
+        public List<scGastos> GetAllExpenseAccounts()
+        {
+            List<scGastos> accounts;
+
+            try
+            {
+                accounts = db.scGastos.AsNoTracking().ToList();
+            }
+            catch (Exception ex)
+            {
+                accounts = null;
+                Incident.CreateIncident("ERROR BUSCANDO CUENTAS DE GASTO", ex);
             }
 
             return accounts;
