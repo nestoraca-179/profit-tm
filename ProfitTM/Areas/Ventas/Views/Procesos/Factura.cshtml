@@ -494,8 +494,8 @@
                         <div class="controls">
                             <label>Cuenta de Gasto</label>
                             <div class="input-search">
-                                <input type="text" class="form-control" id="cue_gas" ng-model="invoice.co_cta_ingr_egr" ng-disabled="!new && !adding" ng-required="false" style="flex: 1;" onkeypress="return false;" />
-                                <input type="text" class="form-control" id="des_cue_gas" ng-model="invoice.des_cta_ingr_egr" ng-disabled="!new && !adding" ng-required="false" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
+                                <input type="text" class="form-control" id="cue_gas" ng-model="invoice.co_cta_ingr_egr" ng-disabled="!new && !adding" ng-required="isITS" style="flex: 1;" onkeypress="return false;" />
+                                <input type="text" class="form-control" id="des_cue_gas" ng-model="invoice.des_cta_ingr_egr" ng-disabled="!new && !adding" ng-required="isITS" ng-readonly="true" style="flex: 3; margin-left: 5px;" />
                                 <i class="fas fa-search" role="button" onclick="openModal(this, 'modalExpAccounts')" data-name="cue_gas"></i>
                             </div>
                         </div>
@@ -1485,6 +1485,7 @@
     var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
     var box = '@ViewBag.id_box';
     var useFactOnline = '@ViewBag.useFactOnline';
+    var db = '@ViewBag.db';
 
     invoices = parseItems(invoices);
 
@@ -1540,6 +1541,7 @@
         $scope.rengIVA = { fecha_documento: new Date(Date.now()), fecha_reg: new Date(Date.now()) };
         $scope.rengISLR = { co_islr: "055", porc_retn: "2.00" };
         $scope.emails = "";
+        $scope.isITS = db.trim() == "PP2K12_ITS_ADM";
 
         if (!$scope.boxOpen) {
             $(".panel-not-access").removeAttr("style");
@@ -1763,6 +1765,9 @@
                         $('#modalSend').modal('show');
                     }
                 }
+            } else {
+                var id = $($("#form :invalid")[0]).closest(".form-body")[0].id;
+                $("#btn-" + id).trigger("click", event);
             }
         }
 
@@ -2040,6 +2045,7 @@
             $scope.invoice.saldo = $scope.invoice.total_neto;
             $scope.invoice.saldo_om = $scope.invoice.total_neto_om;
             $scope.invoice.typePay = "1";
+            $scope.invoice.co_cta_ingr_egr = null;
             $scope.converted = true;
 
             for (var r of $scope.invoice.saFacturaVentaReng) {
@@ -2322,6 +2328,9 @@
                 } else {
                     alert("Debes agregar items a la factura");
                 }
+            } else {
+                var id = $($("#form :invalid")[0]).closest(".form-body")[0].id;
+                $("#btn-" + id).trigger("click", event);
             }
         }
 

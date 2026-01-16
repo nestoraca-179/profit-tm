@@ -106,6 +106,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 ViewBag.bankAccounts = Session["BANKACCOUNTS"];
                 ViewBag.expenseAccounts = Session["EXPENSEACCOUNTS"];
                 ViewBag.template = Session["TEMPLATE"];
+                ViewBag.db = Session["DB"];
 
                 return View();
             }

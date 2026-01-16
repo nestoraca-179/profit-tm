@@ -769,7 +769,7 @@ namespace ProfitTM.Models
             List<string> branchISH = new List<string>() { "001", "002", "003" };
             List<string> branchITS = new List<string>() { "002", "004", "005" };
 
-            if ((isISH && branchISH.Contains(co_sucu_in)) || (!isISH && branchITS.Contains(co_sucu_in)))
+            if ((isISH && branchISH.Contains(co_sucu_in)) || !isISH)
 			{
                 string dis_cen = $@"<InformacionContable>
                     <Carpeta01>
