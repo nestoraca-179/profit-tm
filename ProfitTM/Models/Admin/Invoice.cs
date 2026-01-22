@@ -193,7 +193,7 @@ namespace ProfitTM.Models
 
             return template;
         }
-        
+
         public object GetStatsInvoices(DateTime fec_d, DateTime fec_h, string sucur)
         {
             int totalCountSale = 0, totalCountBuy = 0, totalCountSaleSuc = 0, totalCountBuySuc = 0;
@@ -310,7 +310,7 @@ namespace ProfitTM.Models
             enumerator2.Dispose();
 
             // OBJETO ESTADISTICAS
-            var obj = new 
+            var obj = new
             {
                 all = new {
                     totalCountSale,
@@ -408,7 +408,7 @@ namespace ProfitTM.Models
                         var sp = context.pInsertarFacturaVenta(n_fact, invoice.descrip, invoice.co_cli, invoice.co_tran, invoice.co_mone, null, invoice.co_ven,
                             invoice.co_cond, invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, invoice.anulado, invoice.status, invoice.tasa, n_cont, invoice.porc_desc_glob,
                             invoice.monto_desc_glob, invoice.porc_reca, invoice.monto_reca, invoice.saldo, invoice.total_bruto, invoice.monto_imp, invoice.monto_imp2,
-                            invoice.monto_imp3, invoice.otros1, invoice.otros2, invoice.otros3, invoice.total_neto, dis_cen, invoice.comentario, invoice.dir_ent, 
+                            invoice.monto_imp3, invoice.otros1, invoice.otros2, invoice.otros3, invoice.total_neto, dis_cen, invoice.comentario, invoice.dir_ent,
                             invoice.contrib, invoice.impresa, invoice.salestax, invoice.impfis, invoice.impfisfac, invoice.ven_ter, invoice.campo1, invoice.campo2, invoice.campo3,
                             invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, user, sucur, invoice.revisado, invoice.trasnfe, "SERVER PROFIT WEB");
                         sp.Dispose();
@@ -416,7 +416,7 @@ namespace ProfitTM.Models
                         // RENGLONES
                         foreach (saFacturaVentaReng r in invoice.saFacturaVentaReng)
                         {
-                            var sp_reng = context.pInsertarRenglonesFacturaVenta(r.reng_num, n_fact, r.co_art, r.des_art, r.co_uni, r.sco_uni, r.co_alma, r.co_precio, r.tipo_imp, 
+                            var sp_reng = context.pInsertarRenglonesFacturaVenta(r.reng_num, n_fact, r.co_art, r.des_art, r.co_uni, r.sco_uni, r.co_alma, r.co_precio, r.tipo_imp,
                                 r.tipo_imp2, r.tipo_imp3, r.total_art, r.stotal_art, r.prec_vta, r.porc_desc, r.monto_desc, r.reng_neto, r.pendiente, r.pendiente2, r.monto_desc_glob,
                                 r.monto_reca_glob, r.otros1_glob, r.otros2_glob, r.otros3_glob, r.monto_imp_afec_glob, r.monto_imp2_afec_glob, r.monto_imp3_afec_glob,
                                 r.tipo_doc, r.rowguid_doc, r.num_doc, r.porc_imp, r.porc_imp2, r.porc_imp3, r.monto_imp, r.monto_imp2, r.monto_imp3, r.otros, r.total_dev,
@@ -426,11 +426,11 @@ namespace ProfitTM.Models
 
                         // DOCUMENTO VENTA
                         var sp_doc = context.pInsertarDocumentoVenta("FACT", n_fact, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa,
-                            string.Format("FACT N° {0} de Cliente {1}", n_fact.Trim(), invoice.co_cli), invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.anulado, 
-                            true, invoice.contrib, "FACT", n_fact, null, invoice.monto_imp, invoice.saldo, invoice.total_bruto, invoice.monto_desc_glob, invoice.porc_desc_glob, 
-                            invoice.porc_reca, invoice.monto_reca, invoice.total_neto, invoice.monto_imp2, invoice.monto_imp3, null, 0, 0, 0, 0, null, n_cont, null, 0, 0, 
-                            0, 0, 0, 0, 0, invoice.salestax, invoice.ven_ter, invoice.impfis, invoice.impfisfac, invoice.imp_nro_z, invoice.otros1, invoice.otros2, 
-                            invoice.otros3, invoice.campo1, invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8, 
+                            string.Format("FACT N° {0} de Cliente {1}", n_fact.Trim(), invoice.co_cli), invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.anulado,
+                            true, invoice.contrib, "FACT", n_fact, null, invoice.monto_imp, invoice.saldo, invoice.total_bruto, invoice.monto_desc_glob, invoice.porc_desc_glob,
+                            invoice.porc_reca, invoice.monto_reca, invoice.total_neto, invoice.monto_imp2, invoice.monto_imp3, null, 0, 0, 0, 0, null, n_cont, null, 0, 0,
+                            0, 0, 0, 0, 0, invoice.salestax, invoice.ven_ter, invoice.impfis, invoice.impfisfac, invoice.imp_nro_z, invoice.otros1, invoice.otros2,
+                            invoice.otros3, invoice.campo1, invoice.campo2, invoice.campo3, invoice.campo4, invoice.campo5, invoice.campo6, invoice.campo7, invoice.campo8,
                             invoice.revisado, invoice.trasnfe, sucur, user, "SERVER PROFIT WEB");
                         sp_doc.Dispose();
 
@@ -494,9 +494,9 @@ namespace ProfitTM.Models
                             throw new Exception(string.Format("El Nro. de Factura {0} del proveedor {1} está duplicado ({2})", e.nro_fact.Trim(), e.co_prov.Trim(), e.doc_num.Trim()));
 
                         // FACTURA
-                        var sp = context.pInsertarFacturaCompra(doc_num, invoice.nro_fact, invoice.descrip, invoice.co_prov, invoice.co_cta_ingr_egr, invoice.co_mone, 
-                            invoice.co_cond, invoice.n_control, "0", invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, false, invoice.status, invoice.tasa, null, 
-                            invoice.saldo, invoice.total_bruto, invoice.total_neto, 0, 0, 0, 0, 0, invoice.monto_imp, 0, 0, null, null, false, null, dis_cen, invoice.campo1, 
+                        var sp = context.pInsertarFacturaCompra(doc_num, invoice.nro_fact, invoice.descrip, invoice.co_prov, invoice.co_cta_ingr_egr, invoice.co_mone,
+                            invoice.co_cond, invoice.n_control, "0", invoice.fec_emis, invoice.fec_venc, invoice.fec_reg, false, invoice.status, invoice.tasa, null,
+                            invoice.saldo, invoice.total_bruto, invoice.total_neto, 0, 0, 0, 0, 0, invoice.monto_imp, 0, 0, null, null, false, null, dis_cen, invoice.campo1,
                             null, null, null, null, null, null, null, null, null, user, sucur, "SERVER PROFIT WEB", true);
                         sp.Dispose();
 
@@ -514,7 +514,7 @@ namespace ProfitTM.Models
 
                         // DOCUMENTO COMPRA
                         var sp_doc = context.pInsertarDocumentoCompra("FACT", doc_num, invoice.nro_fact, invoice.co_mone, invoice.co_prov, invoice.co_cta_ingr_egr, "FACT",
-                            null, doc_num, null, null, "0", false, true, 0, string.Format("FACT N° {0} de Proveedor {1}", doc_num.Trim(), invoice.co_prov), "1", null, null, 
+                            null, doc_num, null, null, "0", false, true, 0, string.Format("FACT N° {0} de Proveedor {1}", doc_num.Trim(), invoice.co_prov), "1", null, null,
                             invoice.fec_reg, invoice.fec_emis, invoice.fec_venc, invoice.total_neto, invoice.tasa, 0, 0, 0, invoice.monto_imp, 0, 0, invoice.total_bruto,
                             0, 0, invoice.saldo, 0, 0, 0, 0, null, null, null, 0, 0, null, null, invoice.n_control, null, null, null, null, null, null, null, null, null,
                             null, sucur, user, "SERVER PROFIT WEB", true);
@@ -534,14 +534,14 @@ namespace ProfitTM.Models
 
             return new_invoice;
         }
-        
+
         public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur, int conn, bool onlyDoc)
         {
             saDocumentoVenta new_doc = new saDocumentoVenta();
 
             using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
             {
-                using (DbContextTransaction tran = context.Database.BeginTransaction()) 
+                using (DbContextTransaction tran = context.Database.BeginTransaction())
                 {
                     try
                     {
@@ -555,10 +555,10 @@ namespace ProfitTM.Models
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
                         // NOTA DE CREDITO
-                        var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa, 
-                            string.Format("NOTA DE CREDITO DE FACTURA {0}", invoice.doc_num.Trim()), DateTime.Now, DateTime.Now, DateTime.Now, false, false, false, 
-                            "FACT", invoice.doc_num, null, invoice.monto_imp, onlyDoc ? invoice.total_neto : 0, invoice.total_bruto, 
-                            0, "0", "0", 0, invoice.total_neto, 0, 0, "1", 0, 16, 0, 0, null, n_cont, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0, 
+                        var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa,
+                            string.Format("NOTA DE CREDITO DE FACTURA {0}", invoice.doc_num.Trim()), DateTime.Now, DateTime.Now, DateTime.Now, false, false, false,
+                            "FACT", invoice.doc_num, null, invoice.monto_imp, onlyDoc ? invoice.total_neto : 0, invoice.total_bruto,
+                            0, "0", "0", 0, invoice.total_neto, 0, 0, "1", 0, 16, 0, 0, null, n_cont, dis_cen, 0, 0, 0, 0, 0, 0, 0, null, false, null, null, null, 0,
                             0, 0, invoice.campo2, invoice.campo7, invoice.campo3, invoice.campo8, null, null, null, null, null, null, sucur, user, "SERVER PROFIT WEB");
                         sp.Dispose();
 
@@ -649,7 +649,7 @@ namespace ProfitTM.Models
 
             return new_doc;
         }
-        
+
         public void SetPrinted(string id)
         {
             saFacturaVenta invoice = db.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());
@@ -658,7 +658,7 @@ namespace ProfitTM.Models
             db.Entry(invoice).State = EntityState.Modified;
             db.SaveChanges();
         }
-        
+
         public async Task SetCancelledAsync(string id, string user, string serie, Connections conn)
         {
             using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
@@ -801,77 +801,47 @@ namespace ProfitTM.Models
 			{
                 try
                 {
-					#region ANTERIOR
-					/*
-                    
-                    using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString()))
-                    {
-                        context.Database.CommandTimeout = 300;
-                        bool isFact = !log.NroFact.Contains("N-");
-                        string tip_doc = "", nro_doc = "";
-
-                        if (isFact)
-                        {
-                            saFacturaVenta fact = context.saFacturaVenta.Single(i => i.doc_num.Trim() == log.NroFact);
-                            fact.n_control = n_control;
-                            context.Entry(fact).State = EntityState.Modified;
-
-                            tip_doc = "FACT";
-                            nro_doc = log.NroFact;
-                        }
-                        else
-                        {
-                            tip_doc = "N/CR";
-                            nro_doc = log.NroFact.Replace("N-", "");
-                        }
-
-                        saDocumentoVenta doc = context.saDocumentoVenta.Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
-                        doc.n_control = n_control;
-                        context.Entry(doc).State = EntityState.Modified;
-                        context.SaveChanges();
-                        break;
-                    }
-                
-                    */
-					#endregion
-
 					using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity.ToString())) // 04/08/2025
                     {
-                        context.Database.CommandTimeout = 300;
-                        bool isFact = !log.NroFact.Contains("N-");
-                        string tip_doc = isFact ? "FACT" : "N/CR";
-                        string nro_doc = isFact ? log.NroFact : log.NroFact.Replace("N-", "");
-
-                        if (isFact)
+                        using (DbContextTransaction tran = context.Database.BeginTransaction()) // 21/01/2026
                         {
-                            saFacturaVenta fact = context.saFacturaVenta.AsNoTracking().SingleOrDefault(i => i.doc_num.Trim() == log.NroFact);
-                            if (fact == null)
-							{
+                            context.Database.CommandTimeout = 300;
+                            bool isFact = !log.NroFact.Contains("N-");
+                            string tip_doc = isFact ? "FACT" : "N/CR";
+                            string nro_doc = isFact ? log.NroFact : log.NroFact.Replace("N-", "");
+
+                            if (isFact)
+                            {
+                                saFacturaVenta fact = context.saFacturaVenta.SingleOrDefault(i => i.doc_num.Trim() == log.NroFact);
+                                if (fact == null)
+                                {
+                                    retryCount = 10; // PARA QUE SALGA DEL CICLO
+                                    throw new Exception($"Factura {log.NroFact} no encontrada.");
+                                }
+
+                                fact.n_control = n_control;
+                                context.Entry(fact).State = EntityState.Modified;
+                            }
+
+                            saDocumentoVenta doc = context.saDocumentoVenta.SingleOrDefault(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
+                            if (doc == null)
+                            {
                                 retryCount = 10; // PARA QUE SALGA DEL CICLO
-                                throw new Exception($"Factura {log.NroFact} no encontrada.");
-							}
+                                throw new Exception($"Documento {nro_doc} (tipo {tip_doc}) no encontrado.");
+                            }
 
-                            fact.n_control = n_control;
-                            context.Entry(fact).State = EntityState.Modified;
+                            doc.n_control = n_control;
+                            context.Entry(doc).State = EntityState.Modified;
+                            context.SaveChanges();
+                            tran.Commit();
+
+                            // VERIFICACION (AL VERIFICAR DOC, IGUAL SE VERIFICA FACT)
+                            saDocumentoVenta updatedDoc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
+                            if (updatedDoc.n_control != n_control)
+                                throw new Exception($"Error: n_control no se actualizó en saDocumentoVenta.");
+
+                            break;
                         }
-
-                        saDocumentoVenta doc = context.saDocumentoVenta.AsNoTracking().SingleOrDefault(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
-                        if (doc == null)
-						{
-                            retryCount = 10; // PARA QUE SALGA DEL CICLO
-                            throw new Exception($"Documento {nro_doc} (tipo {tip_doc}) no encontrado.");
-						}
-
-                        doc.n_control = n_control;
-                        context.Entry(doc).State = EntityState.Modified;
-                        context.SaveChanges();
-
-                        // VERIFICACION (AL VERIFICAR DOC, IGUAL SE VERIFICA FACT)
-                        saDocumentoVenta updatedDoc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
-                        if (updatedDoc.n_control != n_control)
-                            throw new Exception($"Error: n_control no se actualizó en saDocumentoVenta.");
-                        
-                        break;
                     }
                 }
                 catch (Exception ex)
