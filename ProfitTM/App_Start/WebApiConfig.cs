@@ -1,9 +1,8 @@
-using Newtonsoft.Json.Serialization;
 using System.Web.Http;
 
 namespace ProfitTM
 {
-    public static class WebApiConfig
+	public static class WebApiConfig
     {
         public static string UrlPrefix { get { return "api"; } }
         public static string UrlPrefixRelative { get { return "~/api"; } }

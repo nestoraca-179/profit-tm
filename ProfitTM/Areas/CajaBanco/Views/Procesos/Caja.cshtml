@@ -903,7 +903,7 @@
             $(this).find(".modal-body > div").scrollTop(0);
         });
 
-        $http.get("/api/ProfitTMApi/GetBoxes/" + dateInit.toLocaleDateString().replaceAll("/", "-"))
+        $http.get("/api/ProfitTMApi/GetBoxes/" + formatDate(dateInit))
             .then(function (response) {
 
                 var res = response.data;
@@ -1546,6 +1546,14 @@
                 });
         }
     });
+
+    function formatDate(date) {
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    }
 
     function filterBoxes(value, index, array) {
         return array.indexOf(value) === index;

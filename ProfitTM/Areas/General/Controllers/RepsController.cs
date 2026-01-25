@@ -2,14 +2,11 @@
 using DevExpress.Web.Mvc;
 using ProfitTM.Models;
 using System;
-using System.IO;
-using System.Net;
-using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace ProfitTM.Areas.General.Controllers
 {
-    public class RepsController : Controller
+	public class RepsController : Controller
     {
         // RepBalanceGeneral2KDoce
         RepBalanceGeneral2KDoce report = new RepBalanceGeneral2KDoce();

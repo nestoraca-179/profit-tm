@@ -8,12 +8,11 @@ using Newtonsoft.Json;
 using ProfitTM.Controllers;
 using System.Data.Entity.Core.EntityClient;
 using System.Web;
-using System.IO;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace ProfitTM.Models
 {
-    public class Invoice : ProfitAdmManager
+	public class Invoice : ProfitAdmManager
     {
         public saFacturaVenta GetSaleInvoiceByID(string id)
         {
@@ -554,6 +553,10 @@ namespace ProfitTM.Models
                         invoice.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == invoice.co_cli.Trim());
                         saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
+                        string expAccount = ExtractExpenseAccount(invoice.dis_cen);
+                        if (!string.IsNullOrEmpty(expAccount))
+                            dis_cen = dis_cen.Replace("</CuentaContable></Carpeta01>", $"</CuentaContable><CuentaGasto>{expAccount}</CuentaGasto></Carpeta01>");
+
                         // NOTA DE CREDITO
                         var sp = context.pInsertarDocumentoVenta("N/CR", n_ncr, invoice.co_cli, invoice.co_ven, invoice.co_mone, null, null, invoice.tasa,
                             string.Format("NOTA DE CREDITO DE FACTURA {0}", invoice.doc_num.Trim()), DateTime.Now, DateTime.Now, DateTime.Now, false, false, false,
@@ -666,7 +669,7 @@ namespace ProfitTM.Models
 				saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());
 				saDocumentoVenta doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc.Trim() == id.Trim());
 
-				if (conn.UseFactOnline)
+				if (conn.UseFactOnline && !invoice.doc_num.StartsWith("D"))
 				{
 					ModelCancelRequest request = new ModelCancelRequest()
 					{
@@ -786,6 +789,28 @@ namespace ProfitTM.Models
             }
 
             return null;
+        }
+
+        private static string ExtractExpenseAccount(string dis_cen)
+		{
+            if (!dis_cen.Contains("<CuentaGasto>"))
+                return null;
+
+            try
+            {
+                XDocument doc = XDocument.Parse(dis_cen);
+                var expAccount = doc.Descendants("CuentaGasto").FirstOrDefault();
+                if (expAccount != null)
+                    return expAccount.Value;
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores en caso de XML malformado
+                Console.WriteLine($"Error al parsear XML: {ex.Message}");
+                return null;
+            }
         }
 
         public static void UpdateControl(LogsFactOnline log, string n_control)

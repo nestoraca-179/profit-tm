@@ -498,8 +498,8 @@
     fec_d.setMinutes(0);
     fec_d.setSeconds(0);
 
-    var fecha_d = fec_d.toLocaleDateString().replaceAll("/", "-");
-    var fecha_h = fec_h.toLocaleDateString().replaceAll("/", "-");
+    var fecha_d = formatDate(fec_d); // fec_d.toLocaleDateString().replaceAll("/", "-");
+    var fecha_h = formatDate(fec_h); // fec_h.toLocaleDateString().replaceAll("/", "-");
 
     $(".dash-right-side").on("mousedown", function (event) {
         event.preventDefault();
@@ -678,6 +678,14 @@
             }, 0.05);
         }
     });
+
+    function formatDate(date) {
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    }
 
     function print(elem) {
 

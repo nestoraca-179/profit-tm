@@ -203,7 +203,9 @@
                     <h3 class="text-center text-white"><i class="fas fa-file-invoice"></i> Factura</h3>
                 </div>
 				<div class="col d-flex justify-content-end">
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNotaCredito" ng-show="!new && !adding" ng-disabled="!us.AllowCredit || invoice.anulado"><i class="fas fa-file"></i> Generar N/CR</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNotaCredito" ng-show="!new && !adding" ng-disabled="!us.AllowCredit || invoice.anulado || invoice.saldo == 0">
+                        <i class="fas fa-file"></i> Generar N/CR
+                    </button>
 				</div>
             </div>
             <div class="form-buttons">
@@ -1513,6 +1515,7 @@
         event.preventDefault();
     });
 
+    // APP ENTRY POINT
     app.controller("controller", function ($scope, $http) {
 
         $scope.index = 0;
@@ -1610,9 +1613,9 @@
 
         $scope.getUnitPriceReng = function (r, price_om) {
             if (price_om) {
-                return r.tipo_doc == 'PCLI' ? setSeparator((parse(r.reng_neto_om) / r.total_art).toFixed(2)) : r.prec_vta_om;
+                return r.tipo_doc == 'PCLI' ? setSeparator((parse(r.reng_neto_om) / (r.total_art || 1)).toFixed(2)) : r.prec_vta_om;
             } else {
-                return r.tipo_doc == 'PCLI' ? setSeparator((parse(r.reng_neto) / r.total_art).toFixed(2)) : r.prec_vta;
+                return r.tipo_doc == 'PCLI' ? setSeparator((parse(r.reng_neto) / (r.total_art || 1)).toFixed(2)) : r.prec_vta;
             }
         }
 
