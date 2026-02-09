@@ -793,7 +793,7 @@ namespace ProfitTM.Models
 
         private static string ExtractExpenseAccount(string dis_cen)
 		{
-            if (!dis_cen.Contains("<CuentaGasto>"))
+            if (string.IsNullOrEmpty(dis_cen) || !dis_cen.Contains("<CuentaGasto>"))
                 return null;
 
             try
