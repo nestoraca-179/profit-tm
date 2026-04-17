@@ -147,7 +147,7 @@ namespace ProfitTM
                         log.DateTried = DateTime.Now;
                         ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log, conn.Token);
 
-                        if (info.codigo == "200")
+                        if (info.codigo == "200" || info.codigo == "201")
                         {
                             log.Status = 1; // SENT
                             log.DateSent = DateTime.Now;

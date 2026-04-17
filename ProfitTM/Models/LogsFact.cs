@@ -38,7 +38,8 @@ namespace ProfitTM.Models
 
             using (ProfitTMEntities db = new ProfitTMEntities())
             {
-                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status != 1 && l.Status != 4).OrderBy(l => l.DateInserted).ThenBy(l => l.NroFact).ToList();
+                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status != 1 && l.Status != 4)
+                    .OrderBy(l => l.DateInserted).ThenBy(l => l.NroFact).ToList();
             }
 
             return logs;

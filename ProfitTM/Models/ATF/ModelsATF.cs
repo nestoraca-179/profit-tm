@@ -279,7 +279,7 @@ namespace ProfitTM.Models
             {
                 Incident.CreateIncident(string.Format("ERROR CREANDO JSON FACT {0}", i.doc_num), ex);
             }
-            
+
             return result;
         }
 
@@ -337,7 +337,7 @@ namespace ProfitTM.Models
 
             return final;
         }
-        
+
         public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, string token)
         {
             ModelInvoiceInfoResponse final = new ModelInvoiceInfoResponse();
@@ -368,10 +368,19 @@ namespace ProfitTM.Models
 
                     if (response.IsSuccessStatusCode)
                     {
-                        if (final.codigo != "200" && final.codigo != "203" && final.codigo != "400")
-                            throw new InformationException($"{final.mensaje} ** {final.codigo}");
-                        else if ((final.codigo == "203" || final.codigo == "400") && final.validaciones != null)
-                            throw new InformationException($"{final.mensaje} ** {final.codigo} ** {final.validaciones[0]}");
+                        if (final.codigo != "200" || (final.codigo == "201" && final.mensaje != "Documento duplicado"))
+                        {
+                            string msg = $"{final.mensaje} ** {final.codigo}";
+                            if (final.validaciones != null && final.validaciones.Any())
+                                msg += $" ** {string.Join(" ** ", final.validaciones.Where(v => !string.IsNullOrEmpty(v)))}";
+
+                            throw new InformationException(msg);
+                        }
+
+                        //if (final.codigo != "200" && final.codigo != "203" && final.codigo != "400")
+                        //    throw new InformationException($"{final.mensaje} ** {final.codigo}");
+                        //else if ((final.codigo == "203" || final.codigo == "400") && final.validaciones != null)
+                        //    throw new InformationException($"{final.mensaje} ** {final.codigo} ** {final.validaciones[0]}");
                     }
                     else
                     {
@@ -604,7 +613,7 @@ namespace ProfitTM.Models
                             throw new CancelException($"{final.mensaje} ** {final.codigo}");
                         }
 
-                        if (final.codigo == "203") 
+                        if (final.codigo == "203")
                         {
                             if (final.validaciones != null && !final.validaciones.Contains("Documento ha sido anulada previamente"))
                                 throw new CancelException($"{final.validaciones[0]} ** {final.codigo}");
@@ -927,7 +936,7 @@ namespace ProfitTM.Models
         public string campo { get; set; }
         public string valor { get; set; }
     }
-    
+
     public class TransporteF
     {
         public string descripcion { get; set; }
