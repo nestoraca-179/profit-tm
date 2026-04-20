@@ -368,13 +368,20 @@ namespace ProfitTM.Models
 
                     if (response.IsSuccessStatusCode)
                     {
-                        if (final.codigo != "200" || (final.codigo == "201" && final.mensaje != "Documento duplicado"))
-                        {
-                            string msg = $"{final.mensaje} ** {final.codigo}";
-                            if (final.validaciones != null && final.validaciones.Any())
-                                msg += $" ** {string.Join(" ** ", final.validaciones.Where(v => !string.IsNullOrEmpty(v)))}";
+                        string code = final.codigo.Trim();
+                        string msg = final.mensaje.Trim();
 
-                            throw new InformationException(msg);
+                        if (code != "200" && code != "201")
+                        {
+                            string errorMsg = $"{msg} ** {code}";
+                            if (final.validaciones != null && final.validaciones.Any())
+                                errorMsg += $" ** {string.Join(" ** ", final.validaciones.Where(v => !string.IsNullOrEmpty(v)))}";
+
+                            throw new InformationException(errorMsg);
+                        }
+                        else if (code == "201" && msg != "Documento duplicado")
+                        {
+                            throw new InformationException($"Codigo 201: {msg}");
                         }
 
                         //if (final.codigo != "200" && final.codigo != "203" && final.codigo != "400")
@@ -385,7 +392,7 @@ namespace ProfitTM.Models
                     else
                     {
                         int code = (int)response.StatusCode;
-                        if (code != 203 && code != 400)
+                        if (code != 201 && code != 203 && code != 400)
                             throw new InformationException($"{response.StatusCode} ** {code}");
                     }
                 }

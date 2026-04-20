@@ -337,6 +337,7 @@ namespace ProfitTM.Models
 
         public saFacturaVenta AddSaleInvoice(saFacturaVenta invoice, string user, string sucur, int conn, bool fromOrder)
         {
+            string numberInvoiceGenerated = string.Empty;
             saFacturaVenta new_invoice = new saFacturaVenta();
 
             using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
@@ -353,6 +354,10 @@ namespace ProfitTM.Models
                         while (context.saFacturaVenta.AsNoTracking().Any(i => i.n_control.Trim() == n_cont))
                             n_cont = GetNextConsec(context, sucur, "FACT_VTA_N_CON").Trim();
 
+                        // INVOICE DATA LOGGING
+                        numberInvoiceGenerated = n_fact;
+                        LogsFact.CreateInvoiceLog(n_fact, invoice, false);
+
                         if (fromOrder)
                         {
                             foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
@@ -360,43 +365,6 @@ namespace ProfitTM.Models
                                 context.pStockPendienteActualizar(reng.rowguid_doc, reng.total_art, "PCLI");
                             }
                         }
-
-						#region CODIGO EN DESUSO
-						//if (string.IsNullOrEmpty(invoice.doc_num))
-						//{
-						//    var sp_n_fact = context.pConsecutivoProximo(sucur, "DOC_VEN_FACT").GetEnumerator();
-						//    if (sp_n_fact.MoveNext())
-						//        n_fact = sp_n_fact.Current;
-
-						//    sp_n_fact.Dispose();
-						//}
-						//else
-						//{
-						//    n_fact = invoice.doc_num;
-						//}
-
-						//if (string.IsNullOrEmpty(invoice.n_control))
-						//{
-						//    do
-						//    {
-						//        string consec = "FACT_VTA_N_CON";
-
-						//        //if (User.GetUserByName(user).UseAlterSerie)
-						//        //    consec = "FACT_VTA_N_CON_2";
-
-						//        var sp_n_cont = context.pConsecutivoProximo(sucur, consec).GetEnumerator();
-						//        if (sp_n_cont.MoveNext())
-						//            n_cont = sp_n_cont.Current;
-
-						//        sp_n_cont.Dispose();
-
-						//    } while (context.saFacturaVenta.AsNoTracking().SingleOrDefault(i => i.n_control.Trim() == n_cont) != null);
-						//}
-						//else
-						//{
-						//    n_cont = invoice.n_control;
-						//}
-						#endregion
 
 						if (string.IsNullOrEmpty(invoice.comentario)) // VALIDACION DE BASE DE IGTF
                             invoice.comentario = "0";
@@ -453,10 +421,11 @@ namespace ProfitTM.Models
                     }
                     catch (Exception ex)
                     {
-                        string msg = "ERROR INTERNO AGREGANDO FACTURA DE VENTA";
+                        string msg = $"ERROR INTERNO AGREGANDO FACTURA DE VENTA {numberInvoiceGenerated}";
                         if (fromOrder)
                             msg += $" CON PRELIQUIDACION {invoice.saFacturaVentaReng.First().num_doc}";
 
+                        LogsFact.CreateInvoiceLog(numberInvoiceGenerated, invoice, true);
                         Incident.CreateIncident(msg, ex);
                         tran.Rollback();
                         throw ex;
@@ -479,12 +448,6 @@ namespace ProfitTM.Models
                     {
                         string doc_num = GetNextConsec(context, sucur, "DOC_COM_FACT").Trim();
                         string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>1.1.90.05.001</CuentaContable></Carpeta01></InformacionContable>";
-
-                        //var sp_doc_num = context.pConsecutivoProximo(sucur, "DOC_COM_FACT").GetEnumerator();
-                        //if (sp_doc_num.MoveNext())
-                        //    doc_num = sp_doc_num.Current;
-
-                        //sp_doc_num.Dispose();
 
                         // VERIFICACION FACTURA EXISTENTE
                         saFacturaCompra e = context.saFacturaCompra.AsNoTracking().FirstOrDefault(i => i.co_prov == invoice.co_prov && i.nro_fact == invoice.nro_fact);
