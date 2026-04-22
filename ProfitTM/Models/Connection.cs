@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ProfitTM.Models
 {
     public class Connection
     {
+        private static readonly ConcurrentDictionary<int, SemaphoreSlim> tokenLocks = new ConcurrentDictionary<int, SemaphoreSlim>();
+
         public static Connections GetConnByID(string id)
         {
             Connections conn;
@@ -99,6 +104,59 @@ namespace ProfitTM.Models
             }
 
             return response;
+        }
+
+        public static async Task<Connections> EnsureValidTokenAsync(Connections conn)
+        {
+            if (conn == null)
+                throw new Exception("Conexion no encontrada");
+
+            if (!conn.UseFactOnline)
+                return conn;
+
+            if (HasValidToken(conn))
+                return conn;
+
+            SemaphoreSlim tokenLock = tokenLocks.GetOrAdd(conn.ID, _ => new SemaphoreSlim(1, 1));
+            await tokenLock.WaitAsync();
+
+            try
+            {
+                Connections currentConn = GetConnByID(conn.ID.ToString());
+                if (currentConn == null)
+                    throw new Exception($"Conexion {conn.ID} no encontrada");
+
+                if (HasValidToken(currentConn))
+                    return currentConn;
+
+                ModelAuthRequest auth = new ModelAuthRequest()
+                {
+                    usuario = currentConn.UserToken,
+                    clave = currentConn.PassToken
+                };
+
+                ModelAuthResponse response = await new Root().SendAuth(auth);
+                if (response.codigo != 200)
+                    throw new AuthenticationException(response.mensaje);
+
+                currentConn.Token = response.token;
+                currentConn.DateToken = response.expiracion.AddHours(-4);
+
+                ProfitTMResponse editResult = Edit(currentConn);
+                if (editResult.Status != "OK")
+                    throw new Exception(editResult.Message ?? $"No se pudo actualizar el token de la conexion {currentConn.ID}");
+
+                return currentConn;
+            }
+            finally
+            {
+                tokenLock.Release();
+            }
+        }
+
+        private static bool HasValidToken(Connections conn)
+        {
+            return conn != null && !string.IsNullOrEmpty(conn.Token) && conn.DateToken != null && DateTime.Now <= conn.DateToken;
         }
     }
 }

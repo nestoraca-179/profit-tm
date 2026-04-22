@@ -12,11 +12,14 @@ using Quartz.Impl;
 
 namespace ProfitTM
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
+    // Note: For instructions on enabling IIS6 or IIS7 classic mode,
     // visit http://go.microsoft.com/?LinkId=9394801
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private static readonly object schedulerLock = new object();
+        private static IScheduler scheduler;
+
         protected void Application_Init()
         {
             // Incident.CreateIncident("APPLICATION INIT", new Exception());
@@ -39,28 +42,36 @@ namespace ProfitTM
             Incident.CreateIncident("APPLICATION START", new Exception());
 
             #region QUARTZ
-            StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
-            IScheduler scheduler = schedulerFactory.GetScheduler().Result;
+            lock (schedulerLock)
+            {
+                if (scheduler == null)
+                {
+                    StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
+                    scheduler = schedulerFactory.GetScheduler().Result;
 
-            var job = JobBuilder.Create<EnvioDocumentos>()
-                .WithIdentity("myJob", "group1")
-                .Build();
+                    var job = JobBuilder.Create<EnvioDocumentos>()
+                        .WithIdentity("myJob", "group1")
+                        .Build();
 
-            ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity("myTrigger", "group1")
-                .StartNow()
-                .WithSimpleSchedule(x => x
-                    .WithIntervalInMinutes(3)
-                    // .WithIntervalInSeconds(30) // PRUEBAS
-                    .RepeatForever())
-                .Build();
+                    ITrigger trigger = TriggerBuilder.Create()
+                        .WithIdentity("myTrigger", "group1")
+                        .StartNow()
+                        .WithSimpleSchedule(x => x
+                            .WithIntervalInMinutes(3)
+                            // .WithIntervalInSeconds(30) // PRUEBAS
+                            .RepeatForever())
+                        .Build();
 
-            scheduler.ScheduleJob(job, trigger);
-            scheduler.Start();
+                    scheduler.ScheduleJob(job, trigger);
+                }
+
+                if (!scheduler.IsStarted)
+                    scheduler.Start();
+            }
             #endregion
         }
 
-        protected void Application_Error(object sender, EventArgs e) 
+        protected void Application_Error(object sender, EventArgs e)
         {
             Exception ex = HttpContext.Current.Server.GetLastError();
             Incident.CreateIncident("APPLICATION ERROR", ex);
@@ -83,6 +94,15 @@ namespace ProfitTM
         {
             try
             {
+                lock (schedulerLock)
+                {
+                    if (scheduler != null)
+                    {
+                        scheduler.Shutdown(false).GetAwaiter().GetResult();
+                        scheduler = null;
+                    }
+                }
+
                 // HttpContext.Current.Session.Clear();
                 // HttpContext.Current.Session.Abandon();
                 // HttpContext.Current.Session.RemoveAll();
@@ -111,12 +131,13 @@ namespace ProfitTM
         }
 
         #region QUARTZ
+        [DisallowConcurrentExecution]
         public class EnvioDocumentos : IJob
         {
             async Task IJob.Execute(IJobExecutionContext context)
             {
                 List<int> conn_error = new List<int>();
-                List<LogsFactOnline> logs = LogsFact.GetPendingLogs();
+                List<LogsFactOnline> logs = LogsFact.ClaimPendingLogs();
 
                 foreach (LogsFactOnline log in logs)
                 {
@@ -126,25 +147,8 @@ namespace ProfitTM
                     try
                     {
                         Connections conn = Connection.GetConnByID(log.ConnID.ToString());
-                        if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
-                        {
-                            ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
-                            ModelAuthResponse response = await new Root().SendAuth(auth);
+                        conn = await Connection.EnsureValidTokenAsync(conn);
 
-                            if (response.codigo == 200)
-                            {
-                                conn.Token = response.token;
-                                conn.DateToken = response.expiracion.AddHours(-4);
-                                Connection.Edit(conn);
-                            }
-                            else
-                            {
-                                throw new Exception(response.mensaje);
-                            }
-                        }
-
-                        log.Times++;
-                        log.DateTried = DateTime.Now;
                         ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log, conn.Token);
 
                         if (info.codigo == "200" || info.codigo == "201")

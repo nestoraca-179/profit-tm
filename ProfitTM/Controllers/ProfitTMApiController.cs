@@ -333,7 +333,7 @@ namespace ProfitTM.Controllers
             {
                 int result = new Collect().CancelCollect(id, cob_num, user);
 
-                if (result == 0) 
+                if (result == 0)
                 {
                     response.Status = "OK";
                     response.Result = result;
@@ -370,7 +370,7 @@ namespace ProfitTM.Controllers
 
             return response;
         }
-        
+
         // CLIENTE
 
         [HttpPost]
@@ -767,7 +767,7 @@ namespace ProfitTM.Controllers
 
             return response;
         }
-        
+
         [HttpGet]
         [Route("api/ProfitTMApi/SetPrintedInvoice/{id}")]
         public ProfitTMResponse SetPrintedInvoice(string id)
@@ -805,24 +805,7 @@ namespace ProfitTM.Controllers
             try
             {
                 if (conn.UseFactOnline)
-                {
-                    if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
-                    {
-                        ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
-                        ModelAuthResponse res = await new Root().SendAuth(auth);
-
-                        if (res.codigo == 200)
-                        {
-                            conn.Token = res.token;
-                            conn.DateToken = res.expiracion.AddHours(-4);
-                            Connection.Edit(conn);
-                        }
-                        else
-                        {
-                            throw new Exception(res.mensaje);
-                        }
-                    }
-                }
+                    conn = await Connection.EnsureValidTokenAsync(conn);
 
                 await new Invoice().SetCancelledAsync(id, user, serie, conn);
 
@@ -874,7 +857,7 @@ namespace ProfitTM.Controllers
         {
             ProfitTMResponse response = new ProfitTMResponse();
             string sucur = HttpContext.Current.Session["BRANCH"].ToString();
-            
+
             try
             {
                 List<saFacturaCompra> invoices = new Invoice().GetAllBuyInvoices(number, sucur);
@@ -969,7 +952,7 @@ namespace ProfitTM.Controllers
 
             return response;
         }
-        
+
         // ESTADISTICAS DASHBOARD ADMIN
 
         [HttpGet]
@@ -1147,22 +1130,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
-                {
-                    ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
-                    ModelAuthResponse r = await new Root().SendAuth(auth);
-
-                    if (r.codigo == 200)
-                    {
-                        conn.Token = r.token;
-                        conn.DateToken = r.expiracion.AddHours(-4);
-                        Connection.Edit(conn);
-                    }
-                    else
-                    {
-                        throw new Exception(r.mensaje);
-                    }
-                }
+                conn = await Connection.EnsureValidTokenAsync(conn);
 
                 ModelSendResponse res = await new Root().SendEmail(request, conn.Token);
 
@@ -1190,22 +1158,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                if (conn.Token == null || conn.DateToken == null || DateTime.Now > conn.DateToken)
-                {
-                    ModelAuthRequest auth = new ModelAuthRequest() { usuario = conn.UserToken, clave = conn.PassToken };
-                    ModelAuthResponse r = await new Root().SendAuth(auth);
-
-                    if (r.codigo == 200)
-                    {
-                        conn.Token = r.token;
-                        conn.DateToken = r.expiracion.AddHours(-4);
-                        Connection.Edit(conn);
-                    }
-                    else
-                    {
-                        throw new Exception(r.mensaje);
-                    }
-                }
+                conn = await Connection.EnsureValidTokenAsync(conn);
 
                 ModelDownloadResponse res = await new Root().DownloadInvoice(request, conn.Token);
 

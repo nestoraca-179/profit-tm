@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 
@@ -9,6 +10,12 @@ namespace ProfitTM.Models
 {
     public class LogsFact
     {
+        public const int SentStatus = 1;
+        public const int CancelledStatus = 4;
+        public const int ProcessingStatus = 5;
+        public const int PendingStatus = 0;
+        private const int ProcessingTimeoutMinutes = 15;
+
         public static LogsFactOnline GetLogByID(string l, int conn)
         {
             LogsFactOnline log;
@@ -39,11 +46,74 @@ namespace ProfitTM.Models
 
             using (ProfitTMEntities db = new ProfitTMEntities())
             {
-                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status != 1 && l.Status != 4)
+                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status != SentStatus && l.Status != CancelledStatus && l.Status != ProcessingStatus)
                     .OrderBy(l => l.DateInserted).ThenBy(l => l.NroFact).ToList();
             }
 
             return logs;
+        }
+
+        public static List<LogsFactOnline> ClaimPendingLogs(int batchSize = 200)
+        {
+            List<LogsFactOnline> claimed = new List<LogsFactOnline>();
+
+            using (ProfitTMEntities db = new ProfitTMEntities())
+            {
+                RecoverStaleProcessingLogs(db);
+
+                var candidates = db.LogsFactOnline.AsNoTracking()
+                    .Where(l => l.Status != SentStatus && l.Status != CancelledStatus && l.Status != ProcessingStatus)
+                    .OrderBy(l => l.DateInserted)
+                    .ThenBy(l => l.NroFact)
+                    .Take(batchSize)
+                    .ToList();
+
+                foreach (LogsFactOnline candidate in candidates)
+                {
+                    DateTime triedAt = DateTime.Now;
+                    int affected = db.Database.ExecuteSqlCommand(@"
+                        UPDATE LogsFactOnline
+                        SET Status = @processingStatus,
+                            Times = ISNULL(Times, 0) + 1,
+                            DateTried = @dateTried,
+                            Message = @message
+                        WHERE NroFact = @nroFact
+                          AND ConnID = @connId
+                          AND Status = @currentStatus",
+                        new SqlParameter("@processingStatus", ProcessingStatus),
+                        new SqlParameter("@dateTried", triedAt),
+                        new SqlParameter("@message", "PROCESSING"),
+                        new SqlParameter("@nroFact", candidate.NroFact),
+                        new SqlParameter("@connId", candidate.ConnID),
+                        new SqlParameter("@currentStatus", candidate.Status));
+
+                    if (affected == 1)
+                    {
+                        candidate.Times++;
+                        candidate.DateTried = triedAt;
+                        candidate.Message = "PROCESSING";
+                        claimed.Add(candidate);
+                    }
+                }
+            }
+
+            return claimed;
+        }
+
+        private static void RecoverStaleProcessingLogs(ProfitTMEntities db)
+        {
+            DateTime cutoff = DateTime.Now.AddMinutes(-ProcessingTimeoutMinutes);
+
+            db.Database.ExecuteSqlCommand(@"
+                UPDATE LogsFactOnline
+                SET Status = @pendingStatus,
+                    Message = @message
+                WHERE Status = @processingStatus
+                  AND DateTried < @cutoff",
+                new SqlParameter("@pendingStatus", PendingStatus),
+                new SqlParameter("@message", "RECOVERED AFTER PROCESSING TIMEOUT"),
+                new SqlParameter("@processingStatus", ProcessingStatus),
+                new SqlParameter("@cutoff", cutoff));
         }
 
         public static LogsFactOnline Add(saFacturaVenta i, int conn, string json, string serie)

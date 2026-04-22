@@ -364,6 +364,8 @@
                     return "table-warning";
                 case 4:
                     return "table-primary";
+                case 5:
+                    return "table-info";
             }
         }
 
@@ -386,6 +388,8 @@
                     return "EN ESPERA";
                 case 4:
                     return "ANULADO";
+                case 5:
+                    return "PROCESANDO";
             }
         }
 
@@ -409,7 +413,7 @@
 
             $('#text-error-f').text('');
             if (value != null && value != "") {
-                
+
                 var emails = value.split(",");
                 for (var email of emails) {
                     if (!validateEmail(email.trim())) {

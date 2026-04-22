@@ -15,8 +15,16 @@ namespace ProfitTM.Models
     {
         // private static readonly string base_url = "https://emisionv2.thefactoryhka.com.ve/api/"; // PRODUCCION
         private static readonly string base_url = "https://demoemisionv2.thefactoryhka.com.ve/api/"; // INTEGRACION
+        private static readonly HttpClient httpClient = CreateHttpClient();
 
         public DocumentoElectronico documentoElectronico { get; set; }
+
+        private static HttpClient CreateHttpClient()
+        {
+            HttpClient client = new HttpClient();
+            client.Timeout = TimeSpan.FromSeconds(100);
+            return client;
+        }
 
         public string GetJsonInvoiceInfo(saFacturaVenta i, string serie)
         {
@@ -336,6 +344,7 @@ namespace ProfitTM.Models
             }
 
             return final;
+
         }
 
         public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, string token)
@@ -344,72 +353,76 @@ namespace ProfitTM.Models
             string url = base_url + "Emision";
             string data = log.BodyJson;
 
-            using (HttpClient client = new HttpClient())
+            HttpTraces trace = null;
+            DateTime start = DateTime.UtcNow;
+            Exception exception = null;
+
+            HttpRequestMessage request = null;
+            HttpResponseMessage response = null;
+            string reqContent = "", resContent = "";
+
+            try
             {
-                HttpTraces trace = null;
-                DateTime start = DateTime.UtcNow;
-                Exception exception = null;
+                request = new HttpRequestMessage(HttpMethod.Post, url);
+                StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                request.Content = stringContent;
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                reqContent = await stringContent.ReadAsStringAsync();
 
-                HttpRequestMessage request = null;
-                HttpResponseMessage response = null;
-                string reqContent = "", resContent = "";
+                response = await httpClient.SendAsync(request);
+                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
 
-                try
+                if (string.IsNullOrWhiteSpace(resContent))
+                    throw new InformationException("Respuesta vacia del servicio de emision");
+
+                final = JsonConvert.DeserializeObject<ModelInvoiceInfoResponse>(resContent);
+                if (final == null || string.IsNullOrWhiteSpace(final.codigo))
+                    throw new InformationException("Respuesta invalida del servicio de emision");
+
+                string code = final.codigo.Trim();
+                string msg = (final.mensaje ?? string.Empty).Trim();
+
+                if (response.IsSuccessStatusCode)
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, url);
-                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
-                    request.Content = stringContent;
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    reqContent = await stringContent.ReadAsStringAsync();
+                    if (code == "200")
+                        return final;
 
-                    response = await client.SendAsync(request);
-                    resContent = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelInvoiceInfoResponse>(resContent);
-
-                    if (response.IsSuccessStatusCode)
+                    if (code == "201")
                     {
-                        string code = final.codigo.Trim();
-                        string msg = final.mensaje.Trim();
+                        if (msg == "Documento duplicado")
+                            return final;
 
-                        if (code != "200" && code != "201")
-                        {
-                            string errorMsg = $"{msg} ** {code}";
-                            if (final.validaciones != null && final.validaciones.Any())
-                                errorMsg += $" ** {string.Join(" ** ", final.validaciones.Where(v => !string.IsNullOrEmpty(v)))}";
-
-                            throw new InformationException(errorMsg);
-                        }
-                        else if (code == "201" && msg != "Documento duplicado")
-                        {
-                            throw new InformationException($"Codigo 201: {msg}");
-                        }
-
-                        //if (final.codigo != "200" && final.codigo != "203" && final.codigo != "400")
-                        //    throw new InformationException($"{final.mensaje} ** {final.codigo}");
-                        //else if ((final.codigo == "203" || final.codigo == "400") && final.validaciones != null)
-                        //    throw new InformationException($"{final.mensaje} ** {final.codigo} ** {final.validaciones[0]}");
+                        throw new InformationException($"Codigo 201: {msg}");
                     }
-                    else
-                    {
-                        int code = (int)response.StatusCode;
-                        if (code != 201 && code != 203 && code != 400)
-                            throw new InformationException($"{response.StatusCode} ** {code}");
-                    }
+
+                    if (code == "203" || code == "400")
+                        return final;
+
+                    string errorMsg = $"{msg} ** {code}";
+                    if (final.validaciones != null && final.validaciones.Any())
+                        errorMsg += $" ** {string.Join(" ** ", final.validaciones.Where(v => !string.IsNullOrEmpty(v)))}";
+
+                    throw new InformationException(errorMsg);
                 }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                    throw ex;
-                }
-                finally
-                {
-                    TimeSpan duration = DateTime.UtcNow - start;
-                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
-                    HttpTrace.AddTrace(trace);
-                }
+
+                int statusCode = (int)response.StatusCode;
+                if ((statusCode == 203 || statusCode == 400) && (code == "203" || code == "400"))
+                    return final;
+
+                throw new InformationException($"{response.StatusCode} ** {statusCode}");
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+                throw;
+            }
+            finally
+            {
+                TimeSpan duration = DateTime.UtcNow - start;
+                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTrace.AddTrace(trace);
             }
 
-            return final;
         }
 
         public async Task<ModelAssignResponse> SendAssign(ModelAssignRequest assign, string token)
