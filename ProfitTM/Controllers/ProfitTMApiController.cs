@@ -1102,7 +1102,12 @@ namespace ProfitTM.Controllers
 			try
             {
                 LogsFactOnline log = LogsFact.GetLogByID(fact, conn);
+                if (LogsFact.IsBlockedForManualEdit(log.Status))
+                    throw new Exception("El log no se puede editar en su estado actual.");
+
                 log.BodyJson = JsonConvert.SerializeObject(info);
+                log.Status = LogsFact.PendingStatus;
+                log.Message = "UPDATED MANUALLY";
 
                 LogsFactOnline new_log = LogsFact.Edit(log);
 

@@ -428,7 +428,7 @@ namespace ProfitTM.Models
                         LogsFact.CreateInvoiceLog(numberInvoiceGenerated, invoice, true);
                         Incident.CreateIncident(msg, ex);
                         tran.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }
@@ -489,7 +489,7 @@ namespace ProfitTM.Models
                     {
                         Incident.CreateIncident("ERROR INTERNO AGREGANDO FACTURA DE COMPRA", ex);
                         tran.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }
@@ -608,7 +608,7 @@ namespace ProfitTM.Models
                     {
                         Incident.CreateIncident($"ERROR AGREGANDO NOTA DE CREDITO DE FACTURA {doc_num}", ex);
                         tran.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }

@@ -17,6 +17,8 @@ namespace ProfitTM
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private const int QUARTZ_INTERVAL_MINUTES = 3;
+        private const int QUARTZ_BATCH_SIZE = 200;
         private static readonly object schedulerLock = new object();
         private static IScheduler scheduler;
 
@@ -57,8 +59,9 @@ namespace ProfitTM
                         .WithIdentity("myTrigger", "group1")
                         .StartNow()
                         .WithSimpleSchedule(x => x
-                            .WithIntervalInMinutes(3)
+                            .WithIntervalInMinutes(QUARTZ_INTERVAL_MINUTES)
                             // .WithIntervalInSeconds(30) // PRUEBAS
+                            .WithMisfireHandlingInstructionNowWithExistingCount()
                             .RepeatForever())
                         .Build();
 
@@ -137,7 +140,10 @@ namespace ProfitTM
             async Task IJob.Execute(IJobExecutionContext context)
             {
                 List<int> conn_error = new List<int>();
-                List<LogsFactOnline> logs = LogsFact.ClaimPendingLogs();
+                List<LogsFactOnline> logs = LogsFact.ClaimPendingLogs(QUARTZ_BATCH_SIZE);
+
+                if (logs.Count == 0)
+                    return;
 
                 foreach (LogsFactOnline log in logs)
                 {
@@ -146,6 +152,29 @@ namespace ProfitTM
 
                     try
                     {
+                        LogsFact.CreateProcessingTrace(log, "CLAIMED", "Inicio de procesamiento del log");
+
+                        if (LogsFact.RequiresControlSync(log))
+                        {
+                            try
+                            {
+                                LogsFact.CreateProcessingTrace(log, "CONTROL_SYNC", $"Reintentando actualizacion local con n_control {log.NroControl}");
+                                Invoice.UpdateControl(log, log.NroControl);
+                                log.Status = LogsFact.SentStatus;
+                                log.Message = "CONTROL UPDATED";
+                                log.HttpCode = string.IsNullOrEmpty(log.HttpCode) ? "200" : log.HttpCode;
+                                LogsFact.CreateProcessingTrace(log, "CONTROL_SYNC", "Actualizacion local completada sin reenvio a ATF");
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Status = LogsFact.ControlPendingStatus;
+                                log.Message = $"CONTROL PENDING: {ex.Message}";
+                                LogsFact.CreateProcessingTrace(log, "CONTROL_SYNC_RETRY_FAILED", ex.Message);
+                            }
+
+                            continue;
+                        }
+
                         Connections conn = Connection.GetConnByID(log.ConnID.ToString());
                         conn = await Connection.EnsureValidTokenAsync(conn);
 
@@ -153,19 +182,33 @@ namespace ProfitTM
 
                         if (info.codigo == "200" || info.codigo == "201")
                         {
-                            log.Status = 1; // SENT
                             log.DateSent = DateTime.Now;
-                            log.NroControl = info.resultado.numeroControl;
-                            log.Message = "OK";
+                            log.NroControl = info.resultado?.numeroControl;
+                            log.Message = "ATF ACCEPTED";
                             log.HttpCode = "200";
 
-                            LogsFact.CreateLogInFile($"INICIO: ({log.ConnID}) {log.NroFact} -> {log.NroControl}");
-                            Invoice.UpdateControl(log, log.NroControl);
-                            LogsFact.CreateLogInFile($"   FIN: ({log.ConnID}) {log.NroFact} -> {log.NroControl}");
+                            if (string.IsNullOrWhiteSpace(log.NroControl))
+                                throw new Exception($"ATF acepto el documento {log.NroFact} pero no retorno numero de control.");
+
+                            LogsFact.CreateProcessingTrace(log, "ATF_ACCEPTED", $"Numero de control recibido {log.NroControl}");
+
+                            try
+                            {
+                                Invoice.UpdateControl(log, log.NroControl);
+                                log.Status = LogsFact.SentStatus;
+                                log.Message = "OK";
+                                LogsFact.CreateProcessingTrace(log, "CONTROL_UPDATED", $"Control {log.NroControl} aplicado localmente");
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Status = LogsFact.ControlPendingStatus;
+                                log.Message = $"CONTROL PENDING: {ex.Message}";
+                                LogsFact.CreateProcessingTrace(log, "CONTROL_PENDING", ex.Message);
+                            }
                         }
                         else if (info.codigo == "203" || info.codigo == "400")
                         {
-                            if (log.Status != 3)
+                            if (log.Status != LogsFact.WaitingStatus)
                             {
                                 ModelAssignRequest assign = new ModelAssignRequest()
                                 {
@@ -182,9 +225,10 @@ namespace ProfitTM
                                 };
                                 ModelAssignResponse response = await new Root().SendAssign(assign, conn.Token);
 
-                                log.Status = 3; // WAITING
+                                log.Status = LogsFact.WaitingStatus; // WAITING
                                 log.Message = "WAITING FOR RE-SEND";
                                 log.HttpCode = info.codigo;
+                                LogsFact.CreateProcessingTrace(log, "ASSIGN_WAIT", $"ATF respondio {info.codigo}. Numeracion solicitada.");
                             }
                             else
                             {
@@ -201,7 +245,7 @@ namespace ProfitTM
                     }
                     catch (AuthenticationException ex)
                     {
-                        log.Status = 2; // ERROR AUTHENTICATION
+                        log.Status = LogsFact.ErrorStatus; // ERROR AUTHENTICATION
                         log.Message = ex.Message;
                         log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
 
@@ -209,7 +253,7 @@ namespace ProfitTM
                     }
                     catch (InformationException ex)
                     {
-                        log.Status = 2; // ERROR INFORMATION
+                        log.Status = LogsFact.ErrorStatus; // ERROR INFORMATION
                         log.Message = ex.Message;
                         log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
 
@@ -217,7 +261,7 @@ namespace ProfitTM
                     }
                     catch (AssignmentException ex)
                     {
-                        log.Status = 2; // ERROR ASSIGNMENT
+                        log.Status = LogsFact.ErrorStatus; // ERROR ASSIGNMENT
                         log.Message = ex.Message;
                         log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
 
@@ -225,7 +269,7 @@ namespace ProfitTM
                     }
                     catch (Exception ex)
                     {
-                        log.Status = 2; // ERROR GENERAL
+                        log.Status = LogsFact.ErrorStatus; // ERROR GENERAL
                         log.Message = ex.Message;
 
                         Incident.CreateIncident("ERROR GENERAL EN CONSUMO DE ATF", ex);
@@ -235,7 +279,7 @@ namespace ProfitTM
                         LogsFact.Edit(log); // ACTUALIZAR ESTADO DEL LOG
                     }
 
-                    if (log.Status == 2)
+                    if (log.Status == LogsFact.ErrorStatus)
                         conn_error.Add(log.ConnID);
                 }
             }

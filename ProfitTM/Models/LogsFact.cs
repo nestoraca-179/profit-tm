@@ -10,10 +10,13 @@ namespace ProfitTM.Models
 {
     public class LogsFact
     {
+        public const int PendingStatus = 0;
         public const int SentStatus = 1;
+        public const int ErrorStatus = 2;
+        public const int WaitingStatus = 3;
         public const int CancelledStatus = 4;
         public const int ProcessingStatus = 5;
-        public const int PendingStatus = 0;
+        public const int ControlPendingStatus = 6;
         private const int ProcessingTimeoutMinutes = 15;
 
         public static LogsFactOnline GetLogByID(string l, int conn)
@@ -104,7 +107,7 @@ namespace ProfitTM.Models
         {
             DateTime cutoff = DateTime.Now.AddMinutes(-ProcessingTimeoutMinutes);
 
-            db.Database.ExecuteSqlCommand(@"
+            int recovered = db.Database.ExecuteSqlCommand(@"
                 UPDATE LogsFactOnline
                 SET Status = @pendingStatus,
                     Message = @message
@@ -114,6 +117,9 @@ namespace ProfitTM.Models
                 new SqlParameter("@message", "RECOVERED AFTER PROCESSING TIMEOUT"),
                 new SqlParameter("@processingStatus", ProcessingStatus),
                 new SqlParameter("@cutoff", cutoff));
+
+            if (recovered > 0)
+                CreateLogInFile($"[RECOVERY] Se recuperaron {recovered} logs atascados en PROCESANDO.");
         }
 
         public static LogsFactOnline Add(saFacturaVenta i, int conn, string json, string serie)
@@ -151,10 +157,28 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 Incident.CreateIncident("ERROR EDITANDO LOG", ex);
-                throw ex;
+                throw;
             }
 
             return log;
+        }
+
+        public static bool IsBlockedForManualEdit(int status)
+        {
+            return status == SentStatus || status == CancelledStatus || status == ProcessingStatus || status == ControlPendingStatus;
+        }
+
+        public static bool RequiresControlSync(LogsFactOnline log)
+        {
+            return log != null && log.Status == ControlPendingStatus && !string.IsNullOrWhiteSpace(log.NroControl);
+        }
+
+        public static void CreateProcessingTrace(LogsFactOnline log, string stage, string message)
+        {
+            string doc = log == null ? "N/A" : log.NroFact;
+            string conn = log == null ? "N/A" : log.ConnID.ToString();
+            string attempts = log == null ? "N/A" : log.Times.ToString();
+            CreateLogInFile($"[{stage}] DOC={doc} CONN={conn} ATTEMPT={attempts} {message}");
         }
 
         public static void CreateLogInFile(string message)

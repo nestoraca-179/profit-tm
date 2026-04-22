@@ -297,54 +297,48 @@ namespace ProfitTM.Models
             string url = base_url + "Autenticacion";
             string data = JsonConvert.SerializeObject(auth);
 
-            using (HttpClient client = new HttpClient())
+            HttpTraces trace = null;
+            DateTime start = DateTime.UtcNow;
+            Exception exception = null;
+
+            HttpRequestMessage request = null;
+            HttpResponseMessage response = null;
+            string reqContent = "", resContent = "";
+
+            try
             {
-                HttpTraces trace = null;
-                DateTime start = DateTime.UtcNow;
-                Exception exception = null;
+                request = new HttpRequestMessage(HttpMethod.Post, url);
+                StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                request.Content = stringContent;
+                reqContent = await stringContent.ReadAsStringAsync();
 
-                HttpRequestMessage request = null;
-                HttpResponseMessage response = null;
-                string reqContent = "", resContent = "";
+                response = await httpClient.SendAsync(request);
+                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                final = JsonConvert.DeserializeObject<ModelAuthResponse>(resContent);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, url);
-                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
-                    request.Content = stringContent;
-                    reqContent = await stringContent.ReadAsStringAsync();
-
-                    response = await client.SendAsync(request);
-                    resContent = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelAuthResponse>(resContent);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        if (final.codigo != 200)
-                        {
-                            throw new AuthenticationException($"{final.mensaje} ** {final.codigo}");
-                        }
-                    }
-                    else
-                    {
-                        throw new AuthenticationException($"{response.StatusCode} ** {(int)response.StatusCode}");
-                    }
+                    if (final.codigo != 200)
+                        throw new AuthenticationException($"{final.mensaje} ** {final.codigo}");
                 }
-                catch (Exception ex)
+                else
                 {
-                    exception = ex;
-                    throw ex;
+                    throw new AuthenticationException($"{response.StatusCode} ** {(int)response.StatusCode}");
                 }
-                finally
-				{
-                    TimeSpan duration = DateTime.UtcNow - start;
-                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
-                    HttpTrace.AddTrace(trace);
-                }
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+                throw;
+            }
+            finally
+			{
+                TimeSpan duration = DateTime.UtcNow - start;
+                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTrace.AddTrace(trace);
             }
 
             return final;
-
         }
 
         public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, string token)
@@ -431,56 +425,53 @@ namespace ProfitTM.Models
             string url = base_url + "AsignarNumeraciones";
             string data = JsonConvert.SerializeObject(assign);
 
-            using (HttpClient client = new HttpClient())
+            HttpTraces trace = null;
+            DateTime start = DateTime.UtcNow;
+            Exception exception = null;
+
+            HttpRequestMessage request = null;
+            HttpResponseMessage response = null;
+            string reqContent = "", resContent = "";
+
+            try
             {
-                HttpTraces trace = null;
-                DateTime start = DateTime.UtcNow;
-                Exception exception = null;
+                request = new HttpRequestMessage(HttpMethod.Post, url);
+                StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                request.Content = stringContent;
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                reqContent = await stringContent.ReadAsStringAsync();
 
-                HttpRequestMessage request = null;
-                HttpResponseMessage response = null;
-                string reqContent = "", resContent = "";
+                response = await httpClient.SendAsync(request);
+                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                final = JsonConvert.DeserializeObject<ModelAssignResponse>(resContent);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, url);
-                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
-                    request.Content = stringContent;
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    reqContent = await stringContent.ReadAsStringAsync();
+                    if (final.codigo != "200")
+					{
+                        string msg = $"{final.mensaje} ** {final.codigo}";
+                        if (final.validaciones?.Count > 0)
+                            foreach (string v in final.validaciones)
+                                msg += $" ** {v}";
 
-                    response = await client.SendAsync(request);
-                    resContent = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelAssignResponse>(resContent);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        if (final.codigo != "200")
-						{
-                            string msg = $"{final.mensaje} ** {final.codigo}";
-                            if (final.validaciones?.Count > 0)
-                                foreach (string v in final.validaciones)
-                                    msg += $" ** {v}";
-
-                            throw new AssignmentException(msg);
-                        }
-                    }
-                    else
-                    {
-                        throw new AssignmentException($"{response.StatusCode} ** {(int)response.StatusCode}");
+                        throw new AssignmentException(msg);
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    exception = ex;
-                    throw ex;
+                    throw new AssignmentException($"{response.StatusCode} ** {(int)response.StatusCode}");
                 }
-                finally
-                {
-                    TimeSpan duration = DateTime.UtcNow - start;
-                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
-                    HttpTrace.AddTrace(trace);
-                }
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+                throw;
+            }
+            finally
+            {
+                TimeSpan duration = DateTime.UtcNow - start;
+                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTrace.AddTrace(trace);
             }
 
             return final;
@@ -492,51 +483,46 @@ namespace ProfitTM.Models
             string url = base_url + "Correo/Enviar";
             string data = JsonConvert.SerializeObject(send);
 
-            using (HttpClient client = new HttpClient())
+            HttpTraces trace = null;
+            DateTime start = DateTime.UtcNow;
+            Exception exception = null;
+
+            HttpRequestMessage request = null;
+            HttpResponseMessage response = null;
+            string reqContent = "", resContent = "";
+
+            try
             {
-                HttpTraces trace = null;
-                DateTime start = DateTime.UtcNow;
-                Exception exception = null;
+                request = new HttpRequestMessage(HttpMethod.Post, url);
+                StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                request.Content = stringContent;
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                reqContent = await stringContent.ReadAsStringAsync();
 
-                HttpRequestMessage request = null;
-                HttpResponseMessage response = null;
-                string reqContent = "", resContent = "";
+                response = await httpClient.SendAsync(request);
+                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                final = JsonConvert.DeserializeObject<ModelSendResponse>(resContent);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, url);
-                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
-                    request.Content = stringContent;
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    reqContent = await stringContent.ReadAsStringAsync();
-
-                    response = await client.SendAsync(request);
-                    resContent = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelSendResponse>(resContent);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        if (final.codigo != "200")
-                        {
-                            throw new SendingException($"{final.mensaje} ** {final.codigo}");
-                        }
-                    }
-                    else
-                    {
-                        throw new SendingException($"{response.StatusCode} ** {(int)response.StatusCode}");
-                    }
+                    if (final.codigo != "200")
+                        throw new SendingException($"{final.mensaje} ** {final.codigo}");
                 }
-                catch (Exception ex)
+                else
                 {
-                    exception = ex;
-                    throw ex;
+                    throw new SendingException($"{response.StatusCode} ** {(int)response.StatusCode}");
                 }
-                finally
-                {
-                    TimeSpan duration = DateTime.UtcNow - start;
-                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
-                    HttpTrace.AddTrace(trace);
-                }
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+                throw;
+            }
+            finally
+            {
+                TimeSpan duration = DateTime.UtcNow - start;
+                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTrace.AddTrace(trace);
             }
 
             return final;
@@ -548,51 +534,46 @@ namespace ProfitTM.Models
             string url = base_url + "DescargaArchivo";
             string data = JsonConvert.SerializeObject(download);
 
-            using (HttpClient client = new HttpClient())
+            HttpTraces trace = null;
+            DateTime start = DateTime.UtcNow;
+            Exception exception = null;
+
+            HttpRequestMessage request = null;
+            HttpResponseMessage response = null;
+            string reqContent = "", resContent = "";
+
+            try
             {
-                HttpTraces trace = null;
-                DateTime start = DateTime.UtcNow;
-                Exception exception = null;
+                request = new HttpRequestMessage(HttpMethod.Post, url);
+                StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                request.Content = stringContent;
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                reqContent = await stringContent.ReadAsStringAsync();
 
-                HttpRequestMessage request = null;
-                HttpResponseMessage response = null;
-                string reqContent = "", resContent = "";
+                response = await httpClient.SendAsync(request);
+                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                final = JsonConvert.DeserializeObject<ModelDownloadResponse>(resContent);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, url);
-                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
-                    request.Content = stringContent;
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    reqContent = await stringContent.ReadAsStringAsync();
-
-                    response = await client.SendAsync(request);
-                    resContent = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelDownloadResponse>(resContent);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        if (final.codigo != "200")
-                        {
-                            throw new DownloadException($"{final.mensaje} ** {final.codigo}");
-                        }
-                    }
-                    else
-                    {
-                        throw new DownloadException($"{response.StatusCode} ** {(int)response.StatusCode}");
-                    }
+                    if (final.codigo != "200")
+                        throw new DownloadException($"{final.mensaje} ** {final.codigo}");
                 }
-                catch (Exception ex)
+                else
                 {
-                    exception = ex;
-                    throw ex;
+                    throw new DownloadException($"{response.StatusCode} ** {(int)response.StatusCode}");
                 }
-                finally
-                {
-                    TimeSpan duration = DateTime.UtcNow - start;
-                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
-                    HttpTrace.AddTrace(trace);
-                }
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+                throw;
+            }
+            finally
+            {
+                TimeSpan duration = DateTime.UtcNow - start;
+                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTrace.AddTrace(trace);
             }
 
             return final;
@@ -604,57 +585,52 @@ namespace ProfitTM.Models
             string url = base_url + "Anular";
             string data = JsonConvert.SerializeObject(cancel);
 
-            using (HttpClient client = new HttpClient())
+            HttpTraces trace = null;
+            DateTime start = DateTime.UtcNow;
+            Exception exception = null;
+
+            HttpRequestMessage request = null;
+            HttpResponseMessage response = null;
+            string reqContent = "", resContent = "";
+
+            try
             {
-                HttpTraces trace = null;
-                DateTime start = DateTime.UtcNow;
-                Exception exception = null;
+                request = new HttpRequestMessage(HttpMethod.Post, url);
+                StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
+                request.Content = stringContent;
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                reqContent = await stringContent.ReadAsStringAsync();
 
-                HttpRequestMessage request = null;
-                HttpResponseMessage response = null;
-                string reqContent = "", resContent = "";
+                response = await httpClient.SendAsync(request);
+                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                final = JsonConvert.DeserializeObject<ModelCancelResponse>(resContent);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, url);
-                    StringContent stringContent = new StringContent(data, Encoding.UTF8, "application/json");
-                    request.Content = stringContent;
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    reqContent = await stringContent.ReadAsStringAsync();
+                    if (final.codigo != "200" && final.codigo != "203")
+                        throw new CancelException($"{final.mensaje} ** {final.codigo}");
 
-                    response = await client.SendAsync(request);
-                    resContent = await response.Content.ReadAsStringAsync();
-                    final = JsonConvert.DeserializeObject<ModelCancelResponse>(resContent);
-
-                    if (response.IsSuccessStatusCode)
+                    if (final.codigo == "203")
                     {
-                        if (final.codigo != "200" && final.codigo != "203")
-                        {
-                            throw new CancelException($"{final.mensaje} ** {final.codigo}");
-                        }
-
-                        if (final.codigo == "203")
-                        {
-                            if (final.validaciones != null && !final.validaciones.Contains("Documento ha sido anulada previamente"))
-                                throw new CancelException($"{final.validaciones[0]} ** {final.codigo}");
-                        }
-                    }
-                    else
-                    {
-                        throw new CancelException($"{response.StatusCode} ** {(int)response.StatusCode}");
+                        if (final.validaciones != null && !final.validaciones.Contains("Documento ha sido anulada previamente"))
+                            throw new CancelException($"{final.validaciones[0]} ** {final.codigo}");
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    exception = ex;
-                    throw ex;
+                    throw new CancelException($"{response.StatusCode} ** {(int)response.StatusCode}");
                 }
-                finally
-                {
-                    TimeSpan duration = DateTime.UtcNow - start;
-                    trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
-                    HttpTrace.AddTrace(trace);
-                }
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+                throw;
+            }
+            finally
+            {
+                TimeSpan duration = DateTime.UtcNow - start;
+                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTrace.AddTrace(trace);
             }
 
             return final;
