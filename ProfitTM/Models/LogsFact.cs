@@ -10,14 +10,8 @@ namespace ProfitTM.Models
 {
     public class LogsFact
     {
-        public const int PendingStatus = 0;
-        public const int SentStatus = 1;
-        public const int ErrorStatus = 2;
-        public const int WaitingStatus = 3;
-        public const int CancelledStatus = 4;
-        public const int ProcessingStatus = 5;
-        public const int ControlPendingStatus = 6;
-        private const int ProcessingTimeoutMinutes = 15;
+        private const int PROCESSING_TIMEOUT_MINUTES = 15;
+        private const int SQL_COMMAND_TIMEOUT_SECONDS = 15;
 
         public static LogsFactOnline GetLogByID(string l, int conn)
         {
@@ -49,7 +43,7 @@ namespace ProfitTM.Models
 
             using (ProfitTMEntities db = new ProfitTMEntities())
             {
-                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status != SentStatus && l.Status != CancelledStatus && l.Status != ProcessingStatus)
+                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.Status != (int)LogStatus.SENTSTATUS && l.Status != (int)LogStatus.CANCELLEDSTATUS && l.Status != (int)LogStatus.PROCESSINGSTATUS)
                     .OrderBy(l => l.DateInserted).ThenBy(l => l.NroFact).ToList();
             }
 
@@ -62,10 +56,11 @@ namespace ProfitTM.Models
 
             using (ProfitTMEntities db = new ProfitTMEntities())
             {
+                db.Database.CommandTimeout = SQL_COMMAND_TIMEOUT_SECONDS;
                 RecoverStaleProcessingLogs(db);
 
                 var candidates = db.LogsFactOnline.AsNoTracking()
-                    .Where(l => l.Status != SentStatus && l.Status != CancelledStatus && l.Status != ProcessingStatus)
+                    .Where(l => l.Status != (int)LogStatus.SENTSTATUS && l.Status != (int)LogStatus.CANCELLEDSTATUS && l.Status != (int)LogStatus.PROCESSINGSTATUS)
                     .OrderBy(l => l.DateInserted)
                     .ThenBy(l => l.NroFact)
                     .Take(batchSize)
@@ -74,21 +69,31 @@ namespace ProfitTM.Models
                 foreach (LogsFactOnline candidate in candidates)
                 {
                     DateTime triedAt = DateTime.Now;
-                    int affected = db.Database.ExecuteSqlCommand(@"
-                        UPDATE LogsFactOnline
-                        SET Status = @processingStatus,
-                            Times = ISNULL(Times, 0) + 1,
-                            DateTried = @dateTried,
-                            Message = @message
-                        WHERE NroFact = @nroFact
-                          AND ConnID = @connId
-                          AND Status = @currentStatus",
-                        new SqlParameter("@processingStatus", ProcessingStatus),
-                        new SqlParameter("@dateTried", triedAt),
-                        new SqlParameter("@message", "PROCESSING"),
-                        new SqlParameter("@nroFact", candidate.NroFact),
-                        new SqlParameter("@connId", candidate.ConnID),
-                        new SqlParameter("@currentStatus", candidate.Status));
+                    int affected = 0;
+
+                    try
+                    {
+                        affected = db.Database.ExecuteSqlCommand(@"
+                            UPDATE LogsFactOnline
+                            SET Status = @processingStatus,
+                                Times = ISNULL(Times, 0) + 1,
+                                DateTried = @dateTried,
+                                Message = @message
+                            WHERE NroFact = @nroFact
+                              AND ConnID = @connId
+                              AND Status = @currentStatus",
+                            new SqlParameter("@processingStatus", (int)LogStatus.PROCESSINGSTATUS),
+                            new SqlParameter("@dateTried", triedAt),
+                            new SqlParameter("@message", "PROCESSING"),
+                            new SqlParameter("@nroFact", candidate.NroFact),
+                            new SqlParameter("@connId", candidate.ConnID),
+                            new SqlParameter("@currentStatus", candidate.Status));
+                    }
+                    catch (Exception ex)
+                    {
+                        Incident.CreateIncident($"ERROR RECLAMANDO LOG {candidate.NroFact} ({candidate.ConnID})", ex);
+                        continue;
+                    }
 
                     if (affected == 1)
                     {
@@ -105,21 +110,38 @@ namespace ProfitTM.Models
 
         private static void RecoverStaleProcessingLogs(ProfitTMEntities db)
         {
-            DateTime cutoff = DateTime.Now.AddMinutes(-ProcessingTimeoutMinutes);
+            DateTime cutoff = DateTime.Now.AddMinutes(-PROCESSING_TIMEOUT_MINUTES);
 
-            int recovered = db.Database.ExecuteSqlCommand(@"
-                UPDATE LogsFactOnline
-                SET Status = @pendingStatus,
-                    Message = @message
-                WHERE Status = @processingStatus
-                  AND DateTried < @cutoff",
-                new SqlParameter("@pendingStatus", PendingStatus),
-                new SqlParameter("@message", "RECOVERED AFTER PROCESSING TIMEOUT"),
-                new SqlParameter("@processingStatus", ProcessingStatus),
-                new SqlParameter("@cutoff", cutoff));
+            try
+            {
+                bool hasStaleProcessingLogs = db.LogsFactOnline.AsNoTracking().Any(l =>
+                    l.Status == (int)LogStatus.PROCESSINGSTATUS &&
+                    l.DateTried != null &&
+                    l.DateTried < cutoff);
 
-            if (recovered > 0)
-                CreateLogInFile($"[RECOVERY] Se recuperaron {recovered} logs atascados en PROCESANDO.");
+                if (!hasStaleProcessingLogs)
+                    return;
+
+                int recovered = db.Database.ExecuteSqlCommand(@"
+                    UPDATE LogsFactOnline
+                    SET Status = @pendingStatus,
+                        Message = @message
+                    WHERE Status = @processingStatus
+                      AND DateTried IS NOT NULL
+                      AND DateTried < @cutoff",
+                    new SqlParameter("@pendingStatus", (int)LogStatus.PENDINGSTATUS),
+                    new SqlParameter("@message", "RECOVERED AFTER PROCESSING TIMEOUT"),
+                    new SqlParameter("@processingStatus", (int)LogStatus.PROCESSINGSTATUS),
+                    new SqlParameter("@cutoff", cutoff));
+
+                if (recovered > 0)
+                    CreateLogInFile($"[RECOVERY] Se recuperaron {recovered} logs atascados en PROCESANDO.");
+            }
+            catch (Exception ex)
+            {
+                Incident.CreateIncident("ERROR RECOVERING STALE PROCESSING LOGS", ex);
+                CreateLogInFile("[RECOVERY] La recuperacion de logs atascados fallo; se continuara con el reclamo de pendientes.");
+            }
         }
 
         public static LogsFactOnline Add(saFacturaVenta i, int conn, string json, string serie)
@@ -130,7 +152,7 @@ namespace ProfitTM.Models
                 Serie = serie,
                 ConnID = conn,
                 BodyJson = json,
-                Status = 0,
+                Status = (int)LogStatus.PENDINGSTATUS,
                 Times = 0,
                 DateInserted = DateTime.Now
             };
@@ -165,12 +187,12 @@ namespace ProfitTM.Models
 
         public static bool IsBlockedForManualEdit(int status)
         {
-            return status == SentStatus || status == CancelledStatus || status == ProcessingStatus || status == ControlPendingStatus;
+            return status == (int)LogStatus.SENTSTATUS || status == (int)LogStatus.CANCELLEDSTATUS || status == (int)LogStatus.PROCESSINGSTATUS || status == (int)LogStatus.CONTROLPENDINGSTATUS;
         }
 
         public static bool RequiresControlSync(LogsFactOnline log)
         {
-            return log != null && log.Status == ControlPendingStatus && !string.IsNullOrWhiteSpace(log.NroControl);
+            return log != null && log.Status == (int)LogStatus.CONTROLPENDINGSTATUS && !string.IsNullOrWhiteSpace(log.NroControl);
         }
 
         public static void CreateProcessingTrace(LogsFactOnline log, string stage, string message)

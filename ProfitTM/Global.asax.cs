@@ -160,14 +160,14 @@ namespace ProfitTM
                             {
                                 LogsFact.CreateProcessingTrace(log, "CONTROL_SYNC", $"Reintentando actualizacion local con n_control {log.NroControl}");
                                 Invoice.UpdateControl(log, log.NroControl);
-                                log.Status = LogsFact.SentStatus;
+                                log.Status = (int)LogStatus.SENTSTATUS;
                                 log.Message = "CONTROL UPDATED";
                                 log.HttpCode = string.IsNullOrEmpty(log.HttpCode) ? "200" : log.HttpCode;
                                 LogsFact.CreateProcessingTrace(log, "CONTROL_SYNC", "Actualizacion local completada sin reenvio a ATF");
                             }
                             catch (Exception ex)
                             {
-                                log.Status = LogsFact.ControlPendingStatus;
+                                log.Status = (int)LogStatus.CONTROLPENDINGSTATUS;
                                 log.Message = $"CONTROL PENDING: {ex.Message}";
                                 LogsFact.CreateProcessingTrace(log, "CONTROL_SYNC_RETRY_FAILED", ex.Message);
                             }
@@ -195,20 +195,20 @@ namespace ProfitTM
                             try
                             {
                                 Invoice.UpdateControl(log, log.NroControl);
-                                log.Status = LogsFact.SentStatus;
+                                log.Status = (int)LogStatus.SENTSTATUS;
                                 log.Message = "OK";
                                 LogsFact.CreateProcessingTrace(log, "CONTROL_UPDATED", $"Control {log.NroControl} aplicado localmente");
                             }
                             catch (Exception ex)
                             {
-                                log.Status = LogsFact.ControlPendingStatus;
+                                log.Status = (int)LogStatus.CONTROLPENDINGSTATUS;
                                 log.Message = $"CONTROL PENDING: {ex.Message}";
                                 LogsFact.CreateProcessingTrace(log, "CONTROL_PENDING", ex.Message);
                             }
                         }
                         else if (info.codigo == "203" || info.codigo == "400")
                         {
-                            if (log.Status != LogsFact.WaitingStatus)
+                            if (log.Status != (int)LogStatus.WAITINGSTATUS)
                             {
                                 ModelAssignRequest assign = new ModelAssignRequest()
                                 {
@@ -225,7 +225,7 @@ namespace ProfitTM
                                 };
                                 ModelAssignResponse response = await new Root().SendAssign(assign, conn.Token);
 
-                                log.Status = LogsFact.WaitingStatus; // WAITING
+                                log.Status = (int)LogStatus.WAITINGSTATUS; // WAITING
                                 log.Message = "WAITING FOR RE-SEND";
                                 log.HttpCode = info.codigo;
                                 LogsFact.CreateProcessingTrace(log, "ASSIGN_WAIT", $"ATF respondio {info.codigo}. Numeracion solicitada.");
@@ -245,7 +245,7 @@ namespace ProfitTM
                     }
                     catch (AuthenticationException ex)
                     {
-                        log.Status = LogsFact.ErrorStatus; // ERROR AUTHENTICATION
+                        log.Status = (int)LogStatus.ERRORSTATUS; // ERROR AUTHENTICATION
                         log.Message = ex.Message;
                         log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
 
@@ -253,7 +253,7 @@ namespace ProfitTM
                     }
                     catch (InformationException ex)
                     {
-                        log.Status = LogsFact.ErrorStatus; // ERROR INFORMATION
+                        log.Status = (int)LogStatus.ERRORSTATUS; // ERROR INFORMATION
                         log.Message = ex.Message;
                         log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
 
@@ -261,7 +261,7 @@ namespace ProfitTM
                     }
                     catch (AssignmentException ex)
                     {
-                        log.Status = LogsFact.ErrorStatus; // ERROR ASSIGNMENT
+                        log.Status = (int)LogStatus.ERRORSTATUS; // ERROR ASSIGNMENT
                         log.Message = ex.Message;
                         log.HttpCode = ex.Message.Split(new string[] { " ** " }, StringSplitOptions.RemoveEmptyEntries)[1];
 
@@ -269,7 +269,7 @@ namespace ProfitTM
                     }
                     catch (Exception ex)
                     {
-                        log.Status = LogsFact.ErrorStatus; // ERROR GENERAL
+                        log.Status = (int)LogStatus.ERRORSTATUS; // ERROR GENERAL
                         log.Message = ex.Message;
 
                         Incident.CreateIncident("ERROR GENERAL EN CONSUMO DE ATF", ex);
@@ -279,7 +279,7 @@ namespace ProfitTM
                         LogsFact.Edit(log); // ACTUALIZAR ESTADO DEL LOG
                     }
 
-                    if (log.Status == LogsFact.ErrorStatus)
+                    if (log.Status == (int)LogStatus.ERRORSTATUS)
                         conn_error.Add(log.ConnID);
                 }
             }

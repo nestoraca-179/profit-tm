@@ -1106,7 +1106,7 @@ namespace ProfitTM.Controllers
                     throw new Exception("El log no se puede editar en su estado actual.");
 
                 log.BodyJson = JsonConvert.SerializeObject(info);
-                log.Status = LogsFact.PendingStatus;
+                log.Status = (int)LogStatus.PENDINGSTATUS;
                 log.Message = "UPDATED MANUALLY";
 
                 LogsFactOnline new_log = LogsFact.Edit(log);
