@@ -806,17 +806,6 @@ namespace ProfitTM.Models
 
                                 fact.n_control = n_control;
                                 context.Entry(fact).State = EntityState.Modified;
-
-                                //string currentControlFact = (fact.n_control ?? string.Empty).Trim();
-                                //string nextControl = (n_control ?? string.Empty).Trim();
-                                //if (!string.IsNullOrEmpty(currentControlFact) && currentControlFact != nextControl)
-                                //    throw new Exception($"La factura {log.NroFact} ya tiene n_control {currentControlFact} y no coincide con {nextControl}.");
-
-                                //if (currentControlFact != nextControl)
-                                //{
-                                //    fact.n_control = n_control;
-                                //    context.Entry(fact).State = EntityState.Modified;
-                                //}
                             }
 
                             saDocumentoVenta doc = context.saDocumentoVenta.SingleOrDefault(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
@@ -825,17 +814,6 @@ namespace ProfitTM.Models
 
                             doc.n_control = n_control;
                             context.Entry(doc).State = EntityState.Modified;
-
-                            //string currentControlDoc = (doc.n_control ?? string.Empty).Trim();
-                            //string requestedControl = (n_control ?? string.Empty).Trim();
-                            //if (!string.IsNullOrEmpty(currentControlDoc) && currentControlDoc != requestedControl)
-                            //    throw new Exception($"El documento {nro_doc} ya tiene n_control {currentControlDoc} y no coincide con {requestedControl}.");
-
-                            //if (currentControlDoc != requestedControl)
-                            //{
-                            //    doc.n_control = n_control;
-                            //    context.Entry(doc).State = EntityState.Modified;
-                            //}
 
                             context.SaveChanges();
                             tran.Commit();

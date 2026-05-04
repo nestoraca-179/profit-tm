@@ -83,9 +83,7 @@ namespace ProfitTM
         protected void Application_PostAuthorizeRequest()
         {
             if (IsWebApiRequest())
-            {
                 HttpContext.Current.SetSessionStateBehavior(SessionStateBehavior.Required);
-            }
         }
 
         protected void Application_Disposed()
