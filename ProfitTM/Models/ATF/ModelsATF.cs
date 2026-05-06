@@ -347,7 +347,7 @@ namespace ProfitTM.Models
             string url = base_url + "Emision";
             string data = log.BodyJson;
 
-            HttpTraces trace = null;
+            HttpTraces trace;
             DateTime start = DateTime.UtcNow;
             Exception exception = null;
 
@@ -425,7 +425,7 @@ namespace ProfitTM.Models
             string url = base_url + "AsignarNumeraciones";
             string data = JsonConvert.SerializeObject(assign);
 
-            HttpTraces trace = null;
+            HttpTraces trace;
             DateTime start = DateTime.UtcNow;
             Exception exception = null;
 
