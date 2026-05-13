@@ -24,30 +24,38 @@ namespace ProfitTM.Models
 
         public static void CreateIncident(string titulo, Exception ex)
         {
-            string user = "SYSTEM";
-            if (HttpContext.Current != null)
+            try
             {
-                if (HttpContext.Current.Session != null)
+                string user = "SYSTEM";
+                if (HttpContext.Current != null)
                 {
-                    if (HttpContext.Current.Session["USER"] != null)
-                        user = (HttpContext.Current.Session["USER"] as Users).Username;
+                    if (HttpContext.Current.Session != null)
+                    {
+                        if (HttpContext.Current.Session["USER"] != null)
+                            user = (HttpContext.Current.Session["USER"] as Users).Username;
+                    }
+                }
+
+                Incidents error = new Incidents() {
+                    Titulo = titulo,
+                    Fecha = DateTime.Now,
+                    Usuario = user
+                };
+
+                while (ex.InnerException != null)
+                    ex = ex.InnerException;
+
+                error.Descripcion = string.Format("{0} -> {1} -> {2}", ex.Message, ex.StackTrace, ex.Source);
+                using (ProfitTMEntities context = new ProfitTMEntities())
+                {
+                    context.Incidents.Add(error);
+                    context.SaveChanges();
                 }
             }
-
-            Incidents error = new Incidents() {
-                Titulo = titulo,
-                Fecha = DateTime.Now,
-                Usuario = user
-            };
-
-            while (ex.InnerException != null)
-                ex = ex.InnerException;
-
-            error.Descripcion = string.Format("{0} -> {1} -> {2}", ex.Message, ex.StackTrace, ex.Source);
-            using (ProfitTMEntities context = new ProfitTMEntities())
+            catch (Exception e)
             {
-                context.Incidents.Add(error);
-                context.SaveChanges();
+                LogsFact.CreateProcessingTrace(log, "INCIDENT_ERROR", $"No se pudo registrar el incidente: {titulo} - {e.Message}");
+                // No se pudo registrar el incidente, no se puede hacer nada al respecto
             }
         }
     }

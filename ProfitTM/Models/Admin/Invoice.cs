@@ -793,6 +793,9 @@ namespace ProfitTM.Models
                     {
                         using (DbContextTransaction tran = context.Database.BeginTransaction()) // 21/01/2026
                         {
+                            LogsFact.CreateProcessingTrace(log, "UPDATING", $"Aplicando control {n_control} a documento {log.NroFact} (Intento {retryCount + 1})");
+                            LogsFact.CreateProcessingTrace(log, "INFO_DB", $"Server: {conn.Server}, Database: {context.Database}");
+
                             context.Database.CommandTimeout = 300;
                             bool isFact = !log.NroFact.Contains("N-");
                             string tip_doc = isFact ? "FACT" : "N/CR";
@@ -823,6 +826,7 @@ namespace ProfitTM.Models
                             if (updatedDoc.n_control != n_control)
                                 throw new Exception($"Error: n_control no se actualizó en saDocumentoVenta.");
 
+                            LogsFact.CreateProcessingTrace(log, "UPDATE_COMMITTED", $"Aplicado control {n_control} a documento {log.NroFact} con exito");
                             break;
                         }
                     }
