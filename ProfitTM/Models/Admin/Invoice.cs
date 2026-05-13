@@ -794,7 +794,7 @@ namespace ProfitTM.Models
                         using (DbContextTransaction tran = context.Database.BeginTransaction()) // 21/01/2026
                         {
                             LogsFact.CreateProcessingTrace(log, "UPDATING", $"Aplicando control {n_control} a documento {log.NroFact} (Intento {retryCount + 1})");
-                            LogsFact.CreateProcessingTrace(log, "INFO_DB", $"Server: {conn.Server}, Database: {context.Database}");
+                            LogsFact.CreateProcessingTrace(log, "INFO_DB", $"Server: {conn.Server}, Database: {context.Database.Connection.Database}");
 
                             context.Database.CommandTimeout = 300;
                             bool isFact = !log.NroFact.Contains("N-");
