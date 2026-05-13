@@ -122,17 +122,25 @@ namespace ProfitTM.Models
                 if (!hasStaleProcessingLogs)
                     return;
 
-                int recovered = db.Database.ExecuteSqlCommand(@"
+                string sql = @"
                     UPDATE LogsFactOnline
-                    SET Status = @pendingStatus,
-                        Message = @message
+                    SET Status = @pendingStatus, Message = @message
                     WHERE Status = @processingStatus
-                      AND DateTried IS NOT NULL
-                      AND DateTried < @cutoff",
-                    new SqlParameter("@pendingStatus", (int)LogStatus.PENDINGSTATUS),
-                    new SqlParameter("@message", "RECOVERED AFTER PROCESSING TIMEOUT"),
-                    new SqlParameter("@processingStatus", (int)LogStatus.PROCESSINGSTATUS),
-                    new SqlParameter("@cutoff", cutoff));
+                    AND DateTried IS NOT NULL AND DateTried < @cutoff";
+
+                int recovered = 0;
+                using (var conn = db.Database.Connection as SqlConnection)
+                {
+                    conn.Open();
+                    using (var cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@pendingStatus", (int)LogStatus.PENDINGSTATUS);
+                        cmd.Parameters.AddWithValue("@message", "RECOVERED AFTER PROCESSING TIMEOUT");
+                        cmd.Parameters.AddWithValue("@processingStatus", (int)LogStatus.PROCESSINGSTATUS);
+                        cmd.Parameters.AddWithValue("@cutoff", cutoff);
+                        recovered = cmd.ExecuteNonQuery();
+                    }
+                }
 
                 if (recovered > 0)
                     CreateLogInFile($"[RECOVERY] Se recuperaron {recovered} logs atascados en PROCESANDO.");
