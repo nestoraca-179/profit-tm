@@ -54,7 +54,7 @@ namespace ProfitTM.Models
             }
             catch (Exception e)
             {
-                LogsFact.CreateProcessingTrace(log, "INCIDENT_ERROR", $"No se pudo registrar el incidente: {titulo} - {e.Message}");
+                LogsFact.CreateLogInFile($"INCIDENT_ERROR - No se pudo registrar el incidente: {titulo} - {e.Message}");
                 // No se pudo registrar el incidente, no se puede hacer nada al respecto
             }
         }
