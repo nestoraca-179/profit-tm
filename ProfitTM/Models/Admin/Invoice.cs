@@ -807,16 +807,21 @@ namespace ProfitTM.Models
                                 if (fact == null)
                                     throw new Exception($"Factura {log.NroFact} no encontrada.");
 
-                                fact.n_control = n_control;
-                                context.Entry(fact).State = EntityState.Modified;
+                                // fact.n_control = n_control;
+                                // context.Entry(fact).State = EntityState.Modified;
+                                context.Database.ExecuteSqlCommand("UPDATE saFacturaVenta SET n_control = @p0 WHERE doc_num = @p1", n_control, log.NroFact);
                             }
 
                             saDocumentoVenta doc = context.saDocumentoVenta.SingleOrDefault(d => d.co_tipo_doc == tip_doc && d.nro_doc == nro_doc);
                             if (doc == null)
                                 throw new Exception($"Documento {nro_doc} (tipo {tip_doc}) no encontrado.");
 
-                            doc.n_control = n_control;
-                            context.Entry(doc).State = EntityState.Modified;
+                            // doc.n_control = n_control;
+                            // context.Entry(doc).State = EntityState.Modified;
+                            context.Database.ExecuteSqlCommand(
+                                "UPDATE saDocumentoVenta SET n_control = @p0 WHERE co_tipo_doc = @p1 AND nro_doc = @p2",
+                                n_control, tip_doc, nro_doc
+                            );
 
                             context.SaveChanges();
                             tran.Commit();
