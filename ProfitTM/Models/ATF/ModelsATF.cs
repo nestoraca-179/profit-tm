@@ -29,7 +29,7 @@ namespace ProfitTM.Models
         public string GetJsonInvoiceInfo(saFacturaVenta i, string serie)
         {
             Root root = new Root();
-            saCliente c = i.saCliente;
+            saCliente client = i.saCliente;
             bool isFrg = i.co_cli.StartsWith("FR") || i.co_cli.StartsWith("0");
 
             string result = "";
@@ -61,15 +61,15 @@ namespace ProfitTM.Models
                         },
                         comprador = new Comprador()
                         {
-                            tipoIdentificacion = isFrg ? "E" : c.rif.Substring(0, 1),
-                            numeroIdentificacion = isFrg ? c.rif : c.rif.Substring(1).Trim(),
-                            razonSocial = c.cli_des.Trim(),
-                            direccion = c.direc1.Trim(),
+                            tipoIdentificacion = isFrg ? "E" : client.rif.Substring(0, 1),
+                            numeroIdentificacion = isFrg ? client.rif : client.rif.Substring(1).Trim(),
+                            razonSocial = client.cli_des.Trim(),
+                            direccion = client.direc1?.Trim(),
                             ubigeo = null,
                             pais = "VE",
                             notificar = "No",
-                            telefono = new List<string>() { c.telefonos },
-                            correo = GetEmails(c),
+                            telefono = new List<string>() { client.telefonos },
+                            correo = GetEmails(client),
                         },
                         totales = new Totales()
                         {
@@ -138,10 +138,10 @@ namespace ProfitTM.Models
                             totalBaseImponible = i.total_bruto.ToString().Replace(",", "."),
                             numeroCompRetencion = "1",
                             fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
-                            totalIVA = Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
+                            totalIVA = Math.Round(i.monto_imp * ((client.contribu_e ? client.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
                             totalISRL = Math.Round((i.total_bruto * 2) / 100, 2).ToString().Replace(",", "."),
                             totalRetenido = (
-                                Math.Round(i.monto_imp * ((c.contribu_e ? c.porc_esp : 75) / 100), 2) +
+                                Math.Round(i.monto_imp * ((client.contribu_e ? client.porc_esp : 75) / 100), 2) +
                                 Math.Round((i.total_bruto * 2) / 100, 2)
                             ).ToString().Replace(",", ".")
                         },
@@ -249,7 +249,7 @@ namespace ProfitTM.Models
                 };
 
                 // EXCEPCION EIR CONTROL 17/12/2024
-                if (c.co_cli.Trim() == "J298508086")
+                if (client.co_cli.Trim() == "J298508086")
 				{
                     // TOTALES
                     root.documentoElectronico.encabezado.totalesOtraMoneda.tipoCambio = "0.00";
@@ -286,6 +286,8 @@ namespace ProfitTM.Models
             catch (Exception ex)
             {
                 Incident.CreateIncident(string.Format("ERROR CREANDO JSON FACT {0}", i.doc_num), ex);
+                if (string.IsNullOrEmpty(client.direc1))
+                    Incident.CreateIncident(string.Format("CLIENTE {0} SIN DIRECCION", client.co_cli), null);
             }
 
             return result;
@@ -584,14 +586,12 @@ namespace ProfitTM.Models
             ModelCancelResponse final = new ModelCancelResponse();
             string url = base_url + "Anular";
             string data = JsonConvert.SerializeObject(cancel);
-
-            HttpTraces trace = null;
-            DateTime start = DateTime.UtcNow;
+			DateTime start = DateTime.UtcNow;
             Exception exception = null;
 
             HttpRequestMessage request = null;
             HttpResponseMessage response = null;
-            string reqContent = "", resContent = "";
+			string reqContent = "";
 
             try
             {
@@ -602,8 +602,8 @@ namespace ProfitTM.Models
                 reqContent = await stringContent.ReadAsStringAsync();
 
                 response = await httpClient.SendAsync(request);
-                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
-                final = JsonConvert.DeserializeObject<ModelCancelResponse>(resContent);
+				string resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+				final = JsonConvert.DeserializeObject<ModelCancelResponse>(resContent);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -612,7 +612,7 @@ namespace ProfitTM.Models
 
                     if (final.codigo == "203")
                     {
-                        if (final.validaciones != null && !final.validaciones.Contains("Documento ha sido anulada previamente"))
+                        if (final.validaciones != null && !final.validaciones.Contains("Documento ha sido anulado previamente."))
                             throw new CancelException($"{final.validaciones[0]} ** {final.codigo}");
                     }
                 }
@@ -629,8 +629,8 @@ namespace ProfitTM.Models
             finally
             {
                 TimeSpan duration = DateTime.UtcNow - start;
-                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
-                HttpTrace.AddTrace(trace);
+				HttpTraces trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+				HttpTrace.AddTrace(trace);
             }
 
             return final;
