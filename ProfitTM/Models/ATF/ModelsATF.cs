@@ -1,8 +1,10 @@
 ﻿using ProfitTM.Controllers;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -19,11 +21,76 @@ namespace ProfitTM.Models
 
         public DocumentoElectronico documentoElectronico { get; set; }
 
+        private static readonly ConcurrentDictionary<int, SemaphoreSlim> tokenLocks = new ConcurrentDictionary<int, SemaphoreSlim>();
+
         private static HttpClient CreateHttpClient()
         {
             HttpClient client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(100);
             return client;
+        }
+
+        /// <summary>
+        /// Devuelve un token valido para la conexion, autenticando contra Imprenta Digital solo si hace falta.
+        /// Cada funcion operativa la llama por su cuenta, de modo que el token nunca se recibe como parametro.
+        /// </summary>
+        private async Task<string> EnsureTokenAsync(Connections conn)
+        {
+            if (conn == null)
+                throw new AuthenticationException("Conexion no encontrada ** 0");
+
+            if (!conn.UseFactOnline)
+                throw new AuthenticationException($"La conexion {conn.ID} no tiene habilitada la facturacion electronica ** 0");
+
+            if (HasValidToken(conn))
+                return conn.Token;
+
+            // Un semaforo por conexion: si varias operaciones coinciden con el token vencido,
+            // solo la primera se autentica y las demas reutilizan el token recien guardado.
+            SemaphoreSlim tokenLock = tokenLocks.GetOrAdd(conn.ID, _ => new SemaphoreSlim(1, 1));
+            await tokenLock.WaitAsync();
+
+            try
+            {
+                Connections current = Connection.GetConnByID(conn.ID.ToString());
+                if (current == null)
+                    throw new AuthenticationException($"Conexion {conn.ID} no encontrada ** 0");
+
+                if (HasValidToken(current))
+                    return current.Token;
+
+                ModelAuthRequest auth = new ModelAuthRequest()
+                {
+                    usuario = current.UserToken,
+                    clave = current.PassToken
+                };
+
+                ModelAuthResponse response = await SendAuth(auth);
+                if (response.codigo != 200)
+                    throw new AuthenticationException($"{response.mensaje} ** {response.codigo}");
+
+                current.Token = response.token;
+                current.DateToken = response.expiracion.AddHours(-4);
+
+                ProfitTMResponse editResult = Connection.Edit(current);
+                if (editResult.Status != "OK")
+                    throw new AuthenticationException($"{editResult.Message ?? $"No se pudo actualizar el token de la conexion {current.ID}"} ** 0");
+
+                // Se refresca el objeto recibido para que el llamador no siga con el token viejo.
+                conn.Token = current.Token;
+                conn.DateToken = current.DateToken;
+
+                return current.Token;
+            }
+            finally
+            {
+                tokenLock.Release();
+            }
+        }
+
+        private static bool HasValidToken(Connections conn)
+        {
+            return conn != null && !string.IsNullOrEmpty(conn.Token) && conn.DateToken != null && DateTime.Now <= conn.DateToken;
         }
 
         public string GetJsonInvoiceInfo(saFacturaVenta i, string serie)
@@ -291,7 +358,7 @@ namespace ProfitTM.Models
             return result;
         }
 
-        public async Task<ModelAuthResponse> SendAuth(ModelAuthRequest auth)
+        private async Task<ModelAuthResponse> SendAuth(ModelAuthRequest auth)
         {
             ModelAuthResponse final = new ModelAuthResponse();
             string url = base_url + "Autenticacion";
@@ -341,11 +408,12 @@ namespace ProfitTM.Models
             return final;
         }
 
-        public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, string token)
+        public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, Connections conn)
         {
             ModelInvoiceInfoResponse final = new ModelInvoiceInfoResponse();
             string url = base_url + "Emision";
             string data = log.BodyJson;
+            string token = await EnsureTokenAsync(conn);
 
             HttpTraces trace;
             DateTime start = DateTime.UtcNow;
@@ -419,11 +487,12 @@ namespace ProfitTM.Models
 
         }
 
-        public async Task<ModelAssignResponse> SendAssign(ModelAssignRequest assign, string token)
+        public async Task<ModelAssignResponse> SendAssign(ModelAssignRequest assign, Connections conn)
         {
             ModelAssignResponse final = new ModelAssignResponse();
             string url = base_url + "AsignarNumeraciones";
             string data = JsonConvert.SerializeObject(assign);
+            string token = await EnsureTokenAsync(conn);
 
             HttpTraces trace;
             DateTime start = DateTime.UtcNow;
@@ -477,11 +546,12 @@ namespace ProfitTM.Models
             return final;
         }
 
-        public async Task<ModelSendResponse> SendEmail(ModelSendRequest send, string token)
+        public async Task<ModelSendResponse> SendEmail(ModelSendRequest send, Connections conn)
         {
             ModelSendResponse final = new ModelSendResponse();
             string url = base_url + "Correo/Enviar";
             string data = JsonConvert.SerializeObject(send);
+            string token = await EnsureTokenAsync(conn);
 
             HttpTraces trace = null;
             DateTime start = DateTime.UtcNow;
@@ -528,11 +598,12 @@ namespace ProfitTM.Models
             return final;
         }
 
-        public async Task<ModelDownloadResponse> DownloadInvoice(ModelDownloadRequest download, string token)
+        public async Task<ModelDownloadResponse> DownloadInvoice(ModelDownloadRequest download, Connections conn)
         {
             ModelDownloadResponse final = new ModelDownloadResponse();
             string url = base_url + "DescargaArchivo";
             string data = JsonConvert.SerializeObject(download);
+            string token = await EnsureTokenAsync(conn);
 
             HttpTraces trace = null;
             DateTime start = DateTime.UtcNow;
@@ -579,11 +650,12 @@ namespace ProfitTM.Models
             return final;
         }
 
-        public async Task<ModelCancelResponse> CancelInvoice(ModelCancelRequest cancel, string token)
+        public async Task<ModelCancelResponse> CancelInvoice(ModelCancelRequest cancel, Connections conn)
         {
             ModelCancelResponse final = new ModelCancelResponse();
             string url = base_url + "Anular";
             string data = JsonConvert.SerializeObject(cancel);
+            string token = await EnsureTokenAsync(conn);
 
             HttpTraces trace = null;
             DateTime start = DateTime.UtcNow;

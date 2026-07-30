@@ -643,7 +643,7 @@ namespace ProfitTM.Models
 						fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
 						horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt", new CultureInfo("en-US")).ToLower()
 					};
-					ModelCancelResponse response = await new Root().CancelInvoice(request, conn.Token);
+					ModelCancelResponse response = await new Root().CancelInvoice(request, conn);
 				}
 
 				foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)

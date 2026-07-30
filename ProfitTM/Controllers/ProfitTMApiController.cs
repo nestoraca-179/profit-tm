@@ -804,9 +804,6 @@ namespace ProfitTM.Controllers
 
             try
             {
-                if (conn.UseFactOnline)
-                    conn = await Connection.EnsureValidTokenAsync(conn);
-
                 await new Invoice().SetCancelledAsync(id, user, serie, conn);
 
                 response.Status = "OK";
@@ -1135,9 +1132,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                conn = await Connection.EnsureValidTokenAsync(conn);
-
-                ModelSendResponse res = await new Root().SendEmail(request, conn.Token);
+                ModelSendResponse res = await new Root().SendEmail(request, conn);
 
                 response.Status = "OK";
                 response.Result = res;
@@ -1163,9 +1158,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                conn = await Connection.EnsureValidTokenAsync(conn);
-
-                ModelDownloadResponse res = await new Root().DownloadInvoice(request, conn.Token);
+                ModelDownloadResponse res = await new Root().DownloadInvoice(request, conn);
 
                 response.Status = "OK";
                 response.Result = res;
