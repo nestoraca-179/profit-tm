@@ -335,7 +335,7 @@ namespace ProfitTM.Models
             return obj;
         }
 
-        public saFacturaVenta AddSaleInvoice(saFacturaVenta invoice, string user, string sucur, int conn, bool fromOrder)
+        public async Task<saFacturaVenta> AddSaleInvoiceAsync(saFacturaVenta invoice, string user, string sucur, int conn, bool fromOrder)
         {
             string numberInvoiceGenerated = string.Empty;
             saFacturaVenta new_invoice = new saFacturaVenta();
@@ -407,14 +407,35 @@ namespace ProfitTM.Models
                         new_invoice.saCondicionPago = context.saCondicionPago.AsNoTracking().Single(c => c.co_cond.Trim() == new_invoice.co_cond.Trim());
                         new_invoice.saVendedor = context.saVendedor.AsNoTracking().Single(s => s.co_ven.Trim() == new_invoice.co_ven.Trim());
 
-                        if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
+                        // FACTURACION ELECTRONICA: el numero de control se pide en el momento.
+                        // Si no se obtiene, la transaccion completa se revierte y la factura no existe.
+                        Connections connection = Connection.GetConnByID(conn.ToString());
+
+                        if (connection != null && connection.UseFactOnline && !n_fact.StartsWith("D"))
                         {
-                            if (!n_fact.StartsWith("D"))
+                            string serie = new Branch().GetBranchByID(sucur).campo2;
+                            string json = new Root().GetJsonInvoiceInfo(new_invoice, serie);
+
+                            ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(json, connection);
+                            string codigo = (info.codigo ?? string.Empty).Trim();
+
+                            if (codigo != "200" && codigo != "201")
                             {
-                                string serie = new Branch().GetBranchByID(sucur).campo2;
-                                string json = new Root().GetJsonInvoiceInfo(new_invoice, serie);
-                                LogsFact.Add(new_invoice, conn, json, serie);
+                                string detalle = Root.FormatValidations(info.validaciones);
+                                if (string.IsNullOrWhiteSpace(detalle))
+                                    detalle = info.mensaje;
+
+                                throw new InformationException($"La factura {n_fact} no fue aceptada por Imprenta Digital: {detalle}");
                             }
+
+                            string n_control_asignado = info.resultado?.numeroControl;
+                            if (string.IsNullOrWhiteSpace(n_control_asignado))
+                                throw new InformationException($"Imprenta Digital acepto la factura {n_fact} pero no retorno numero de control.");
+
+                            context.Database.ExecuteSqlCommand("UPDATE saFacturaVenta SET n_control = @p0 WHERE doc_num = @p1", n_control_asignado, n_fact);
+                            context.Database.ExecuteSqlCommand("UPDATE saDocumentoVenta SET n_control = @p0 WHERE co_tipo_doc = @p1 AND nro_doc = @p2", n_control_asignado, "FACT", n_fact);
+
+                            new_invoice.n_control = n_control_asignado;
                         }
 
                         tran.Commit();

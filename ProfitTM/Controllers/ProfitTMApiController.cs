@@ -679,7 +679,7 @@ namespace ProfitTM.Controllers
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddInvoice/{fromOrder}")]
-        public ProfitTMResponse AddInvoice(int fromOrder, saFacturaVenta invoice)
+        public async Task<ProfitTMResponse> AddInvoice(int fromOrder, saFacturaVenta invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -689,7 +689,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saFacturaVenta new_invoice = new Invoice().AddSaleInvoice(invoice, user, sucur, conn, Convert.ToBoolean(fromOrder));
+                saFacturaVenta new_invoice = await new Invoice().AddSaleInvoiceAsync(invoice, user, sucur, conn, Convert.ToBoolean(fromOrder));
 
                 response.Status = "OK";
                 response.Result = new_invoice;

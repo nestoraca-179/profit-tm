@@ -175,7 +175,7 @@ namespace ProfitTM
 
                         Connections conn = Connection.GetConnByID(log.ConnID.ToString());
 
-                        ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log, conn);
+                        ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log.BodyJson, conn);
 
                         if (info.codigo == "200" || info.codigo == "201")
                         {

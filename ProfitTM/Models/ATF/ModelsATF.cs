@@ -410,11 +410,44 @@ namespace ProfitTM.Models
             return final;
         }
 
-        public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, Connections conn)
+        /// <summary>
+        /// Arma un mensaje legible a partir de las validaciones que devuelve Imprenta Digital.
+        /// Cada entrada llega con el formato "Campo: codigo|mensaje (Value: 'valor')".
+        /// </summary>
+        public static string FormatValidations(List<string> validaciones)
+        {
+            if (validaciones == null)
+                return string.Empty;
+
+            List<string> partes = new List<string>();
+
+            foreach (string v in validaciones)
+            {
+                if (string.IsNullOrWhiteSpace(v))
+                    continue;
+
+                string campo = v.Split(':')[0].Trim();
+                string detalle = v.Trim();
+
+                int barra = detalle.IndexOf('|');
+                if (barra >= 0)
+                    detalle = detalle.Substring(barra + 1).Trim();
+
+                int valor = detalle.IndexOf("(Value:", StringComparison.OrdinalIgnoreCase);
+                if (valor >= 0)
+                    detalle = detalle.Substring(0, valor).Trim();
+
+                partes.Add(string.IsNullOrEmpty(campo) || campo == detalle ? detalle : $"{campo}: {detalle}");
+            }
+
+            return string.Join(" | ", partes);
+        }
+
+        public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(string json, Connections conn)
         {
             ModelInvoiceInfoResponse final = new ModelInvoiceInfoResponse();
             string url = base_url + "Emision";
-            string data = log.BodyJson;
+            string data = json;
             string token = await EnsureTokenAsync(conn);
 
             HttpTraces trace;
