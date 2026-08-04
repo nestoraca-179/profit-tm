@@ -6,3 +6,6 @@ ProfitTM/Properties/
 ProfitTM/Logs/
 testing/
 www/
+
+# .config files
+*.config

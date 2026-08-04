@@ -511,10 +511,10 @@ namespace ProfitTM.Models
                         string n_cont = GetNextConsec(context, sucur, "N/CR_VTA_N_CON").Trim();
                         string dis_cen = "<InformacionContable><Carpeta01><CuentaContable>1.1.03.01.001</CuentaContable></Carpeta01></InformacionContable>";
 
-                        saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == doc_num.Trim());
-                        invoice.saFacturaVentaReng = context.saFacturaVentaReng.AsNoTracking().Where(r => r.doc_num.Trim() == doc_num.Trim()).ToList();
-                        invoice.saCliente = context.saCliente.AsNoTracking().Single(c => c.co_cli.Trim() == invoice.co_cli.Trim());
-                        saDocumentoVenta doc_v = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
+                        saFacturaVenta invoice = context.saFacturaVenta.Single(i => i.doc_num.Trim() == doc_num.Trim());
+                        invoice.saFacturaVentaReng = context.saFacturaVentaReng.Where(r => r.doc_num.Trim() == doc_num.Trim()).ToList();
+                        invoice.saCliente = context.saCliente.Single(c => c.co_cli.Trim() == invoice.co_cli.Trim());
+                        saDocumentoVenta doc_v = context.saDocumentoVenta.Single(d => d.co_tipo_doc == "FACT" && d.nro_doc == doc_num);
 
                         string expAccount = ExtractExpenseAccount(invoice.dis_cen);
                         if (!string.IsNullOrEmpty(expAccount))
@@ -532,13 +532,13 @@ namespace ProfitTM.Models
                         {
 							// CANCELANDO LA FACTURA
 							doc_v.saldo = 0;
-							context.Entry(doc_v).State = EntityState.Modified;
+							// context.Entry(doc_v).State = EntityState.Modified;
 
 							invoice.saldo = 0;
-							context.Entry(invoice).State = EntityState.Modified;
+							// context.Entry(invoice).State = EntityState.Modified;
 
 							// ANULACION DE DOCUMENTO IGTF
-							saDocumentoVenta ajpm_igtf = db.saDocumentoVenta.AsNoTracking().SingleOrDefault(d =>
+							saDocumentoVenta ajpm_igtf = db.saDocumentoVenta.SingleOrDefault(d =>
 								d.co_tipo_doc == "AJPM" &&
 								d.observa.Contains("IGTF") &&
 								d.observa.Contains(doc_num.Trim()) &&
@@ -550,7 +550,7 @@ namespace ProfitTM.Models
 								ajpm_igtf.anulado = true;
 								ajpm_igtf.saldo = 0;
 								ajpm_igtf.observa = ajpm_igtf.observa.Trim() + " | (ANULADO)";
-								context.Entry(ajpm_igtf).State = EntityState.Modified;
+								// context.Entry(ajpm_igtf).State = EntityState.Modified;
 							}
 
 							// COBRO CRUCE
@@ -618,19 +618,23 @@ namespace ProfitTM.Models
 
         public void SetPrinted(string id)
         {
-            saFacturaVenta invoice = db.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());
-            invoice.impresa = true;
+            saFacturaVenta invoice = db.saFacturaVenta.Single(i => i.doc_num.Trim() == id.Trim());
+            if (invoice.impresa || invoice.anulado || invoice.saldo <= 0)
+                return;
 
-            db.Entry(invoice).State = EntityState.Modified;
+            invoice.impresa = true;
             db.SaveChanges();
+
+            // db.Entry(invoice).State = EntityState.Modified;
+            // db.Entry(invoice).Property(f => f.impresa).IsModified = true;
         }
 
         public async Task SetCancelledAsync(string id, string user, string serie, Connections conn)
         {
             using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
             {
-				saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().Single(i => i.doc_num.Trim() == id.Trim());
-				saDocumentoVenta doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "FACT" && d.nro_doc.Trim() == id.Trim());
+				saFacturaVenta invoice = context.saFacturaVenta.Single(i => i.doc_num.Trim() == id.Trim());
+				saDocumentoVenta doc = context.saDocumentoVenta.Single(d => d.co_tipo_doc == "FACT" && d.nro_doc.Trim() == id.Trim());
 
 				if (conn.UseFactOnline && !invoice.doc_num.StartsWith("D"))
 				{
@@ -660,7 +664,7 @@ namespace ProfitTM.Models
 				doc.observa = doc.observa.Trim() + " | (ANULADO)";
 
 				// ANULACION DE DOCUMENTO IGTF
-				saDocumentoVenta ajpm_igtf = context.saDocumentoVenta.AsNoTracking().SingleOrDefault(d =>
+				saDocumentoVenta ajpm_igtf = context.saDocumentoVenta.SingleOrDefault(d =>
 					d.co_tipo_doc == "AJPM" &&
 					d.observa.Contains("IGTF") &&
 					d.observa.Contains(id.Trim()) &&
@@ -672,12 +676,13 @@ namespace ProfitTM.Models
 					ajpm_igtf.anulado = true;
 					ajpm_igtf.saldo = 0;
 					ajpm_igtf.observa = ajpm_igtf.observa.Trim() + " | (ANULADO)";
-					context.Entry(ajpm_igtf).State = EntityState.Modified;
+
+                    // context.Entry(ajpm_igtf).State = EntityState.Modified;
 					Step.CreateStep("saDocumentoVenta", ajpm_igtf.rowguid, user, "M", "ANULACION - " + id);
 				}
 
-				context.Entry(invoice).State = EntityState.Modified;
-				context.Entry(doc).State = EntityState.Modified;
+				// context.Entry(invoice).State = EntityState.Modified;;
+				// context.Entry(doc).State = EntityState.Modified;
 
 				Step.CreateStep("saFacturaVenta", invoice.rowguid, user, "M", "ANULACION - " + id);
 				Step.CreateStep("saDocumentoVenta", doc.rowguid, user, "M", "ANULACION - " + id);
