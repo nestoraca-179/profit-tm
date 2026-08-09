@@ -435,6 +435,7 @@ namespace ProfitTM.Models
                             context.Database.ExecuteSqlCommand("UPDATE saDocumentoVenta SET n_control = @p0 WHERE co_tipo_doc = @p1 AND nro_doc = @p2", assignedControlNumber, "FACT", n_fact);
 
                             new_invoice.n_control = assignedControlNumber;
+                            LogsFact.Insert(new_invoice, conn, json, serie);
                         }
 
                         tran.Commit();
@@ -597,7 +598,6 @@ namespace ProfitTM.Models
 						}
 
                         context.SaveChanges();
-                        tran.Commit();
                         new_doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "N/CR" && d.nro_doc == n_ncr);
 
                         if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
@@ -623,6 +623,8 @@ namespace ProfitTM.Models
                             invoice.doc_num = "N-" + n_ncr;
                             LogsFact.Add(invoice, conn, json, serie);
                         }
+
+                        tran.Commit();
                     }
                     catch (Exception ex)
                     {

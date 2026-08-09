@@ -360,13 +360,12 @@ namespace ProfitTM.Models
             string url = base_url + "Autenticacion";
             string data = JsonConvert.SerializeObject(auth);
 
-            HttpTraces trace = null;
             DateTime start = DateTime.UtcNow;
             Exception exception = null;
 
             HttpRequestMessage request = null;
             HttpResponseMessage response = null;
-            string reqContent = "", resContent = "";
+            string reqContent = "";
 
             try
             {
@@ -376,7 +375,7 @@ namespace ProfitTM.Models
                 reqContent = await stringContent.ReadAsStringAsync();
 
                 response = await httpClient.SendAsync(request);
-                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                string resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
                 final = JsonConvert.DeserializeObject<ModelAuthResponse>(resContent);
 
                 if (response.IsSuccessStatusCode)
@@ -397,7 +396,7 @@ namespace ProfitTM.Models
             finally
 			{
                 TimeSpan duration = DateTime.UtcNow - start;
-                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTraces trace  = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
                 HttpTrace.AddTrace(trace);
             }
 
@@ -411,13 +410,12 @@ namespace ProfitTM.Models
             string data = json;
             string token = await EnsureTokenAsync(conn);
 
-            HttpTraces trace;
             DateTime start = DateTime.UtcNow;
             Exception exception = null;
 
             HttpRequestMessage request = null;
             HttpResponseMessage response = null;
-            string reqContent = "", resContent = "";
+            string reqContent = "";
 
             try
             {
@@ -428,7 +426,7 @@ namespace ProfitTM.Models
                 reqContent = await stringContent.ReadAsStringAsync();
 
                 response = await httpClient.SendAsync(request);
-                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                string resContent  = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
 
                 if (string.IsNullOrWhiteSpace(resContent))
                     throw new InformationException("Respuesta vacia del servicio de emision");
@@ -477,7 +475,7 @@ namespace ProfitTM.Models
             finally
             {
                 TimeSpan duration = DateTime.UtcNow - start;
-                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTraces trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
                 HttpTrace.AddTrace(trace);
             }
 
@@ -490,13 +488,12 @@ namespace ProfitTM.Models
             string data = JsonConvert.SerializeObject(assign);
             string token = await EnsureTokenAsync(conn);
 
-            HttpTraces trace;
             DateTime start = DateTime.UtcNow;
             Exception exception = null;
 
             HttpRequestMessage request = null;
             HttpResponseMessage response = null;
-            string reqContent = "", resContent = "";
+            string reqContent = "";
 
             try
             {
@@ -507,7 +504,7 @@ namespace ProfitTM.Models
                 reqContent = await stringContent.ReadAsStringAsync();
 
                 response = await httpClient.SendAsync(request);
-                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                string resContent  = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
                 final = JsonConvert.DeserializeObject<ModelAssignResponse>(resContent);
 
                 if (response.IsSuccessStatusCode)
@@ -535,7 +532,7 @@ namespace ProfitTM.Models
             finally
             {
                 TimeSpan duration = DateTime.UtcNow - start;
-                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTraces trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
                 HttpTrace.AddTrace(trace);
             }
 
@@ -548,14 +545,13 @@ namespace ProfitTM.Models
             string url = base_url + "Correo/Enviar";
             string data = JsonConvert.SerializeObject(send);
             string token = await EnsureTokenAsync(conn);
-
-            HttpTraces trace = null;
+            
             DateTime start = DateTime.UtcNow;
             Exception exception = null;
 
             HttpRequestMessage request = null;
             HttpResponseMessage response = null;
-            string reqContent = "", resContent = "";
+            string reqContent = "";
 
             try
             {
@@ -566,7 +562,7 @@ namespace ProfitTM.Models
                 reqContent = await stringContent.ReadAsStringAsync();
 
                 response = await httpClient.SendAsync(request);
-                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                string resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
                 final = JsonConvert.DeserializeObject<ModelSendResponse>(resContent);
 
                 if (response.IsSuccessStatusCode)
@@ -587,7 +583,7 @@ namespace ProfitTM.Models
             finally
             {
                 TimeSpan duration = DateTime.UtcNow - start;
-                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTraces trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
                 HttpTrace.AddTrace(trace);
             }
 
@@ -601,13 +597,12 @@ namespace ProfitTM.Models
             string data = JsonConvert.SerializeObject(download);
             string token = await EnsureTokenAsync(conn);
 
-            HttpTraces trace = null;
             DateTime start = DateTime.UtcNow;
             Exception exception = null;
 
             HttpRequestMessage request = null;
             HttpResponseMessage response = null;
-            string reqContent = "", resContent = "";
+            string reqContent = "";
 
             try
             {
@@ -618,7 +613,7 @@ namespace ProfitTM.Models
                 reqContent = await stringContent.ReadAsStringAsync();
 
                 response = await httpClient.SendAsync(request);
-                resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                string resContent = response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
                 final = JsonConvert.DeserializeObject<ModelDownloadResponse>(resContent);
 
                 if (response.IsSuccessStatusCode)
@@ -639,7 +634,7 @@ namespace ProfitTM.Models
             finally
             {
                 TimeSpan duration = DateTime.UtcNow - start;
-                trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
+                HttpTraces trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
                 HttpTrace.AddTrace(trace);
             }
 

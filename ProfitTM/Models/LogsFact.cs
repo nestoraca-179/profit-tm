@@ -174,6 +174,30 @@ namespace ProfitTM.Models
             return log;
         }
 
+        public static void Insert(saFacturaVenta invoice, int conn, string json, string serie)
+        {
+            DateTime now = DateTime.Now;
+            using (ProfitTMEntities db = new ProfitTMEntities())
+            {
+                db.LogsFactOnline.Add(new LogsFactOnline()
+                {
+                    NroFact = invoice.doc_num.Trim(),
+                    Serie = serie,
+                    ConnID = conn,
+                    BodyJson = json,
+                    Status = (int)LogStatus.SENTSTATUS,
+                    HttpCode = "200",
+                    Times = 1,
+                    NroControl = invoice.n_control,
+                    DateInserted = now,
+                    DateTried = now,
+                    DateSent = now,
+                    Message = "OK"
+                });
+                db.SaveChanges();
+            }
+        }
+
         public static LogsFactOnline Edit(LogsFactOnline log)
         {
             try
