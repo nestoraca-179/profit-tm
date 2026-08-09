@@ -18,10 +18,9 @@ namespace ProfitTM.Models
         // private static readonly string base_url = "https://emisionv2.thefactoryhka.com.ve/api/"; // PRODUCCION
         private static readonly string base_url = "https://demoemisionv2.thefactoryhka.com.ve/api/"; // INTEGRACION
         private static readonly HttpClient httpClient = CreateHttpClient();
+        private static readonly ConcurrentDictionary<int, SemaphoreSlim> tokenLocks = new ConcurrentDictionary<int, SemaphoreSlim>();
 
         public DocumentoElectronico documentoElectronico { get; set; }
-
-        private static readonly ConcurrentDictionary<int, SemaphoreSlim> tokenLocks = new ConcurrentDictionary<int, SemaphoreSlim>();
 
         private static HttpClient CreateHttpClient()
         {
@@ -86,11 +85,6 @@ namespace ProfitTM.Models
             {
                 tokenLock.Release();
             }
-        }
-
-        private static bool HasValidToken(Connections conn)
-        {
-            return conn != null && !string.IsNullOrEmpty(conn.Token) && conn.DateToken != null && DateTime.Now <= conn.DateToken;
         }
 
         public string GetJsonInvoiceInfo(saFacturaVenta i, string serie)
@@ -410,11 +404,11 @@ namespace ProfitTM.Models
             return final;
         }
 
-        public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(LogsFactOnline log, Connections conn)
+        public async Task<ModelInvoiceInfoResponse> SendInvoiceInfoAsync(string json, Connections conn)
         {
             ModelInvoiceInfoResponse final = new ModelInvoiceInfoResponse();
             string url = base_url + "Emision";
-            string data = log.BodyJson;
+            string data = json;
             string token = await EnsureTokenAsync(conn);
 
             HttpTraces trace;
@@ -709,7 +703,12 @@ namespace ProfitTM.Models
             return final;
         }
 
-        private List<string> GetEmails(saCliente c)
+        private static bool HasValidToken(Connections conn)
+        {
+            return conn != null && !string.IsNullOrEmpty(conn.Token) && conn.DateToken != null && DateTime.Now <= conn.DateToken;
+        }
+
+        private static List<string> GetEmails(saCliente c)
         {
             List<string> emails = new List<string>();
 
@@ -732,6 +731,38 @@ namespace ProfitTM.Models
                 emails.Add(c.campo3);
 
             return emails;
+        }
+
+        /// <summary>
+        /// Arma un mensaje legible a partir de las validaciones que devuelve Imprenta Digital.
+        /// Cada entrada llega con el formato "Campo: codigo|mensaje (Value: 'valor')".
+        /// </summary>
+        public static string FormatValidations(List<string> validations)
+        {
+            if (validations == null)
+                return string.Empty;
+
+            List<string> elems = new List<string>();
+            foreach (string val in validations)
+            {
+                if (string.IsNullOrWhiteSpace(val))
+                    continue;
+
+                string field = val.Split(':')[0].Trim();
+                string detail = val.Trim();
+
+                int pipeSymbol = detail.IndexOf('|');
+                if (pipeSymbol >= 0)
+                    detail = detail.Substring(pipeSymbol + 1).Trim();
+
+                int value = detail.IndexOf("(Value:", StringComparison.OrdinalIgnoreCase);
+                if (value >= 0)
+                    detail = detail.Substring(0, value).Trim();
+
+                elems.Add(string.IsNullOrEmpty(field) || field == detail ? detail : $"{field}: {detail}");
+            }
+
+            return string.Join(" | ", elems);
         }
     }
 
