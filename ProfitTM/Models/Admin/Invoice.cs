@@ -410,7 +410,6 @@ namespace ProfitTM.Models
                         // FACTURACION ELECTRONICA: el numero de control se pide en el momento.
                         // Si no se obtiene, la transaccion completa se revierte y la factura no existe.
                         Connections connection = Connection.GetConnByID(conn.ToString());
-
                         if (connection != null && connection.UseFactOnline && !n_fact.StartsWith("D"))
                         {
                             string serie = new Branch().GetBranchByID(sucur).campo2;
@@ -428,14 +427,14 @@ namespace ProfitTM.Models
                                 throw new InformationException($"La factura {n_fact} no fue aceptada por Imprenta Digital: {detalle}");
                             }
 
-                            string n_control_asignado = info.resultado?.numeroControl;
-                            if (string.IsNullOrWhiteSpace(n_control_asignado))
+                            string assignedControlNumber = info.resultado?.numeroControl;
+                            if (string.IsNullOrWhiteSpace(assignedControlNumber))
                                 throw new InformationException($"Imprenta Digital acepto la factura {n_fact} pero no retorno numero de control.");
 
-                            context.Database.ExecuteSqlCommand("UPDATE saFacturaVenta SET n_control = @p0 WHERE doc_num = @p1", n_control_asignado, n_fact);
-                            context.Database.ExecuteSqlCommand("UPDATE saDocumentoVenta SET n_control = @p0 WHERE co_tipo_doc = @p1 AND nro_doc = @p2", n_control_asignado, "FACT", n_fact);
+                            context.Database.ExecuteSqlCommand("UPDATE saFacturaVenta SET n_control = @p0 WHERE doc_num = @p1", assignedControlNumber, n_fact);
+                            context.Database.ExecuteSqlCommand("UPDATE saDocumentoVenta SET n_control = @p0 WHERE co_tipo_doc = @p1 AND nro_doc = @p2", assignedControlNumber, "FACT", n_fact);
 
-                            new_invoice.n_control = n_control_asignado;
+                            new_invoice.n_control = assignedControlNumber;
                         }
 
                         tran.Commit();
