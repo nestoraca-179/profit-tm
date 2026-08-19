@@ -414,17 +414,16 @@ namespace ProfitTM.Models
                         {
                             string serie = new Branch().GetBranchByID(sucur).campo2;
                             string json = new Root().GetJsonInvoiceInfo(new_invoice, serie);
-
                             ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(json, connection);
-                            string codigo = (info.codigo ?? string.Empty).Trim();
+                            string httpCode = (info.codigo ?? string.Empty).Trim();
 
-                            if (codigo != "200" && codigo != "201")
+                            if (httpCode != "200" && httpCode != "201")
                             {
-                                string detalle = Root.FormatValidations(info.validaciones);
-                                if (string.IsNullOrWhiteSpace(detalle))
-                                    detalle = info.mensaje;
+                                string detail = Root.FormatValidations(info.validaciones);
+                                if (string.IsNullOrWhiteSpace(detail))
+                                    detail = info.mensaje;
 
-                                throw new InformationException($"La factura {n_fact} no fue aceptada por Imprenta Digital: {detalle}");
+                                throw new InformationException($"La factura {n_fact} no fue aceptada por Imprenta Digital: {detail}.");
                             }
 
                             string assignedControlNumber = info.resultado?.numeroControl;
@@ -433,7 +432,6 @@ namespace ProfitTM.Models
 
                             context.Database.ExecuteSqlCommand("UPDATE saFacturaVenta SET n_control = @p0 WHERE doc_num = @p1", assignedControlNumber, n_fact);
                             context.Database.ExecuteSqlCommand("UPDATE saDocumentoVenta SET n_control = @p0 WHERE co_tipo_doc = @p1 AND nro_doc = @p2", assignedControlNumber, "FACT", n_fact);
-
                             new_invoice.n_control = assignedControlNumber;
                             LogsFact.Insert(new_invoice, conn, json, serie);
                         }
@@ -559,7 +557,7 @@ namespace ProfitTM.Models
 							// context.Entry(invoice).State = EntityState.Modified;
 
 							// ANULACION DE DOCUMENTO IGTF
-							saDocumentoVenta ajpm_igtf = db.saDocumentoVenta.SingleOrDefault(d =>
+							saDocumentoVenta ajpm_igtf = context.saDocumentoVenta.SingleOrDefault(d =>
 								d.co_tipo_doc == "AJPM" &&
 								d.observa.Contains("IGTF") &&
 								d.observa.Contains(doc_num.Trim()) &&
@@ -612,7 +610,6 @@ namespace ProfitTM.Models
                                 invoice.comentario = "0";
 
                             Root obj = JsonConvert.DeserializeObject<Root>(new Root().GetJsonInvoiceInfo(invoice, serie));
-
                             obj.documentoElectronico.encabezado.identificacionDocumento.tipoDocumento = "02";
                             obj.documentoElectronico.encabezado.identificacionDocumento.numeroDocumento = n_ncr;
                             obj.documentoElectronico.encabezado.identificacionDocumento.serieFacturaAfectada = serie;
@@ -625,17 +622,16 @@ namespace ProfitTM.Models
                             obj.documentoElectronico.encabezado.identificacionDocumento.horaEmision = DateTime.Now.ToString("hh:mm:ss") + (DateTime.Now.Hour < 12 ? " am" : " pm");
 
                             string json = JsonConvert.SerializeObject(obj);
-
                             ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(json, connection);
-                            string codigo = (info.codigo ?? string.Empty).Trim();
+                            string httpCode = (info.codigo ?? string.Empty).Trim();
 
-                            if (codigo != "200" && codigo != "201")
+                            if (httpCode != "200" && httpCode != "201")
                             {
-                                string detalle = Root.FormatValidations(info.validaciones);
-                                if (string.IsNullOrWhiteSpace(detalle))
-                                    detalle = info.mensaje;
+                                string detail = Root.FormatValidations(info.validaciones);
+                                if (string.IsNullOrWhiteSpace(detail))
+                                    detail = info.mensaje;
 
-                                throw new InformationException($"La nota de credito {n_ncr} no fue aceptada por Imprenta Digital: {detalle}");
+                                throw new InformationException($"La nota de credito {n_ncr} no fue aceptada por Imprenta Digital: {detail}.");
                             }
 
                             string assignedControlNumber = info.resultado?.numeroControl;
