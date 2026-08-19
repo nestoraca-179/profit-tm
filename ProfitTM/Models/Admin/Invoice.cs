@@ -414,17 +414,16 @@ namespace ProfitTM.Models
                         {
                             string serie = new Branch().GetBranchByID(sucur).campo2;
                             string json = new Root().GetJsonInvoiceInfo(new_invoice, serie);
-
                             ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(json, connection);
-                            string codigo = (info.codigo ?? string.Empty).Trim();
+                            string httpCode = (info.codigo ?? string.Empty).Trim();
 
-                            if (codigo != "200" && codigo != "201")
+                            if (httpCode != "200" && httpCode != "201")
                             {
-                                string detalle = Root.FormatValidations(info.validaciones);
-                                if (string.IsNullOrWhiteSpace(detalle))
-                                    detalle = info.mensaje;
+                                string detail = Root.FormatValidations(info.validaciones);
+                                if (string.IsNullOrWhiteSpace(detail))
+                                    detail = info.mensaje;
 
-                                throw new InformationException($"La factura {n_fact} no fue aceptada por Imprenta Digital: {detalle}");
+                                throw new InformationException($"La factura {n_fact} no fue aceptada por Imprenta Digital: {detail}.");
                             }
 
                             string assignedControlNumber = info.resultado?.numeroControl;
@@ -433,7 +432,6 @@ namespace ProfitTM.Models
 
                             context.Database.ExecuteSqlCommand("UPDATE saFacturaVenta SET n_control = @p0 WHERE doc_num = @p1", assignedControlNumber, n_fact);
                             context.Database.ExecuteSqlCommand("UPDATE saDocumentoVenta SET n_control = @p0 WHERE co_tipo_doc = @p1 AND nro_doc = @p2", assignedControlNumber, "FACT", n_fact);
-
                             new_invoice.n_control = assignedControlNumber;
                             LogsFact.Insert(new_invoice, conn, json, serie);
                         }
@@ -518,7 +516,7 @@ namespace ProfitTM.Models
             return new_invoice;
         }
 
-        public saDocumentoVenta AddCreditNote(string doc_num, string user, string sucur, int conn, bool onlyDoc)
+        public async Task<saDocumentoVenta> AddCreditNoteAsync(string doc_num, string user, string sucur, int conn, bool onlyDoc)
         {
             saDocumentoVenta new_doc = new saDocumentoVenta();
 
@@ -559,7 +557,7 @@ namespace ProfitTM.Models
 							// context.Entry(invoice).State = EntityState.Modified;
 
 							// ANULACION DE DOCUMENTO IGTF
-							saDocumentoVenta ajpm_igtf = db.saDocumentoVenta.SingleOrDefault(d =>
+							saDocumentoVenta ajpm_igtf = context.saDocumentoVenta.SingleOrDefault(d =>
 								d.co_tipo_doc == "AJPM" &&
 								d.observa.Contains("IGTF") &&
 								d.observa.Contains(doc_num.Trim()) &&
@@ -600,14 +598,18 @@ namespace ProfitTM.Models
                         context.SaveChanges();
                         new_doc = context.saDocumentoVenta.AsNoTracking().Single(d => d.co_tipo_doc == "N/CR" && d.nro_doc == n_ncr);
 
-                        if (Connection.GetConnByID(conn.ToString()).UseFactOnline)
+                        // FACTURACION ELECTRONICA: el numero de control se pide en el momento.
+                        // Si no se obtiene, la transaccion completa se revierte y la nota de credito no existe.
+                        // Si la factura afectada nunca se envio a Imprenta Digital, su nota de credito tampoco:
+                        // referenciaria un documento que el fisco no conoce.
+                        Connections connection = Connection.GetConnByID(conn.ToString());
+                        if (connection != null && connection.UseFactOnline && !doc_num.Trim().StartsWith("D"))
                         {
                             string serie = new Branch().GetBranchByID(sucur).campo2;
                             if (string.IsNullOrEmpty(invoice.comentario))
                                 invoice.comentario = "0";
 
                             Root obj = JsonConvert.DeserializeObject<Root>(new Root().GetJsonInvoiceInfo(invoice, serie));
-
                             obj.documentoElectronico.encabezado.identificacionDocumento.tipoDocumento = "02";
                             obj.documentoElectronico.encabezado.identificacionDocumento.numeroDocumento = n_ncr;
                             obj.documentoElectronico.encabezado.identificacionDocumento.serieFacturaAfectada = serie;
@@ -620,8 +622,29 @@ namespace ProfitTM.Models
                             obj.documentoElectronico.encabezado.identificacionDocumento.horaEmision = DateTime.Now.ToString("hh:mm:ss") + (DateTime.Now.Hour < 12 ? " am" : " pm");
 
                             string json = JsonConvert.SerializeObject(obj);
-                            invoice.doc_num = "N-" + n_ncr;
-                            LogsFact.Add(invoice, conn, json, serie);
+                            ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(json, connection);
+                            string httpCode = (info.codigo ?? string.Empty).Trim();
+
+                            if (httpCode != "200" && httpCode != "201")
+                            {
+                                string detail = Root.FormatValidations(info.validaciones);
+                                if (string.IsNullOrWhiteSpace(detail))
+                                    detail = info.mensaje;
+
+                                throw new InformationException($"La nota de credito {n_ncr} no fue aceptada por Imprenta Digital: {detail}.");
+                            }
+
+                            string assignedControlNumber = info.resultado?.numeroControl;
+                            if (string.IsNullOrWhiteSpace(assignedControlNumber))
+                                throw new InformationException($"Imprenta Digital acepto la nota de credito {n_ncr} pero no retorno numero de control.");
+
+                            context.Database.ExecuteSqlCommand("UPDATE saDocumentoVenta SET n_control = @p0 WHERE co_tipo_doc = @p1 AND nro_doc = @p2", assignedControlNumber, "N/CR", n_ncr);
+                            new_doc.n_control = assignedControlNumber;
+
+                            // El log se arma aparte: 'invoice' es la factura afectada y esta rastreada por el context,
+                            // no se le puede cambiar el doc_num para identificar la nota de credito.
+                            saFacturaVenta creditNoteRef = new saFacturaVenta() { doc_num = "N-" + n_ncr, n_control = assignedControlNumber };
+                            LogsFact.Insert(creditNoteRef, conn, json, serie);
                         }
 
                         tran.Commit();

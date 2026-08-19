@@ -821,7 +821,7 @@ namespace ProfitTM.Controllers
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddCreditNote/{onlyDoc}")]
-        public ProfitTMResponse AddCreditNote(int onlyDoc, saFacturaVenta invoice)
+        public async Task<ProfitTMResponse> AddCreditNote(int onlyDoc, saFacturaVenta invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -831,7 +831,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saDocumentoVenta new_doc = new Invoice().AddCreditNote(invoice.doc_num, user, sucur, conn, Convert.ToBoolean(onlyDoc));
+                saDocumentoVenta new_doc = await new Invoice().AddCreditNoteAsync(invoice.doc_num, user, sucur, conn, Convert.ToBoolean(onlyDoc));
 
                 response.Status = "OK";
                 response.Result = new_doc;
