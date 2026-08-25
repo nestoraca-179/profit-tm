@@ -285,7 +285,7 @@ namespace ProfitTM.Models
                     viajes = new Viajes()
                     {
                         razonSocialServTransporte = i.campo1,
-                        numeroBoleto = i.campo8,
+                        numeroBoleto = GetTripNumber(i.campo8), // i.campo8,
                         puntoSalida = i.campo2,
                         puntoDestino = i.descrip,
                     },
@@ -726,6 +726,14 @@ namespace ProfitTM.Models
                 emails.Add(c.campo3);
 
             return emails;
+        }
+
+        private string GetTripNumber(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+
+            return value.Replace("VELAG-", "");
         }
 
         /// <summary>
