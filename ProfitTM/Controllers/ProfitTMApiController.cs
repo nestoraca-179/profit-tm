@@ -797,14 +797,15 @@ namespace ProfitTM.Controllers
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
-            string user = (HttpContext.Current.Session["USER"] as Users).Username;
-            string id_conn = HttpContext.Current.Session["ID_CONN"].ToString();
-            string serie = new Branch().GetBranchByID(HttpContext.Current.Session["BRANCH"]?.ToString()).campo2;
+            string user = (HttpContext.Current.Session["USER"] as Users)?.Username;
+            string id_conn = HttpContext.Current.Session["ID_CONN"]?.ToString();
+            string sucur = HttpContext.Current.Session["BRANCH"]?.ToString() ?? "";
+            string serie = new Branch().GetBranchByID(HttpContext.Current.Session["BRANCH"]?.ToString())?.campo2;
             Connections conn = Connection.GetConnByID(id_conn);
 
             try
             {
-                await new Invoice().SetCancelledAsync(id, user, serie, conn);
+                await new Invoice().SetCancelledAsync(id, user, sucur, serie, conn);
 
                 response.Status = "OK";
                 response.Result = id;
