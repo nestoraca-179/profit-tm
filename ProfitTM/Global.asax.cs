@@ -174,9 +174,8 @@ namespace ProfitTM
                         }
 
                         Connections conn = Connection.GetConnByID(log.ConnID.ToString());
-                        conn = await Connection.EnsureValidTokenAsync(conn);
 
-                        ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log, conn.Token);
+                        ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(log.BodyJson, conn);
 
                         if (info.codigo == "200" || info.codigo == "201")
                         {
@@ -221,7 +220,7 @@ namespace ProfitTM
                                         }
                                     }
                                 };
-                                ModelAssignResponse response = await new Root().SendAssign(assign, conn.Token);
+                                ModelAssignResponse response = await new Root().SendAssign(assign, conn);
 
                                 log.Status = (int)LogStatus.WAITINGSTATUS; // WAITING
                                 log.Message = "WAITING FOR RE-SEND";

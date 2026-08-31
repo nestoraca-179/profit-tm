@@ -679,7 +679,7 @@ namespace ProfitTM.Controllers
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddInvoice/{fromOrder}")]
-        public ProfitTMResponse AddInvoice(int fromOrder, saFacturaVenta invoice)
+        public async Task<ProfitTMResponse> AddInvoice(int fromOrder, saFacturaVenta invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -689,7 +689,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saFacturaVenta new_invoice = new Invoice().AddSaleInvoice(invoice, user, sucur, conn, Convert.ToBoolean(fromOrder));
+                saFacturaVenta new_invoice = await new Invoice().AddSaleInvoiceAsync(invoice, user, sucur, conn, Convert.ToBoolean(fromOrder));
 
                 response.Status = "OK";
                 response.Result = new_invoice;
@@ -804,9 +804,6 @@ namespace ProfitTM.Controllers
 
             try
             {
-                if (conn.UseFactOnline)
-                    conn = await Connection.EnsureValidTokenAsync(conn);
-
                 await new Invoice().SetCancelledAsync(id, user, serie, conn);
 
                 response.Status = "OK";
@@ -824,7 +821,7 @@ namespace ProfitTM.Controllers
 
         [HttpPost]
         [Route("api/ProfitTMApi/AddCreditNote/{onlyDoc}")]
-        public ProfitTMResponse AddCreditNote(int onlyDoc, saFacturaVenta invoice)
+        public async Task<ProfitTMResponse> AddCreditNote(int onlyDoc, saFacturaVenta invoice)
         {
             ProfitTMResponse response = new ProfitTMResponse();
 
@@ -834,7 +831,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                saDocumentoVenta new_doc = new Invoice().AddCreditNote(invoice.doc_num, user, sucur, conn, Convert.ToBoolean(onlyDoc));
+                saDocumentoVenta new_doc = await new Invoice().AddCreditNoteAsync(invoice.doc_num, user, sucur, conn, Convert.ToBoolean(onlyDoc));
 
                 response.Status = "OK";
                 response.Result = new_doc;
@@ -1135,9 +1132,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                conn = await Connection.EnsureValidTokenAsync(conn);
-
-                ModelSendResponse res = await new Root().SendEmail(request, conn.Token);
+                ModelSendResponse res = await new Root().SendEmail(request, conn);
 
                 response.Status = "OK";
                 response.Result = res;
@@ -1163,9 +1158,7 @@ namespace ProfitTM.Controllers
 
             try
             {
-                conn = await Connection.EnsureValidTokenAsync(conn);
-
-                ModelDownloadResponse res = await new Root().DownloadInvoice(request, conn.Token);
+                ModelDownloadResponse res = await new Root().DownloadInvoice(request, conn);
 
                 response.Status = "OK";
                 response.Result = res;
