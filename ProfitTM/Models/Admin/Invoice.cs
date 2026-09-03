@@ -674,32 +674,26 @@ namespace ProfitTM.Models
             // db.Entry(invoice).Property(f => f.impresa).IsModified = true;
         }
 
-        public async Task SetCancelledAsync(string id, string user, string sucur, string serie, Connections conn)
+        public async Task SetCancelledAsync(string doc_num, string user, string sucur, string serie, Connections conn)
         {
+            if (conn.UseFactOnline && !doc_num.StartsWith("D"))
+            {
+                ModelCancelRequest request = new ModelCancelRequest()
+                {
+                    serie = serie,
+                    tipoDocumento = "01",
+                    numeroDocumento = doc_num,
+                    motivoAnulacion = "ANULACION DE FACTURA " + doc_num,
+                    fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
+                    horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt", new CultureInfo("en-US")).ToLower()
+                };
+                ModelCancelResponse response = await new Root().CancelInvoice(request, conn);
+            }
+
             using (ProfitAdmEntities context = new ProfitAdmEntities(entity.ToString()))
             {
-				saFacturaVenta invoice = context.saFacturaVenta.Single(i => i.doc_num.Trim() == id.Trim());
-				saDocumentoVenta doc = context.saDocumentoVenta.Single(d => d.co_tipo_doc == "FACT" && d.nro_doc.Trim() == id.Trim());
-
-                if (conn.UseFactOnline && !invoice.doc_num.StartsWith("D"))
-                {
-                    ModelCancelRequest request = new ModelCancelRequest()
-                    {
-                        serie = serie,
-                        tipoDocumento = "01",
-                        numeroDocumento = id,
-                        motivoAnulacion = "ANULACION DE FACTURA " + id,
-                        fechaAnulacion = DateTime.Now.ToString("dd/MM/yyyy"),
-                        horaAnulacion = DateTime.Now.ToString("hh:mm:ss tt", new CultureInfo("en-US")).ToLower()
-                    };
-                    ModelCancelResponse response = await new Root().CancelInvoice(request, conn);
-                }
-
-                foreach (saFacturaVentaReng reng in invoice.saFacturaVentaReng)
-				{
-					if (reng.rowguid_doc != null)
-						context.pStockPendienteActualizar(reng.rowguid_doc, reng.total_art * -1, "PCLI");
-				}
+				saFacturaVenta invoice = context.saFacturaVenta.Single(i => i.doc_num.Trim() == doc_num.Trim());
+				saDocumentoVenta doc = context.saDocumentoVenta.Single(d => d.co_tipo_doc == "FACT" && d.nro_doc.Trim() == doc_num.Trim());
 
 				invoice.anulado = true;
 				invoice.saldo = 0;
@@ -712,7 +706,7 @@ namespace ProfitTM.Models
 				saDocumentoVenta ajpm_igtf = context.saDocumentoVenta.SingleOrDefault(d =>
 					d.co_tipo_doc == "AJPM" &&
 					d.observa.Contains("IGTF") &&
-					d.observa.Contains(id.Trim()) &&
+					d.observa.Contains(doc_num.Trim()) &&
 					!d.anulado
 				);
 
@@ -722,15 +716,11 @@ namespace ProfitTM.Models
 					ajpm_igtf.saldo = 0;
 					ajpm_igtf.observa = ajpm_igtf.observa.Trim() + " | (ANULADO)";
 
-                    // context.Entry(ajpm_igtf).State = EntityState.Modified;
-					Step.CreateStep("saDocumentoVenta", ajpm_igtf.rowguid, user, sucur, "M", "ANULACION - " + id);
+					Step.CreateStep("saDocumentoVenta", ajpm_igtf.rowguid, user, sucur, "M", "ANULACION AJPM IGTF - " + doc_num);
 				}
 
-				// context.Entry(invoice).State = EntityState.Modified;;
-				// context.Entry(doc).State = EntityState.Modified;
-
-				Step.CreateStep("saFacturaVenta", invoice.rowguid, user, sucur, "M", "ANULACION - " + id);
-				Step.CreateStep("saDocumentoVenta", doc.rowguid, user, sucur, "M", "ANULACION - " + id);
+				Step.CreateStep("saFacturaVenta", invoice.rowguid, user, sucur, "M", "ANULACION - " + doc_num);
+				Step.CreateStep("saDocumentoVenta", doc.rowguid, user, sucur, "M", "ANULACION - " + doc_num);
 
 				context.SaveChanges();
 			}
