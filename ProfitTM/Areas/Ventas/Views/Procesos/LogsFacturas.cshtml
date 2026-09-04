@@ -5,6 +5,7 @@
 <style>
     table#table-logs {
         border-top: solid 10px transparent !important;
+        border-bottom: solid 5px transparent !important;
     }
     .table-info {
         overflow-x: auto;
@@ -149,8 +150,8 @@
                     <td>{{ log.Times }}</td>
                     <td>{{ log.NroControl }}</td>
                     <td>{{ log.DateInserted }}</td>
-                    <td>{{ formatDate(log.DateTried) }}</td>
-                    <td>{{ formatDate(log.DateSent) }}</td>
+                    <td>{{ log.DateTried }}</td>
+                    <td>{{ log.DateSent }}</td>
                     <td>{{ log.Message }}</td>
                     <td class="cell-buttons">
                         <button type="button" class="btn btn-primary" ng-click="infoLog(log)">
@@ -166,6 +167,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <hr />
+    <div class="row align-items-center mb-2">
+        <div class="col-md-6 text-md-right">
+            <button type="button" class="btn btn-primary" ng-click="loadMoreLogs()" ng-disabled="loadingLogs || !hasMoreLogs">
+                <i class="fas" ng-class="loadingLogs ? 'fa-spinner fa-spin' : 'fa-plus'"></i>
+                {{ loadingLogs ? 'Cargando...' : 'Cargar más registros' }}
+            </button>
+        </div>
     </div>
     <!-- Modal Enviar Correo -->
     <div class="modal fade" id="modalSendEmail" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
@@ -267,63 +277,64 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     var app = angular.module("Logs", []);
-    var logs = @Html.Raw(ViewBag.logs);
-
-    for (var item of logs) {
-        //item.DateInserted = new Date(parseInt(item.DateInserted.substr(6)));
-        item.DateTried = item.DateTried == null ? null : new Date(parseInt(item.DateTried.substr(6)));
-        item.DateSent = item.DateSent == null ? null : new Date(parseInt(item.DateSent.substr(6)));
-
-        if (item.BodyJson != "")
-            item.correos = JSON.parse(item.BodyJson).documentoElectronico.encabezado.comprador.correo;
-    }
+    var logs = [];
+    var logsTable = null;
 
     $(document).ready(function () {
         $(".container-logs").removeAttr("style");
         $(".panel-loading").css("display", "none");
-
-        $('#table-logs').DataTable({
-            "language": {
-                "lengthMenu": "Mostrar _MENU_ registros por página",
-                "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
-                "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
-                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "processing": "Procesando...",
-                "search": "Buscar:   ",
-                "zeroRecords": "No se encontraron resultados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                },
-            },
-            "lengthMenu": [5, 10, 25, 50, 75, 100],
-            "columnDefs": [{
-                "targets": 6,
-                "render": function (data, type, row) {
-                    if (type === 'display' || type === 'filter') {
-                        return moment(data).format('DD/MM/YYYY HH:mm:ss');
-                    }
-                    return data;
-                }
-            }],
-            "order": [
-                [6, 'desc'],
-                [0, 'desc']
-            ],
-        });
     });
 
     $(document).on("contextmenu", function (event) {
         event.preventDefault();
     });
 
-    app.controller("controller", function ($scope, $http) {
+    app.controller("controller", function ($scope, $http, $timeout) {
 
         $scope.logs = logs;
+        $scope.totalLogs = null;
+        $scope.page = 1;
+        $scope.pageSize = 5000;
+        $scope.loadingLogs = false;
+        $scope.hasMoreLogs = true;
         $scope.emails = "";
         $scope.selected = null;
+
+        $scope.loadLogs = function () {
+            $scope.loadingLogs = true;
+
+            $http.get('/api/ProfitTMApi/GetLogs/' + $scope.page + '/' + $scope.pageSize)
+                .then(function (response) {
+                    var result = response.data.Result;
+
+                    if (response.data.Status != "OK") {
+                        console.error(response.data.Message);
+                        return;
+                    }
+
+                    for (var item of result.Items)
+                        logs.push(configureLog(item));
+
+                    $scope.logs = logs;
+                    $scope.totalLogs = result.TotalCount;
+                    $scope.hasMoreLogs = logs.length < result.TotalCount && result.Items.length > 0;
+                    refreshLogsTable();
+                })
+                .catch(function (error) {
+                    console.error("Error cargando logs", error);
+                })
+                .finally(function () {
+                    $scope.loadingLogs = false;
+                });
+        }
+
+        $scope.loadMoreLogs = function () {
+            if ($scope.loadingLogs || !$scope.hasMoreLogs)
+                return;
+
+            $scope.page++;
+            loadLogs();
+        };
 
         $scope.formatDate = function (date) {
 
@@ -538,7 +549,58 @@
         $scope.closeModal = function () {
             $("#modalWaiting").modal("hide");
         }
+
+        $scope.loadLogs();
     });
+
+    function configureLog(log) {
+        // log.DateTried = log.DateTried == null ? null : new Date(parseInt(log.DateTried.substr(6)));
+        // log.DateSent = log.DateSent == null ? null : new Date(parseInt(log.DateSent.substr(6)));
+
+        if (log.BodyJson != "")
+            log.correos = JSON.parse(log.BodyJson).documentoElectronico.encabezado.comprador.correo;
+
+        return log;
+    }
+
+    function refreshLogsTable() {
+        setTimeout(function () {
+            if (logsTable != null)
+                logsTable.destroy();
+
+            logsTable = $('#table-logs').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "info": "Mostrando _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
+                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "processing": "Procesando...",
+                    "search": "Buscar:   ",
+                    "zeroRecords": "No se encontraron resultados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                "lengthMenu": [5, 10, 25, 50, 75, 100],
+                "columnDefs": [{
+                    "targets": [6, 7, 8],
+                    "render": function (data, type, row) {
+                        if (type === 'display' || type === 'filter')
+                            return moment(data).format('DD/MM/YYYY HH:mm:ss.SSS');
+
+                        return data;
+                    }
+                }],
+                "order": [
+                    [6, 'desc'],
+                    [0, 'desc']
+                ]
+            });
+        }, 0);
+    }
 
     function origDate(value) {
 

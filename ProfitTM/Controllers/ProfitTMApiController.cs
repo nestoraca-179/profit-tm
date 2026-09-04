@@ -1090,6 +1090,32 @@ namespace ProfitTM.Controllers
 
         // LOG
 
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetLogs/{page}/{pageSize}")]
+        public ProfitTMResponse GetLogs(int page = 1, int pageSize = 5000)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                page = Math.Max(page, 1);
+                pageSize = Math.Max(pageSize, 1);
+                pageSize = Math.Min(pageSize, 5000);
+
+                int conn = int.Parse(HttpContext.Current.Session["ID_CONN"].ToString());
+                response.Status = "OK";
+                response.Result = LogsFact.GetAllLogs(conn, page, pageSize);
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO LOGS DE FACTURAS", ex);
+            }
+
+            return response;
+        }
+
         [HttpPost]
         [Route("api/ProfitTMApi/EditLog/{fact}/")]
         public ProfitTMResponse EditLog(string fact, Root info)

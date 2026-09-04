@@ -25,16 +25,31 @@ namespace ProfitTM.Models
             return log;
         }
 
-        public static List<LogsFactOnline> GetAllLogs(int conn)
+        public static LogsPage GetAllLogs(int conn, int page = 1, int pageSize = 50)
         {
-            List<LogsFactOnline> logs;
+            page = Math.Max(page, 1);
+            pageSize = Math.Max(pageSize, 1);
+
+            LogsPage result;
 
             using (ProfitTMEntities db = new ProfitTMEntities())
             {
-                logs = db.LogsFactOnline.AsNoTracking().Where(l => l.ConnID == conn).OrderByDescending(l => l.DateInserted).Take(5000).ToList();
+                IQueryable<LogsFactOnline> query = db.LogsFactOnline.AsNoTracking().Where(l => l.ConnID == conn);
+
+                result = new LogsPage
+                {
+                    Page = page,
+                    PageSize = pageSize,
+                    TotalCount = query.Count(),
+                    Items = query.OrderByDescending(l => l.DateInserted)
+                        .ThenByDescending(l => l.NroFact)
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList()
+                };
             }
 
-            return logs;
+            return result;
         }
 
         public static List<LogsFactOnline> GetPendingLogs()
@@ -277,6 +292,19 @@ namespace ProfitTM.Models
             {
                 Console.WriteLine($"Error al escribir en el log: {ex.Message}");
             }
+        }
+    }
+
+    public class LogsPage
+    {
+        public List<LogsFactOnline> Items { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalCount { get; set; }
+
+        public int TotalPages
+        {
+            get { return (int)Math.Ceiling((double)TotalCount / PageSize); }
         }
     }
 }

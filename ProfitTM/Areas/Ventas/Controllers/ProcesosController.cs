@@ -69,7 +69,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.MaxJsonLength = 50000000;
-                
+
                 ViewBag.invoices = serializer.Serialize(new Invoice().GetAllSaleInvoices(50, sucur));
 
                 if (Session["ARTS"] == null)
@@ -156,7 +156,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 return View();
             }
         }
-    
+
         public ActionResult Preliquidacion()
         {
             ViewBag.user = Session["USER"];
@@ -239,12 +239,8 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                serializer.MaxJsonLength = 50000000;
-
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
-                ViewBag.logs = serializer.Serialize(LogsFact.GetAllLogs(int.Parse(Session["ID_CONN"].ToString())));
 
                 return View();
             }
