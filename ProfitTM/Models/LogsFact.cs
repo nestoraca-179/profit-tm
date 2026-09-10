@@ -30,26 +30,37 @@ namespace ProfitTM.Models
             page = Math.Max(page, 1);
             pageSize = Math.Max(pageSize, 1);
 
-            LogsPage result;
-
             using (ProfitTMEntities db = new ProfitTMEntities())
             {
-                IQueryable<LogsFactOnline> query = db.LogsFactOnline.AsNoTracking().Where(l => l.ConnID == conn);
+                List<LogsFactListItem> logs = db.LogsFactOnline.AsNoTracking()
+                    .Where(l => l.ConnID == conn)
+                    .OrderByDescending(l => l.DateInserted)
+                    .ThenByDescending(l => l.NroFact)
+                    .Select(l => new LogsFactListItem
+                    {
+                        NroFact = l.NroFact,
+                        Serie = l.Serie,
+                        Status = l.Status,
+                        HttpCode = l.HttpCode,
+                        Times = l.Times,
+                        NroControl = l.NroControl,
+                        DateInserted = l.DateInserted,
+                        DateTried = l.DateTried,
+                        DateSent = l.DateSent,
+                        Message = l.Message
+                    })
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize + 1)
+                    .ToList();
 
-                result = new LogsPage
+                return new LogsPage
                 {
                     Page = page,
                     PageSize = pageSize,
-                    TotalCount = query.Count(),
-                    Items = query.OrderByDescending(l => l.DateInserted)
-                        .ThenByDescending(l => l.NroFact)
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize)
-                        .ToList()
+                    HasMore = logs.Count > pageSize,
+                    Items = logs.Take(pageSize).ToList()
                 };
             }
-
-            return result;
         }
 
         public static List<LogsFactOnline> GetPendingLogs()
@@ -297,14 +308,23 @@ namespace ProfitTM.Models
 
     public class LogsPage
     {
-        public List<LogsFactOnline> Items { get; set; }
+        public List<LogsFactListItem> Items { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
-        public int TotalCount { get; set; }
+        public bool HasMore { get; set; }
+    }
 
-        public int TotalPages
-        {
-            get { return (int)Math.Ceiling((double)TotalCount / PageSize); }
-        }
+    public class LogsFactListItem
+    {
+        public string NroFact { get; set; }
+        public string Serie { get; set; }
+        public int Status { get; set; }
+        public string HttpCode { get; set; }
+        public int Times { get; set; }
+        public string NroControl { get; set; }
+        public DateTime DateInserted { get; set; }
+        public DateTime? DateTried { get; set; }
+        public DateTime? DateSent { get; set; }
+        public string Message { get; set; }
     }
 }

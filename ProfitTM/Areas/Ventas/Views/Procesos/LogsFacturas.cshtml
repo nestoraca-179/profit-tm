@@ -294,7 +294,6 @@
     app.controller("controller", function ($scope, $http, $timeout) {
 
         $scope.logs = logs;
-        $scope.totalLogs = null;
         $scope.page = 1;
         $scope.pageSize = 5000;
         $scope.loadingLogs = false;
@@ -323,8 +322,7 @@
                     $scope.page = requestedPage;
 
                     $scope.logs = logs;
-                    $scope.totalLogs = result.TotalCount;
-                    $scope.hasMoreLogs = logs.length < result.TotalCount && result.Items.length > 0;
+                    $scope.hasMoreLogs = result.HasMore;
                     $timeout(function () {
                         refreshLogsTable();
                         logsTable.page('first').draw('page');
