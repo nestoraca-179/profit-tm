@@ -305,6 +305,7 @@
 
         $scope.loadLogs = function () {
             $scope.loadingLogs = true;
+            toggleLogsLoading(true);
 
             $http.get('/api/ProfitTMApi/GetLogs/' + $scope.page + '/' + $scope.pageSize)
                 .then(function (response) {
@@ -322,20 +323,22 @@
                     $scope.totalLogs = result.TotalCount;
                     $scope.hasMoreLogs = logs.length < result.TotalCount && result.Items.length > 0;
                     refreshLogsTable(function () {
-                        if ($scope.initialLoading) {
-                            $(".container-logs").removeAttr("style");
-                            $(".panel-loading").hide();
+                        if (logsTable != null)
+                            logsTable.page('first').draw('page');
+
+                        toggleLogsLoading(false);
+
+                        if ($scope.initialLoading)
                             $scope.initialLoading = false;
-                        }
                     });
                 })
                 .catch(function (error) {
                     console.error("Error cargando logs", error);
-                    if ($scope.initialLoading) {
-                        $(".container-logs").removeAttr("style");
-                        $(".panel-loading").hide();
+
+                    toggleLogsLoading(false);
+
+                    if ($scope.initialLoading)
                         $scope.initialLoading = false;
-                    }
                 })
                 .finally(function () {
                     $scope.loadingLogs = false;
@@ -575,6 +578,17 @@
             log.correos = JSON.parse(log.BodyJson).documentoElectronico.encabezado.comprador.correo;
 
         return log;
+    }
+
+    function toggleLogsLoading(showLoading) {
+        if (showLoading) {
+            $(".container-logs").hide();
+            $(".panel-loading").show();
+            return;
+        }
+
+        $(".container-logs").removeAttr("style").show();
+        $(".panel-loading").hide();
     }
 
     function refreshLogsTable(onComplete) {
