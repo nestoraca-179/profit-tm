@@ -22,6 +22,13 @@
         user-select: none;
         vertical-align: middle !important;
     }
+    #table-logs th:nth-child(4),
+    #table-logs td:nth-child(4) {
+        width: 45px !important;
+        min-width: 45px !important;
+        max-width: 45px !important;
+        white-space: nowrap;
+    }
     table tbody, table tbody tr, table tbody td {
         border: 0;
         border-style: none;
@@ -280,11 +287,6 @@
     var logs = [];
     var logsTable = null;
 
-    $(document).ready(function () {
-        $(".container-logs").removeAttr("style");
-        $(".panel-loading").css("display", "none");
-    });
-
     $(document).on("contextmenu", function (event) {
         event.preventDefault();
     });
@@ -296,6 +298,7 @@
         $scope.page = 1;
         $scope.pageSize = 5000;
         $scope.loadingLogs = false;
+        $scope.initialLoading = true;
         $scope.hasMoreLogs = true;
         $scope.emails = "";
         $scope.selected = null;
@@ -318,10 +321,21 @@
                     $scope.logs = logs;
                     $scope.totalLogs = result.TotalCount;
                     $scope.hasMoreLogs = logs.length < result.TotalCount && result.Items.length > 0;
-                    refreshLogsTable();
+                    refreshLogsTable(function () {
+                        if ($scope.initialLoading) {
+                            $(".container-logs").removeAttr("style");
+                            $(".panel-loading").hide();
+                            $scope.initialLoading = false;
+                        }
+                    });
                 })
                 .catch(function (error) {
                     console.error("Error cargando logs", error);
+                    if ($scope.initialLoading) {
+                        $(".container-logs").removeAttr("style");
+                        $(".panel-loading").hide();
+                        $scope.initialLoading = false;
+                    }
                 })
                 .finally(function () {
                     $scope.loadingLogs = false;
@@ -333,7 +347,7 @@
                 return;
 
             $scope.page++;
-            loadLogs();
+            $scope.loadLogs();
         };
 
         $scope.formatDate = function (date) {
@@ -563,7 +577,7 @@
         return log;
     }
 
-    function refreshLogsTable() {
+    function refreshLogsTable(onComplete) {
         setTimeout(function () {
             if (logsTable != null)
                 logsTable.destroy();
@@ -589,7 +603,7 @@
                     "targets": [6, 7, 8],
                     "render": function (data, type, row) {
                         if (type === 'display' || type === 'filter')
-                            return moment(data).format('DD/MM/YYYY HH:mm:ss.SSS');
+                            return moment(data).format('DD/MM/YYYY HH:mm:ss');
 
                         return data;
                     }
@@ -599,6 +613,9 @@
                     [0, 'desc']
                 ]
             });
+
+            if (onComplete)
+                onComplete();
         }, 0);
     }
 
