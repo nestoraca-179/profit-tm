@@ -306,6 +306,7 @@
         $scope.loadLogs = function (pageToLoad) {
             var requestedPage = pageToLoad || $scope.page;
             $scope.loadingLogs = true;
+            destroyLogsTable();
             toggleLogsLoading(true);
 
             $http.get('/api/ProfitTMApi/GetLogs/' + requestedPage + '/' + $scope.pageSize)
@@ -318,20 +319,17 @@
                     var result = response.data.Result;
                     var newLogs = result.Items.map(configureLog);
 
-                    logs = logs.concat(newLogs);
+                    Array.prototype.push.apply(logs, newLogs);
                     $scope.page = requestedPage;
 
                     $scope.logs = logs;
                     $scope.totalLogs = result.TotalCount;
                     $scope.hasMoreLogs = logs.length < result.TotalCount && result.Items.length > 0;
-                    refreshLogsTable(function () {
-                        if (logsTable != null)
-                            logsTable.page('first').draw('page');
-
+                    $timeout(function () {
+                        refreshLogsTable();
+                        logsTable.page('first').draw('page');
                         toggleLogsLoading(false);
-
-                        if ($scope.initialLoading)
-                            $scope.initialLoading = false;
+                        $scope.initialLoading = false;
                     });
                 })
                 .catch(function (error) {
@@ -591,27 +589,11 @@
         if (value == null || value === "")
             return null;
 
-        if (typeof value !== "string")
+        var date = moment(value, 'YYYY-MM-DDTHH:mm:ss.SSS', true);
+        if (!date.isValid())
             return null;
 
-        var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?$/.exec(value);
-        if (!isoDate)
-            return null;
-
-        var milliseconds = (isoDate[7] || "").padEnd(3, "0");
-        var date = new Date(
-            parseInt(isoDate[1], 10),
-            parseInt(isoDate[2], 10) - 1,
-            parseInt(isoDate[3], 10),
-            parseInt(isoDate[4], 10),
-            parseInt(isoDate[5], 10),
-            parseInt(isoDate[6], 10),
-            parseInt(milliseconds || "0", 10));
-
-        if (isNaN(date.getTime()))
-            return null;
-
-        return value;
+        return date.format('YYYY-MM-DDTHH:mm:ss.SSS');
     }
 
     function formatLogDate(value, type) {
@@ -621,9 +603,9 @@
             return type === 'sort' || type === 'type' ? 0 : "";
 
         if (type === 'display' || type === 'filter')
-            return moment(normalizedDate, moment.ISO_8601, true).format('DD/MM/YYYY HH:mm:ss');
+            return moment(normalizedDate, 'YYYY-MM-DDTHH:mm:ss.SSS', true).format('DD/MM/YYYY HH:mm:ss');
 
-        return moment(normalizedDate, moment.ISO_8601, true).valueOf();
+        return moment(normalizedDate, 'YYYY-MM-DDTHH:mm:ss.SSS', true).valueOf();
     }
 
     function toggleLogsLoading(showLoading) {
@@ -637,12 +619,16 @@
         $(".panel-loading").hide();
     }
 
-    function refreshLogsTable(onComplete) {
-        setTimeout(function () {
-            if (logsTable != null)
-                logsTable.destroy();
+    function destroyLogsTable() {
+        if (logsTable == null)
+            return;
 
-            logsTable = $('#table-logs').DataTable({
+        logsTable.destroy();
+        logsTable = null;
+    }
+
+    function refreshLogsTable() {
+        logsTable = $('#table-logs').DataTable({
                 "language": {
                     "lengthMenu": "Mostrar _MENU_ registros por página",
                     "info": "Mostrando _END_ de _TOTAL_ registros",
@@ -669,11 +655,7 @@
                     [6, 'desc'],
                     [0, 'desc']
                 ]
-            });
-
-            if (onComplete)
-                onComplete();
-        }, 0);
+        });
     }
 
     function origDate(value) {
