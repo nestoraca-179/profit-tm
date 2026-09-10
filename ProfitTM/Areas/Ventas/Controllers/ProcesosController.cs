@@ -222,7 +222,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
         }
 
-        public ActionResult LogsFacturas()
+        public ActionResult LogsFacturas(int page = 1, int pageSize = 5000)
         {
             ViewBag.user = Session["USER"];
             ViewBag.connect = Session["CONNECT"];
@@ -239,8 +239,17 @@ namespace ProfitTM.Areas.Ventas.Controllers
             }
             else
             {
+                page = page < 1 ? 1 : page;
+                pageSize = pageSize < 5000 ? 5000 : pageSize;
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                serializer.MaxJsonLength = 50000000;
+
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
+                LogsPage logsPage = LogsFact.GetAllLogs(int.Parse(Session["ID_CONN"].ToString()), page, pageSize);
+                ViewBag.logs = serializer.Serialize(logsPage.Items);
+                ViewBag.logsPage = logsPage;
 
                 return View();
             }

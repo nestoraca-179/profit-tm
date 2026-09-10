@@ -5,7 +5,6 @@
 <style>
     table#table-logs {
         border-top: solid 10px transparent !important;
-        border-bottom: solid 5px transparent !important;
     }
     .table-info {
         overflow-x: auto;
@@ -21,13 +20,6 @@
         font-size: 14px;
         user-select: none;
         vertical-align: middle !important;
-    }
-    #table-logs th:nth-child(4),
-    #table-logs td:nth-child(4) {
-        width: 45px !important;
-        min-width: 45px !important;
-        max-width: 45px !important;
-        white-space: nowrap;
     }
     table tbody, table tbody tr, table tbody td {
         border: 0;
@@ -157,8 +149,8 @@
                     <td>{{ log.Times }}</td>
                     <td>{{ log.NroControl }}</td>
                     <td>{{ log.DateInserted }}</td>
-                    <td>{{ log.DateTried }}</td>
-                    <td>{{ log.DateSent }}</td>
+                    <td>{{ formatDate(log.DateTried) }}</td>
+                    <td>{{ formatDate(log.DateSent) }}</td>
                     <td>{{ log.Message }}</td>
                     <td class="cell-buttons">
                         <button type="button" class="btn btn-primary" ng-click="infoLog(log)">
@@ -175,15 +167,14 @@
             </tbody>
         </table>
     </div>
-    <hr />
-    <div class="row align-items-center mb-2">
-        <div class="col-md-6 text-md-right">
-            <button type="button" class="btn btn-primary" ng-click="loadMoreLogs()" ng-disabled="loadingLogs || !hasMoreLogs">
-                <i class="fas" ng-class="loadingLogs ? 'fa-spinner fa-spin' : 'fa-plus'"></i>
-                {{ loadingLogs ? 'Cargando...' : 'Cargar más registros' }}
-            </button>
+    @if (ViewBag.logsPage.PageSize < ViewBag.logsPage.TotalCount)
+    {
+        <div class="text-right mt-3">
+            <a class="btn btn-primary" href="@Url.Action("LogsFacturas", new { page = 1, pageSize = ViewBag.logsPage.PageSize + 5000 })">
+                <i class="fas fa-plus"></i> Cargar más registros
+            </a>
         </div>
-    </div>
+    }
     <!-- Modal Enviar Correo -->
     <div class="modal fade" id="modalSendEmail" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 1051;">
         <div class="modal-dialog" role="document" style="max-width: 800px;">
@@ -284,71 +275,62 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     var app = angular.module("Logs", []);
-    var logs = [];
-    var logsTable = null;
+    var logs = @Html.Raw(ViewBag.logs);
+
+    for (var item of logs) {
+        item.DateTried = item.DateTried == null ? null : new Date(parseInt(item.DateTried.substr(6)));
+        item.DateSent = item.DateSent == null ? null : new Date(parseInt(item.DateSent.substr(6)));
+
+        if (item.BodyJson != "")
+            item.correos = JSON.parse(item.BodyJson).documentoElectronico.encabezado.comprador.correo;
+    }
+
+    $(document).ready(function () {
+        $(".container-logs").removeAttr("style");
+        $(".panel-loading").css("display", "none");
+
+        $('#table-logs').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "info": "Página _PAGE_ de _PAGES_ - Mostrando _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "processing": "Procesando...",
+                "search": "Buscar:   ",
+                "zeroRecords": "No se encontraron resultados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
+            "lengthMenu": [5, 10, 25, 50, 75, 100],
+            "columnDefs": [{
+                "targets": 6,
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        return moment(data).format('DD/MM/YYYY HH:mm:ss');
+                    }
+                    return data;
+                }
+            }],
+            "order": [
+                [6, 'desc'],
+                [0, 'desc']
+            ],
+        });
+    });
 
     $(document).on("contextmenu", function (event) {
         event.preventDefault();
     });
 
-    app.controller("controller", function ($scope, $http, $timeout) {
+    app.controller("controller", function ($scope, $http) {
 
         $scope.logs = logs;
-        $scope.page = 1;
-        $scope.pageSize = 5000;
-        $scope.loadingLogs = false;
-        $scope.initialLoading = true;
-        $scope.hasMoreLogs = true;
         $scope.emails = "";
         $scope.selected = null;
-
-        $scope.loadLogs = function (pageToLoad) {
-            var requestedPage = pageToLoad || $scope.page;
-            $scope.loadingLogs = true;
-            destroyLogsTable();
-            toggleLogsLoading(true);
-
-            $http.get('/api/ProfitTMApi/GetLogs/' + requestedPage + '/' + $scope.pageSize)
-                .then(function (response) {
-                    if (response.data.Status != "OK") {
-                        console.error(response.data.Message);
-                        return;
-                    }
-
-                    var result = response.data.Result;
-                    var newLogs = result.Items.map(configureLog);
-
-                    Array.prototype.push.apply(logs, newLogs);
-                    $scope.page = requestedPage;
-
-                    $scope.logs = logs;
-                    $scope.hasMoreLogs = result.HasMore;
-                    $timeout(function () {
-                        refreshLogsTable();
-                        logsTable.page('first').draw('page');
-                        toggleLogsLoading(false);
-                        $scope.initialLoading = false;
-                    });
-                })
-                .catch(function (error) {
-                    console.error("Error cargando logs", error);
-
-                    toggleLogsLoading(false);
-
-                    if ($scope.initialLoading)
-                        $scope.initialLoading = false;
-                })
-                .finally(function () {
-                    $scope.loadingLogs = false;
-                });
-        }
-
-        $scope.loadMoreLogs = function () {
-            if ($scope.loadingLogs || !$scope.hasMoreLogs)
-                return;
-
-            $scope.loadLogs($scope.page + 1);
-        };
 
         $scope.formatDate = function (date) {
 
@@ -563,98 +545,7 @@
         $scope.closeModal = function () {
             $("#modalWaiting").modal("hide");
         }
-
-        $scope.loadLogs();
     });
-
-    function configureLog(log) {
-        log.DateInserted = normalizeLogDate(log.DateInserted);
-        log.DateTried = normalizeLogDate(log.DateTried);
-        log.DateSent = normalizeLogDate(log.DateSent);
-
-        if (log.BodyJson) {
-            try {
-                log.correos = JSON.parse(log.BodyJson).documentoElectronico.encabezado.comprador.correo;
-            } catch (error) {
-                log.correos = null;
-            }
-        }
-
-        return log;
-    }
-
-    function normalizeLogDate(value) {
-        if (value == null || value === "")
-            return null;
-
-        var date = moment(value, 'YYYY-MM-DDTHH:mm:ss.SSS', true);
-        if (!date.isValid())
-            return null;
-
-        return date.format('YYYY-MM-DDTHH:mm:ss.SSS');
-    }
-
-    function formatLogDate(value, type) {
-        var normalizedDate = normalizeLogDate(value);
-
-        if (normalizedDate == null)
-            return type === 'sort' || type === 'type' ? 0 : "";
-
-        if (type === 'display' || type === 'filter')
-            return moment(normalizedDate, 'YYYY-MM-DDTHH:mm:ss.SSS', true).format('DD/MM/YYYY HH:mm:ss');
-
-        return moment(normalizedDate, 'YYYY-MM-DDTHH:mm:ss.SSS', true).valueOf();
-    }
-
-    function toggleLogsLoading(showLoading) {
-        if (showLoading) {
-            $(".container-logs").hide();
-            $(".panel-loading").show();
-            return;
-        }
-
-        $(".container-logs").removeAttr("style").show();
-        $(".panel-loading").hide();
-    }
-
-    function destroyLogsTable() {
-        if (logsTable == null)
-            return;
-
-        logsTable.destroy();
-        logsTable = null;
-    }
-
-    function refreshLogsTable() {
-        logsTable = $('#table-logs').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "info": "Mostrando _END_ de _TOTAL_ registros",
-                    "infoEmpty": "Mostrando _END_ de _TOTAL_ registros",
-                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "processing": "Procesando...",
-                    "search": "Buscar:   ",
-                    "zeroRecords": "No se encontraron resultados",
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Ultimo",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                },
-                "lengthMenu": [5, 10, 25, 50, 75, 100],
-                "columnDefs": [{
-                    "targets": [6, 7, 8],
-                    "render": function (data, type, row) {
-                        return formatLogDate(data, type);
-                    }
-                }],
-                "order": [
-                    [6, 'desc'],
-                    [0, 'desc']
-                ]
-        });
-    }
 
     function origDate(value) {
 
