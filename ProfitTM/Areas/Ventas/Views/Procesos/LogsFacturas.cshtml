@@ -303,21 +303,23 @@
         $scope.emails = "";
         $scope.selected = null;
 
-        $scope.loadLogs = function () {
+        $scope.loadLogs = function (pageToLoad) {
+            var requestedPage = pageToLoad || $scope.page;
             $scope.loadingLogs = true;
             toggleLogsLoading(true);
 
-            $http.get('/api/ProfitTMApi/GetLogs/' + $scope.page + '/' + $scope.pageSize)
+            $http.get('/api/ProfitTMApi/GetLogs/' + requestedPage + '/' + $scope.pageSize)
                 .then(function (response) {
-                    var result = response.data.Result;
-
                     if (response.data.Status != "OK") {
                         console.error(response.data.Message);
                         return;
                     }
 
-                    for (var item of result.Items)
-                        logs.push(configureLog(item));
+                    var result = response.data.Result;
+                    var newLogs = result.Items.map(configureLog);
+
+                    logs = logs.concat(newLogs);
+                    $scope.page = requestedPage;
 
                     $scope.logs = logs;
                     $scope.totalLogs = result.TotalCount;
@@ -349,8 +351,7 @@
             if ($scope.loadingLogs || !$scope.hasMoreLogs)
                 return;
 
-            $scope.page++;
-            $scope.loadLogs();
+            $scope.loadLogs($scope.page + 1);
         };
 
         $scope.formatDate = function (date) {
@@ -571,13 +572,58 @@
     });
 
     function configureLog(log) {
-        // log.DateTried = log.DateTried == null ? null : new Date(parseInt(log.DateTried.substr(6)));
-        // log.DateSent = log.DateSent == null ? null : new Date(parseInt(log.DateSent.substr(6)));
+        log.DateInserted = normalizeLogDate(log.DateInserted);
+        log.DateTried = normalizeLogDate(log.DateTried);
+        log.DateSent = normalizeLogDate(log.DateSent);
 
-        if (log.BodyJson != "")
-            log.correos = JSON.parse(log.BodyJson).documentoElectronico.encabezado.comprador.correo;
+        if (log.BodyJson) {
+            try {
+                log.correos = JSON.parse(log.BodyJson).documentoElectronico.encabezado.comprador.correo;
+            } catch (error) {
+                log.correos = null;
+            }
+        }
 
         return log;
+    }
+
+    function normalizeLogDate(value) {
+        if (value == null || value === "")
+            return null;
+
+        if (typeof value !== "string")
+            return null;
+
+        var isoDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?$/.exec(value);
+        if (!isoDate)
+            return null;
+
+        var milliseconds = (isoDate[7] || "").padEnd(3, "0");
+        var date = new Date(
+            parseInt(isoDate[1], 10),
+            parseInt(isoDate[2], 10) - 1,
+            parseInt(isoDate[3], 10),
+            parseInt(isoDate[4], 10),
+            parseInt(isoDate[5], 10),
+            parseInt(isoDate[6], 10),
+            parseInt(milliseconds || "0", 10));
+
+        if (isNaN(date.getTime()))
+            return null;
+
+        return value;
+    }
+
+    function formatLogDate(value, type) {
+        var normalizedDate = normalizeLogDate(value);
+
+        if (normalizedDate == null)
+            return type === 'sort' || type === 'type' ? 0 : "";
+
+        if (type === 'display' || type === 'filter')
+            return moment(normalizedDate, moment.ISO_8601, true).format('DD/MM/YYYY HH:mm:ss');
+
+        return moment(normalizedDate, moment.ISO_8601, true).valueOf();
     }
 
     function toggleLogsLoading(showLoading) {
@@ -616,10 +662,7 @@
                 "columnDefs": [{
                     "targets": [6, 7, 8],
                     "render": function (data, type, row) {
-                        if (type === 'display' || type === 'filter')
-                            return moment(data).format('DD/MM/YYYY HH:mm:ss');
-
-                        return data;
+                        return formatLogDate(data, type);
                     }
                 }],
                 "order": [
