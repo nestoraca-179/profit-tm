@@ -170,7 +170,7 @@
     @if (ViewBag.logsPage.PageSize < ViewBag.logsPage.TotalCount)
     {
         <div class="text-right mt-3">
-            <a class="btn btn-primary" href="@Url.Action("LogsFacturas", new { page = 1, pageSize = ViewBag.logsPage.PageSize + 5000 })">
+            <a class="btn btn-primary" href="@Url.Action("LogsFacturas", new { page = 1, pageSize = ViewBag.logsPage.PageSize + 5000 })" onclick="return showLoadMoreModal(this.href);">
                 <i class="fas fa-plus"></i> Cargar más registros
             </a>
         </div>
@@ -261,7 +261,7 @@
                     <div style="display: flex; justify-content: center;">
                         <i class="fas fa-spinner fa-spin" style="color: #01579b; font-size: 7em;"></i>
                     </div>
-                    <h1 class="text-center mt-5">Cargando módulo...</h1>
+                    <h1 class="text-center mt-5">Cargando...</h1>
                 </div>
                 @*<div class="modal-footer"></div>*@
             </div>
@@ -553,6 +553,16 @@
         var date = new Date(value.getTime() - timeOffset).toUTCString();
 
         return new Date(date);
+    }
+
+    function showLoadMoreModal(url) {
+        $("#modalLoading").modal("show");
+
+        setTimeout(function () {
+            location.href = url;
+        }, 100);
+
+        return false;
     }
 
     function validateEmail(email) {
