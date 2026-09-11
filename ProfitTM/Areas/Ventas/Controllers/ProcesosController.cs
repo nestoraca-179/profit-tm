@@ -243,7 +243,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 pageSize = pageSize < 5000 ? 5000 : pageSize;
 
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-                serializer.MaxJsonLength = 50000000;
+                serializer.MaxJsonLength = 500000000;
 
                 ViewBag.data_conn = Session["DATA_CONN"].ToString();
                 ViewBag.bran_conn = Session["BRAN_CONN"]?.ToString();
