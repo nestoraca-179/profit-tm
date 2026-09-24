@@ -12,21 +12,29 @@ namespace ProfitTM.Models
 
             try
             {
-                order = db.saPedidoVenta.AsNoTracking().Include("saPedidoVentaReng").Include("saCliente")
-                    .Include("saCondicionPago").Include("saVendedor").Single(i => i.doc_num == id);
-
-                order.saCliente.saPedidoVenta = null;
-                order.saVendedor.saPedidoVenta = null;
-                order.saCondicionPago.saPedidoVenta = null;
-                foreach (saPedidoVentaReng reng in order.saPedidoVentaReng)
+                using (var transaction = db.Database.BeginTransaction(System.Data.IsolationLevel.Serializable))
                 {
-                    reng.saPedidoVenta = null;
+                    order = db.saPedidoVenta.AsNoTracking().Include("saCliente")
+                        .Include("saCondicionPago").Include("saVendedor").Single(i => i.doc_num == id);
+
+                    order.saPedidoVentaReng = db.saPedidoVentaReng.AsNoTracking().Where(reng => reng.doc_num == order.doc_num)
+                        .OrderBy(reng => reng.reng_num).ToList();
+
+                    order.saCliente.saPedidoVenta = null;
+                    order.saVendedor.saPedidoVenta = null;
+                    order.saCondicionPago.saPedidoVenta = null;
+                    foreach (saPedidoVentaReng reng in order.saPedidoVentaReng)
+                    {
+                        reng.saPedidoVenta = null;
+                    }
+
+                    transaction.Commit();
                 }
             }
             catch (Exception ex)
             {
                 order = null;
-                Incident.CreateIncident("ERROR BUSCANDO PEDIDO " + id, ex);
+                Incident.CreateIncident($"ERROR CONSULTANDO PEDIDO Y RENGLONES. DOC_NUM: {id}", ex);
             }
 
             return order;
