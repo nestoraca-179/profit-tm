@@ -703,6 +703,8 @@
         <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_saUbicacion_Hasta" ManuallyRouted="false" />
         <AssociationConnector Association="ProfitAdmContext.FK_saArtCrearAut_Uni" ManuallyRouted="false" />
         <AssociationConnector Association="ProfitAdmContext.FK_saVendedor_saZona" ManuallyRouted="false" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvTurnoExe_saCaja2" />
+        <AssociationConnector Association="ProfitAdmContext.FK_pvTurnoExe_saCaja3" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

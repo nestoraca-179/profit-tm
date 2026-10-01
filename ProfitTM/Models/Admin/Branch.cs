@@ -6,13 +6,19 @@ namespace ProfitTM.Models
 {
     public class Branch : ProfitAdmManager
     {
+        public static bool Exists(string id, string n_entity)
+        {
+            using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity))
+                return context.saSucursal.AsNoTracking().Any(s => s.co_sucur.Trim() == id.Trim());
+        }
+
         public saSucursal GetBranchByID(string id)
         {
             saSucursal branch;
 
             try
             {
-                branch = db.saSucursal.AsNoTracking().SingleOrDefault(s => s.co_sucur == id);
+                branch = db.saSucursal.AsNoTracking().SingleOrDefault(s => s.co_sucur.Trim() == id.Trim());
             }
             catch (Exception ex)
             {
@@ -39,7 +45,7 @@ namespace ProfitTM.Models
 
             return branchs;
         }
-    
+
         public bool UseBranchs()
         {
             return db.par_emp.AsNoTracking().First().v_maneja_sucursales;

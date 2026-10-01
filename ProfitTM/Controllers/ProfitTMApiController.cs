@@ -6,7 +6,12 @@ using ProfitTM.Models;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Data.Entity.Core.EntityClient;
+using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Net;
 using System.Linq;
+using ProfitTM.Models.DTO;
+using System.Data.Entity.Core;
 
 namespace ProfitTM.Controllers
 {
@@ -650,6 +655,78 @@ namespace ProfitTM.Controllers
             }
 
             return response;
+        }
+
+        [HttpPost]
+        [Route("api/v1/orders")]
+        public IHttpActionResult AddOrder(AddOrderRequest request)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                if (request == null)
+                    throw new ArgumentException("El request es obligatorio.", "request");
+
+                if (string.IsNullOrWhiteSpace(request.ConnId))
+                    throw new ArgumentException("ConnId es obligatorio.", "request.ConnId");
+
+                Connections connection = Connection.GetConnByID(request.ConnId);
+                if (connection == null)
+                    throw new ArgumentException("La conexion indicada no existe.", "request.ConnId");
+
+                string n_connect = string.Format("Server={0};Database={1};User Id={2};Password={3}", connection.Server, connection.DB, connection.Username, connection.Password);
+                string n_entity = EntityController.GetEntity(n_connect).ToString();
+
+                if (!string.IsNullOrWhiteSpace(request.BranchId) && !Branch.Exists(request.BranchId, n_entity))
+                    throw new ArgumentException("La sucursal indicada no existe.", "request.BranchId");
+
+                if (request.Order != null)
+                {
+                    request.Order.co_sucu_in = request.BranchId;
+                    request.Order.co_us_in = request.UserId;
+                }
+
+                saPedidoVenta created = Order.Add(request.Order, n_entity);
+
+                response.Status = "OK";
+                response.Result = created;
+                return Content(HttpStatusCode.Created, response);
+            }
+            catch (ArgumentException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                return Content(HttpStatusCode.BadRequest, response);
+            }
+            catch (InvalidOperationException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO PEDIDO: OPERACION INVALIDA", ex);
+                return Content(HttpStatusCode.Conflict, response);
+            }
+            catch (SqlException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR SQL AGREGANDO PEDIDO", ex);
+                return Content(HttpStatusCode.InternalServerError, response);
+            }
+            catch (EntityException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR DE CONEXION AGREGANDO PEDIDO", ex);
+                return Content(HttpStatusCode.ServiceUnavailable, response);
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR AGREGANDO PEDIDO", ex);
+                return Content(HttpStatusCode.InternalServerError, response);
+            }
         }
 
         [HttpGet]

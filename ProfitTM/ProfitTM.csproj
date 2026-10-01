@@ -674,6 +674,7 @@
     </Compile>
     <Compile Include="Models\Cont\CostCenter.cs" />
     <Compile Include="Models\Cont\ExpenseAccount.cs" />
+    <Compile Include="Models\DTO\AddOrderRequest.cs" />
     <Compile Include="Models\GroupReports.cs">
       <DependentUpon>ProfitTMModel.tt</DependentUpon>
     </Compile>
@@ -739,6 +740,9 @@
     <Compile Include="Models\pInsertarPago_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\pInsertarPedidoVenta_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\pInsertarProveedor_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
@@ -755,6 +759,9 @@
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pInsertarRenglonesOrdenPago_Result.cs">
+      <DependentUpon>ProfitAdmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\pInsertarRenglonesPedidoVenta_Result.cs">
       <DependentUpon>ProfitAdmModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pInsertarRenglonesRetenCobro_Result.cs">
