@@ -32,7 +32,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 return View();
             }
         }
-    
+
         public ActionResult Cliente()
         {
             ViewBag.user = Session["USER"];
@@ -118,7 +118,7 @@ namespace ProfitTM.Areas.Ventas.Controllers
                 serializer.MaxJsonLength = 50000000;
 
                 if (Session["CLIENTS"] == null)
-                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllClients(0, false));
+                    Session["CLIENTS"] = serializer.Serialize(new Client().GetAllClients(100, false)); // TEMPORARILY 100
 
                 ViewBag.clients = Session["CLIENTS"];
 

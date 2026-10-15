@@ -262,7 +262,10 @@ namespace ProfitTM.Models
                     Directory.CreateDirectory(path);
 
                 using (StreamWriter writer = new StreamWriter(file, true))
+                {
                     writer.WriteLine(logEntry);
+                    writer.WriteLine(new string('-', 80));
+                }
             }
             catch (Exception ex)
             {
