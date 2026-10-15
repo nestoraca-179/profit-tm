@@ -44,7 +44,7 @@ namespace ProfitTM.Models
                 if (full)
                 {
                     clients = db.saCliente.AsNoTracking().Include("saCondicionPago").Include("saVendedor").Include("saZona").Include("saCuentaIngEgr")
-                        .Include("saSegmento").Include("saTipoCliente").Include("saPais").ToList();
+                        .Include("saSegmento").Include("saTipoCliente").Include("saPais").Take(number).ToList();
 
                     foreach (saCliente client in clients)
                     {
@@ -63,7 +63,7 @@ namespace ProfitTM.Models
                 }
                 else
                 {
-                    clients = db.saCliente.AsNoTracking().ToList();
+                    clients = db.saCliente.AsNoTracking().Take(number).ToList();
                 }
             }
             catch (Exception ex)
@@ -72,10 +72,18 @@ namespace ProfitTM.Models
                 Incident.CreateIncident("ERROR BUSCANDO CLIENTES", ex);
             }
 
-            if (number > 0)
-                return clients.Take(number).ToList();
-            else
-                return clients;
+            return clients;
+        }
+
+        public List<ClientOption> GetClientOptions()
+        {
+            return db.saCliente.AsNoTracking()
+                .Select(client => new ClientOption
+                {
+                    co_cli = client.co_cli,
+                    cli_des = client.cli_des
+                })
+                .ToList();
         }
 
         public List<saCliente> GetMostActiveClients(DateTime fec_d, DateTime fec_h, int number, string sucur)
@@ -164,7 +172,7 @@ namespace ProfitTM.Models
 
             return docs;
         }
-        
+
         public saCliente Add(saCliente client)
         {
             saCliente n_client;
@@ -174,13 +182,13 @@ namespace ProfitTM.Models
                 client.plaz_pag = new Cond().GetCondByID(client.cond_pag).dias_cred;
             }
 
-            var sp = db.pInsertarCliente(client.co_cli, client.login, client.password, client.salestax, client.cli_des, client.co_seg, client.co_zon, client.co_ven, 
-                client.estado, client.inactivo, client.valido, client.sincredito, client.lunes, client.martes, client.miercoles, client.jueves, client.viernes, 
-                client.sabado, client.domingo, client.direc1, client.direc2, client.dir_ent2, client.horar_caja, client.frecu_vist, client.telefonos, client.fax, 
-                client.respons, client.fecha_reg, client.tip_cli, client.serialp, client.puntaje, client.Id, client.mont_cre, client.co_mone, client.cond_pag, 
-                client.plaz_pag, client.desc_ppago, client.desc_glob, null, null, client.rif, client.contrib, client.dis_cen, client.nit, client.email, 
-                client.co_cta_ingr_egr, client.comentario, client.campo1, client.campo2, client.campo3, client.campo4, client.campo5, client.campo6, client.campo7, 
-                client.campo8, "PROFIT WEB", "SERVER PROFIT WEB", null, null, null, client.juridico, client.tipo_adi, client.matriz, client.co_tab, client.tipo_per, 
+            var sp = db.pInsertarCliente(client.co_cli, client.login, client.password, client.salestax, client.cli_des, client.co_seg, client.co_zon, client.co_ven,
+                client.estado, client.inactivo, client.valido, client.sincredito, client.lunes, client.martes, client.miercoles, client.jueves, client.viernes,
+                client.sabado, client.domingo, client.direc1, client.direc2, client.dir_ent2, client.horar_caja, client.frecu_vist, client.telefonos, client.fax,
+                client.respons, client.fecha_reg, client.tip_cli, client.serialp, client.puntaje, client.Id, client.mont_cre, client.co_mone, client.cond_pag,
+                client.plaz_pag, client.desc_ppago, client.desc_glob, null, null, client.rif, client.contrib, client.dis_cen, client.nit, client.email,
+                client.co_cta_ingr_egr, client.comentario, client.campo1, client.campo2, client.campo3, client.campo4, client.campo5, client.campo6, client.campo7,
+                client.campo8, "PROFIT WEB", "SERVER PROFIT WEB", null, null, null, client.juridico, client.tipo_adi, client.matriz, client.co_tab, client.tipo_per,
                 client.co_pais, client.ciudad, client.zip, client.website, client.contribu_e, client.rete_regis_doc, client.porc_esp, null, null, null, client.email_alterno);
 
             sp.Dispose();
@@ -196,13 +204,13 @@ namespace ProfitTM.Models
             if (!client.sincredito)
                 client.plaz_pag = new Cond().GetCondByID(client.cond_pag).dias_cred;
 
-            var sp = db.pActualizarCliente(client.co_cli, client.co_cli, client.login, client.password, client.salestax, client.cli_des, client.co_seg, client.co_zon, 
-                client.co_ven, client.estado, client.inactivo, client.valido, client.sincredito, client.lunes, client.martes, client.miercoles, client.jueves, 
-                client.viernes, client.sabado, client.domingo, client.direc1, client.direc2, client.dir_ent2, client.horar_caja, client.frecu_vist, client.telefonos, 
-                client.fax, client.respons, client.fecha_reg, client.tip_cli, client.serialp, client.puntaje, client.Id, client.mont_cre, client.co_mone, client.cond_pag, 
-                client.plaz_pag, client.desc_ppago, client.desc_glob, client.rif, client.contrib, client.dis_cen, client.nit, client.email, client.co_cta_ingr_egr, 
-                client.comentario, client.campo1, client.campo2, client.campo3, client.campo4, client.campo5, client.campo6, client.campo7, client.campo8, "PROFIT WEB", 
-                null, "SERVER PROFIT WEB", null, null, null, client.juridico, client.tipo_adi, client.matriz, client.co_tab, client.tipo_per, client.co_pais, client.ciudad, 
+            var sp = db.pActualizarCliente(client.co_cli, client.co_cli, client.login, client.password, client.salestax, client.cli_des, client.co_seg, client.co_zon,
+                client.co_ven, client.estado, client.inactivo, client.valido, client.sincredito, client.lunes, client.martes, client.miercoles, client.jueves,
+                client.viernes, client.sabado, client.domingo, client.direc1, client.direc2, client.dir_ent2, client.horar_caja, client.frecu_vist, client.telefonos,
+                client.fax, client.respons, client.fecha_reg, client.tip_cli, client.serialp, client.puntaje, client.Id, client.mont_cre, client.co_mone, client.cond_pag,
+                client.plaz_pag, client.desc_ppago, client.desc_glob, client.rif, client.contrib, client.dis_cen, client.nit, client.email, client.co_cta_ingr_egr,
+                client.comentario, client.campo1, client.campo2, client.campo3, client.campo4, client.campo5, client.campo6, client.campo7, client.campo8, "PROFIT WEB",
+                null, "SERVER PROFIT WEB", null, null, null, client.juridico, client.tipo_adi, client.matriz, client.co_tab, client.tipo_per, client.co_pais, client.ciudad,
                 client.zip, client.website, client.contribu_e, client.rete_regis_doc, client.porc_esp, client.validador, client.rowguid, null, null, null, client.email_alterno);
 
             sp.Dispose();
@@ -218,5 +226,11 @@ namespace ProfitTM.Models
 
             return client;
         }
+    }
+
+    public class ClientOption
+    {
+        public string co_cli { get; set; }
+        public string cli_des { get; set; }
     }
 }

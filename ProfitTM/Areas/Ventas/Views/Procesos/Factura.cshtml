@@ -143,7 +143,7 @@
     #modalRetenIva .controls > *, #modalRetenIslr .controls > * {
         width: 50%;
     }
-    #modalEfectivo .controls input, #modalTransf .controls input, 
+    #modalEfectivo .controls input, #modalTransf .controls input,
     #modalRetenIva .controls input, #modalRetenIslr .controls input {
         padding: 5px;
     }
@@ -1563,7 +1563,7 @@
             $scope.convertedDetails = false;
         });
 
-        $http.get("/api/ProfitTMApi/GetClients/0")
+        $http.get("/api/ProfitTMApi/GetClientOptions")
             .then(function (response) {
                 clients = response.data.Result;
                 $scope.clients = response.data.Result;

@@ -492,6 +492,29 @@ namespace ProfitTM.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("api/ProfitTMApi/GetClientOptions")]
+        public ProfitTMResponse GetClientOptions()
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                List<ClientOption> clients = new Client().GetClientOptions();
+
+                response.Status = "OK";
+                response.Result = clients;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR BUSCANDO OPCIONES DE CLIENTES", ex);
+            }
+
+            return response;
+        }
+
         // PROVEEDOR
 
         [HttpPost]
