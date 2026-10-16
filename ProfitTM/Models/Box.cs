@@ -71,7 +71,7 @@ namespace ProfitTM.Models
                 boxes = null;
                 Incident.CreateIncident("ERROR BUSCANDO CAJAS Y MOVIMIENTOS", ex);
             }
-            
+
             return boxes;
         }
 
@@ -110,6 +110,10 @@ namespace ProfitTM.Models
             {
                 try
                 {
+                    Boxes existing = db.Boxes.AsNoTracking().SingleOrDefault(b => b.UserID == box.UserID && b.ConnID == conn && b.IsOpen);
+                    if (existing != null)
+                        throw new Exception("El usuario ya tiene una caja abierta.");
+
                     box.ConnID = conn;
                     box.DateS = DateTime.Now;
                     new_box = db.Boxes.Add(box);
@@ -152,8 +156,7 @@ namespace ProfitTM.Models
                 {
                     tran.Rollback();
                     Incident.CreateIncident("ERROR INTERNO AGREGANDO CAJA", ex);
-
-                    throw ex;
+                    throw;
                 }
             }
 
@@ -200,7 +203,7 @@ namespace ProfitTM.Models
 
             Users us = User.GetUserByName(user);
             Boxes box = GetBoxByID(GetBoxOpenByUser(user, conn, us.BoxType.Value, false).ToString());
-            BoxMoves move = new BoxMoves() { 
+            BoxMoves move = new BoxMoves() {
                 BoxID = box.ID,
                 UserID = user,
                 Amount = amount,
