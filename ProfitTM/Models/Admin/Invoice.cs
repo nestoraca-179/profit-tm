@@ -725,9 +725,9 @@ namespace ProfitTM.Models
                     obj.documentoElectronico.encabezado.identificacionDocumento.fechaFacturaAfectada = invoice.fec_emis.ToString("dd/MM/yyyy");
                     obj.documentoElectronico.encabezado.identificacionDocumento.montoFacturaAfectada = invoice.total_neto.ToString().Replace(",", ".");
                     obj.documentoElectronico.encabezado.identificacionDocumento.comentarioFacturaAfectada = "N/CR " + documentNumber + " FACTURA " + invoice.doc_num.Trim();
-                    obj.documentoElectronico.encabezado.identificacionDocumento.fechaEmision = DateTime.Now.ToString("dd/MM/yyyy");
-                    obj.documentoElectronico.encabezado.identificacionDocumento.fechaVencimiento = DateTime.Now.ToString("dd/MM/yyyy");
-                    obj.documentoElectronico.encabezado.identificacionDocumento.horaEmision = DateTime.Now.ToString("hh:mm:ss") + (DateTime.Now.Hour < 12 ? " am" : " pm");
+                    obj.documentoElectronico.encabezado.identificacionDocumento.fechaEmision = creditNote.fec_emis.ToString("dd/MM/yyyy");
+                    obj.documentoElectronico.encabezado.identificacionDocumento.fechaVencimiento = creditNote.fec_venc.ToString("dd/MM/yyyy");
+                    obj.documentoElectronico.encabezado.identificacionDocumento.horaEmision = creditNote.fec_emis.ToString("hh:mm:ss") + (DateTime.Now.Hour < 12 ? " am" : " pm");
                     json = JsonConvert.SerializeObject(obj);
                 }
                 else
