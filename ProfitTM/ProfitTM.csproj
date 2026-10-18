@@ -675,6 +675,7 @@
     <Compile Include="Models\Cont\CostCenter.cs" />
     <Compile Include="Models\Cont\ExpenseAccount.cs" />
     <Compile Include="Models\DTO\AddOrderRequest.cs" />
+    <Compile Include="Models\DTO\CreditNoteDispatchRequest.cs" />
     <Compile Include="Models\GroupReports.cs">
       <DependentUpon>ProfitTMModel.tt</DependentUpon>
     </Compile>

@@ -87,11 +87,11 @@ namespace ProfitTM.Models
             }
         }
 
-        public string GetJsonInvoiceInfo(saFacturaVenta i, string serie)
+        public string GetJsonInvoiceInfo(saFacturaVenta invoice, string serie)
         {
             Root root = new Root();
-            saCliente client = i.saCliente;
-            bool isFrg = i.co_cli.StartsWith("FR") || i.co_cli.StartsWith("0");
+            saCliente client = invoice.saCliente;
+            bool isFrg = invoice.co_cli.StartsWith("FR") || invoice.co_cli.StartsWith("0");
 
             string result = "";
 
@@ -104,19 +104,19 @@ namespace ProfitTM.Models
                         identificacionDocumento = new IdentificacionDocumento()
                         {
                             tipoDocumento = "01",
-                            numeroDocumento = i.doc_num.Trim(),
+                            numeroDocumento = invoice.doc_num.Trim(),
                             serieFacturaAfectada = null,
                             numeroFacturaAfectada = null,
                             fechaFacturaAfectada = null,
                             montoFacturaAfectada = null,
                             comentarioFacturaAfectada = null,
-                            fechaEmision = i.fec_emis.ToString("dd/MM/yyyy"),
-                            fechaVencimiento = i.fec_venc.ToString("dd/MM/yyyy"),
-                            horaEmision = i.fec_emis.ToString("hh:mm:ss") + (i.fec_emis.Hour < 12 ? " am" : " pm"),
-                            anulado = i.anulado,
+                            fechaEmision = invoice.fec_emis.ToString("dd/MM/yyyy"),
+                            fechaVencimiento = invoice.fec_venc.ToString("dd/MM/yyyy"),
+                            horaEmision = invoice.fec_emis.ToString("hh:mm:ss") + (invoice.fec_emis.Hour < 12 ? " am" : " pm"),
+                            anulado = invoice.anulado,
                             tipoDePago = "CONTADO",
                             serie = serie,
-                            sucursal = i.co_sucu_in,
+                            sucursal = invoice.co_sucu_in,
                             tipoDeVenta = "Inmediato",
                             moneda = "BSD",
                         },
@@ -134,17 +134,17 @@ namespace ProfitTM.Models
                         },
                         totales = new Totales()
                         {
-                            nroItems = i.saFacturaVentaReng.Count.ToString(),
-                            montoGravadoTotal = (i.total_bruto - i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()).ToString().Replace(",", "."),
-                            montoExentoTotal = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
-                            subtotal = i.total_bruto.ToString().Replace(",", "."),
+                            nroItems = invoice.saFacturaVentaReng.Count.ToString(),
+                            montoGravadoTotal = (invoice.total_bruto - invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()).ToString().Replace(",", "."),
+                            montoExentoTotal = invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
+                            subtotal = invoice.total_bruto.ToString().Replace(",", "."),
                             totalAPagar = Math.Round(
-                                i.total_neto + // TOTAL + IVA FACTURA (BSD)
-                                (((decimal.Parse(i.comentario) * 3) / 100) * i.tasa) // IGTF (BSD)
+                                invoice.total_neto + // TOTAL + IVA FACTURA (BSD)
+                                (((decimal.Parse(invoice.comentario) * 3) / 100) * invoice.tasa) // IGTF (BSD)
                             , 2).ToString().Replace(",", "."),
-                            totalIVA = i.monto_imp.ToString().Replace(",", "."),
-                            montoTotalConIVA = i.total_neto.ToString().Replace(",", "."),
-                            montoEnLetras = new UtilsController().NumberToWords(i.total_neto),
+                            totalIVA = invoice.monto_imp.ToString().Replace(",", "."),
+                            montoTotalConIVA = invoice.total_neto.ToString().Replace(",", "."),
+                            montoEnLetras = new UtilsController().NumberToWords(invoice.total_neto),
                             listaDescBonificacion = new List<ListaDescBonificacion>()
                             {
                                 new ListaDescBonificacion()
@@ -164,22 +164,22 @@ namespace ProfitTM.Models
                                 {
                                     codigoTotalImp = "E",
                                     alicuotaImp = "0.00",
-                                    baseImponibleImp = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
-                                    valorTotalImp = i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
+                                    baseImponibleImp = invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
+                                    valorTotalImp = invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum().ToString().Replace(",", "."), // "0.00",
                                 },
                                 new ImpuestosSubtotal()
                                 {
                                     codigoTotalImp = "G",
                                     alicuotaImp = "16.00",
-                                    baseImponibleImp = (i.total_bruto - i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN BSD ESTA APARECIENDO EN LA COLUMNA DE USD (PEDIR INVERTIR)
-                                    valorTotalImp = i.monto_imp.ToString().Replace(",", "."),
+                                    baseImponibleImp = (invoice.total_bruto - invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN BSD ESTA APARECIENDO EN LA COLUMNA DE USD (PEDIR INVERTIR)
+                                    valorTotalImp = invoice.monto_imp.ToString().Replace(",", "."),
                                 },
                                 new ImpuestosSubtotal()
                                 {
                                     codigoTotalImp = "IGTF",
                                     alicuotaImp = "3.00",
-                                    baseImponibleImp = Math.Round(Convert.ToDecimal(i.comentario, new CultureInfo("en-US")) * i.tasa, 2).ToString().Replace(",", "."),
-                                    valorTotalImp = Math.Round(((Convert.ToDecimal(i.comentario, new CultureInfo("en-US")) * i.tasa) * 3) / 100, 2).ToString().Replace(",", "."),
+                                    baseImponibleImp = Math.Round(Convert.ToDecimal(invoice.comentario, new CultureInfo("en-US")) * invoice.tasa, 2).ToString().Replace(",", "."),
+                                    valorTotalImp = Math.Round(((Convert.ToDecimal(invoice.comentario, new CultureInfo("en-US")) * invoice.tasa) * 3) / 100, 2).ToString().Replace(",", "."),
                                 }
                             },
                             formasPago = new List<FormasPago>()
@@ -189,37 +189,37 @@ namespace ProfitTM.Models
                                     descripcion = "Efectivo Divisas|-|-",
                                     fecha = DateTime.Now.ToString("dd/MM/yyyy"),
                                     forma = "01",
-                                    monto = Math.Round(Convert.ToDecimal(i.comentario, new CultureInfo("en-US")), 2).ToString().Replace(",", "."),
+                                    monto = Math.Round(Convert.ToDecimal(invoice.comentario, new CultureInfo("en-US")), 2).ToString().Replace(",", "."),
                                     moneda = "USD"
                                 }
                             }
                         },
                         totalesRetencion = new TotalesRetencion()
                         {
-                            totalBaseImponible = i.total_bruto.ToString().Replace(",", "."),
+                            totalBaseImponible = invoice.total_bruto.ToString().Replace(",", "."),
                             numeroCompRetencion = "1",
                             fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
-                            totalIVA = Math.Round(i.monto_imp * ((client.contribu_e ? client.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
-                            totalISRL = Math.Round((i.total_bruto * 2) / 100, 2).ToString().Replace(",", "."),
+                            totalIVA = Math.Round(invoice.monto_imp * ((client.contribu_e ? client.porc_esp : 75) / 100), 2).ToString().Replace(",", "."),
+                            totalISRL = Math.Round((invoice.total_bruto * 2) / 100, 2).ToString().Replace(",", "."),
                             totalRetenido = (
-                                Math.Round(i.monto_imp * ((client.contribu_e ? client.porc_esp : 75) / 100), 2) +
-                                Math.Round((i.total_bruto * 2) / 100, 2)
+                                Math.Round(invoice.monto_imp * ((client.contribu_e ? client.porc_esp : 75) / 100), 2) +
+                                Math.Round((invoice.total_bruto * 2) / 100, 2)
                             ).ToString().Replace(",", ".")
                         },
                         totalesOtraMoneda = new TotalesOtraMoneda()
                         {
                             moneda = "USD",
-                            tipoCambio = Math.Round(i.tasa, 2).ToString().Replace(",", "."),
-                            montoGravadoTotal = Math.Round((i.total_bruto - i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()) / i.tasa, 2).ToString().Replace(",", "."),
-                            montoExentoTotal = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString().Replace(",", "."), // "0.00",
-                            subtotal = Math.Round(i.total_bruto / i.tasa, 2).ToString().Replace(",", "."),
+                            tipoCambio = Math.Round(invoice.tasa, 2).ToString().Replace(",", "."),
+                            montoGravadoTotal = Math.Round((invoice.total_bruto - invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()) / invoice.tasa, 2).ToString().Replace(",", "."),
+                            montoExentoTotal = Math.Round(invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / invoice.tasa, 2).ToString().Replace(",", "."), // "0.00",
+                            subtotal = Math.Round(invoice.total_bruto / invoice.tasa, 2).ToString().Replace(",", "."),
                             totalAPagar = Math.Round(
-                                (i.total_neto / i.tasa) + // TOTAL + IVA FACTURA (USD)
-                                ((decimal.Parse(i.comentario) * 3) / 100) // IGTF (USD)
+                                (invoice.total_neto / invoice.tasa) + // TOTAL + IVA FACTURA (USD)
+                                ((decimal.Parse(invoice.comentario) * 3) / 100) // IGTF (USD)
                             , 2).ToString().Replace(",", "."),
-                            totalIVA = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
-                            montoTotalConIVA = Math.Round(i.total_neto / i.tasa, 2).ToString().Replace(",", "."),
-                            montoEnLetras = new UtilsController().NumberToWords(Math.Round(i.total_neto / i.tasa, 2)),
+                            totalIVA = Math.Round(invoice.monto_imp / invoice.tasa, 2).ToString().Replace(",", "."),
+                            montoTotalConIVA = Math.Round(invoice.total_neto / invoice.tasa, 2).ToString().Replace(",", "."),
+                            montoEnLetras = new UtilsController().NumberToWords(Math.Round(invoice.total_neto / invoice.tasa, 2)),
                             listaDescBonificacion = new List<ListaDescBonificacion>()
                             {
                                 new ListaDescBonificacion()
@@ -239,27 +239,27 @@ namespace ProfitTM.Models
                                 {
                                     codigoTotalImp = "E",
                                     alicuotaImp = "0.00",
-                                    baseImponibleImp = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString().Replace(",", "."), // "0.00",
-                                    valorTotalImp = Math.Round(i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / i.tasa, 2).ToString().Replace(",", "."), // "0.00",
+                                    baseImponibleImp = Math.Round(invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / invoice.tasa, 2).ToString().Replace(",", "."), // "0.00",
+                                    valorTotalImp = Math.Round(invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum() / invoice.tasa, 2).ToString().Replace(",", "."), // "0.00",
                                 },
                                 new ImpuestosSubtotal()
                                 {
                                     codigoTotalImp = "G",
                                     alicuotaImp = "16.00",
-                                    baseImponibleImp = Math.Round((i.total_bruto - i.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()) / i.tasa, 2).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN USD ESTA APARECIENDO EN LA COLUMNA DE BSD (PEDIR INVERTIR)
-                                    valorTotalImp = Math.Round(i.monto_imp / i.tasa, 2).ToString().Replace(",", "."),
+                                    baseImponibleImp = Math.Round((invoice.total_bruto - invoice.saFacturaVentaReng.Where(r => r.tipo_imp == "7").Select(r => r.reng_neto).Sum()) / invoice.tasa, 2).ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN USD ESTA APARECIENDO EN LA COLUMNA DE BSD (PEDIR INVERTIR)
+                                    valorTotalImp = Math.Round(invoice.monto_imp / invoice.tasa, 2).ToString().Replace(",", "."),
                                 },
                                 new ImpuestosSubtotal()
                                 {
                                     codigoTotalImp = "IGTF",
                                     alicuotaImp = "3.00",
-                                    baseImponibleImp = Convert.ToDecimal(i.comentario, new CultureInfo("en-US")).ToString().Replace(",", "."),
-                                    valorTotalImp = Math.Round((Convert.ToDecimal(i.comentario, new CultureInfo("en-US")) * 3) / 100, 2).ToString().Replace(",", "."),
+                                    baseImponibleImp = Convert.ToDecimal(invoice.comentario, new CultureInfo("en-US")).ToString().Replace(",", "."),
+                                    valorTotalImp = Math.Round((Convert.ToDecimal(invoice.comentario, new CultureInfo("en-US")) * 3) / 100, 2).ToString().Replace(",", "."),
                                 }
                             },
                         }
                     },
-                    detallesItems = i.saFacturaVentaReng.Select(r => new DetallesItem()
+                    detallesItems = invoice.saFacturaVentaReng.Select(r => new DetallesItem()
                     {
                         numeroLinea = r.reng_num.ToString(),
                         codigoPLU = r.co_art.Trim(),
@@ -278,16 +278,16 @@ namespace ProfitTM.Models
                             new InfoAdicionalItem()
                             {
                                 campo = "USD",
-                                valor = Math.Round(r.reng_neto / i.tasa, 2).ToString().Replace(",", ".")
+                                valor = Math.Round(r.reng_neto / invoice.tasa, 2).ToString().Replace(",", ".")
                             }
                         }
                     }).ToList(),
                     viajes = new Viajes()
                     {
-                        razonSocialServTransporte = i.campo1,
-                        numeroBoleto = GetTripNumber(i.campo8), // i.campo8,
-                        puntoSalida = i.campo2,
-                        puntoDestino = i.descrip,
+                        razonSocialServTransporte = invoice.campo1,
+                        numeroBoleto = GetTripNumber(invoice.campo8), // invoice.campo8,
+                        puntoSalida = invoice.campo2,
+                        puntoDestino = invoice.descrip,
                     },
                     infoAdicional = new List<InfoAdicional>()
                     {
@@ -304,8 +304,8 @@ namespace ProfitTM.Models
                     },
                     transporte = new TransporteF()
                     {
-                        descripcion = i.campo7,
-                        codigo = i.campo3
+                        descripcion = invoice.campo7,
+                        codigo = invoice.campo3
                     }
                 };
 
@@ -346,7 +346,271 @@ namespace ProfitTM.Models
             }
             catch (Exception ex)
             {
-                Incident.CreateIncident(string.Format("ERROR CREANDO JSON FACT {0}", i.doc_num), ex);
+                Incident.CreateIncident(string.Format("ERROR CREANDO JSON FACT {0}", invoice.doc_num), ex);
+                if (string.IsNullOrEmpty(client.direc1))
+                    Incident.CreateIncident(string.Format("CLIENTE {0} SIN DIRECCION", client.co_cli), null);
+            }
+
+            return result;
+        }
+
+        public string GetJsonCreditNoteInfo(saDocumentoVenta creditNote, string serie)
+        {
+            Root root = new Root();
+            saCliente client = creditNote.saCliente;
+            bool isFrg = creditNote.co_cli.StartsWith("FR") || creditNote.co_cli.StartsWith("0");
+
+            string result = "";
+
+            try
+            {
+                root.documentoElectronico = new DocumentoElectronico()
+                {
+                    encabezado = new Encabezado()
+                    {
+                        identificacionDocumento = new IdentificacionDocumento()
+                        {
+                            tipoDocumento = "02",
+                            numeroDocumento = creditNote.nro_doc.Trim(),
+                            serieFacturaAfectada = serie,
+                            numeroFacturaAfectada = "000000",
+                            fechaFacturaAfectada = creditNote.fec_emis.ToString("dd/MM/yyyy"),
+                            montoFacturaAfectada = creditNote.total_neto.ToString().Replace(",", "."),
+                            comentarioFacturaAfectada = "NC " + creditNote.nro_doc,
+                            fechaEmision = creditNote.fec_emis.ToString("dd/MM/yyyy"),
+                            fechaVencimiento = creditNote.fec_venc.ToString("dd/MM/yyyy"),
+                            horaEmision = creditNote.fec_emis.ToString("hh:mm:ss") + (creditNote.fec_emis.Hour < 12 ? " am" : " pm"),
+                            anulado = creditNote.anulado,
+                            tipoDePago = "CONTADO",
+                            serie = serie,
+                            sucursal = creditNote.co_sucu_in,
+                            tipoDeVenta = "Inmediato",
+                            moneda = "BSD",
+                        },
+                        comprador = new Comprador()
+                        {
+                            tipoIdentificacion = isFrg ? "E" : client.rif.Substring(0, 1),
+                            numeroIdentificacion = isFrg ? client.rif : client.rif.Substring(1).Trim(),
+                            razonSocial = client.cli_des.Trim(),
+                            direccion = client.direc1?.Trim(),
+                            ubigeo = null,
+                            pais = "VE",
+                            notificar = "No",
+                            telefono = new List<string>() { client.telefonos },
+                            correo = GetEmails(client),
+                        },
+                        totales = new Totales()
+                        {
+                            nroItems = "0",
+                            montoGravadoTotal = creditNote.total_bruto.ToString().Replace(",", "."),
+                            montoExentoTotal = "0.00",
+                            subtotal = creditNote.total_bruto.ToString().Replace(",", "."),
+                            totalAPagar = creditNote.total_neto.ToString().Replace(",", "."),
+                            totalIVA = creditNote.monto_imp.ToString().Replace(",", "."),
+                            montoTotalConIVA = creditNote.total_neto.ToString().Replace(",", "."),
+                            montoEnLetras = new UtilsController().NumberToWords(creditNote.total_neto),
+                            listaDescBonificacion = new List<ListaDescBonificacion>()
+                            {
+                                new ListaDescBonificacion()
+                                {
+                                    descDescuento = "descuento",
+                                    montoDescuento = "0.00"
+                                },
+                                new ListaDescBonificacion()
+                                {
+                                    descDescuento = "recargo",
+                                    montoDescuento = "0.00"
+                                }
+                            },
+                            impuestosSubtotal = new List<ImpuestosSubtotal>()
+                            {
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "E",
+                                    alicuotaImp = "0.00",
+                                    baseImponibleImp = "0", // "0.00",
+                                    valorTotalImp = "0", // "0.00",
+                                },
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "G",
+                                    alicuotaImp = "16.00",
+                                    baseImponibleImp = creditNote.total_bruto.ToString().Replace(",", "."), // ESTA BASE IMPONIBLE EN BSD ESTA APARECIENDO EN LA COLUMNA DE USD (PEDIR INVERTIR)
+                                    valorTotalImp = creditNote.monto_imp.ToString().Replace(",", "."),
+                                },
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "IGTF",
+                                    alicuotaImp = "3.00",
+                                    baseImponibleImp = "0",
+                                    valorTotalImp = "0",
+                                }
+                            },
+                            formasPago = new List<FormasPago>()
+                            {
+                                new FormasPago()
+                                {
+                                    descripcion = "Efectivo Divisas|-|-",
+                                    fecha = DateTime.Now.ToString("dd/MM/yyyy"),
+                                    forma = "01",
+                                    monto = "0",
+                                    moneda = "USD"
+                                }
+                            }
+                        },
+                        totalesRetencion = new TotalesRetencion()
+                        {
+                            totalBaseImponible = creditNote.total_bruto.ToString().Replace(",", "."),
+                            numeroCompRetencion = "1",
+                            fechaEmisionCR = DateTime.Now.ToString("dd/MM/yyyy"),
+                            totalIVA = Math.Round((creditNote.monto_imp * 75) / 100, 2).ToString().Replace(",", "."),
+                            totalISRL = Math.Round((creditNote.total_bruto * 2) / 100, 2).ToString().Replace(",", "."),
+                            totalRetenido = (
+                                Math.Round((creditNote.monto_imp * 75) / 100, 2) +
+                                Math.Round((creditNote.total_bruto * 2) / 100, 2)
+                            ).ToString().Replace(",", ".")
+                        },
+                        totalesOtraMoneda = new TotalesOtraMoneda()
+                        {
+                            moneda = "USD",
+                            tipoCambio = Math.Round(creditNote.tasa, 2).ToString().Replace(",", "."),
+                            montoGravadoTotal = Math.Round(creditNote.total_bruto / creditNote.tasa, 2).ToString().Replace(",", "."),
+                            montoExentoTotal = "0", // "0.00",
+                            subtotal = Math.Round(creditNote.total_bruto / creditNote.tasa, 2).ToString().Replace(",", "."),
+                            totalAPagar = Math.Round(creditNote.total_neto / creditNote.tasa, 2).ToString().Replace(",", "."),
+                            totalIVA = Math.Round(creditNote.monto_imp / creditNote.tasa, 2).ToString().Replace(",", "."),
+                            montoTotalConIVA = Math.Round(creditNote.total_neto / creditNote.tasa, 2).ToString().Replace(",", "."),
+                            montoEnLetras = new UtilsController().NumberToWords(Math.Round(creditNote.total_neto / creditNote.tasa, 2)),
+                            listaDescBonificacion = new List<ListaDescBonificacion>()
+                            {
+                                new ListaDescBonificacion()
+                                {
+                                    descDescuento = "descuento",
+                                    montoDescuento = "0.00"
+                                },
+                                new ListaDescBonificacion()
+                                {
+                                    descDescuento = "recargo",
+                                    montoDescuento = "0.00"
+                                }
+                            },
+                            impuestosSubtotal = new List<ImpuestosSubtotal>()
+                            {
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "E",
+                                    alicuotaImp = "0.00",
+                                    baseImponibleImp = "0",
+                                    valorTotalImp = "0",
+                                },
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "G",
+                                    alicuotaImp = "16.00",
+                                    baseImponibleImp = Math.Round(creditNote.total_bruto / creditNote.tasa, 2).ToString().Replace(",", "."),
+                                    valorTotalImp = Math.Round(creditNote.monto_imp / creditNote.tasa, 2).ToString().Replace(",", "."),
+                                },
+                                new ImpuestosSubtotal()
+                                {
+                                    codigoTotalImp = "IGTF",
+                                    alicuotaImp = "3.00",
+                                    baseImponibleImp = "0",
+                                    valorTotalImp = "0",
+                                }
+                            },
+                        }
+                    },
+                    detallesItems = new List<DetallesItem>() 
+                    { 
+                        new DetallesItem()
+                        {
+                            numeroLinea = "1",
+                            codigoPLU = "000",
+                            indicadorBienoServicio = "2",
+                            descripcion = "Nota de Credito",
+                            cantidad = "1",
+                            unidadMedida = "UND",
+                            precioUnitario = creditNote.total_bruto.ToString().Replace(",", "."),
+                            precioItem = creditNote.total_bruto.ToString().Replace(",", "."),
+                            codigoImpuesto = "G",
+                            tasaIVA = "16.00",
+                            valorIVA = creditNote.monto_imp.ToString().Replace(",", "."),
+                            valorTotalItem = creditNote.total_bruto.ToString().Replace(",", "."),
+                            infoAdicionalItem = new List<InfoAdicionalItem>()
+                            {
+                                new InfoAdicionalItem()
+                                {
+                                    campo = "USD",
+                                    valor = Math.Round(creditNote.total_bruto / creditNote.tasa, 2).ToString().Replace(",", ".")
+                                }
+                            }
+                        }
+                    },
+                    viajes = new Viajes()
+                    {
+                        razonSocialServTransporte = "",
+                        numeroBoleto = "",
+                        puntoSalida = "",
+                        puntoDestino = "",
+                    },
+                    infoAdicional = new List<InfoAdicional>()
+                    {
+                        new InfoAdicional()
+                        {
+                            campo = "PDF",
+                            valor = "{'coletilla1':'De conformidad con la Providencia Administrativa SNAT/2022/000013 publicada en la G.O.N 42.339 del 17-03-2022, este pago está sujeto al cobro adicional del 3% del Impuesto a las Grandes Transacciones Financieras (IGTF), siempre que sea pagado en moneda distinta a la del curso legal.'}"
+                        },
+                        new InfoAdicional()
+                        {
+                            campo = "PDF",
+                            valor = "{'coletilla2':'En los casos en que la base imponible de la venta o prestación de servicio estuviere expresada en moneda extranjera, se establecerá la equivalencia en moneda nacional, al tipo de cambio corriente en el mercado del día en que ocurra el hecho imponible, salvo que éste ocurra en un día no hábil para el sector financiero, en cuyo caso se aplicará el vigente en el día hábil inmediatamente siguiente al de la operación. (ART. 25 Ley de IVA G.O N° 6.152 de fecha 18/11/2014)'}"
+                        }
+                    },
+                    transporte = new TransporteF()
+                    {
+                        descripcion = "",
+                        codigo = ""
+                    }
+                };
+
+                // EXCEPCION EIR CONTROL 18/10/2026
+                if (client.co_cli.Trim() == "J298508086")
+                {
+                    // TOTALES
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.tipoCambio = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.montoGravadoTotal = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.montoExentoTotal = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.subtotal = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.totalAPagar = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.totalIVA = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.montoTotalConIVA = "0.00";
+                    root.documentoElectronico.encabezado.totalesOtraMoneda.montoEnLetras = "CERO";
+
+                    // IMPUESTOS
+                    root.documentoElectronico.encabezado.totales.impuestosSubtotal[2].alicuotaImp = "0.00";
+                    root.documentoElectronico.encabezado.totales.impuestosSubtotal[2].baseImponibleImp = "0.00";
+                    root.documentoElectronico.encabezado.totales.impuestosSubtotal[2].valorTotalImp = "0.00";
+                    root.documentoElectronico.encabezado.totales.formasPago[0].monto = "0.00";
+
+                    for (int x = 0; x <= 2; x++)
+                    {
+                        root.documentoElectronico.encabezado.totalesOtraMoneda.impuestosSubtotal[x].alicuotaImp = "0.00";
+                        root.documentoElectronico.encabezado.totalesOtraMoneda.impuestosSubtotal[x].baseImponibleImp = "0.00";
+                        root.documentoElectronico.encabezado.totalesOtraMoneda.impuestosSubtotal[x].valorTotalImp = "0.00";
+                    }
+
+                    // RENGLONES
+                    foreach (DetallesItem reng in root.documentoElectronico.detallesItems)
+                    {
+                        reng.infoAdicionalItem[0].valor = "0.00";
+                    }
+                }
+
+                result = JsonConvert.SerializeObject(root);
+            }
+            catch (Exception ex)
+            {
+                Incident.CreateIncident(string.Format("ERROR CREANDO JSON NC {0}", creditNote.nro_doc), ex);
                 if (string.IsNullOrEmpty(client.direc1))
                     Incident.CreateIncident(string.Format("CLIENTE {0} SIN DIRECCION", client.co_cli), null);
             }

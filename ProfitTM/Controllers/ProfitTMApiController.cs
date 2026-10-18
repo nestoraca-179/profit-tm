@@ -698,7 +698,7 @@ namespace ProfitTM.Controllers
                 if (connection == null)
                     throw new ArgumentException("La conexion indicada no existe.", "request.ConnId");
 
-                string n_connect = string.Format("Server={0};Database={1};User Id={2};Password={3}", connection.Server, connection.DB, connection.Username, connection.Password);
+                string n_connect = EntityController.GetConnectionStringFromConn(connection);
                 string n_entity = EntityController.GetEntity(n_connect).ToString();
 
                 if (!string.IsNullOrWhiteSpace(request.BranchId) && !Branch.Exists(request.BranchId, n_entity))
@@ -1049,6 +1049,82 @@ namespace ProfitTM.Controllers
             }
 
             return response;
+        }
+
+        // DOCUMENTO VENTA
+
+        [HttpPost]
+        [Route("api/v1/credit-note-dispatches")]
+        public async Task<IHttpActionResult> CreditNoteDispatchAsync(CreditNoteDispatchRequest request)
+        {
+            ProfitTMResponse response = new ProfitTMResponse();
+
+            try
+            {
+                if (request == null)
+                    throw new ArgumentException("El request es obligatorio.", "request");
+
+                if (string.IsNullOrWhiteSpace(request.ConnId))
+                    throw new ArgumentException("ConnId es obligatorio.", "request.ConnId");
+
+                Connections connection = Connection.GetConnByID(request.ConnId);
+                if (connection == null)
+                    throw new ArgumentException("La conexion indicada no existe.", "request.ConnId");
+
+                await Invoice.CreditNoteDispatchAsync(request.NroDoc, connection);
+
+                response.Status = "OK";
+                response.Message = "Nota de Credito insertada con exito.";
+                return Content(HttpStatusCode.Created, response);
+            }
+            catch (ArgumentException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                return Content(HttpStatusCode.BadRequest, response);
+            }
+            catch (InformationException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR DE VALIDACION DE IMPRENTA DIGITAL PARA CREDIT NOTE DISPATCH", ex);
+                return Content(HttpStatusCode.BadRequest, response);
+            }
+            catch (InvalidOperationException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR DE OPERACION PROCESANDO CREDIT NOTE DISPATCH", ex);
+                return Content(HttpStatusCode.Conflict, response);
+            }
+            catch (EntityException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR DE CONEXION PROCESANDO CREDIT NOTE DISPATCH", ex);
+                return Content(HttpStatusCode.ServiceUnavailable, response);
+            }
+            catch (SqlException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR SQL PROCESANDO CREDIT NOTE DISPATCH", ex);
+                return Content(HttpStatusCode.InternalServerError, response);
+            }
+            catch (TimeoutException ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("TIMEOUT PROCESANDO CREDIT NOTE DISPATCH", ex);
+                return Content(HttpStatusCode.GatewayTimeout, response);
+            }
+            catch (Exception ex)
+            {
+                response.Status = "ERROR";
+                response.Message = ex.Message;
+                Incident.CreateIncident("ERROR PROCESANDO CREDIT NOTE DISPATCH", ex);
+                return Content(HttpStatusCode.InternalServerError, response);
+            }
         }
 
         // ESTADISTICAS DASHBOARD ADMIN

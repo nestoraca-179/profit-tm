@@ -661,6 +661,120 @@ namespace ProfitTM.Models
             return new_doc;
         }
 
+        public static async Task CreditNoteDispatchAsync(string doc_num, Connections conn)
+        {
+            if (string.IsNullOrWhiteSpace(doc_num))
+                throw new ArgumentException("El numero de documento es obligatorio.", nameof(doc_num));
+
+            if (conn == null)
+                throw new ArgumentNullException(nameof(conn), "La conexion es obligatoria.");
+
+            string documentNumber = doc_num.Trim();
+
+            string n_connect = EntityController.GetConnectionStringFromConn(conn);
+            if (string.IsNullOrWhiteSpace(n_connect))
+                throw new InvalidOperationException("La conexion indicada no tiene una cadena de conexion valida.");
+
+            string n_entity = EntityController.GetEntity(n_connect).ToString();
+            HttpContext.Current.Session["CONNECT"] = n_connect;
+
+            using (ProfitAdmEntities context = new ProfitAdmEntities(n_entity))
+            {
+                saDocumentoVenta creditNote = context.saDocumentoVenta.AsNoTracking().SingleOrDefault(d => d.co_tipo_doc.Trim() == "N/CR" && d.nro_doc.Trim() == documentNumber);
+                if (creditNote == null)
+                    throw new KeyNotFoundException($"La nota de credito {documentNumber} no existe.");
+
+                if (creditNote.campo8 == "SENT")
+                    throw new InvalidOperationException($"La nota de credito {documentNumber} ya tiene numero de control y no puede ser enviada nuevamente.");
+
+                if (string.IsNullOrWhiteSpace(creditNote.co_sucu_in))
+                    throw new InvalidOperationException($"La nota de credito {documentNumber} no tiene sucursal asociada.");
+
+                saSucursal branch = context.saSucursal.AsNoTracking().SingleOrDefault(s => s.co_sucur.Trim() == creditNote.co_sucu_in.Trim());
+                if (branch == null)
+                    throw new InvalidOperationException($"La sucursal asociada a la nota de credito {documentNumber} no existe.");
+
+                string serie = branch.campo2?.Trim();
+                if (string.IsNullOrWhiteSpace(serie))
+                    throw new InvalidOperationException($"La sucursal asociada a la nota de credito {documentNumber} no tiene serie configurada.");
+
+                string json;
+                bool invoiceBased = string.Equals(creditNote.doc_orig?.Trim(), "FACT", StringComparison.OrdinalIgnoreCase)
+                    && !string.IsNullOrWhiteSpace(creditNote.nro_orig);
+
+                if (invoiceBased)
+                {
+                    string originalDocumentNumber = creditNote.nro_orig.Trim();
+                    saFacturaVenta invoice = context.saFacturaVenta.AsNoTracking().SingleOrDefault(i => i.doc_num.Trim() == originalDocumentNumber);
+                    if (invoice == null)
+                        throw new InvalidOperationException($"La factura asociada a la nota de credito {documentNumber} no existe.");
+
+                    if (invoice.anulado)
+                        throw new InvalidOperationException($"La factura asociada a la nota de credito {documentNumber} esta anulada.");
+
+                    invoice.saFacturaVentaReng = context.saFacturaVentaReng.Where(r => r.doc_num.Trim() == originalDocumentNumber).ToList();
+                    invoice.saCliente = context.saCliente.Single(c => c.co_cli.Trim() == invoice.co_cli.Trim());
+                    Root obj = JsonConvert.DeserializeObject<Root>(new Root().GetJsonInvoiceInfo(invoice, serie));
+                    if (obj?.documentoElectronico?.encabezado?.identificacionDocumento == null)
+                        throw new InformationException($"No se pudo construir la informacion electronica de la nota de credito {documentNumber}.");
+
+                    obj.documentoElectronico.encabezado.identificacionDocumento.tipoDocumento = "02";
+                    obj.documentoElectronico.encabezado.identificacionDocumento.numeroDocumento = documentNumber;
+                    obj.documentoElectronico.encabezado.identificacionDocumento.serieFacturaAfectada = serie;
+                    obj.documentoElectronico.encabezado.identificacionDocumento.numeroFacturaAfectada = invoice.doc_num.Trim();
+                    obj.documentoElectronico.encabezado.identificacionDocumento.fechaFacturaAfectada = invoice.fec_emis.ToString("dd/MM/yyyy");
+                    obj.documentoElectronico.encabezado.identificacionDocumento.montoFacturaAfectada = invoice.total_neto.ToString().Replace(",", ".");
+                    obj.documentoElectronico.encabezado.identificacionDocumento.comentarioFacturaAfectada = "N/CR " + documentNumber + " FACTURA " + invoice.doc_num.Trim();
+                    obj.documentoElectronico.encabezado.identificacionDocumento.fechaEmision = DateTime.Now.ToString("dd/MM/yyyy");
+                    obj.documentoElectronico.encabezado.identificacionDocumento.fechaVencimiento = DateTime.Now.ToString("dd/MM/yyyy");
+                    obj.documentoElectronico.encabezado.identificacionDocumento.horaEmision = DateTime.Now.ToString("hh:mm:ss") + (DateTime.Now.Hour < 12 ? " am" : " pm");
+                    json = JsonConvert.SerializeObject(obj);
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(creditNote.co_cli))
+                        throw new InvalidOperationException($"La nota de credito {documentNumber} no tiene cliente asociado.");
+
+                    creditNote.saCliente = context.saCliente.SingleOrDefault(c => c.co_cli.Trim() == creditNote.co_cli.Trim());
+                    if (creditNote.saCliente == null)
+                        throw new InvalidOperationException($"El cliente asociado a la nota de credito {documentNumber} no existe.");
+
+                    json = new Root().GetJsonCreditNoteInfo(creditNote, serie);
+                }
+
+                if (string.IsNullOrWhiteSpace(json))
+                    throw new InformationException($"La nota de credito {documentNumber} no tiene datos para enviar a Imprenta Digital.");
+
+                ModelInvoiceInfoResponse info = await new Root().SendInvoiceInfoAsync(json, conn);
+                if (info == null)
+                    throw new InformationException($"Imprenta Digital no devolvio respuesta para la nota de credito {documentNumber}.");
+
+                string httpCode = (info.codigo ?? string.Empty).Trim();
+
+                if (httpCode != "200" && httpCode != "201")
+                {
+                    string detail = Root.FormatValidations(info.validaciones);
+                    if (string.IsNullOrWhiteSpace(detail))
+                        detail = info.mensaje;
+
+                    throw new InformationException($"La nota de credito {documentNumber} no fue aceptada por Imprenta Digital: {detail}.");
+                }
+
+                string assignedControlNumber = info.resultado?.numeroControl;
+                if (string.IsNullOrWhiteSpace(assignedControlNumber))
+                    throw new InformationException($"Imprenta Digital acepto la nota de credito {documentNumber} pero no retorno numero de control.");
+
+                int affectedRows = context.Database.ExecuteSqlCommand("UPDATE saDocumentoVenta SET n_control = @p0, campo8 = 'SENT' WHERE co_tipo_doc = @p1 AND nro_doc = @p2", assignedControlNumber, "N/CR", documentNumber);
+                if (affectedRows != 1)
+                    throw new InvalidOperationException($"No se pudo actualizar el numero de control de la nota de credito {documentNumber}.");
+
+                saFacturaVenta creditNoteRef = new saFacturaVenta() { doc_num = "N-" + documentNumber, n_control = assignedControlNumber };
+                LogsFact.Insert(creditNoteRef, conn.ID, json, serie);
+            }
+
+            HttpContext.Current.Session["CONNECT"] = null;
+        }
+
         public void SetPrinted(string id)
         {
             saFacturaVenta invoice = db.saFacturaVenta.Single(i => i.doc_num.Trim() == id.Trim());
