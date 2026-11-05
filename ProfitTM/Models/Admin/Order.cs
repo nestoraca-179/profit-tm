@@ -90,21 +90,6 @@ namespace ProfitTM.Models
 
         public static saPedidoVenta Add(saPedidoVenta order, string n_entity)
         {
-            try
-            {
-                string request = JsonConvert.SerializeObject(new { saPedidoVenta = order, n_entity },
-                new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
-
-                LogsFact.CreateLogInFile($"ORDER_ADD_REQUEST {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} {request}");
-            }
-            catch (Exception ex)
-            {
-                LogsFact.CreateLogInFile($"ORDER_ADD_LOG_ERROR {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} {ex.Message}");
-            }
-
             (bool valid, string paramName, string message) validation = isValid(order, n_entity);
             if (!validation.valid)
                 throw new ArgumentException(validation.message, validation.paramName);

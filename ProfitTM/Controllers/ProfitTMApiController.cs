@@ -710,6 +710,7 @@ namespace ProfitTM.Controllers
                     request.Order.co_us_in = request.UserId;
                 }
 
+                request.LogRequest();
                 saPedidoVenta created = Order.Add(request.Order, n_entity);
 
                 response.Status = "OK";
