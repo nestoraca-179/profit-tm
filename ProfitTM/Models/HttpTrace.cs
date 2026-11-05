@@ -33,7 +33,7 @@ namespace ProfitTM.Models
             return traces;
         }
 
-        public static async Task<HttpTraces> ParseToHttpTraceAsync(HttpRequestMessage req, HttpResponseMessage res = null, 
+        public static async Task<HttpTraces> ParseToHttpTraceAsync(HttpRequestMessage req, HttpResponseMessage res = null,
         TimeSpan? duration = null, Exception ex = null, string reqContent = null)
 		{
             HttpTraces trace = new HttpTraces
@@ -71,15 +71,15 @@ namespace ProfitTM.Models
 
         private static string SerializeHeaders(HttpHeaders headers)
         {
-            if (headers == null) 
+            if (headers == null)
                 return null;
-            
+
             try
             {
                 Dictionary<string, string> headerDictionary = new Dictionary<string, string>();
                 foreach (var header in headers)
                     headerDictionary[header.Key] = string.Join(", ", header.Value);
-                
+
                 return System.Text.Json.JsonSerializer.Serialize(headerDictionary);
             }
             catch
@@ -107,10 +107,21 @@ namespace ProfitTM.Models
 
         public static void AddTrace(HttpTraces trace)
 		{
-            using (ProfitTMEntities db = new ProfitTMEntities())
+            try
             {
-                db.HttpTraces.Add(trace);
-                db.SaveChanges();
+                using (ProfitTMEntities db = new ProfitTMEntities())
+                {
+                    db.HttpTraces.Add(trace);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                // Handle exceptions if needed
+                Incident.CreateIncident("HTTP_TRACE_ERROR - No se pudo registrar el HttpTrace", e);
+
+                // Showing HttpTrace in File
+                LogsFact.CreateLogInFile($"HTTP_TRACE_ERROR - HttpTrace: {System.Text.Json.JsonSerializer.Serialize(trace)}");
             }
         }
     }

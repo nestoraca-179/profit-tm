@@ -742,7 +742,6 @@ namespace ProfitTM.Models
                 HttpTraces trace = await HttpTrace.ParseToHttpTraceAsync(request, response, duration, exception, reqContent);
                 HttpTrace.AddTrace(trace);
             }
-
         }
 
         public async Task<ModelAssignResponse> SendAssign(ModelAssignRequest assign, Connections conn)
